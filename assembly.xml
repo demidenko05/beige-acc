@@ -1,0 +1,27 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+  <id>src</id>
+  <formats>
+      <format>tar.bz2</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <includeSiteDirectory>false</includeSiteDirectory>
+  <fileSets>
+    <fileSet>
+      <useDefaultExcludes>false</useDefaultExcludes>
+      <includes>
+        <include>${file.separator}src${file.separator}**</include>
+        <include>${file.separator}.gitignore</include>
+        <include>${file.separator}README.txt</include>
+        <include>${file.separator}LICENSE</include>
+        <include>${file.separator}pom.xml</include>
+        <include>${file.separator}assembly.xml</include>
+        <include>${file.separator}maven-central-deploy.sh</include>
+        <include>${file.separator}findbug-exclude.xml</include>
+        <include>${file.separator}checkstyle-suppressions.xml</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</assembly>
