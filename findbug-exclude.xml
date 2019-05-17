@@ -21,4 +21,36 @@
      <Class name="org.beigesoft.acc.mdl.AEntrSrc" />
      <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdl.AcUpf" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdl.AcUpf" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.AcStg" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.AcStg" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.Blnc" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.Blnc" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.BlnCh" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.BlnCh" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
 </FindBugsFilter>

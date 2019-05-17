@@ -72,7 +72,7 @@ public class Entr extends AOrId {
   private Long srId;
 
   /**
-   * <p>Acnt debt.</p>
+   * <p>Account debt.</p>
    **/
   private Acnt acDb;
 
@@ -95,10 +95,10 @@ public class Entr extends AOrId {
   /**
    * <p>Debt.</p>
    **/
-  private BigDecimal debt = BigDecimal.ZERO;
+  private BigDecimal debt;
 
   /**
-   * <p>Acnt cred.</p>
+   * <p>Account cred.</p>
    **/
   private Acnt acCr;
 
@@ -121,7 +121,7 @@ public class Entr extends AOrId {
   /**
    * <p>Cred.</p>
    **/
-  private BigDecimal cred = BigDecimal.ZERO;
+  private BigDecimal cred;
 
   /**
    * <p>Dscr.</p>

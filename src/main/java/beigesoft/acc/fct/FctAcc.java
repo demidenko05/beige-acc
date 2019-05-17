@@ -1,0 +1,152 @@
+/*
+BSD 2-Clause License
+
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.beigesoft.ajetty;
+
+import java.util.Map;
+
+import org.beigesoft.fct.IFctAux;
+import org.beigesoft.fct.FctBlc;
+import org.beigesoft.rdb.IRdb;
+import org.beigesoft.rdb.IOrm;
+import org.beigesoft.acc.hnd.HndAcc;
+import org.beigesoft.acc.srv.ISrAcStg;
+import org.beigesoft.acc.srv.SrAcStg;
+import org.beigesoft.acc.srv.ISrBlnc;
+import org.beigesoft.acc.srv.SrBlnc;
+
+/**
+ * <p>Auxiliary factory for accounting additional services.</p>
+ *
+ * @param <RS> platform dependent record set type
+ * @author Yury Demidenko
+ */
+public class FctAcc<RS> implements IFctAux<RS> {
+
+  /**
+   * <p>Creates requested bean and put into given main factory.
+   * The main factory is already synchronized when invokes this.</p>
+   * @param pRvs request scoped vars
+   * @param pBnNm - bean name
+   * @param pFctApp main factory
+   * @return Object - requested bean or NULL
+   * @throws Exception - an exception
+   */
+  @Override
+  public final Object crePut(final Map<String, Object> pRvs,
+    final String pBnNm, final FctBlc<RS> pFctApp) throws Exception {
+    Object rz = null;
+    if (HndAcc.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuHndAcc(pRvs, pFctApp);
+    }
+    if (ISrBlnc.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrBlnc(pRvs, pFctApp);
+    }
+    if (ISrAcStg.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrAcStg(pRvs, pFctApp);
+    }
+    return rz;
+  }
+
+  /**
+   * <p>Releases state when main factory is releasing.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @throws Exception - an exception
+   */
+  @Override
+  public final void release(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    //nothing
+  }
+
+  /**
+   * <p>Creates and puts into MF SrBlnc.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrBlnc
+   * @throws Exception - an exception
+   */
+  private SrBlnc<RS> crPuSrBlnc(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrBlnc<RS> rz = new SrBlnc<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    ISrAcStg srAcStg = (ISrAcStg) pFctApp
+      .laz(pRvs, ISrAcStg.class.getSimpleName());
+    rz.setSrAcStg(srAcStg);
+    pFctApp.put(pRvs, SrBlnc.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrBlnc.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF HndAcc.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HndAcc
+   * @throws Exception - an exception
+   */
+  private HndAcc<RS> crPuHndAcc(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HndAcc<RS> rz = new HndAcc<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    ISrAcStg srAcStg = (ISrAcStg) pFctApp
+      .laz(pRvs, ISrAcStg.class.getSimpleName());
+    rz.setSrAcStg(srAcStg);
+    pFctApp.put(pRvs, HndAcc.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      HndAcc.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF SrAcStg.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrAcStg
+   * @throws Exception - an exception
+   */
+  private SrAcStg crPuSrAcStg(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrAcStg rz = new SrAcStg();
+    IOrm orm = (IOrm) pFctApp.laz(pRvs, IOrm.class.getSimpleName());
+    rz.setOrm(orm);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    pFctApp.put(pRvs, SrAcStg.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrAcStg.class.getSimpleName() + " has been created");
+    return rz;
+  }
+}
