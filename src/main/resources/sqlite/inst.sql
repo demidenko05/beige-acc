@@ -1,0 +1,12 @@
+insert into LNG (IID, NME, VER) values ('ru', 'Русский', 1462867931627);
+insert into LNG (IID, NME, VER) values ('en', 'English', 1462867931627);
+insert into CNTR (IID, NME, VER) values ('US', 'USA', 1462867931627);
+insert into CNTR (IID, NME, VER) values ('RU', 'РФ', 1462867931627);
+insert into DCSP (IID, NME, VER) values (',', 'Comma', 1462867931627);
+insert into DCSP (IID, NME, VER) values ('.', 'Dot', 1462867931627);
+insert into DCGRSP (IID, NME, VER) values (',', 'Comma', 1462867931627);
+insert into DCGRSP (IID, NME, VER) values ('SPACE', 'Space', 1462867931627);
+insert into USPRF (DCGRSP, LNG, CNTR, DCSP, DEF, VER, DGINGR) values (',', 'en', 'US', '.', 1, 1462867931627, 3);
+insert into USPRF (DCGRSP, LNG, CNTR, DCSP, DEF, VER, DGINGR) values ('SPACE', 'ru', 'RU', ',', 0, 1462867931627, 3);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER) values (0,0,'INVENTORY','1200','Inventory',1462867931627);
+insert into ACSTG (ORG,IID,VER,MNTH,CSDP,PRDP,RPDP,QUDP,TXDP,RNDM,BLPR,STRM,TTFF,TTFB,PGSZ,PGOR,MRLF,MRRI,MRTO,MRBO,FNSZ) values ('Bob''s Pizza',1,1462867931627,1462867931627,4,2,2,2,3,4,3,4,'DejaVuSerif','DejaVuSerif-Bold',2,0,20,10,10,10,3.5);

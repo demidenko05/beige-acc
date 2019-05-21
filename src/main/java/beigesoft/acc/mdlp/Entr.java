@@ -41,7 +41,7 @@ import org.beigesoft.mdlp.AOrId;
 public class Entr extends AOrId {
 
   /**
-   * <p>Date.</p>
+   * <p>Date, not null.</p>
    **/
   private Date dat;
 
@@ -67,7 +67,7 @@ public class Entr extends AOrId {
   private Integer srDbOr;
 
   /**
-   * <p>Document/line ID.</p>
+   * <p>Document/line ID, Not Null.</p>
    **/
   private Long srId;
 

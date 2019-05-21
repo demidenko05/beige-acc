@@ -42,7 +42,7 @@ import org.beigesoft.acc.mdl.ENrBlTy;
  public class Acnt extends AIdStrNm {
 
   /**
-   * <p>Number.</p>
+   * <p>Number, not null.</p>
    **/
   private String nmbr;
 

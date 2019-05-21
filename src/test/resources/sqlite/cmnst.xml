@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--BSD 2-Clause License
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+See LICENSE in base folder
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Beigesoft Accounting Test DB</comment>
+<entry key="appInf">Beige-ACCT ver1.0</entry>
+<entry key="jdbcCls">org.sqlite.JDBC</entry>
+<entry key="dbUrl">jdbc:sqlite:#currentDir#bsat.sqlite</entry>
+<entry key="checkTbl">select * from SQLITE_MASTER where TBL_NAME=':tblNm';</entry>
+<entry key="lastId">select last_insert_rowid() as LASTID;</entry>
+</properties>
