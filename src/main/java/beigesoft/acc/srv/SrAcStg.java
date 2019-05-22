@@ -70,6 +70,7 @@ public class SrAcStg implements ISrAcStg {
     if (this.acStg == null) {
       Map<String, Object> vs = new HashMap<String, Object>();
       AcStg astg = new AcStg();
+      astg.setIid(1L);
       this.orm.refrEnt(pRvs, vs, astg);
       if (astg.getIid() == null) {
         throw new ExcCode(ExcCode.WRCN, "There_is_no_accounting_settings");

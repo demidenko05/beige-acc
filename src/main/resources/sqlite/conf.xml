@@ -31,6 +31,13 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.Entr,
   org.beigesoft.acc.mdlp.InEntr,
   org.beigesoft.acc.mdlp.Expn,
+  org.beigesoft.acc.mdlp.DcrCt,
+  org.beigesoft.acc.mdlp.DbCr,
+  org.beigesoft.acc.mdlp.Bnka,
+  org.beigesoft.acc.mdlp.ItmCt,
+  org.beigesoft.acc.mdlp.Itm,
+  org.beigesoft.acc.mdlp.SrvCt,
+  org.beigesoft.acc.mdlp.Srv,
   org.beigesoft.acc.mdlp.Blnc,
   org.beigesoft.acc.mdlp.BlnCh</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>

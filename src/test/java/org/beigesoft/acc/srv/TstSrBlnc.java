@@ -43,24 +43,40 @@ import java.sql.Connection;
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.ColVals;
 import org.beigesoft.mdl.IHasId;
+import org.beigesoft.mdl.ReqDtTst;
 import org.beigesoft.mdl.CmnPrf;
-import org.beigesoft.acc.mdlp.Acnt;
-import org.beigesoft.acc.mdlp.AcStg;
-import org.beigesoft.acc.mdlp.Expn;
-import org.beigesoft.acc.mdlp.Entr;
-import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.log.ILog;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.FctDt;
+import org.beigesoft.fct.FctEnPrc;
+import org.beigesoft.hld.UvdVar;
 import org.beigesoft.prp.Setng;
 import org.beigesoft.prp.ISetng;
 import org.beigesoft.cnv.FilCvEnt;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
+import org.beigesoft.srv.ISrvDt;
+import org.beigesoft.acc.mdlp.Acnt;
+import org.beigesoft.acc.mdlp.AcStg;
+import org.beigesoft.acc.mdlp.Expn;
+import org.beigesoft.acc.mdlp.Bnka;
+import org.beigesoft.acc.mdlp.DbCr;
+import org.beigesoft.acc.mdlp.DcrCt;
+import org.beigesoft.acc.mdlp.Srv;
+import org.beigesoft.acc.mdlp.SrvCt;
+import org.beigesoft.acc.mdlp.ItmCt;
+import org.beigesoft.acc.mdlp.Itm;
+import org.beigesoft.acc.mdlp.Entr;
+import org.beigesoft.acc.mdlp.InEntr;
+import org.beigesoft.acc.prc.InEntrSv;
+import org.beigesoft.acc.prc.EntrSv;
+import org.beigesoft.acc.prc.EntrCr;
+import org.beigesoft.acc.prc.EntrSrcCr;
+import org.beigesoft.acc.hnd.HndAcc;
 
 /**
- * <p>Balance service test.</p>
+ * <p>Balance service, processors, AccHnd... test.</p>
  *
  * @author Yury Demidenko
  * @param <RS> platform dependent RDBMS recordset
@@ -73,19 +89,66 @@ public class TstSrBlnc<RS> {
     Map<String, Object> rvs = new HashMap<String, Object>();
     Map<String, Object> vs = new HashMap<String, Object>();
     IOrm orm = (IOrm) this.fctApp.laz(rvs, IOrm.class.getSimpleName());
+    @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctApp.laz(rvs, IRdb.class.getSimpleName());
     orm.init(rvs);
     Setng stgOrm = (Setng) this.fctApp.laz(rvs, FctDt.STGORMNM);
     stgOrm.release();
+    ISrvDt srvDt = (ISrvDt) this.fctApp.laz(rvs, ISrvDt.class.getSimpleName());
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctApp.laz(rvs, FctEnPrc.class.getSimpleName());
+    EntrSrcCr entrSrcCr = (EntrSrcCr) fctEnPrc.laz(rvs, EntrSrcCr.class.getSimpleName());
+    InEntrSv inEntrSv = (InEntrSv) fctEnPrc.laz(rvs, InEntrSv.class.getSimpleName());
+    @SuppressWarnings("unchecked")
+    HndAcc<RS> hndAcc = (HndAcc<RS>) this.fctApp.laz(rvs, HndAcc.class.getSimpleName());
+    ReqDtTst rqDt = new ReqDtTst();
+    Date now = new Date();
+    rqDt.getParamsMp().put("opDt", srvDt.to8601Date(now));
+    hndAcc.handle(rvs, rqDt);
+    Acnt acBnk = new Acnt();
+    acBnk.setIid("BANK");
+    Acnt acScap = new Acnt();
+    acScap.setIid("SCAPITAL");
     try {
       rdb.setAcmt(false);
       rdb.setTrIsl(IRdb.TRRUC);
       rdb.begin();
-      Expn dp = new Expn();
-      dp.setIid(1L);
-      dp.setNme("Expn1");
-      orm.insIdLn(rvs, vs, dp);
-      rdb.rollBack();
+      AcStg astgt = hndAcc.getSrAcStg().lazAcStg(rvs);
+      astgt.setMnth(now);
+      hndAcc.getSrAcStg().saveAcStg(rvs, astgt);
+      Expn rent = new Expn();
+      rent.setIid(1L);
+      rent.setNme("Rent");
+      orm.insIdLn(rvs, vs, rent);
+      Bnka bnka = new Bnka();
+      bnka.setIid(1L);
+      bnka.setNme("#18768762 in BNK");
+      orm.insIdLn(rvs, vs, bnka);
+      DcrCt buyersa = new DcrCt();
+      buyersa.setIid(1L);
+      buyersa.setNme("Buyers A");
+      orm.insIdLn(rvs, vs, buyersa);
+      DbCr buyer1 = new DbCr();
+      buyer1.setIid(1L);
+      buyer1.setCat(buyersa);
+      buyer1.setNme("Buyer 1");
+      orm.insIdLn(rvs, vs, buyer1);
+      SrvCt srvsa = new SrvCt();
+      srvsa.setIid(1L);
+      srvsa.setNme("Cleanings A");
+      orm.insIdLn(rvs, vs, srvsa);
+      InEntr inScap = new InEntr();
+      inScap.setDbOr(orm.getDbId());
+      inScap.setIsNew(true);
+      rqDt = new ReqDtTst();
+      UvdVar uvs = new UvdVar();
+      rvs.put("uvs", uvs);
+      inScap = (InEntr) entrSrcCr.process(rvs, inScap, rqDt);
+      inScap = inEntrSv.process(rvs, inScap, rqDt);
+      inScap.setDscr("started capital");
+      inScap = inEntrSv.process(rvs, inScap, rqDt);
+      rdb.commit();
+      //rdb.rollBack();
     } catch (Exception e) {
       if (!rdb.getAcmt()) {
         rdb.rollBack();

@@ -26,55 +26,46 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.srv;
+package org.beigesoft.acc.mdlp;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.beigesoft.acc.mdl.TrBlLn;
+import org.beigesoft.mdlp.AOrIdNm;
+import org.beigesoft.acc.mdl.ISacnt;
 
 /**
- * <p>Service that maintenance Blnc.</p>
+ * <p>Model of material(tangible) inventory item.</p>
  *
  * @author Yury Demidenko
  */
-public interface ISrBlnc {
+public class Itm extends AOrIdNm implements ISacnt {
 
   /**
-   * <p>Retrieve Trial Balance report.</p>
-   * @param pRvs Request scoped variables
-   * @param pDt date
-   * @return Trial Balance Lines
-   * @throws Exception - an exception
+   * <p>Category, not null.</p>
    **/
-  List<TrBlLn> retTrBlnc(Map<String, Object> pRvs, Date pDt) throws Exception;
+  private ItmCt cat;
 
   /**
-   * <p>Recalculate if need for all balances for all dates less
-   * or equals pDtFor, this method is always invoked by report ledger.</p>
-   * @param pRvs Request scoped variables
-   * @param pDtFor date for
-   * @throws Exception - an exception
+   * <p>OOP friendly Constant of code type.</p>
+   * @return 1005
    **/
-  void recalcIfNd(Map<String, Object> pRvs, Date pDtFor) throws Exception;
+  @Override
+  public final Integer cnsTy() {
+    return 1005;
+  }
+
+  //Simple getters and setters:
+  /**
+   * <p>Getter for cat.</p>
+   * @return ItmCt
+   **/
+  public final ItmCt getCat() {
+    return this.cat;
+  }
 
   /**
-   * <p>Handle new accounting entry to check
-   * dirty of stored balances.</p>
-   * @param pRvs Request scoped variables
-   * @param pDtAt date at
-   * @throws Exception - an exception
+   * <p>Setter for cat.</p>
+   * @param pCat reference
    **/
-  void hndNewEntr(Map<String, Object> pRvs, Date pDtAt) throws Exception;
-
-  /**
-   * <p>Evaluate start of period nearest to pDtFor.
-   * Tested in blc org.beigesoft.test.CalendarTest.</p>
-   * @param pRvs Request scoped variables
-   * @param pDtFor date for
-   * @return Start of period nearest to pDtFor
-   * @throws Exception - an exception
-   **/
-  Date evDtStPer(Map<String, Object> pRvs, Date pDtFor) throws Exception;
+  public final void setCat(final ItmCt pCat) {
+    this.cat = pCat;
+  }
 }

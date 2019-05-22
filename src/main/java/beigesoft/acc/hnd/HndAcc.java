@@ -30,13 +30,12 @@ package org.beigesoft.acc.hnd;
 
 import java.util.Map;
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.log.ILog;
 import org.beigesoft.hnd.IHndRq;
 import org.beigesoft.rdb.IRdb;
+import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.acc.mdl.AcUpf;
 import org.beigesoft.acc.srv.ISrAcStg;
 
@@ -64,11 +63,9 @@ public class HndAcc<RS> implements IHndRq {
   private ISrAcStg srAcStg;
 
   /**
-   * <p>Format date ISO8601 no time zone,
-   * e.g. 2001-07-04.</p>
+   * <p>Date service.</p>
    **/
-  private DateFormat dateNoTzFormatIso8601 =
-    new SimpleDateFormat("yyyy-MM-dd");
+  private ISrvDt srvDt;
 
   /**
    * <p>Handle request.</p>
@@ -100,7 +97,7 @@ public class HndAcc<RS> implements IHndRq {
     String opDtStr = pRqDt.getParam("opDt");
     boolean ndStCo = false;
     if (opDtStr != null) {
-      aupf.setOpDt(this.dateNoTzFormatIso8601.parse(opDtStr));
+      aupf.setOpDt(this.srvDt.from8601Date(opDtStr));
       ndStCo = true;
     } else {
       opDtStr = pRqDt.getCookVl("opDt");
@@ -166,5 +163,21 @@ public class HndAcc<RS> implements IHndRq {
    **/
   public final void setSrAcStg(final ISrAcStg pSrAcStg) {
     this.srAcStg = pSrAcStg;
+  }
+
+  /**
+   * <p>Getter for srvDt.</p>
+   * @return ISrvDt
+   **/
+  public final ISrvDt getSrvDt() {
+    return this.srvDt;
+  }
+
+  /**
+   * <p>Setter for srvDt.</p>
+   * @param pSrvDt reference
+   **/
+  public final void setSrvDt(final ISrvDt pSrvDt) {
+    this.srvDt = pSrvDt;
   }
 }

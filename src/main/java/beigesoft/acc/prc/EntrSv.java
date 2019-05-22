@@ -139,6 +139,7 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     }
     pEnt.setSrTy(doc.cnsTy());
     this.orm.insIdLn(pRvs, vs, pEnt);
+    pEnt.setIsNew(false);
     String qu = "select sum(DEBT) as DEBT, sum(CRED) as CRED from ENTR where "
       + "SRTY=" + pEnt.getSrTy() + " and SRID=" + doc.getIid();
     String[] cols = new String[]{"DEBT", "CRED"};
@@ -148,8 +149,7 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     doc.setCred(BigDecimal.valueOf(tots[1])
       .setScale(astg.getCsDp(), astg.getRndm()));
     getOrm().update(pRvs, vs, doc);
-    //TODO This is for SrBlnc only!!!:
-    getSrBlnc().hndNewEntr(pRvs, null, null, pEnt.getDat());
+    getSrBlnc().hndNewEntr(pRvs, pEnt.getDat());
     pRvs.put("msgSuc", "insert_ok");
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setOwnr(doc);

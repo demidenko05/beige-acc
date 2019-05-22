@@ -28,12 +28,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.fct;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
 import java.sql.ResultSet;
 
 import org.beigesoft.exc.ExcCode;
+import org.beigesoft.fct.IFctNm;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.hld.IAttrs;
@@ -45,7 +48,9 @@ import org.beigesoft.rdb.SrvClVl;
 import org.beigesoft.prp.ISetng;
 import org.beigesoft.jdbc.Rdb;
 import org.beigesoft.jdbc.FctSqlite;
+import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.fct.FctAcc;
+import org.beigesoft.acc.fct.FctEnPrc;
 
 /**
  * <p>Tests final configuration factory for SQLite JDBC.</p>
@@ -76,6 +81,11 @@ public class FctTstSqlt implements IFctAsm<ResultSet> {
     this.fctBlc.getFctDt().setDbgCl(100000);
     this.fctBlc.getFctsAux().add(new FctSqlite());
     this.fctBlc.getFctsAux().add(new FctAcc<ResultSet>());
+    Set<IFctNm<IPrcEnt<?, ?>>> fctsPrcEnt = new HashSet<IFctNm<IPrcEnt<?, ?>>>();
+    FctEnPrc<ResultSet> fcep = new FctEnPrc<ResultSet>();
+    fcep.setFctBlc(this.fctBlc);
+    fctsPrcEnt.add(fcep);
+    this.fctBlc.getFctDt().setFctsPrcEnt(fctsPrcEnt);
   }
 
   /**

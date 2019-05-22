@@ -30,26 +30,20 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
-import java.text.DateFormat;
-import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
-import org.beigesoft.mdl.CmnPrf;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.srv.II18n;
-import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 
 /**
- * <p>Service that creates accounting entry.</p>
+ * <p>Service that saves input entries into DB.</p>
  *
  * @author Yury Demidenko
  */
-public class EntrCr implements IPrcEnt<Entr, Long> {
+public class InEntrSv implements IPrcEnt<InEntr, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -57,12 +51,7 @@ public class EntrCr implements IPrcEnt<Entr, Long> {
   private IOrm orm;
 
   /**
-   * <p>I18N service.</p>
-   */
-  private II18n i18n;
-
-  /**
-   * <p>Process that creates entity.</p>
+   * <p>Process that saves entity.</p>
    * @param pRvs request scoped vars, e.g. return this line's
    * owner(document) in "nextEntity" for farther processing
    * @param pRqDt Request Data
@@ -71,35 +60,25 @@ public class EntrCr implements IPrcEnt<Entr, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final Entr process(final Map<String, Object> pRvs, final Entr pEnt,
+  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    InEntr doc = new InEntr();
-    doc.setIid(pEnt.getSrId());
-    this.orm.refrEnt(pRvs, vs, doc);
-    if (!doc.getDbOr().equals(this.orm.getDbId())) {
+    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
     }
-    pEnt.setDebt(BigDecimal.ZERO);
-    pEnt.setCred(BigDecimal.ZERO);
-    pEnt.setDat(doc.getDat());
-    pEnt.setSrTy(doc.cnsTy());
-    pEnt.setSrDbOr(doc.getDbOr());
-    String dcDscr;
-    if (doc.getDscr() != null) {
-      dcDscr = doc.getDscr();
+    if (pEnt.getIsNew()) {
+      this.orm.insIdLn(pRvs, vs, pEnt);
+      pEnt.setIsNew(false);
+      pRvs.put("msgSuc", "insert_ok");
     } else {
-      dcDscr = "";
+      String[] ndFds = new String[] {"dat", "dscr"};
+      vs.put("ndFds", ndFds);
+      getOrm().update(pRvs, vs, pEnt);
+      vs.clear();
+      pRvs.put("msgSuc", "update_ok");
     }
-    CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat
-      .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
-    pEnt.setDscr(getI18n().getMsg(InEntr.class.getSimpleName() + "sht",
-      cpf.getLngDef().getIid()) + " #" + doc.getDbOr() + "-" + doc.getIid()
-        + ", " + dateFormat.format(doc.getDat()) + ". " + dcDscr);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
-    pRvs.put("owVr", doc.getVer());
     return pEnt;
   }
 
@@ -118,21 +97,5 @@ public class EntrCr implements IPrcEnt<Entr, Long> {
    **/
   public final void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
-  }
-
-  /**
-   * <p>Getter for i18n.</p>
-   * @return II18n
-   **/
-  public final II18n getI18n() {
-    return this.i18n;
-  }
-
-  /**
-   * <p>Setter for i18n.</p>
-   * @param pI18n reference
-   **/
-  public final void setI18n(final II18n pI18n) {
-    this.i18n = pI18n;
   }
 }

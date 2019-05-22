@@ -219,17 +219,14 @@ public class SrBlnc<RS> implements ISrBlnc {
   }
 
   /**
-   * <p>Handle new accounting entry is created to check dirty.
-   * This is implementation of dirty check for all accounts.</p>
+   * <p>Handle new accounting entry to check dirty of stored balances.</p>
    * @param pRvs Request scoped variables
-   * @param pAcc account
-   * @param pSaId subaccount ID
    * @param pDtAt date at
    * @throws Exception - an exception
    **/
   @Override
   public final synchronized void hndNewEntr(final Map<String, Object> pRvs,
-    final Acnt pAcc, final Long pSaId, final Date pDtAt) throws Exception {
+    final Date pDtAt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     if (lazBlnCh(pRvs, vs).getLeDt().getTime() > pDtAt.getTime()) {
       boolean isDbgSh = getLog().getDbgSh(this.getClass())
