@@ -77,7 +77,6 @@ public class HndAcc<RS> implements IHndRq {
   public final void handle(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
     if (this.srAcStg.getAcStg() == null) {
-      //service puts astg into rvs by itself
       try {
         this.rdb.setAcmt(false);
         this.rdb.setTrIsl(IRdb.TRRUC);
@@ -92,6 +91,8 @@ public class HndAcc<RS> implements IHndRq {
       } finally {
         this.rdb.release();
       }
+    } else { //lazAcStg and saveAcStg will put astg into pRvs!
+      this.srAcStg.lazAcStg(pRvs);
     }
     AcUpf aupf = new AcUpf();
     String opDtStr = pRqDt.getParam("opDt");

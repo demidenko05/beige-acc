@@ -116,6 +116,7 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
     final Map<String, Object> pRvs) throws Exception {
     EntrSv<RS> rz = new EntrSv<RS>();
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);

@@ -98,11 +98,12 @@ public class FctAcc<RS> implements IFctAux<RS> {
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
     rz.setLog(pFctApp.lazLogStd(pRvs));
     ISrAcStg srAcStg = (ISrAcStg) pFctApp
       .laz(pRvs, ISrAcStg.class.getSimpleName());
     rz.setSrAcStg(srAcStg);
-    pFctApp.put(pRvs, SrBlnc.class.getSimpleName(), rz);
+    pFctApp.put(pRvs, ISrBlnc.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrBlnc.class.getSimpleName() + " has been created");
     return rz;
@@ -145,7 +146,7 @@ public class FctAcc<RS> implements IFctAux<RS> {
     IOrm orm = (IOrm) pFctApp.laz(pRvs, IOrm.class.getSimpleName());
     rz.setOrm(orm);
     rz.setLog(pFctApp.lazLogStd(pRvs));
-    pFctApp.put(pRvs, SrAcStg.class.getSimpleName(), rz);
+    pFctApp.put(pRvs, ISrAcStg.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrAcStg.class.getSimpleName() + " has been created");
     return rz;

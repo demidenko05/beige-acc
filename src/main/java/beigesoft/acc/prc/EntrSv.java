@@ -36,10 +36,12 @@ import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.mdl.CmnPrf;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcEnt;
+import org.beigesoft.srv.II18n;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.AcStg;
@@ -67,6 +69,11 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
    * <p>Balance service.</p>
    **/
   private ISrBlnc srBlnc;
+
+  /**
+   * <p>I18N service.</p>
+   */
+  private II18n i18n;
 
   /**
    * <p>Process that saves entity.</p>
@@ -97,63 +104,124 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
     }
-    if (pEnt.getDebt().compareTo(BigDecimal.ZERO) == 0) {
-      throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
-    }
     AcStg astg = (AcStg) pRvs.get("astg");
-    Calendar calCuMh = Calendar.getInstance(new Locale("en", "US"));
-    calCuMh.setTime(astg.getMnth());
-    calCuMh.set(Calendar.DAY_OF_MONTH, 1);
-    calCuMh.set(Calendar.HOUR_OF_DAY, 0);
-    calCuMh.set(Calendar.MINUTE, 0);
-    calCuMh.set(Calendar.SECOND, 0);
-    calCuMh.set(Calendar.MILLISECOND, 0);
-    Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
-    calDoc.setTime(pEnt.getDat());
-    calDoc.set(Calendar.DAY_OF_MONTH, 1);
-    calDoc.set(Calendar.HOUR_OF_DAY, 0);
-    calDoc.set(Calendar.MINUTE, 0);
-    calDoc.set(Calendar.SECOND, 0);
-    calDoc.set(Calendar.MILLISECOND, 0);
-    if (calCuMh.getTime().getTime() != calDoc.getTime().getTime()) {
-      throw new ExcCode(ExcCode.WRPR, "wrong_acperiod");
-    }
-    if (pEnt.getAcDb() == null && pEnt.getAcCr() == null) {
-      throw new ExcCode(ExcCode.WRPR, "account_is_null");
-    }
-    if (pEnt.getAcCr() != null) {
-      pEnt.setCred(pEnt.getDebt());
-      getOrm().refrEnt(pRvs, vs, pEnt.getAcCr());
-      if (pEnt.getAcCr().getStyp() != null && pEnt.getSacId() == null) {
-        throw new ExcCode(ExcCode.WRPR, "select_subaccount");
-      }
-    }
-    if (pEnt.getAcDb() == null) {
-      pEnt.setDebt(BigDecimal.ZERO);
-    } else {
-      getOrm().refrEnt(pRvs, vs, pEnt.getAcDb());
-      if (pEnt.getAcDb().getStyp() != null
-        && pEnt.getSadId() == null) {
-        throw new ExcCode(ExcCode.WRPR, "select_subaccount");
-      }
-    }
     pEnt.setSrTy(doc.cnsTy());
-    this.orm.insIdLn(pRvs, vs, pEnt);
+    pEnt.setSrDbOr(doc.getDbOr());
+    if (pEnt.getRvId() != null) {
+      Entr revd = new Entr();
+      revd.setIid(pEnt.getRvId());
+      this.orm.refrEnt(pRvs, vs, revd);
+      if (!revd.getSrId().equals(pEnt.getSrId())) {
+        throw new ExcCode(ExcCode.WRPR, "different_source");
+      }
+      if (revd.getRvId() != null) {
+        throw new ExcCode(ExcCode.WRPR, "can_not_reverse_reversed");
+      }
+      mkRevers(pRvs, pEnt, revd);
+      this.orm.insIdLn(pRvs, vs, pEnt);
+      revd.setRvId(pEnt.getIid());
+      this.orm.update(pRvs, vs, revd);
+      pRvs.put("msgSuc", "reverse_ok");
+    } else {
+      if (pEnt.getDebt().compareTo(BigDecimal.ZERO) == 0) {
+        throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
+      }
+      Calendar calCuMh = Calendar.getInstance(new Locale("en", "US"));
+      calCuMh.setTime(astg.getMnth());
+      calCuMh.set(Calendar.DAY_OF_MONTH, 1);
+      calCuMh.set(Calendar.HOUR_OF_DAY, 0);
+      calCuMh.set(Calendar.MINUTE, 0);
+      calCuMh.set(Calendar.SECOND, 0);
+      calCuMh.set(Calendar.MILLISECOND, 0);
+      Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
+      calDoc.setTime(pEnt.getDat());
+      calDoc.set(Calendar.DAY_OF_MONTH, 1);
+      calDoc.set(Calendar.HOUR_OF_DAY, 0);
+      calDoc.set(Calendar.MINUTE, 0);
+      calDoc.set(Calendar.SECOND, 0);
+      calDoc.set(Calendar.MILLISECOND, 0);
+      if (calCuMh.getTime().getTime() != calDoc.getTime().getTime()) {
+        throw new ExcCode(ExcCode.WRPR, "wrong_acperiod");
+      }
+      if (pEnt.getAcDb() == null && pEnt.getAcCr() == null) {
+        throw new ExcCode(ExcCode.WRPR, "account_is_null");
+      }
+      if (pEnt.getAcCr() != null) {
+        pEnt.setCred(pEnt.getDebt());
+        getOrm().refrEnt(pRvs, vs, pEnt.getAcCr());
+        if (pEnt.getAcCr().getStyp() != null && pEnt.getSacId() == null) {
+          throw new ExcCode(ExcCode.WRPR, "select_subaccount");
+        }
+      }
+      if (pEnt.getAcDb() == null) {
+        pEnt.setDebt(BigDecimal.ZERO);
+      } else {
+        getOrm().refrEnt(pRvs, vs, pEnt.getAcDb());
+        if (pEnt.getAcDb().getStyp() != null
+          && pEnt.getSadId() == null) {
+          throw new ExcCode(ExcCode.WRPR, "select_subaccount");
+        }
+      }
+      this.orm.insIdLn(pRvs, vs, pEnt);
+      pRvs.put("msgSuc", "insert_ok");
+    }
     pEnt.setIsNew(false);
-    String qu = "select sum(DEBT) as DEBT, sum(CRED) as CRED from ENTR where "
-      + "SRTY=" + pEnt.getSrTy() + " and SRID=" + doc.getIid();
+    String qu = "select sum(DEBT) as DEBT, sum(CRED) as CRED from ENTR where"
+     + " RVID is null and SRTY=" + pEnt.getSrTy() + " and SRID=" + doc.getIid();
     String[] cols = new String[]{"DEBT", "CRED"};
     Double[] tots = getRdb().evDoubles(qu, cols);
+    if (tots[0] == null) {
+      tots[0] = 0.0;
+    }
+    if (tots[1] == null) {
+      tots[1] = 0.0;
+    }
     doc.setDebt(BigDecimal.valueOf(tots[0])
       .setScale(astg.getCsDp(), astg.getRndm()));
     doc.setCred(BigDecimal.valueOf(tots[1])
       .setScale(astg.getCsDp(), astg.getRndm()));
     getOrm().update(pRvs, vs, doc);
     getSrBlnc().hndNewEntr(pRvs, pEnt.getDat());
-    pRvs.put("msgSuc", "insert_ok");
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setOwnr(doc);
     return null;
+  }
+
+  //Utils:
+  /**
+   * <p>Makes reversing/reversed entry.</p>
+   * @param pRvs request scoped vars
+   * @param pRving reversing entry
+   * @param pRved reversed entry
+   **/
+  public final void mkRevers(final Map<String, Object> pRvs,
+    final Entr pRving, final Entr pRved) {
+    pRving.setDat(pRved.getDat());
+    pRving.setDebt(pRved.getDebt().negate());
+    pRving.setCred(pRved.getCred().negate());
+    pRving.setAcDb(pRved.getAcDb());
+    pRving.setSadId(pRved.getSadId());
+    pRving.setSadTy(pRved.getSadTy());
+    pRving.setSadNm(pRved.getSadNm());
+    pRving.setAcCr(pRved.getAcCr());
+    pRving.setSacId(pRved.getSacId());
+    pRving.setSacTy(pRved.getSacTy());
+    pRving.setSacNm(pRved.getSacNm());
+    CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+    StringBuffer dscing = new StringBuffer();
+    if (pRving.getDscr() != null) {
+      dscing.append(pRving.getDscr());
+    }
+    dscing.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
+    dscing.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
+    pRving.setDscr(dscing.toString() + " !");
+    StringBuffer dsced = new StringBuffer();
+    if (pRved.getDscr() != null) {
+      dsced.append(pRved.getDscr() + " !");
+    }
+    dsced.append(getI18n().getMsg("reversing", cpf.getLngDef().getIid()));
+    dsced.append(" #" + pRving.getDbOr() + "-" + pRving.getIid());
+    pRved.setDscr(dsced.toString());
   }
 
   //Simple getters and setters:
@@ -203,5 +271,21 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
    **/
   public final void setSrBlnc(final ISrBlnc pSrBlnc) {
     this.srBlnc = pSrBlnc;
+  }
+
+  /**
+   * <p>Getter for i18n.</p>
+   * @return II18n
+   **/
+  public final II18n getI18n() {
+    return this.i18n;
+  }
+
+  /**
+   * <p>Setter for i18n.</p>
+   * @param pI18n reference
+   **/
+  public final void setI18n(final II18n pI18n) {
+    this.i18n = pI18n;
   }
 }

@@ -116,7 +116,7 @@ public class Entr extends AOrId {
   /**
    * <p>Appearance of subaccount.</p>
    **/
-  private String sucNm;
+  private String sacNm;
 
   /**
    * <p>Cred.</p>
@@ -354,19 +354,19 @@ public class Entr extends AOrId {
   }
 
   /**
-   * <p>Geter for sucNm.</p>
+   * <p>Geter for sacNm.</p>
    * @return String
    **/
-  public final String getSucNm() {
-    return this.sucNm;
+  public final String getSacNm() {
+    return this.sacNm;
   }
 
   /**
-   * <p>Setter for sucNm.</p>
-   * @param pSucNm reference
+   * <p>Setter for sacNm.</p>
+   * @param pSacNm reference
    **/
-  public final void setSucNm(final String pSucNm) {
-    this.sucNm = pSucNm;
+  public final void setSacNm(final String pSacNm) {
+    this.sacNm = pSacNm;
   }
 
   /**

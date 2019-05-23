@@ -254,16 +254,15 @@ public class SrBlnc<RS> implements ISrBlnc {
     Map<String, Object> vs = new HashMap<String, Object>();
     lazBlnCh(pRvs, vs);
     EPeriod per = evBlStPer(pRvs, vs);
-    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY)
-      || per.equals(EPeriod.DAILY))) {
-      throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_dwm");
+    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY))) {
+      throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_wm");
     }
     Calendar cal = Calendar.getInstance(new Locale("en", "US"));
     cal.setTime(pDtFor);
     cal.set(Calendar.HOUR_OF_DAY, 0);
     cal.set(Calendar.MINUTE, 0);
     cal.set(Calendar.SECOND, 0);
-    cal.set(Calendar.MILLISECOND, 0); //Daily is ready
+    cal.set(Calendar.MILLISECOND, 0);
     if (per.equals(EPeriod.MONTHLY)) {
       cal.set(Calendar.DAY_OF_MONTH, 1);
     } else if (per.equals(EPeriod.WEEKLY)) {
@@ -284,8 +283,8 @@ public class SrBlnc<RS> implements ISrBlnc {
    **/
   public final synchronized void recalc(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final Date pDtFor) throws Exception {
-    getLog().info(pRvs, SrBlnc.class, "recalculation start BlnCh was "
-      + this.blnCh);
+    getLog().info(pRvs, SrBlnc.class, "recalculation start for " + pDtFor
+      + " BlnCh was " + this.blnCh);
     if (this.blnCh.getPrCh()) {
       getLog().info(pRvs, SrBlnc.class,
         "deleting all stored balances cause period has changed");
@@ -294,12 +293,7 @@ public class SrBlnc<RS> implements ISrBlnc {
       this.blnCh.setCuDt(this.iniDt);
     }
     Date curDt;
-    if (this.blnCh.getPrCh()) {
-      //recalculate from start;
-      curDt = evDtNxtPerSt(pRvs, pVs, this.blnCh.getStDt());
-      getLog().info(pRvs, SrBlnc.class, "recalculating balances from start "
-        + curDt + " <- " + this.blnCh.getStDt());
-   } else if (this.blnCh.getLeDt().getTime() < this.blnCh.getCuDt().getTime()) {
+    if (this.blnCh.getLeDt().getTime() < this.blnCh.getCuDt().getTime()) {
       //recalculate from previous to changes period;
       curDt = evDtPrvPerSt(pRvs, pVs, this.blnCh.getLeDt());
       if (curDt.getTime() <= this.blnCh.getStDt().getTime()) {
@@ -330,7 +324,7 @@ public class SrBlnc<RS> implements ISrBlnc {
           saWhe = " and SAID=" + tbl.getSaId() + " and BLNC.SATY="
             + tbl.getSaTy();
         }
-        Blnc blnc = getOrm().retEntCnd(pRvs, pVs, Blnc.class, "where ACC='"
+        Blnc blnc = getOrm().retEntCnd(pRvs, pVs, Blnc.class, "ACC='"
           + tbl.getAcId() + "' and DAT=" + lstBlStDt.getTime() + saWhe);
         if (blnc == null) {
           blnc = new Blnc();
@@ -377,7 +371,7 @@ public class SrBlnc<RS> implements ISrBlnc {
   public final synchronized EPeriod evBlStPer(final Map<String, Object> pRvs,
     final Map<String, Object> pVs) throws Exception {
     AcStg as = getSrAcStg().lazAcStg(pRvs);
-    if (!this.blnCh.getStPr().equals(as.getBlPr())) {
+    if (!this.blnCh.getPrCh() && !this.blnCh.getStPr().equals(as.getBlPr())) {
       getLog().info(pRvs, SrBlnc.class, "changing period from " + this.blnCh
         .getStPr() + " to " + as.getBlPr());
       this.blnCh.setStPr(as.getBlPr());
@@ -545,9 +539,8 @@ public class SrBlnc<RS> implements ISrBlnc {
   public final synchronized Date evDtNxtPerSt(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final Date pDtFor) throws Exception {
     EPeriod per = evBlStPer(pRvs, pVs);
-    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY)
-      || per.equals(EPeriod.DAILY))) {
-      throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_dwm");
+    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY))) {
+      throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_wm");
     }
     Calendar cal = Calendar.getInstance(new Locale("en", "US"));
     cal.setTime(pDtFor);
@@ -555,9 +548,7 @@ public class SrBlnc<RS> implements ISrBlnc {
     cal.set(Calendar.MINUTE, 0);
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
-    if (per.equals(EPeriod.DAILY)) {
-      cal.add(Calendar.DATE, 1);
-    } else if (per.equals(EPeriod.MONTHLY)) {
+    if (per.equals(EPeriod.MONTHLY)) {
       cal.add(Calendar.MONTH, 1);
       cal.set(Calendar.DAY_OF_MONTH, 1);
     } else if (per.equals(EPeriod.WEEKLY)) {
@@ -579,9 +570,8 @@ public class SrBlnc<RS> implements ISrBlnc {
   public final synchronized Date evDtPrvPerSt(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final Date pDtFor) throws Exception {
     EPeriod per = evBlStPer(pRvs, pVs);
-    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY)
-      || per.equals(EPeriod.DAILY))) {
-      throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_dwm");
+    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY))) {
+      throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_wm");
     }
     Calendar cal = Calendar.getInstance(new Locale("en", "US"));
     cal.setTime(pDtFor);
@@ -589,9 +579,7 @@ public class SrBlnc<RS> implements ISrBlnc {
     cal.set(Calendar.MINUTE, 0);
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
-    if (per.equals(EPeriod.DAILY)) {
-      cal.add(Calendar.DATE, -1);
-    } else if (per.equals(EPeriod.MONTHLY)) {
+    if (per.equals(EPeriod.MONTHLY)) {
       cal.add(Calendar.MONTH, -1);
       cal.set(Calendar.DAY_OF_MONTH, 1);
     } else if (per.equals(EPeriod.WEEKLY)) {

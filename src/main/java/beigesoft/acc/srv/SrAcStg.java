@@ -77,6 +77,8 @@ public class SrAcStg implements ISrAcStg {
       }
       this.acStg = astg;
       pRvs.put("astg", this.acStg);
+    } else if (pRvs.get("astg") == null) {
+      pRvs.put("astg", this.acStg);
     }
     return this.acStg;
   }

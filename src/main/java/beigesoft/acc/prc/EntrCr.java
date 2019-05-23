@@ -83,8 +83,6 @@ public class EntrCr implements IPrcEnt<Entr, Long> {
     pEnt.setDebt(BigDecimal.ZERO);
     pEnt.setCred(BigDecimal.ZERO);
     pEnt.setDat(doc.getDat());
-    pEnt.setSrTy(doc.cnsTy());
-    pEnt.setSrDbOr(doc.getDbOr());
     String dcDscr;
     if (doc.getDscr() != null) {
       dcDscr = doc.getDscr();
