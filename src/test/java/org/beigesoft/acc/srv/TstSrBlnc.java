@@ -31,19 +31,18 @@ package org.beigesoft.acc.srv;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.util.Calendar;
 import java.util.Locale;
 
 import org.beigesoft.exc.ExcCode;
-import org.beigesoft.mdl.ColVals;
+import org.beigesoft.mdl.EPeriod;
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.mdl.ReqDtTst;
 import org.beigesoft.mdl.CmnPrf;
@@ -60,6 +59,7 @@ import org.beigesoft.cnv.FilCvEnt;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.ISrvDt;
+import org.beigesoft.acc.mdl.TrBlLn;
 import org.beigesoft.acc.mdlp.Acnt;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Expn;
@@ -73,6 +73,7 @@ import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.prc.InEntrSv;
+import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.EntrCr;
 import org.beigesoft.acc.prc.EntrSrcCr;
@@ -104,12 +105,12 @@ public class TstSrBlnc<RS> {
   private EntrSrcCr entrSrcCr;
   private InEntrSv inEntrSv;
   private EntrCr entrCr;
+  private IsacntSv isacntSv;
   private EntrSv entrSv;
   private HndAcc<RS> hndAcc;
   private HndI18nRq<RS> hndBase;
   private Setng stgOrm;
   private ISrBlnc srBlnc;
-  private Calendar cal = Calendar.getInstance(new Locale("en", "US"));
     //Accounts:
   private Acnt acBnk;
   private Acnt acScap;
@@ -131,6 +132,7 @@ public class TstSrBlnc<RS> {
       mkSubacc();
       inEn1Scap10Jan17();
       inEn2Wrong11Jan16();
+      inEn3Wright11Jan17();
       //this.rdb.commit();
       this.rdb.rollBack();
     } catch (Exception e) {
@@ -162,6 +164,7 @@ public class TstSrBlnc<RS> {
     this.entrSrcCr = (EntrSrcCr) this.fctEnPrc.laz(this.rvs, EntrSrcCr.class.getSimpleName());
     this.inEntrSv = (InEntrSv) this.fctEnPrc.laz(this.rvs, InEntrSv.class.getSimpleName());
     this.entrCr = (EntrCr) this.fctEnPrc.laz(this.rvs, EntrCr.class.getSimpleName());
+    this.isacntSv = (IsacntSv) this.fctEnPrc.laz(this.rvs, IsacntSv.class.getSimpleName());
     this.entrSv = (EntrSv) this.fctEnPrc.laz(this.rvs, EntrSv.class.getSimpleName());
     this.hndAcc = (HndAcc<RS>) this.fctApp.laz(this.rvs, HndAcc.class.getSimpleName());
     this.hndBase = (HndI18nRq<RS>) this.fctApp.laz(this.rvs, HndI18nRq.class.getSimpleName());
@@ -193,12 +196,14 @@ public class TstSrBlnc<RS> {
     this.orm.insIdLn(this.rvs, this.vs, this.srvsa); this.vs.clear();
   }
 
+  private final BigDecimal scapTot = new BigDecimal("40000");
+
+  private final BigDecimal rentTot = new BigDecimal("1000");
+
   // #1 - started capital 0n 10jan17, blnc on 21jan17=0r, blnc on 21feb17=2r
   public void inEn1Scap10Jan17() throws Exception {
     iniNewReq();
-    cal.setTime(this.hndAcc.getSrAcStg().lazAcStg(this.rvs).getMnth());
-    cal.set(Calendar.DAY_OF_MONTH, 10);
-    this.rqDt.getParamsMp().put("opDt", this.srvDt.to8601Date(cal.getTime()));
+    this.rqDt.getParamsMp().put("opDt", "2017-01-10");
     this.hndAcc.handle(this.rvs, this.rqDt);
     InEntr inScap = new InEntr();
     inScap.setDbOr(this.orm.getDbId());
@@ -212,7 +217,7 @@ public class TstSrBlnc<RS> {
     enScap.setIsNew(true);
     enScap.setSrId(inScap.getIid());
     enScap = this.entrCr.process(this.rvs, enScap, this.rqDt);
-    iniNewReq(); enScap.setDebt(new BigDecimal("40000"));
+    iniNewReq(); enScap.setDebt(this.scapTot);
     enScap.setAcDb(this.acBnk);
     enScap.setSadId(this.bnka.getIid());
     enScap.setSadNm(this.bnka.getNme());
@@ -221,24 +226,45 @@ public class TstSrBlnc<RS> {
     this.rqDt.getParamsMp().put("owVr", inScap.getVer().toString());
     assertNotNull(this.rvs.get("astg"));
     enScap = this.entrSv.process(this.rvs, enScap, this.rqDt);
-    cal.set(Calendar.DAY_OF_MONTH, 21);
-    this.srBlnc.recalcIfNd(this.rvs, cal.getTime());
+    this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-01-21"));
     Integer trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
     assertEquals(Integer.valueOf(0), trows);
-    cal.set(Calendar.MONTH, 1); //jan=0
-    this.srBlnc.recalcIfNd(this.rvs, cal.getTime());
+    List<TrBlLn> trbl = this.srBlnc.retTrBlnc(this.rvs, this.srvDt.from8601Date("2017-01-21"));
+    assertEquals(2, trbl.size());
+    assertEquals(this.bnka.getNme(), trbl.get(0).getSaNm());
+    assertNull(trbl.get(1).getSaNm());
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebt()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCredAcc()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCred()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCredAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebt()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebtAcc()));
+    this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
     assertEquals(Integer.valueOf(2), trows);
+    trbl = this.srBlnc.retTrBlnc(this.rvs, this.srvDt.from8601Date("2017-02-21"));
+    assertEquals(2, trbl.size());
+    assertEquals(this.bnka.getNme(), trbl.get(0).getSaNm());
+    assertNull(trbl.get(1).getSaNm());
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebt()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCredAcc()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCred()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCredAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebt()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebtAcc()));
   }
 
   // #2 - wrong Bnk-Exp.Rent 11jan16, blnc on 21jan17=26r, blnc on 21feb17=27r
   //reverse wrong Bnk-Exp.Rent 11jan16, blnc on 21jan17=27r, blnc on 21feb17=27r
+  //change balance period weekly blnc on 21feb17 - 12, month -2
   public void inEn2Wrong11Jan16() throws Exception {
     iniNewReq();
     mkAccStg("2016-01"); //wrong year
-    cal.setTime(this.hndAcc.getSrAcStg().lazAcStg(this.rvs).getMnth());
-    cal.set(Calendar.DAY_OF_MONTH, 11);
-    this.rqDt.getParamsMp().put("opDt", this.srvDt.to8601Date(cal.getTime()));
+    this.rqDt.getParamsMp().put("opDt", "2016-01-11");
     this.hndAcc.handle(this.rvs, this.rqDt);
     InEntr inPayRent = new InEntr();
     inPayRent.setDbOr(this.orm.getDbId());
@@ -251,7 +277,7 @@ public class TstSrBlnc<RS> {
     enPayRent.setIsNew(true);
     enPayRent.setSrId(inPayRent.getIid());
     enPayRent = this.entrCr.process(this.rvs, enPayRent, this.rqDt);
-    iniNewReq(); enPayRent.setDebt(new BigDecimal("1000"));
+    iniNewReq(); enPayRent.setDebt(this.rentTot);
     enPayRent.setAcDb(this.acExpn);
     enPayRent.setSadId(this.rent.getIid());
     enPayRent.setSadNm(this.rent.getNme());
@@ -268,6 +294,26 @@ public class TstSrBlnc<RS> {
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
     assertEquals(Integer.valueOf(27), trows); //bank/scap refreshed expn.rent added
+    List<TrBlLn> trbl = this.srBlnc.retTrBlnc(this.rvs, this.srvDt.from8601Date("2017-01-21"));
+    assertEquals(3, trbl.size());
+    assertEquals(this.acBnk.getIid(), trbl.get(0).getAcId());
+    assertEquals(this.acScap.getIid(), trbl.get(1).getAcId());
+    assertEquals(this.acExpn.getIid(), trbl.get(2).getAcId());
+    assertEquals(this.bnka.getNme(), trbl.get(0).getSaNm());
+    assertNull(trbl.get(1).getSaNm());
+    assertEquals(this.rent.getNme(), trbl.get(2).getSaNm());
+    assertEquals(0, this.scapTot.subtract(this.rentTot).compareTo(trbl.get(0).getDebt()));
+    assertEquals(0, this.scapTot.subtract(this.rentTot).compareTo(trbl.get(0).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCredAcc()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCred()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCredAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebt()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebtAcc()));
+    assertEquals(0, this.rentTot.compareTo(trbl.get(2).getDebt()));
+    assertEquals(0, this.rentTot.compareTo(trbl.get(2).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(2).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(2).getCredAcc()));
     //reversing
     iniNewReq(); Entr enPrRev = new Entr();
     enPrRev.setDbOr(this.orm.getDbId());
@@ -284,7 +330,89 @@ public class TstSrBlnc<RS> {
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
     assertEquals(Integer.valueOf(27), trows);
+    mkAccStg(EPeriod.WEEKLY);
+    this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
+    trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
+    assertEquals(Integer.valueOf(12), trows); //10jan-21feb17 6 weeks * 2accounts
+    mkAccStg(EPeriod.MONTHLY);
+    this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
+    trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
+    assertEquals(Integer.valueOf(2), trows);
+    trbl = this.srBlnc.retTrBlnc(this.rvs, this.srvDt.from8601Date("2017-02-21"));
+    assertEquals(2, trbl.size());
+    assertEquals(this.bnka.getNme(), trbl.get(0).getSaNm());
+    assertNull(trbl.get(1).getSaNm());
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebt()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCredAcc()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCred()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCredAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebt()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebtAcc()));
     mkAccStg("2017-01"); //right year
+  }
+
+  // 32 - write Bnk-Exp.Rent 11jan17
+  //recalculating blnc on 21jan17 and 21feb17=3r
+  //Subacc name changing
+  public void inEn3Wright11Jan17() throws Exception {
+    iniNewReq();
+    this.rqDt.getParamsMp().put("opDt", "2017-01-11");
+    this.hndAcc.handle(this.rvs, this.rqDt);
+    InEntr inPayRent = new InEntr();
+    inPayRent.setDbOr(this.orm.getDbId());
+    inPayRent.setIsNew(true);
+    inPayRent.setDscr("payed rent");
+    inPayRent = (InEntr) this.entrSrcCr.process(this.rvs, inPayRent, this.rqDt);
+    iniNewReq(); inPayRent = this.inEntrSv.process(this.rvs, inPayRent, this.rqDt);
+    iniNewReq(); Entr enPayRent = new Entr();
+    enPayRent.setDbOr(this.orm.getDbId());
+    enPayRent.setIsNew(true);
+    enPayRent.setSrId(inPayRent.getIid());
+    enPayRent = this.entrCr.process(this.rvs, enPayRent, this.rqDt);
+    iniNewReq(); enPayRent.setDebt(this.rentTot);
+    enPayRent.setAcDb(this.acExpn);
+    enPayRent.setSadId(this.rent.getIid());
+    enPayRent.setSadNm(this.rent.getNme());
+    enPayRent.setSadTy(this.rent.cnsTy());
+    enPayRent.setAcCr(this.acBnk);
+    enPayRent.setSacId(this.bnka.getIid());
+    enPayRent.setSacNm(this.bnka.getNme());
+    enPayRent.setSacTy(this.bnka.cnsTy());
+    this.rqDt.getParamsMp().put("owVr", inPayRent.getVer().toString());
+    this.entrSv.process(this.rvs, enPayRent, this.rqDt);
+    this.log.test(this.rvs, getClass(), "inEn3Wright11Jan17 recalc from 21jan17...");
+    assertTrue(this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-01-21")));
+    Integer trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
+    assertEquals(Integer.valueOf(3), trows);
+    this.log.test(this.rvs, getClass(), "inEn3Wright11Jan17 recalc from 21feb17...");
+    assertFalse(this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21")));
+    trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
+    assertEquals(Integer.valueOf(3), trows); //bank/scap refreshed expn.rent added
+    List<TrBlLn> trbl = this.srBlnc.retTrBlnc(this.rvs, this.srvDt.from8601Date("2017-01-21"));
+    assertEquals(3, trbl.size());
+    assertEquals(this.acBnk.getIid(), trbl.get(0).getAcId());
+    assertEquals(this.acScap.getIid(), trbl.get(1).getAcId());
+    assertEquals(this.acExpn.getIid(), trbl.get(2).getAcId());
+    assertEquals(this.bnka.getNme(), trbl.get(0).getSaNm());
+    assertNull(trbl.get(1).getSaNm());
+    assertEquals(this.rent.getNme(), trbl.get(2).getSaNm());
+    assertEquals(0, this.scapTot.subtract(this.rentTot).compareTo(trbl.get(0).getDebt()));
+    assertEquals(0, this.scapTot.subtract(this.rentTot).compareTo(trbl.get(0).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCredAcc()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCred()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCredAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebt()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebtAcc()));
+    assertEquals(0, this.rentTot.compareTo(trbl.get(2).getDebt()));
+    assertEquals(0, this.rentTot.compareTo(trbl.get(2).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(2).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(2).getCredAcc()));
+    iniNewReq(); this.bnka.setNme("#79898829 in BNKA"); //Subacc name changing
+    this.isacntSv.process(this.rvs, this.bnka, this.rqDt);
+    assertEquals(5, this.srBlnc.chngSacsIfNd(this.rvs)); //1blnc 4entr (include 2016revers)
   }
 
   public void mkAccStg(final String pMnthStr) throws Exception {
@@ -292,6 +420,12 @@ public class TstSrBlnc<RS> {
     astgt.setMnth(this.srvDt.fromYearMonth(pMnthStr));
     this.hndAcc.getSrAcStg().saveAcStg(this.rvs, astgt);
     assertEquals(astgt, this.hndAcc.getSrAcStg().lazAcStg(this.rvs));
+  }
+
+  public void mkAccStg(final EPeriod pPer) throws Exception {
+    AcStg astgt = this.hndAcc.getSrAcStg().lazAcStg(this.rvs);
+    astgt.setBlPr(pPer);
+    this.hndAcc.getSrAcStg().saveAcStg(this.rvs, astgt);
   }
 
   public void iniNewReq() throws Exception {

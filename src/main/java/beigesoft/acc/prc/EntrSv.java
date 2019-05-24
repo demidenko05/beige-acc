@@ -165,7 +165,6 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       this.orm.insIdLn(pRvs, vs, pEnt);
       pRvs.put("msgSuc", "insert_ok");
     }
-    pEnt.setIsNew(false);
     String qu = "select sum(DEBT) as DEBT, sum(CRED) as CRED from ENTR where"
      + " RVID is null and SRTY=" + pEnt.getSrTy() + " and SRID=" + doc.getIid();
     String[] cols = new String[]{"DEBT", "CRED"};

@@ -37,6 +37,7 @@ import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.prc.EntrCr;
 import org.beigesoft.acc.prc.EntrSrcCr;
+import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.InEntrSv;
 import org.beigesoft.acc.srv.ISrBlnc;
@@ -81,6 +82,10 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
             rz = crPuEntrSrcCr(pRvs);
           } else if (InEntrSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuInEntrSv(pRvs);
+          } else if (InEntrSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuInEntrSv(pRvs);
+          } else if (IsacntSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuIsacntSv(pRvs);
           } else if (EntrSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrSv(pRvs);
           }
@@ -102,6 +107,25 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(InEntrSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), InEntrSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map IsacntSv.</p>
+   * @param pRvs request scoped vars
+   * @return IsacntSv
+   * @throws Exception - an exception
+   */
+  private IsacntSv crPuIsacntSv(
+    final Map<String, Object> pRvs) throws Exception {
+    IsacntSv rz = new IsacntSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrBlnc srBlnc = (ISrBlnc) this.fctBlc
+      .laz(pRvs, ISrBlnc.class.getSimpleName());
+    rz.setSrBlnc(srBlnc);
+    this.procs.put(IsacntSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), IsacntSv.class
       .getSimpleName() + " has been created.");
     return rz;
   }

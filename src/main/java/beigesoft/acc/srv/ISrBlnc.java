@@ -32,17 +32,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.beigesoft.acc.mdl.ISacnt;
 import org.beigesoft.acc.mdl.TrBlLn;
 
 /**
- * <p>Service that maintenance Blnc.</p>
+ * <p>Service that maintenances Blnc and BlncCh, retrieves trial balance,
+ * also that maintenances subaccount dirting - SacCh, and changes
+ * if need entries Entr.sacNm, Entr.sadNm, Blnc.SaNm.</p>
  *
  * @author Yury Demidenko
  */
 public interface ISrBlnc {
 
   /**
-   * <p>Retrieve Trial Balance report.</p>
+   * <p>Retrieves Trial Balance report.</p>
    * @param pRvs Request scoped variables
    * @param pDt date
    * @return Trial Balance Lines
@@ -51,16 +54,17 @@ public interface ISrBlnc {
   List<TrBlLn> retTrBlnc(Map<String, Object> pRvs, Date pDt) throws Exception;
 
   /**
-   * <p>Recalculate if need for all balances for all dates less
+   * <p>Recalculates if need for all balances for all dates less
    * or equals pDtFor, this method is always invoked by report ledger.</p>
    * @param pRvs Request scoped variables
    * @param pDtFor date for
+   * @return if has been recalculation
    * @throws Exception - an exception
    **/
-  void recalcIfNd(Map<String, Object> pRvs, Date pDtFor) throws Exception;
+  boolean recalcIfNd(Map<String, Object> pRvs, Date pDtFor) throws Exception;
 
   /**
-   * <p>Handle new accounting entry to check
+   * <p>Handles new accounting entry to check
    * dirty of stored balances.</p>
    * @param pRvs Request scoped variables
    * @param pDtAt date at
@@ -69,7 +73,7 @@ public interface ISrBlnc {
   void hndNewEntr(Map<String, Object> pRvs, Date pDtAt) throws Exception;
 
   /**
-   * <p>Evaluate start of period nearest to pDtFor.
+   * <p>Evaluates start of period nearest to pDtFor.
    * Tested in blc org.beigesoft.test.CalendarTest.</p>
    * @param pRvs Request scoped variables
    * @param pDtFor date for
@@ -77,4 +81,22 @@ public interface ISrBlnc {
    * @throws Exception - an exception
    **/
   Date evDtStPer(Map<String, Object> pRvs, Date pDtFor) throws Exception;
+
+  /**
+   * <p>Changes if need entries Entr.sacNm, Entr.sadNm, Blnc.SaNm.
+   * It should be invoked together with recalcIfNd,
+   * and service must be locked (synchronized).</p>
+   * @param pRvs Request scoped variables
+   * @return updated rows count
+   * @throws Exception - an exception
+   **/
+  int chngSacsIfNd(Map<String, Object> pRvs) throws Exception;
+
+  /**
+   * <p>Handle subaccount has been changed.</p>
+   * @param pRvs Request scoped variables
+   * @param pSacnt subaccount
+   * @throws Exception - an exception
+   **/
+  void hndSacntCh(Map<String, Object> pRvs, ISacnt pSacnt) throws Exception;
 }

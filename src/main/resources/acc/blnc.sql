@@ -13,12 +13,12 @@ from (
       union all
     select ACDB as ACC, SADNM as SANM, SADID as SAID, SADTY as SATY, sum(DEBT) as DEBT, 0.00 as CRED
     from ENTR 
-    where DAT>=:DT1 and DAT<=:DT2
+    where RVID is null and DAT>=:DT1 and DAT<=:DT2
     group by ACC, SANM, SAID, SATY
       union all
     select ACCR as ACC, SACNM as SANM, SACID as SAID, SACTY as SATY, 0 as DEBT, sum(CRED) as CRED
     from ENTR 
-    where DAT>=:DT1 and DAT<=:DT2
+    where RVID is null and DAT>=:DT1 and DAT<=:DT2
     group by ACC, SANM, SAID, SATY
   ) as UNRCS
   group by ACC, SANM, SAID, SATY

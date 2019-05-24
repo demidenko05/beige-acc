@@ -31,24 +31,29 @@ package org.beigesoft.acc.prc;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlp.InEntr;
+import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
- * <p>Service that saves input entries into DB.</p>
+ * <p>Service that saves subacc into DB.</p>
  *
  * @author Yury Demidenko
  */
-public class InEntrSv implements IPrcEnt<InEntr, Long> {
+public class IsacntSv implements IPrcEnt<ISacnt, Long> {
 
   /**
    * <p>ORM service.</p>
    **/
   private IOrm orm;
+
+  /**
+   * <p>Balance service.</p>
+   **/
+  private ISrBlnc srBlnc;
 
   /**
    * <p>Process that saves entity.</p>
@@ -60,21 +65,19 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
+  public final ISacnt process(final Map<String, Object> pRvs, final ISacnt pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
-    }
     if (pEnt.getIsNew()) {
       this.orm.insIdLn(pRvs, vs, pEnt);
       pRvs.put("msgSuc", "insert_ok");
     } else {
-      String[] ndFds = new String[] {"dat", "dscr"};
-      vs.put("ndFds", ndFds);
-      getOrm().update(pRvs, vs, pEnt);
-      vs.clear();
+      ISacnt old = this.orm.retEnt(pRvs, vs, pEnt);
+      this.orm.update(pRvs, vs, pEnt);
       pRvs.put("msgSuc", "update_ok");
+      if (!old.getNme().equals(pEnt.getNme())) {
+        getSrBlnc().hndSacntCh(pRvs, pEnt);
+      }
     }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
@@ -96,5 +99,21 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
    **/
   public final void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
+  }
+
+  /**
+   * <p>Getter for srBlnc.</p>
+   * @return ISrBlnc
+   **/
+  public final ISrBlnc getSrBlnc() {
+    return this.srBlnc;
+  }
+
+  /**
+   * <p>Setter for srBlnc.</p>
+   * @param pSrBlnc reference
+   **/
+  public final void setSrBlnc(final ISrBlnc pSrBlnc) {
+    this.srBlnc = pSrBlnc;
   }
 }
