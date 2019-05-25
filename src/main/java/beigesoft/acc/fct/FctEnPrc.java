@@ -38,6 +38,7 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.prc.EntrCr;
 import org.beigesoft.acc.prc.EntrSrcCr;
 import org.beigesoft.acc.prc.IsacntSv;
+import org.beigesoft.acc.prc.IsacntDl;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.InEntrSv;
 import org.beigesoft.acc.srv.ISrBlnc;
@@ -84,6 +85,8 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
             rz = crPuInEntrSv(pRvs);
           } else if (InEntrSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuInEntrSv(pRvs);
+          } else if (IsacntDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuIsacntDl(pRvs);
           } else if (IsacntSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuIsacntSv(pRvs);
           } else if (EntrSv.class.getSimpleName().equals(pPrNm)) {
@@ -112,6 +115,26 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
   }
 
   /**
+   * <p>Create and put into the Map IsacntDl.</p>
+   * @param pRvs request scoped vars
+   * @return IsacntDl
+   * @throws Exception - an exception
+   */
+  private IsacntDl<RS> crPuIsacntDl(
+    final Map<String, Object> pRvs) throws Exception {
+    IsacntDl<RS> rz = new IsacntDl<RS>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    this.procs.put(IsacntDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), IsacntDl.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map IsacntSv.</p>
    * @param pRvs request scoped vars
    * @return IsacntSv
@@ -121,6 +144,7 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
     final Map<String, Object> pRvs) throws Exception {
     IsacntSv rz = new IsacntSv();
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
     ISrBlnc srBlnc = (ISrBlnc) this.fctBlc
       .laz(pRvs, ISrBlnc.class.getSimpleName());
     rz.setSrBlnc(srBlnc);

@@ -73,6 +73,7 @@ import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.prc.InEntrSv;
+import org.beigesoft.acc.prc.IsacntDl;
 import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.EntrCr;
@@ -105,6 +106,7 @@ public class TstSrBlnc<RS> {
   private EntrSrcCr entrSrcCr;
   private InEntrSv inEntrSv;
   private EntrCr entrCr;
+  private IsacntDl<RS> isacntDl;
   private IsacntSv isacntSv;
   private EntrSv entrSv;
   private HndAcc<RS> hndAcc;
@@ -164,6 +166,7 @@ public class TstSrBlnc<RS> {
     this.entrSrcCr = (EntrSrcCr) this.fctEnPrc.laz(this.rvs, EntrSrcCr.class.getSimpleName());
     this.inEntrSv = (InEntrSv) this.fctEnPrc.laz(this.rvs, InEntrSv.class.getSimpleName());
     this.entrCr = (EntrCr) this.fctEnPrc.laz(this.rvs, EntrCr.class.getSimpleName());
+    this.isacntDl = (IsacntDl<RS>) this.fctEnPrc.laz(this.rvs, IsacntDl.class.getSimpleName());
     this.isacntSv = (IsacntSv) this.fctEnPrc.laz(this.rvs, IsacntSv.class.getSimpleName());
     this.entrSv = (EntrSv) this.fctEnPrc.laz(this.rvs, EntrSv.class.getSimpleName());
     this.hndAcc = (HndAcc<RS>) this.fctApp.laz(this.rvs, HndAcc.class.getSimpleName());
@@ -411,8 +414,17 @@ public class TstSrBlnc<RS> {
     assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(2).getCred()));
     assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(2).getCredAcc()));
     iniNewReq(); this.bnka.setNme("#79898829 in BNKA"); //Subacc name changing
+    this.rqDt.getParamsMp().put("cnfSacChNm", "a");
     this.isacntSv.process(this.rvs, this.bnka, this.rqDt);
     assertEquals(5, this.srBlnc.chngSacsIfNd(this.rvs)); //1blnc 4entr (include 2016revers)
+    assertEquals(0, this.srBlnc.chngSacsIfNd(this.rvs));
+    iniNewReq(); boolean isBnkaDel = true;
+    try {
+      this.isacntDl.process(this.rvs, this.bnka, this.rqDt);
+    } catch (Exception e) {
+      isBnkaDel = false;
+    }
+    assertFalse(isBnkaDel);
   }
 
   public void mkAccStg(final String pMnthStr) throws Exception {

@@ -31,20 +31,21 @@ package org.beigesoft.acc.prc;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.log.ILog;
-import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdl.ISacnt;
-import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
- * <p>Service that saves subacc into DB.</p>
+ * <p>Service that deletes subacc from DB.</p>
  *
  * @author Yury Demidenko
+ * @param <RS> platform dependent record set type
  */
-public class IsacntSv implements IPrcEnt<ISacnt, Long> {
+public class IsacntDl<RS> implements IPrcEnt<ISacnt, Long> {
 
   /**
    * <p>Log.</p>
@@ -57,9 +58,9 @@ public class IsacntSv implements IPrcEnt<ISacnt, Long> {
   private IOrm orm;
 
   /**
-   * <p>Balance service.</p>
+   * <p>RDB service.</p>
    **/
-  private ISrBlnc srBlnc;
+  private IRdb<RS> rdb;
 
   /**
    * <p>Process that saves entity.</p>
@@ -74,34 +75,22 @@ public class IsacntSv implements IPrcEnt<ISacnt, Long> {
   public final ISacnt process(final Map<String, Object> pRvs, final ISacnt pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    if (pEnt.getIsNew()) {
-      this.orm.insIdLn(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "insert_ok");
+    Integer usedRc = this.rdb.evInt(//cheks if used even in reversed entries:
+      "select count(*) as USEDRC from ENTR where (SADID=" + pEnt.getIid()
+        + " and SADTY=" + pEnt.cnsTy() +  ") or (SACID=" + pEnt.getIid()
+          + " and SACTY=" + pEnt.cnsTy() + ");", "USEDRC");
+    if (usedRc == null || usedRc == 0) {
+      this.orm.del(pRvs, vs, pEnt);
+      pRvs.put("msgSuc", "delete_ok");
     } else {
-      ISacnt old = this.orm.retEnt(pRvs, vs, pEnt);
-      boolean ndUp = true;
-      if (!old.getNme().equals(pEnt.getNme())) {
-        if (!pRqDt.getParam("cnfSacChNm").equals("dis")) {
-          StringBuffer sb = new StringBuffer();
-          sb.append("Subacc name changed! usr/cls/type/id/nmWas/nmIs: ");
-          sb.append(pRqDt.getUsrNm() + "/" + pEnt.getClass().getSimpleName());
-          sb.append("/" + pEnt.cnsTy() + "/" + pEnt.getIid());
-          sb.append("/" + old.getNme() + "/" + pEnt.getNme());
-          this.log.warn(pRvs, getClass(), sb.toString());
-          getSrBlnc().hndSacntCh(pRvs, pEnt);
-        } else {
-          ndUp = false;
-          pRvs.put("msgWrn", "conf_sac_nm_ch");
-        }
-      }
-      if (ndUp) {
-        this.orm.update(pRvs, vs, pEnt);
-        pRvs.put("msgSuc", "update_ok");
-      }
+      StringBuffer sb = new StringBuffer();
+      sb.append("Attemp to delete used subacc!!! usr/cls/type/id/nm: ");
+      sb.append(pRqDt.getUsrNm() + "/" + pEnt.getClass().getSimpleName());
+      sb.append("/" + pEnt.cnsTy() + "/" + pEnt.getIid() + "/" + pEnt.getNme());
+      this.log.error(pRvs, getClass(), sb.toString());
+      throw new ExcCode(ExcCode.WRPR, "subacc_used");
     }
-    UvdVar uvs = (UvdVar) pRvs.get("uvs");
-    uvs.setEnt(pEnt);
-    return pEnt;
+    return null;
   }
 
   //Simple getters and setters:
@@ -122,22 +111,6 @@ public class IsacntSv implements IPrcEnt<ISacnt, Long> {
   }
 
   /**
-   * <p>Getter for srBlnc.</p>
-   * @return ISrBlnc
-   **/
-  public final ISrBlnc getSrBlnc() {
-    return this.srBlnc;
-  }
-
-  /**
-   * <p>Setter for srBlnc.</p>
-   * @param pSrBlnc reference
-   **/
-  public final void setSrBlnc(final ISrBlnc pSrBlnc) {
-    this.srBlnc = pSrBlnc;
-  }
-
-  /**
    * <p>Geter for log.</p>
    * @return ILog
    **/
@@ -151,5 +124,21 @@ public class IsacntSv implements IPrcEnt<ISacnt, Long> {
    **/
   public final void setLog(final ILog pLog) {
     this.log = pLog;
+  }
+
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb<RS>
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
   }
 }

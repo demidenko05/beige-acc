@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--BSD 2-Clause License
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+See LICENSE in base folder
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Beigesoft BLC SQLite configuration</comment>
+<entry key="clss">org.beigesoft.mdlp.DbInf,
+  org.beigesoft.mdlp.UsTmc,
+  org.beigesoft.mdlp.UsRlTmc,
+  org.beigesoft.mdlp.Lng,
+  org.beigesoft.mdlp.Cntr,
+  org.beigesoft.mdlp.DcSp,
+  org.beigesoft.mdlp.DcGrSp,
+  org.beigesoft.mdlp.UsPrf,
+  org.beigesoft.mdlp.MaFrn,
+  org.beigesoft.mdlp.MaFrnLn,
+  org.beigesoft.mdlp.CsvMth,
+  org.beigesoft.mdlp.CsvCl,
+  org.beigesoft.mdlp.EmAdr,
+  org.beigesoft.mdlp.EmCon,
+  org.beigesoft.mdlp.EmInt,
+  org.beigesoft.mdlp.EmStr,
+  org.beigesoft.mdlp.EmMsg,
+  org.beigesoft.mdlp.EmRcp,
+  org.beigesoft.acc.mdlp.AcStg,
+  org.beigesoft.acc.mdlp.Acnt,
+  org.beigesoft.acc.mdlp.Sacnt,
+  org.beigesoft.acc.mdlp.Entr,
+  org.beigesoft.acc.mdlp.InEntr,
+  org.beigesoft.acc.mdlp.Expn,
+  org.beigesoft.acc.mdlp.DcrCt,
+  org.beigesoft.acc.mdlp.DbCr,
+  org.beigesoft.acc.mdlp.Bnka,
+  org.beigesoft.acc.mdlp.ItmCt,
+  org.beigesoft.acc.mdlp.Itm,
+  org.beigesoft.acc.mdlp.SrvCt,
+  org.beigesoft.acc.mdlp.Srv,
+  org.beigesoft.acc.mdlp.Blnc,
+  org.beigesoft.acc.mdlp.SacCh,
+  org.beigesoft.acc.mdlp.BlnCh</entry>
+<entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
+<entry key="stgFldNms">def,nul</entry>
+<entry key="exlFlds">isNew</entry>
+</properties>

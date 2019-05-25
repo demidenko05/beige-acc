@@ -358,9 +358,6 @@ public class SrBlnc<RS> implements ISrBlnc {
   @Override
   public final synchronized void hndSacntCh(final Map<String, Object> pRvs,
     final ISacnt pSacnt) throws Exception {
-    this.log.warn(pRvs, getClass(), "Subacc name changed! class/type/id/name: "
-      + pSacnt.getClass().getSimpleName() + "/" + pSacnt.cnsTy() + "/"
-        + pSacnt.getIid() + "/" + pSacnt.getNme());
     SacCh sacCh = new SacCh();
     sacCh.setSaTy(pSacnt.cnsTy());
     sacCh.setSaId(pSacnt.getIid());
