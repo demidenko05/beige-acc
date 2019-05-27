@@ -58,6 +58,7 @@ public class EntrSrcCr implements IPrcEnt<IEntrSrc, Long> {
   @Override
   public final IEntrSrc process(final Map<String, Object> pRvs,
     final IEntrSrc pEnt, final IReqDt pRqDt) throws Exception {
+    pEnt.setIsNew(true);
     AcUpf aupf = (AcUpf) pRvs.get("aupf");
     Calendar nowc = Calendar.getInstance(new Locale("en", "US"));
     nowc.setTime(new Date());

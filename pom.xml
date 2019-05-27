@@ -5,9 +5,10 @@
   <groupId>org.beigesoft</groupId>
   <version>1.0-SNAPSHOT</version>
   <artifactId>beige-acc</artifactId>
-  <name>Beigesoft™ accounting all in one Java code.</name>
+  <name>Beigesoft™ Enterprise Information System Java code.</name>
 
-  <description>It consists of double entry accounting and trading (web-store) business logic.</description>
+  <description>It consists of double entry accounting and trading (web-store) business logic.
+    It's based on previous beigesoft-accounting and beigesoft-webstore projects.</description>
   <url>https://sites.google.com/site/beigesoftware</url>
   <inceptionYear>2019</inceptionYear>
 

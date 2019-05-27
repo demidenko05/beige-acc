@@ -81,7 +81,8 @@ public class IsacntSv implements IPrcEnt<ISacnt, Long> {
       ISacnt old = this.orm.retEnt(pRvs, vs, pEnt);
       boolean ndUp = true;
       if (!old.getNme().equals(pEnt.getNme())) {
-        if (!pRqDt.getParam("cnfSacChNm").equals("dis")) {
+        String cnfSacChNm = pRqDt.getParam("cnfSacChNm");
+        if (cnfSacChNm != null && !cnfSacChNm.equals("")) {
           StringBuffer sb = new StringBuffer();
           sb.append("Subacc name changed! usr/cls/type/id/nmWas/nmIs: ");
           sb.append(pRqDt.getUsrNm() + "/" + pEnt.getClass().getSimpleName());

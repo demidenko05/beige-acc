@@ -80,6 +80,7 @@ public class EntrCr implements IPrcEnt<Entr, Long> {
     if (!doc.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
     }
+    pEnt.setIsNew(true);
     pEnt.setDebt(BigDecimal.ZERO);
     pEnt.setCred(BigDecimal.ZERO);
     pEnt.setDat(doc.getDat());

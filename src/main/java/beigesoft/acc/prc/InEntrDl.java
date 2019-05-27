@@ -33,23 +33,28 @@ import java.util.HashMap;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
-import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 
 /**
- * <p>Service that saves input entries into DB.</p>
+ * <p>Service that deletes input entries from DB.</p>
  *
+ * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class InEntrSv implements IPrcEnt<InEntr, Long> {
+public class InEntrDl<RS> implements IPrcEnt<InEntr, Long> {
 
   /**
    * <p>ORM service.</p>
    **/
   private IOrm orm;
+
+  /**
+   * <p>RDB service.</p>
+   **/
+  private IRdb<RS> rdb;
 
   /**
    * <p>Process that saves entity.</p>
@@ -67,20 +72,16 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
     }
-    if (pEnt.getIsNew()) {
-      this.orm.insIdLn(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "insert_ok");
+    String qu = "select count(*) as ENTRCNT from ENTR where"
+      + " SRTY=" + pEnt.cnsTy() + " and SRID=" + pEnt.getIid() + ";";
+    Integer entrCnt = getRdb().evInt(qu, "ENTRCNT");
+    if (entrCnt == null || entrCnt == 0) {
+      getOrm().del(pRvs, vs, pEnt);
+      pRvs.put("msgSuc", "delete_ok");
     } else {
-      String[] ndFds = new String[] {"dat", "dscr"};
-      vs.put("ndFds", ndFds);
-      getOrm().update(pRvs, vs, pEnt);
-      vs.clear();
-      pRvs.put("msgSuc", "update_ok");
+      throw new ExcCode(ExcCode.WRPR, "document_has_entries");
     }
-    UvdVar uvs = (UvdVar) pRvs.get("uvs");
-    pRvs.put("entrCls", Entr.class);
-    uvs.setEnt(pEnt);
-    return pEnt;
+    return null;
   }
 
   //Simple getters and setters:
@@ -98,5 +99,21 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
    **/
   public final void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
+  }
+
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb<RS>
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
   }
 }

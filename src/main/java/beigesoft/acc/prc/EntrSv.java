@@ -166,7 +166,8 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       pRvs.put("msgSuc", "insert_ok");
     }
     String qu = "select sum(DEBT) as DEBT, sum(CRED) as CRED from ENTR where"
-     + " RVID is null and SRTY=" + pEnt.getSrTy() + " and SRID=" + doc.getIid();
+      + " RVID is null and SRTY=" + pEnt.getSrTy() + " and SRID="
+        + doc.getIid() + ";";
     String[] cols = new String[]{"DEBT", "CRED"};
     Double[] tots = getRdb().evDoubles(qu, cols);
     if (tots[0] == null) {
