@@ -57,9 +57,8 @@ public class InEntrDl<RS> implements IPrcEnt<InEntr, Long> {
   private IRdb<RS> rdb;
 
   /**
-   * <p>Process that saves entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * <p>Process that deletes entity.</p>
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
    * @return Entity processed for farther process or null
@@ -68,14 +67,11 @@ public class InEntrDl<RS> implements IPrcEnt<InEntr, Long> {
   @Override
   public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
     final IReqDt pRqDt) throws Exception {
-    Map<String, Object> vs = new HashMap<String, Object>();
-    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
-    }
-    String qu = "select count(*) as ENTRCNT from ENTR where"
-      + " SRTY=" + pEnt.cnsTy() + " and SRID=" + pEnt.getIid() + ";";
+    String qu = "select count(*) as ENTRCNT from ENTR where SRTY="
+      + pEnt.cnsTy() + " and SRID=" + pEnt.getIid() + ";";
     Integer entrCnt = getRdb().evInt(qu, "ENTRCNT");
     if (entrCnt == null || entrCnt == 0) {
+      Map<String, Object> vs = new HashMap<String, Object>();
       getOrm().del(pRvs, vs, pEnt);
       pRvs.put("msgSuc", "delete_ok");
     } else {

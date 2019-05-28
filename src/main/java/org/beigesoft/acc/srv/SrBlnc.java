@@ -48,6 +48,7 @@ import org.beigesoft.acc.mdl.ISacnt;
 import org.beigesoft.acc.mdlp.SacCh;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
+import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.Blnc;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.BlnCh;
@@ -339,7 +340,16 @@ public class SrBlnc<RS> implements ISrBlnc {
         int bsc = this.rdb.update(Blnc.class, cv, "SAID=" + sacCh.getSaId()
           + " and SATY=" + sacCh.getSaTy());
         this.log.info(pRvs, getClass(), "Updated Blnc.saNm = " + bsc);
-        rz += esdc + escc + bsc;
+        cv = new ColVals();
+        this.srvClVl.put(cv, "saNm", sacCh.getNme());
+        if (!this.isAndr) {
+          this.srvClVl.put(cv, "ver", "VER+1");
+          this.srvClVl.putExpr(cv, "ver");
+        }
+        int sacntc = this.rdb.update(Sacnt.class, cv, "SAID=" + sacCh.getSaId()
+          + " and TYP=" + sacCh.getSaTy());
+        this.log.info(pRvs, getClass(), "Updated Sacnt.saNm = " + sacntc);
+        rz += esdc + escc + bsc + sacntc;
         sacCh.setDrt(Boolean.FALSE);
         this.orm.update(pRvs, vs, sacCh);
       }

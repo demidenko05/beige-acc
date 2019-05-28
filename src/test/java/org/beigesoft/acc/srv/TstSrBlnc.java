@@ -61,6 +61,7 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.acc.mdl.TrBlLn;
 import org.beigesoft.acc.mdlp.Acnt;
+import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Expn;
 import org.beigesoft.acc.mdlp.Bnka;
@@ -148,12 +149,6 @@ public class TstSrBlnc<RS> {
   }
   
   public void init() throws Exception {
-    this.acBnk = new Acnt();
-    this.acBnk.setIid("BANK");
-    this.acScap = new Acnt();
-    this.acScap.setIid("SCAPITAL");
-    this.acExpn = new Acnt();
-    this.acExpn.setIid("EXPENSES");
     this.orm = (IOrm) this.fctApp.laz(this.rvs, IOrm.class.getSimpleName());
     this.orm.init(this.rvs);
     this.stgOrm = (Setng) this.fctApp.laz(this.rvs, FctDt.STGORMNM);
@@ -176,14 +171,37 @@ public class TstSrBlnc<RS> {
   }
 
   public void mkSubacc() throws Exception {
+    this.acBnk = new Acnt();
+    this.acBnk.setIid("BANK");
+    this.orm.refrEnt(this.rvs, this.vs, this.acBnk); this.vs.clear();
+    this.acScap = new Acnt();
+    this.acScap.setIid("SCAPITAL");
+    this.orm.refrEnt(this.rvs, this.vs, this.acScap); this.vs.clear();
+    this.acExpn = new Acnt();
+    this.acExpn.setIid("EXPENSES");
+    this.orm.refrEnt(this.rvs, this.vs, this.acExpn); this.vs.clear();
     this.rent = new Expn();
     this.rent.setIid(1L);
     this.rent.setNme("Rent");
     this.orm.insIdLn(this.rvs, this.vs, this.rent); this.vs.clear();
+    Sacnt saRnt = new Sacnt();
+    saRnt.setIid(1L);
+    saRnt.setOwnr(this.acExpn);
+    saRnt.setTyp(this.rent.cnsTy());
+    saRnt.setSaId(this.rent.getIid());
+    saRnt.setSaNm(this.rent.getNme());
+    this.orm.insIdLn(this.rvs, this.vs,  saRnt); this.vs.clear();
     this.bnka = new Bnka();
     this.bnka.setIid(1L);
     this.bnka.setNme("#18768762 in BNK");
     this.orm.insIdLn(this.rvs, this.vs, this.bnka); this.vs.clear();
+    Sacnt saBnk = new Sacnt();
+    saBnk.setIid(1001L);
+    saBnk.setOwnr(this.acBnk);
+    saBnk.setTyp(this.bnka.cnsTy());
+    saBnk.setSaId(this.bnka.getIid());
+    saBnk.setSaNm(this.bnka.getNme());
+    this.orm.insIdLn(this.rvs, this.vs,  saBnk); this.vs.clear();
     this.buyersa = new DcrCt();
     this.buyersa.setIid(1L);
     this.buyersa.setNme("Buyers A");
@@ -416,7 +434,7 @@ public class TstSrBlnc<RS> {
     iniNewReq(); this.bnka.setNme("#79898829 in BNKA"); //Subacc name changing
     this.rqDt.getParamsMp().put("cnfSacChNm", "a");
     this.isacntSv.process(this.rvs, this.bnka, this.rqDt);
-    assertEquals(5, this.srBlnc.chngSacsIfNd(this.rvs)); //1blnc 4entr (include 2016revers)
+    assertEquals(6, this.srBlnc.chngSacsIfNd(this.rvs)); //1sacnt 1blnc 4entr (include 2016revers)
     assertEquals(0, this.srBlnc.chngSacsIfNd(this.rvs));
     iniNewReq(); boolean isBnkaDel = true;
     try {

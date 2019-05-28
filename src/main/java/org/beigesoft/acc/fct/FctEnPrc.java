@@ -41,6 +41,8 @@ import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.IsacntDl;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.InEntrSv;
+import org.beigesoft.acc.prc.InEntrDl;
+import org.beigesoft.acc.prc.InEntrRt;
 import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
@@ -83,8 +85,10 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
             rz = crPuEntrSrcCr(pRvs);
           } else if (InEntrSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuInEntrSv(pRvs);
-          } else if (InEntrSv.class.getSimpleName().equals(pPrNm)) {
-            rz = crPuInEntrSv(pRvs);
+          } else if (InEntrRt.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuInEntrRt(pRvs);
+          } else if (InEntrDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuInEntrDl(pRvs);
           } else if (IsacntDl.class.getSimpleName().equals(pPrNm)) {
             rz = crPuIsacntDl(pRvs);
           } else if (IsacntSv.class.getSimpleName().equals(pPrNm)) {
@@ -95,6 +99,22 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map InEntrRt.</p>
+   * @param pRvs request scoped vars
+   * @return InEntrRt
+   * @throws Exception - an exception
+   */
+  private InEntrRt crPuInEntrRt(
+    final Map<String, Object> pRvs) throws Exception {
+    InEntrRt rz = new InEntrRt();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(InEntrRt.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), InEntrRt.class
+      .getSimpleName() + " has been created.");
     return rz;
   }
 
@@ -110,6 +130,25 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(InEntrSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), InEntrSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map InEntrDl.</p>
+   * @param pRvs request scoped vars
+   * @return InEntrDl
+   * @throws Exception - an exception
+   */
+  private InEntrDl<RS> crPuInEntrDl(
+    final Map<String, Object> pRvs) throws Exception {
+    InEntrDl<RS> rz = new InEntrDl<RS>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    this.procs.put(InEntrDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), InEntrDl.class
       .getSimpleName() + " has been created.");
     return rz;
   }

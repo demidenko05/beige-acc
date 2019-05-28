@@ -45,6 +45,7 @@ import org.beigesoft.srv.II18n;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.AcStg;
+import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
@@ -146,20 +147,39 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       if (pEnt.getAcDb() == null && pEnt.getAcCr() == null) {
         throw new ExcCode(ExcCode.WRPR, "account_is_null");
       }
-      if (pEnt.getAcCr() != null) {
-        pEnt.setCred(pEnt.getDebt());
-        getOrm().refrEnt(pRvs, vs, pEnt.getAcCr());
-        if (pEnt.getAcCr().getStyp() != null && pEnt.getSacId() == null) {
-          throw new ExcCode(ExcCode.WRPR, "select_subaccount");
-        }
-      }
       if (pEnt.getAcDb() == null) {
         pEnt.setDebt(BigDecimal.ZERO);
       } else {
         getOrm().refrEnt(pRvs, vs, pEnt.getAcDb());
-        if (pEnt.getAcDb().getStyp() != null
-          && pEnt.getSadId() == null) {
-          throw new ExcCode(ExcCode.WRPR, "select_subaccount");
+        if (pEnt.getAcDb().getStyp() != null) {
+          if (pEnt.getSadId() == null) {
+            throw new ExcCode(ExcCode.WRPR, "select_subaccount");
+          } else {
+            Sacnt sa = getOrm().retEntCnd(pRvs, vs, Sacnt.class, "OWNR='"
+              + pEnt.getAcDb().getIid() + "' and SAID=" + pEnt.getSadId());
+            if (sa == null) {
+              throw new ExcCode(ExcCode.WRPR, "wrong_subaccount");
+            }
+            pEnt.setSadNm(sa.getSaNm());
+            pEnt.setSadTy(pEnt.getAcDb().getStyp());
+          }
+        }
+      }
+      if (pEnt.getAcCr() != null) {
+        pEnt.setCred(pEnt.getDebt());
+        getOrm().refrEnt(pRvs, vs, pEnt.getAcCr());
+        if (pEnt.getAcCr().getStyp() != null) {
+          if (pEnt.getSacId() == null) {
+            throw new ExcCode(ExcCode.WRPR, "select_subaccount");
+          } else {
+            Sacnt sa = getOrm().retEntCnd(pRvs, vs, Sacnt.class, "OWNR='"
+              + pEnt.getAcCr().getIid() + "' and SAID=" + pEnt.getSacId());
+            if (sa == null) {
+              throw new ExcCode(ExcCode.WRPR, "wrong_subaccount");
+            }
+            pEnt.setSacNm(sa.getSaNm());
+            pEnt.setSacTy(pEnt.getAcCr().getStyp());
+          }
         }
       }
       this.orm.insIdLn(pRvs, vs, pEnt);
