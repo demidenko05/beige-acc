@@ -47,7 +47,7 @@ public class Sacnt extends AIdLn implements IOwned<Acnt, Long> {
   /**
    * <p>Subaccount type, not null, must be same as owner's one.</p>
    **/
-  private Integer typ;
+  private Integer saTy;
 
   /**
    * <p>Subaccount ID, not null.</p>
@@ -79,19 +79,19 @@ public class Sacnt extends AIdLn implements IOwned<Acnt, Long> {
 
   //Simple getters and setters:
   /**
-   * <p>Getter for typ.</p>
+   * <p>Getter for saTy.</p>
    * @return Integer
    **/
-  public final Integer getTyp() {
-    return this.typ;
+  public final Integer getSaTy() {
+    return this.saTy;
   }
 
   /**
-   * <p>Setter for typ.</p>
-   * @param pTyp reference
+   * <p>Setter for saTy.</p>
+   * @param pSaTy reference
    **/
-  public final void setTyp(final Integer pTyp) {
-    this.typ = pTyp;
+  public final void setSaTy(final Integer pSaTy) {
+    this.saTy = pSaTy;
   }
 
   /**

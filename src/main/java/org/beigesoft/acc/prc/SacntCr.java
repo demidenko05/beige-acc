@@ -30,21 +30,20 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Arrays;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlp.Entr;
-import org.beigesoft.acc.mdlp.InEntr;
+import org.beigesoft.acc.mdlp.Sacnt;
 
 /**
- * <p>Service that retrieves input entries from DB.</p>
+ * <p>Service that creates subacc line.</p>
  *
  * @author Yury Demidenko
  */
-public class InEntrRt implements IPrcEnt<InEntr, Long> {
+public class SacntCr implements IPrcEnt<Sacnt, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -52,7 +51,7 @@ public class InEntrRt implements IPrcEnt<InEntr, Long> {
   private IOrm orm;
 
   /**
-   * <p>Process that retrieves entity.</p>
+   * <p>Process that creates entity.</p>
    * @param pRvs request scoped vars, e.g. return this line's
    * owner(document) in "nextEntity" for farther processing
    * @param pRqDt Request Data
@@ -61,20 +60,15 @@ public class InEntrRt implements IPrcEnt<InEntr, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
+  public final Sacnt process(final Map<String, Object> pRvs, final Sacnt pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    getOrm().refrEnt(pRvs, vs, pEnt);
-    String[] ndFdsHn = new String[] {"iid", "nme"};
-    String[] ndFdsEn = new String[]
-      {"iid", "dat", "acDb", "sadNm", "acCr", "sacNm", "debt", "cred", "dscr"};
-    Arrays.sort(ndFdsEn);
-    vs.put("AcntndFds", ndFdsHn);
-    vs.put("EntrndFds", ndFdsEn);
-    pEnt.setEntrs(getOrm().retLstCnd(pRvs, vs, Entr.class, "where SRTY="
-      + pEnt.cnsTy() + " and SRID=" + pEnt.getIid()));
-    vs.clear();
-    pRvs.put("entrCls", Entr.class);
+    this.orm.refrEnt(pRvs, vs, pEnt.getOwnr());
+    if (pEnt.getOwnr() == null ||  pEnt.getOwnr().getSaTy() == null) {
+      throw new ExcCode(ExcCode.WRPR, "wrong_acc_for_subacc");
+    }
+    pEnt.setIsNew(true);
+    pEnt.setSaTy(pEnt.getOwnr().getSaTy());
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
     return pEnt;

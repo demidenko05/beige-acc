@@ -1,10 +1,10 @@
-select ACC as ACID, NMBR as ACNB, NME as ACNM, SANM, SAID, SATY,
+select ACC as ACID, NMBR as ACNB, NME as ACNM, SANM, SAID, ALRCS.SATY as SATY,
 case when BLTY = 0 then DEBT - CRED else 0 end as DEBT,
 case when BLTY = 1 then CRED - DEBT else 0 end as CRED
 from (
   select ACC, SANM, SAID, SATY, sum(DEBT) as DEBT, sum(CRED) as CRED
   from (
-    select ACC, SANM, SAID, SATY,
+    select ACC, SANM, SAID, BLNC.SATY as SATY,
     case when ACCIN.BLTY = 0 then BLN else 0 end as DEBT,
     case when ACCIN.BLTY = 1 then BLN else 0 end as CRED
     from BLNC

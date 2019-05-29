@@ -4,13 +4,13 @@ BSD 2-Clause License
 Copyright (c) 2019, Beigesoft™
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
+Redistribution and use in source and binary fsrAcStgs, with or without
 modification, are permitted provided that the following conditions are met:
 
 * Redistributions of source code must retain the above copyright notice, this
   list of conditions and the following disclaimer.
 
-* Redistributions in binary form must reproduce the above copyright notice,
+* Redistributions in binary fsrAcStg must reproduce the above copyright notice,
   this list of conditions and the following disclaimer in the documentation
   and/or other materials provided with the distribution.
 
@@ -29,52 +29,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.prc;
 
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
 
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
-import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlp.Entr;
-import org.beigesoft.acc.mdlp.InEntr;
+import org.beigesoft.acc.mdlp.AcStg;
+import org.beigesoft.acc.srv.ISrAcStg;
 
 /**
- * <p>Service that retrieves input entries from DB.</p>
+ * <p>Service that saves acc settings into DB.</p>
  *
  * @author Yury Demidenko
  */
-public class InEntrRt implements IPrcEnt<InEntr, Long> {
+public class AcStgSv implements IPrcEnt<AcStg, Long> {
 
   /**
    * <p>ORM service.</p>
    **/
-  private IOrm orm;
+  private ISrAcStg srAcStg;
 
   /**
-   * <p>Process that retrieves entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * <p>Process that saves entity.</p>
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
    * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
   @Override
-  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
+  public final AcStg process(final Map<String, Object> pRvs, final AcStg pEnt,
     final IReqDt pRqDt) throws Exception {
-    Map<String, Object> vs = new HashMap<String, Object>();
-    getOrm().refrEnt(pRvs, vs, pEnt);
-    String[] ndFdsHn = new String[] {"iid", "nme"};
-    String[] ndFdsEn = new String[]
-      {"iid", "dat", "acDb", "sadNm", "acCr", "sacNm", "debt", "cred", "dscr"};
-    Arrays.sort(ndFdsEn);
-    vs.put("AcntndFds", ndFdsHn);
-    vs.put("EntrndFds", ndFdsEn);
-    pEnt.setEntrs(getOrm().retLstCnd(pRvs, vs, Entr.class, "where SRTY="
-      + pEnt.cnsTy() + " and SRID=" + pEnt.getIid()));
-    vs.clear();
-    pRvs.put("entrCls", Entr.class);
+    getSrAcStg().saveAcStg(pRvs, pEnt);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
     return pEnt;
@@ -82,18 +67,18 @@ public class InEntrRt implements IPrcEnt<InEntr, Long> {
 
   //Simple getters and setters:
   /**
-   * <p>Getter for orm.</p>
-   * @return IOrm
+   * <p>Getter for srAcStg.</p>
+   * @return ISrAcStg
    **/
-  public final IOrm getOrm() {
-    return this.orm;
+  public final ISrAcStg getSrAcStg() {
+    return this.srAcStg;
   }
 
   /**
-   * <p>Setter for orm.</p>
-   * @param pOrm reference
+   * <p>Setter for srAcStg.</p>
+   * @param pSrAcStg reference
    **/
-  public final void setOrm(final IOrm pOrm) {
-    this.orm = pOrm;
+  public final void setSrAcStg(final ISrAcStg pSrAcStg) {
+    this.srAcStg = pSrAcStg;
   }
 }

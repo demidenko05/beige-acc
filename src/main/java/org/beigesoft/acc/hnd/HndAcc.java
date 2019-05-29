@@ -37,6 +37,7 @@ import org.beigesoft.hnd.IHndRq;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.acc.mdl.AcUpf;
+import org.beigesoft.acc.hld.HlTySac;
 import org.beigesoft.acc.srv.ISrAcStg;
 
 /**
@@ -56,6 +57,11 @@ public class HndAcc<RS> implements IHndRq {
    * <p>Database service.</p>
    */
   private IRdb<RS> rdb;
+
+  /**
+   * <p>Subaccounts type-class holder.</p>
+   **/
+  private HlTySac hlTySac;
 
   /**
    * <p>Acc-ssttings service.</p>
@@ -115,6 +121,7 @@ public class HndAcc<RS> implements IHndRq {
         .setCookVl("opDt", Long.valueOf(aupf.getOpDt().getTime()).toString());
     }
     pRvs.put("aupf", aupf);
+    pRqDt.setAttr("hlTySac", this.hlTySac);
   }
 
   //Simple getters and setters:
@@ -148,6 +155,22 @@ public class HndAcc<RS> implements IHndRq {
    **/
   public final void setRdb(final IRdb<RS> pRdb) {
     this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for hlTySac.</p>
+   * @return HlTySac
+   **/
+  public final HlTySac getHlTySac() {
+    return this.hlTySac;
+  }
+
+  /**
+   * <p>Setter for hlTySac.</p>
+   * @param pHlTySac reference
+   **/
+  public final void setHlTySac(final HlTySac pHlTySac) {
+    this.hlTySac = pHlTySac;
   }
 
   /**

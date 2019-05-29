@@ -347,7 +347,7 @@ public class SrBlnc<RS> implements ISrBlnc {
           this.srvClVl.putExpr(cv, "ver");
         }
         int sacntc = this.rdb.update(Sacnt.class, cv, "SAID=" + sacCh.getSaId()
-          + " and TYP=" + sacCh.getSaTy());
+          + " and SATY=" + sacCh.getSaTy());
         this.log.info(pRvs, getClass(), "Updated Sacnt.saNm = " + sacntc);
         rz += esdc + escc + bsc + sacntc;
         sacCh.setDrt(Boolean.FALSE);

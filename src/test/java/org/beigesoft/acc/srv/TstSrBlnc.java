@@ -187,7 +187,7 @@ public class TstSrBlnc<RS> {
     Sacnt saRnt = new Sacnt();
     saRnt.setIid(1L);
     saRnt.setOwnr(this.acExpn);
-    saRnt.setTyp(this.rent.cnsTy());
+    saRnt.setSaTy(this.rent.cnsTy());
     saRnt.setSaId(this.rent.getIid());
     saRnt.setSaNm(this.rent.getNme());
     this.orm.insIdLn(this.rvs, this.vs,  saRnt); this.vs.clear();
@@ -198,7 +198,7 @@ public class TstSrBlnc<RS> {
     Sacnt saBnk = new Sacnt();
     saBnk.setIid(1001L);
     saBnk.setOwnr(this.acBnk);
-    saBnk.setTyp(this.bnka.cnsTy());
+    saBnk.setSaTy(this.bnka.cnsTy());
     saBnk.setSaId(this.bnka.getIid());
     saBnk.setSaNm(this.bnka.getNme());
     this.orm.insIdLn(this.rvs, this.vs,  saBnk); this.vs.clear();

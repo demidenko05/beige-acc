@@ -30,21 +30,22 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Arrays;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlp.Entr;
-import org.beigesoft.acc.mdlp.InEntr;
+import org.beigesoft.acc.mdlp.Acnt;
 
 /**
- * <p>Service that retrieves input entries from DB.</p>
+ * <p>Service that saves account into DB.</p>
  *
+ * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class InEntrRt implements IPrcEnt<InEntr, Long> {
+public class AcntSv<RS> implements IPrcEnt<Acnt, String> {
 
   /**
    * <p>ORM service.</p>
@@ -52,29 +53,39 @@ public class InEntrRt implements IPrcEnt<InEntr, Long> {
   private IOrm orm;
 
   /**
-   * <p>Process that retrieves entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * <p>RDB service.</p>
+   **/
+  private IRdb<RS> rdb;
+
+  /**
+   * <p>Process that saves entity.</p>
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
    * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
   @Override
-  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
+  public final Acnt process(final Map<String, Object> pRvs, final Acnt pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    getOrm().refrEnt(pRvs, vs, pEnt);
-    String[] ndFdsHn = new String[] {"iid", "nme"};
-    String[] ndFdsEn = new String[]
-      {"iid", "dat", "acDb", "sadNm", "acCr", "sacNm", "debt", "cred", "dscr"};
-    Arrays.sort(ndFdsEn);
-    vs.put("AcntndFds", ndFdsHn);
-    vs.put("EntrndFds", ndFdsEn);
-    pEnt.setEntrs(getOrm().retLstCnd(pRvs, vs, Entr.class, "where SRTY="
-      + pEnt.cnsTy() + " and SRID=" + pEnt.getIid()));
-    vs.clear();
-    pRvs.put("entrCls", Entr.class);
+    if (pEnt.getIsNew()) {
+      this.orm.insIdNln(pRvs, vs, pEnt);
+      pRvs.put("msgSuc", "insert_ok");
+    } else {
+      Acnt old = this.orm.retEnt(pRvs, vs, pEnt);
+      if (old.getSaTy() == null && pEnt.getSaTy() != null
+        || old.getSaTy() != null && !pEnt.getSaTy().equals(pEnt.getSaTy())) {
+        Integer entrsNrCn = getRdb().evInt(
+          "select count(*) as ENNRCN from ENTR where ACDB='" + pEnt.getIid()
+            + " or ACCR='" + pEnt.getIid() + "';", "ENNRCN");
+        if (entrsNrCn != null && entrsNrCn > 0) {
+          throw new ExcCode(ExcCode.WRPR, "account_has_non_reversed_entries");
+        }
+      }
+      this.orm.update(pRvs, vs, pEnt);
+      pRvs.put("msgSuc", "update_ok");
+    }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
     return pEnt;
@@ -95,5 +106,21 @@ public class InEntrRt implements IPrcEnt<InEntr, Long> {
    **/
   public final void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
+  }
+
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb<RS>
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
   }
 }

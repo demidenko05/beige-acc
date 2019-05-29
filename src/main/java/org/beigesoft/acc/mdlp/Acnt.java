@@ -68,7 +68,7 @@ import org.beigesoft.acc.mdl.ENrBlTy;
    * <p>Subacccount type, e.g. 1000 - Expn.
    * This is constant [entity].cnsTy.</p>
    **/
-  private Integer styp;
+  private Integer saTy;
 
   /**
    * <p>If account created programmatically then  user can't delete
@@ -82,7 +82,7 @@ import org.beigesoft.acc.mdl.ENrBlTy;
   private String dscr;
 
   /**
-   * <p>List of existed sub-accounts of type "styp".</p>
+   * <p>List of existed sub-accounts of type "saTy".</p>
    **/
   private List<Sacnt> sacnts;
 
@@ -152,19 +152,19 @@ import org.beigesoft.acc.mdl.ENrBlTy;
   }
 
   /**
-   * <p>Geter for styp.</p>
+   * <p>Geter for saTy.</p>
    * @return Integer
    **/
-  public final Integer getStyp() {
-    return this.styp;
+  public final Integer getSaTy() {
+    return this.saTy;
   }
 
   /**
-   * <p>Setter for styp.</p>
-   * @param pStyp reference
+   * <p>Setter for saTy.</p>
+   * @param pSaTy reference
    **/
-  public final void setStyp(final Integer pStyp) {
-    this.styp = pStyp;
+  public final void setSaTy(final Integer pSaTy) {
+    this.saTy = pSaTy;
   }
 
   /**

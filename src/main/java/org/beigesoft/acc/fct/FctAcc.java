@@ -35,6 +35,7 @@ import org.beigesoft.fct.FctBlc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.acc.hnd.HndAcc;
+import org.beigesoft.acc.hld.HlTySac;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.SrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
@@ -63,11 +64,11 @@ public class FctAcc<RS> implements IFctAux<RS> {
     Object rz = null;
     if (HndAcc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHndAcc(pRvs, pFctApp);
-    }
-    if (ISrBlnc.class.getSimpleName().equals(pBnNm)) {
+    } else if (HlTySac.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuHlTySac(pRvs, pFctApp);
+    } else if (ISrBlnc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrBlnc(pRvs, pFctApp);
-    }
-    if (ISrAcStg.class.getSimpleName().equals(pBnNm)) {
+    } else if (ISrAcStg.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrAcStg(pRvs, pFctApp);
     }
     return rz;
@@ -83,6 +84,22 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public final void release(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     //nothing
+  }
+
+  /**
+   * <p>Creates and puts into MF HlTySac.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HlTySac
+   * @throws Exception - an exception
+   */
+  private HlTySac crPuHlTySac(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HlTySac rz = new HlTySac();
+    pFctApp.put(pRvs, HlTySac.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      HlTySac.class.getSimpleName() + " has been created");
+    return rz;
   }
 
   /**
@@ -129,6 +146,9 @@ public class FctAcc<RS> implements IFctAux<RS> {
     ISrAcStg srAcStg = (ISrAcStg) pFctApp
       .laz(pRvs, ISrAcStg.class.getSimpleName());
     rz.setSrAcStg(srAcStg);
+    HlTySac hlTySac = (HlTySac) pFctApp
+      .laz(pRvs, HlTySac.class.getSimpleName());
+    rz.setHlTySac(hlTySac);
     pFctApp.put(pRvs, HndAcc.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       HndAcc.class.getSimpleName() + " has been created");

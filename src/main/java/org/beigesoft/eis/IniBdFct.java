@@ -59,6 +59,9 @@ import org.beigesoft.fct.IIniBdFct;
 import org.beigesoft.hld.HldFldStg;
 import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.acc.mdlp.InEntr;
+import org.beigesoft.acc.mdlp.AcStg;
+import org.beigesoft.acc.mdlp.Acnt;
+import org.beigesoft.acc.mdlp.Sacnt;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -130,6 +133,7 @@ public class IniBdFct<RS> implements IIniBdFct<RS> {
     hlClSt.setNulSclss(new HashSet<Class<?>>());
     hlClSt.getNulSclss().add(IOwned.class);
     hlClSt.setNulClss(new HashSet<Class<?>>());
+    hlClSt.getNulClss().add(AcStg.class);
     hlClSt.getNulClss().add(EmCon.class);
     hlClSt.getNulClss().add(UsPrf.class);
     hlClSt.getNulClss().add(UsTmc.class);
@@ -138,6 +142,8 @@ public class IniBdFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(DcGrSp.class);
     hlClSt.getNulClss().add(Cntr.class);
     hlClSt.getNulClss().add(Lng.class);
+    hlClSt.getNulClss().add(Acnt.class);
+    hlClSt.getNulClss().add(Sacnt.class);
     pFct.getFctBlc().getFctDt().getHlClStgMp().put(stgNm, hlClSt);
     stgNm = "liFo"; //list footer
     hlClSt = new HldClsStg(stgNm, stgNm);
@@ -145,6 +151,8 @@ public class IniBdFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().put(EmAtch.class, "oflf");
     hlClSt.getStgSclss().put(IOwned.class, "olf");
     hlClSt.getStgSclss().put(InEntr.class, "lfia");
+    hlClSt.setNulClss(new HashSet<Class<?>>());
+    hlClSt.getNulClss().add(AcStg.class);
     pFct.getFctBlc().getFctDt().getHlClStgMp().put(stgNm, hlClSt);
     stgNm = "liAc"; //list item actions
     hlClSt = new HldClsStg(stgNm, stgNm);
@@ -153,6 +161,7 @@ public class IniBdFct<RS> implements IIniBdFct<RS> {
     hlClSt.setStgClss(new HashMap<Class<?>, String>());
     hlClSt.getStgClss().put(EmMsg.class, "eml");
     hlClSt.getStgClss().put(InEntr.class, "acia");
+    hlClSt.getStgClss().put(AcStg.class, "ace");
     pFct.getFctBlc().getFctDt().getHlClStgMp().put(stgNm, hlClSt);
     stgNm = "ordDf"; //list order by field default
     hlClSt = new HldClsStg(stgNm, stgNm);
@@ -182,6 +191,9 @@ public class IniBdFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getHlClStgMp().put(stgNm, hlClSt);
     stgNm = "pic"; //picker IHasNm default
     hlClSt = new HldClsStg(stgNm, stgNm);
+    hlClSt.setStgClss(new HashMap<Class<?>, String>());
+    hlClSt.getStgClss().put(Acnt.class, "acc");
+    hlClSt.getStgClss().put(Sacnt.class, "sac");
     pFct.getFctBlc().getFctDt().getHlClStgMp().put(stgNm, hlClSt);
     stgNm = "piFo"; //picker footer
     hlClSt = new HldClsStg(stgNm, stgNm);
@@ -209,6 +221,8 @@ public class IniBdFct<RS> implements IIniBdFct<RS> {
     hlFdSt.setCustClss(new HashSet<Class<?>>());
     hlFdSt.getCustClss().add(Date.class);
     hlFdSt.getCustClss().add(Long.class);
+    //Acnt.saTy
+    hlFdSt.getCustClss().add(Integer.class);
     hlFdSt.setStgClss(new HashMap<Class<?>, String>());
     hlFdSt.getStgClss().put(Boolean.class, "bln");
     hlFdSt.getStgClss().put(String.class, "smp");
@@ -270,16 +284,16 @@ public class IniBdFct<RS> implements IIniBdFct<RS> {
     //ID-able:
     hlFdSt.getCustClss().add(Long.class);
     hlFdSt.getCustClss().add(String.class);
+      //also Type-able
+    hlFdSt.getCustClss().add(Integer.class);
     //custom:
     hlFdSt.getCustClss().add(Boolean.class);
     hlFdSt.getCustClss().add(Date.class);
     hlFdSt.getCustClss().add(BigDecimal.class);
     hlFdSt.setCustSclss(new HashSet<Class<?>>());
-    //ID-able:
     hlFdSt.getCustSclss().add(IHasNm.class);
     //Standard:
     hlFdSt.setStgClss(new HashMap<Class<?>, String>());
-    hlFdSt.getStgClss().put(Integer.class, "int");
     hlFdSt.getStgClss().put(Float.class, "max");
     hlFdSt.getStgClss().put(UsTmc.class, "usr");
     pFct.getFctBlc().getFctDt().getHlFdStgMp().put(stgNm, hlFdSt);

@@ -151,7 +151,7 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
         pEnt.setDebt(BigDecimal.ZERO);
       } else {
         getOrm().refrEnt(pRvs, vs, pEnt.getAcDb());
-        if (pEnt.getAcDb().getStyp() != null) {
+        if (pEnt.getAcDb().getSaTy() != null) {
           if (pEnt.getSadId() == null) {
             throw new ExcCode(ExcCode.WRPR, "select_subaccount");
           } else {
@@ -161,14 +161,14 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
               throw new ExcCode(ExcCode.WRPR, "wrong_subaccount");
             }
             pEnt.setSadNm(sa.getSaNm());
-            pEnt.setSadTy(pEnt.getAcDb().getStyp());
+            pEnt.setSadTy(pEnt.getAcDb().getSaTy());
           }
         }
       }
       if (pEnt.getAcCr() != null) {
         pEnt.setCred(pEnt.getDebt());
         getOrm().refrEnt(pRvs, vs, pEnt.getAcCr());
-        if (pEnt.getAcCr().getStyp() != null) {
+        if (pEnt.getAcCr().getSaTy() != null) {
           if (pEnt.getSacId() == null) {
             throw new ExcCode(ExcCode.WRPR, "select_subaccount");
           } else {
@@ -178,7 +178,7 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
               throw new ExcCode(ExcCode.WRPR, "wrong_subaccount");
             }
             pEnt.setSacNm(sa.getSaNm());
-            pEnt.setSacTy(pEnt.getAcCr().getStyp());
+            pEnt.setSacTy(pEnt.getAcCr().getSaTy());
           }
         }
       }
