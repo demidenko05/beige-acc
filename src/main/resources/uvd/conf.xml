@@ -41,7 +41,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.Blnc,
   org.beigesoft.acc.mdlp.SacCh,
   org.beigesoft.acc.mdlp.BlnCh</entry>
-<entry key="stgClsNms">exlFlds,idFlds,owdEnts,lstFds</entry>
+<entry key="stgClsNms">exlFlds,idFlds,owdEnts,frmFds,lstFds,pickFds</entry>
 <entry key="stgFldNms">cnToSt,cnFrSt,inp,flt,str,wde</entry>
 <entry key="exlFlds"></entry>
 </properties>

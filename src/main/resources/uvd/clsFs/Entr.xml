@@ -8,4 +8,6 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="debtcnToSt">CnvMaxStr</entry>
+<entry key="credcnToSt">CnvMaxStr</entry>
+<entry key="datstr">dtTm</entry>
 </properties>

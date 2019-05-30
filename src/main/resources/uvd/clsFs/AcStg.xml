@@ -9,4 +9,6 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="mnthinp">mnth</entry>
 <entry key="mnthstr">mnth</entry>
+<entry key="mnthcnToSt">CnvMnthStr</entry>
+<entry key="mnthcnFrSt">CnvStrMnth</entry>
 </properties>
