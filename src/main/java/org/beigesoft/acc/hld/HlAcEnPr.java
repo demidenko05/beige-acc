@@ -63,9 +63,11 @@ public class HlAcEnPr implements IHlNmClSt {
    * @param pCls a Class
    * @param pAct action name
    * @return processor name
+   * @throws Exception an Exception
    **/
   @Override
-  public final String get(final Class<?> pCls, final String pAct) {
+  public final String get(final Class<?> pCls,
+    final String pAct) throws Exception {
     if (Entr.class == pCls || InEntr.class == pCls || Acnt.class == pCls
       || Sacnt.class == pCls || AcStg.class == pCls
         || ISacnt.class.isAssignableFrom(pCls)) {
