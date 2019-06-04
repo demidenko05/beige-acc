@@ -66,8 +66,8 @@ public class InEntrRt implements IPrcEnt<InEntr, Long> {
     Map<String, Object> vs = new HashMap<String, Object>();
     getOrm().refrEnt(pRvs, vs, pEnt);
     String[] ndFdsHn = new String[] {"iid", "nme"};
-    String[] ndFdsEn = new String[]
-      {"iid", "dat", "acDb", "sadNm", "acCr", "sacNm", "debt", "cred", "dscr"};
+    String[] ndFdsEn = new String[] {"iid", "rvId", "dat", "acDb",
+      "sadNm", "acCr", "sacNm", "debt", "cred", "dscr"};
     Arrays.sort(ndFdsEn);
     vs.put("AcntndFds", ndFdsHn);
     vs.put("EntrndFds", ndFdsEn);

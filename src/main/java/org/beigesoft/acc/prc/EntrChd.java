@@ -33,18 +33,16 @@ import java.util.HashMap;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
-import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdlp.Entr;
-import org.beigesoft.acc.mdlp.InEntr;
 
 /**
- * <p>Service that saves input entries into DB.</p>
+ * <p>Service that updates only accounting entry description in DB.</p>
  *
  * @author Yury Demidenko
  */
-public class InEntrSv implements IPrcEnt<InEntr, Long> {
+public class EntrChd implements IPrcEnt<Entr, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -61,26 +59,16 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
+  public final Entr process(final Map<String, Object> pRvs, final Entr pEnt,
     final IReqDt pRqDt) throws Exception {
-    Map<String, Object> vs = new HashMap<String, Object>();
-    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
-    }
     if (pEnt.getIsNew()) {
-      this.orm.insIdLn(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "insert_ok");
-    } else {
-      String[] ndFds = new String[] {"dat", "dscr", "ver"};
-      vs.put("ndFds", ndFds);
-      getOrm().update(pRvs, vs, pEnt);
-      vs.clear();
-      pRvs.put("msgSuc", "update_ok");
+      throw new ExcCode(ExcCode.WRPR, "new_not_allowed");
     }
-    UvdVar uvs = (UvdVar) pRvs.get("uvs");
-    pRvs.put("entrCls", Entr.class);
-    uvs.setEnt(pEnt);
-    return pEnt;
+    Map<String, Object> vs = new HashMap<String, Object>();
+    String[] ndFds = new String[] {"dscr", "ver"};
+    vs.put("ndFds", ndFds);
+    getOrm().update(pRvs, vs, pEnt);
+    return null;
   }
 
   //Simple getters and setters:

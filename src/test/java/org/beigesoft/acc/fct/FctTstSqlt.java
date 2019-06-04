@@ -36,7 +36,7 @@ import java.io.File;
 import java.sql.ResultSet;
 
 import org.beigesoft.exc.ExcCode;
-import org.beigesoft.fct.IFctNm;
+import org.beigesoft.fct.IFctPrcEnt;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.hld.IAttrs;
@@ -81,7 +81,7 @@ public class FctTstSqlt implements IFctAsm<ResultSet> {
     this.fctBlc.getFctDt().setDbgCl(8002);
     this.fctBlc.getFctsAux().add(new FctSqlite());
     this.fctBlc.getFctsAux().add(new FctAcc<ResultSet>());
-    Set<IFctNm<IPrcEnt<?, ?>>> fctsPrcEnt = new HashSet<IFctNm<IPrcEnt<?, ?>>>();
+    Set<IFctPrcEnt> fctsPrcEnt = new HashSet<IFctPrcEnt>();
     FctEnPrc<ResultSet> fcep = new FctEnPrc<ResultSet>();
     fcep.setFctBlc(this.fctBlc);
     fctsPrcEnt.add(fcep);

@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.beigesoft.exc.ExcCode;
+import org.beigesoft.mdl.IHasId;
 import org.beigesoft.hld.IHlIntCls;
 import org.beigesoft.acc.mdlp.Expn;
 import org.beigesoft.acc.mdlp.Bnka;
@@ -52,13 +53,13 @@ public class HlTySac implements IHlIntCls {
   /**
    * <p>Data.</p>
    **/
-  private final Map<Integer, Class<?>> clsMp;
+  private final Map<Integer, Class<? extends IHasId<?>>> clsMp;
 
   /**
    * <p>Only constructor.</p>
    **/
   public HlTySac() {
-    this.clsMp = new HashMap<Integer, Class<?>>();
+    this.clsMp = new HashMap<Integer, Class<? extends IHasId<?>>>();
     this.clsMp.put(new Expn().cnsTy(), Expn.class);
     this.clsMp.put(new Bnka().cnsTy(), Bnka.class);
     this.clsMp.put(new DbCr().cnsTy(), DbCr.class);
@@ -77,11 +78,12 @@ public class HlTySac implements IHlIntCls {
    * @throws Exception if not found or null parameter
    **/
   @Override
-  public final Class<?> get(final Integer pSaTy) throws Exception {
+  public final Class<? extends IHasId<?>> get(
+    final Integer pSaTy) throws Exception {
     if (pSaTy == null) {
       throw new ExcCode(ExcCode.WRPR, "null_subacc_type");
     }
-    Class<?> rz = this.clsMp.get(pSaTy);
+    Class<? extends IHasId<?>> rz = this.clsMp.get(pSaTy);
     if (rz == null) {
       throw new ExcCode(ExcCode.WRPR, "Subacc type not found for " + pSaTy);
     }
@@ -93,7 +95,7 @@ public class HlTySac implements IHlIntCls {
    * <p>Getter for clsMp.</p>
    * @return Map<Integer, Class<?>>
    **/
-  public final Map<Integer, Class<?>> getClsMp() {
+  public final Map<Integer, Class<? extends IHasId<?>>> getClsMp() {
     return this.clsMp;
   }
 }

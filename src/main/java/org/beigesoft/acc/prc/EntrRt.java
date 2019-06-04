@@ -31,20 +31,18 @@ package org.beigesoft.acc.prc;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdlp.Entr;
-import org.beigesoft.acc.mdlp.InEntr;
 
 /**
- * <p>Service that saves input entries into DB.</p>
+ * <p>Service that retrieves accounting entry to print or edit description.</p>
  *
  * @author Yury Demidenko
  */
-public class InEntrSv implements IPrcEnt<InEntr, Long> {
+public class EntrRt implements IPrcEnt<Entr, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -52,7 +50,7 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
   private IOrm orm;
 
   /**
-   * <p>Process that saves entity.</p>
+   * <p>Process that retrieves entity.</p>
    * @param pRvs request scoped vars, e.g. return this line's
    * owner(document) in "nextEntity" for farther processing
    * @param pRqDt Request Data
@@ -61,24 +59,11 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
+  public final Entr process(final Map<String, Object> pRvs, final Entr pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
-    }
-    if (pEnt.getIsNew()) {
-      this.orm.insIdLn(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "insert_ok");
-    } else {
-      String[] ndFds = new String[] {"dat", "dscr", "ver"};
-      vs.put("ndFds", ndFds);
-      getOrm().update(pRvs, vs, pEnt);
-      vs.clear();
-      pRvs.put("msgSuc", "update_ok");
-    }
+    this.orm.refrEnt(pRvs, vs, pEnt);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
-    pRvs.put("entrCls", Entr.class);
     uvs.setEnt(pEnt);
     return pEnt;
   }

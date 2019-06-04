@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.hld;
 
+import org.beigesoft.mdl.IHasId;
 import org.beigesoft.hld.IHlNmClSt;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.prc.PrcEntCr;
@@ -41,6 +42,9 @@ import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.SacntSv;
 import org.beigesoft.acc.prc.AcntSv;
 import org.beigesoft.acc.prc.EntrCr;
+import org.beigesoft.acc.prc.EntrChd;
+import org.beigesoft.acc.prc.EntrRt;
+import org.beigesoft.acc.prc.EntrCpr;
 import org.beigesoft.acc.prc.EntrSrcCr;
 import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.IsacntDl;
@@ -60,13 +64,14 @@ public class HlAcEnPr implements IHlNmClSt {
 
   /**
    * <p>Get processor name for given class and action name.</p>
+   * @param <T> entity type
    * @param pCls a Class
    * @param pAct action name
    * @return processor name
    * @throws Exception an Exception
    **/
   @Override
-  public final String get(final Class<?> pCls,
+  public final <T extends IHasId<?>> String get(final Class<T> pCls,
     final String pAct) throws Exception {
     if (Entr.class == pCls || InEntr.class == pCls || Acnt.class == pCls
       || Sacnt.class == pCls || AcStg.class == pCls
@@ -75,6 +80,8 @@ public class HlAcEnPr implements IHlNmClSt {
         || "entCd".equals(pAct)) {
         if (InEntr.class == pCls) {
           return InEntrRt.class.getSimpleName();
+        } else if (Entr.class == pCls) {
+          return EntrRt.class.getSimpleName();
         } else if (AcStg.class == pCls && "entEd".equals(pAct)
           || "entPr".equals(pAct)) {
           return AcStgRt.class.getSimpleName();
@@ -99,6 +106,12 @@ public class HlAcEnPr implements IHlNmClSt {
         } else if (InEntr.class == pCls) {
           return InEntrDl.class.getSimpleName();
         }
+      } else if ("entCp".equals(pAct) && Entr.class == pCls) {
+        return EntrCpr.class.getSimpleName();
+      } else if ("entRv".equals(pAct) && Entr.class == pCls) {
+        return EntrCpr.class.getSimpleName();
+      } else if ("entChd".equals(pAct) && Entr.class == pCls) {
+        return EntrChd.class.getSimpleName();
       } else if ("entSv".equals(pAct)) {
         if (Acnt.class == pCls) {
           return AcntSv.class.getSimpleName();

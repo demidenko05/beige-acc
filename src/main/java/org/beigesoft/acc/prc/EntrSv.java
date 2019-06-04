@@ -118,9 +118,9 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       if (revd.getRvId() != null) {
         throw new ExcCode(ExcCode.WRPR, "can_not_reverse_reversed");
       }
-      mkRevers(pRvs, pEnt, revd);
+      mkReving(pRvs, pEnt, revd);
       this.orm.insIdLn(pRvs, vs, pEnt);
-      revd.setRvId(pEnt.getIid());
+      mkReved(pRvs, pEnt, revd);
       this.orm.update(pRvs, vs, revd);
       pRvs.put("msgSuc", "reverse_ok");
     } else {
@@ -209,12 +209,12 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
 
   //Utils:
   /**
-   * <p>Makes reversing/reversed entry.</p>
+   * <p>Makes reversing entry.</p>
    * @param pRvs request scoped vars
    * @param pRving reversing entry
    * @param pRved reversed entry
    **/
-  public final void mkRevers(final Map<String, Object> pRvs,
+  public final void mkReving(final Map<String, Object> pRvs,
     final Entr pRving, final Entr pRved) {
     pRving.setDat(pRved.getDat());
     pRving.setDebt(pRved.getDebt().negate());
@@ -230,11 +230,23 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     StringBuffer dscing = new StringBuffer();
     if (pRving.getDscr() != null) {
-      dscing.append(pRving.getDscr());
+      dscing.append(pRving.getDscr() + " !");
     }
     dscing.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
     dscing.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
     pRving.setDscr(dscing.toString() + " !");
+  }
+
+  /**
+   * <p>Makes reversed entry.</p>
+   * @param pRvs request scoped vars
+   * @param pRving reversing entry
+   * @param pRved reversed entry
+   **/
+  public final void mkReved(final Map<String, Object> pRvs,
+    final Entr pRving, final Entr pRved) {
+    pRved.setRvId(pRving.getIid());
+    CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     StringBuffer dsced = new StringBuffer();
     if (pRved.getDscr() != null) {
       dsced.append(pRved.getDscr() + " !");

@@ -32,12 +32,14 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.beigesoft.mdl.IHasId;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.IIniBdFct;
 import org.beigesoft.fct.IniBdFct;
 import org.beigesoft.hld.HldFldStg;
 import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
+import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
@@ -87,15 +89,16 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "liFo"; //list footer
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgSclss().put(InEntr.class, "lfia");
-    hlClSt.setNulClss(new HashSet<Class<?>>());
+    hlClSt.setNulClss(new HashSet<Class<? extends IHasId<?>>>());
     hlClSt.getNulClss().add(AcStg.class);
     stgNm = "liAc"; //list item actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgClss().put(Entr.class, "acae");
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");
     stgNm = "pic"; //picker IHasNm default
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
-    hlClSt.setStgClss(new HashMap<Class<?>, String>());
+    hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(Acnt.class, "acc");
     hlClSt.getStgClss().put(Sacnt.class, "sac");
   }

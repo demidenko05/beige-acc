@@ -30,6 +30,7 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
@@ -40,11 +41,11 @@ import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 
 /**
- * <p>Service that saves input entries into DB.</p>
+ * <p>Service that makes copy of accounting entry to copy or reverse.</p>
  *
  * @author Yury Demidenko
  */
-public class InEntrSv implements IPrcEnt<InEntr, Long> {
+public class EntrCpr implements IPrcEnt<Entr, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -52,7 +53,7 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
   private IOrm orm;
 
   /**
-   * <p>Process that saves entity.</p>
+   * <p>Process that creates copy entity.</p>
    * @param pRvs request scoped vars, e.g. return this line's
    * owner(document) in "nextEntity" for farther processing
    * @param pRqDt Request Data
@@ -61,25 +62,28 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final InEntr process(final Map<String, Object> pRvs, final InEntr pEnt,
+  public final Entr process(final Map<String, Object> pRvs, final Entr pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
+    InEntr doc = new InEntr();
+    doc.setIid(pEnt.getSrId());
+    this.orm.refrEnt(pRvs, vs, doc);
+    if (!doc.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
     }
-    if (pEnt.getIsNew()) {
-      this.orm.insIdLn(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "insert_ok");
+    Long rvId = pEnt.getRvId();
+    this.orm.refrEnt(pRvs, vs, pEnt);
+    if (rvId == null) {
+      pEnt.setDebt(BigDecimal.ZERO);
+      pEnt.setCred(BigDecimal.ZERO);
     } else {
-      String[] ndFds = new String[] {"dat", "dscr", "ver"};
-      vs.put("ndFds", ndFds);
-      getOrm().update(pRvs, vs, pEnt);
-      vs.clear();
-      pRvs.put("msgSuc", "update_ok");
+      pEnt.setRvId(rvId);
     }
+    pEnt.setIid(null);
+    pEnt.setIsNew(true);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
-    pRvs.put("entrCls", Entr.class);
     uvs.setEnt(pEnt);
+    pRvs.put("owVr", doc.getVer());
     return pEnt;
   }
 

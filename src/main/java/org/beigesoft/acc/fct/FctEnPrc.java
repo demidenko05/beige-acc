@@ -31,13 +31,16 @@ package org.beigesoft.acc.fct;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.beigesoft.fct.IFctNm;
+import org.beigesoft.fct.IFctPrcEnt;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.prc.SacntSv;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.EntrCr;
+import org.beigesoft.acc.prc.EntrChd;
+import org.beigesoft.acc.prc.EntrCpr;
+import org.beigesoft.acc.prc.EntrRt;
 import org.beigesoft.acc.prc.EntrSrcCr;
 import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.IsacntDl;
@@ -57,7 +60,7 @@ import org.beigesoft.acc.srv.ISrBlnc;
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
+public class FctEnPrc<RS> implements IFctPrcEnt {
 
   /**
    * <p>Main factory.</p>
@@ -87,6 +90,12 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
         if (rz == null) {
           if (EntrCr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrCr(pRvs);
+          } else if (EntrRt.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuEntrRt(pRvs);
+          } else if (EntrChd.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuEntrChd(pRvs);
+          } else if (EntrCpr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuEntrCpr(pRvs);
           } else if (SacntSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuSacntSv(pRvs);
           } else if (SacntCr.class.getSimpleName().equals(pPrNm)) {
@@ -330,6 +339,54 @@ public class FctEnPrc<RS> implements IFctNm<IPrcEnt<?, ?>> {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(SacntCr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), SacntCr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map EntrRt.</p>
+   * @param pRvs request scoped vars
+   * @return EntrRt
+   * @throws Exception - an exception
+   */
+  private EntrRt crPuEntrRt(
+    final Map<String, Object> pRvs) throws Exception {
+    EntrRt rz = new EntrRt();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(EntrRt.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), EntrRt.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map EntrChd.</p>
+   * @param pRvs request scoped vars
+   * @return EntrChd
+   * @throws Exception - an exception
+   */
+  private EntrChd crPuEntrChd(
+    final Map<String, Object> pRvs) throws Exception {
+    EntrChd rz = new EntrChd();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(EntrChd.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), EntrChd.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map EntrCpr.</p>
+   * @param pRvs request scoped vars
+   * @return EntrCpr
+   * @throws Exception - an exception
+   */
+  private EntrCpr crPuEntrCpr(
+    final Map<String, Object> pRvs) throws Exception {
+    EntrCpr rz = new EntrCpr();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(EntrCpr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), EntrCpr.class
       .getSimpleName() + " has been created.");
     return rz;
   }
