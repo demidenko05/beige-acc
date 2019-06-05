@@ -28,15 +28,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.hnd;
 
+import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Date;
 
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.mdl.CmnPrf;
+import org.beigesoft.mdlp.UsPrf;
 import org.beigesoft.log.ILog;
 import org.beigesoft.hnd.IHndRq;
 import org.beigesoft.rdb.IRdb;
+import org.beigesoft.rdb.IOrm;
 import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.acc.mdl.AcUpf;
+import org.beigesoft.acc.mdlp.AcStg;
+import org.beigesoft.acc.mdlp.I18Curr;
+import org.beigesoft.acc.mdlp.I18Acc;
 import org.beigesoft.acc.hld.HlTySac;
 import org.beigesoft.acc.srv.ISrAcStg;
 
@@ -59,6 +67,11 @@ public class HndAcc<RS> implements IHndRq {
   private IRdb<RS> rdb;
 
   /**
+   * <p>ORM service.</p>
+   */
+  private IOrm orm;
+
+  /**
    * <p>Subaccounts type-class holder.</p>
    **/
   private HlTySac hlTySac;
@@ -73,6 +86,17 @@ public class HndAcc<RS> implements IHndRq {
    **/
   private ISrvDt srvDt;
 
+  //Cached data:
+  /**
+   * <p>Cached I18N currency.</p>
+   */
+  private List<I18Curr> i18Currs;
+
+  /**
+   * <p>Cached I18N base info.</p>
+   */
+  private List<I18Acc> i18Accs;
+
   /**
    * <p>Handle request.</p>
    * @param pRvs Request scoped variables
@@ -82,23 +106,68 @@ public class HndAcc<RS> implements IHndRq {
   @Override
   public final void handle(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
+    Map<String, Object> vs = new HashMap<String, Object>();
+    List<I18Acc> i18AccsTmp = null;
+    List<I18Curr> i18CurrsTmp = null;
+    boolean tmpReady = false;
     if (this.srAcStg.getAcStg() == null) {
-      try {
-        this.rdb.setAcmt(false);
-        this.rdb.setTrIsl(IRdb.TRRUC);
-        this.rdb.begin();
-        this.srAcStg.lazAcStg(pRvs);
-        this.rdb.commit();
-      } catch (Exception ex) {
-        if (!this.rdb.getAcmt()) {
-          this.rdb.rollBack();
+      synchronized (this) {
+        if (this.srAcStg.getAcStg() == null) {
+          try {
+            this.rdb.setAcmt(false);
+            this.rdb.setTrIsl(IRdb.TRRUC);
+            this.rdb.begin();
+            this.srAcStg.lazAcStg(pRvs);
+            if (this.i18Currs == null) {
+              i18AccsTmp = this.orm.retLst(pRvs, vs, I18Acc.class);
+              i18CurrsTmp = this.orm.retLst(pRvs, vs, I18Curr.class);
+              tmpReady = true;
+              this.i18Currs = i18CurrsTmp;
+              this.i18Accs = i18AccsTmp;
+            }
+            this.rdb.commit();
+          } catch (Exception ex) {
+            if (!this.rdb.getAcmt()) {
+              this.rdb.rollBack();
+            }
+            throw ex;
+          } finally {
+            this.rdb.release();
+          }
         }
-        throw ex;
-      } finally {
-        this.rdb.release();
       }
     } else { //lazAcStg and saveAcStg will put astg into pRvs!
       this.srAcStg.lazAcStg(pRvs);
+    }
+    if (!tmpReady) {
+      if (this.i18Currs == null) {
+        synchronized (this) {
+          if (this.i18Currs == null) {
+            try {
+              this.rdb.setAcmt(false);
+              this.rdb.setTrIsl(IRdb.TRRUC);
+              this.rdb.begin();
+              i18AccsTmp = this.orm.retLst(pRvs, vs, I18Acc.class);
+              i18CurrsTmp = this.orm.retLst(pRvs, vs, I18Curr.class);
+              tmpReady = true;
+              this.i18Currs = i18CurrsTmp;
+              this.i18Accs = i18AccsTmp;
+              this.rdb.commit();
+            } catch (Exception ex) {
+              if (!this.rdb.getAcmt()) {
+                this.rdb.rollBack();
+              }
+              throw ex;
+            } finally {
+              this.rdb.release();
+            }
+          }
+        }
+      }
+      if (!tmpReady) {
+        i18CurrsTmp = this.i18Currs;
+        i18AccsTmp = this.i18Accs;
+      }
     }
     AcUpf aupf = new AcUpf();
     String opDtStr = pRqDt.getParam("opDt");
@@ -120,11 +189,61 @@ public class HndAcc<RS> implements IHndRq {
       pRqDt
         .setCookVl("opDt", Long.valueOf(aupf.getOpDt().getTime()).toString());
     }
+    UsPrf upf = (UsPrf) pRvs.get("upf");
+    for (I18Curr ic : i18CurrsTmp) {
+      if (upf.getLng().getIid().equals(ic.getLng().getIid())) {
+        pRvs.put("i18Curr", ic);
+        break;
+      }
+    }
+    for (I18Acc ia : i18AccsTmp) {
+      if (upf.getLng().getIid().equals(ia.getLng().getIid())) {
+        pRvs.put("i18Acc", ia);
+        break;
+      }
+    }
     pRvs.put("aupf", aupf);
+    CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+    AcStg as = this.srAcStg.lazAcStg(pRvs);
+    cpf.setCostDp(as.getCsDp());
+    cpf.setPriDp(as.getPrDp());
+    cpf.setQuanDp(as.getQuDp());
     pRqDt.setAttr("hlTySac", this.hlTySac);
   }
 
   //Simple getters and setters:
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb<RS>
+   **/
+  public final synchronized IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final synchronized void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for orm.</p>
+   * @return IOrm
+   **/
+  public final synchronized IOrm getOrm() {
+    return this.orm;
+  }
+
+  /**
+   * <p>Setter for orm.</p>
+   * @param pOrm reference
+   **/
+  public final synchronized void setOrm(final IOrm pOrm) {
+    this.orm = pOrm;
+  }
+
   /**
    * <p>Getter for log.</p>
    * @return ILog
@@ -139,22 +258,6 @@ public class HndAcc<RS> implements IHndRq {
    **/
   public final void setLog(final ILog pLog) {
     this.log = pLog;
-  }
-
-  /**
-   * <p>Getter for rdb.</p>
-   * @return IRdb<RS>
-   **/
-  public final IRdb<RS> getRdb() {
-    return this.rdb;
-  }
-
-  /**
-   * <p>Setter for rdb.</p>
-   * @param pRdb reference
-   **/
-  public final void setRdb(final IRdb<RS> pRdb) {
-    this.rdb = pRdb;
   }
 
   /**

@@ -141,6 +141,7 @@ public class FctAcc<RS> implements IFctAux<RS> {
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
     rz.setLog(pFctApp.lazLogStd(pRvs));
     rz.setSrvDt(pFctApp.lazSrvDt(pRvs));
     ISrAcStg srAcStg = (ISrAcStg) pFctApp

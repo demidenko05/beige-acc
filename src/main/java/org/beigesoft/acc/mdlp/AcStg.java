@@ -172,6 +172,11 @@ public class AcStg extends AIdLn {
 
   //Common reports settings:
   /**
+   * <p>Not Null, default currency.</p>
+   **/
+  private Curr curr;
+
+  /**
    * <p>Not Null, if  if uses currency sign in reports (e.g. $),
    * otherwise itsName (e.g. USD).</p>
    **/
@@ -601,6 +606,22 @@ public class AcStg extends AIdLn {
    **/
   public final void setStAg(final Boolean pStAg) {
     this.stAg = pStAg;
+  }
+
+  /**
+   * <p>Getter for curr.</p>
+   * @return Curr
+   **/
+  public final Curr getCurr() {
+    return this.curr;
+  }
+
+  /**
+   * <p>Setter for curr.</p>
+   * @param pCurr reference
+   **/
+  public final void setCurr(final Curr pCurr) {
+    this.curr = pCurr;
   }
 
   /**

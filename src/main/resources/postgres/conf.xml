@@ -25,7 +25,6 @@ See LICENSE in base folder
   org.beigesoft.mdlp.EmStr,
   org.beigesoft.mdlp.EmMsg,
   org.beigesoft.mdlp.EmRcp,
-  org.beigesoft.acc.mdlp.AcStg,
   org.beigesoft.acc.mdlp.Acnt,
   org.beigesoft.acc.mdlp.Sacnt,
   org.beigesoft.acc.mdlp.Entr,
@@ -40,6 +39,10 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.Srv,
   org.beigesoft.acc.mdlp.Blnc,
   org.beigesoft.acc.mdlp.SacCh,
+  org.beigesoft.acc.mdlp.Curr,
+  org.beigesoft.acc.mdlp.AcStg,
+  org.beigesoft.acc.mdlp.I18Acc,
+  org.beigesoft.acc.mdlp.I18Curr,
   org.beigesoft.acc.mdlp.BlnCh</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
 <entry key="stgFldNms">def,nul</entry>
