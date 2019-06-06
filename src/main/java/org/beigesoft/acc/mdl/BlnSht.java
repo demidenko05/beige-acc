@@ -63,7 +63,7 @@ public class BlnSht {
   /**
    * <p>Total owners equity.</p>
    **/
-  private BigDecimal totQwe = BigDecimal.ZERO;
+  private BigDecimal totOwe = BigDecimal.ZERO;
 
   /**
    * <p>Total lines assets.</p>
@@ -151,19 +151,19 @@ public class BlnSht {
   }
 
   /**
-   * <p>Getter for totQwe.</p>
+   * <p>Getter for totOwe.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getTotQwe() {
-    return this.totQwe;
+  public final BigDecimal getTotOwe() {
+    return this.totOwe;
   }
 
   /**
-   * <p>Setter for totQwe.</p>
-   * @param pTotQwe reference
+   * <p>Setter for totOwe.</p>
+   * @param pTotOwe reference
    **/
-  public final void setTotQwe(final BigDecimal pTotQwe) {
-    this.totQwe = pTotQwe;
+  public final void setTotOwe(final BigDecimal pTotOwe) {
+    this.totOwe = pTotOwe;
   }
 
   /**

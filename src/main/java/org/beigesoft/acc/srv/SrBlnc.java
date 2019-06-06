@@ -309,8 +309,9 @@ public class SrBlnc<RS> implements ISrBlnc {
     Map<String, Object> vs = new HashMap<String, Object>();
     List<SacCh> lsSacCh = this.orm.retLstCnd(pRvs, vs, SacCh.class,
       "where DRT=1");
-    this.log.info(pRvs, getClass(), "Try to update subacc names in entries...");
     if (lsSacCh.size() > 0) {
+      this.log.info(pRvs, getClass(),
+    "Try to update subacc names in entries, count dirtied: " + lsSacCh.size());
       int rz = 0;
       for (SacCh sacCh : lsSacCh) {
         ColVals cv = new ColVals();

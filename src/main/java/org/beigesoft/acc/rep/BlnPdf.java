@@ -57,7 +57,7 @@ import org.beigesoft.acc.srv.ISrAcStg;
  * <p>Balance sheet report into PDF.</p>
  *
  * @param <RS> platform dependent RDBMS recordset
- * @param <WI> writing instrument type
+ * @param <WI> writing instrument type PDF
  * @author Yury Demidenko
  */
 public class BlnPdf<RS, WI> implements IBlnPdf {
@@ -260,16 +260,16 @@ public class BlnPdf<RS, WI> implements IBlnPdf {
     tblBal.getItsCells().get((totLeabOwnEq + 3) * 4 + 3)
       .setAlignHorizontal(EAlignHorizontal.RIGHT);
     tblBal.getItsCells().get((totLeabOwnEq + 3) * 4 + 3)
-      .setItsContent(prn(as, cpf, upf, pBalance.getTotQwe()));
+      .setItsContent(prn(as, cpf, upf, pBalance.getTotOwe()));
     tblBal.getItsCells().get(lastRowIdx * 4 + 2)
       .setItsContent(this.i18n.getMsg("total_l_oe", upf.getLng().getIid()));
     tblBal.getItsCells().get(lastRowIdx * 4 + 3)
       .setAlignHorizontal(EAlignHorizontal.RIGHT);
     if (isPrnCurLf) {
-      cntc = curSign + prn(as, cpf, upf, pBalance.getTotQwe()
+      cntc = curSign + prn(as, cpf, upf, pBalance.getTotOwe()
         .add(pBalance.getTotLia()));
     } else {
-      cntc = prn(as, cpf, upf, pBalance.getTotQwe()
+      cntc = prn(as, cpf, upf, pBalance.getTotOwe()
         .add(pBalance.getTotLia())) + curSign;
     }
     tblBal.getItsCells().get(lastRowIdx * 4 + 3).setItsContent(cntc);

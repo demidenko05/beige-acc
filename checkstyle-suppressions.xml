@@ -6,7 +6,7 @@
 
 <suppressions>
   <suppress checks="MagicNumber"
-    files="BlnPdf|ItmCt|Bnka|Expn|AcStg|Itm|DbCr|SrvCt|Itm|Srv|DcrCt|SrAcStg|SrBlnc"/>
+    files="BlnPdf|ItmCt|Bnka|Expn|AcStg|Itm|DbCr|SrvCt|Itm|Srv|DcrCt|SrAcStg|SrBlnc|SrBlnSht"/>
   <suppress checks="MethodLength"
     files="BlnPdf"/>
 </suppressions>

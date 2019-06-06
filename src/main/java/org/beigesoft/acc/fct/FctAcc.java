@@ -30,6 +30,10 @@ package org.beigesoft.acc.fct;
 
 import java.util.Map;
 
+import org.beigesoft.pdf.model.HasPdfContent;
+import org.beigesoft.pdf.service.PdfFactory;
+import org.beigesoft.pdf.service.IPdfFactory;
+
 import org.beigesoft.fct.IFctAux;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.rdb.IRdb;
@@ -40,6 +44,10 @@ import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.SrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.SrBlnc;
+import org.beigesoft.acc.rep.ISrBlnSht;
+import org.beigesoft.acc.rep.SrBlnSht;
+import org.beigesoft.acc.rep.IBlnPdf;
+import org.beigesoft.acc.rep.BlnPdf;
 
 /**
  * <p>Auxiliary factory for accounting additional services.</p>
@@ -66,6 +74,12 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuHndAcc(pRvs, pFctApp);
     } else if (HlTySac.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHlTySac(pRvs, pFctApp);
+    } else if (IBlnPdf.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuBlnPdf(pRvs, pFctApp);
+    } else if (IPdfFactory.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuPdfFactory(pRvs, pFctApp);
+    } else if (ISrBlnSht.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrBlnSht(pRvs, pFctApp);
     } else if (ISrBlnc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrBlnc(pRvs, pFctApp);
     } else if (ISrAcStg.class.getSimpleName().equals(pBnNm)) {
@@ -99,6 +113,74 @@ public class FctAcc<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, HlTySac.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       HlTySac.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF BlnPdf.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return BlnPdf
+   * @throws Exception - an exception
+   */
+  private BlnPdf<RS, HasPdfContent> crPuBlnPdf(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    BlnPdf<RS, HasPdfContent> rz = new BlnPdf<RS, HasPdfContent>();
+    @SuppressWarnings("unchecked")
+    IPdfFactory<HasPdfContent> pdfFactory = (IPdfFactory<HasPdfContent>) pFctApp
+      .laz(pRvs, IPdfFactory.class.getSimpleName());
+    rz.setPdfFactory(pdfFactory);
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    rz.setNumStr(pFctApp.lazNumStr(pRvs));
+    ISrAcStg srAcStg = (ISrAcStg) pFctApp
+      .laz(pRvs, ISrAcStg.class.getSimpleName());
+    rz.setSrAcStg(srAcStg);
+    pFctApp.put(pRvs, IBlnPdf.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      BlnPdf.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF PdfFactory.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return PdfFactory
+   * @throws Exception - an exception
+   */
+  private PdfFactory crPuPdfFactory(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    PdfFactory rz = new PdfFactory();
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    rz.init();
+    pFctApp.put(pRvs, IPdfFactory.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      PdfFactory.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF SrBlnSht.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrBlnSht
+   * @throws Exception - an exception
+   */
+  private SrBlnSht<RS> crPuSrBlnSht(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrBlnSht<RS> rz = new SrBlnSht<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    ISrAcStg srAcStg = (ISrAcStg) pFctApp
+      .laz(pRvs, ISrAcStg.class.getSimpleName());
+    rz.setSrAcStg(srAcStg);
+    ISrBlnc srBlnc = (ISrBlnc) pFctApp
+      .laz(pRvs, ISrBlnc.class.getSimpleName());
+    rz.setSrBlnc(srBlnc);
+    pFctApp.put(pRvs, ISrBlnSht.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrBlnSht.class.getSimpleName() + " has been created");
     return rz;
   }
 
