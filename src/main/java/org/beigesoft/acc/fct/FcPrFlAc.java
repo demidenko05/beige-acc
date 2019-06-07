@@ -31,48 +31,47 @@ package org.beigesoft.acc.fct;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.beigesoft.fct.IFctPrc;
-import org.beigesoft.fct.IFctAsm;
-import org.beigesoft.prc.IPrc;
-import org.beigesoft.rdb.IRdb;
-import org.beigesoft.acc.rep.PrBlShTr;
+import org.beigesoft.fct.IFctPrcFl;
+import org.beigesoft.fct.FctBlc;
+import org.beigesoft.prc.IPrcFl;
+import org.beigesoft.acc.rep.PrcBlnSht;
 import org.beigesoft.acc.rep.ISrBlnSht;
+import org.beigesoft.acc.rep.IBlnPdf;
 
 /**
- * <p>Additional factory of processors for accounting,
- * secure non-transactional requests.</p>
+ * <p>Accounting additional factory of file reporter processors.</p>
  *
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class FctPrcNtrAc<RS> implements IFctPrc {
+public class FcPrFlAc<RS> implements IFctPrcFl {
 
   /**
    * <p>Main factory.</p>
    **/
-  private IFctAsm<RS> fctApp;
+  private FctBlc<RS> fctBlc;
 
   //requested data:
   /**
    * <p>Processors map.</p>
    **/
-  private final Map<String, IPrc> procs = new HashMap<String, IPrc>();
+  private final Map<String, IPrcFl> procs = new HashMap<String, IPrcFl>();
 
   /**
    * <p>Get processor in lazy mode (if bean is null then initialize it).</p>
    * @param pRvs request scoped vars
    * @param pPrNm - filler name
-   * @return requested processor
+   * @return requested processor or NULL
    * @throws Exception - an exception
    */
-  public final IPrc laz(final Map<String, Object> pRvs, //NOPMD
+  public final IPrcFl laz(final Map<String, Object> pRvs, //NOPMD
     final String pPrNm) throws Exception {
-    IPrc rz = this.procs.get(pPrNm);
+    IPrcFl rz = this.procs.get(pPrNm);
     if (rz == null) {
       synchronized (this) {
         rz = this.procs.get(pPrNm);
-        if (rz == null && PrBlShTr.class.getSimpleName().equals(pPrNm)) {
-          rz = crPuPrBlShTr(pRvs);
+        if (rz == null && PrcBlnSht.class.getSimpleName().equals(pPrNm)) {
+          rz = crPuPrcBlnSht(pRvs);
         }
       }
     }
@@ -80,42 +79,41 @@ public class FctPrcNtrAc<RS> implements IFctPrc {
   }
 
   /**
-   * <p>Creates and puts into MF PrBlShTr.</p>
+   * <p>Create and put into the Map PrcBlnSht.</p>
    * @param pRvs request scoped vars
-   * @return PrBlShTr
+   * @return PrcBlnSht
    * @throws Exception - an exception
    */
-  private PrBlShTr<RS> crPuPrBlShTr(
+  private PrcBlnSht crPuPrcBlnSht(
     final Map<String, Object> pRvs) throws Exception {
-    PrBlShTr<RS> rz = new PrBlShTr<RS>();
-    @SuppressWarnings("unchecked")
-    IRdb<RS> rdb = (IRdb<RS>) this.fctApp.laz(pRvs, IRdb.class.getSimpleName());
-    rz.setRdb(rdb);
-    ISrBlnSht srBlnSht = (ISrBlnSht) this.fctApp
+    PrcBlnSht rz = new PrcBlnSht();
+    ISrBlnSht srBlnSht = (ISrBlnSht) this.fctBlc
       .laz(pRvs, ISrBlnSht.class.getSimpleName());
     rz.setSrBlnSht(srBlnSht);
-    rz.setSrvDt(this.fctApp.getFctBlc().lazSrvDt(pRvs));
-    rz.setTrIsl(this.fctApp.getFctBlc().getFctDt().getReadTi());
-    this.procs.put(PrBlShTr.class.getSimpleName(), rz);
-    this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
-      PrBlShTr.class.getSimpleName() + " has been created");
+    IBlnPdf blnPdf = (IBlnPdf) this.fctBlc
+      .laz(pRvs, IBlnPdf.class.getSimpleName());
+    rz.setBlnPdf(blnPdf);
+    rz.setSrvDt(this.fctBlc.lazSrvDt(pRvs));
+    this.procs.put(PrcBlnSht.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), PrcBlnSht.class
+      .getSimpleName() + " has been created.");
     return rz;
   }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for fctApp.</p>
-   * @return IFctAsm<RS>
+   * <p>Getter for fctBlc.</p>
+   * @return FctBlc<RS>
    **/
-  public final synchronized IFctAsm<RS> getFctApp() {
-    return this.fctApp;
+  public final FctBlc<RS> getFctBlc() {
+    return this.fctBlc;
   }
 
   /**
-   * <p>Setter for fctApp.</p>
-   * @param pFctApp reference
+   * <p>Setter for fctBlc.</p>
+   * @param pFctBlc reference
    **/
-  public final synchronized void setFctApp(final IFctAsm<RS> pFctApp) {
-    this.fctApp = pFctApp;
+  public final void setFctBlc(final FctBlc<RS> pFctBlc) {
+    this.fctBlc = pFctBlc;
   }
 }

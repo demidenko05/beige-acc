@@ -119,8 +119,7 @@ public class SrBlnc<RS> implements ISrBlnc {
   private boolean isAndr;
 
   /**
-   * <p>Retrieve Trial Balance report, it should be invoked recalIfNd
-   * before it.</p>
+   * <p>Retrieve Trial Balance report.</p>
    * @param pRvs Request scoped variables
    * @param pDt date
    * @return balance lines
@@ -129,9 +128,9 @@ public class SrBlnc<RS> implements ISrBlnc {
   @Override
   public final synchronized List<TrBlLn> retTrBlnc(
     final Map<String, Object> pRvs, final Date pDt) throws Exception {
+    chngSacsIfNd(pRvs);
+    recalcIfNd(pRvs, pDt);
     List<TrBlLn> rz = new ArrayList<TrBlLn>();
-    Map<String, Object> vs = new HashMap<String, Object>();
-    lazBlnCh(pRvs, vs);
     if (this.blnCh.getStDt().getTime() != BlnCh.INITDT) {
       String query = evQuBlnc(pRvs, pDt);
       IRecSet<RS> rs = null;

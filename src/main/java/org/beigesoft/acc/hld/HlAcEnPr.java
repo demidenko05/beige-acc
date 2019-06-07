@@ -121,11 +121,11 @@ public class HlAcEnPr implements IHlNmClSt {
           return EntrSv.class.getSimpleName();
         } else if (InEntr.class == pCls) {
           return InEntrSv.class.getSimpleName();
+        } else if (Sacnt.class == pCls) {
+          return SacntSv.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {
           return IsacntSv.class.getSimpleName();
         }
-      } else if ("entFoSv".equals(pAct) && Sacnt.class == pCls) {
-        return SacntSv.class.getSimpleName();
       }
       return NULL;
     }

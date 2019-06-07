@@ -60,7 +60,7 @@ import org.beigesoft.acc.srv.ISrBlnc;
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class FctEnPrc<RS> implements IFctPrcEnt {
+public class FcEnPrAc<RS> implements IFctPrcEnt {
 
   /**
    * <p>Main factory.</p>

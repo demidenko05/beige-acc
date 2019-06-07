@@ -50,7 +50,7 @@ import org.beigesoft.jdbc.Rdb;
 import org.beigesoft.jdbc.FctMysql;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.fct.FctAcc;
-import org.beigesoft.acc.fct.FctEnPrc;
+import org.beigesoft.acc.fct.FcEnPrAc;
 
 /**
  * <p>Tests final configuration factory for MySql JDBC.</p>
@@ -82,7 +82,7 @@ public class FctTstMyl implements IFctAsm<ResultSet> {
     this.fctBlc.getFctsAux().add(new FctMysql());
     this.fctBlc.getFctsAux().add(new FctAcc<ResultSet>());
     Set<IFctPrcEnt> fctsPrcEnt = new HashSet<IFctPrcEnt>();
-    FctEnPrc<ResultSet> fcep = new FctEnPrc<ResultSet>();
+    FcEnPrAc<ResultSet> fcep = new FcEnPrAc<ResultSet>();
     fcep.setFctBlc(this.fctBlc);
     fctsPrcEnt.add(fcep);
     this.fctBlc.getFctDt().setFctsPrcEnt(fctsPrcEnt);
