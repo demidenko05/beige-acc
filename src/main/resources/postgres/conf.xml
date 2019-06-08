@@ -25,6 +25,7 @@ See LICENSE in base folder
   org.beigesoft.mdlp.EmStr,
   org.beigesoft.mdlp.EmMsg,
   org.beigesoft.mdlp.EmRcp,
+  org.beigesoft.mdlp.EmAtch,
   org.beigesoft.acc.mdlp.Acnt,
   org.beigesoft.acc.mdlp.Sacnt,
   org.beigesoft.acc.mdlp.Entr,
