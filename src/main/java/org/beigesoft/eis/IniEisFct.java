@@ -86,9 +86,15 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(AcStg.class);
     hlClSt.getNulClss().add(Acnt.class);
     hlClSt.getNulClss().add(Sacnt.class);
+    stgNm = "ordDf"; //list order by field default
+    hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgClss().put(Acnt.class, "nmbr");
     stgNm = "liFo"; //list footer
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
-    hlClSt.getStgSclss().put(InEntr.class, "lfia");
+    hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
+    hlClSt.getStgClss().put(Acnt.class, "lfac");
+    hlClSt.getStgClss().put(Entr.class, "lfna");
+    hlClSt.getStgClss().put(InEntr.class, "lfia");
     hlClSt.setNulClss(new HashSet<Class<? extends IHasId<?>>>());
     hlClSt.getNulClss().add(AcStg.class);
     stgNm = "liAc"; //list item actions
@@ -113,18 +119,25 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
   public final void makeUvdFds(final Map<String, Object> pRvs,
     final IFctAsm<RS> pFct) throws Exception {
     //fields settings:
-    String stgNm = "str"; //to string
+    String stgNm = "inp"; //input
     HldFldStg hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    //Acnt.saTy
+    hlFdSt.getCustClss().add(Integer.class);
+    stgNm = "str"; //to string
+    hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
+    hlFdSt.getStgFdNm().put("ownr", null);
     stgNm = "ceHe"; //to cell header
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
+    hlFdSt.getStgFdNm().put("ownr", null);
     stgNm = "inWr"; //input wrapper
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
+    hlFdSt.getStgFdNm().put("ownr", null);
   }
 }

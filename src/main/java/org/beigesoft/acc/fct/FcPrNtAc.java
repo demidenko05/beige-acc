@@ -37,6 +37,7 @@ import org.beigesoft.prc.IPrc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.rep.PrBlShTr;
 import org.beigesoft.acc.rep.PrcBln;
+import org.beigesoft.acc.rep.PrChrAc;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.srv.ISrBlnc;
 
@@ -75,11 +76,33 @@ public class FcPrNtAc<RS> implements IFctPrc {
         rz = this.procs.get(pPrNm);
         if (rz == null && PrBlShTr.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrBlShTr(pRvs);
+        } else if (rz == null && PrChrAc.class.getSimpleName().equals(pPrNm)) {
+          rz = crPuPrChrAc(pRvs);
         } else if (rz == null && PrcBln.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrcBln(pRvs);
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF PrChrAc.</p>
+   * @param pRvs request scoped vars
+   * @return PrChrAc
+   * @throws Exception - an exception
+   */
+  private PrChrAc<RS> crPuPrChrAc(
+    final Map<String, Object> pRvs) throws Exception {
+    PrChrAc<RS> rz = new PrChrAc<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(this.fctApp.getFctBlc().lazOrm(pRvs));
+    rz.setTrIsl(this.fctApp.getFctBlc().getFctDt().getReadTi());
+    this.procs.put(PrChrAc.class.getSimpleName(), rz);
+    this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
+      PrChrAc.class.getSimpleName() + " has been created");
     return rz;
   }
 

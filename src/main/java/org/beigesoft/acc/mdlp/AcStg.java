@@ -137,15 +137,14 @@ public class AcStg extends AIdLn {
 
   //Sales taxes settings:
   /**
-   * <p>Not Null, if sales tax vendor sales taxes fields will be appeared
-   * in sales invoice, and taxes will be extracted into SalesTaxPayable.</p>
+   * <p>Not Null, if extract sales taxes from sales invoice
+   * into Sales Tax Payable account.</p>
    **/
   private Boolean stExs = false;
 
   /**
-   * <p>Not Null, if sales tax vendor sales taxes fields will
-   * be appeared in purchase invoice, and taxes will be extracted
-   * into SalesTaxFromPurchase, this is for methods where payed taxes
+   * <p>Not Null, if extract sales taxes from purchase invoice
+   * into Sales Tax From Purchase account, this is for methods where payed taxes
    * from purchase should be extracted from inventory e.g. VAT
    * or sales taxes that should be capitalized (USA producing).</p>
    **/

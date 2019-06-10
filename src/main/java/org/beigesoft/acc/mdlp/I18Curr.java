@@ -54,7 +54,7 @@ public class I18Curr extends AI18nNm<Curr, I18CurrId> {
   private Lng lng;
 
   /**
-   * <p>Not Null, if  if uses currency sign in reports (e.g. $),
+   * <p>Not Null, if  if use currency sign in reports (e.g. $),
    * otherwise itsName (e.g. USD).</p>
    **/
   private Boolean curs = false;

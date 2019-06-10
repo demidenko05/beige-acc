@@ -8,10 +8,10 @@ See LICENSE in base folder
 <properties>
 <comment>Beigesoft ORM common settings</comment>
 <entry key="appInf">Beige-BLC ver1.0</entry>
-<entry key="dbUrl">jdbc:mysql://localhost/beigeacc</entry>
+<entry key="dbUrl">jdbc:mysql://localhost/bseif</entry>
 <entry key="dsCls">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</entry>
 <entry key="dbUsr">beigeaccounting</entry>
 <entry key="dbPsw">beigeaccounting</entry>
-<entry key="checkTbl">select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='beigeacc' and TABLE_NAME=':tblNm';</entry>
+<entry key="checkTbl">select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='bseif' and TABLE_NAME=':tblNm';</entry>
 <entry key="lastId">select LAST_INSERT_ID() as LASTID;</entry>
 </properties>
