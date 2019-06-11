@@ -28,10 +28,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.prc;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
+import org.beigesoft.hnd.IHnTrRlBk;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.srv.ISrAcStg;
@@ -59,6 +62,13 @@ public class AcStgSv implements IPrcEnt<AcStg, Long> {
   @Override
   public final AcStg process(final Map<String, Object> pRvs, final AcStg pEnt,
     final IReqDt pRqDt) throws Exception {
+    @SuppressWarnings("unchecked")
+    Set<IHnTrRlBk> hnsTrRlBk = (Set<IHnTrRlBk>) pRvs.get(IHnTrRlBk.HNSTRRLBK);
+    if (hnsTrRlBk == null) {
+      hnsTrRlBk = new HashSet<IHnTrRlBk>();
+      pRvs.put(IHnTrRlBk.HNSTRRLBK, hnsTrRlBk);
+    }
+    hnsTrRlBk.add(this.srAcStg);
     getSrAcStg().saveAcStg(pRvs, pEnt);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);

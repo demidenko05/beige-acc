@@ -3,12 +3,12 @@ select * from
   ACCR as CORACC, ACNT.NME as CRACNM, ACNT.NMBR as CRACNMB, SACNM as CRSAC, ENTR.DSCR 
   from ENTR 
   left join ACNT on ENTR.ACCR=ACNT.IID
-  where ACDB=':ACCID' :SADNM and DAT>=:DT1 and DAT<=:DT1
+  where ACDB=':ACCID' :SADNM and DAT>=:DT1 and DAT<=:DT2
 union all
   select DAT, SRID, SRTY, ACCR as ACC, SACNM as SUBACC, CRED as TOT, 0 as ISDEBT,
   ACDB as CORACC, ACNT.NME as CRACNM, ACNT.NMBR as CRACNMB, SADNM as CRSAC, ENTR.DSCR 
   from ENTR 
   left join ACNT on ENTR.ACDB=ACNT.IID
-  where ACCR=':ACCID' :SACNM and DAT>=:DT1 and DAT<=:DT1
+  where ACCR=':ACCID' :SACNM and DAT>=:DT1 and DAT<=:DT2
 ) as UNIDET
 order by DAT;

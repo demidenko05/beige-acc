@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.beigesoft.hnd.IHnTrRlBk;
 import org.beigesoft.acc.mdl.ISacnt;
 import org.beigesoft.acc.mdl.TrBlLn;
 
@@ -42,7 +43,7 @@ import org.beigesoft.acc.mdl.TrBlLn;
  *
  * @author Yury Demidenko
  */
-public interface ISrBlnc {
+public interface ISrBlnc extends IHnTrRlBk {
 
   /**
    * <p>Retrieves Trial Balance report.</p>
@@ -99,4 +100,28 @@ public interface ISrBlnc {
    * @throws Exception - an exception
    **/
   void hndSacntCh(Map<String, Object> pRvs, ISacnt pSacnt) throws Exception;
+
+  /**
+   * <p>Evaluate date start of next balance store period.
+   * Tested in blc org.beigesoft.test.CalendarTest.</p>
+   * @param pRvs Request scoped variables
+   * @param pVs Invoker scoped variables
+   * @param pDtFor date for
+   * @return Start of next period nearest to pDtFor
+   * @throws Exception - an exception
+   **/
+  Date evDtNxtPerSt(Map<String, Object> pRvs,
+    Map<String, Object> pVs, Date pDtFor) throws Exception;
+
+  /**
+   * <p>Evaluate date start of previous balance store period.
+   * Tested in blc org.beigesoft.test.CalendarTest.</p>
+   * @param pRvs Request scoped variables
+   * @param pVs Invoker scoped variables
+   * @param pDtFor date for
+   * @return Start of next period nearest to pDtFor
+   * @throws Exception - an exception
+   **/
+  Date evDtPrvPerSt(Map<String, Object> pRvs,
+    Map<String, Object> pVs, Date pDtFor) throws Exception;
 }

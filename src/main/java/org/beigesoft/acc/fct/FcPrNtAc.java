@@ -37,6 +37,7 @@ import org.beigesoft.prc.IPrc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.rep.PrBlShTr;
 import org.beigesoft.acc.rep.PrcBln;
+import org.beigesoft.acc.rep.PrLdgr;
 import org.beigesoft.acc.rep.PrChrAc;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.srv.ISrBlnc;
@@ -78,6 +79,8 @@ public class FcPrNtAc<RS> implements IFctPrc {
           rz = crPuPrBlShTr(pRvs);
         } else if (rz == null && PrChrAc.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrChrAc(pRvs);
+        } else if (rz == null && PrLdgr.class.getSimpleName().equals(pPrNm)) {
+          rz = crPuPrLdgr(pRvs);
         } else if (rz == null && PrcBln.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrcBln(pRvs);
         }
@@ -103,6 +106,29 @@ public class FcPrNtAc<RS> implements IFctPrc {
     this.procs.put(PrChrAc.class.getSimpleName(), rz);
     this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
       PrChrAc.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF PrLdgr.</p>
+   * @param pRvs request scoped vars
+   * @return PrLdgr
+   * @throws Exception - an exception
+   */
+  private PrLdgr<RS> crPuPrLdgr(
+    final Map<String, Object> pRvs) throws Exception {
+    PrLdgr<RS> rz = new PrLdgr<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    ISrBlnc srBlnc = (ISrBlnc) this.fctApp
+      .laz(pRvs, ISrBlnc.class.getSimpleName());
+    rz.setSrBlnc(srBlnc);
+    rz.setSrvDt(this.fctApp.getFctBlc().lazSrvDt(pRvs));
+    rz.setTrIsl(this.fctApp.getFctBlc().getFctDt().getReadTi());
+    this.procs.put(PrLdgr.class.getSimpleName(), rz);
+    this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
+      PrLdgr.class.getSimpleName() + " has been created");
     return rz;
   }
 
@@ -141,6 +167,9 @@ public class FcPrNtAc<RS> implements IFctPrc {
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctApp.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);
+    ISrBlnc srBlnc = (ISrBlnc) this.fctApp
+      .laz(pRvs, ISrBlnc.class.getSimpleName());
+    rz.setSrBlnc(srBlnc);
     ISrBlnSht srBlnSht = (ISrBlnSht) this.fctApp
       .laz(pRvs, ISrBlnSht.class.getSimpleName());
     rz.setSrBlnSht(srBlnSht);

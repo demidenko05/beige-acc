@@ -30,6 +30,7 @@ package org.beigesoft.acc.srv;
 
 import java.util.Map;
 
+import org.beigesoft.hnd.IHnTrRlBk;
 import org.beigesoft.acc.mdlp.AcStg;
 
 /**
@@ -37,7 +38,7 @@ import org.beigesoft.acc.mdlp.AcStg;
  *
  * @author Yury Demidenko
  */
-public interface ISrAcStg {
+public interface ISrAcStg extends IHnTrRlBk {
 
   /**
    * <p>Retrieves/gets Accounting settings.</p>

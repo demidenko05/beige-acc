@@ -1,4 +1,4 @@
-select ACNT.NME, SUBACC,
+select ACNT.NME as ACC, SUBACC,
 case when ACNT.BLTY=0 then ALREC.DEBT-ALREC.CRED else 0 end as DEBT,
 case when ACNT.BLTY=1 then ALREC.CRED-ALREC.DEBT else 0 end as CRED
 from

@@ -127,6 +127,7 @@ public class HndAcc<RS> implements IHndRq {
             }
             this.rdb.commit();
           } catch (Exception ex) {
+            this.srAcStg.hndRlBk(pRvs);
             if (!this.rdb.getAcmt()) {
               this.rdb.rollBack();
             }

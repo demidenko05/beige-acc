@@ -32,9 +32,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.beigesoft.exc.ExcCode;
-import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.log.ILog;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.acc.mdlp.AcStg;
 
 /**
  * <p>Accounting settings service.</p>
@@ -118,6 +118,18 @@ public class SrAcStg implements ISrAcStg {
   @Override
   public final synchronized AcStg getAcStg() {
     return this.acStg;
+  }
+
+  /**
+   * <p>Handle rollback, e.g. clears cached data.</p>
+   * @param pRvs Request scoped variables
+   * @throws Exception - an exception
+   **/
+  @Override
+  public final synchronized void hndRlBk(
+    final Map<String, Object> pRvs) throws Exception {
+    this.acStg = null;
+    pRvs.remove("astg");
   }
 
   //Simple getters and setters:

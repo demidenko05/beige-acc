@@ -87,6 +87,7 @@ public class PrcBln<RS> implements IPrc {
       pRvs.put("blnDt", dt);
       this.rdb.commit();
     } catch (Exception ex) {
+      this.srBlnc.hndRlBk(pRvs);
       if (!this.rdb.getAcmt()) {
         this.rdb.rollBack();
       }

@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.beigesoft.mdl.IHasId;
+import org.beigesoft.mdlp.AI18nNm;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.IIniBdFct;
 import org.beigesoft.fct.IniBdFct;
@@ -40,6 +41,7 @@ import org.beigesoft.hld.HldFldStg;
 import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
 import org.beigesoft.acc.mdlp.Entr;
+import org.beigesoft.acc.mdlp.I18Acc;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
@@ -89,6 +91,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "ordDf"; //list order by field default
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgClss().put(Acnt.class, "nmbr");
+    hlClSt.getStgClss().put(I18Acc.class, "lng");
+    hlClSt.getStgSclss().put(AI18nNm.class, "lng");
     stgNm = "liFo"; //list footer
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());

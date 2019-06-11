@@ -33,16 +33,24 @@ import java.util.Date;
 import java.io.OutputStream;
 
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcFl;
 import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.acc.mdl.BlnSht;
+import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
  * <p>Processor that makes balance sheet PDF report.</p>
  *
+ * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class PrcBlnSht implements IPrcFl {
+public class PrcBlnSht<RS> implements IPrcFl {
+
+  /**
+   * <p>RDB service.</p>
+   **/
+  private IRdb<RS> rdb;
 
   /**
    * <p>Balance data retriever.</p>
@@ -60,6 +68,16 @@ public class PrcBlnSht implements IPrcFl {
   private ISrvDt srvDt;
 
   /**
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
+  /**
+   * <p>Balance data retriever.</p>
+   **/
+  private ISrBlnc srBlnc;
+
+  /**
    * <p>Processes given request.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -70,11 +88,41 @@ public class PrcBlnSht implements IPrcFl {
   public final void process(final Map<String, Object> pRvs, final IReqDt pRqDt,
     final OutputStream pSous) throws Exception {
     Date dt = this.srvDt.from8601DateTime(pRqDt.getParam("dt"));
-    BlnSht blnc = this.srBlnSht.retBlnc(pRvs, dt);
-    this.blnPdf.report(pRvs, blnc, pSous);
+    try {
+      this.rdb.setAcmt(false);
+      this.rdb.setTrIsl(this.trIsl);
+      this.rdb.begin();
+      BlnSht blnc = this.srBlnSht.retBlnc(pRvs, dt);
+      this.blnPdf.report(pRvs, blnc, pSous);
+      this.rdb.commit();
+    } catch (Exception ex) {
+      this.srBlnc.hndRlBk(pRvs);
+      if (!this.rdb.getAcmt()) {
+        this.rdb.rollBack();
+      }
+      throw ex;
+    } finally {
+      this.rdb.release();
+    }
   }
 
   //Simple getters and setters:
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
+  }
+
   /**
    * <p>Getter for srBlnSht.</p>
    * @return ISrBlnSht
@@ -121,5 +169,37 @@ public class PrcBlnSht implements IPrcFl {
    **/
   public final void setSrvDt(final ISrvDt pSrvDt) {
     this.srvDt = pSrvDt;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
+  }
+
+  /**
+   * <p>Getter for srBlnc.</p>
+   * @return ISrBlnc
+   **/
+  public final ISrBlnc getSrBlnc() {
+    return this.srBlnc;
+  }
+
+  /**
+   * <p>Setter for srBlnc.</p>
+   * @param pSrBlnc reference
+   **/
+  public final void setSrBlnc(final ISrBlnc pSrBlnc) {
+    this.srBlnc = pSrBlnc;
   }
 }

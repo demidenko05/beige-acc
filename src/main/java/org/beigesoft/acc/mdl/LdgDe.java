@@ -121,6 +121,14 @@ public class LdgDe {
   }
 
   /**
+   * <p>Setter for debitAcc.</p>
+   * @param pDebitAcc reference
+   **/
+  public final void setDebitAcc(final BigDecimal pDebitAcc) {
+    this.debitAcc = pDebitAcc;
+  }
+
+  /**
    * <p>Getter for creditAcc.</p>
    * @return BigDecimal
    **/
@@ -129,10 +137,26 @@ public class LdgDe {
   }
 
   /**
+   * <p>Setter for creditAcc.</p>
+   * @param pCreditAcc reference
+   **/
+  public final void setCreditAcc(final BigDecimal pCreditAcc) {
+    this.creditAcc = pCreditAcc;
+  }
+
+  /**
    * <p>Getter for balanceAcc.</p>
    * @return BigDecimal
    **/
   public final BigDecimal getBalanceAcc() {
     return this.balanceAcc;
+  }
+
+  /**
+   * <p>Setter for balanceAcc.</p>
+   * @param pBalanceAcc reference
+   **/
+  public final void setBalanceAcc(final BigDecimal pBalanceAcc) {
+    this.balanceAcc = pBalanceAcc;
   }
 }

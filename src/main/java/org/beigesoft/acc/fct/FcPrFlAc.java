@@ -33,10 +33,12 @@ import java.util.HashMap;
 
 import org.beigesoft.fct.IFctPrcFl;
 import org.beigesoft.fct.FctBlc;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcFl;
 import org.beigesoft.acc.rep.PrcBlnSht;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.rep.IBlnPdf;
+import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
  * <p>Accounting additional factory of file reporter processors.</p>
@@ -84,9 +86,16 @@ public class FcPrFlAc<RS> implements IFctPrcFl {
    * @return PrcBlnSht
    * @throws Exception - an exception
    */
-  private PrcBlnSht crPuPrcBlnSht(
+  private PrcBlnSht<RS> crPuPrcBlnSht(
     final Map<String, Object> pRvs) throws Exception {
-    PrcBlnSht rz = new PrcBlnSht();
+    PrcBlnSht<RS> rz = new PrcBlnSht<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
+    ISrBlnc srBlnc = (ISrBlnc) this.fctBlc
+      .laz(pRvs, ISrBlnc.class.getSimpleName());
+    rz.setSrBlnc(srBlnc);
     ISrBlnSht srBlnSht = (ISrBlnSht) this.fctBlc
       .laz(pRvs, ISrBlnSht.class.getSimpleName());
     rz.setSrBlnSht(srBlnSht);

@@ -30,22 +30,23 @@ package org.beigesoft.acc.rep;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Date;
+import java.math.BigDecimal;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URL;
 
-import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IRecSet;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.prc.IPrc;
+import org.beigesoft.acc.mdl.LdgPrv;
+import org.beigesoft.acc.mdl.LdgPrvLn;
 import org.beigesoft.acc.mdl.LdgDe;
 import org.beigesoft.acc.mdl.LdgDeLn;
 import org.beigesoft.acc.mdlp.AcStg;
+import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
  * <p>Transactional service that retrieves ledger and
@@ -72,6 +73,11 @@ public class PrLdgr<RS> implements IPrc {
   private ISrvDt srvDt;
 
   /**
+   * <p>Balance data retriever.</p>
+   **/
+  private ISrBlnc srBlnc;
+
+  /**
    * <p>Query detail.</p>
    **/
   private String quDet;
@@ -90,54 +96,24 @@ public class PrLdgr<RS> implements IPrc {
   @Override
   public final synchronized void process(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
+    LdgPrv ldgPrv = new LdgPrv();
+    LdgDe ldgDe = new LdgDe();
+    Date dt1 = this.srvDt.from8601DateTime(pRqDt.getParam("dt1"));
+    Date dt2 = this.srvDt.from8601DateTime(pRqDt.getParam("dt2"));
+    pRvs.put("dt1", dt1);
+    pRvs.put("dt2", dt2);
+    pRvs.put("ldgPrv", ldgPrv);
+    pRvs.put("ldgDe", ldgDe);
     try {
       this.rdb.setAcmt(false);
       this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
-      LdgDe ldgDe = new LdgDe();
-      Date dt1 = this.srvDt.from8601DateTime(pRqDt.getParam("dt1"));
-      Date dt2 = this.srvDt.from8601DateTime(pRqDt.getParam("dt2"));
-      String qd = lazQuDet().replace(":ACCID", pRqDt.getParam("accid"));
-      qd = qd.replace(":DT1", String.valueOf(dt1.getTime()));
-      qd = qd.replace(":DT2", String.valueOf(dt2.getTime()));
-      String saId = pRqDt.getParam("saId");
-      if (saId != null) {
-        qd = qd.replace(":SADNM", " and SADID=" + saId);
-        qd = qd.replace(":SACNM", " and SACID=" + saId);
-      }
-      IRecSet<RS> rs = null;
-      AcStg as = (AcStg) pRvs.get("astg");
-      try {
-        rs = getRdb().retRs(qd);
-        String accWas = null;
-        if (rs.first()) {
-          do {
-            LdgDeLn ldgDeLn = new LdgDeLn();
-            ldgDe.getLns().add(ldgDeLn);
-            String acc = rs.getStr("ACC");
-            if (acc.equals(accWas)) {
-              accWas = acc;
-            }
-            Double tot = rs.getDouble("TOT");
-            Integer isDebt = rs.getInt("ISDEBT");
-            if (isDebt == 1) {
-              ldgDeLn.setDebt(BigDecimal.valueOf(tot)
-                .setScale(as.getRpDp(), as.getRndm()));
-            } else {
-              ldgDeLn.setCred(BigDecimal.valueOf(tot)
-                .setScale(as.getRpDp(), as.getRndm()));
-            }
-          } while (rs.next());
-        }
-      } finally {
-        if (rs != null) {
-          rs.close();
-        }
-      }
-      pRvs.put("ldgDe", ldgDe);
+      mkPrv(pRvs, pRqDt);
+      mkDet(pRvs, pRqDt);
       pRqDt.setAttr("rnd", "ldgr");
       this.rdb.commit();
     } catch (Exception ex) {
+      this.srBlnc.hndRlBk(pRvs);
       if (!this.rdb.getAcmt()) {
         this.rdb.rollBack();
       }
@@ -148,13 +124,171 @@ public class PrLdgr<RS> implements IPrc {
   }
 
   /**
+   * <p>Makes previous data.</p>
+   * @param pRvs request scoped vars
+   * @param pRqDt Request Data
+   * @throws Exception - an exception
+   **/
+  public final synchronized void mkPrv(final Map<String, Object> pRvs,
+    final IReqDt pRqDt) throws Exception {
+    Map<String, Object> vs = new HashMap<String, Object>();
+    LdgPrv ldgPrv = (LdgPrv) pRvs.get("ldgPrv");
+    String accId = pRqDt.getParam("accId");
+    String saId = pRqDt.getParam("saId");
+    Date dt1 = (Date) pRvs.get("dt1");
+    Date dtbln = this.srBlnc.evDtPrvPerSt(pRvs, vs, dt1);
+    AcStg as = (AcStg) pRvs.get("astg");
+    String qu = lazQuPrv().replace(":ACCID", accId);
+    qu = qu.replace(":DT1", String.valueOf(dt1.getTime()));
+    qu = qu.replace(":DTBLN", String.valueOf(dtbln.getTime()));
+    if (saId != null && !"".equals(saId)) {
+      qu = qu.replace(":SUBACC", " and SAID=" + saId);
+      qu = qu.replace(":SADNM", " and SADID=" + saId);
+      qu = qu.replace(":SACNM", " and SACID=" + saId);
+    } else {
+      qu = qu.replace(":SUBACC", "");
+      qu = qu.replace(":SADNM", "");
+      qu = qu.replace(":SACNM", "");
+    }
+    IRecSet<RS> rs = null;
+    try {
+      rs = getRdb().retRs(qu);
+      if (rs.first()) {
+        do {
+          String subacc = rs.getStr("SUBACC");
+          LdgPrvLn ldgPrvLn = new LdgPrvLn();
+          if (subacc != null) {
+            ldgPrv.getLnsMp().put(subacc, ldgPrvLn);
+          }
+          Double debt = rs.getDouble("DEBT");
+          Double cred = rs.getDouble("CRED");
+          ldgPrvLn.setDebt(BigDecimal.valueOf(debt)
+            .setScale(as.getRpDp(), as.getRndm()));
+          ldgPrvLn.setCred(BigDecimal.valueOf(cred)
+            .setScale(as.getRpDp(), as.getRndm()));
+          ldgPrvLn.setBlnc(ldgPrvLn.getDebt()
+            .subtract(ldgPrvLn.getCred()));
+          ldgPrv.setDebitAcc(ldgPrv.getDebitAcc()
+            .add(ldgPrvLn.getDebt()));
+          ldgPrv.setCreditAcc(ldgPrv.getCreditAcc()
+            .add(ldgPrvLn.getCred()));
+          ldgPrv.setBalanceAcc(ldgPrv.getBalanceAcc()
+            .add(ldgPrvLn.getBlnc()));
+        } while (rs.next());
+      }
+    } finally {
+      if (rs != null) {
+        rs.close();
+      }
+    }
+  }
+
+  /**
+   * <p>Makes detail data.</p>
+   * @param pRvs request scoped vars
+   * @param pRqDt Request Data
+   * @throws Exception - an exception
+   **/
+  public final synchronized void mkDet(final Map<String, Object> pRvs,
+    final IReqDt pRqDt) throws Exception {
+    LdgPrv ldgPrv = (LdgPrv) pRvs.get("ldgPrv");
+    LdgDe ldgDe = (LdgDe) pRvs.get("ldgDe");
+    String accId = pRqDt.getParam("accId");
+    String saId = pRqDt.getParam("saId");
+    Date dt1 = (Date) pRvs.get("dt1");
+    Date dt2 = (Date) pRvs.get("dt2");
+    AcStg as = (AcStg) pRvs.get("astg");
+    ldgDe.setDebitAcc(ldgPrv.getDebitAcc());
+    ldgDe.setCreditAcc(ldgPrv.getCreditAcc());
+    ldgDe.setBalanceAcc(ldgPrv.getBalanceAcc());
+    for (Map.Entry<String, LdgPrvLn> enr : ldgPrv.getLnsMp().entrySet()) {
+      ldgDe.getSaDbTo().put(enr.getKey(), enr.getValue().getDebt());
+      ldgDe.getSaCrTo().put(enr.getKey(), enr.getValue().getCred());
+      ldgDe.getSaBlnTo().put(enr.getKey(), enr.getValue().getBlnc());
+    }
+    String qu = lazQuDet().replace(":ACCID", accId);
+    qu = qu.replace(":DT1", String.valueOf(dt1.getTime()));
+    qu = qu.replace(":DT2", String.valueOf(dt2.getTime()));
+    if (saId != null && !"".equals(saId)) {
+      qu = qu.replace(":SADNM", " and SADID=" + saId);
+      qu = qu.replace(":SACNM", " and SACID=" + saId);
+    } else {
+      qu = qu.replace(":SADNM", "");
+      qu = qu.replace(":SACNM", "");
+    }
+    IRecSet<RS> rs = null;
+    try {
+      rs = getRdb().retRs(qu);
+      if (rs.first()) {
+        do {
+          LdgDeLn ldgDeLn = new LdgDeLn();
+          ldgDe.getLns().add(ldgDeLn);
+          String subacc = rs.getStr("SUBACC");
+          if (subacc != null) {
+            ldgDeLn.setSubacc(subacc);
+            if (ldgDe.getSaDbTo().get(subacc) == null) {
+              ldgDe.getSaDbTo().put(subacc, BigDecimal.ZERO);
+            }
+            if (ldgDe.getSaCrTo().get(subacc) == null) {
+              ldgDe.getSaCrTo().put(subacc, BigDecimal.ZERO);
+            }
+            if (ldgDe.getSaBlnTo().get(subacc) == null) {
+              ldgDe.getSaBlnTo().put(subacc, BigDecimal.ZERO);
+            }
+          }
+          ldgDeLn.setDat(new Date(rs.getLong("DAT")));
+          ldgDeLn.setCrAcNm(rs.getStr("CRACNM"));
+          ldgDeLn.setCrAcNmb(rs.getStr("CRACNMB"));
+          ldgDeLn.setCrSaNm(rs.getStr("CRSAC"));
+          ldgDeLn.setDscr(rs.getStr("DSCR"));
+          Double tot = rs.getDouble("TOT");
+          Integer isDebt = rs.getInt("ISDEBT");
+          if (isDebt == 1) {
+            ldgDeLn.setDebt(BigDecimal.valueOf(tot)
+              .setScale(as.getRpDp(), as.getRndm()));
+            ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
+              .add(ldgDeLn.getDebt()));
+            if (subacc != null) {
+              ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+                .add(ldgDeLn.getDebt()));
+              ldgDe.getSaBlnTo().put(subacc, ldgDeLn.getBlncSa());
+              ldgDe.getSaDbTo().put(subacc, ldgDe.getSaDbTo().get(subacc)
+                .add(ldgDeLn.getDebt()));
+            }
+          } else {
+            ldgDeLn.setCred(BigDecimal.valueOf(tot)
+              .setScale(as.getRpDp(), as.getRndm()));
+            ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
+              .subtract(ldgDeLn.getCred()));
+            if (subacc != null) {
+              ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+                .subtract(ldgDeLn.getCred()));
+              ldgDe.getSaBlnTo().put(subacc, ldgDeLn.getBlncSa());
+              ldgDe.getSaCrTo().put(subacc, ldgDe.getSaCrTo().get(subacc)
+                .add(ldgDeLn.getCred()));
+            }
+          }
+          ldgDe.setDebitAcc(ldgDe.getDebitAcc().add(ldgDeLn.getDebt()));
+          ldgDe.setCreditAcc(ldgDe.getCreditAcc().add(ldgDeLn.getCred()));
+          ldgDe.setBalanceAcc(ldgDe.getBalanceAcc().add(ldgDeLn.getDebt())
+            .subtract(ldgDeLn.getCred()));
+        } while (rs.next());
+      }
+    } finally {
+      if (rs != null) {
+        rs.close();
+      }
+    }
+  }
+
+  /**
    * <p>Lazy gets query detail.</p>
    * @return SQL query
    * @throws IOException - IO exception
    **/
   public final synchronized String lazQuDet() throws IOException {
     if (this.quDet == null) {
-      this.quDet = loadStr("acc/ldgr/det.sql");
+      this.quDet = loadStr("/acc/ldgDet.sql");
     }
     return this.quDet;
   }
@@ -166,7 +300,7 @@ public class PrLdgr<RS> implements IPrc {
    **/
   public final synchronized String lazQuPrv() throws IOException {
     if (this.quPrv == null) {
-      this.quPrv = loadStr("acc/ldgr/prev.sql");
+      this.quPrv = loadStr("/acc/ldgPrv.sql");
     }
     return this.quPrv;
   }
@@ -201,7 +335,7 @@ public class PrLdgr<RS> implements IPrc {
    * <p>Getter for rdb.</p>
    * @return IRdb
    **/
-  public final IRdb<RS> getRdb() {
+  public final synchronized IRdb<RS> getRdb() {
     return this.rdb;
   }
 
@@ -209,7 +343,7 @@ public class PrLdgr<RS> implements IPrc {
    * <p>Setter for rdb.</p>
    * @param pRdb reference
    **/
-  public final void setRdb(final IRdb<RS> pRdb) {
+  public final synchronized void setRdb(final IRdb<RS> pRdb) {
     this.rdb = pRdb;
   }
 
@@ -217,7 +351,7 @@ public class PrLdgr<RS> implements IPrc {
    * <p>Getter for trIsl.</p>
    * @return Integer
    **/
-  public final Integer getTrIsl() {
+  public final synchronized Integer getTrIsl() {
     return this.trIsl;
   }
 
@@ -225,7 +359,7 @@ public class PrLdgr<RS> implements IPrc {
    * <p>Setter for trIsl.</p>
    * @param pTrIsl reference
    **/
-  public final void setTrIsl(final Integer pTrIsl) {
+  public final synchronized void setTrIsl(final Integer pTrIsl) {
     this.trIsl = pTrIsl;
   }
 
@@ -233,7 +367,7 @@ public class PrLdgr<RS> implements IPrc {
    * <p>Getter for srvDt.</p>
    * @return ISrvDt
    **/
-  public final ISrvDt getSrvDt() {
+  public final synchronized ISrvDt getSrvDt() {
     return this.srvDt;
   }
 
@@ -241,7 +375,23 @@ public class PrLdgr<RS> implements IPrc {
    * <p>Setter for srvDt.</p>
    * @param pSrvDt reference
    **/
-  public final void setSrvDt(final ISrvDt pSrvDt) {
+  public final synchronized void setSrvDt(final ISrvDt pSrvDt) {
     this.srvDt = pSrvDt;
+  }
+
+  /**
+   * <p>Getter for srBlnc.</p>
+   * @return ISrBlnc
+   **/
+  public final synchronized ISrBlnc getSrBlnc() {
+    return this.srBlnc;
+  }
+
+  /**
+   * <p>Setter for srBlnc.</p>
+   * @param pSrBlnc reference
+   **/
+  public final synchronized void setSrBlnc(final ISrBlnc pSrBlnc) {
+    this.srBlnc = pSrBlnc;
   }
 }

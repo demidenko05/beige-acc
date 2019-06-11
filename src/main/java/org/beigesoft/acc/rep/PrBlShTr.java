@@ -36,6 +36,7 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.prc.IPrc;
 import org.beigesoft.acc.mdl.BlnSht;
+import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
  * <p>Transactional service that retrieves balance sheet and
@@ -67,6 +68,11 @@ public class PrBlShTr<RS> implements IPrc {
   private Integer trIsl;
 
   /**
+   * <p>Balance data retriever.</p>
+   **/
+  private ISrBlnc srBlnc;
+
+  /**
    * <p>Process request.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -84,6 +90,7 @@ public class PrBlShTr<RS> implements IPrc {
       pRvs.put("blnSht", blnSht);
       this.rdb.commit();
     } catch (Exception ex) {
+      this.srBlnc.hndRlBk(pRvs);
       if (!this.rdb.getAcmt()) {
         this.rdb.rollBack();
       }
@@ -156,5 +163,21 @@ public class PrBlShTr<RS> implements IPrc {
    **/
   public final void setTrIsl(final Integer pTrIsl) {
     this.trIsl = pTrIsl;
+  }
+
+  /**
+   * <p>Getter for srBlnc.</p>
+   * @return ISrBlnc
+   **/
+  public final ISrBlnc getSrBlnc() {
+    return this.srBlnc;
+  }
+
+  /**
+   * <p>Setter for srBlnc.</p>
+   * @param pSrBlnc reference
+   **/
+  public final void setSrBlnc(final ISrBlnc pSrBlnc) {
+    this.srBlnc = pSrBlnc;
   }
 }

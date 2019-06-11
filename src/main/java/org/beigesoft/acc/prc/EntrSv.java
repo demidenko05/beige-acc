@@ -28,6 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.prc;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Calendar;
@@ -37,6 +39,7 @@ import java.math.BigDecimal;
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.mdl.CmnPrf;
+import org.beigesoft.hnd.IHnTrRlBk;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
@@ -108,6 +111,13 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     AcStg astg = (AcStg) pRvs.get("astg");
     pEnt.setSrTy(doc.cnsTy());
     pEnt.setSrDbOr(doc.getDbOr());
+    @SuppressWarnings("unchecked")
+    Set<IHnTrRlBk> hnsTrRlBk = (Set<IHnTrRlBk>) pRvs.get(IHnTrRlBk.HNSTRRLBK);
+    if (hnsTrRlBk == null) {
+      hnsTrRlBk = new HashSet<IHnTrRlBk>();
+      pRvs.put(IHnTrRlBk.HNSTRRLBK, hnsTrRlBk);
+    }
+    hnsTrRlBk.add(this.srBlnc);
     if (pEnt.getRvId() != null) {
       Entr revd = new Entr();
       revd.setIid(pEnt.getRvId());
