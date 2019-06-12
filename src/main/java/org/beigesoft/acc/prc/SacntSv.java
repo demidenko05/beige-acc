@@ -63,12 +63,12 @@ public class SacntSv implements IPrcEnt<Sacnt, Long> {
   public final Sacnt process(final Map<String, Object> pRvs, final Sacnt pEnt,
     final IReqDt pRqDt) throws Exception {
     if (!pEnt.getIsNew()) {
-      throw new ExcCode(ExcCode.WRPR, "edit_not_allowed");
+      throw new ExcCode(ExcCode.SPAM, "edit_not_allowed");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
     this.orm.refrEnt(pRvs, vs, pEnt.getOwnr());
     if (pEnt.getOwnr() == null ||  pEnt.getOwnr().getSaTy() == null) {
-      throw new ExcCode(ExcCode.WRPR, "wrong_acc_for_subacc");
+      throw new ExcCode(ExcCode.SPAM, "wrong_acc_for_subacc");
     }
     long owVrWs = Long.parseLong(pRqDt.getParam("owVr"));
     if (owVrWs != pEnt.getOwnr().getVer()) {

@@ -69,7 +69,7 @@ public class EntrCpr implements IPrcEnt<Entr, Long> {
     doc.setIid(pEnt.getSrId());
     this.orm.refrEnt(pRvs, vs, doc);
     if (!doc.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
     }
     Long rvId = pEnt.getRvId();
     this.orm.refrEnt(pRvs, vs, pEnt);

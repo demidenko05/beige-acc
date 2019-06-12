@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.beigesoft.mdl.IHasId;
+import org.beigesoft.mdl.IHasNm;
 import org.beigesoft.mdlp.AI18nNm;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.IIniBdFct;
@@ -42,6 +43,7 @@ import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.I18Acc;
+import org.beigesoft.acc.mdlp.I18Curr;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
@@ -83,6 +85,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
    **/
   public final void makeUvdCls(final Map<String, Object> pRvs,
     final IFctAsm<RS> pFct) throws Exception {
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Acc.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Curr.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
@@ -90,9 +94,17 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(Sacnt.class);
     stgNm = "ordDf"; //list order by field default
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgSclss().remove(IHasId.class);
+    hlClSt.getStgSclss().remove(IHasNm.class);
     hlClSt.getStgClss().put(Acnt.class, "nmbr");
     hlClSt.getStgClss().put(I18Acc.class, "lng");
     hlClSt.getStgSclss().put(AI18nNm.class, "lng");
+    hlClSt.getStgSclss().put(IHasNm.class, "nme");
+    hlClSt.getStgSclss().put(IHasId.class, "iid");
+    stgNm = "owl"; //owned list
+    hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
+    hlClSt.getStgClss().put(Sacnt.class, "owla");
     stgNm = "liFo"; //list footer
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());

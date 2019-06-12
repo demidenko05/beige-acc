@@ -65,7 +65,7 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
     }
     if (pEnt.getIsNew()) {
       this.orm.insIdLn(pRvs, vs, pEnt);

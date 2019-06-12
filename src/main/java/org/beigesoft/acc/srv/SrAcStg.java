@@ -99,8 +99,7 @@ public class SrAcStg implements ISrAcStg {
       throw new ExcCode(ExcCode.WRPR, "precision_must_be_from_0_to_4");
     }
     if (pAcStg.getQuDp() < 0 || pAcStg.getQuDp() > 4) {
-      throw new ExcCode(ExcCode.WRPR,
-        "precision_must_be_from_0_to_4");
+      throw new ExcCode(ExcCode.WRPR, "precision_must_be_from_0_to_4");
     }
     if (pAcStg.getRpDp() < 0 || pAcStg.getRpDp() > 4) {
       throw new ExcCode(ExcCode.WRPR, "precision_must_be_from_0_to_4");

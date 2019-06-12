@@ -81,11 +81,11 @@ public class HlTySac implements IHlIntCls {
   public final Class<? extends IHasId<?>> get(
     final Integer pSaTy) throws Exception {
     if (pSaTy == null) {
-      throw new ExcCode(ExcCode.WRPR, "null_subacc_type");
+      throw new ExcCode(ExcCode.WR, "null_subacc_type");
     }
     Class<? extends IHasId<?>> rz = this.clsMp.get(pSaTy);
     if (rz == null) {
-      throw new ExcCode(ExcCode.WRPR, "Subacc type not found for " + pSaTy);
+      throw new ExcCode(ExcCode.WR, "Subacc type not found for " + pSaTy);
     }
     return rz;
   }

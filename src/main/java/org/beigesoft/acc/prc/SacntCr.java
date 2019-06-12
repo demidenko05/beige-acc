@@ -65,7 +65,7 @@ public class SacntCr implements IPrcEnt<Sacnt, Long> {
     Map<String, Object> vs = new HashMap<String, Object>();
     this.orm.refrEnt(pRvs, vs, pEnt.getOwnr());
     if (pEnt.getOwnr() == null ||  pEnt.getOwnr().getSaTy() == null) {
-      throw new ExcCode(ExcCode.WRPR, "wrong_acc_for_subacc");
+      throw new ExcCode(ExcCode.SPAM, "wrong_acc_for_subacc");
     }
     pEnt.setIsNew(true);
     pEnt.setSaTy(pEnt.getOwnr().getSaTy());

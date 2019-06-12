@@ -80,7 +80,7 @@ public class AcntSv<RS> implements IPrcEnt<Acnt, String> {
           "select count(*) as ENNRCN from ENTR where ACDB='" + pEnt.getIid()
             + " or ACCR='" + pEnt.getIid() + "';", "ENNRCN");
         if (entrsNrCn != null && entrsNrCn > 0) {
-          throw new ExcCode(ExcCode.WRPR, "account_has_non_reversed_entries");
+          throw new ExcCode(ExcCode.SPAM, "account_has_non_reversed_entries");
         }
       }
       this.orm.update(pRvs, vs, pEnt);

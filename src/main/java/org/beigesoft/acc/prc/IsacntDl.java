@@ -88,7 +88,7 @@ public class IsacntDl<RS> implements IPrcEnt<ISacnt, Long> {
       sb.append(pRqDt.getUsrNm() + "/" + pEnt.getClass().getSimpleName());
       sb.append("/" + pEnt.cnsTy() + "/" + pEnt.getIid() + "/" + pEnt.getNme());
       this.log.error(pRvs, getClass(), sb.toString());
-      throw new ExcCode(ExcCode.WRPR, "subacc_used");
+      throw new ExcCode(ExcCode.SPAM, "Attempt to delete used subacc!");
     }
     return null;
   }

@@ -75,7 +75,7 @@ public class InEntrDl<RS> implements IPrcEnt<InEntr, Long> {
       getOrm().del(pRvs, vs, pEnt);
       pRvs.put("msgSuc", "delete_ok");
     } else {
-      throw new ExcCode(ExcCode.WRPR, "document_has_entries");
+      throw new ExcCode(ExcCode.SPAM, "document_has_entries");
     }
     return null;
   }

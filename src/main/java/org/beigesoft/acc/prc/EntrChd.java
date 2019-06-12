@@ -62,7 +62,7 @@ public class EntrChd implements IPrcEnt<Entr, Long> {
   public final Entr process(final Map<String, Object> pRvs, final Entr pEnt,
     final IReqDt pRqDt) throws Exception {
     if (pEnt.getIsNew()) {
-      throw new ExcCode(ExcCode.WRPR, "new_not_allowed");
+      throw new ExcCode(ExcCode.SPAM, "New not allowed!");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
     String[] ndFds = new String[] {"dscr", "ver"};

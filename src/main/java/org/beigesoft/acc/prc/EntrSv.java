@@ -92,21 +92,21 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
   public final Entr process(final Map<String, Object> pRvs, final Entr pEnt,
     final IReqDt pRqDt) throws Exception {
     if (!pEnt.getIsNew()) {
-      throw new ExcCode(ExcCode.WRPR, "edit_not_allowed");
+      throw new ExcCode(ExcCode.SPAM, "Edit not allowed!");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
     InEntr doc = new InEntr();
     doc.setIid(pEnt.getSrId());
     this.orm.refrEnt(pRvs, vs, doc);
     if (!doc.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
     }
     long owVrWs = Long.parseLong(pRqDt.getParam("owVr"));
     if (owVrWs != doc.getVer()) {
       throw new ExcCode(IOrm.DRTREAD, "dirty_read");
     }
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.WRPR, "can_not_change_foreign_src");
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
     }
     AcStg astg = (AcStg) pRvs.get("astg");
     pEnt.setSrTy(doc.cnsTy());
@@ -123,10 +123,10 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
       if (!revd.getSrId().equals(pEnt.getSrId())) {
-        throw new ExcCode(ExcCode.WRPR, "different_source");
+        throw new ExcCode(ExcCode.SPAM, "different_source");
       }
       if (revd.getRvId() != null) {
-        throw new ExcCode(ExcCode.WRPR, "can_not_reverse_reversed");
+        throw new ExcCode(ExcCode.SPAM, "can_not_reverse_reversed");
       }
       mkReving(pRvs, pEnt, revd);
       this.orm.insIdLn(pRvs, vs, pEnt);
