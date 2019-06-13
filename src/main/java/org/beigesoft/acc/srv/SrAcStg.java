@@ -106,6 +106,7 @@ public class SrAcStg implements ISrAcStg {
     }
     Map<String, Object> vs = new HashMap<String, Object>();
     this.orm.update(pRvs, vs, pAcStg);
+    this.orm.refrEnt(pRvs, vs, pAcStg);
     this.acStg = pAcStg;
     pRvs.put("astg", this.acStg);
   }
@@ -127,6 +128,7 @@ public class SrAcStg implements ISrAcStg {
   @Override
   public final synchronized void hndRlBk(
     final Map<String, Object> pRvs) throws Exception {
+    getLog().warn(pRvs, getClass(), "Clear cache cause transaction rollback!");
     this.acStg = null;
     pRvs.remove("astg");
   }
@@ -136,7 +138,7 @@ public class SrAcStg implements ISrAcStg {
    * <p>Getter for log.</p>
    * @return ILog
    **/
-  public final ILog getLog() {
+  public final synchronized ILog getLog() {
     return this.log;
   }
 
@@ -144,7 +146,7 @@ public class SrAcStg implements ISrAcStg {
    * <p>Setter for log.</p>
    * @param pLog reference
    **/
-  public final void setLog(final ILog pLog) {
+  public final synchronized void setLog(final ILog pLog) {
     this.log = pLog;
   }
 
@@ -152,7 +154,7 @@ public class SrAcStg implements ISrAcStg {
    * <p>Getter for orm.</p>
    * @return IOrm
    **/
-  public final IOrm getOrm() {
+  public final synchronized IOrm getOrm() {
     return this.orm;
   }
 
@@ -160,7 +162,7 @@ public class SrAcStg implements ISrAcStg {
    * <p>Setter for orm.</p>
    * @param pOrm reference
    **/
-  public final void setOrm(final IOrm pOrm) {
+  public final synchronized void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
   }
 }

@@ -151,10 +151,14 @@ public class PrLdgr<RS> implements IPrc {
       qu = qu.replace(":SACNM", "");
     }
     IRecSet<RS> rs = null;
+    Integer blTy = null;
     try {
       rs = getRdb().retRs(qu);
       if (rs.first()) {
         do {
+          if (blTy == null) {
+            blTy = rs.getInt("BLTY");
+          }
           String subacc = rs.getStr("SUBACC");
           LdgPrvLn ldgPrvLn = new LdgPrvLn();
           if (subacc != null) {
@@ -166,8 +170,13 @@ public class PrLdgr<RS> implements IPrc {
             .setScale(as.getRpDp(), as.getRndm()));
           ldgPrvLn.setCred(BigDecimal.valueOf(cred)
             .setScale(as.getRpDp(), as.getRndm()));
-          ldgPrvLn.setBlnc(ldgPrvLn.getDebt()
-            .subtract(ldgPrvLn.getCred()));
+          if (blTy == 0) {
+            ldgPrvLn.setBlnc(ldgPrvLn.getDebt()
+              .subtract(ldgPrvLn.getCred()));
+          } else {
+            ldgPrvLn.setBlnc(ldgPrvLn.getCred()
+              .subtract(ldgPrvLn.getDebt()));
+          }
           ldgPrv.setDebitAcc(ldgPrv.getDebitAcc()
             .add(ldgPrvLn.getDebt()));
           ldgPrv.setCreditAcc(ldgPrv.getCreditAcc()
@@ -219,8 +228,12 @@ public class PrLdgr<RS> implements IPrc {
     IRecSet<RS> rs = null;
     try {
       rs = getRdb().retRs(qu);
+      Integer blTy = null;
       if (rs.first()) {
         do {
+          if (blTy == null) {
+            blTy = rs.getInt("BLTY");
+          }
           LdgDeLn ldgDeLn = new LdgDeLn();
           ldgDe.getLns().add(ldgDeLn);
           String subacc = rs.getStr("SUBACC");
@@ -246,11 +259,21 @@ public class PrLdgr<RS> implements IPrc {
           if (isDebt == 1) {
             ldgDeLn.setDebt(BigDecimal.valueOf(tot)
               .setScale(as.getRpDp(), as.getRndm()));
-            ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
-              .add(ldgDeLn.getDebt()));
-            if (subacc != null) {
-              ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+            if (blTy == 0) {
+              ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
                 .add(ldgDeLn.getDebt()));
+            } else {
+              ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
+                .subtract(ldgDeLn.getDebt()));
+            }
+            if (subacc != null) {
+              if (blTy == 0) {
+                ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+                  .add(ldgDeLn.getDebt()));
+              } else {
+                ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+                  .subtract(ldgDeLn.getDebt()));
+              }
               ldgDe.getSaBlnTo().put(subacc, ldgDeLn.getBlncSa());
               ldgDe.getSaDbTo().put(subacc, ldgDe.getSaDbTo().get(subacc)
                 .add(ldgDeLn.getDebt()));
@@ -258,11 +281,21 @@ public class PrLdgr<RS> implements IPrc {
           } else {
             ldgDeLn.setCred(BigDecimal.valueOf(tot)
               .setScale(as.getRpDp(), as.getRndm()));
-            ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
-              .subtract(ldgDeLn.getCred()));
-            if (subacc != null) {
-              ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+            if (blTy == 0) {
+              ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
                 .subtract(ldgDeLn.getCred()));
+            } else {
+              ldgDeLn.setBlnc(ldgDe.getBalanceAcc()
+                .add(ldgDeLn.getCred()));
+            }
+            if (subacc != null) {
+              if (blTy == 0) {
+                ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+                  .subtract(ldgDeLn.getCred()));
+              } else {
+                ldgDeLn.setBlncSa(ldgDe.getSaBlnTo().get(subacc)
+                  .add(ldgDeLn.getCred()));
+              }
               ldgDe.getSaBlnTo().put(subacc, ldgDeLn.getBlncSa());
               ldgDe.getSaCrTo().put(subacc, ldgDe.getSaCrTo().get(subacc)
                 .add(ldgDeLn.getCred()));
@@ -270,8 +303,13 @@ public class PrLdgr<RS> implements IPrc {
           }
           ldgDe.setDebitAcc(ldgDe.getDebitAcc().add(ldgDeLn.getDebt()));
           ldgDe.setCreditAcc(ldgDe.getCreditAcc().add(ldgDeLn.getCred()));
-          ldgDe.setBalanceAcc(ldgDe.getBalanceAcc().add(ldgDeLn.getDebt())
-            .subtract(ldgDeLn.getCred()));
+          if (blTy == 0) {
+            ldgDe.setBalanceAcc(ldgDe.getBalanceAcc().add(ldgDeLn.getDebt())
+              .subtract(ldgDeLn.getCred()));
+          } else {
+            ldgDe.setBalanceAcc(ldgDe.getBalanceAcc()
+              .subtract(ldgDeLn.getDebt()).add(ldgDeLn.getCred()));
+          }
         } while (rs.next());
       }
     } finally {

@@ -463,6 +463,7 @@ public class SrBlnc<RS> implements ISrBlnc {
   @Override
   public final synchronized void hndRlBk(
     final Map<String, Object> pRvs) throws Exception {
+    getLog().warn(pRvs, getClass(), "Clear cache cause transaction rollback!");
     this.blnCh = null;
   }
 

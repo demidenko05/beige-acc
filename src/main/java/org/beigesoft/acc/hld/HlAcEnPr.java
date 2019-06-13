@@ -48,6 +48,7 @@ import org.beigesoft.acc.prc.EntrCpr;
 import org.beigesoft.acc.prc.EntrSrcCr;
 import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.IsacntDl;
+import org.beigesoft.acc.prc.AcntDl;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.InEntrSv;
 import org.beigesoft.acc.prc.InEntrDl;
@@ -101,10 +102,12 @@ public class HlAcEnPr implements IHlNmClSt {
           return PrcEntCr.class.getSimpleName();
         }
       } else if ("entDl".equals(pAct)) {
-        if (ISacnt.class.isAssignableFrom(pCls)) {
-          return IsacntDl.class.getSimpleName();
+        if (Acnt.class == pCls) {
+          return AcntDl.class.getSimpleName();
         } else if (InEntr.class == pCls) {
           return InEntrDl.class.getSimpleName();
+        } else if (ISacnt.class.isAssignableFrom(pCls)) {
+          return IsacntDl.class.getSimpleName();
         }
       } else if ("entCp".equals(pAct) && Entr.class == pCls) {
         return EntrCpr.class.getSimpleName();

@@ -66,6 +66,10 @@ package org.beigesoft.acc.mdl;
    **/
   private String subacc;
 
+  /**
+   * <p>Sub-account ID (Sacnt.iid) to manage IDs.</p>
+   **/
+  private Long sacntId;
 
   /**
    * <p>Description.</p>
@@ -167,6 +171,22 @@ package org.beigesoft.acc.mdl;
    **/
   public final void setSubacc(final String pSubacc) {
     this.subacc = pSubacc;
+  }
+
+  /**
+   * <p>Getter for sacntId.</p>
+   * @return String
+   **/
+  public final Long getSacntId() {
+    return this.sacntId;
+  }
+
+  /**
+   * <p>Setter for sacntId.</p>
+   * @param pSacntId reference
+   **/
+  public final void setSacntId(final Long pSacntId) {
+    this.sacntId = pSacntId;
   }
 
   /**

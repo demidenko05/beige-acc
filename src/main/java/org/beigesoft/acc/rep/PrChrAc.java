@@ -100,6 +100,7 @@ public class PrChrAc<RS> implements IPrc {
               accs.add(acc);
             }
             acc.setSubacc(sacnt.getSaNm());
+            acc.setSacntId(sacnt.getIid());
             acc = null;
           }
         }
