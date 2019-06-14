@@ -119,6 +119,14 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(Entr.class, "acae");
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");
+    stgNm = "prn"; //print
+    hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
+    hlClSt.getStgClss().put(InEntr.class, "pria");
+    stgNm = "de"; //delete
+    hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
+    hlClSt.getStgClss().put(InEntr.class, "deia");
     stgNm = "pic"; //picker IHasNm default
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());

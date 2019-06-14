@@ -92,7 +92,7 @@ public class IsacntSv implements IPrcEnt<ISacnt, Long> {
           getSrBlnc().hndSacntCh(pRvs, pEnt);
         } else {
           ndUp = false;
-          pRvs.put("msgWrn", "conf_sac_nm_ch");
+          pRvs.put("msgWrn", "confirm_reason_changing_name");
         }
       }
       if (ndUp) {

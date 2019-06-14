@@ -17,10 +17,10 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'REARNINGS','3200'
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,0,'RLOSSES','3300','Retained losses',1462867931627,1);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (3,1,'GSALES','4010','Goods sales revenue',1462867931627,1,1004);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (3,1,'SSALES','4030','Services sales revenue',1462867931627,1,1006);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (3,0,'GRETURNS','5010','Goods sales returns',1462867931627,1,1004);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (3,0,'COGS','5110','Cost of goods sold',1462867931627,1,1004);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (3,0,'COGL','5150','Cost of goods loss/stolen/broken',1462867931627,1,1004);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (3,0,'EXPENSES','5250','Expenses',1462867931627,1,1000);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (4,0,'GRETURNS','5010','Goods sales returns',1462867931627,1,1004);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (4,0,'COGS','5110','Cost of goods sold',1462867931627,1,1004);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (4,0,'COGL','5150','Cost of goods loss/stolen/broken',1462867931627,1,1004);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (4,0,'EXPENSES','5250','Expenses',1462867931627,1,1000);
 insert into CURR (IID,NME,SGN,VER) values (840,'USD','$',1462867931627);
 insert into CURR (IID,NME,SGN,VER) values (978,'EUR','€',1462867931627);
 insert into CURR (IID,NME,SGN,VER) values (643,'RUB','₽',1462867931627);
