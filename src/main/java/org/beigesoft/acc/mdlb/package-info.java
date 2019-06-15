@@ -26,23 +26,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
-
-import org.beigesoft.mdl.IIdLnNm;
-
 /**
- * <p>Abstract model of a subaccount.
- * Accounting record has sub-account that can be InvItem or DebtorCreditor.
- * Method cnsTy returns unique code of entity type (OOP consumable constant),
- * range 1000...1999.</p>
+ * <p>It consist of accounting persistable base models.</p>
  *
  * @author Yury Demidenko
  */
-public interface ISacnt extends IIdLnNm {
-
-  /**
-   * <p>Constant of subaccount type, range 1000...1999.</p>
-   * @return entity type code
-   **/
-  Integer cnsTy();
-}
+package org.beigesoft.acc.mdlb;

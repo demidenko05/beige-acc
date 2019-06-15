@@ -28,20 +28,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
+import java.util.List;
+
 import org.beigesoft.mdlp.AIdLnNm;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
+import org.beigesoft.acc.mdlb.IHsTxCt;
 
 /**
  * <p>Model of service (to sell or to purchase).</p>
  *
  * @author Yury Demidenko
  */
-public class Srv extends AIdLnNm implements ISacnt {
+public class Srv extends AIdLnNm implements ISacnt, IHsTxCt {
 
   /**
    * <p>Category, not null.</p>
    **/
   private SrvCt cat;
+
+  /**
+   * <p>Tax category, nullable.</p>
+   **/
+  private TxCt txCt;
+
+  /**
+   * <p>Tax destination lines.</p>
+   **/
+  private List<SrTxDl> tdls;
 
   /**
    * <p>OOP friendly Constant of code type.</p>
@@ -50,6 +63,24 @@ public class Srv extends AIdLnNm implements ISacnt {
   @Override
   public final Integer cnsTy() {
     return 1007;
+  }
+
+  /**
+   * <p>Getter for txCt.</p>
+   * @return TxCt
+   **/
+  @Override
+  public final TxCt getTxCt() {
+    return this.txCt;
+  }
+
+  /**
+   * <p>Setter for txCt.</p>
+   * @param pTxCt reference
+   **/
+  @Override
+  public final void setTxCt(final TxCt pTxCt) {
+    this.txCt = pTxCt;
   }
 
   //Simple getters and setters:
@@ -67,5 +98,21 @@ public class Srv extends AIdLnNm implements ISacnt {
    **/
   public final void setCat(final SrvCt pCat) {
     this.cat = pCat;
+  }
+
+  /**
+   * <p>Getter for tdls.</p>
+   * @return List<SrTxDl>
+   **/
+  public final List<SrTxDl> getTdls() {
+    return this.tdls;
+  }
+
+  /**
+   * <p>Setter for tdls.</p>
+   * @param pTdls reference
+   **/
+  public final void setTdls(final List<SrTxDl> pTdls) {
+    this.tdls = pTdls;
   }
 }

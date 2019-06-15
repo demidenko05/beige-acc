@@ -29,7 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.mdlp;
 
 import org.beigesoft.mdlp.AIdLnNm;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
 
 /**
  * <p>Model of service category, e.g. "Cleanings A".</p>

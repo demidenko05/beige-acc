@@ -37,7 +37,7 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdl.AcUpf;
-import org.beigesoft.acc.mdl.IEntrSrc;
+import org.beigesoft.acc.mdlb.IEntrSrc;
 
 /**
  * <p>Service that creates document that makes entries.</p>

@@ -26,49 +26,63 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
+package org.beigesoft.acc.mdlb;
 
-import java.util.Date;
-
-import org.beigesoft.mdlp.IOrId;
+import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IIdLn;
+import org.beigesoft.mdlp.AIdLn;
+import org.beigesoft.acc.mdlp.TxDst;
+import org.beigesoft.acc.mdlp.TxCt;
 
 /**
- * <p>Abstract model of a source of accounting entries. It's any document that
- * makes accounting entry by hand or automatically.
- * Method cnsTy returns unique code of entity type (OOP consumable constant),
- * range 1...999, e.g. 1 - input accounting entries by hand base document.
- * Any source has date and description.</p>
+ * <p>Abstract model of tax destination line.</p>
  *
+ * @param <T> owner type
  * @author Yury Demidenko
  */
-public interface IEntrSrc extends IOrId {
+public abstract class ATxDsLn<T extends IIdLn> extends AIdLn
+  implements IOwned<T, Long> {
 
   /**
-   * <p>Constant of subaccount type, range 1...999.</p>
-   * @return entity type code
+   * <p>Tax destination, not null.</p>
    **/
-  Integer cnsTy();
-  /**
-   * <p>Getter for dat.</p>
-   * @return Date
-   **/
-  Date getDat();
+  private TxDst txDs;
 
   /**
-   * <p>Setter for dat.</p>
-   * @param pDat reference
+   * <p>Tax category, null means non-taxable.</p>
    **/
-  void setDat(Date pDat);
+  private TxCt txCt;
+
+  //Simple getters and setters:
+  /**
+   * <p>Getter for txDs.</p>
+   * @return TxDs
+   **/
+  public final TxDst getTxDs() {
+    return this.txDs;
+  }
 
   /**
-   * <p>Getter for dscr.</p>
-   * @return String
+   * <p>Setter for txDs.</p>
+   * @param pTxDs reference
    **/
-  String getDscr();
+  public final void setTxDs(final TxDst pTxDs) {
+    this.txDs = pTxDs;
+  }
 
   /**
-   * <p>Setter for dscr.</p>
-   * @param pDscr reference
+   * <p>Getter for txCt.</p>
+   * @return TxCt
    **/
-  void setDscr(String pDscr);
+  public final TxCt getTxCt() {
+    return this.txCt;
+  }
+
+  /**
+   * <p>Setter for txCt.</p>
+   * @param pTxCt reference
+   **/
+  public final void setTxCt(final TxCt pTxCt) {
+    this.txCt = pTxCt;
+  }
 }

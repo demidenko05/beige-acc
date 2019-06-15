@@ -28,20 +28,39 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
+import java.util.List;
+import java.math.BigDecimal;
+
 import org.beigesoft.mdlp.AOrIdNm;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
+import org.beigesoft.acc.mdlb.IHsTxCt;
 
 /**
  * <p>Model of material(tangible) inventory item.</p>
  *
  * @author Yury Demidenko
  */
-public class Itm extends AOrIdNm implements ISacnt {
+public class Itm extends AOrIdNm implements ISacnt, IHsTxCt {
 
   /**
    * <p>Category, not null.</p>
    **/
   private ItmCt cat;
+
+  /**
+   * <p>Tax category, nullable.</p>
+   **/
+  private TxCt txCt;
+
+  /**
+   * <p>Known cost, 0 means not used.</p>
+   **/
+  private BigDecimal knCs = BigDecimal.ZERO;
+
+  /**
+   * <p>Tax destination lines.</p>
+   **/
+  private List<ItTxDl> tdls;
 
   /**
    * <p>OOP friendly Constant of code type.</p>
@@ -50,6 +69,24 @@ public class Itm extends AOrIdNm implements ISacnt {
   @Override
   public final Integer cnsTy() {
     return 1005;
+  }
+
+  /**
+   * <p>Getter for txCt.</p>
+   * @return TxCt
+   **/
+  @Override
+  public final TxCt getTxCt() {
+    return this.txCt;
+  }
+
+  /**
+   * <p>Setter for txCt.</p>
+   * @param pTxCt reference
+   **/
+  @Override
+  public final void setTxCt(final TxCt pTxCt) {
+    this.txCt = pTxCt;
   }
 
   //Simple getters and setters:
@@ -67,5 +104,37 @@ public class Itm extends AOrIdNm implements ISacnt {
    **/
   public final void setCat(final ItmCt pCat) {
     this.cat = pCat;
+  }
+
+  /**
+   * <p>Getter for knCs.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getKnCs() {
+    return this.knCs;
+  }
+
+  /**
+   * <p>Setter for knCs.</p>
+   * @param pKnCs reference
+   **/
+  public final void setKnCs(final BigDecimal pKnCs) {
+    this.knCs = pKnCs;
+  }
+
+  /**
+   * <p>Getter for tdls.</p>
+   * @return List<ItTxDl>
+   **/
+  public final List<ItTxDl> getTdls() {
+    return this.tdls;
+  }
+
+  /**
+   * <p>Setter for tdls.</p>
+   * @param pTdls reference
+   **/
+  public final void setTdls(final List<ItTxDl> pTdls) {
+    this.tdls = pTdls;
   }
 }

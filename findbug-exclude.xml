@@ -36,11 +36,11 @@
      <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-     <Class name="org.beigesoft.acc.mdl.AEntrSrc" />
+     <Class name="org.beigesoft.acc.mdlb.AEntrSrc" />
      <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-     <Class name="org.beigesoft.acc.mdl.AEntrSrc" />
+     <Class name="org.beigesoft.acc.mdlb.AEntrSrc" />
      <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>

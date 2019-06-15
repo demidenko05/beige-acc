@@ -31,7 +31,7 @@ package org.beigesoft.acc.mdlp;
 import java.util.List;
 import java.math.BigDecimal;
 
-import org.beigesoft.acc.mdl.AEntrSrc;
+import org.beigesoft.acc.mdlb.AEntrSrc;
 
 /**
  * <p>Model of Input Accounting entries by hand.</p>
@@ -59,6 +59,7 @@ public class InEntr extends AEntrSrc {
    * <p>Constant of code type.</p>
    * @return 1
    **/
+  @Override
   public final Integer cnsTy() {
     return 1;
   }

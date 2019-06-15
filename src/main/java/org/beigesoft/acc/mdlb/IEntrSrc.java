@@ -26,11 +26,11 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
+package org.beigesoft.acc.mdlb;
 
 import java.util.Date;
 
-import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.mdlp.IOrId;
 
 /**
  * <p>Abstract model of a source of accounting entries. It's any document that
@@ -41,48 +41,34 @@ import org.beigesoft.mdlp.AOrId;
  *
  * @author Yury Demidenko
  */
-public abstract class AEntrSrc extends AOrId implements IEntrSrc {
+public interface IEntrSrc extends IOrId {
 
   /**
-   * <p>Date.</p>
+   * <p>Constant of subaccount type, range 1...999.</p>
+   * @return entity type code
    **/
-  private Date dat;
-
-  /**
-   * <p>Dscr.</p>
-   **/
-  private String dscr;
-
-  //Simple getters and setters:
+  Integer cnsTy();
   /**
    * <p>Getter for dat.</p>
    * @return Date
    **/
-  public final Date getDat() {
-    return this.dat;
-  }
+  Date getDat();
 
   /**
    * <p>Setter for dat.</p>
    * @param pDat reference
    **/
-  public final void setDat(final Date pDat) {
-    this.dat = pDat;
-  }
+  void setDat(Date pDat);
 
   /**
    * <p>Getter for dscr.</p>
    * @return String
    **/
-  public final String getDscr() {
-    return this.dscr;
-  }
+  String getDscr();
 
   /**
    * <p>Setter for dscr.</p>
    * @param pDscr reference
    **/
-  public final void setDscr(final String pDscr) {
-    this.dscr = pDscr;
-  }
+  void setDscr(String pDscr);
 }

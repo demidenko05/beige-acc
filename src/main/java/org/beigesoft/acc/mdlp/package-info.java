@@ -27,7 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 /**
- * <p>It consist of accounting/trading persistable models.</p>
+ * <p>It consist of accounting persistable models.</p>
  *
  * @author Yury Demidenko
  */

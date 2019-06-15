@@ -32,7 +32,7 @@ import org.beigesoft.mdl.IHasId;
 import org.beigesoft.hld.IHlNmClSt;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.prc.PrcEntCr;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;

@@ -42,6 +42,7 @@ import org.beigesoft.acc.mdlp.Srv;
 import org.beigesoft.acc.mdlp.SrvCt;
 import org.beigesoft.acc.mdlp.ItmCt;
 import org.beigesoft.acc.mdlp.Itm;
+import org.beigesoft.acc.mdlp.Tax;
 
 /**
  * <p>Holder subacc classes by type.</p>
@@ -60,15 +61,15 @@ public class HlTySac implements IHlIntCls {
    **/
   public HlTySac() {
     this.clsMp = new HashMap<Integer, Class<? extends IHasId<?>>>();
-    this.clsMp.put(new Expn().cnsTy(), Expn.class);
-    this.clsMp.put(new Bnka().cnsTy(), Bnka.class);
-    this.clsMp.put(new DbCr().cnsTy(), DbCr.class);
-    this.clsMp.put(new DcrCt().cnsTy(), DcrCt.class);
-    this.clsMp.put(new Expn().cnsTy(), Expn.class);
-    this.clsMp.put(new Srv().cnsTy(), Srv.class);
-    this.clsMp.put(new SrvCt().cnsTy(), SrvCt.class);
-    this.clsMp.put(new Itm().cnsTy(), Itm.class);
-    this.clsMp.put(new ItmCt().cnsTy(), ItmCt.class);
+    this.clsMp.put(new Expn().cnsTy(), Expn.class); //1000
+    this.clsMp.put(new DcrCt().cnsTy(), DcrCt.class); //1001
+    this.clsMp.put(new DbCr().cnsTy(), DbCr.class); //1002
+    this.clsMp.put(new Bnka().cnsTy(), Bnka.class); //1003
+    this.clsMp.put(new ItmCt().cnsTy(), ItmCt.class); //1004
+    this.clsMp.put(new Itm().cnsTy(), Itm.class); //1005
+    this.clsMp.put(new SrvCt().cnsTy(), SrvCt.class); //1006
+    this.clsMp.put(new Srv().cnsTy(), Srv.class); //1007
+    this.clsMp.put(new Tax().cnsTy(), Tax.class); //1008
   }
 
   /**

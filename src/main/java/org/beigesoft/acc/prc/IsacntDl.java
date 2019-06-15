@@ -37,7 +37,7 @@ import org.beigesoft.log.ILog;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
 
 /**
  * <p>Service that deletes subacc from DB.</p>

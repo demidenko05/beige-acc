@@ -44,7 +44,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.EPeriod;
 import org.beigesoft.mdl.IRecSet;
 import org.beigesoft.mdl.ColVals;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlp.SacCh;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;

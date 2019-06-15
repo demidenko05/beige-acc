@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.beigesoft.hnd.IHnTrRlBk;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdl.TrBlLn;
 
 /**

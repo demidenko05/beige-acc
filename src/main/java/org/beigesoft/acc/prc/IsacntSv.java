@@ -36,7 +36,7 @@ import org.beigesoft.log.ILog;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdl.ISacnt;
+import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
