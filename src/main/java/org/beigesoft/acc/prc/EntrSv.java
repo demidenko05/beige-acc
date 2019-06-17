@@ -157,6 +157,10 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       if (pEnt.getAcDb() == null && pEnt.getAcCr() == null) {
         throw new ExcCode(ExcCode.WRPR, "account_is_null");
       }
+      pEnt.setDebt(pEnt.getDebt().setScale(astg.getCsDp(), astg.getRndm()));
+      if (pEnt.getAcCr() != null) {
+        pEnt.setCred(pEnt.getDebt());
+      }
       if (pEnt.getAcDb() == null) {
         pEnt.setDebt(BigDecimal.ZERO);
       } else {
@@ -176,7 +180,6 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
         }
       }
       if (pEnt.getAcCr() != null) {
-        pEnt.setCred(pEnt.getDebt());
         getOrm().refrEnt(pRvs, vs, pEnt.getAcCr());
         if (pEnt.getAcCr().getSaTy() != null) {
           if (pEnt.getSacId() == null) {

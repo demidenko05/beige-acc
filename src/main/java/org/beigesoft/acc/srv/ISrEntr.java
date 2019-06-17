@@ -26,23 +26,53 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlp;
+package org.beigesoft.acc.srv;
 
-import org.beigesoft.acc.mdlb.APrep;
+import java.util.List;
+import java.util.Map;
+
+import org.beigesoft.acc.mdlb.IEntrSrc;
+import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlp.Entr;
 
 /**
- * <p>Model of prepayment from customer document.</p>
+ * <p>Service that makes, reverses, retrieves entries for given document.</p>
  *
  * @author Yury Demidenko
  */
-public class PrepFr extends APrep {
+public interface ISrEntr {
 
   /**
-   * <p>Constant of code type.</p>
-   * @return 2
+   * <p>Handles settings changed, i.e. clears cached data.</p>
+   * @param pRvs Request scoped variables
+   * @throws Exception - an exception
    **/
-  @Override
-  public final Integer cnsTy() {
-    return 2;
-  }
+  void hndStgCng(Map<String, Object> pRvs) throws Exception;
+
+  /**
+   * <p>Makes entries for given document.</p>
+   * @param pRvs Request scoped variables
+   * @param pDoc source document
+   * @throws Exception - an exception
+   **/
+  void mkEntrs(Map<String, Object> pRvs, IDoc pDoc) throws Exception;
+
+  /**
+   * <p>Reverses entries for given document.</p>
+   * @param pRvs Request scoped variables
+   * @param pRvng reversing document
+   * @param pRved reversed document
+   * @throws Exception - an exception
+   **/
+  void revEntrs(Map<String, Object> pRvs, IDoc pRvng,
+    IDoc pRved) throws Exception;
+
+  /**
+   * <p>Retrieves entries for given document.</p>
+   * @param pRvs Request scoped variables
+   * @param pSrc source document
+   * @return entries
+   * @throws Exception - an exception
+   **/
+  List<Entr> retEntrs(Map<String, Object> pRvs, IEntrSrc pSrc) throws Exception;
 }

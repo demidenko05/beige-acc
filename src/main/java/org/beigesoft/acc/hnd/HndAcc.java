@@ -46,6 +46,7 @@ import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.I18Curr;
 import org.beigesoft.acc.mdlp.I18Acc;
 import org.beigesoft.acc.hld.HlTySac;
+import org.beigesoft.acc.hld.HlTyEnSr;
 import org.beigesoft.acc.srv.ISrAcStg;
 
 /**
@@ -75,6 +76,11 @@ public class HndAcc<RS> implements IHndRq {
    * <p>Subaccounts type-class holder.</p>
    **/
   private HlTySac hlTySac;
+
+  /**
+   * <p>Entries sources type-class holder.</p>
+   **/
+  private HlTyEnSr hlTyEnSr;
 
   /**
    * <p>Acc-ssttings service.</p>
@@ -209,7 +215,9 @@ public class HndAcc<RS> implements IHndRq {
     cpf.setCostDp(as.getCsDp());
     cpf.setPriDp(as.getPrDp());
     cpf.setQuanDp(as.getQuDp());
+    cpf.setTxDp(as.getTxDp());
     pRqDt.setAttr("hlTySac", this.hlTySac);
+    pRqDt.setAttr("hlTyEnSr", this.hlTyEnSr);
   }
 
   //Simple getters and setters:
@@ -275,6 +283,22 @@ public class HndAcc<RS> implements IHndRq {
    **/
   public final void setHlTySac(final HlTySac pHlTySac) {
     this.hlTySac = pHlTySac;
+  }
+
+  /**
+   * <p>Getter for hlTyEnSr.</p>
+   * @return HlTyEnSr
+   **/
+  public final HlTyEnSr getHlTyEnSr() {
+    return this.hlTyEnSr;
+  }
+
+  /**
+   * <p>Setter for hlTyEnSr.</p>
+   * @param pHlTyEnSr reference
+   **/
+  public final void setHlTyEnSr(final HlTyEnSr pHlTyEnSr) {
+    this.hlTyEnSr = pHlTyEnSr;
   }
 
   /**

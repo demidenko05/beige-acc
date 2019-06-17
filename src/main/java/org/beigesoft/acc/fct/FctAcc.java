@@ -40,8 +40,11 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.acc.hnd.HndAcc;
 import org.beigesoft.acc.hld.HlTySac;
+import org.beigesoft.acc.hld.HlTyEnSr;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.SrAcStg;
+import org.beigesoft.acc.srv.ISrEntr;
+import org.beigesoft.acc.srv.SrEntr;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.SrBlnc;
 import org.beigesoft.acc.rep.ISrBlnSht;
@@ -72,6 +75,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
     Object rz = null;
     if (HndAcc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHndAcc(pRvs, pFctApp);
+    } else if (HlTyEnSr.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuHlTyEnSr(pRvs, pFctApp);
     } else if (HlTySac.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHlTySac(pRvs, pFctApp);
     } else if (IBlnPdf.class.getSimpleName().equals(pBnNm)) {
@@ -80,6 +85,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuPdfFactory(pRvs, pFctApp);
     } else if (ISrBlnSht.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrBlnSht(pRvs, pFctApp);
+    } else if (ISrEntr.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrEntr(pRvs, pFctApp);
     } else if (ISrBlnc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrBlnc(pRvs, pFctApp);
     } else if (ISrAcStg.class.getSimpleName().equals(pBnNm)) {
@@ -98,6 +105,22 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public final void release(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     //nothing
+  }
+
+  /**
+   * <p>Creates and puts into MF HlTyEnSr.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HlTyEnSr
+   * @throws Exception - an exception
+   */
+  private HlTyEnSr crPuHlTyEnSr(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HlTyEnSr rz = new HlTyEnSr();
+    pFctApp.put(pRvs, HlTyEnSr.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      HlTyEnSr.class.getSimpleName() + " has been created");
+    return rz;
   }
 
   /**
@@ -185,6 +208,30 @@ public class FctAcc<RS> implements IFctAux<RS> {
   }
 
   /**
+   * <p>Creates and puts into MF SrEntr.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrEntr
+   * @throws Exception - an exception
+   */
+  private SrEntr<RS> crPuSrEntr(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrEntr<RS> rz = new SrEntr<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    ISrBlnc srBlnc = (ISrBlnc) pFctApp
+      .laz(pRvs, ISrBlnc.class.getSimpleName());
+    rz.setSrBlnc(srBlnc);
+    pFctApp.put(pRvs, ISrEntr.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrEntr.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
    * <p>Creates and puts into MF SrBlnc.</p>
    * @param pRvs request scoped vars
    * @param pFctApp main factory
@@ -229,6 +276,9 @@ public class FctAcc<RS> implements IFctAux<RS> {
     ISrAcStg srAcStg = (ISrAcStg) pFctApp
       .laz(pRvs, ISrAcStg.class.getSimpleName());
     rz.setSrAcStg(srAcStg);
+    HlTyEnSr hlTyEnSr = (HlTyEnSr) pFctApp
+      .laz(pRvs, HlTyEnSr.class.getSimpleName());
+    rz.setHlTyEnSr(hlTyEnSr);
     HlTySac hlTySac = (HlTySac) pFctApp
       .laz(pRvs, HlTySac.class.getSimpleName());
     rz.setHlTySac(hlTySac);

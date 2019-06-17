@@ -41,6 +41,7 @@ import org.beigesoft.fct.IniBdFct;
 import org.beigesoft.hld.HldFldStg;
 import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
+import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.I18Acc;
 import org.beigesoft.acc.mdlp.I18Curr;
@@ -48,6 +49,7 @@ import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
 import org.beigesoft.acc.mdlp.Sacnt;
+import org.beigesoft.acc.mdlp.EnrSrc;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -92,6 +94,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(AcStg.class);
     hlClSt.getNulClss().add(Acnt.class);
     hlClSt.getNulClss().add(Sacnt.class);
+    hlClSt.getNulClss().add(EnrSrc.class);
     stgNm = "ordDf"; //list order by field default
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgSclss().remove(IHasId.class);
@@ -113,12 +116,18 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(InEntr.class, "lfia");
     hlClSt.setNulClss(new HashSet<Class<? extends IHasId<?>>>());
     hlClSt.getNulClss().add(AcStg.class);
+    hlClSt.getNulClss().add(EnrSrc.class);
     stgNm = "liAc"; //list item actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgClss().put(Acnt.class, "acac");
     hlClSt.getStgClss().put(Entr.class, "acae");
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");
+    hlClSt.getStgClss().put(EnrSrc.class, "ace");
+    hlClSt.getStgSclss().put(IDoc.class, "adoc");
+    stgNm = "fmAc"; //form actions
+    hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "prn"; //print
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
@@ -145,12 +154,20 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     //fields settings:
     String stgNm = "inp"; //input
     HldFldStg hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
-    //Acnt.saTy
+    //saTy, srTy
     hlFdSt.getCustClss().add(Integer.class);
     stgNm = "str"; //to string
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
+    stgNm = "ord"; //order
+    hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.setStgFdNm(new HashMap<String, String>());
+    hlFdSt.getStgFdNm().put("saId", null);
+    stgNm = "flt"; //filter
+    hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.setStgFdNm(new HashMap<String, String>());
+    hlFdSt.getStgFdNm().put("saId", null);
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);

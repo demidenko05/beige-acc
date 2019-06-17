@@ -46,14 +46,18 @@ import org.beigesoft.acc.prc.IsacntSv;
 import org.beigesoft.acc.prc.AcntDl;
 import org.beigesoft.acc.prc.IsacntDl;
 import org.beigesoft.acc.prc.AcntSv;
+import org.beigesoft.acc.prc.TxCtLnSv;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.InEntrSv;
 import org.beigesoft.acc.prc.InEntrDl;
 import org.beigesoft.acc.prc.AcStgRt;
 import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
+import org.beigesoft.acc.prc.PrepSv;
+import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
+import org.beigesoft.acc.srv.ISrEntr;
 
 /**
  * <p>Accounting additional factory of entity processors.</p>
@@ -121,6 +125,12 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuIsacntSv(pRvs);
           } else if (AcntSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuAcntSv(pRvs);
+          } else if (TxCtLnSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuTxCtLnSv(pRvs);
+          } else if (PrepCpr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuPrepCpr(pRvs);
+          } else if (PrepSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuPrepSv(pRvs);
           } else if (EntrSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrSv(pRvs);
           }
@@ -292,6 +302,60 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setRdb(rdb);
     this.procs.put(AcntSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), AcntSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map TxCtLnSv.</p>
+   * @param pRvs request scoped vars
+   * @return TxCtLnSv
+   * @throws Exception - an exception
+   */
+  private TxCtLnSv<RS> crPuTxCtLnSv(
+    final Map<String, Object> pRvs) throws Exception {
+    TxCtLnSv<RS> rz = new TxCtLnSv<RS>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    this.procs.put(TxCtLnSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), TxCtLnSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map PrepCpr.</p>
+   * @param pRvs request scoped vars
+   * @return PrepCpr
+   * @throws Exception - an exception
+   */
+  private PrepCpr crPuPrepCpr(
+    final Map<String, Object> pRvs) throws Exception {
+    PrepCpr rz = new PrepCpr();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(PrepCpr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), PrepCpr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map PrepSv.</p>
+   * @param pRvs request scoped vars
+   * @return PrepSv
+   * @throws Exception - an exception
+   */
+  private PrepSv crPuPrepSv(
+    final Map<String, Object> pRvs) throws Exception {
+    PrepSv rz = new PrepSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    this.procs.put(PrepSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), PrepSv.class
       .getSimpleName() + " has been created.");
     return rz;
   }

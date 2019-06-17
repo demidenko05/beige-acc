@@ -12,6 +12,7 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'BANK','1030'
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RECEIVABLE','1105','Accounts receivable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVENTORY','1200','Inventory',1462867931627,1,1004);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PAYABLE','2050','Accounts payable',1462867931627,1,1002);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PREPFR','2400','Prepayments from',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'SCAPITAL','3010','Started capital',1462867931627,1);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'REARNINGS','3200','Retained earnings',1462867931627,1);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,0,'RLOSSES','3300','Retained losses',1462867931627,1);
@@ -25,3 +26,4 @@ insert into CURR (IID,NME,SGN,VER) values (840,'USD','$',1462867931627);
 insert into CURR (IID,NME,SGN,VER) values (978,'EUR','€',1462867931627);
 insert into CURR (IID,NME,SGN,VER) values (643,'RUB','₽',1462867931627);
 insert into ACSTG (ORG,IID,VER,MNTH,CSDP,PRDP,RPDP,QUDP,TXDP,RNDM,BLPR,STRM,TTFF,TTFB,PGSZ,PGOR,MRLF,MRRI,MRTO,MRBO,FNSZ,CURR) values ('Bob''s Pizza',1,1462867931627,1462867931627,4,2,2,2,3,4,3,4,'DejaVuSerif','DejaVuSerif-Bold',2,0,20,10,10,10,3.5,840);
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (1,2,'PrepFrCrAcCashDb',1462867931627,1,'PREPFR.IID','Debit Account Cash, Credit Prepayments from per customer.');

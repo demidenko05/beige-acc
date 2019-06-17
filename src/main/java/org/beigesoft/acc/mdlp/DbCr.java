@@ -44,11 +44,6 @@ public class DbCr extends AIdLnNm implements ISacnt {
   private DcrCt cat;
 
   /**
-   * <p>If foreigner, then sales taxes will be omitted.</p>
-   **/
-  private Boolean forn = false;
-
-  /**
    * <p>Only for overseas/overstate buyers/vendors.</p>
    **/
   private TxDst txDs;
@@ -122,21 +117,6 @@ public class DbCr extends AIdLnNm implements ISacnt {
    **/
   public final void setCat(final DcrCt pCat) {
     this.cat = pCat;
-  }
-  /**
-   * <p>Getter for forn.</p>
-   * @return Boolean
-   **/
-  public final Boolean getForn() {
-    return this.forn;
-  }
-
-  /**
-   * <p>Setter for forn.</p>
-   * @param pForn reference
-   **/
-  public final void setForn(final Boolean pForn) {
-    this.forn = pForn;
   }
 
   /**
