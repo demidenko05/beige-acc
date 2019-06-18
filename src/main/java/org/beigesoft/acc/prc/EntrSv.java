@@ -227,8 +227,9 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
    * @param pRving reversing entry
    * @param pRved reversed entry
    **/
-  public final void mkReving(final Map<String, Object> pRvs,
-    final Entr pRving, final Entr pRved) {
+  public final void mkReving(final Map<String, Object> pRvs, final Entr pRving,
+    final Entr pRved) {
+    pRving.setRvId(pRved.getIid());
     pRving.setDat(pRved.getDat());
     pRving.setDebt(pRved.getDebt().negate());
     pRving.setCred(pRved.getCred().negate());
@@ -241,13 +242,13 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     pRving.setSacTy(pRved.getSacTy());
     pRving.setSacNm(pRved.getSacNm());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-    StringBuffer dscing = new StringBuffer();
+    StringBuffer sb = new StringBuffer();
     if (pRving.getDscr() != null) {
-      dscing.append(pRving.getDscr() + " !");
+      sb.append(pRving.getDscr() + ", !");
     }
-    dscing.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
-    dscing.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
-    pRving.setDscr(dscing.toString() + " !");
+    sb.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
+    sb.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
+    pRving.setDscr(sb.toString() + "!");
   }
 
   /**

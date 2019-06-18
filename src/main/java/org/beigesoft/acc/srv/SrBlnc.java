@@ -200,7 +200,8 @@ public class SrBlnc<RS> implements ISrBlnc {
 
   /**
    * <p>Recalculate if need for all balances for all dates less
-   * or equals pDtFor, this method is always invoked by reports.</p>
+   * or equals maximum (pDtFor, max date entry, max date balance),
+   * this method is always invoked by reports.</p>
    * @param pRvs Request scoped variables
    * @param pDtFor date for
    * @return if has been recalculation
@@ -470,7 +471,8 @@ public class SrBlnc<RS> implements ISrBlnc {
   //Utils:
   /**
    * <p>Forced recalculation all balances for all dates less
-   * or equals pDtFor. If balance for account at given date is NULL then
+   * or equals maximum (pDtFor, max date entry, max date balance).
+   * If balance for account at given date is NULL then
    * it will be no recorded into Blnc, this is cheap approach.</p>
    * @param pRvs Request scoped variables
    * @param pVs Invoker scoped variables
@@ -479,8 +481,32 @@ public class SrBlnc<RS> implements ISrBlnc {
    **/
   public final synchronized void recalc(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final Date pDtFor) throws Exception {
+    Date dtEndRec = null;
+    Long dtLsEnrLn = this.rdb.evLong(
+      "select max(DAT) as MAXDT from ENTR where RVID is null;", "MAXDT");
+    Date dtLstEntr = null;
+    if (dtLsEnrLn != null) {
+      dtLstEntr = new Date(dtLsEnrLn);
+      if (dtLstEntr.getTime() > pDtFor.getTime()) {
+        dtEndRec = dtLstEntr;
+      } else {
+        dtEndRec = pDtFor;
+      }
+    } else {
+      dtEndRec = pDtFor;
+    }
+    Long dtLsBlnLn = this.rdb.evLong(
+      "select max(DAT) as MAXDT from BLNC;", "MAXDT");
+    Date dtLstBlnc = null;
+    if (dtLsBlnLn != null) {
+      dtLstBlnc = new Date(dtLsBlnLn);
+      if (dtLstBlnc.getTime() > dtEndRec.getTime()) {
+        dtEndRec = dtLstBlnc;
+      }
+    }
     getLog().info(pRvs, SrBlnc.class, "recalculation start for " + pDtFor
-      + " BlnCh was " + this.blnCh);
+      + " BlnCh was " + this.blnCh + ", dtLstEntr = " + dtLstEntr
+        + ", dtLsBlnLn = " + dtLsBlnLn);
     if (this.blnCh.getPrCh()) {
       getLog().info(pRvs, SrBlnc.class,
         "deleting all stored balances cause period has changed");
@@ -512,16 +538,21 @@ public class SrBlnc<RS> implements ISrBlnc {
       lstBlStDt = curDt;
       String query = evQuBlnc(pRvs, new Date(lstBlStDt.getTime() - 1));
       List<TrBlLn> tbls = retBlnLnsToSv(query);
+      pVs.put("AcntdpLv", 0);
+      List<Blnc> blncs = getOrm().retLstCnd(pRvs, pVs, Blnc.class, " where DAT="
+        + lstBlStDt.getTime());
+      pVs.clear();
       for (TrBlLn tbl : tbls) {
-        String saWhe;
-        if (tbl.getSaId() == null) {
-          saWhe = " and SAID is null and BLNC.SATY is null";
-        } else {
-          saWhe = " and SAID=" + tbl.getSaId() + " and BLNC.SATY="
-            + tbl.getSaTy();
+        Blnc blnc = null;
+        for (Blnc bl : blncs) {
+         if (bl.getAcc().getIid().equals(tbl.getAcId()) && (bl.getSaTy() == null
+            && tbl.getSaTy() == null) || bl.getSaTy() != null && bl.getSaTy()
+              .equals(tbl.getSaTy()) && bl.getSaId().equals(tbl.getSaId())) {
+            blnc = bl;
+            blncs.remove(blnc);
+            break;
+          }
         }
-        Blnc blnc = getOrm().retEntCnd(pRvs, pVs, Blnc.class, "ACC='"
-          + tbl.getAcId() + "' and DAT=" + lstBlStDt.getTime() + saWhe);
         if (blnc == null) {
           blnc = new Blnc();
           blnc.setIsNew(true);
@@ -545,10 +576,13 @@ public class SrBlnc<RS> implements ISrBlnc {
           getOrm().update(pRvs, pVs, blnc);
         }
       }
+      for (Blnc bl : blncs) {
+        getOrm().del(pRvs, pVs, bl); //dirtied after reversing
+      }
       curDt = evDtNxtPerSt(pRvs, pVs, curDt);
-    } while (curDt.getTime() <= pDtFor.getTime());
-      getLog().info(pRvs, SrBlnc.class, "last stored balance curDt "
-        + lstBlStDt + ", curDt for " + pDtFor);
+    } while (curDt.getTime() <= dtEndRec.getTime());
+      getLog().info(pRvs, SrBlnc.class, "last stored balance lstBlStDt "
+        + lstBlStDt + ", dtEndRecal = " + dtEndRec);
     this.blnCh.setCuDt(lstBlStDt);
     this.blnCh.setLeDt(this.blnCh.getCuDt());
     getOrm().update(pRvs, pVs, this.blnCh);

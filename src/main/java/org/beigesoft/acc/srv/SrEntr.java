@@ -33,7 +33,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.text.DateFormat;
@@ -116,30 +115,10 @@ public class SrEntr<RS> implements ISrEntr {
   @Override
   public final void mkEntrs(final Map<String, Object> pRvs,
     final IDoc pDoc) throws Exception {
-    if (!pDoc.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
-    }
     if (pDoc.getMdEnr()) {
       throw new ExcCode(ExcCode.SPAM, "Trying to account accounted!");
     }
     AcStg as = (AcStg) pRvs.get("astg");
-    Calendar calCuMh = Calendar.getInstance(new Locale("en", "US"));
-    calCuMh.setTime(as.getMnth());
-    calCuMh.set(Calendar.DAY_OF_MONTH, 1);
-    calCuMh.set(Calendar.HOUR_OF_DAY, 0);
-    calCuMh.set(Calendar.MINUTE, 0);
-    calCuMh.set(Calendar.SECOND, 0);
-    calCuMh.set(Calendar.MILLISECOND, 0);
-    Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
-    calDoc.setTime(pDoc.getDat());
-    calDoc.set(Calendar.DAY_OF_MONTH, 1);
-    calDoc.set(Calendar.HOUR_OF_DAY, 0);
-    calDoc.set(Calendar.MINUTE, 0);
-    calDoc.set(Calendar.SECOND, 0);
-    calDoc.set(Calendar.MILLISECOND, 0);
-    if (calCuMh.getTime().getTime() != calDoc.getTime().getTime()) {
-      throw new ExcCode(ExcCode.WRPR, "wrong_acperiod");
-    }
     Map<String, Object> vs = new HashMap<String, Object>();
     if (this.entrSrcs == null) {
       synchronized (this) {
@@ -197,6 +176,7 @@ public class SrEntr<RS> implements ISrEntr {
           entr.setDbOr(this.orm.getDbId());
           entr.setSrId(pDoc.getIid());
           entr.setSrTy(pDoc.cnsTy());
+          entr.setSrDbOr(pDoc.getDbOr());
           entr.setDat(new Date(dt++));
           String acDbs = rs.getStr("ACDB");
           if (acDbs !=  null) {
@@ -269,26 +249,18 @@ public class SrEntr<RS> implements ISrEntr {
       pRvs.put(IHnTrRlBk.HNSTRRLBK, hnsTrRlBk);
     }
     hnsTrRlBk.add(this.srBlnc);
-    for (Entr revd : entrs) {
-      Entr revg = new Entr();
-      revg.setRvId(revd.getIid());
-      revg.setDbOr(this.orm.getDbId());
-      mkReving(pRvs, revg, revd);
-      this.orm.insIdLn(pRvs, vs, revg);
-      getSrBlnc().hndNewEntr(pRvs, revg.getDat());
-      mkReved(pRvs, revg, revd);
-      this.orm.update(pRvs, vs, revd);
-      getSrBlnc().hndNewEntr(pRvs, revd.getDat());
-    }
+    pRvng.setDat(pRved.getDat());
     pRvng.setTot(pRved.getTot().negate());
     pRvng.setToFc(pRved.getToFc().negate());
     pRvng.setMdEnr(true);
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat
+      .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
     StringBuffer sb = new StringBuffer();
     if (pRvng.getDscr() != null) {
       sb.append(pRvng.getDscr() + " !");
     }
-    sb.append(getI18n().getMsg("revered", cpf.getLngDef().getIid()));
+    sb.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
     sb.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
     pRvng.setDscr(sb.toString());
     if (pRvng.getIsNew()) {
@@ -296,7 +268,20 @@ public class SrEntr<RS> implements ISrEntr {
     } else {
       getOrm().update(pRvs, vs, pRvng);
     }
-    sb.delete(0, sb.length() - 1);
+    for (Entr revd : entrs) {
+      Entr revg = new Entr();
+      revg.setDbOr(this.orm.getDbId());
+      revg.setSrId(pRvng.getIid());
+      revg.setSrTy(pRvng.cnsTy());
+      revg.setSrDbOr(pRvng.getDbOr());
+      mkReving(pRvs, revg, revd, pRvng, dateFormat);
+      this.orm.insIdLn(pRvs, vs, revg);
+      getSrBlnc().hndNewEntr(pRvs, revg.getDat());
+      mkReved(pRvs, revg, revd);
+      this.orm.update(pRvs, vs, revd);
+      getSrBlnc().hndNewEntr(pRvs, revd.getDat());
+    }
+    sb.delete(0, sb.length());
     if (pRved.getDscr() != null) {
       sb.append(pRved.getDscr() + " !");
     }
@@ -334,9 +319,12 @@ public class SrEntr<RS> implements ISrEntr {
    * @param pRvs request scoped vars
    * @param pRving reversing entry
    * @param pRved reversed entry
+   * @param pSrc document
+   * @param pDtFrm date format
    **/
-  public final void mkReving(final Map<String, Object> pRvs,
-    final Entr pRving, final Entr pRved) {
+  public final void mkReving(final Map<String, Object> pRvs, final Entr pRving,
+    final Entr pRved, final IEntrSrc pSrc, final DateFormat pDtFrm) {
+    pRving.setRvId(pRved.getIid());
     pRving.setDat(pRved.getDat());
     pRving.setDebt(pRved.getDebt().negate());
     pRving.setCred(pRved.getCred().negate());
@@ -349,13 +337,16 @@ public class SrEntr<RS> implements ISrEntr {
     pRving.setSacTy(pRved.getSacTy());
     pRving.setSacNm(pRved.getSacNm());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-    StringBuffer dscing = new StringBuffer();
-    if (pRving.getDscr() != null) {
-      dscing.append(pRving.getDscr() + " !");
+    StringBuffer sb = new StringBuffer();
+    sb.append(getI18n().getMsg(pSrc.getClass().getSimpleName() + "sht",
+      cpf.getLngDef().getIid()) + " #" + pSrc.getDbOr() + "-" + pSrc
+        .getIid() + ", " + pDtFrm.format(pSrc.getDat()));
+    if (pSrc.getDscr() != null) {
+      sb.append(", " + pSrc.getDscr());
     }
-    dscing.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
-    dscing.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
-    pRving.setDscr(dscing.toString() + " !");
+    sb.append(" ," + getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
+    sb.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
+    pRving.setDscr(sb.toString() + "!");
   }
 
   /**
@@ -368,13 +359,13 @@ public class SrEntr<RS> implements ISrEntr {
     final Entr pRving, final Entr pRved) {
     pRved.setRvId(pRving.getIid());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-    StringBuffer dsced = new StringBuffer();
+    StringBuffer sb = new StringBuffer();
     if (pRved.getDscr() != null) {
-      dsced.append(pRved.getDscr() + " !");
+      sb.append(pRved.getDscr() + " !");
     }
-    dsced.append(getI18n().getMsg("reversing", cpf.getLngDef().getIid()));
-    dsced.append(" #" + pRving.getDbOr() + "-" + pRving.getIid());
-    pRved.setDscr(dsced.toString());
+    sb.append(getI18n().getMsg("reversing", cpf.getLngDef().getIid()));
+    sb.append(" #" + pRving.getDbOr() + "-" + pRving.getIid());
+    pRved.setDscr(sb.toString());
   }
 
   /**

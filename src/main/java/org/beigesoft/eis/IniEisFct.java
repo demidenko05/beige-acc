@@ -30,6 +30,7 @@ package org.beigesoft.eis;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 
 import org.beigesoft.mdl.IHasId;
@@ -132,6 +133,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(InEntr.class, "pria");
+    hlClSt.setStgSclss(new LinkedHashMap<Class<?>, String>());
+    hlClSt.getStgSclss().put(IDoc.class, "prdc");
     stgNm = "de"; //delete
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());

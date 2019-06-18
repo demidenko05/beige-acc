@@ -74,6 +74,7 @@ public class InEntrRt implements IPrcEnt<InEntr, Long> {
     pEnt.setEntrs(getOrm().retLstCnd(pRvs, vs, Entr.class, "where SRTY="
       + pEnt.cnsTy() + " and SRID=" + pEnt.getIid()));
     vs.clear();
+    pRvs.put("entrs", pEnt.getEntrs());
     pRvs.put("entrCls", Entr.class);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);

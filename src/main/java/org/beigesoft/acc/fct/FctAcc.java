@@ -47,6 +47,7 @@ import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.SrEntr;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.SrBlnc;
+import org.beigesoft.acc.srv.UtlDoc;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.rep.SrBlnSht;
 import org.beigesoft.acc.rep.IBlnPdf;
@@ -85,6 +86,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuPdfFactory(pRvs, pFctApp);
     } else if (ISrBlnSht.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrBlnSht(pRvs, pFctApp);
+    } else if (UtlDoc.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuUtlDoc(pRvs, pFctApp);
     } else if (ISrEntr.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrEntr(pRvs, pFctApp);
     } else if (ISrBlnc.class.getSimpleName().equals(pBnNm)) {
@@ -204,6 +207,23 @@ public class FctAcc<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, ISrBlnSht.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrBlnSht.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF UtlDoc.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return UtlDoc
+   * @throws Exception - an exception
+   */
+  private UtlDoc crPuUtlDoc(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    UtlDoc rz = new UtlDoc();
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    pFctApp.put(pRvs, UtlDoc.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      UtlDoc.class.getSimpleName() + " has been created");
     return rz;
   }
 

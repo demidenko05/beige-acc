@@ -30,8 +30,6 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Calendar;
-import java.util.Locale;
 import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
@@ -42,6 +40,7 @@ import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Sacnt;
+import org.beigesoft.acc.srv.UtlDoc;
 import org.beigesoft.acc.srv.ISrEntr;
 
 /**
@@ -63,6 +62,11 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
   private ISrEntr srEntr;
 
   /**
+   * <p>Document service.</p>
+   **/
+  private UtlDoc utlDoc;
+
+  /**
    * <p>Process that saves entity.</p>
    * @param pRvs request scoped vars, e.g. return this line's
    * owner(document) in "nextEntity" for farther processing
@@ -74,15 +78,12 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
   @Override
   public final APrep process(final Map<String, Object> pRvs, final APrep pEnt,
     final IReqDt pRqDt) throws Exception {
-    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
-    }
     Map<String, Object> vs = new HashMap<String, Object>();
-    AcStg astg = (AcStg) pRvs.get("astg");
     if (pEnt.getRvId() != null) {
       APrep revd = pEnt.getClass().newInstance();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
+      this.utlDoc.check1(pRvs, revd, pRqDt);
       if (revd.getInvId() != null) {
         throw new ExcCode(ExcCode.WRPR, "reverse_inv_first");
       }
@@ -99,23 +100,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
       if (pEnt.getAcc() == null) {
         throw new ExcCode(ExcCode.WRPR, "account_is_null");
       }
-      Calendar calCuMh = Calendar.getInstance(new Locale("en", "US"));
-      calCuMh.setTime(astg.getMnth());
-      calCuMh.set(Calendar.DAY_OF_MONTH, 1);
-      calCuMh.set(Calendar.HOUR_OF_DAY, 0);
-      calCuMh.set(Calendar.MINUTE, 0);
-      calCuMh.set(Calendar.SECOND, 0);
-      calCuMh.set(Calendar.MILLISECOND, 0);
-      Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
-      calDoc.setTime(pEnt.getDat());
-      calDoc.set(Calendar.DAY_OF_MONTH, 1);
-      calDoc.set(Calendar.HOUR_OF_DAY, 0);
-      calDoc.set(Calendar.MINUTE, 0);
-      calDoc.set(Calendar.SECOND, 0);
-      calDoc.set(Calendar.MILLISECOND, 0);
-      if (calCuMh.getTime().getTime() != calDoc.getTime().getTime()) {
-        throw new ExcCode(ExcCode.WRPR, "wrong_acperiod");
-      }
+      this.utlDoc.check1(pRvs, pEnt, pRqDt);
       if (pEnt.getAcc().getSaTy() != null) {
         if (pEnt.getSaId() == null) {
           throw new ExcCode(ExcCode.WRPR, "select_subaccount");
@@ -128,6 +113,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
           pEnt.setSaNm(sa.getSaNm());
         }
       }
+      AcStg astg = (AcStg) pRvs.get("astg");
       pEnt.setTot(pEnt.getTot().setScale(astg.getCsDp(), astg.getRndm()));
       pEnt.setToFc(pEnt.getToFc().setScale(astg.getCsDp(), astg.getRndm()));
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
@@ -179,5 +165,21 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
    **/
   public final void setSrEntr(final ISrEntr pSrEntr) {
     this.srEntr = pSrEntr;
+  }
+
+  /**
+   * <p>Getter for utlDoc.</p>
+   * @return UtlDoc
+   **/
+  public final UtlDoc getUtlDoc() {
+    return this.utlDoc;
+  }
+
+  /**
+   * <p>Setter for utlDoc.</p>
+   * @param pUtlDoc reference
+   **/
+  public final void setUtlDoc(final UtlDoc pUtlDoc) {
+    this.utlDoc = pUtlDoc;
   }
 }

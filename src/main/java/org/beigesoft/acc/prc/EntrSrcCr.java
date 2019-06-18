@@ -31,7 +31,6 @@ package org.beigesoft.acc.prc;
 import java.util.Map;
 import java.util.Date;
 import java.util.Calendar;
-import java.util.Locale;
 
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
@@ -60,9 +59,9 @@ public class EntrSrcCr implements IPrcEnt<IEntrSrc, Long> {
     final IEntrSrc pEnt, final IReqDt pRqDt) throws Exception {
     pEnt.setIsNew(true);
     AcUpf aupf = (AcUpf) pRvs.get("aupf");
-    Calendar nowc = Calendar.getInstance(new Locale("en", "US"));
+    Calendar nowc = Calendar.getInstance();
     nowc.setTime(new Date());
-    Calendar opDtc = Calendar.getInstance(new Locale("en", "US"));
+    Calendar opDtc = Calendar.getInstance();
     opDtc.setTime(aupf.getOpDt());
     opDtc.set(Calendar.MINUTE, nowc.get(Calendar.MINUTE));
     opDtc.set(Calendar.SECOND, nowc.get(Calendar.SECOND));

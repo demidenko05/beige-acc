@@ -53,11 +53,13 @@ import org.beigesoft.acc.prc.InEntrDl;
 import org.beigesoft.acc.prc.AcStgRt;
 import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
+import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.ISrEntr;
+import org.beigesoft.acc.srv.UtlDoc;
 
 /**
  * <p>Accounting additional factory of entity processors.</p>
@@ -129,6 +131,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuTxCtLnSv(pRvs);
           } else if (PrepCpr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrepCpr(pRvs);
+          } else if (DocPr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuDocPr(pRvs);
           } else if (PrepSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrepSv(pRvs);
           } else if (EntrSv.class.getSimpleName().equals(pPrNm)) {
@@ -342,6 +346,25 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map DocPr.</p>
+   * @param pRvs request scoped vars
+   * @return DocPr
+   * @throws Exception - an exception
+   */
+  private DocPr crPuDocPr(final Map<String, Object> pRvs) throws Exception {
+    DocPr rz = new DocPr();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    rz.setHldUvd(this.fctBlc.lazHldUvd(pRvs));
+    this.procs.put(DocPr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DocPr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map PrepSv.</p>
    * @param pRvs request scoped vars
    * @return PrepSv
@@ -351,6 +374,9 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     final Map<String, Object> pRvs) throws Exception {
     PrepSv rz = new PrepSv();
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    UtlDoc utlDoc = (UtlDoc) this.fctBlc
+      .laz(pRvs, UtlDoc.class.getSimpleName());
+    rz.setUtlDoc(utlDoc);
     ISrEntr srEntr = (ISrEntr) this.fctBlc
       .laz(pRvs, ISrEntr.class.getSimpleName());
     rz.setSrEntr(srEntr);

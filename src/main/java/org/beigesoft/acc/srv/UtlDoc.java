@@ -26,25 +26,24 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.prc;
+package org.beigesoft.acc.srv;
 
 import java.util.Map;
-import java.util.HashMap;
-import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Locale;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
-import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
-import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.IEntrSrc;
+import org.beigesoft.acc.mdlp.AcStg;
 
 /**
- * <p>Service that makes copy of prepayment to copy or reverse.</p>
+ * <p>Document helper.</p>
  *
  * @author Yury Demidenko
  */
-public class PrepCpr implements IPrcEnt<APrep, Long> {
+public class UtlDoc {
 
   /**
    * <p>ORM service.</p>
@@ -52,41 +51,35 @@ public class PrepCpr implements IPrcEnt<APrep, Long> {
   private IOrm orm;
 
   /**
-   * <p>Process that creates copy entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * <p>Checks base validity document before save.</p>
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
-   * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
-  @Override
-  public final APrep process(final Map<String, Object> pRvs, final APrep pEnt,
+  public final void check1(final Map<String, Object> pRvs, final IEntrSrc pEnt,
     final IReqDt pRqDt) throws Exception {
-    Map<String, Object> vs = new HashMap<String, Object>();
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
+      throw new ExcCode(ExcCode.SPAM, "Can not change foreign source!");
     }
-    Long rvId = pEnt.getRvId();
-    this.orm.refrEnt(pRvs, vs, pEnt);
-    if (rvId == null) {
-      pEnt.setTot(BigDecimal.ZERO);
-      pEnt.setToFc(BigDecimal.ZERO);
-    } else {
-      if (pEnt.getInvId() != null) {
-        throw new ExcCode(ExcCode.WRPR, "reverse_inv_first");
-      }
-      pEnt.setRvId(rvId);
-      pEnt.setTot(pEnt.getTot().negate());
-      pEnt.setToFc(pEnt.getToFc().negate());
+    AcStg astg = (AcStg) pRvs.get("astg");
+    Calendar calCuMh = Calendar.getInstance(new Locale("en", "US"));
+    calCuMh.setTime(astg.getMnth());
+    calCuMh.set(Calendar.DAY_OF_MONTH, 1);
+    calCuMh.set(Calendar.HOUR_OF_DAY, 0);
+    calCuMh.set(Calendar.MINUTE, 0);
+    calCuMh.set(Calendar.SECOND, 0);
+    calCuMh.set(Calendar.MILLISECOND, 0);
+    Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
+    calDoc.setTime(pEnt.getDat());
+    calDoc.set(Calendar.DAY_OF_MONTH, 1);
+    calDoc.set(Calendar.HOUR_OF_DAY, 0);
+    calDoc.set(Calendar.MINUTE, 0);
+    calDoc.set(Calendar.SECOND, 0);
+    calDoc.set(Calendar.MILLISECOND, 0);
+    if (calCuMh.getTime().getTime() != calDoc.getTime().getTime()) {
+      throw new ExcCode(ExcCode.WRPR, "wrong_acperiod");
     }
-    pEnt.setMdEnr(false);
-    pEnt.setInvId(null);
-    pEnt.setIid(null);
-    pEnt.setIsNew(true);
-    UvdVar uvs = (UvdVar) pRvs.get("uvs");
-    uvs.setEnt(pEnt);
-    return pEnt;
   }
 
   //Simple getters and setters:

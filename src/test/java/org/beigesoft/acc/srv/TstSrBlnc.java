@@ -311,10 +311,10 @@ public class TstSrBlnc<RS> {
     this.entrSv.process(this.rvs, enPayRent, this.rqDt);
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-01-21"));
     Integer trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
-    assertEquals(Integer.valueOf(26), trows);
+    assertEquals(Integer.valueOf(27), trows); //2*12=24 wrong + 2 1feb old + expn.rent added to 1Feb
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
-    assertEquals(Integer.valueOf(27), trows); //bank/scap refreshed expn.rent added
+    assertEquals(Integer.valueOf(27), trows); //same maximum date balance already recalculated
     List<TrBlLn> trbl = this.srBlnc.retTrBlnc(this.rvs, this.srvDt.from8601Date("2017-01-21"));
     assertEquals(3, trbl.size());
     assertEquals(this.acBnk.getIid(), trbl.get(0).getAcId());
@@ -347,10 +347,22 @@ public class TstSrBlnc<RS> {
     this.entrSv.process(this.rvs, enPrRev, this.rqDt);
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-01-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
-    assertEquals(Integer.valueOf(27), trows);
+    assertEquals(Integer.valueOf(2), trows); //wrong balances deleted
+    trbl = this.srBlnc.retTrBlnc(this.rvs, this.srvDt.from8601Date("2017-02-21"));
+    assertEquals(2, trbl.size());
+    assertEquals(this.bnka.getNme(), trbl.get(0).getSaNm());
+    assertNull(trbl.get(1).getSaNm());
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebt()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(0).getDebtAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCred()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(0).getCredAcc()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCred()));
+    assertEquals(0, this.scapTot.compareTo(trbl.get(1).getCredAcc()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebt()));
+    assertEquals(0, BigDecimal.ZERO.compareTo(trbl.get(1).getDebtAcc()));
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
-    assertEquals(Integer.valueOf(27), trows);
+    assertEquals(Integer.valueOf(2), trows);
     mkAccStg(EPeriod.WEEKLY);
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
