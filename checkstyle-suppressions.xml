@@ -7,6 +7,8 @@
 <suppressions>
   <suppress checks="MagicNumber"
     files="BlnPdf|ItmCt|Bnka|Expn|AcStg|Itm|DbCr|SrvCt|Itm|Srv|DcrCt|SrAcStg|SrBlnc|SrBlnSht|Tax"/>
+  <suppress checks="MagicNumber"
+    files="PuInGdLn|PurInv|PrepTo"/>
   <suppress checks="MethodLength"
     files="BlnPdf"/>
 </suppressions>

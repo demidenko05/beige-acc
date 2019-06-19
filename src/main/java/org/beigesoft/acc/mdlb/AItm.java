@@ -28,24 +28,74 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
+import java.util.List;
+
+import org.beigesoft.mdlp.AIdLnNm;
+import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.acc.mdlp.TxCt;
 
 /**
- * <p>Model of item that has tax category.</p>
+ * <p>Model of item.</p>
  *
+ * @param <T> item type
+ * @param <L> item tax destination line type
  * @author Yury Demidenko
  */
-public interface IHsTxCt {
+public abstract class AItm<T extends AItm<?, ?>, L extends ATxDsLn<T>>
+  extends AIdLnNm {
 
+  /**
+   * <p>Tax category, nullable.</p>
+   **/
+  private TxCt txCt;
+
+  /**
+   * <p>Default unit of measure.</p>
+   **/
+  private Uom duom;
+
+  /**
+   * <p>Getter for tdls.</p>
+   * @return List<ItTxDl>
+   **/
+  public abstract List<L> getTdls();
+
+  /**
+   * <p>Setter for tdls.</p>
+   * @param pTdls reference
+   **/
+  public abstract void setTdls(final List<L> pTdls);
+
+  //Simple getters and setters:
   /**
    * <p>Getter for txCt.</p>
    * @return TxCt
    **/
-  TxCt getTxCt();
+  public final TxCt getTxCt() {
+    return this.txCt;
+  }
 
   /**
    * <p>Setter for txCt.</p>
    * @param pTxCt reference
    **/
-  void setTxCt(final TxCt pTxCt);
+  public final void setTxCt(final TxCt pTxCt) {
+    this.txCt = pTxCt;
+  }
+
+  /**
+   * <p>Getter for duom.</p>
+   * @return Uom
+   **/
+  public final Uom getDuom() {
+    return this.duom;
+  }
+
+  /**
+   * <p>Setter for duom.</p>
+   * @param pDuom reference
+   **/
+  public final void setDuom(final Uom pDuom) {
+    this.duom = pDuom;
+  }
 }

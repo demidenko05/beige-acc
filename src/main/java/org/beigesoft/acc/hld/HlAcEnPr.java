@@ -173,7 +173,7 @@ public class HlAcEnPr implements IHlNmClSt {
       //Forbidden:
       return NULL;
     }
-    //TxCt, SrTxDl, non-acc entities:
+    //TxCt, SrTxDl, Uom, non-acc entities:
     return null;
   }
 }

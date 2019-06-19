@@ -31,26 +31,21 @@ package org.beigesoft.acc.mdlp;
 import java.util.List;
 import java.math.BigDecimal;
 
-import org.beigesoft.mdlp.AOrIdNm;
+import org.beigesoft.mdlp.IOrId;
 import org.beigesoft.acc.mdlb.ISacnt;
-import org.beigesoft.acc.mdlb.IHsTxCt;
+import org.beigesoft.acc.mdlb.AItm;
 
 /**
  * <p>Model of material(tangible) inventory item.</p>
  *
  * @author Yury Demidenko
  */
-public class Itm extends AOrIdNm implements ISacnt, IHsTxCt {
+public class Itm extends AItm<Itm, ItTxDl> implements ISacnt, IOrId {
 
   /**
    * <p>Category, not null.</p>
    **/
   private ItmCt cat;
-
-  /**
-   * <p>Tax category, nullable.</p>
-   **/
-  private TxCt txCt;
 
   /**
    * <p>Known cost, 0 means not used.</p>
@@ -63,6 +58,56 @@ public class Itm extends AOrIdNm implements ISacnt, IHsTxCt {
   private List<ItTxDl> tdls;
 
   /**
+   * <p>Implicit(there is no database constraints for it)
+   * ID database where Entity was born.
+   * For replication purpose. Not NULL.</p>
+   **/
+  private Integer dbOr;
+
+  /**
+   * <p>Implicit(there is no database constraints for it)
+   * ID of this Entity from database where it was born.
+   * For replication purpose. NULL if it was born in current database.</p>
+   **/
+  private Long idOr;
+
+  /**
+   * <p>Geter for dbOr.</p>
+   * @return Integer
+   **/
+  @Override
+  public final Integer getDbOr() {
+    return this.dbOr;
+  }
+
+  /**
+   * <p>Setter for dbOr.</p>
+   * @param pDbOr reference
+   **/
+  @Override
+  public final void setDbOr(final Integer pDbOr) {
+    this.dbOr = pDbOr;
+  }
+
+  /**
+   * <p>Geter for idOr.</p>
+   * @return Long
+   **/
+  @Override
+  public final Long getIdOr() {
+    return this.idOr;
+  }
+
+  /**
+   * <p>Setter for idOr.</p>
+   * @param pIdOr reference
+   **/
+  @Override
+  public final void setIdOr(final Long pIdOr) {
+    this.idOr = pIdOr;
+  }
+
+  /**
    * <p>OOP friendly Constant of code type.</p>
    * @return 1005
    **/
@@ -72,21 +117,21 @@ public class Itm extends AOrIdNm implements ISacnt, IHsTxCt {
   }
 
   /**
-   * <p>Getter for txCt.</p>
-   * @return TxCt
+   * <p>Getter for tdls.</p>
+   * @return List<ItTxDl>
    **/
   @Override
-  public final TxCt getTxCt() {
-    return this.txCt;
+  public final List<ItTxDl> getTdls() {
+    return this.tdls;
   }
 
   /**
-   * <p>Setter for txCt.</p>
-   * @param pTxCt reference
+   * <p>Setter for tdls.</p>
+   * @param pTdls reference
    **/
   @Override
-  public final void setTxCt(final TxCt pTxCt) {
-    this.txCt = pTxCt;
+  public final void setTdls(final List<ItTxDl> pTdls) {
+    this.tdls = pTdls;
   }
 
   //Simple getters and setters:
@@ -120,21 +165,5 @@ public class Itm extends AOrIdNm implements ISacnt, IHsTxCt {
    **/
   public final void setKnCs(final BigDecimal pKnCs) {
     this.knCs = pKnCs;
-  }
-
-  /**
-   * <p>Getter for tdls.</p>
-   * @return List<ItTxDl>
-   **/
-  public final List<ItTxDl> getTdls() {
-    return this.tdls;
-  }
-
-  /**
-   * <p>Setter for tdls.</p>
-   * @param pTdls reference
-   **/
-  public final void setTdls(final List<ItTxDl> pTdls) {
-    this.tdls = pTdls;
   }
 }

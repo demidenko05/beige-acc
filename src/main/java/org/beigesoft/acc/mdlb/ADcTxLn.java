@@ -26,71 +26,85 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlp;
+package org.beigesoft.acc.mdlb;
 
-import java.util.List;
+import java.math.BigDecimal;
 
-import org.beigesoft.acc.mdlb.ISacnt;
-import org.beigesoft.acc.mdlb.AItm;
+import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.acc.mdlp.Tax;
 
 /**
- * <p>Model of service (to sell or to purchase).</p>
+ * <p>Abstract model of document tax line. It holds grouped total tax amount
+ * for whole document for any method - invoice/item basis,
+ * price included/excluded. It used for making resulting accounting tax
+ * entries, e.g. sales invoice:
+ * Debit AccReceivable.Customer Credit SalesTaxPayable.Tax for total amount.</p>
  *
  * @author Yury Demidenko
  */
-public class Srv extends AItm<Srv, SrTxDl> implements ISacnt {
+public abstract class ADcTxLn extends AOrId {
 
   /**
-   * <p>Category, not null.</p>
+   * <p>ID of reversed/reversing document tax line.</p>
    **/
-  private SrvCt cat;
+  private Long rvId;
 
   /**
-   * <p>Tax destination lines.</p>
+   * <p>Tax.</p>
    **/
-  private List<SrTxDl> tdls;
+  private Tax tax;
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
-   * @return 1007
+   * <p>Total.</p>
    **/
-  @Override
-  public final Integer cnsTy() {
-    return 1007;
-  }
-
-  /**
-   * <p>Getter for tdls.</p>
-   * @return List<SrTxDl>
-   **/
-  @Override
-  public final List<SrTxDl> getTdls() {
-    return this.tdls;
-  }
-
-  /**
-   * <p>Setter for tdls.</p>
-   * @param pTdls reference
-   **/
-  @Override
-  public final void setTdls(final List<SrTxDl> pTdls) {
-    this.tdls = pTdls;
-  }
+  private BigDecimal tot = BigDecimal.ZERO;
 
   //Simple getters and setters:
   /**
-   * <p>Getter for cat.</p>
-   * @return SrvCt
+   * <p>Getter for rvId.</p>
+   * @return Long
    **/
-  public final SrvCt getCat() {
-    return this.cat;
+  public final Long getRvId() {
+    return this.rvId;
   }
 
   /**
-   * <p>Setter for cat.</p>
-   * @param pCat reference
+   * <p>Setter for rvId.</p>
+   * @param pRvId reference
    **/
-  public final void setCat(final SrvCt pCat) {
-    this.cat = pCat;
+  public final void setRvId(final Long pRvId) {
+    this.rvId = pRvId;
+  }
+
+  /**
+   * <p>Getter for tax.</p>
+   * @return Tax
+   **/
+  public final Tax getTax() {
+    return this.tax;
+  }
+
+  /**
+   * <p>Setter for tax.</p>
+   * @param pTax reference
+   **/
+  public final void setTax(final Tax pTax) {
+    this.tax = pTax;
+  }
+
+  /**
+   * <p>Getter for tot.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getTot() {
+    return this.tot;
+  }
+
+  /**
+   * <p>Setter for tot.</p>
+   * @param pTot reference
+   **/
+  public final void setTot(final BigDecimal pTot) {
+    this.tot = pTot;
   }
 }

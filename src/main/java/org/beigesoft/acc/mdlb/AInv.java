@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
+import java.util.Date;
 import java.math.BigDecimal;
 
 import org.beigesoft.acc.mdlp.Curr;
@@ -84,6 +85,21 @@ public abstract class AInv extends ADoc {
    * <p>If omit taxes.</p>
    **/
   private Boolean omTx;
+
+  /**
+   * <p>Pay by date, if used.</p>
+   **/
+  private Date payb;
+
+  /**
+   * <p>Total payments.</p>
+   **/
+  private BigDecimal toPa = BigDecimal.ZERO;
+
+  /**
+   * <p>Payments description.</p>
+   **/
+  private Date pdsc;
 
   //Simple getters and setters:
   /**
@@ -228,5 +244,53 @@ public abstract class AInv extends ADoc {
    **/
   public final void setOmTx(final Boolean pOmTx) {
     this.omTx = pOmTx;
+  }
+
+  /**
+   * <p>Getter for payb.</p>
+   * @return Date
+   **/
+  public final Date getPayb() {
+    return this.payb;
+  }
+
+  /**
+   * <p>Setter for payb.</p>
+   * @param pPayb reference
+   **/
+  public final void setPayb(final Date pPayb) {
+    this.payb = pPayb;
+  }
+
+  /**
+   * <p>Getter for toPa.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getToPa() {
+    return this.toPa;
+  }
+
+  /**
+   * <p>Setter for toPa.</p>
+   * @param pToPa reference
+   **/
+  public final void setToPa(final BigDecimal pToPa) {
+    this.toPa = pToPa;
+  }
+
+  /**
+   * <p>Getter for pdsc.</p>
+   * @return Date
+   **/
+  public final Date getPdsc() {
+    return this.pdsc;
+  }
+
+  /**
+   * <p>Setter for pdsc.</p>
+   * @param pPdsc reference
+   **/
+  public final void setPdsc(final Date pPdsc) {
+    this.pdsc = pPdsc;
   }
 }

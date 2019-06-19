@@ -29,37 +29,75 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.mdlb;
 
 import java.util.Date;
+import java.math.BigDecimal;
 
 import org.beigesoft.mdlp.IOrId;
+import org.beigesoft.acc.mdlp.Uom;
+import org.beigesoft.acc.mdlp.Itm;
 
 /**
- * <p>Abstract model of a source of accounting entries. It's any document that
- * makes accounting entry by hand or automatically.
- * Method cnsTy returns unique code of entity type (OOP consumable constant),
- * range 1...999, e.g. 1 - input accounting entries by hand base document.
- * Any source has date and description.</p>
+ * <p>Model of entity that makes warehouse entries, i.e.
+ * it loads(puts) or withdrawal an item into/from warehouse.
+ * E.g. purchase invoice line, sales invoice line, beginning inventory line,
+ * manufacturing.Constant of making WS entries - range 2000...2999.</p>
  *
  * @author Yury Demidenko
  */
-public interface IEntrSrc extends IOrId {
+public interface IMkWsEnr extends IOrId {
 
   /**
-   * <p>Constant making AC entries type, range 1...999.</p>
+   * <p>Constant of making WS entries, range 2000...2999.</p>
    * @return entity type code
    **/
   Integer cnsTy();
 
   /**
-   * <p>Getter for dat.</p>
-   * @return Date
+   * <p>Getter for rvId.</p>
+   * @return Long
    **/
-  Date getDat();
+  Long getRvId();
 
   /**
-   * <p>Setter for dat.</p>
-   * @param pDat reference
+   * <p>Setter for rvId.</p>
+   * @param pRvId reference
    **/
-  void setDat(Date pDat);
+  void setRvId(Long pRvId);
+
+  /**
+   * <p>Getter for itm.</p>
+   * @return Itm
+   **/
+  Itm getItm();
+
+  /**
+   * <p>Setter for itm.</p>
+   * @param pItm reference
+   **/
+  void setItm(Itm pItm);
+
+  /**
+   * <p>Getter for uom.</p>
+   * @return Uom
+   **/
+  Uom getUom();
+
+  /**
+   * <p>Setter for uom.</p>
+   * @param pUom reference
+   **/
+  void setUom(Uom pUom);
+
+  /**
+   * <p>Getter for quan.</p>
+   * @return BigDecimal
+   **/
+  BigDecimal getQuan();
+
+  /**
+   * <p>Setter for quan.</p>
+   * @param pQuan reference
+   **/
+  void setQuan(BigDecimal pQuan);
 
   /**
    * <p>Getter for dscr.</p>
@@ -72,4 +110,23 @@ public interface IEntrSrc extends IOrId {
    * @param pDscr reference
    **/
   void setDscr(String pDscr);
+
+  /**
+   * <p>Getter for document date (own or owner's).</p>
+   * @return Date
+   **/
+  Date getDocDt();
+
+  //Owner if exist:
+  /**
+   * <p>Getter for owner ID if exist.</p>
+   * @return ID
+   **/
+  Long getOwnrId();
+
+  /**
+   * <p>Getter for owner type code if exist.</p>
+   * @return type code
+   **/
+  Integer getOwnrTy();
 }

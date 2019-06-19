@@ -36,6 +36,8 @@ import org.beigesoft.hld.IHlIntCls;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.PrepFr;
+import org.beigesoft.acc.mdlp.PrepTo;
+import org.beigesoft.acc.mdlp.PurInv;
 
 /**
  * <p>Holder entries sources classes by type.</p>
@@ -56,6 +58,8 @@ public class HlTyEnSr implements IHlIntCls {
     this.clsMp = new HashMap<Integer, Class<? extends IEntrSrc>>();
     this.clsMp.put(new InEntr().cnsTy(), InEntr.class); //1
     this.clsMp.put(new PrepFr().cnsTy(), PrepFr.class); //2
+    this.clsMp.put(new PrepTo().cnsTy(), PrepTo.class); //3
+    this.clsMp.put(new PurInv().cnsTy(), PurInv.class); //4
   }
 
   /**

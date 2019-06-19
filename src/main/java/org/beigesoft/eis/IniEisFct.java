@@ -167,16 +167,20 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.setStgFdNm(new HashMap<String, String>());
     hlFdSt.getStgFdNm().put("saId", null);
+    hlFdSt.getStgFdNm().put("rvId", null);
     stgNm = "flt"; //filter
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.setStgFdNm(new HashMap<String, String>());
     hlFdSt.getStgFdNm().put("saId", null);
+    hlFdSt.getStgFdNm().put("rvId", null);
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("rvId", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
     stgNm = "ceHe"; //to cell header
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("rvId", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
     stgNm = "inWr"; //input wrapper

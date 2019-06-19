@@ -30,67 +30,85 @@ package org.beigesoft.acc.mdlp;
 
 import java.util.List;
 
-import org.beigesoft.acc.mdlb.ISacnt;
-import org.beigesoft.acc.mdlb.AItm;
+import org.beigesoft.acc.mdlb.AInv;
 
 /**
- * <p>Model of service (to sell or to purchase).</p>
+ * <p>Model of purchase invoice line.</p>
  *
  * @author Yury Demidenko
  */
-public class Srv extends AItm<Srv, SrTxDl> implements ISacnt {
+public class PurInv extends AInv {
 
   /**
-   * <p>Category, not null.</p>
+   * <p>Prepayments.</p>
    **/
-  private SrvCt cat;
+  private PrepTo prep;
 
   /**
-   * <p>Tax destination lines.</p>
+   * <p>Tax lines.</p>
    **/
-  private List<SrTxDl> tdls;
+  private List<PuInTxLn> txLns;
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
-   * @return 1007
+   * <p>Goods lines.</p>
+   **/
+  private List<PuInGdLn> gdLns;
+
+  /**
+   * <p>Constant of code type.</p>
+   * @return 4
    **/
   @Override
   public final Integer cnsTy() {
-    return 1007;
-  }
-
-  /**
-   * <p>Getter for tdls.</p>
-   * @return List<SrTxDl>
-   **/
-  @Override
-  public final List<SrTxDl> getTdls() {
-    return this.tdls;
-  }
-
-  /**
-   * <p>Setter for tdls.</p>
-   * @param pTdls reference
-   **/
-  @Override
-  public final void setTdls(final List<SrTxDl> pTdls) {
-    this.tdls = pTdls;
+    return 4;
   }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for cat.</p>
-   * @return SrvCt
+   * <p>Getter for prep.</p>
+   * @return PrepTo
    **/
-  public final SrvCt getCat() {
-    return this.cat;
+  public final PrepTo getPrep() {
+    return this.prep;
   }
 
   /**
-   * <p>Setter for cat.</p>
-   * @param pCat reference
+   * <p>Setter for prep.</p>
+   * @param pPrep reference
    **/
-  public final void setCat(final SrvCt pCat) {
-    this.cat = pCat;
+  public final void setPrep(final PrepTo pPrep) {
+    this.prep = pPrep;
+  }
+
+  /**
+   * <p>Getter for txLns.</p>
+   * @return List<PuInTxLn>
+   **/
+  public final List<PuInTxLn> getTxLns() {
+    return this.txLns;
+  }
+
+  /**
+   * <p>Setter for txLns.</p>
+   * @param pTxLns reference
+   **/
+  public final void setTxLns(final List<PuInTxLn> pTxLns) {
+    this.txLns = pTxLns;
+  }
+
+  /**
+   * <p>Getter for gdLns.</p>
+   * @return List<PuInGdLn>
+   **/
+  public final List<PuInGdLn> getGdLns() {
+    return this.gdLns;
+  }
+
+  /**
+   * <p>Setter for gdLns.</p>
+   * @param pGdLns reference
+   **/
+  public final void setGdLns(final List<PuInGdLn> pGdLns) {
+    this.gdLns = pGdLns;
   }
 }

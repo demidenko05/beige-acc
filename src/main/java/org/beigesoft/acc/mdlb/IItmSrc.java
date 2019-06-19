@@ -26,71 +26,52 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlp;
+package org.beigesoft.acc.mdlb;
 
-import java.util.List;
-
-import org.beigesoft.acc.mdlb.ISacnt;
-import org.beigesoft.acc.mdlb.AItm;
+import java.math.BigDecimal;
 
 /**
- * <p>Model of service (to sell or to purchase).</p>
+ * <p>Model of entity that hold inventory item to draw.
+ * It loads(puts) an item into warehouse. E.g. purchase invoice line,
+ * beginning inventory line.</p>
  *
  * @author Yury Demidenko
  */
-public class Srv extends AItm<Srv, SrTxDl> implements ISacnt {
+public interface IItmSrc extends IMkWsEnr {
 
   /**
-   * <p>Category, not null.</p>
+   * <p>There is no goods in stock.</p>
    **/
-  private SrvCt cat;
+  int THERE_IS_NO_GOODS = 1301;
 
   /**
-   * <p>Tax destination lines.</p>
+   * <p>There is withdrawals from this source!
+   * It arises when items left != quantity for non-reversed item source</p>
    **/
-  private List<SrTxDl> tdls;
+  int SOURSE_IS_IN_USE = 1303;
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
-   * @return 1007
+   * <p>Getter for itLf.</p>
+   * @return BigDecimal
    **/
-  @Override
-  public final Integer cnsTy() {
-    return 1007;
-  }
+  BigDecimal getItLf();
 
   /**
-   * <p>Getter for tdls.</p>
-   * @return List<SrTxDl>
+   * <p>Setter for itLf.</p>
+   * @param pItLf reference
    **/
-  @Override
-  public final List<SrTxDl> getTdls() {
-    return this.tdls;
-  }
+  void setItLf(BigDecimal pItLf);
+
 
   /**
-   * <p>Setter for tdls.</p>
-   * @param pTdls reference
+   * <p>Getter for cost.</p>
+   * @return BigDecimal
    **/
-  @Override
-  public final void setTdls(final List<SrTxDl> pTdls) {
-    this.tdls = pTdls;
-  }
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for cat.</p>
-   * @return SrvCt
-   **/
-  public final SrvCt getCat() {
-    return this.cat;
-  }
+  BigDecimal getPri();
 
   /**
-   * <p>Setter for cat.</p>
-   * @param pCat reference
+   * <p>Setter for cost.</p>
+   * @param pPri reference
    **/
-  public final void setCat(final SrvCt pCat) {
-    this.cat = pCat;
-  }
+  void setPri(BigDecimal pPri);
 }

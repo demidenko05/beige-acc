@@ -28,69 +28,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
-import java.util.List;
-
-import org.beigesoft.acc.mdlb.ISacnt;
-import org.beigesoft.acc.mdlb.AItm;
+import org.beigesoft.acc.mdlb.APrep;
 
 /**
- * <p>Model of service (to sell or to purchase).</p>
+ * <p>Model of prepayment to vendor document.</p>
  *
  * @author Yury Demidenko
  */
-public class Srv extends AItm<Srv, SrTxDl> implements ISacnt {
+public class PrepTo extends APrep {
 
   /**
-   * <p>Category, not null.</p>
-   **/
-  private SrvCt cat;
-
-  /**
-   * <p>Tax destination lines.</p>
-   **/
-  private List<SrTxDl> tdls;
-
-  /**
-   * <p>OOP friendly Constant of code type.</p>
-   * @return 1007
+   * <p>Constant of code type.</p>
+   * @return 3
    **/
   @Override
   public final Integer cnsTy() {
-    return 1007;
-  }
-
-  /**
-   * <p>Getter for tdls.</p>
-   * @return List<SrTxDl>
-   **/
-  @Override
-  public final List<SrTxDl> getTdls() {
-    return this.tdls;
-  }
-
-  /**
-   * <p>Setter for tdls.</p>
-   * @param pTdls reference
-   **/
-  @Override
-  public final void setTdls(final List<SrTxDl> pTdls) {
-    this.tdls = pTdls;
-  }
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for cat.</p>
-   * @return SrvCt
-   **/
-  public final SrvCt getCat() {
-    return this.cat;
-  }
-
-  /**
-   * <p>Setter for cat.</p>
-   * @param pCat reference
-   **/
-  public final void setCat(final SrvCt pCat) {
-    this.cat = pCat;
+    return 3;
   }
 }

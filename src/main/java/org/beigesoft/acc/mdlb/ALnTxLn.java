@@ -26,71 +26,83 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlp;
+package org.beigesoft.acc.mdlb;
 
-import java.util.List;
+import java.math.BigDecimal;
 
-import org.beigesoft.acc.mdlb.ISacnt;
-import org.beigesoft.acc.mdlb.AItm;
+import org.beigesoft.mdl.IOwned;
 
 /**
- * <p>Model of service (to sell or to purchase).</p>
+ * <p>Abstract model of invoice's line tax line.</p>
  *
+ * @param <T> invoice type
+ * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public class Srv extends AItm<Srv, SrTxDl> implements ISacnt {
+public abstract class ALnTxLn<T extends AInv, L extends AInvLn<T, ?>>
+  extends ADcTxLn implements IOwned<L, Long> {
 
   /**
-   * <p>Category, not null.</p>
+   * <p>Total FC.</p>
    **/
-  private SrvCt cat;
+  private BigDecimal toFc = BigDecimal.ZERO;
 
   /**
-   * <p>Tax destination lines.</p>
+   * <p>Taxable amount for invoice basis.</p>
    **/
-  private List<SrTxDl> tdls;
+  private BigDecimal txb = BigDecimal.ZERO;
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
-   * @return 1007
+   * <p>Taxable amount for invoice basis FC.</p>
    **/
-  @Override
-  public final Integer cnsTy() {
-    return 1007;
-  }
-
-  /**
-   * <p>Getter for tdls.</p>
-   * @return List<SrTxDl>
-   **/
-  @Override
-  public final List<SrTxDl> getTdls() {
-    return this.tdls;
-  }
-
-  /**
-   * <p>Setter for tdls.</p>
-   * @param pTdls reference
-   **/
-  @Override
-  public final void setTdls(final List<SrTxDl> pTdls) {
-    this.tdls = pTdls;
-  }
+  private BigDecimal txbFc = BigDecimal.ZERO;
 
   //Simple getters and setters:
   /**
-   * <p>Getter for cat.</p>
-   * @return SrvCt
+   * <p>Getter for toFc.</p>
+   * @return BigDecimal
    **/
-  public final SrvCt getCat() {
-    return this.cat;
+  public final BigDecimal getToFc() {
+    return this.toFc;
   }
 
   /**
-   * <p>Setter for cat.</p>
-   * @param pCat reference
+   * <p>Setter for toFc.</p>
+   * @param pToFc reference
    **/
-  public final void setCat(final SrvCt pCat) {
-    this.cat = pCat;
+  public final void setToFc(final BigDecimal pToFc) {
+    this.toFc = pToFc;
+  }
+
+  /**
+   * <p>Getter for txb.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getTxb() {
+    return this.txb;
+  }
+
+  /**
+   * <p>Setter for txb.</p>
+   * @param pTxb reference
+   **/
+  public final void setTxb(final BigDecimal pTxb) {
+    this.txb = pTxb;
+  }
+
+  /**
+   * <p>Getter for txbFc.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getTxbFc() {
+    return this.txbFc;
+  }
+
+  /**
+   * <p>Setter for txbFc.</p>
+   * @param pTxbFc reference
+   **/
+  public final void setTxbFc(final BigDecimal pTxbFc) {
+    this.txbFc = pTxbFc;
   }
 }
