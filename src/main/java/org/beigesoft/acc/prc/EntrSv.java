@@ -110,7 +110,6 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     }
     AcStg astg = (AcStg) pRvs.get("astg");
     pEnt.setSrTy(doc.cnsTy());
-    pEnt.setSrDbOr(doc.getDbOr());
     @SuppressWarnings("unchecked")
     Set<IHnTrRlBk> hnsTrRlBk = (Set<IHnTrRlBk>) pRvs.get(IHnTrRlBk.HNSTRRLBK);
     if (hnsTrRlBk == null) {

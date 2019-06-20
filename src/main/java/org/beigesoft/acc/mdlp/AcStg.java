@@ -35,6 +35,7 @@ import org.beigesoft.doc.model.EPageSize;
 import org.beigesoft.doc.model.EPageOrientation;
 import org.beigesoft.mdl.EPeriod;
 import org.beigesoft.mdlp.AIdLn;
+import org.beigesoft.acc.mdl.ECogsMth;
 
 /**
  * <p>Accounting settings.</p>
@@ -129,6 +130,11 @@ public class AcStg extends AIdLn {
    * <p>Rounding mode.</p>
    **/
   private RoundingMode rndm = RoundingMode.HALF_UP;
+
+  /**
+   * <p>COGS method FIFO/LIFO/AVERAGE.</p>
+   **/
+  private ECogsMth cogs = ECogsMth.FIFO;
 
   /**
    * <p>Balance store period, not null, EPeriod.DAILY/WEEKLY/MONTHLY.</p>
@@ -509,6 +515,22 @@ public class AcStg extends AIdLn {
    **/
   public final void setRndm(final RoundingMode pRndm) {
     this.rndm = pRndm;
+  }
+
+  /**
+   * <p>Getter for cogs.</p>
+   * @return ECogsMth
+   **/
+  public final ECogsMth getCogs() {
+    return this.cogs;
+  }
+
+  /**
+   * <p>Setter for cogs.</p>
+   * @param pCogs reference
+   **/
+  public final void setCogs(final ECogsMth pCogs) {
+    this.cogs = pCogs;
   }
 
   /**

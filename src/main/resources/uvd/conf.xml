@@ -49,6 +49,8 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.EnrSrc,
   org.beigesoft.acc.mdlp.PrepFr,
   org.beigesoft.acc.mdlp.PrepTo,
+  org.beigesoft.acc.mdlp.Wrh,
+  org.beigesoft.acc.mdlp.WrhPl,
   org.beigesoft.acc.mdlp.PurInv,
   org.beigesoft.acc.mdlp.PuInGdLn,
   org.beigesoft.acc.mdlp.PuInTxLn,

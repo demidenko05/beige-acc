@@ -176,7 +176,6 @@ public class SrEntr<RS> implements ISrEntr {
           entr.setDbOr(this.orm.getDbId());
           entr.setSrId(pDoc.getIid());
           entr.setSrTy(pDoc.cnsTy());
-          entr.setSrDbOr(pDoc.getDbOr());
           entr.setDat(new Date(dt++));
           String acDbs = rs.getStr("ACDB");
           if (acDbs !=  null) {
@@ -230,9 +229,6 @@ public class SrEntr<RS> implements ISrEntr {
   @Override
   public final void revEntrs(final Map<String, Object> pRvs, final IDoc pRvng,
     final IDoc pRved) throws Exception {
-    if (!pRved.getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
-    }
     if (pRved.getRvId() != null) {
       throw new ExcCode(ExcCode.SPAM, "Attempt to reverse reversed!");
     }
@@ -273,7 +269,6 @@ public class SrEntr<RS> implements ISrEntr {
       revg.setDbOr(this.orm.getDbId());
       revg.setSrId(pRvng.getIid());
       revg.setSrTy(pRvng.cnsTy());
-      revg.setSrDbOr(pRvng.getDbOr());
       mkReving(pRvs, revg, revd, pRvng, dateFormat);
       this.orm.insIdLn(pRvs, vs, revg);
       getSrBlnc().hndNewEntr(pRvs, revg.getDat());

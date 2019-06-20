@@ -26,120 +26,76 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
-
-import java.util.Date;
-import java.math.BigDecimal;
-
-import org.beigesoft.mdlp.IOrId;
-import org.beigesoft.acc.mdlp.Uom;
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.acc.mdlp.WrhPl;
+package org.beigesoft.acc.mdlp;
 
 /**
- * <p>Model of entity that makes warehouse entries, i.e.
- * it loads(puts) or withdrawal an item into/from warehouse.
- * E.g. purchase invoice line, sales invoice line, beginning inventory line,
- * manufacturing.Constant of making WS entries - range 2000...2999.</p>
+ * <p>Model of ID of item in warehouse place.</p>
  *
  * @author Yury Demidenko
  */
-public interface IMkWsEnr extends IOrId {
+public class WrhItmId {
 
   /**
-   * <p>Constant of making WS entries, range 2000...2999.</p>
-   * @return entity type code
+   * <p>Warehouse place, not null, PK.</p>
    **/
-  Integer cnsTy();
+  private WrhPl wrhp;
 
   /**
-   * <p>Getter for rvId.</p>
-   * @return Long
+   * <p>Item, not null, PK.</p>
    **/
-  Long getRvId();
+  private Itm itm;
 
   /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
+   * <p>Uom, not null, PK.</p>
    **/
-  void setRvId(Long pRvId);
+  private Uom uom;
 
+  //Simple getters and setters:
   /**
    * <p>Getter for wrhp.</p>
    * @return WrhPl
    **/
-  WrhPl getWrhp();
+  public final WrhPl getWrhp() {
+    return this.wrhp;
+  }
 
   /**
    * <p>Setter for wrhp.</p>
    * @param pWrhp reference
    **/
-  void setWrhp(WrhPl pWrhp);
+  public final void setWrhp(final WrhPl pWrhp) {
+    this.wrhp = pWrhp;
+  }
 
   /**
    * <p>Getter for itm.</p>
    * @return Itm
    **/
-  Itm getItm();
+  public final Itm getItm() {
+    return this.itm;
+  }
 
   /**
    * <p>Setter for itm.</p>
    * @param pItm reference
    **/
-  void setItm(Itm pItm);
+  public final void setItm(final Itm pItm) {
+    this.itm = pItm;
+  }
 
   /**
    * <p>Getter for uom.</p>
    * @return Uom
    **/
-  Uom getUom();
+  public final Uom getUom() {
+    return this.uom;
+  }
 
   /**
    * <p>Setter for uom.</p>
    * @param pUom reference
    **/
-  void setUom(Uom pUom);
-
-  /**
-   * <p>Getter for quan.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getQuan();
-
-  /**
-   * <p>Setter for quan.</p>
-   * @param pQuan reference
-   **/
-  void setQuan(BigDecimal pQuan);
-
-  /**
-   * <p>Getter for dscr.</p>
-   * @return String
-   **/
-  String getDscr();
-
-  /**
-   * <p>Setter for dscr.</p>
-   * @param pDscr reference
-   **/
-  void setDscr(String pDscr);
-
-  /**
-   * <p>Getter for document date (own or owner's).</p>
-   * @return Date
-   **/
-  Date getDocDt();
-
-  //Owner if exist:
-  /**
-   * <p>Getter for owner ID if exist.</p>
-   * @return ID
-   **/
-  Long getOwnrId();
-
-  /**
-   * <p>Getter for owner type code if exist.</p>
-   * @return type code
-   **/
-  Integer getOwnrTy();
+  public final void setUom(final Uom pUom) {
+    this.uom = pUom;
+  }
 }

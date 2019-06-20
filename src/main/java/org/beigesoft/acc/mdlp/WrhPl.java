@@ -26,84 +26,36 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
+package org.beigesoft.acc.mdlp;
 
-
-import java.math.BigDecimal;
-
-import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.mdlp.AIdLnNm;
 
 /**
- * <p>Abstract model of document that makes accounting entries,
- * e.g. Purchase Invoice.</p>
+ * <p>Model of place in warehouse.</p>
  *
  * @author Yury Demidenko
  */
-public interface IDoc extends IEntrSrc {
+public class WrhPl extends AIdLnNm {
 
   /**
-   * <p>Getter of EDocTy.</p>
-   * @return EDocTy
+   * <p>Warehouse, not null.</p>
    **/
-  EDocTy getDocTy();
+  private Wrh wrh;
+
+  //Simple getters and setters:
+  /**
+   * <p>Getter for wrh.</p>
+   * @return Wrh
+   **/
+  public final Wrh getWrh() {
+    return this.wrh;
+  }
 
   /**
-   * <p>Getter of has made entries.</p>
-   * @return Boolean
+   * <p>Setter for wrh.</p>
+   * @param pWrh reference
    **/
-  Boolean getMdEnr();
-
-  /**
-   * <p>Setter for has made entries.</p>
-   * @param pMdEnr reference
-   **/
-  void setMdEnr(Boolean pMdEnr);
-
-  /**
-   * <p>Getter for rvId.</p>
-   * @return Long
-   **/
-  Long getRvId();
-
-  /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
-   **/
-  void setRvId(Long pRvId);
-
-  /**
-   * <p>Getter for rvDbOr.</p>
-   * @return Integer
-   **/
-  Integer getRvDbOr();
-
-  /**
-   * <p>Setter for rvDbOr.</p>
-   * @param pRvDbOr reference
-   **/
-  void setRvDbOr(Integer pRvDbOr);
-
-  /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getTot();
-
-  /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
-   **/
-  void setTot(BigDecimal pTot);
-
-  /**
-   * <p>Getter for toFc.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getToFc();
-
-  /**
-   * <p>Setter for toFc.</p>
-   * @param pToFc reference
-   **/
-  void setToFc(BigDecimal pToFc);
+  public final void setWrh(final Wrh pWrh) {
+    this.wrh = pWrh;
+  }
 }

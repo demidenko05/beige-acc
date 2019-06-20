@@ -26,84 +26,63 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
-
-
-import java.math.BigDecimal;
-
-import org.beigesoft.acc.mdl.EDocTy;
+package org.beigesoft.acc.mdl;
 
 /**
- * <p>Abstract model of document that makes accounting entries,
- * e.g. Purchase Invoice.</p>
+ * <p>Document type - ACC/WRH/WRHLN/WRHBTH/ITSR/ITSRLN/ITSRBTH/
+ * DRAW/DRAWLN/DRAWBTH.</p>
  *
  * @author Yury Demidenko
  */
-public interface IDoc extends IEntrSrc {
+public enum EDocTy {
 
   /**
-   * <p>Getter of EDocTy.</p>
-   * @return EDocTy
+   * <p>0 only accounting entries.</p>
    **/
-  EDocTy getDocTy();
+  ACC,
 
   /**
-   * <p>Getter of has made entries.</p>
-   * @return Boolean
+   * <p>1 makes warehouse entries.</p>
    **/
-  Boolean getMdEnr();
+  WRH,
 
   /**
-   * <p>Setter for has made entries.</p>
-   * @param pMdEnr reference
+   * <p>2 lines make warehouse entries.</p>
    **/
-  void setMdEnr(Boolean pMdEnr);
+  WRHLN,
 
   /**
-   * <p>Getter for rvId.</p>
-   * @return Long
+   * <p>3 document and lines make warehouse entries.</p>
    **/
-  Long getRvId();
+  WRHBTH,
 
   /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
+   * <p>4 it is draw item source.</p>
    **/
-  void setRvId(Long pRvId);
+  ITSR,
 
   /**
-   * <p>Getter for rvDbOr.</p>
-   * @return Integer
+   * <p>5 lines are draw item sources.</p>
    **/
-  Integer getRvDbOr();
+  ITSRLN,
 
   /**
-   * <p>Setter for rvDbOr.</p>
-   * @param pRvDbOr reference
+   * <p>6 document and lines are draw item sources.</p>
    **/
-  void setRvDbOr(Integer pRvDbOr);
+  ITSRBTH,
 
   /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
+   * <p>7 makes draw item entries.</p>
    **/
-  BigDecimal getTot();
+  DRAW,
 
   /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
+   * <p>8 lines make draw item entries.</p>
    **/
-  void setTot(BigDecimal pTot);
+  DRAWLN,
 
   /**
-   * <p>Getter for toFc.</p>
-   * @return BigDecimal
+   * <p>9 document and lines make draw item entries.</p>
    **/
-  BigDecimal getToFc();
-
-  /**
-   * <p>Setter for toFc.</p>
-   * @param pToFc reference
-   **/
-  void setToFc(BigDecimal pToFc);
+  DRAWBTH;
 }

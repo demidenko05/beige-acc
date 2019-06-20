@@ -26,84 +26,14 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
+package org.beigesoft.acc.mdlp;
 
-
-import java.math.BigDecimal;
-
-import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.mdlp.AIdLnNm;
 
 /**
- * <p>Abstract model of document that makes accounting entries,
- * e.g. Purchase Invoice.</p>
+ * <p>Model of warehouse.</p>
  *
  * @author Yury Demidenko
  */
-public interface IDoc extends IEntrSrc {
-
-  /**
-   * <p>Getter of EDocTy.</p>
-   * @return EDocTy
-   **/
-  EDocTy getDocTy();
-
-  /**
-   * <p>Getter of has made entries.</p>
-   * @return Boolean
-   **/
-  Boolean getMdEnr();
-
-  /**
-   * <p>Setter for has made entries.</p>
-   * @param pMdEnr reference
-   **/
-  void setMdEnr(Boolean pMdEnr);
-
-  /**
-   * <p>Getter for rvId.</p>
-   * @return Long
-   **/
-  Long getRvId();
-
-  /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
-   **/
-  void setRvId(Long pRvId);
-
-  /**
-   * <p>Getter for rvDbOr.</p>
-   * @return Integer
-   **/
-  Integer getRvDbOr();
-
-  /**
-   * <p>Setter for rvDbOr.</p>
-   * @param pRvDbOr reference
-   **/
-  void setRvDbOr(Integer pRvDbOr);
-
-  /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getTot();
-
-  /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
-   **/
-  void setTot(BigDecimal pTot);
-
-  /**
-   * <p>Getter for toFc.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getToFc();
-
-  /**
-   * <p>Setter for toFc.</p>
-   * @param pToFc reference
-   **/
-  void setToFc(BigDecimal pToFc);
+public class Wrh extends AIdLnNm {
 }

@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
+import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlp.Acnt;
 import org.beigesoft.acc.mdlp.DbCr;
 
@@ -63,6 +64,15 @@ public abstract class APrep extends ADoc {
    * <p>Sub-account cash ID if exist.</p>
    **/
   private Long saId;
+
+  /**
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
+   **/
+  @Override
+  public final EDocTy getDocTy() {
+    return EDocTy.ACC;
+  }
 
   //Simple getters and setters:
   /**

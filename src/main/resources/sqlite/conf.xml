@@ -53,10 +53,13 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.PrepFr,
   org.beigesoft.acc.mdlp.PrepTo,
   org.beigesoft.acc.mdlp.PurInv,
+  org.beigesoft.acc.mdlp.Wrh,
+  org.beigesoft.acc.mdlp.WrhPl,
   org.beigesoft.acc.mdlp.PuInGdLn,
   org.beigesoft.acc.mdlp.PuInTxLn,
   org.beigesoft.acc.mdlp.I18Acc,
   org.beigesoft.acc.mdlp.I18Curr,
+  org.beigesoft.acc.mdlp.WrhItm,
   org.beigesoft.acc.mdlp.BlnCh</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
 <entry key="stgFldNms">def,nul</entry>

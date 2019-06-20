@@ -48,15 +48,26 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
   private PurInv ownr;
 
   /**
+   * <p>Warehouse place.</p>
+   **/
+  private WrhPl wrhp;
+
+  /**
    * <p>Item.</p>
    **/
   private Itm itm;
 
   /**
-   * <p>Items left (the rest), loads by the quantity,
+   * <p>Items left (the rest) to draw, loads by the quantity,
    * draws by sales, losses etc.</p>
    **/
   private BigDecimal itLf = BigDecimal.ZERO;
+
+  /**
+   * <p>Total left (the rest) to draw, loads by the total,
+   * draws by sales, losses etc.</p>
+   **/
+  private BigDecimal toLf = BigDecimal.ZERO;
 
   /**
    * <p>Item basis tax lines.</p>
@@ -124,6 +135,42 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
   @Override
   public final void setItLf(final BigDecimal pItLf) {
     this.itLf = pItLf;
+  }
+
+  /**
+   * <p>Getter for toLf.</p>
+   * @return BigDecimal
+   **/
+  @Override
+  public final BigDecimal getToLf() {
+    return this.toLf;
+  }
+
+  /**
+   * <p>Setter for toLf.</p>
+   * @param pToLf reference
+   **/
+  @Override
+  public final void setToLf(final BigDecimal pToLf) {
+    this.toLf = pToLf;
+  }
+
+  /**
+   * <p>Getter for wrhp.</p>
+   * @return WrhPl
+   **/
+  @Override
+  public final WrhPl getWrhp() {
+    return this.wrhp;
+  }
+
+  /**
+   * <p>Setter for wrhp.</p>
+   * @param pWrhp reference
+   **/
+  @Override
+  public final void setWrhp(final WrhPl pWrhp) {
+    this.wrhp = pWrhp;
   }
 
   /**

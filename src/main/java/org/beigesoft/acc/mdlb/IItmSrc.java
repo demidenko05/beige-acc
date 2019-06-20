@@ -62,6 +62,17 @@ public interface IItmSrc extends IMkWsEnr {
    **/
   void setItLf(BigDecimal pItLf);
 
+  /**
+   * <p>Getter for toLf.</p>
+   * @return BigDecimal
+   **/
+  BigDecimal getToLf();
+
+  /**
+   * <p>Setter for toLf.</p>
+   * @param pToLf reference
+   **/
+  void setToLf(BigDecimal pToLf);
 
   /**
    * <p>Getter for cost.</p>

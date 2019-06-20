@@ -30,6 +30,7 @@ package org.beigesoft.acc.mdlp;
 
 import java.util.List;
 
+import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlb.AInv;
 
 /**
@@ -61,6 +62,15 @@ public class PurInv extends AInv {
   @Override
   public final Integer cnsTy() {
     return 4;
+  }
+
+  /**
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
+   **/
+  @Override
+  public final EDocTy getDocTy() {
+    return EDocTy.ITSRLN;
   }
 
   //Simple getters and setters:

@@ -51,20 +51,10 @@ public class Entr extends AOrId {
   private Long rvId;
 
   /**
-   * <p>ID database birth of reversed/reversing ACC.entry.</p>
-   **/
-  private Integer rvDbOr;
-
-  /**
    * <p>Integer, Not Null Source Type e.g. 1 - InEntr.
    * This is constant [document/line].cnsTy().</p>
    **/
   private Integer srTy;
-
-  /**
-   * <p>Integer, Not Null, ID of database where source was born.</p>
-   **/
-  private Integer srDbOr;
 
   /**
    * <p>Document/line ID, Not Null.</p>
@@ -162,22 +152,6 @@ public class Entr extends AOrId {
   }
 
   /**
-   * <p>Geter for reversed database Id.</p>
-   * @return Integer DB birth ID
-   **/
-  public final Integer getRvDbOr() {
-    return this.rvDbOr;
-  }
-
-  /**
-   * <p>Setter for reversed database Id.</p>
-   * @param pRvDbOr reference
-   **/
-  public final void setRvDbOr(final Integer pRvDbOr) {
-    this.rvDbOr = pRvDbOr;
-  }
-
-  /**
    * <p>Geter for srTy.</p>
    * @return Integer
    **/
@@ -191,22 +165,6 @@ public class Entr extends AOrId {
    **/
   public final void setSrTy(final Integer pSrTy) {
     this.srTy = pSrTy;
-  }
-
-  /**
-   * <p>Getter for srDbOr.</p>
-   * @return Integer
-   **/
-  public final Integer getSrDbOr() {
-    return this.srDbOr;
-  }
-
-  /**
-   * <p>Setter for srDbOr.</p>
-   * @param pSrDbOr reference
-   **/
-  public final void setSrDbOr(final Integer pSrDbOr) {
-    this.srDbOr = pSrDbOr;
   }
 
   /**

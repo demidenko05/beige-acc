@@ -63,47 +63,47 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
   /**
    * <p>Price.</p>
    **/
-  private BigDecimal pri;
+  private BigDecimal pri = BigDecimal.ZERO;
 
   /**
    * <p>Price in foreign currency.</p>
    **/
-  private BigDecimal prFc;
+  private BigDecimal prFc = BigDecimal.ZERO;
 
   /**
    * <p>Quantity.</p>
    **/
-  private BigDecimal quan;
+  private BigDecimal quan = BigDecimal.ZERO;
 
   /**
    * <p>Subtotal.</p>
    **/
-  private BigDecimal subt;
+  private BigDecimal subt = BigDecimal.ZERO;
 
   /**
    * <p>Subtotal in foreign currency.</p>
    **/
-  private BigDecimal suFc;
+  private BigDecimal suFc = BigDecimal.ZERO;
 
   /**
    * <p>Total taxes.</p>
    **/
-  private BigDecimal toTx;
+  private BigDecimal toTx = BigDecimal.ZERO;
 
   /**
    * <p>Total taxes in foreign currency.</p>
    **/
-  private BigDecimal txFc;
+  private BigDecimal txFc = BigDecimal.ZERO;
 
   /**
    * <p>Total.</p>
    **/
-  private BigDecimal tot;
+  private BigDecimal tot = BigDecimal.ZERO;
 
   /**
    * <p>Total in foreign currency.</p>
    **/
-  private BigDecimal toFc;
+  private BigDecimal toFc = BigDecimal.ZERO;
 
   /**
    * <p>Tax description.</p>
