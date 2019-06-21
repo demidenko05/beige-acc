@@ -37,7 +37,7 @@ import org.beigesoft.acc.mdlp.WrhEnr;
 import org.beigesoft.acc.mdlp.WrhPl;
 
 /**
- * <p>Service that makes warehouse entries, items left
+ * <p>Service that makes warehouse entries, items left in warehouse
  *  for given document/line.</p>
  *
  * @author Yury Demidenko
@@ -46,9 +46,9 @@ public interface ISrWrhEnr {
 
   /**
    * <p>Loads warehouse place with item from given source.</p>
-   * @param pRvs Request scoped variables
-   * @param pEnt loader source
-   * @param pWrp warehouse place
+   * @param pRvs Request scoped variables, not null
+   * @param pEnt loader source, not null
+   * @param pWrp warehouse place, not null
    * @throws Exception - an exception
    **/
   void load(Map<String, Object> pRvs, IMkWsEnr pEnt,
@@ -56,9 +56,9 @@ public interface ISrWrhEnr {
 
   /**
    * <p>Draws item from warehouse place for given source.</p>
-   * @param pRvs Request scoped variables
-   * @param pEnt drawer source
-   * @param pWrp warehouse place
+   * @param pRvs Request scoped variables, not null
+   * @param pEnt drawer source, not null
+   * @param pWrp warehouse place, optional
    * @throws Exception - an exception
    **/
   void draw(Map<String, Object> pRvs, IMkWsEnr pEnt,
@@ -66,10 +66,10 @@ public interface ISrWrhEnr {
 
   /**
    * <p>Moves item from one warehouse place to another for given source.</p>
-   * @param pRvs Request scoped variables
-   * @param pEnt move source
-   * @param pWrpFr warehouse place from
-   * @param pWrpTo warehouse place to
+   * @param pRvs Request scoped variables, not null
+   * @param pEnt move source, not null
+   * @param pWrpFr warehouse place from, not null
+   * @param pWrpTo warehouse place to, not null
    * @throws Exception - an exception
    **/
   void move(Map<String, Object> pRvs, IMkWsEnr pEnt, WrhPl pWrpFr,
@@ -77,32 +77,32 @@ public interface ISrWrhEnr {
 
   /**
    * <p>Reverse for given loading.</p>
-   * @param pRvs Request scoped variables
-   * @param pEnt loader source
+   * @param pRvs Request scoped variables, not null
+   * @param pEnt loader source, not null
    * @throws Exception - an exception
    **/
   void revLoad(Map<String, Object> pRvs, IMkWsEnr pEnt) throws Exception;
 
   /**
    * <p>Reverse for given drawing.</p>
-   * @param pRvs Request scoped variables
-   * @param pEnt drawer source
+   * @param pRvs Request scoped variables, not null
+   * @param pEnt drawer source, not null
    * @throws Exception - an exception
    **/
   void revDraw(Map<String, Object> pRvs, IMkWsEnr pEnt) throws Exception;
 
   /**
    * <p>Reverse for given moving.</p>
-   * @param pRvs Request scoped variables
-   * @param pEnt move source
+   * @param pRvs Request scoped variables, not null
+   * @param pEnt move source, not null
    * @throws Exception - an exception
    **/
   void revMove(Map<String, Object> pRvs, IMkWsEnr pEnt) throws Exception;
 
   /**
    * <p>Retrieves entries for given document.</p>
-   * @param pRvs Request scoped variables
-   * @param pDoc source document
+   * @param pRvs Request scoped variables, not null
+   * @param pDoc source document, not null
    * @return entries
    * @throws Exception - an exception
    **/

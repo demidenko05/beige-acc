@@ -34,7 +34,6 @@ import java.math.BigDecimal;
 import org.beigesoft.mdlp.IOrId;
 import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.acc.mdlp.WrhPl;
 
 /**
  * <p>Model of entity that makes warehouse entries, i.e.
@@ -63,18 +62,6 @@ public interface IMkWsEnr extends IOrId {
    * @param pRvId reference
    **/
   void setRvId(Long pRvId);
-
-  /**
-   * <p>Getter for wrhp.</p>
-   * @return WrhPl
-   **/
-  WrhPl getWrhp();
-
-  /**
-   * <p>Setter for wrhp.</p>
-   * @param pWrhp reference
-   **/
-  void setWrhp(WrhPl pWrhp);
 
   /**
    * <p>Getter for itm.</p>

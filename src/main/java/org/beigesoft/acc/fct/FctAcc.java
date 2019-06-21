@@ -43,6 +43,8 @@ import org.beigesoft.acc.hld.HlTySac;
 import org.beigesoft.acc.hld.HlTyEnSr;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.SrAcStg;
+import org.beigesoft.acc.srv.ISrWrhEnr;
+import org.beigesoft.acc.srv.SrWrhEnr;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.SrEntr;
 import org.beigesoft.acc.srv.ISrBlnc;
@@ -88,6 +90,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuSrBlnSht(pRvs, pFctApp);
     } else if (UtlDoc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuUtlDoc(pRvs, pFctApp);
+    } else if (ISrWrhEnr.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrWrhEnr(pRvs, pFctApp);
     } else if (ISrEntr.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrEntr(pRvs, pFctApp);
     } else if (ISrBlnc.class.getSimpleName().equals(pBnNm)) {
@@ -224,6 +228,33 @@ public class FctAcc<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, UtlDoc.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       UtlDoc.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF SrWrhEnr.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrWrhEnr
+   * @throws Exception - an exception
+   */
+  private SrWrhEnr<RS> crPuSrWrhEnr(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrWrhEnr<RS> rz = new SrWrhEnr<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    rz.setIsAndr(pFctApp.getFctDt().getIsAndr());
+    HlTyEnSr hlTyEnSr = (HlTyEnSr) pFctApp
+      .laz(pRvs, HlTyEnSr.class.getSimpleName());
+    rz.setHlTyEnSr(hlTyEnSr);
+    rz.setSrvClVl(pFctApp.lazSrvClVl(pRvs));
+    pFctApp.put(pRvs, ISrWrhEnr.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrWrhEnr.class.getSimpleName() + " has been created");
     return rz;
   }
 

@@ -28,7 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
-import java.util.Date;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdlp.AOrId;
@@ -39,11 +38,6 @@ import org.beigesoft.mdlp.AOrId;
  * @author Yury Demidenko
  */
 public class WrhEnr extends AOrId {
-
-  /**
-   * <p>Date.</p>
-   **/
-  private Date dat;
 
   /**
    * <p>Reversed/reversing ID.</p>
@@ -103,22 +97,6 @@ public class WrhEnr extends AOrId {
   private String dscr;
 
   //Simple getters and setters:
-  /**
-   * <p>Getter for dat.</p>
-   * @return Date
-   **/
-  public final Date getDat() {
-    return this.dat;
-  }
-
-  /**
-   * <p>Setter for dat.</p>
-   * @param pDat reference
-   **/
-  public final void setDat(final Date pDat) {
-    this.dat = pDat;
-  }
-
   /**
    * <p>Getter for rvId.</p>
    * @return Long
