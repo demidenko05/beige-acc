@@ -9,5 +9,5 @@ https://sites.google.com/site/beigesoftware/bsd2csl
 
 It's based on previous beigesoft-accounting and beigesoft-webstore projects.
 
-debug range #13 (13000..13999)
+debug range #11-13 (11000..13999)
 

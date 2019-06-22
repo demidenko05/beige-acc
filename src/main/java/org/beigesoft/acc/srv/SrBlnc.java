@@ -256,7 +256,7 @@ public class SrBlnc<RS> implements ISrBlnc {
     Map<String, Object> vs = new HashMap<String, Object>();
     if (lazBlnCh(pRvs, vs).getLeDt().getTime() > pDtAt.getTime()) {
       boolean isDbgSh = getLog().getDbgSh(this.getClass())
-        && getLog().getDbgFl() < 14001 && getLog().getDbgCl() > 13999;
+        && getLog().getDbgFl() < 11001 && getLog().getDbgCl() > 10999;
       if (isDbgSh) {
         getLog().debug(pRvs, SrBlnc.class, "change least last entry date from "
           + this.blnCh.getLeDt() + " to " + pDtAt);

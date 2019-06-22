@@ -43,6 +43,11 @@ public abstract class ALnTxLn<T extends AInv, L extends AInvLn<T, ?>>
   extends ADcTxLn implements IOwned<L, Long> {
 
   /**
+   * <p>Invoice ID for bulk operations, not null.</p>
+   **/
+  private Long invId;
+
+  /**
    * <p>Total FC.</p>
    **/
   private BigDecimal toFc = BigDecimal.ZERO;
@@ -58,6 +63,22 @@ public abstract class ALnTxLn<T extends AInv, L extends AInvLn<T, ?>>
   private BigDecimal txbFc = BigDecimal.ZERO;
 
   //Simple getters and setters:
+  /**
+   * <p>Getter for invId.</p>
+   * @return Long
+   **/
+  public final Long getInvId() {
+    return this.invId;
+  }
+
+  /**
+   * <p>Setter for invId.</p>
+   * @param pInvId reference
+   **/
+  public final void setInvId(final Long pInvId) {
+    this.invId = pInvId;
+  }
+
   /**
    * <p>Getter for toFc.</p>
    * @return BigDecimal

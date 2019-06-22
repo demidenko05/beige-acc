@@ -30,10 +30,10 @@ package org.beigesoft.acc.srv;
 
 import java.io.IOException;
 
-import org.beigesoft.factory.IFctRq;
+import org.beigesoft.fct.IFctRq;
 import org.beigesoft.acc.mdlb.AInTxLn;
-import org.beigesoft.acc.mdlp.AInv;
-import org.beigesoft.acc.mdlp.AInvLn;
+import org.beigesoft.acc.mdlb.AInv;
+import org.beigesoft.acc.mdlb.AInvLn;
 
 /**
  * <p>Abstraction of tax method code/data for purchase/sales invoice.
@@ -58,13 +58,13 @@ public interface IInvTxMeth<T extends AInv, TL extends AInTxLn<T>> {
    * <p>Getter for good line class.</p>
    * @return Class<InvoiceLine<T>>
    **/
-  Class<? extends AInvLn<T>> getGoodLnCl();
+  Class<? extends AInvLn<T, ?>> getGoodLnCl();
 
   /**
    * <p>Getter for service line class.</p>
    * @return Class<? extends AInvLn<T>>
    **/
-  Class<? extends AInvLn<T>> getServiceLnCl();
+  Class<? extends AInvLn<T, ?>> getServiceLnCl();
 
   /**
    * <p>Getter for invTxLnCl.</p>

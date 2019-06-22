@@ -28,11 +28,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.srv;
 
-import org.beigesoft.factory.IFctRq;
+import org.beigesoft.fct.IFctRq;
+import org.beigesoft.mdl.IIdLn;
 import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlb.ATxDsLn;
-import org.beigesoft.acc.mdlp.AInv;
-import org.beigesoft.acc.mdlp.AInvLn;
+import org.beigesoft.acc.mdlb.AInv;
+import org.beigesoft.acc.mdlb.AInvLn;
 
 /**
  * <p>Abstraction of tax method code/data for purchase/sales invoice line.
@@ -53,10 +54,22 @@ public interface IInvLnTxMeth<T extends AInv, L extends AInvLn<T, ?>,
   Class<? extends ATxDsLn<?>> getDstTxItLnCl();
 
   /**
+   * <p>Getter for item class.</p>
+   * @return Class<?>
+   **/
+  Class<? extends IIdLn> getItmCl();
+
+  /**
    * <p>Getter for isMutable, if line editable, e.g. any good doesn't.</p>
    * @return Boolean
    **/
   Boolean getIsMutable();
+
+  /**
+   * <p>Getter for invoice line class.</p>
+   * @return Class<L>
+   **/
+  Class<L> getInvLnCl();
 
   /**
    * <p>Getter for ltlCl.</p>

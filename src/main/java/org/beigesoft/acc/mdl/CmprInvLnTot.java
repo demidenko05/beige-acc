@@ -31,22 +31,22 @@ package org.beigesoft.acc.mdl;
 import java.util.Comparator;
 import java.io.Serializable;
 
-import org.beigesoft.acc.mdlp.TxCtLn;
+import org.beigesoft.acc.mdlb.AInvLn;
 
 /**
- * <p>Comparator for tax category line by rate.</p>
+ * <p>Comparator for invoice line total.</p>
  *
  * @author Yury Demidenko
  */
-public class CmprTaxCatLnRate implements Comparator<TxCtLn>, Serializable {
+public class CmprInvLnTot implements Comparator<AInvLn<?, ?>>, Serializable {
 
   /**
    * <p>serialVersionUID.</p>
    **/
-  static final long serialVersionUID = 11345518734712L;
+  static final long serialVersionUID = 41268718734712L;
 
   @Override
-  public final int compare(final TxCtLn o1, final TxCtLn o2) {
-    return o1.getRate().compareTo(o2.getRate());
+  public final int compare(final AInvLn<?, ?> o1, final AInvLn<?, ?> o2) {
+    return o1.getTot().compareTo(o2.getTot());
   }
 }

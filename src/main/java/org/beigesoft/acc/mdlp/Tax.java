@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.mdlp;
 
 import org.beigesoft.mdlp.AIdLnNm;
+import org.beigesoft.acc.mdl.ETxTy;
 import org.beigesoft.acc.mdlb.ISacnt;
 
 /**
@@ -39,11 +40,33 @@ import org.beigesoft.acc.mdlb.ISacnt;
 public class Tax extends AIdLnNm implements ISacnt {
 
   /**
+   * <p>Tax type.</p>
+   **/
+  private ETxTy typ;
+
+  /**
    * <p>OOP friendly Constant of code type.</p>
    * @return 1008
    **/
   @Override
   public final Integer cnsTy() {
     return 1008;
+  }
+  //Simple getters and setters:
+
+  /**
+   * <p>Getter for typ.</p>
+   * @return ETxTy
+   **/
+  public final ETxTy getTyp() {
+    return this.typ;
+  }
+
+  /**
+   * <p>Setter for typ.</p>
+   * @param pTyp reference
+   **/
+  public final void setTyp(final ETxTy pTyp) {
+    this.typ = pTyp;
   }
 }

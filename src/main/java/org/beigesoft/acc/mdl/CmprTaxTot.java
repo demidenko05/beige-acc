@@ -31,8 +31,6 @@ package org.beigesoft.acc.mdl;
 import java.util.Comparator;
 import java.io.Serializable;
 
-import org.beigesoft.acc.mdlb.TaxEx;
-
 /**
  * <p>Comparator for tax by total.</p>
  *
