@@ -31,9 +31,7 @@ package org.beigesoft.acc.mdlb;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdl.IOwned;
-import org.beigesoft.mdlp.AOrId;
 import org.beigesoft.acc.mdlp.Uom;
-import org.beigesoft.acc.mdlp.TxCt;
 
 /**
  * <p>Base model of invoice.</p>
@@ -43,17 +41,12 @@ import org.beigesoft.acc.mdlp.TxCt;
  * @author Yury Demidenko
  */
 public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
-  extends AOrId implements IOwned<T, Long> {
+  extends TxDtLn implements IOwned<T, Long> {
 
   /**
    * <p>Reversed ID.</p>
    **/
   private Long rvId;
-
-  /**
-   * <p>Tax category, nullable.</p>
-   **/
-  private TxCt txCt;
 
   /**
    * <p>Unit of measure.</p>
@@ -74,36 +67,6 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Quantity.</p>
    **/
   private BigDecimal quan = BigDecimal.ZERO;
-
-  /**
-   * <p>Subtotal.</p>
-   **/
-  private BigDecimal subt = BigDecimal.ZERO;
-
-  /**
-   * <p>Subtotal in foreign currency.</p>
-   **/
-  private BigDecimal suFc = BigDecimal.ZERO;
-
-  /**
-   * <p>Total taxes.</p>
-   **/
-  private BigDecimal toTx = BigDecimal.ZERO;
-
-  /**
-   * <p>Total taxes in foreign currency.</p>
-   **/
-  private BigDecimal txFc = BigDecimal.ZERO;
-
-  /**
-   * <p>Total.</p>
-   **/
-  private BigDecimal tot = BigDecimal.ZERO;
-
-  /**
-   * <p>Total in foreign currency.</p>
-   **/
-  private BigDecimal toFc = BigDecimal.ZERO;
 
   /**
    * <p>Tax description.</p>
@@ -142,22 +105,6 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    **/
   public final void setRvId(final Long pRvId) {
     this.rvId = pRvId;
-  }
-
-  /**
-   * <p>Getter for txCt.</p>
-   * @return TxCt
-   **/
-  public final TxCt getTxCt() {
-    return this.txCt;
-  }
-
-  /**
-   * <p>Setter for txCt.</p>
-   * @param pTxCt reference
-   **/
-  public final void setTxCt(final TxCt pTxCt) {
-    this.txCt = pTxCt;
   }
 
   /**
@@ -222,102 +169,6 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    **/
   public final void setQuan(final BigDecimal pQuan) {
     this.quan = pQuan;
-  }
-
-  /**
-   * <p>Getter for subt.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getSubt() {
-    return this.subt;
-  }
-
-  /**
-   * <p>Setter for subt.</p>
-   * @param pSubt reference
-   **/
-  public final void setSubt(final BigDecimal pSubt) {
-    this.subt = pSubt;
-  }
-
-  /**
-   * <p>Getter for suFc.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getSuFc() {
-    return this.suFc;
-  }
-
-  /**
-   * <p>Setter for suFc.</p>
-   * @param pSuFc reference
-   **/
-  public final void setSuFc(final BigDecimal pSuFc) {
-    this.suFc = pSuFc;
-  }
-
-  /**
-   * <p>Getter for toTx.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getToTx() {
-    return this.toTx;
-  }
-
-  /**
-   * <p>Setter for toTx.</p>
-   * @param pToTx reference
-   **/
-  public final void setToTx(final BigDecimal pToTx) {
-    this.toTx = pToTx;
-  }
-
-  /**
-   * <p>Getter for txFc.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getTxFc() {
-    return this.txFc;
-  }
-
-  /**
-   * <p>Setter for txFc.</p>
-   * @param pTxFc reference
-   **/
-  public final void setTxFc(final BigDecimal pTxFc) {
-    this.txFc = pTxFc;
-  }
-
-  /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getTot() {
-    return this.tot;
-  }
-
-  /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
-   **/
-  public final void setTot(final BigDecimal pTot) {
-    this.tot = pTot;
-  }
-
-  /**
-   * <p>Getter for toFc.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getToFc() {
-    return this.toFc;
-  }
-
-  /**
-   * <p>Setter for toFc.</p>
-   * @param pToFc reference
-   **/
-  public final void setToFc(final BigDecimal pToFc) {
-    this.toFc = pToFc;
   }
 
   /**

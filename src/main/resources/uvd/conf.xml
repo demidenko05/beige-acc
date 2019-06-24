@@ -53,6 +53,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.WrhPl,
   org.beigesoft.acc.mdlp.PurInv,
   org.beigesoft.acc.mdlp.PuInGdLn,
+  org.beigesoft.acc.mdlp.PuInSrLn,
   org.beigesoft.acc.mdlp.PuInTxLn,
   org.beigesoft.acc.mdlp.I18Curr,
   org.beigesoft.acc.mdlp.I18Acc</entry>

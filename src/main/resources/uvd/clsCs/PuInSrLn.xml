@@ -7,6 +7,5 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
-<entry key="frmFds">iid,idOr,dbOr,rvId,mdEnr,dat,dbcr,cuFr,exRt,subt,suFc,toTx,txFc,tot,toFc,prep,payb,pdscr,inTx,omTx,dscr</entry>
-<entry key="owdEnts">org.beigesoft.acc.mdlp.PuInGdLn,org.beigesoft.acc.mdlp.PuInSrLn,org.beigesoft.acc.mdlp.PuInTxLn</entry>
+<entry key="frmFds">iid,idOr,dbOr,rvId,itm,txCt,tdsc,uom,pri,prFc,quan,subt,suFc,toTx,txFc,tot,toFc,dscr</entry>
 </properties>

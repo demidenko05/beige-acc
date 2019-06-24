@@ -30,82 +30,72 @@ package org.beigesoft.acc.mdlp;
 
 import java.util.List;
 
-import org.beigesoft.acc.mdl.EDocTy;
-import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.AInvLn;
 
 /**
- * <p>Model of purchase invoice line.</p>
+ * <p>Model of purchase invoice goods line.</p>
  *
  * @author Yury Demidenko
  */
-public class PurInv extends AInv {
+public class PuInSrLn extends AInvLn<PurInv, Srv> {
 
   /**
-   * <p>Prepayments.</p>
+   * <p>Invoice.</p>
    **/
-  private PrepTo prep;
+  private PurInv ownr;
 
   /**
-   * <p>Tax lines.</p>
+   * <p>Item.</p>
    **/
-  private List<PuInTxLn> txLns;
+  private Srv itm;
 
   /**
-   * <p>Goods lines.</p>
+   * <p>Item basis tax lines.</p>
    **/
-  private List<PuInGdLn> gdLns;
+  private List<PuInSrTxLn> txLns;
 
   /**
-   * <p>Constant of code type.</p>
-   * @return 4
+   * <p>Getter for ownr.</p>
+   * @return PurInv
    **/
   @Override
-  public final Integer cnsTy() {
-    return 4;
+  public final PurInv getOwnr() {
+    return this.ownr;
   }
 
   /**
-   * <p>Getter of EDocTy.</p>
-   * @return EDocTy
+   * <p>Setter for ownr.</p>
+   * @param pOwnr reference
    **/
   @Override
-  public final EDocTy getDocTy() {
-    return EDocTy.ITSRLN;
+  public final void setOwnr(final PurInv pOwnr) {
+    this.ownr = pOwnr;
   }
 
   /**
-   * <p>Getter for prep.</p>
-   * @return PrepTo
+   * <p>Getter for itm.</p>
+   * @return Srv
    **/
   @Override
-  public final PrepTo getPrep() {
-    return this.prep;
+  public final Srv getItm() {
+    return this.itm;
   }
 
   /**
-   * <p>Getter for prepayment class.</p>
-   * @return PrepTo
+   * <p>Setter for itm.</p>
+   * @param pItm reference
    **/
   @Override
-  public final Class<? extends APrep> getPrepCls() {
-    return PrepTo.class;
+  public final void setItm(final Srv pItm) {
+    this.itm = pItm;
   }
 
   //Simple getters and setters:
   /**
-   * <p>Setter for prep.</p>
-   * @param pPrep reference
-   **/
-  public final void setPrep(final PrepTo pPrep) {
-    this.prep = pPrep;
-  }
-
-  /**
    * <p>Getter for txLns.</p>
-   * @return List<PuInTxLn>
+   * @return List<PuInSrTxLn>
    **/
-  public final List<PuInTxLn> getTxLns() {
+  public final List<PuInSrTxLn> getTxLns() {
     return this.txLns;
   }
 
@@ -113,23 +103,7 @@ public class PurInv extends AInv {
    * <p>Setter for txLns.</p>
    * @param pTxLns reference
    **/
-  public final void setTxLns(final List<PuInTxLn> pTxLns) {
+  public final void setTxLns(final List<PuInSrTxLn> pTxLns) {
     this.txLns = pTxLns;
-  }
-
-  /**
-   * <p>Getter for gdLns.</p>
-   * @return List<PuInGdLn>
-   **/
-  public final List<PuInGdLn> getGdLns() {
-    return this.gdLns;
-  }
-
-  /**
-   * <p>Setter for gdLns.</p>
-   * @param pGdLns reference
-   **/
-  public final void setGdLns(final List<PuInGdLn> pGdLns) {
-    this.gdLns = pGdLns;
   }
 }

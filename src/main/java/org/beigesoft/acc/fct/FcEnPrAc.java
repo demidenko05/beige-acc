@@ -35,6 +35,9 @@ import org.beigesoft.fct.IFctPrcEnt;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.rdb.IRdb;
+import org.beigesoft.acc.mdlp.PurInv;
+import org.beigesoft.acc.mdlp.PuInGdLn;
+import org.beigesoft.acc.mdlp.PuInSrLn;
 import org.beigesoft.acc.prc.SacntSv;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.EntrCr;
@@ -55,11 +58,16 @@ import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
 import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.PrepSv;
+import org.beigesoft.acc.prc.InvSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.ISrEntr;
+import org.beigesoft.acc.srv.ISrWrhEnr;
 import org.beigesoft.acc.srv.UtlDoc;
+import org.beigesoft.acc.srv.SrInvSv;
+import org.beigesoft.acc.srv.RvPuGdLn;
+import org.beigesoft.acc.srv.RvPuSrLn;
 
 /**
  * <p>Accounting additional factory of entity processors.</p>
@@ -133,6 +141,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuPrepCpr(pRvs);
           } else if (DocPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocPr(pRvs);
+          } else if ("PurInvSv".equals(pPrNm)) {
+            rz = crPuPurInvSv(pRvs);
           } else if (PrepSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrepSv(pRvs);
           } else if (EntrSv.class.getSimpleName().equals(pPrNm)) {
@@ -361,6 +371,42 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     this.procs.put(DocPr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DocPr.class
       .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map InvSv.</p>
+   * @param pRvs request scoped vars
+   * @return InvSv
+   * @throws Exception - an exception
+   */
+  private InvSv<PurInv, PuInGdLn, PuInSrLn> crPuPurInvSv(
+    final Map<String, Object> pRvs) throws Exception {
+    InvSv<PurInv, PuInGdLn, PuInSrLn> rz =
+      new InvSv<PurInv, PuInGdLn, PuInSrLn>();
+    SrInvSv srInvSv = (SrInvSv) this.fctBlc
+      .laz(pRvs, SrInvSv.class.getSimpleName());
+    rz.setSrInvSv(srInvSv);
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    RvPuSrLn<RS> rvsl = new RvPuSrLn<RS>();
+    rvsl.setRdb(rdb);
+    rvsl.setOrm(this.fctBlc.lazOrm(pRvs));
+    rvsl.setI18n(this.fctBlc.lazI18n(pRvs));
+    rvsl.setHldUvd(this.fctBlc.lazHldUvd(pRvs));
+    rz.setRvInSrLn(rvsl);
+    RvPuGdLn<RS> rvgl = new RvPuGdLn<RS>();
+    rvgl.setRdb(rdb);
+    rvgl.setOrm(this.fctBlc.lazOrm(pRvs));
+    rvgl.setI18n(this.fctBlc.lazI18n(pRvs));
+    rvgl.setHldUvd(this.fctBlc.lazHldUvd(pRvs));
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rvgl.setSrWrhEnr(srWrhEnr);
+    rz.setRvInGdLn(rvgl);
+    this.procs.put("PurInvSv", rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      "PurInvSv has been created.");
     return rz;
   }
 

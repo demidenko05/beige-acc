@@ -44,8 +44,7 @@ import org.beigesoft.acc.srv.UtlDoc;
 import org.beigesoft.acc.srv.ISrEntr;
 
 /**
- * <p>Service that saves document with account in head into DB.
- * It's for PrepFr, PrepTo, etc.</p>
+ * <p>Service that saves prepayment into DB.</p>
  *
  * @author Yury Demidenko
  */
@@ -57,7 +56,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
   private IOrm orm;
 
   /**
-   * <p>Balance service.</p>
+   * <p>Entries service.</p>
    **/
   private ISrEntr srEntr;
 
@@ -87,6 +86,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
       if (revd.getInvId() != null) {
         throw new ExcCode(ExcCode.WRPR, "reverse_inv_first");
       }
+      pEnt.setDbOr(this.orm.getDbId());
       pEnt.setDbcr(revd.getDbcr());
       pEnt.setAcc(revd.getAcc());
       pEnt.setSaId(revd.getSaId());
@@ -117,6 +117,12 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
       pEnt.setTot(pEnt.getTot().setScale(astg.getCsDp(), astg.getRndm()));
       pEnt.setToFc(pEnt.getToFc().setScale(astg.getCsDp(), astg.getRndm()));
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+        if (!pEnt.getIsNew()) {
+          APrep old = this.orm.retEnt(pRvs, vs, pEnt);
+          if (old.getMdEnr()) {
+            throw new ExcCode(ExcCode.SPAM, "Attempt account accounted!");
+          }
+        }
         this.srEntr.mkEntrs(pRvs, pEnt);
         pRvs.put("msgSuc", "account_ok");
       } else {

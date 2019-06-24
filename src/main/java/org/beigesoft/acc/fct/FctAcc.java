@@ -50,6 +50,7 @@ import org.beigesoft.acc.srv.SrEntr;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.SrBlnc;
 import org.beigesoft.acc.srv.UtlDoc;
+import org.beigesoft.acc.srv.SrInvSv;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.rep.SrBlnSht;
 import org.beigesoft.acc.rep.IBlnPdf;
@@ -88,6 +89,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuPdfFactory(pRvs, pFctApp);
     } else if (ISrBlnSht.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrBlnSht(pRvs, pFctApp);
+    } else if (SrInvSv.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrInvSv(pRvs, pFctApp);
     } else if (UtlDoc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuUtlDoc(pRvs, pFctApp);
     } else if (ISrWrhEnr.class.getSimpleName().equals(pBnNm)) {
@@ -211,6 +214,29 @@ public class FctAcc<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, ISrBlnSht.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrBlnSht.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF SrInvSv.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrInvSv
+   * @throws Exception - an exception
+   */
+  private SrInvSv crPuSrInvSv(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrInvSv rz = new SrInvSv();
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    ISrEntr srEntr = (ISrEntr) pFctApp
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    UtlDoc utlDoc = (UtlDoc) pFctApp
+      .laz(pRvs, UtlDoc.class.getSimpleName());
+    rz.setUtlDoc(utlDoc);
+    pFctApp.put(pRvs, SrInvSv.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrInvSv.class.getSimpleName() + " has been created");
     return rz;
   }
 

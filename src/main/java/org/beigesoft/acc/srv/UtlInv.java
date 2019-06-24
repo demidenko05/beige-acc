@@ -55,8 +55,8 @@ import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlb.ATxDsLn;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.TxDtLn;
 import org.beigesoft.acc.mdlp.AcStg;
-import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.Tax;
 import org.beigesoft.acc.mdlp.TxDst;
 import org.beigesoft.acc.mdlp.TxCt;
@@ -188,7 +188,7 @@ public class UtlInv<RS> {
         BigDecimal bd100 = new BigDecimal("100.00");
         Comparator<TxCtLn> cmpr = Collections
           .reverseOrder(new CmprTxCtLnRt());
-        for (PuInGdLn txdLn : dtTx.getTxdLns()) {
+        for (TxDtLn txdLn : dtTx.getTxdLns()) {
           int ti = 0;
           //aggregate rate line scoped storages:
           BigDecimal taxAggegated = null;
@@ -196,8 +196,7 @@ public class UtlInv<RS> {
           BigDecimal taxAggegatedFc = BigDecimal.ZERO;
           BigDecimal taxAggrAccumFc = BigDecimal.ZERO;
           Collections.sort(txdLn.getTxCt().getTxs(), cmpr);
-          for (TxCtLn itcl
-            : txdLn.getTxCt().getTxs()) {
+          for (TxCtLn itcl : txdLn.getTxCt().getTxs()) {
             ti++;
             if (taxAggegated == null) {
               if (pTxRules.getStIb()) { //invoice basis:
@@ -316,16 +315,15 @@ public class UtlInv<RS> {
     String query = pInvTxMeth.lazyGetQuTotals();
     query = query.replace(":OWNR", pInv.getIid().toString());
     if (pInvTxMeth.getTblNmsTot().length == 5) { //sales/purchase:
-      query = query.replace(":TGOODLN", pInvTxMeth.getTblNmsTot()[0]);
-      query = query.replace(":TSERVICELN", pInvTxMeth.getTblNmsTot()[1]);
+      query = query.replace(":TGDLN", pInvTxMeth.getTblNmsTot()[0]);
+      query = query.replace(":TSRVLN", pInvTxMeth.getTblNmsTot()[1]);
       query = query.replace(":TTAXLN", pInvTxMeth.getTblNmsTot()[2]);
     } else { //returns:
-      query = query.replace(":TGOODLN", pInvTxMeth.getTblNmsTot()[0]);
+      query = query.replace(":TGDLN", pInvTxMeth.getTblNmsTot()[0]);
       query = query.replace(":TTAXLN", pInvTxMeth.getTblNmsTot()[1]);
     }
-    String[] columns = new String[] {"SUBT", "ITSTOTAL", "TOTALTAXES",
-      "FOREIGNSUBTOTAL", "SUFC", "FOREIGNTOTALTAXES"};
-    Double[] totals = getRdb().evDoubles(query, columns);
+    String[] cls = new String[] {"SUBT", "TOT", "TOTX", "SUFC", "SUFC", "TXFC"};
+    Double[] totals = getRdb().evDoubles(query, cls);
     if (totals[0] == null) {
       totals[0] = 0d;
     }
@@ -385,7 +383,7 @@ public class UtlInv<RS> {
    **/
   public final <T extends AInv, L extends AInvLn<T, ?>,
     TL extends AInTxLn<T>> void adjustInvoiceLns(final Map<String, Object> pRvs,
-      final Map<String, Object> pVs, final T pInv, final List<PuInGdLn> pTxdLns,
+      final Map<String, Object> pVs, final T pInv, final List<TxDtLn> pTxdLns,
         final AcStg pAs, final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
     pVs.put(pInvTxMeth.getInvCl().getSimpleName() + "dpLv", 0);
     List<? extends AInvLn<T, ?>> gls = getOrm().retLstCnd(pRvs, pVs, pInvTxMeth
@@ -402,7 +400,7 @@ public class UtlInv<RS> {
     List<AInvLn<T, ?>> ilsm = new ArrayList<AInvLn<T, ?>>();
     Comparator<AInvLn<?, ?>> cmpr = Collections
       .reverseOrder(new CmprInvLnTot());
-    for (PuInGdLn txdLn : pTxdLns) {
+    for (TxDtLn txdLn : pTxdLns) {
       for (AInvLn<T, ?> gl : gls) {
         if (gl.getTxCt().getIid().equals(txdLn.getTxCt().getIid())) {
           ilsm.add(gl);
@@ -483,13 +481,12 @@ public class UtlInv<RS> {
    * @throws Exception - an exception.
    **/
   public final <T extends AInv, L extends AInvLn<T, ?>,
-    TL extends AInTxLn<T>> ArrayList<PuInGdLn> retrTxdLnsAdjInv(
+    TL extends AInTxLn<T>> ArrayList<TxDtLn> retrTxdLnsAdjInv(
       final Map<String, Object> pRvs, final T pInv, final AcStg pAs,
         final TxDst pTxRules,
           final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
     //totals by tax category for farther adjusting invoice:
-    ArrayList<PuInGdLn> txdLns =
-      new ArrayList<PuInGdLn>();
+    ArrayList<TxDtLn> txdLns = new ArrayList<TxDtLn>();
     //totals by "tax category, tax", map key is ID of tax category
     //TaxEx holds total and total FC
     //e.g. item A "tax18%, tax3%", item B "tax18%, tax1%"
@@ -595,7 +592,7 @@ public class UtlInv<RS> {
       }
     }
     for (Map.Entry<Long, List<TaxEx>> ent : tcTxs.entrySet()) {
-      PuInGdLn txdLn = new PuInGdLn();
+      TxDtLn txdLn = new TxDtLn();
       txdLn.setIid(ent.getKey());
       TxCt tc = new TxCt();
       tc.setIid(ent.getKey());
@@ -783,11 +780,11 @@ public class UtlInv<RS> {
         dtTx.setTxPerc(new ArrayList<Double>());
         query = pInvTxMeth.lazyGetQuTxInvBas();
         //totals by tax category for farther adjusting invoice:
-        dtTx.setTxdLns(new ArrayList<PuInGdLn>());
+        dtTx.setTxdLns(new ArrayList<TxDtLn>());
       }
     } else { //non-aggregate invoice basis with included taxes
       //and aggregate for others:
-      dtTx.setTxdLns(new ArrayList<PuInGdLn>());
+      dtTx.setTxdLns(new ArrayList<TxDtLn>());
       if (!pTxRules.getStIb()) { //item basis
         query = pInvTxMeth.lazyGetQuTxItBasAggr();
       } else { //invoice basis:
@@ -876,14 +873,14 @@ public class UtlInv<RS> {
             Long tcId = rs.getLong("TXCTID");
             if (!pTxRules.getStIb()) { //item basis:
               Long clId = rs.getLong("ILID");
-              PuInGdLn txdLn = makeTxdLine(dtTx.getTxdLns(),
+              TxDtLn txdLn = makeTxdLine(dtTx.getTxdLns(),
                 clId, tcId, tax, percent, pAs);
               txdLn.setToTx(BigDecimal.valueOf(rs.getDouble("TOTX"))
                 .setScale(pAs.getPrDp(), RoundingMode.HALF_UP));
               txdLn.setTxFc(BigDecimal.valueOf(rs.getDouble("TXFC"))
                 .setScale(pAs.getPrDp(), RoundingMode.HALF_UP));
             } else { //invoice basis:
-              PuInGdLn txdLn = makeTxdLine(dtTx.getTxdLns(),
+              TxDtLn txdLn = makeTxdLine(dtTx.getTxdLns(),
                 tcId, tcId, tax, percent, pAs);
               txdLn.setTot(BigDecimal.valueOf(rs.getDouble("TOT"))
                 .setScale(pAs.getPrDp(), RoundingMode.HALF_UP));
@@ -915,17 +912,17 @@ public class UtlInv<RS> {
    * @param pAs AS
    * @param pTxRules tax rules
    **/
-  public final void addInvBsTxExTxc(final List<PuInGdLn> pTxdLns,
+  public final void addInvBsTxExTxc(final List<TxDtLn> pTxdLns,
     final Long pCatId, final Double pSubt, final Double pSubtFc,
       final Double pPercent, final AcStg pAs, final TxDst pTxRules) {
-    PuInGdLn txdLn = null;
-    for (PuInGdLn tdl : pTxdLns) {
+    TxDtLn txdLn = null;
+    for (TxDtLn tdl : pTxdLns) {
       if (tdl.getIid().equals(pCatId)) {
         txdLn = tdl;
       }
     }
     if (txdLn == null) {
-      txdLn = new PuInGdLn();
+      txdLn = new TxDtLn();
       txdLn.setIid(pCatId);
       TxCt tc = new TxCt();
       tc.setIid(pCatId);
@@ -952,17 +949,17 @@ public class UtlInv<RS> {
    * @param pAs AS
    * @return line
    **/
-  public final PuInGdLn makeTxdLine(final List<PuInGdLn> pTxdLns,
+  public final TxDtLn makeTxdLine(final List<TxDtLn> pTxdLns,
     final Long pTdlId, final Long pCatId,  final TaxEx pTax,
       final Double pPercent, final AcStg pAs) {
-    PuInGdLn txdLn = null;
-    for (PuInGdLn tdl : pTxdLns) {
+    TxDtLn txdLn = null;
+    for (TxDtLn tdl : pTxdLns) {
       if (tdl.getIid().equals(pTdlId)) {
         txdLn = tdl;
       }
     }
     if (txdLn == null) {
-      txdLn = new PuInGdLn();
+      txdLn = new TxDtLn();
       txdLn.setIid(pTdlId);
       TxCt tc = new TxCt();
       tc.setIid(pCatId);

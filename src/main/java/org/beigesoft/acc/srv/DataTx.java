@@ -31,7 +31,7 @@ package org.beigesoft.acc.srv;
 import java.util.List;
 
 import org.beigesoft.acc.mdl.TaxEx;
-import org.beigesoft.acc.mdlp.PuInGdLn;
+import org.beigesoft.acc.mdlb.TxDtLn;
 
 /**
  * <p>Bundle of retrieved from database tax data.</p>
@@ -44,7 +44,7 @@ public class DataTx {
    * <p>Data storage for aggregate rate
    * and non-aggregate invoice basis taxes included.</p>
    **/
-  private List<PuInGdLn> txdLns;
+  private List<TxDtLn> txdLns;
 
   /**
    * <p>Taxes data storage for non-aggregate rate
@@ -78,9 +78,9 @@ public class DataTx {
 
   /**
    * <p>Getter for txdLns.</p>
-   * @return List<PuInGdLn>
+   * @return List<TxDtLn>
    **/
-  public final List<PuInGdLn> getTxdLns() {
+  public final List<TxDtLn> getTxdLns() {
     return this.txdLns;
   }
 
@@ -88,7 +88,7 @@ public class DataTx {
    * <p>Setter for txdLns.</p>
    * @param pTxdLns reference
    **/
-  public final void setTxdLns(final List<PuInGdLn> pTxdLns) {
+  public final void setTxdLns(final List<TxDtLn> pTxdLns) {
     this.txdLns = pTxdLns;
   }
 

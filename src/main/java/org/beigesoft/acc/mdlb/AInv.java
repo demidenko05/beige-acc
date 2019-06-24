@@ -101,6 +101,18 @@ public abstract class AInv extends ADoc {
    **/
   private Date pdsc;
 
+  /**
+   * <p>Getter for prep.</p>
+   * @return PrepTo
+   **/
+  public abstract APrep getPrep();
+
+  /**
+   * <p>Getter for prepayment class.</p>
+   * @return PrepTo
+   **/
+  public abstract Class<? extends APrep> getPrepCls();
+
   //Simple getters and setters:
   /**
    * <p>Getter for dbcr.</p>

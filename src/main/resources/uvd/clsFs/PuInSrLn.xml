@@ -14,8 +14,14 @@ See LICENSE in base folder
 <entry key="quancnToSt">CnvPriStr</entry>
 <entry key="subtcnToSt">CnvPriStr</entry>
 <entry key="suFccnToSt">CnvPriStr</entry>
-<entry key="totinp">dotl</entry>
+<entry key="priinp">invl</entry>
+<entry key="prFcinp"></entry>
+<entry key="quaninp"></entry>
+<entry key="subtinp"></entry>
+<entry key="suFcinp"></entry>
+<entry key="toTxinp"></entry>
+<entry key="txFcinp"></entry>
+<entry key="tdscinp"></entry>
+<entry key="totinp"></entry>
 <entry key="toFcinp"></entry>
-<entry key="txbinp"></entry>
-<entry key="txbFcinp"></entry>
 </properties>

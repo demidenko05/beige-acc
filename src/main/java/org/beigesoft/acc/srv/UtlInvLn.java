@@ -38,9 +38,9 @@ import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlb.ATxDsLn;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.TxDtLn;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.TxDst;
-import org.beigesoft.acc.mdlp.PuInGdLn;
 
 /**
  * <p>Utility for purchase/sales invoice line.
@@ -223,7 +223,7 @@ public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
   public final void adjInvLnsUpdTots(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final T pInv, final AcStg pAs,
       final TxDst pTxRules) throws Exception {
-    List<PuInGdLn> txdLns = this.utlInv.retrTxdLnsAdjInv(pRvs, pInv,
+    List<TxDtLn> txdLns = this.utlInv.retrTxdLnsAdjInv(pRvs, pInv,
       pAs, pTxRules, this.invTxMeth);
     this.utlInv.adjustInvoiceLns(pRvs, pVs, pInv, txdLns, pAs, this.invTxMeth);
     this.utlInv.updInvTots(pRvs, pVs, pInv, pAs, this.invTxMeth);

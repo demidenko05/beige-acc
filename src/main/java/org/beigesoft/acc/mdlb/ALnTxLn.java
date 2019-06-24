@@ -43,7 +43,7 @@ public abstract class ALnTxLn<T extends AInv, L extends AInvLn<T, ?>>
   extends ADcTxLn implements IOwned<L, Long> {
 
   /**
-   * <p>Invoice ID for bulk operations, not null.</p>
+   * <p>Invoice ID for bulk operations, not null. It's cheaper than 2 joins.</p>
    **/
   private Long invId;
 

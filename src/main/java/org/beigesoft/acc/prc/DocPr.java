@@ -62,7 +62,7 @@ public class DocPr implements IPrcEnt<IDoc, Long> {
   private HldUvd hldUvd;
 
   /**
-   * <p>Balance service.</p>
+   * <p>Entries service.</p>
    **/
   private ISrEntr srEntr;
 
@@ -96,8 +96,7 @@ public class DocPr implements IPrcEnt<IDoc, Long> {
         Arrays.sort(ndFds);
         vs.put(oec.getSimpleName() + "ndFds", ndFds);
         List<IOwned<IDoc, Long>> lst = this.orm.retLstCnd(pRvs, vs,
-          oec, "where OWNR=" + idOwnr);
-        vs.remove(oec.getSimpleName() + "ndFds");
+          oec, "where OWNR=" + idOwnr); vs.clear();
         owdEntsMp.put(oecg, (List) lst);
         for (IOwned<IDoc, Long> owd : lst) {
           owd.setOwnr(pEnt);
