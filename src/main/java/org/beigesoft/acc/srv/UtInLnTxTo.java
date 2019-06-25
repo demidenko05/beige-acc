@@ -44,6 +44,7 @@ import org.beigesoft.acc.mdlp.TxDst;
 
 /**
  * <p>Utility for purchase/sales invoice line.
+ * It makes taxes and totals for line and invoice.
  * It's final assembly dedicated to concrete invoice line type.
  * Code in base utility is shared (there is only instance in memory).</p>
  *
@@ -54,14 +55,14 @@ import org.beigesoft.acc.mdlp.TxDst;
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
+public class UtInLnTxTo<RS, T extends AInv, L extends AInvLn<T, ?>,
   TL extends AInTxLn<T>, LTL extends ALnTxLn<T, L>>
     implements IInvLnTxMeth<T, L, LTL> {
 
   /**
    * <p>Shared code-bunch.</p>
    **/
-  private UtlInv<RS> utlInv;
+  private UtInLnTxToBs<RS> utlInv;
 
   /**
    * <p>Invoice level shared options.</p>
@@ -102,6 +103,11 @@ public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
    * <p>If need make line tax category (purchase return not).</p>
    **/
   private Boolean needMkTxCat;
+
+  /**
+   * <p>For extract sales taxes main setting from AS -sales or purchase.</p>
+   **/
+  private Boolean isPurch;
 
   /**
    * <p>Getter for need make line tax category (purchase return not).</p>
@@ -170,13 +176,18 @@ public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
    * <p>Reveal shared tax rules for invoice..</p>
    * @param pInv invoice
    * @param pAs Accounting Settings
-   * @param pIsExtrTx if extract taxes
    * @return tax rules, NULL if not taxable
    * @throws Exception - an exception.
    **/
-  public final TxDst revealTaxRules(final AInv pInv, final AcStg pAs,
-      final Boolean pIsExtrTx) throws Exception {
-    return this.utlInv.revealTaxRules(pInv, pAs, pIsExtrTx);
+  public final TxDst revealTaxRules(final AInv pInv,
+    final AcStg pAs) throws Exception {
+    Boolean extSt;
+    if (this.isPurch) {
+      extSt = pAs.getStExp();
+    } else {
+      extSt = pAs.getStExs();
+    }
+    return this.utlInv.revealTaxRules(pInv, pAs, extSt);
   }
 
   /**
@@ -188,10 +199,10 @@ public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
    * @param pTxRules NULL if not taxable
    * @throws Exception - an exception.
    **/
-  public final void makeLine(final Map<String, Object> pRvs,
+  public final void mkLnTxTo(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final L pLine, final AcStg pAs,
       final TxDst pTxRules) throws Exception {
-    this.utlInv.makeLine(pRvs, pVs, pLine, pAs, pTxRules, this.invTxMeth, this);
+    this.utlInv.mkLnTxTo(pRvs, pVs, pLine, pAs, pTxRules, this.invTxMeth, this);
   }
 
   /**
@@ -232,9 +243,9 @@ public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
   //Simple getters and setters:
   /**
    * <p>Getter for utlInv.</p>
-   * @return UtlInv<RS>
+   * @return UtInLnTxTo<RS>
    **/
-  public final UtlInv<RS> getUtlInv() {
+  public final UtInLnTxToBs<RS> getUtlInv() {
     return this.utlInv;
   }
 
@@ -242,7 +253,7 @@ public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
    * <p>Setter for utlInv.</p>
    * @param pUtlInv reference
    **/
-  public final void setUtlInv(final UtlInv<RS> pUtlInv) {
+  public final void setUtlInv(final UtInLnTxToBs<RS> pUtlInv) {
     this.utlInv = pUtlInv;
   }
 
@@ -310,11 +321,28 @@ public class UtlInvLn<RS, T extends AInv, L extends AInvLn<T, ?>,
   public final void setIsMutable(final Boolean pIsMutable) {
     this.isMutable = pIsMutable;
   }
+
   /**
    * <p>Setter for needMkTxCat.</p>
    * @param pNeedMkTxCat reference
    **/
   public final void setNeedMkTxCat(final Boolean pNeedMkTxCat) {
     this.needMkTxCat = pNeedMkTxCat;
+  }
+
+  /**
+   * <p>Getter for isPurch.</p>
+   * @return Boolean
+   **/
+  public final Boolean getIsPurch() {
+    return this.isPurch;
+  }
+
+  /**
+   * <p>Setter for isPurch.</p>
+   * @param pIsPurch reference
+   **/
+  public final void setIsPurch(final Boolean pIsPurch) {
+    this.isPurch = pIsPurch;
   }
 }

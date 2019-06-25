@@ -28,32 +28,56 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.srv;
 
-import java.util.List;
 import java.util.Map;
 
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlp.TxDst;
 
 /**
- * <p>Abstraction of reverser for purchase/sales invoice line.</p>
+ * <p>Abstraction of item oriented service for purchase/sales invoice line.</p>
  *
  * @param <T> invoice type
  * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public interface IRvInvLn<T extends AInv, L extends AInvLn<T, ?>> {
+public interface ISrInItLn<T extends AInv, L extends AInvLn<T, ?>> {
 
   /**
-   * <p>Retrieves and checks lines for reversing,
+   * <p>For good it makes warehouse entry
+   * for sales good it also makes draw item entry.</p>
+   * @param pRvs Request scoped variables, not null
+   * @param pVs Invoker scoped variables, not null
+   * @param pEnt line, not null
+   * @throws Exception - an exception
+   **/
+  void mkEntrs(Map<String, Object> pRvs, Map<String, Object> pVs,
+    L pEnt) throws Exception;
+
+  /**
+   * <p>Prepare line, e.g. for purchase good it makes items left,
+   * it may makes totals/subtotals (depends of price inclusive),
+   * known cost.</p>
+   * @param pRvs Request scoped variables, not null
+   * @param pVs Invoker scoped variables, not null
+   * @param pEnt line, not null
+   * @param pTxRules maybe null
+   * @throws Exception - an exception
+   **/
+  void prepLn(Map<String, Object> pRvs, Map<String, Object> pVs,
+    L pEnt, TxDst pTxRules) throws Exception;
+
+  /**
+   * <p>Retrieves and checks line for reversing, makes reversing item,
    * e.g. for purchase goods lines it checks for withdrawals.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
-   * @param pEnt invoice, not null
-   * @return checked lines
+   * @param pEnt reversing, not null
+   * @return checked line
    * @throws Exception - an exception
    **/
-  List<L> retChkLns(Map<String, Object> pRvs, Map<String, Object> pVs,
-    T pEnt) throws Exception;
+  L retChkRv(Map<String, Object> pRvs, Map<String, Object> pVs,
+    L pEnt) throws Exception;
 
   /**
    * <p>Reverses lines.
@@ -63,11 +87,10 @@ public interface IRvInvLn<T extends AInv, L extends AInvLn<T, ?>> {
    * It removes line tax lines.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
-   * @param pEnt invoice, not null
    * @param pRvng reversing line, not null
    * @param pRved reversed line, not null
    * @throws Exception - an exception
    **/
-  void revLns(Map<String, Object> pRvs, Map<String, Object> pVs, T pEnt,
+  void revLns(Map<String, Object> pRvs, Map<String, Object> pVs,
     L pRvng, L pRved) throws Exception;
 }

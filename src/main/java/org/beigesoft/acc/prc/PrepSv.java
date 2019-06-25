@@ -40,7 +40,7 @@ import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Sacnt;
-import org.beigesoft.acc.srv.UtlDoc;
+import org.beigesoft.acc.srv.UtlBas;
 import org.beigesoft.acc.srv.ISrEntr;
 
 /**
@@ -61,9 +61,9 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
   private ISrEntr srEntr;
 
   /**
-   * <p>Document service.</p>
+   * <p>Base service.</p>
    **/
-  private UtlDoc utlDoc;
+  private UtlBas utlBas;
 
   /**
    * <p>Process that saves entity.</p>
@@ -82,7 +82,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
       APrep revd = pEnt.getClass().newInstance();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
-      this.utlDoc.check1(pRvs, revd, pRqDt);
+      this.utlBas.chDtForg(pRvs, revd, revd.getDat());
       if (revd.getInvId() != null) {
         throw new ExcCode(ExcCode.WRPR, "reverse_inv_first");
       }
@@ -100,7 +100,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
       if (pEnt.getAcc() == null) {
         throw new ExcCode(ExcCode.WRPR, "account_is_null");
       }
-      this.utlDoc.check1(pRvs, pEnt, pRqDt);
+      this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
       if (pEnt.getAcc().getSaTy() != null) {
         if (pEnt.getSaId() == null) {
           throw new ExcCode(ExcCode.WRPR, "select_subaccount");
@@ -114,8 +114,8 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
         }
       }
       AcStg astg = (AcStg) pRvs.get("astg");
-      pEnt.setTot(pEnt.getTot().setScale(astg.getCsDp(), astg.getRndm()));
-      pEnt.setToFc(pEnt.getToFc().setScale(astg.getCsDp(), astg.getRndm()));
+      pEnt.setTot(pEnt.getTot().setScale(astg.getPrDp(), astg.getRndm()));
+      pEnt.setToFc(pEnt.getToFc().setScale(astg.getPrDp(), astg.getRndm()));
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
         if (!pEnt.getIsNew()) {
           APrep old = this.orm.retEnt(pRvs, vs, pEnt);
@@ -174,18 +174,18 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
   }
 
   /**
-   * <p>Getter for utlDoc.</p>
-   * @return UtlDoc
+   * <p>Getter for utlBas.</p>
+   * @return UtlBas
    **/
-  public final UtlDoc getUtlDoc() {
-    return this.utlDoc;
+  public final UtlBas getUtlBas() {
+    return this.utlBas;
   }
 
   /**
-   * <p>Setter for utlDoc.</p>
-   * @param pUtlDoc reference
+   * <p>Setter for utlBas.</p>
+   * @param pUtlBas reference
    **/
-  public final void setUtlDoc(final UtlDoc pUtlDoc) {
-    this.utlDoc = pUtlDoc;
+  public final void setUtlBas(final UtlBas pUtlBas) {
+    this.utlBas = pUtlBas;
   }
 }

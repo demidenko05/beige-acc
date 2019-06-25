@@ -88,14 +88,15 @@ public class RvPuSrLn<RS> implements IRvInvLn<PurInv, PuInSrLn> {
     pVs.put("TxCtdpLv", 0);
     pVs.put("UomdpLv", 0);
     List<PuInSrLn> lst = this.orm.retLstCnd(pRvs, pVs, PuInSrLn.class,
-      "where OWNR=" + pEnt.getIid()); pVs.clear();
+      "where RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
     return lst;
   }
 
   /**
    * <p>Reverses lines.
    * it also inserts reversing and updates reversed
-   * for good it also makes warehouse reversing.</p>
+   * for good it also makes warehouse reversing.
+   * It removes line tax lines.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
    * @param pEnt invoice, not null

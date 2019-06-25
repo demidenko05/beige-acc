@@ -43,7 +43,7 @@ import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Srv;
 
 /**
- * <p>Service that saves invoice account in head into DB.
+ * <p>Service that saves invoice into DB.
  * It's type-safe part (shared code) that is used inside type safe
  * processor-assembly.</p>
  *
@@ -62,9 +62,9 @@ public class SrInvSv {
   private ISrEntr srEntr;
 
   /**
-   * <p>Document service.</p>
+   * <p>Base service.</p>
    **/
-  private UtlDoc utlDoc;
+  private UtlBas utlBas;
 
   /**
    * <p>Saves entity generic method.</p>
@@ -89,7 +89,7 @@ public class SrInvSv {
       T revd = (T) pEnt.getClass().newInstance();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
-      this.utlDoc.check1(pRvs, revd, pRqDt);
+      this.utlBas.chDtForg(pRvs, revd, revd.getDat());
       if (revd.getToPa().compareTo(BigDecimal.ZERO) == 1) {
         if (revd.getPrep() != null) {
           vs.put(revd.getPrep().getClass().getSimpleName() + "ndFds",
@@ -113,6 +113,8 @@ public class SrInvSv {
       pEnt.setSuFc(revd.getSuFc().negate());
       pEnt.setToTx(revd.getToTx().negate());
       pEnt.setTxFc(revd.getTxFc().negate());
+      pEnt.setTot(revd.getTot().negate());
+      pEnt.setToFc(revd.getToFc().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       pRvs.put("msgSuc", "reverse_ok");
       //for purchase goods lines it also checks for withdrawals:
@@ -134,10 +136,11 @@ public class SrInvSv {
         rvgLn.setTxFc(rvdLn.getTxFc().negate());
         rvgLn.setTot(rvdLn.getTot().negate());
         rvgLn.setToFc(rvdLn.getToFc().negate());
-        rvgLn.setDscr(rvdLn.getDscr());
+        rvgLn.setTdsc(rvdLn.getTdsc());
         //it also inserts reversing and updates reversed
         //for good it also makes warehouse reversing
-        //for sales good it also makes draw item reversing:
+        //for sales good it also makes draw item reversing
+        //It removes line tax lines:
         pRvGdLn.revLns(pRvs, vs, pEnt, rvgLn, rvdLn);
       }
       List<S> srLns = pRvSrLn.retChkLns(pRvs, vs, pEnt);
@@ -158,12 +161,11 @@ public class SrInvSv {
         rvgLn.setTxFc(rvdLn.getTxFc().negate());
         rvgLn.setTot(rvdLn.getTot().negate());
         rvgLn.setToFc(rvdLn.getToFc().negate());
-        rvgLn.setDscr(rvdLn.getDscr());
-        //it also inserts reversing and updates reversed
+        rvgLn.setTdsc(rvdLn.getTdsc());
         pRvSrLn.revLns(pRvs, vs, pEnt, rvgLn, rvdLn);
       }
     } else {
-      this.utlDoc.check1(pRvs, pEnt, pRqDt);
+      this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
       if (!pEnt.getIsNew()) {
         vs.put(pEnt.getClass().getSimpleName() + "ndFds",
           new String[] {"dbcr", "iid", "inTx", "omTx", "prep"});
@@ -255,18 +257,18 @@ public class SrInvSv {
   }
 
   /**
-   * <p>Getter for utlDoc.</p>
-   * @return UtlDoc
+   * <p>Getter for utlBas.</p>
+   * @return UtlBas
    **/
-  public final UtlDoc getUtlDoc() {
-    return this.utlDoc;
+  public final UtlBas getUtlBas() {
+    return this.utlBas;
   }
 
   /**
-   * <p>Setter for utlDoc.</p>
-   * @param pUtlDoc reference
+   * <p>Setter for utlBas.</p>
+   * @param pUtlBas reference
    **/
-  public final void setUtlDoc(final UtlDoc pUtlDoc) {
-    this.utlDoc = pUtlDoc;
+  public final void setUtlBas(final UtlBas pUtlBas) {
+    this.utlBas = pUtlBas;
   }
 }

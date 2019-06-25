@@ -65,7 +65,9 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
 
   /**
    * <p>Total left (the rest) to draw, loads by the total,
-   * draws by sales, losses etc.</p>
+   * draws by sales, losses etc.
+   * !For current implementation it is zero after loading (only itLf=quan),
+   * so for the first withdrawal drawer should set it as total-withdrawal!</p>
    **/
   private BigDecimal toLf = BigDecimal.ZERO;
 

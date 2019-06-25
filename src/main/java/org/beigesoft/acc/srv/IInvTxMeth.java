@@ -34,6 +34,8 @@ import org.beigesoft.fct.IFctRq;
 import org.beigesoft.acc.mdlb.AInTxLn;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlp.Itm;
+import org.beigesoft.acc.mdlp.Srv;
 
 /**
  * <p>Abstraction of tax method code/data for purchase/sales invoice.
@@ -58,13 +60,13 @@ public interface IInvTxMeth<T extends AInv, TL extends AInTxLn<T>> {
    * <p>Getter for good line class.</p>
    * @return Class<InvoiceLine<T>>
    **/
-  Class<? extends AInvLn<T, ?>> getGoodLnCl();
+  Class<? extends AInvLn<T, Itm>> getGoodLnCl();
 
   /**
    * <p>Getter for service line class.</p>
    * @return Class<? extends AInvLn<T>>
    **/
-  Class<? extends AInvLn<T, ?>> getServiceLnCl();
+  Class<? extends AInvLn<T, Srv>> getServiceLnCl();
 
   /**
    * <p>Getter for invTxLnCl.</p>

@@ -33,11 +33,19 @@ import java.util.HashMap;
 
 import org.beigesoft.fct.IFctPrcEnt;
 import org.beigesoft.fct.FctBlc;
+import org.beigesoft.fct.FctOrId;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.mdlp.PurInv;
 import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.PuInSrLn;
+import org.beigesoft.acc.mdlp.PuInSrTxLn;
+import org.beigesoft.acc.mdlp.PuInTxLn;
+import org.beigesoft.acc.mdlp.PuInGdTxLn;
+import org.beigesoft.acc.mdlp.Itm;
+import org.beigesoft.acc.mdlp.ItTxDl;
+import org.beigesoft.acc.mdlp.Srv;
+import org.beigesoft.acc.mdlp.SrTxDl;
 import org.beigesoft.acc.prc.SacntSv;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.EntrCr;
@@ -58,16 +66,23 @@ import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
 import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.PrepSv;
+import org.beigesoft.acc.prc.InvLnSv;
 import org.beigesoft.acc.prc.InvSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.ISrWrhEnr;
-import org.beigesoft.acc.srv.UtlDoc;
+import org.beigesoft.acc.srv.UtlBas;
 import org.beigesoft.acc.srv.SrInvSv;
+import org.beigesoft.acc.srv.SrInLnSv;
+import org.beigesoft.acc.srv.SrPuGdLn;
+import org.beigesoft.acc.srv.SrPuSrLn;
 import org.beigesoft.acc.srv.RvPuGdLn;
 import org.beigesoft.acc.srv.RvPuSrLn;
+import org.beigesoft.acc.srv.UtInLnTxTo;
+import org.beigesoft.acc.srv.UtInLnTxToBs;
+import org.beigesoft.acc.srv.InvTxMeth;
 
 /**
  * <p>Accounting additional factory of entity processors.</p>
@@ -76,6 +91,21 @@ import org.beigesoft.acc.srv.RvPuSrLn;
  * @author Yury Demidenko
  */
 public class FcEnPrAc<RS> implements IFctPrcEnt {
+
+  /**
+   * <p>Purchase invoice good line service name.</p>
+   **/
+  public static final String PURINVGDLNSV = "PurInvGdLnSv";
+
+  /**
+   * <p>Purchase invoice service line service name.</p>
+   **/
+  public static final String PURINVSRLNSV = "PurInvSrLnSv";
+
+  /**
+   * <p>Purchase invoice line service name.</p>
+   **/
+  public static final String PURINVSV = "PurInvSv";
 
   /**
    * <p>Main factory.</p>
@@ -141,7 +171,11 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuPrepCpr(pRvs);
           } else if (DocPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocPr(pRvs);
-          } else if ("PurInvSv".equals(pPrNm)) {
+          } else if (PURINVSRLNSV.equals(pPrNm)) {
+            rz = crPuPurInvSrLnSv(pRvs);
+          } else if (PURINVGDLNSV.equals(pPrNm)) {
+            rz = crPuPurInvGdLnSv(pRvs);
+          } else if (PURINVSV.equals(pPrNm)) {
             rz = crPuPurInvSv(pRvs);
           } else if (PrepSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrepSv(pRvs);
@@ -375,6 +409,105 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map PurSrInvLnSv.</p>
+   * @param pRvs request scoped vars
+   * @return InvLnSv purchase service
+   * @throws Exception - an exception
+   */
+  private InvLnSv<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn> crPuPurInvSrLnSv(
+    final Map<String, Object> pRvs) throws Exception {
+    InvLnSv<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn> rz =
+      new InvLnSv<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn>();
+    SrInLnSv srInLnSv = (SrInLnSv) this.fctBlc
+      .laz(pRvs, SrInLnSv.class.getSimpleName());
+    rz.setSrInLnSv(srInLnSv);
+    SrPuSrLn sritln = new SrPuSrLn();
+    rz.setSrInItLn(sritln);
+    sritln.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    RvPuSrLn<RS> rvgl = (RvPuSrLn<RS>)
+      this.fctBlc.laz(pRvs, RvPuSrLn.class.getSimpleName());
+    sritln.setRvInvLn(rvgl);
+    UtInLnTxTo<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn> utInTxTo =
+      new UtInLnTxTo<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn>();
+    rz.setUtInTxTo(utInTxTo);
+    @SuppressWarnings("unchecked")
+    UtInLnTxToBs<RS> utInTxToBs = (UtInLnTxToBs<RS>) this.fctBlc
+      .laz(pRvs, UtInLnTxToBs.class.getSimpleName());
+    utInTxTo.setUtlInv(utInTxToBs);
+    @SuppressWarnings("unchecked")
+    InvTxMeth<PurInv, PuInTxLn> invTxMeth = (InvTxMeth<PurInv, PuInTxLn>)
+      this.fctBlc.laz(pRvs, FctAcc.PURINVTXMETH);
+    utInTxTo.setInvTxMeth(invTxMeth);
+    FctOrId<PuInSrTxLn> fcpigtl = new FctOrId<PuInSrTxLn>();
+    utInTxTo.setFctLineTxLn(fcpigtl);
+    fcpigtl.setCls(PuInSrTxLn.class);
+    fcpigtl.setDbOr(sritln.getOrm().getDbId());
+    utInTxTo.setLtlCl(PuInSrTxLn.class);
+    utInTxTo.setDstTxItLnCl(SrTxDl.class);
+    utInTxTo.setInvLnCl(PuInSrLn.class);
+    utInTxTo.setItmCl(Srv.class);
+    utInTxTo.setIsMutable(true);
+    utInTxTo.setNeedMkTxCat(true);
+    utInTxTo.setIsPurch(true);
+    this.procs.put(PURINVSRLNSV, rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      PURINVSRLNSV + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map PurGdInvLnSv.</p>
+   * @param pRvs request scoped vars
+   * @return InvLnSv purchase good
+   * @throws Exception - an exception
+   */
+  private InvLnSv<RS, PurInv, PuInGdLn, PuInTxLn, PuInGdTxLn> crPuPurInvGdLnSv(
+    final Map<String, Object> pRvs) throws Exception {
+    InvLnSv<RS, PurInv, PuInGdLn, PuInTxLn, PuInGdTxLn> rz =
+      new InvLnSv<RS, PurInv, PuInGdLn, PuInTxLn, PuInGdTxLn>();
+    SrInLnSv srInLnSv = (SrInLnSv) this.fctBlc
+      .laz(pRvs, SrInLnSv.class.getSimpleName());
+    rz.setSrInLnSv(srInLnSv);
+    SrPuGdLn sritln = new SrPuGdLn();
+    rz.setSrInItLn(sritln);
+    sritln.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    sritln.setSrWrhEnr(srWrhEnr);
+    @SuppressWarnings("unchecked")
+    RvPuGdLn<RS> rvgl = (RvPuGdLn<RS>)
+      this.fctBlc.laz(pRvs, RvPuGdLn.class.getSimpleName());
+    sritln.setRvInvLn(rvgl);
+    UtInLnTxTo<RS, PurInv, PuInGdLn, PuInTxLn, PuInGdTxLn> utInTxTo =
+      new UtInLnTxTo<RS, PurInv, PuInGdLn, PuInTxLn, PuInGdTxLn>();
+    rz.setUtInTxTo(utInTxTo);
+    @SuppressWarnings("unchecked")
+    UtInLnTxToBs<RS> utInTxToBs = (UtInLnTxToBs<RS>) this.fctBlc
+      .laz(pRvs, UtInLnTxToBs.class.getSimpleName());
+    utInTxTo.setUtlInv(utInTxToBs);
+    @SuppressWarnings("unchecked")
+    InvTxMeth<PurInv, PuInTxLn> invTxMeth = (InvTxMeth<PurInv, PuInTxLn>)
+      this.fctBlc.laz(pRvs, FctAcc.PURINVTXMETH);
+    utInTxTo.setInvTxMeth(invTxMeth);
+    FctOrId<PuInGdTxLn> fcpigtl = new FctOrId<PuInGdTxLn>();
+    utInTxTo.setFctLineTxLn(fcpigtl);
+    fcpigtl.setCls(PuInGdTxLn.class);
+    fcpigtl.setDbOr(sritln.getOrm().getDbId());
+    utInTxTo.setLtlCl(PuInGdTxLn.class);
+    utInTxTo.setDstTxItLnCl(ItTxDl.class);
+    utInTxTo.setInvLnCl(PuInGdLn.class);
+    utInTxTo.setItmCl(Itm.class);
+    utInTxTo.setIsMutable(false);
+    utInTxTo.setNeedMkTxCat(true);
+    utInTxTo.setIsPurch(true);
+    this.procs.put(PURINVGDLNSV, rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      PURINVGDLNSV + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map InvSv.</p>
    * @param pRvs request scoped vars
    * @return InvSv
@@ -388,25 +521,16 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
       .laz(pRvs, SrInvSv.class.getSimpleName());
     rz.setSrInvSv(srInvSv);
     @SuppressWarnings("unchecked")
-    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
-    RvPuSrLn<RS> rvsl = new RvPuSrLn<RS>();
-    rvsl.setRdb(rdb);
-    rvsl.setOrm(this.fctBlc.lazOrm(pRvs));
-    rvsl.setI18n(this.fctBlc.lazI18n(pRvs));
-    rvsl.setHldUvd(this.fctBlc.lazHldUvd(pRvs));
+    RvPuSrLn<RS> rvsl = (RvPuSrLn<RS>)
+      this.fctBlc.laz(pRvs, RvPuSrLn.class.getSimpleName());
     rz.setRvInSrLn(rvsl);
-    RvPuGdLn<RS> rvgl = new RvPuGdLn<RS>();
-    rvgl.setRdb(rdb);
-    rvgl.setOrm(this.fctBlc.lazOrm(pRvs));
-    rvgl.setI18n(this.fctBlc.lazI18n(pRvs));
-    rvgl.setHldUvd(this.fctBlc.lazHldUvd(pRvs));
-    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
-      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
-    rvgl.setSrWrhEnr(srWrhEnr);
+    @SuppressWarnings("unchecked")
+    RvPuGdLn<RS> rvgl = (RvPuGdLn<RS>)
+      this.fctBlc.laz(pRvs, RvPuGdLn.class.getSimpleName());
     rz.setRvInGdLn(rvgl);
-    this.procs.put("PurInvSv", rz);
+    this.procs.put(PURINVSV, rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
-      "PurInvSv has been created.");
+      PURINVSV + " has been created.");
     return rz;
   }
 
@@ -420,9 +544,9 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     final Map<String, Object> pRvs) throws Exception {
     PrepSv rz = new PrepSv();
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
-    UtlDoc utlDoc = (UtlDoc) this.fctBlc
-      .laz(pRvs, UtlDoc.class.getSimpleName());
-    rz.setUtlDoc(utlDoc);
+    UtlBas utlBas = (UtlBas) this.fctBlc
+      .laz(pRvs, UtlBas.class.getSimpleName());
+    rz.setUtlBas(utlBas);
     ISrEntr srEntr = (ISrEntr) this.fctBlc
       .laz(pRvs, ISrEntr.class.getSimpleName());
     rz.setSrEntr(srEntr);

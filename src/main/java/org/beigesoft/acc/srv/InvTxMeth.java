@@ -36,6 +36,8 @@ import org.beigesoft.fct.IFctRq;
 import org.beigesoft.acc.mdlb.AInTxLn;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlp.Itm;
+import org.beigesoft.acc.mdlp.Srv;
 
 /**
  * <p>Tax method code/data for purchase/sales invoice.
@@ -134,12 +136,12 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   /**
    * <p>Good line class.</p>
    **/
-  private Class<? extends AInvLn<T, ?>> goodLnCl;
+  private Class<? extends AInvLn<T, Itm>> goodLnCl;
 
   /**
    * <p>Service line class, NULL for returns.</p>
    **/
-  private Class<? extends AInvLn<T, ?>> serviceLnCl;
+  private Class<? extends AInvLn<T, Srv>> serviceLnCl;
 
   /**
    * <p>Invoice tax line factory.</p>
@@ -160,7 +162,7 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    * <p>Where start clause for adjusting invoice goods
    * lines for invoice basis method.</p>
    **/
-  private String stWhereAdjGdLnInvBas;
+  private String stWhereAdjGdLnInvBas; //TODO useless?
 
   /**
    * <p>Where start clause for adjusting invoice service
@@ -204,7 +206,7 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    * @return Class<? extends AInvLn<T, ?>>
    **/
   @Override
-  public final Class<? extends AInvLn<T, ?>> getGoodLnCl() {
+  public final Class<? extends AInvLn<T, Itm>> getGoodLnCl() {
     return this.goodLnCl;
   }
 
@@ -213,7 +215,7 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    * @return Class<? extends AInvLn<T, ?>>
    **/
   @Override
-  public final Class<? extends AInvLn<T, ?>> getServiceLnCl() {
+  public final Class<? extends AInvLn<T, Srv>> getServiceLnCl() {
     return this.serviceLnCl;
   }
 
@@ -234,7 +236,8 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTxInvAdj() throws IOException {
     if (this.quTxInvAdj == null) {
-      this.quTxInvAdj = loadString("/acc/trade/" + this.flTxInvAdj);
+      this.quTxInvAdj = loadString("/acc/trade/" + this.flTxInvAdj
+        + ".sql");
     }
     return this.quTxInvAdj;
   }
@@ -247,7 +250,8 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTxInvBas() throws IOException {
     if (this.quTxInvBas == null) {
-      this.quTxInvBas = loadString("/acc/trade/" + this.flTxInvBas);
+      this.quTxInvBas = loadString("/acc/trade/" + this.flTxInvBas
+        + ".sql");
     }
     return this.quTxInvBas;
   }
@@ -261,7 +265,7 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   public final String lazyGetQuTxInvBasAggr() throws IOException {
     if (this.quTxInvBasAggr == null) {
       this.quTxInvBasAggr = loadString("/acc/trade/"
-        + this.flTxInvBasAggr);
+        + this.flTxInvBasAggr + ".sql");
     }
     return this.quTxInvBasAggr;
   }
@@ -275,7 +279,8 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   public final String lazyGetQuTxItBasAggr() throws IOException {
     if (this.quTxItBasAggr == null) {
       this.quTxItBasAggr =
-        loadString("/acc/trade/" + this.flTxItBasAggr);
+        loadString("/acc/trade/" + this.flTxItBasAggr
+          + ".sql");
     }
     return this.quTxItBasAggr;
   }
@@ -288,7 +293,8 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTxItBas() throws IOException {
     if (this.quTxItBas == null) {
-      this.quTxItBas = loadString("/acc/trade/" + this.flTxItBas);
+      this.quTxItBas = loadString("/acc/trade/" + this.flTxItBas
+        + ".sql");
     }
     return this.quTxItBas;
   }
@@ -301,7 +307,8 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTotals() throws IOException {
     if (this.quTotals == null) {
-      this.quTotals = loadString("/acc/trade/" + this.flTotals);
+      this.quTotals = loadString("/acc/trade/" + this.flTotals
+        + ".sql");
     }
     return this.quTotals;
   }
@@ -391,54 +398,6 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    **/
   public final void setFctInvTxLn(final IFctRq<TL> pFctInvTxLn) {
     this.fctInvTxLn = pFctInvTxLn;
-  }
-
-  /**
-   * <p>Setter for quTotals.</p>
-   * @param pQuTotals reference
-   **/
-  public final void setQuTotals(final String pQuTotals) {
-    this.quTotals = pQuTotals;
-  }
-
-  /**
-   * <p>Setter for quTxItBas.</p>
-   * @param pQuTxItBas reference
-   **/
-  public final void setQuTxItBas(final String pQuTxItBas) {
-    this.quTxItBas = pQuTxItBas;
-  }
-
-  /**
-   * <p>Setter for quTxItBasAggr.</p>
-   * @param pQuTxItBasAggr reference
-   **/
-  public final void setQuTxItBasAggr(final String pQuTxItBasAggr) {
-    this.quTxItBasAggr = pQuTxItBasAggr;
-  }
-
-  /**
-   * <p>Setter for quTxInvBasAggr.</p>
-   * @param pQuTxInvBasAggr reference
-   **/
-  public final void setQuTxInvBasAggr(final String pQuTxInvBasAggr) {
-    this.quTxInvBasAggr = pQuTxInvBasAggr;
-  }
-
-  /**
-   * <p>Setter for quTxInvAdj.</p>
-   * @param pQuTxInvAdj reference
-   **/
-  public final void setQuTxInvAdj(final String pQuTxInvAdj) {
-    this.quTxInvAdj = pQuTxInvAdj;
-  }
-
-  /**
-   * <p>Setter for quTxInvBas.</p>
-   * @param pQuTxInvBas reference
-   **/
-  public final void setQuTxInvBas(final String pQuTxInvBas) {
-    this.quTxInvBas = pQuTxInvBas;
   }
 
   /**
@@ -549,7 +508,8 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    * <p>Setter for goodLnCl.</p>
    * @param pGoodLnCl reference
    **/
-  public final void setGoodLnCl(final Class<? extends AInvLn<T, ?>> pGoodLnCl) {
+  public final void setGoodLnCl(
+    final Class<? extends AInvLn<T, Itm>> pGoodLnCl) {
     this.goodLnCl = pGoodLnCl;
   }
 
@@ -558,7 +518,7 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    * @param pServiceLnCl reference
    **/
   public final void setServiceLnCl(
-    final Class<? extends AInvLn<T, ?>> pServiceLnCl) {
+    final Class<? extends AInvLn<T, Srv>> pServiceLnCl) {
     this.serviceLnCl = pServiceLnCl;
   }
 

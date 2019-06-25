@@ -36,21 +36,31 @@ import org.beigesoft.pdf.service.IPdfFactory;
 
 import org.beigesoft.fct.IFctAux;
 import org.beigesoft.fct.FctBlc;
+import org.beigesoft.fct.FctOrId;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.acc.mdlp.PurInv;
+import org.beigesoft.acc.mdlp.PuInTxLn;
+import org.beigesoft.acc.mdlp.PuInSrLn;
+import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.hnd.HndAcc;
 import org.beigesoft.acc.hld.HlTySac;
 import org.beigesoft.acc.hld.HlTyEnSr;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.SrAcStg;
+import org.beigesoft.acc.srv.UtInLnTxToBs;
 import org.beigesoft.acc.srv.ISrWrhEnr;
+import org.beigesoft.acc.srv.RvPuGdLn;
+import org.beigesoft.acc.srv.RvPuSrLn;
 import org.beigesoft.acc.srv.SrWrhEnr;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.SrEntr;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.SrBlnc;
-import org.beigesoft.acc.srv.UtlDoc;
+import org.beigesoft.acc.srv.UtlBas;
+import org.beigesoft.acc.srv.SrInLnSv;
 import org.beigesoft.acc.srv.SrInvSv;
+import org.beigesoft.acc.srv.InvTxMeth;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.rep.SrBlnSht;
 import org.beigesoft.acc.rep.IBlnPdf;
@@ -63,6 +73,11 @@ import org.beigesoft.acc.rep.BlnPdf;
  * @author Yury Demidenko
  */
 public class FctAcc<RS> implements IFctAux<RS> {
+
+  /**
+   * <p>Purchase invoice tax method name.</p>
+   **/
+  public static final String PURINVTXMETH = "PurInvTxMeth";
 
   /**
    * <p>Creates requested bean and put into given main factory.
@@ -89,10 +104,20 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuPdfFactory(pRvs, pFctApp);
     } else if (ISrBlnSht.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrBlnSht(pRvs, pFctApp);
+    } else if (SrInLnSv.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrInLnSv(pRvs, pFctApp);
     } else if (SrInvSv.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrInvSv(pRvs, pFctApp);
-    } else if (UtlDoc.class.getSimpleName().equals(pBnNm)) {
-      rz = crPuUtlDoc(pRvs, pFctApp);
+    } else if (UtlBas.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuUtlBas(pRvs, pFctApp);
+    } else if (RvPuGdLn.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuRvPuGdLn(pRvs, pFctApp);
+    } else if (RvPuSrLn.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuRvPuSrLn(pRvs, pFctApp);
+    } else if (UtInLnTxToBs.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuUtInLnTxToBs(pRvs, pFctApp);
+    } else if (PURINVTXMETH.equals(pBnNm)) {
+      rz = crPuPurInvTxMeth(pRvs, pFctApp);
     } else if (ISrWrhEnr.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrWrhEnr(pRvs, pFctApp);
     } else if (ISrEntr.class.getSimpleName().equals(pBnNm)) {
@@ -218,6 +243,23 @@ public class FctAcc<RS> implements IFctAux<RS> {
   }
 
   /**
+   * <p>Creates and puts into MF SrInLnSv.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrInLnSv
+   * @throws Exception - an exception
+   */
+  private SrInLnSv crPuSrInLnSv(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrInLnSv rz = new SrInLnSv();
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    pFctApp.put(pRvs, SrInLnSv.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrInLnSv.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
    * <p>Creates and puts into MF SrInvSv.</p>
    * @param pRvs request scoped vars
    * @param pFctApp main factory
@@ -231,9 +273,9 @@ public class FctAcc<RS> implements IFctAux<RS> {
     ISrEntr srEntr = (ISrEntr) pFctApp
       .laz(pRvs, ISrEntr.class.getSimpleName());
     rz.setSrEntr(srEntr);
-    UtlDoc utlDoc = (UtlDoc) pFctApp
-      .laz(pRvs, UtlDoc.class.getSimpleName());
-    rz.setUtlDoc(utlDoc);
+    UtlBas utlBas = (UtlBas) pFctApp
+      .laz(pRvs, UtlBas.class.getSimpleName());
+    rz.setUtlBas(utlBas);
     pFctApp.put(pRvs, SrInvSv.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrInvSv.class.getSimpleName() + " has been created");
@@ -241,19 +283,121 @@ public class FctAcc<RS> implements IFctAux<RS> {
   }
 
   /**
-   * <p>Creates and puts into MF UtlDoc.</p>
+   * <p>Creates and puts into MF UtlBas.</p>
    * @param pRvs request scoped vars
    * @param pFctApp main factory
-   * @return UtlDoc
+   * @return UtlBas
    * @throws Exception - an exception
    */
-  private UtlDoc crPuUtlDoc(final Map<String, Object> pRvs,
+  private UtlBas crPuUtlBas(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
-    UtlDoc rz = new UtlDoc();
+    UtlBas rz = new UtlBas();
     rz.setOrm(pFctApp.lazOrm(pRvs));
-    pFctApp.put(pRvs, UtlDoc.class.getSimpleName(), rz);
+    pFctApp.put(pRvs, UtlBas.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
-      UtlDoc.class.getSimpleName() + " has been created");
+      UtlBas.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF RvPuGdLn.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return RvPuGdLn
+   * @throws Exception - an exception
+   */
+  private RvPuGdLn<RS> crPuRvPuGdLn(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    RvPuGdLn<RS> rz = new RvPuGdLn<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    rz.setHldUvd(pFctApp.lazHldUvd(pRvs));
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) pFctApp
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    pFctApp.put(pRvs, RvPuGdLn.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      RvPuGdLn.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF RvPuSrLn.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return RvPuSrLn
+   * @throws Exception - an exception
+   */
+  private RvPuSrLn<RS> crPuRvPuSrLn(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    RvPuSrLn<RS> rz = new RvPuSrLn<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    rz.setHldUvd(pFctApp.lazHldUvd(pRvs));
+    pFctApp.put(pRvs, RvPuSrLn.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      RvPuSrLn.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF PurInvTxMeth.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return PurInvTxMeth
+   * @throws Exception - an exception
+   */
+  private InvTxMeth<PurInv, PuInTxLn> crPuPurInvTxMeth(
+    final Map<String, Object> pRvs, final FctBlc<RS> pFctApp) throws Exception {
+    InvTxMeth<PurInv, PuInTxLn> rz = new InvTxMeth<PurInv, PuInTxLn>();
+    FctOrId<PuInTxLn> fpitl = new FctOrId<PuInTxLn>();
+    rz.setFctInvTxLn(fpitl);
+    fpitl.setCls(PuInTxLn.class);
+    fpitl.setDbOr(pFctApp.lazOrm(pRvs).getDbId());
+    rz.setFlTotals("invTot");
+    rz.setFlTxInvAdj("invTxInAdj");
+    rz.setFlTxInvBas("invTxInBs");
+    rz.setFlTxInvBasAggr("invTxInBsAg");
+    rz.setFlTxItBas("invTxItBs");
+    rz.setFlTxItBasAggr("invTxItBsAg");
+    rz.setTblNmsTot(new String[] {"PUINGDLN", "PUINSRLN", "PUINTXLN",
+      "PUINGDTXLN", "PUINSRTXLN"});
+    rz.setIsTxByUser(true);
+    rz.setGoodLnCl(PuInGdLn.class);
+    rz.setServiceLnCl(PuInSrLn.class);
+    rz.setInvTxLnCl(PuInTxLn.class);
+    rz.setInvCl(PurInv.class);
+    pFctApp.put(pRvs, PURINVTXMETH, rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      PURINVTXMETH + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF UtInLnTxToBs.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return UtInLnTxToBs
+   * @throws Exception - an exception
+   */
+  private UtInLnTxToBs<RS> crPuUtInLnTxToBs(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    UtInLnTxToBs<RS> rz = new UtInLnTxToBs<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setNumStr(pFctApp.lazNumStr(pRvs));
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    pFctApp.put(pRvs, UtInLnTxToBs.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      UtInLnTxToBs.class.getSimpleName() + " has been created");
     return rz;
   }
 

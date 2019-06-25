@@ -63,12 +63,14 @@ import org.beigesoft.acc.mdlp.TxCt;
 import org.beigesoft.acc.mdlp.TxCtLn;
 
 /**
- * <p>Utility for purchase/sales invoice. Base shared code-bunch.</p>
+ * <p>Utility for purchase/sales invoice.
+ * It makes taxes and totals for line and invoice.
+ * Base shared code-bunch.</p>
  *
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class UtlInv<RS> {
+public class UtInLnTxToBs<RS> {
 
   /**
    * <p>Log.</p>
@@ -369,7 +371,7 @@ public class UtlInv<RS> {
   }
 
   /**
-   * <p>Adjust invoice lines totals/subtotals/cost for invoice basis method.</p>
+   * <p>Adjust invoice lines totals/subtotals for invoice basis method.</p>
    * @param <T> invoice type
    * @param <L> invoice line type
    * @param <TL> invoice tax line type
@@ -385,21 +387,28 @@ public class UtlInv<RS> {
     TL extends AInTxLn<T>> void adjustInvoiceLns(final Map<String, Object> pRvs,
       final Map<String, Object> pVs, final T pInv, final List<TxDtLn> pTxdLns,
         final AcStg pAs, final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
-    pVs.put(pInvTxMeth.getInvCl().getSimpleName() + "dpLv", 0);
+    String[] fdsSel =
+      new String[] {"iid", "txCt", "tot", "toFc", "subt", "suFc"};
+    pVs.put("TxCtdpLv", 0);
+    pVs.put(pInvTxMeth.getGoodLnCl().getSimpleName() + "ndFds", fdsSel);
     List<? extends AInvLn<T, ?>> gls = getOrm().retLstCnd(pRvs, pVs, pInvTxMeth
-      .getGoodLnCl(), pInvTxMeth.getStWhereAdjGdLnInvBas() + pInv.getIid());
+      .getGoodLnCl(), "where TXCT is not null and RVID is null and OWNR="
+        + pInv.getIid());
     pVs.clear();
     List<? extends AInvLn<T, ?>> sls = null;
     if (pInvTxMeth.getServiceLnCl() != null) {
-      pVs.put(pInvTxMeth.getInvCl().getSimpleName() + "dpLv", 0);
+      pVs.put("TxCtdpLv", 0);
+      pVs.put(pInvTxMeth.getServiceLnCl().getSimpleName() + "ndFds", fdsSel);
       sls = getOrm().retLstCnd(pRvs, pVs, pInvTxMeth.getServiceLnCl(),
-        pInvTxMeth.getStWhereAdjSrLnInvBas() + pInv.getIid());
+        "where TXCT is not null and RVID is null and OWNR=" + pInv.getIid());
       pVs.clear();
     }
     //matched to current tax category (affected) invoice lines:
     List<AInvLn<T, ?>> ilsm = new ArrayList<AInvLn<T, ?>>();
     Comparator<AInvLn<?, ?>> cmpr = Collections
       .reverseOrder(new CmprInvLnTot());
+    String[] fdsUpd =  new String[] {"tot", "toFc", "subt", "suFc"};
+    pVs.put("ndFds", fdsUpd);
     for (TxDtLn txdLn : pTxdLns) {
       for (AInvLn<T, ?> gl : gls) {
         if (gl.getTxCt().getIid().equals(txdLn.getTxCt().getIid())) {
@@ -464,6 +473,7 @@ public class UtlInv<RS> {
       }
       ilsm.clear();
     }
+    pVs.clear();
   }
 
   /**
@@ -623,7 +633,7 @@ public class UtlInv<RS> {
    * @throws Exception - an exception.
    **/
   public final <T extends AInv, L extends AInvLn<T, ?>,
-    TL extends AInTxLn<T>, LTL extends ALnTxLn<T, L>> void makeLine(
+    TL extends AInTxLn<T>, LTL extends ALnTxLn<T, L>> void mkLnTxTo(
       final Map<String, Object> pRvs, final Map<String, Object> pVs,
         final L pLine, final AcStg pAs, final TxDst pTxRules,
           final IInvTxMeth<T, TL> pInvTxMeth,
@@ -794,7 +804,7 @@ public class UtlInv<RS> {
     boolean isDbgSh = getLog().getDbgSh(this.getClass())
       && getLog().getDbgFl() < 11101 && getLog().getDbgCl() > 11099;
     if (isDbgSh) {
-      getLog().debug(pRvs, UtlInv.class,
+      getLog().debug(pRvs, UtInLnTxToBs.class,
     "Tax rules: aggregate/invoice basis/zip/RM = " + pTxRules.getStAg() + "/"
   + pTxRules.getStIb() + "/" + pTxRules.getZip() + "/" + pTxRules.getStRm());
       String txCat;
@@ -803,9 +813,9 @@ public class UtlInv<RS> {
       } else {
         txCat = "-";
       }
-      getLog().debug(pRvs, UtlInv.class, "Item: name/tax category = "
+      getLog().debug(pRvs, UtInLnTxToBs.class, "Item: name/tax category = "
         + pLine.getItm().getNme() + "/" + txCat);
-      getLog().debug(pRvs, UtlInv.class, "Tax query: " + query);
+      getLog().debug(pRvs, UtInLnTxToBs.class, "Tax query: " + query);
     }
     if (!pTxRules.getStAg() && !pTxRules.getStIb()) {
       if (pInvTxMeth.getTblNmsTot().length == 5) { //sales/purchase:

@@ -29,21 +29,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.srv;
 
 import java.util.Map;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.Locale;
 
 import org.beigesoft.exc.ExcCode;
-import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.mdlp.IOrId;
 import org.beigesoft.rdb.IOrm;
-import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlp.AcStg;
 
 /**
- * <p>Document helper.</p>
+ * <p>Base shared code.</p>
  *
  * @author Yury Demidenko
  */
-public class UtlDoc {
+public class UtlBas {
 
   /**
    * <p>ORM service.</p>
@@ -51,14 +51,14 @@ public class UtlDoc {
   private IOrm orm;
 
   /**
-   * <p>Checks base validity document before save.</p>
+   * <p>Checks base validity - date, is foreigner before save.</p>
    * @param pRvs request scoped vars
-   * @param pRqDt Request Data
-   * @param pEnt Entity to process
+   * @param pEnt doc/line/entry
+   * @param pDat date
    * @throws Exception - an exception
    **/
-  public final void check1(final Map<String, Object> pRvs, final IEntrSrc pEnt,
-    final IReqDt pRqDt) throws Exception {
+  public final void chDtForg(final Map<String, Object> pRvs, final IOrId pEnt,
+    final Date pDat) throws Exception {
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.SPAM, "Can not change foreign source!");
     }
@@ -71,7 +71,7 @@ public class UtlDoc {
     calCuMh.set(Calendar.SECOND, 0);
     calCuMh.set(Calendar.MILLISECOND, 0);
     Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
-    calDoc.setTime(pEnt.getDat());
+    calDoc.setTime(pDat);
     calDoc.set(Calendar.DAY_OF_MONTH, 1);
     calDoc.set(Calendar.HOUR_OF_DAY, 0);
     calDoc.set(Calendar.MINUTE, 0);

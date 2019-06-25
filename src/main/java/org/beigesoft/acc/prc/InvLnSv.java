@@ -34,98 +34,101 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.acc.mdlp.Srv;
-import org.beigesoft.acc.srv.IRvInvLn;
-import org.beigesoft.acc.srv.SrInvSv;
+import org.beigesoft.acc.mdlb.AInTxLn;
+import org.beigesoft.acc.mdlb.ALnTxLn;
+import org.beigesoft.acc.srv.SrInLnSv;
+import org.beigesoft.acc.srv.ISrInItLn;
+import org.beigesoft.acc.srv.UtInLnTxTo;
 
 /**
- * <p>Service that saves invoice into DB.</p>
+ * <p>Processor that saves invoice line into DB.</p>
  *
+ * @param <RS> platform dependent record set type
  * @param <T> invoice type
- * @param <G> invoice goods line type
- * @param <S> invoice service line type
+ * @param <L> invoice line type
+ * @param <TL> tax line type
+ * @param <LTL> item tax line type
  * @author Yury Demidenko
  */
-public class InvSv<T extends AInv, G extends AInvLn<T, Itm>,
-  S extends AInvLn<T, Srv>> implements IPrcEnt<T, Long> {
+public class InvLnSv<RS, T extends AInv, L extends AInvLn<T, ?>,
+  TL extends AInTxLn<T>, LTL extends ALnTxLn<T, L>>
+    implements IPrcEnt<L, Long> {
 
   /**
    * <p>Saving service.</p>
    **/
-  private SrInvSv srInvSv;
+  private SrInLnSv srInLnSv;
 
   /**
-   * <p>Reverser service for good line.</p>
+   * <p>Service that makes taxes and totals for line and invoice.</p>
    **/
-  private IRvInvLn<T, G> rvInGdLn;
+  private UtInLnTxTo<RS, T, L, TL, LTL> utInTxTo;
 
   /**
-   * <p>Reverser service for service line.</p>
+   * <p>Item line oriented service.</p>
    **/
-  private IRvInvLn<T, S> rvInSrLn;
+  private ISrInItLn<T, L> srInItLn;
 
   /**
    * <p>Process that saves entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
    * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
   @Override
-  public final T process(final Map<String, Object> pRvs, final T pEnt,
+  public final L process(final Map<String, Object> pRvs, final L pEnt,
     final IReqDt pRqDt) throws Exception {
-    return this.srInvSv.save(pRvs, pEnt, pRqDt, this.rvInGdLn, this.rvInSrLn);
+    return this.srInLnSv.save(pRvs, pEnt, pRqDt, this.utInTxTo, this.srInItLn);
   }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for srInvSv.</p>
-   * @return SrInvSv
+   * <p>Getter for srInLnSv.</p>
+   * @return SrInLnSv
    **/
-  public final SrInvSv getSrInvSv() {
-    return this.srInvSv;
+  public final SrInLnSv getSrInLnSv() {
+    return this.srInLnSv;
   }
 
   /**
-   * <p>Setter for srInvSv.</p>
-   * @param pSrInvSv reference
+   * <p>Setter for srInLnSv.</p>
+   * @param pSrInLnSv reference
    **/
-  public final void setSrInvSv(final SrInvSv pSrInvSv) {
-    this.srInvSv = pSrInvSv;
+  public final void setSrInLnSv(final SrInLnSv pSrInLnSv) {
+    this.srInLnSv = pSrInLnSv;
   }
 
   /**
-   * <p>Getter for rvInGdLn.</p>
-   * @return IRvInvLn<T, G>
+   * <p>Getter for utInTxTo.</p>
+   * @return UtInLnTxTo<RS, T, L, TL, LTL>
    **/
-  public final IRvInvLn<T, G> getRvInGdLn() {
-    return this.rvInGdLn;
+  public final UtInLnTxTo<RS, T, L, TL, LTL> getUtInTxTo() {
+    return this.utInTxTo;
   }
 
   /**
-   * <p>Setter for rvInGdLn.</p>
-   * @param pRvInGdLn reference
+   * <p>Setter for utInTxTo.</p>
+   * @param pUtInTxTo reference
    **/
-  public final void setRvInGdLn(final IRvInvLn<T, G> pRvInGdLn) {
-    this.rvInGdLn = pRvInGdLn;
+  public final void setUtInTxTo(final UtInLnTxTo<RS, T, L, TL, LTL> pUtInTxTo) {
+    this.utInTxTo = pUtInTxTo;
   }
 
   /**
-   * <p>Getter for rvInSrLn.</p>
-   * @return IRvInvLn<T, S>
+   * <p>Getter for srInItLn.</p>
+   * @return ISrInItLn<T, L>
    **/
-  public final IRvInvLn<T, S> getRvInSrLn() {
-    return this.rvInSrLn;
+  public final ISrInItLn<T, L> getSrInItLn() {
+    return this.srInItLn;
   }
 
   /**
-   * <p>Setter for rvInSrLn.</p>
-   * @param pRvInSrLn reference
+   * <p>Setter for srInItLn.</p>
+   * @param pSrInItLn reference
    **/
-  public final void setRvInSrLn(final IRvInvLn<T, S> pRvInSrLn) {
-    this.rvInSrLn = pRvInSrLn;
+  public final void setSrInItLn(final ISrInItLn<T, L> pSrInItLn) {
+    this.srInItLn = pSrInItLn;
   }
 }
