@@ -201,6 +201,9 @@ public class SrInvSv {
         if (pEnt.getTot().compareTo(BigDecimal.ZERO) == 0) {
           throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
         }
+        if (pEnt.getIsNew()) {
+          this.orm.insIdLn(pRvs, vs, pEnt);
+        }
         this.srEntr.mkEntrs(pRvs, pEnt);
         pRvs.put("msgSuc", "account_ok");
       } else {

@@ -1,7 +1,5 @@
 create trigger WrhItmitLfgteq0 before update on WRHITM for each row begin if NEW.ITLF<0 then signal sqlstate '45000' set MESSAGE_TEXT = 'items left < 0!'; end if; end;
-create trigger PuInGdLnitLfgteq0 before update on PUINGDLN for each row begin if NEW.ITLF<0 then signal sqlstate '45000' set MESSAGE_TEXT = 'items left < 0!'; end if; end;
-create trigger PuInGdLnquangt0 before update on PUINGDLN for each row begin if NEW.QUAN<=0 then signal sqlstate '45000' set MESSAGE_TEXT = 'quantity <= 0!'; end if; end;
-create trigger PuInGdLnprigt0 before update on PUINGDLN for each row begin if NEW.PRI<=0 then signal sqlstate '45000' set MESSAGE_TEXT = 'price <= 0!'; end if; end;
+create trigger PuInGdLnitLfgteq0quanprigt0 before update on PUINGDLN for each row begin if NEW.ITLF<0 or NEW.QUAN<=0 or NEW.PRI<=0 then signal sqlstate '45000' set MESSAGE_TEXT = 'items left , quantity or price < 0!'; end if; end;
 
 insert into LNG (IID,NME,VER) values ('ru','Русский',1462867931627);
 insert into LNG (IID,NME,VER) values ('en','English',1462867931627);
@@ -45,4 +43,4 @@ insert into UOM (IID,NME,VER) values (11,'minute',1462867931627);
 insert into UOM (IID,NME,VER) values (12,'hour',1462867931627);
 insert into ACSTG (ORG,IID,VER,MNTH,CSDP,PRDP,RPDP,QUDP,TXDP,RNDM,BLPR,STRM,TTFF,TTFB,PGSZ,PGOR,MRLF,MRRI,MRTO,MRBO,FNSZ,CURR,COGS) values ('Bob''s Pizza',1,1462867931627,1462867931627,4,2,2,2,3,4,3,4,'DejaVuSerif','DejaVuSerif-Bold',2,0,20,10,10,10,3.5,840,0);
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (1,2,'PrepFrCrAcCashDb',1462867931627,1,'PREPFR.IID','Debit Account Cash, Credit Prepayments from per customer.');
-insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (1,3,'PrepToDbAcCashCr',1462867931627,1,'PREPTO.IID','Debit Prepayments to per vendor, Credit Account Cash.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (2,3,'PrepToDbAcCashCr',1462867931627,1,'PREPTO.IID','Debit Prepayments to per vendor, Credit Account Cash.');

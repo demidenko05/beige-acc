@@ -7,6 +7,6 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
-<entry key="nmedef">varchar(30) not null</entry>
+<entry key="nmedef">varchar(50) not null</entry>
 <entry key="nmbrdef">varchar(10) not null</entry>
 </properties>

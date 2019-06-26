@@ -71,7 +71,7 @@ public class MylTest {
     this.fctApp.getFctBlc().getFctDt().setDbUrl(setng.lazCmnst().get(IOrm.DBURL));
   }
 
-  //@Test
+  @Test
   public void tst1() throws Exception {
     TstSrBlnc tst1 = new TstSrBlnc();
     tst1.setFctApp(this.fctApp);

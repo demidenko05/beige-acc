@@ -38,27 +38,27 @@ package org.beigesoft.acc.mdl;
   /**
    * <p>0 Income taxes due to business owner.</p>
    **/
-  INCOME,
+  TINCOME,
 
   /**
    * <p>1 Sales taxes, e.g. any USA state sales tax or VAT.</p>
    **/
-  SALES,
+  TSALES,
 
   /**
    * <p>2 Employment taxes from employee,
    * e.g. USA Federal Income Tax, Medicare.</p>
    **/
-  EMPLOYEE,
+  TEMPLOYEE,
 
   /**
    * <p>3 Employment taxes from employer,
    * e.g. USA FUTA.</p>
    **/
-  EMPLOYER,
+  TEMPLOYER,
 
   /**
    * <p>4 Other taxes.</p>
    **/
-  OTHER;
+  TOTHER;
 }

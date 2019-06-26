@@ -58,6 +58,7 @@ import org.beigesoft.acc.prc.AcntDl;
 import org.beigesoft.acc.prc.IsacntDl;
 import org.beigesoft.acc.prc.AcntSv;
 import org.beigesoft.acc.prc.TxCtLnSv;
+import org.beigesoft.acc.prc.TxCtLnDl;
 import org.beigesoft.acc.prc.EntrSv;
 import org.beigesoft.acc.prc.InEntrSv;
 import org.beigesoft.acc.prc.InEntrDl;
@@ -165,6 +166,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuIsacntSv(pRvs);
           } else if (AcntSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuAcntSv(pRvs);
+          } else if (TxCtLnDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuTxCtLnDl(pRvs);
           } else if (TxCtLnSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuTxCtLnSv(pRvs);
           } else if (PrepCpr.class.getSimpleName().equals(pPrNm)) {
@@ -350,6 +353,25 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setRdb(rdb);
     this.procs.put(AcntSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), AcntSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map TxCtLnDl.</p>
+   * @param pRvs request scoped vars
+   * @return TxCtLnDl
+   * @throws Exception - an exception
+   */
+  private TxCtLnDl<RS> crPuTxCtLnDl(
+    final Map<String, Object> pRvs) throws Exception {
+    TxCtLnDl<RS> rz = new TxCtLnDl<RS>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    this.procs.put(TxCtLnDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), TxCtLnDl.class
       .getSimpleName() + " has been created.");
     return rz;
   }

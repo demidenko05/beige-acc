@@ -122,6 +122,8 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
           if (old.getMdEnr()) {
             throw new ExcCode(ExcCode.SPAM, "Attempt account accounted!");
           }
+        } else {
+          this.orm.insIdLn(pRvs, vs, pEnt);
         }
         this.srEntr.mkEntrs(pRvs, pEnt);
         pRvs.put("msgSuc", "account_ok");

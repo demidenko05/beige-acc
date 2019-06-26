@@ -10,8 +10,4 @@ See LICENSE in base folder
 <entry key="org.beigesoft.acc.mdlb.ATxDsLn">idoi</entry>
 <entry key="org.beigesoft.acc.mdlb.ISacnt">idsa</entry>
 <entry key="org.beigesoft.mdl.IOwned">ido</entry>
-<entry key="org.beigesoft.mdlp.IOrId">ida</entry>
-<entry key="org.beigesoft.mdl.IIdInt">idi</entry>
-<entry key="org.beigesoft.mdl.IIdLn">idi</entry>
-<entry key="org.beigesoft.mdl.IIdStr">ids</entry>
 </properties>

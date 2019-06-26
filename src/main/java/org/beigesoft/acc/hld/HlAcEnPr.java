@@ -36,6 +36,8 @@ import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.ADcTxLn;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
@@ -45,6 +47,10 @@ import org.beigesoft.acc.mdlp.TxCtLn;
 import org.beigesoft.acc.mdlp.EnrSrc;
 import org.beigesoft.acc.mdlp.Blnc;
 import org.beigesoft.acc.mdlp.BlnCh;
+import org.beigesoft.acc.mdlp.PurInv;
+import org.beigesoft.acc.mdlp.PuInGdLn;
+import org.beigesoft.acc.mdlp.PuInSrLn;
+import org.beigesoft.acc.fct.FcEnPrAc;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.SacntSv;
 import org.beigesoft.acc.prc.AcntSv;
@@ -63,6 +69,7 @@ import org.beigesoft.acc.prc.InEntrRt;
 import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.AcStgRt;
 import org.beigesoft.acc.prc.TxCtLnSv;
+import org.beigesoft.acc.prc.TxCtLnDl;
 import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.prc.DocPr;
@@ -89,17 +96,18 @@ public class HlAcEnPr implements IHlNmClSt {
       return NULL;
     }
     if (Entr.class == pCls || Acnt.class == pCls || Sacnt.class == pCls
-      || AcStg.class == pCls || TxCtLn.class == pCls || EnrSrc.class == pCls
-        || ISacnt.class.isAssignableFrom(pCls)
-          || IEntrSrc.class.isAssignableFrom(pCls)) {
+    || AcStg.class == pCls || TxCtLn.class == pCls || EnrSrc.class == pCls
+  || ISacnt.class.isAssignableFrom(pCls) || AInvLn.class.isAssignableFrom(pCls)
+|| IEntrSrc.class.isAssignableFrom(pCls)
+  || ADcTxLn.class.isAssignableFrom(pCls)) {
       if ("entCr".equals(pAct)) { //Create
         if (Entr.class == pCls) {
           return EntrCr.class.getSimpleName();
-        } else if (IEntrSrc.class.isAssignableFrom(pCls)) {
-          return EntrSrcCr.class.getSimpleName();
         } else if (Sacnt.class == pCls) {
           return SacntCr.class.getSimpleName();
-        } else if (Acnt.class == pCls
+        } else if (IEntrSrc.class.isAssignableFrom(pCls)) {
+          return EntrSrcCr.class.getSimpleName();
+        } else if (TxCtLn.class == pCls || Acnt.class == pCls
           || ISacnt.class.isAssignableFrom(pCls)) {
           return PrcEntCr.class.getSimpleName();
         }
@@ -119,11 +127,9 @@ public class HlAcEnPr implements IHlNmClSt {
         || "entCd".equals(pAct)) { //Retrieve for any action
         if (InEntr.class == pCls) {
           return InEntrRt.class.getSimpleName();
-        } else if ("entPr".equals(pAct) && IDoc.class.isAssignableFrom(pCls)) {
-          return DocPr.class.getSimpleName();
-        } else if (APrep.class.isAssignableFrom(pCls)) {
+        } else if (TxCtLn.class == pCls) {
           return PrcEntRt.class.getSimpleName();
-        } else if (EnrSrc.class == pCls) {
+        } else if (TxCtLn.class == pCls || EnrSrc.class == pCls) {
           if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
             return PrcEntRt.class.getSimpleName();
           }
@@ -138,11 +144,21 @@ public class HlAcEnPr implements IHlNmClSt {
             return AcStgRt.class.getSimpleName();
           }
           return NULL;
+        } else if ("entPr".equals(pAct) && IDoc.class.isAssignableFrom(pCls)) {
+          return DocPr.class.getSimpleName();
+        } else if (APrep.class.isAssignableFrom(pCls)) {
+          return PrcEntRt.class.getSimpleName();
         }
         return PrcEntRt.class.getSimpleName();
       } else if ("entSv".equals(pAct)) { //Save
         if (Acnt.class == pCls) {
           return AcntSv.class.getSimpleName();
+        } else if (PurInv.class == pCls) {
+          return FcEnPrAc.PURINVSV;
+        } else if (PuInGdLn.class == pCls) {
+          return FcEnPrAc.PURINVGDLNSV;
+        } else if (PuInSrLn.class == pCls) {
+          return FcEnPrAc.PURINVSRLNSV;
         } else if (AcStg.class == pCls) {
           return AcStgSv.class.getSimpleName();
         } else if (TxCtLn.class == pCls) {
@@ -164,6 +180,8 @@ public class HlAcEnPr implements IHlNmClSt {
       } else if ("entDl".equals(pAct)) { //Delete
         if (Acnt.class == pCls) {
           return AcntDl.class.getSimpleName();
+        } else if (TxCtLn.class == pCls) {
+          return TxCtLnDl.class.getSimpleName();
         } else if (InEntr.class == pCls) {
           return InEntrDl.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {

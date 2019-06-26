@@ -50,7 +50,7 @@ public interface ISrEntr {
   void hndStgCng(Map<String, Object> pRvs) throws Exception;
 
   /**
-   * <p>Makes entries for given document.</p>
+   * <p>Makes entries for given document. Document must be inserted.</p>
    * @param pRvs Request scoped variables
    * @param pDoc source document
    * @throws Exception - an exception

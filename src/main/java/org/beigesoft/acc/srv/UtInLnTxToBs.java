@@ -1036,7 +1036,7 @@ public class UtInLnTxToBs<RS> {
     UsPrf upf = (UsPrf) pRvs.get("upf");
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     for (TxCtLn itcl : itcls) {
-     if (ETxTy.SALES.equals(itcl.getTax().getTyp())) {
+     if (ETxTy.TSALES.equals(itcl.getTax().getTyp())) {
         if (i++ > 0) {
           sb.append(", ");
         }

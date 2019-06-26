@@ -14,12 +14,16 @@ See LICENSE in base folder
 <entry key="subtcnToSt">CnvPriStr</entry>
 <entry key="suFccnToSt">CnvPriStr</entry>
 <entry key="exRtcnToSt">CnvMaxStr</entry>
+<entry key="paybstr">dtTm</entry>
 <entry key="datstr">dtTm</entry>
 <entry key="pdscinp">reo</entry>
-<entry key="totinp">reo</entry>
-<entry key="toFcinp">reo</entry>
+<entry key="totinp">dtot</entry>
+<entry key="toFcinp"></entry>
+<entry key="subtinp"></entry>
+<entry key="suFcinp"></entry>
 <entry key="prepinp">prep</entry>
 <entry key="mdEnrinp">reo</entry>
 <entry key="omTxinp">omTxi</entry>
 <entry key="inTxinp"></entry>
+<entry key="rvIdinp"></entry>
 </properties>

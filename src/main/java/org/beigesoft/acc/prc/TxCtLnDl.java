@@ -42,12 +42,12 @@ import org.beigesoft.acc.mdlp.TxCtLn;
 import org.beigesoft.acc.mdlp.AcStg;
 
 /**
- * <p>Service that saves tax category line into DB.</p>
+ * <p>Service that deletes tax category line from DB.</p>
  *
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class TxCtLnSv<RS> implements IPrcEnt<TxCtLn, Long> {
+public class TxCtLnDl<RS> implements IPrcEnt<TxCtLn, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -77,13 +77,8 @@ public class TxCtLnSv<RS> implements IPrcEnt<TxCtLn, Long> {
     if (owVrWs != pEnt.getOwnr().getVer()) {
       throw new ExcCode(IOrm.DRTREAD, "dirty_read");
     }
-    if (pEnt.getIsNew()) {
-      this.orm.insIdLn(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "insert_ok");
-    } else {
-      this.orm.update(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "update_ok");
-    }
+    this.orm.del(pRvs, vs, pEnt);
+    pRvs.put("msgSuc", "delete_ok");
     AcStg astg = (AcStg) pRvs.get("astg");
     String qu = "select sum(RATE) as RATE from TXCTLN where OWNR="
       + pEnt.getOwnr().getIid() + ";";

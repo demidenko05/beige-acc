@@ -8,4 +8,5 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="frmFds">iid,idOr,dbOr,rvId,mdEnr,invId,dat,dbcr,acc,saNm,saId,tot,toFc,dscr</entry>
+<entry key="pickFds">iid,idOr,dbOr,dat,dbcr,acc,saNm,saId,tot,toFc</entry>
 </properties>

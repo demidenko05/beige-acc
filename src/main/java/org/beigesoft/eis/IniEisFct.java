@@ -43,6 +43,7 @@ import org.beigesoft.hld.HldFldStg;
 import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
 import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.I18Acc;
 import org.beigesoft.acc.mdlp.I18Curr;
@@ -51,6 +52,8 @@ import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
 import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.EnrSrc;
+import org.beigesoft.acc.mdlp.PrepTo;
+import org.beigesoft.acc.mdlp.PrepFr;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -109,6 +112,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(Sacnt.class, "owla");
+    hlClSt.setStgSclss(new LinkedHashMap<Class<?>, String>());
+    hlClSt.getStgSclss().put(AInv.class, "intxs");
     stgNm = "liFo"; //list footer
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
@@ -144,6 +149,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(Acnt.class, "acc");
     hlClSt.getStgClss().put(Sacnt.class, "sac");
+    hlClSt.getStgClss().put(PrepTo.class, "prep");
+    hlClSt.getStgClss().put(PrepFr.class, "prep");
   }
 
   /**
@@ -165,12 +172,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getCustClss().add(Integer.class);
     stgNm = "ord"; //order
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
-    hlFdSt.setStgFdNm(new HashMap<String, String>());
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("rvId", null);
     stgNm = "flt"; //filter
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
-    hlFdSt.setStgFdNm(new HashMap<String, String>());
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("rvId", null);
     stgNm = "ceDe"; //to cell detail

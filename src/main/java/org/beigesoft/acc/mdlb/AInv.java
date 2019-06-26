@@ -54,27 +54,27 @@ public abstract class AInv extends ADoc {
   /**
    * <p>Exchange rate for foreign currency.</p>
    **/
-  private BigDecimal exRt;
+  private BigDecimal exRt = BigDecimal.ZERO;
 
   /**
    * <p>Subtotal.</p>
    **/
-  private BigDecimal subt;
+  private BigDecimal subt = BigDecimal.ZERO;
 
   /**
    * <p>Subtotal in foreign currency.</p>
    **/
-  private BigDecimal suFc;
+  private BigDecimal suFc = BigDecimal.ZERO;
 
   /**
    * <p>Total taxes.</p>
    **/
-  private BigDecimal toTx;
+  private BigDecimal toTx = BigDecimal.ZERO;
 
   /**
    * <p>Total taxes in foreign currency.</p>
    **/
-  private BigDecimal txFc;
+  private BigDecimal txFc = BigDecimal.ZERO;
 
   /**
    * <p>If price inclusive of taxes.</p>
@@ -99,7 +99,7 @@ public abstract class AInv extends ADoc {
   /**
    * <p>Payments description.</p>
    **/
-  private Date pdsc;
+  private String pdsc;
 
   /**
    * <p>Getter for prep.</p>
@@ -292,9 +292,9 @@ public abstract class AInv extends ADoc {
 
   /**
    * <p>Getter for pdsc.</p>
-   * @return Date
+   * @return String
    **/
-  public final Date getPdsc() {
+  public final String getPdsc() {
     return this.pdsc;
   }
 
@@ -302,7 +302,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for pdsc.</p>
    * @param pPdsc reference
    **/
-  public final void setPdsc(final Date pPdsc) {
+  public final void setPdsc(final String pPdsc) {
     this.pdsc = pPdsc;
   }
 }

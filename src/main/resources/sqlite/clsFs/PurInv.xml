@@ -8,4 +8,6 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="cuFrnul">true</entry>
+<entry key="paybnul">true</entry>
+<entry key="prepnul">true</entry>
 </properties>
