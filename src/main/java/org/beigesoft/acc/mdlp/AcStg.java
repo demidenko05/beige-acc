@@ -162,7 +162,8 @@ public class AcStg extends AIdLn {
   private RoundingMode stRm = RoundingMode.HALF_UP;
 
   /**
-   * <p>Grouping method for sales taxes - false item basis, true - invoice.
+   * <p>If ST invoice basis. Grouping method for sales taxes
+   * - false item basis, true - invoice.
    * This is about grouping rounding error:
    * round(2.244 + 2.244) != round(2.244) + round(2.244);
    * 4.49 != 4.48
@@ -173,7 +174,7 @@ public class AcStg extends AIdLn {
   /**
    * <p>Use aggregate tax rate or only tax.</p>
    **/
-  private Boolean stAg = Boolean.FALSE;
+  private Boolean stAg = Boolean.TRUE;
 
   //Common reports settings:
   /**

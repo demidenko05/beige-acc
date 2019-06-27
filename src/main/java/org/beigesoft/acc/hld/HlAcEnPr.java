@@ -108,7 +108,8 @@ public class HlAcEnPr implements IHlNmClSt {
         } else if (IEntrSrc.class.isAssignableFrom(pCls)) {
           return EntrSrcCr.class.getSimpleName();
         } else if (TxCtLn.class == pCls || Acnt.class == pCls
-          || ISacnt.class.isAssignableFrom(pCls)) {
+          || ISacnt.class.isAssignableFrom(pCls)
+            || AInvLn.class.isAssignableFrom(pCls)) {
           return PrcEntCr.class.getSimpleName();
         }
       } else if ("entCp".equals(pAct)) { //Copy

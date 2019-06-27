@@ -109,7 +109,8 @@ public class SrEntr<RS> implements ISrEntr {
   /**
    * <p>Makes entries for given document and updates its status (mdEnr).
    * Document must be inserted.</p>
-   * @param pRvs Request scoped variables
+   * @param pRvs Request scoped variables, may has "docFdsUpd" - list document
+   *  fields to update
    * @param pDoc source document
    * @throws Exception - an exception
    **/
@@ -213,7 +214,10 @@ public class SrEntr<RS> implements ISrEntr {
       }
     }
     pDoc.setMdEnr(true);
-    getOrm().update(pRvs, vs, pDoc);
+    if (pRvs.get("docFdsUpd") != null) {
+      vs.put("ndFds", pRvs.get("docFdsUpd"));
+    }
+    getOrm().update(pRvs, vs, pDoc); vs.clear();
   }
 
   /**

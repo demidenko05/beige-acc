@@ -35,6 +35,7 @@ import java.util.HashSet;
 
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.mdl.IHasNm;
+import org.beigesoft.mdl.IOwned;
 import org.beigesoft.mdlp.AI18nNm;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.IIniBdFct;
@@ -44,6 +45,7 @@ import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.AInv;
+import org.beigesoft.acc.mdlb.ADcTxLn;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.I18Acc;
 import org.beigesoft.acc.mdlp.I18Curr;
@@ -52,8 +54,18 @@ import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
 import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.EnrSrc;
-import org.beigesoft.acc.mdlp.PrepTo;
-import org.beigesoft.acc.mdlp.PrepFr;
+import org.beigesoft.acc.mdlp.Curr;
+import org.beigesoft.acc.mdlp.SrvCt;
+import org.beigesoft.acc.mdlp.ItmCt;
+import org.beigesoft.acc.mdlp.DcrCt;
+import org.beigesoft.acc.mdlp.Tax;
+import org.beigesoft.acc.mdlp.TxCt;
+import org.beigesoft.acc.mdlp.Uom;
+import org.beigesoft.acc.mdlp.Wrh;
+import org.beigesoft.acc.mdlp.WrhPl;
+import org.beigesoft.acc.mdlp.TxDst;
+import org.beigesoft.acc.mdlp.Expn;
+import org.beigesoft.acc.mdlp.Bnka;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -99,6 +111,20 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(Acnt.class);
     hlClSt.getNulClss().add(Sacnt.class);
     hlClSt.getNulClss().add(EnrSrc.class);
+    hlClSt.getNulClss().add(Curr.class);
+    hlClSt.getNulClss().add(SrvCt.class);
+    hlClSt.getNulClss().add(ItmCt.class);
+    hlClSt.getNulClss().add(DcrCt.class);
+    hlClSt.getNulClss().add(Tax.class);
+    hlClSt.getNulClss().add(TxCt.class);
+    hlClSt.getNulClss().add(Uom.class);
+    hlClSt.getNulClss().add(Wrh.class);
+    hlClSt.getNulClss().add(WrhPl.class);
+    hlClSt.getNulClss().add(TxDst.class);
+    hlClSt.getNulClss().add(I18Acc.class);
+    hlClSt.getNulClss().add(I18Curr.class);
+    hlClSt.getNulClss().add(Expn.class);
+    hlClSt.getNulClss().add(Bnka.class);
     stgNm = "ordDf"; //list order by field default
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgSclss().remove(IHasId.class);
@@ -113,13 +139,16 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(Sacnt.class, "owla");
     hlClSt.setStgSclss(new LinkedHashMap<Class<?>, String>());
-    hlClSt.getStgSclss().put(AInv.class, "intxs");
+    hlClSt.getStgSclss().put(ADcTxLn.class, "intxs");
     stgNm = "liFo"; //list footer
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(Acnt.class, "lfac");
     hlClSt.getStgClss().put(Entr.class, "lfna");
     hlClSt.getStgClss().put(InEntr.class, "lfia");
+    hlClSt.getStgSclss().remove(IOwned.class);
+    hlClSt.getStgSclss().put(ADcTxLn.class, null);
+    hlClSt.getStgSclss().put(IOwned.class, "olf");
     hlClSt.setNulClss(new HashSet<Class<? extends IHasId<?>>>());
     hlClSt.getNulClss().add(AcStg.class);
     hlClSt.getNulClss().add(EnrSrc.class);
@@ -133,6 +162,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgSclss().put(AInv.class, "adcl");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "prn"; //print
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
@@ -144,13 +174,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(InEntr.class, "deia");
-    stgNm = "pic"; //picker IHasNm default
+    stgNm = "pic"; //picker
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
-    hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(Acnt.class, "acc");
     hlClSt.getStgClss().put(Sacnt.class, "sac");
-    hlClSt.getStgClss().put(PrepTo.class, "prep");
-    hlClSt.getStgClss().put(PrepFr.class, "prep");
   }
 
   /**
@@ -170,6 +197,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
+    hlFdSt.getStgSclss().put(IDoc.class, "doc");
     stgNm = "ord"; //order
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
@@ -180,14 +208,38 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("rvId", null);
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
-    hlFdSt.getStgFdNm().put("rvId", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
+    hlFdSt.getStgFdNm().put("rvId", "empt");
+    hlFdSt.getStgFdNm().put("itLf", "empt");
+    hlFdSt.getStgFdNm().put("toLf", "empt");
+    hlFdSt.getStgFdNm().put("txCt", "cdNil");
+    hlFdSt.getStgFdNm().put("tot", "cdNil");
+    hlFdSt.getStgFdNm().put("toFc", "cdNil");
+    hlFdSt.getStgFdNm().put("subt", "cdNil");
+    hlFdSt.getStgFdNm().put("suFc", "cdNil");
+    hlFdSt.getStgFdNm().put("prFc", "cdNil");
+    hlFdSt.getStgFdNm().put("toTx", "cdNil");
+    hlFdSt.getStgFdNm().put("txFc", "cdNil");
+    hlFdSt.getStgFdNm().put("pri", "cdIl");
+    hlFdSt.getStgFdNm().put("tdsc", "cdTd");
     stgNm = "ceHe"; //to cell header
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
-    hlFdSt.getStgFdNm().put("rvId", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
+    hlFdSt.getStgFdNm().put("rvId", "empt");
+    hlFdSt.getStgFdNm().put("itLf", "empt");
+    hlFdSt.getStgFdNm().put("toLf", "empt");
+    hlFdSt.getStgFdNm().put("txCt", "chNil");
+    hlFdSt.getStgFdNm().put("tot", "chNil");
+    hlFdSt.getStgFdNm().put("toFc", "chNil");
+    hlFdSt.getStgFdNm().put("subt", "chNil");
+    hlFdSt.getStgFdNm().put("suFc", "chNil");
+    hlFdSt.getStgFdNm().put("prFc", "chNil");
+    hlFdSt.getStgFdNm().put("toTx", "chNil");
+    hlFdSt.getStgFdNm().put("txFc", "chNil");
+    hlFdSt.getStgFdNm().put("pri", "chIl");
+    hlFdSt.getStgFdNm().put("tdsc", "chTd");
     stgNm = "inWr"; //input wrapper
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);

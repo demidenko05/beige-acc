@@ -124,8 +124,10 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
           }
         } else {
           this.orm.insIdLn(pRvs, vs, pEnt);
+          pRvs.put("docFdsUpd", new String[] {"mdEnr", "ver"});
         }
         this.srEntr.mkEntrs(pRvs, pEnt);
+        pRvs.remove("docFdsUpd");
         pRvs.put("msgSuc", "account_ok");
       } else {
         if (pEnt.getIsNew()) {

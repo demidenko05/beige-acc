@@ -197,21 +197,28 @@ public class SrInvSv {
           this.orm.update(pRvs, vs, old.getPrep()); vs.clear();
         }
       }
+      String[] docFdsUpd = new String[] {"cuFr", "dat", "dbcr", "dscr", "exRt",
+        "inTx", "ndEnr", "omTx", "payb", "pdsc", "prep", "toPa", "ver"};
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
         if (pEnt.getTot().compareTo(BigDecimal.ZERO) == 0) {
           throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
         }
         if (pEnt.getIsNew()) {
           this.orm.insIdLn(pRvs, vs, pEnt);
+          pRvs.put("docFdsUpd", docFdsUpd);
+        } else {
+          pRvs.put("docFdsUpd", new String[] {"mdEnr", "ver"});
         }
         this.srEntr.mkEntrs(pRvs, pEnt);
+        pRvs.remove("docFdsUpd");
         pRvs.put("msgSuc", "account_ok");
       } else {
         if (pEnt.getIsNew()) {
           this.orm.insIdLn(pRvs, vs, pEnt);
           pRvs.put("msgSuc", "insert_ok");
         } else {
-          this.orm.update(pRvs, vs, pEnt);
+          vs.put("ndFds", docFdsUpd);
+          this.orm.update(pRvs, vs, pEnt); vs.clear();
           pRvs.put("msgSuc", "update_ok");
         }
       }

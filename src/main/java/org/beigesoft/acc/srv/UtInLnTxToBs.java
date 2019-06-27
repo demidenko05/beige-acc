@@ -151,8 +151,8 @@ public class UtInLnTxToBs<RS> {
     }
     if (pTxRules != null) {
       DataTx dtTx = retrieveDataTx(pRvs, pLine, pAs, pTxRules, pInvTxMeth);
-      if (!pTxRules.getStAg() && !pTxRules.getStIb()
-        && pLine.getOwnr().getInTx()) {
+      if (!pTxRules.getStAg() && !(pTxRules.getStIb()
+        && pLine.getOwnr().getInTx())) {
         //non-aggregate except invoice basis with included taxes:
         for (int i = 0; i < dtTx.getTxs().size(); i++) {
           TL tl = findCreateTaxLine(pRvs, pLine.getOwnr(),
@@ -367,7 +367,9 @@ public class UtInLnTxToBs<RS> {
         pAs.getPrDp(), pAs.getStRm()));
       pInv.setToFc(pInv.getSuFc().add(pInv.getTxFc()));
     }
-    getOrm().update(pRvs, pVs, pInv);
+    String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot", "ver"};
+    pVs.put("ndFds", fdsUpd);
+    getOrm().update(pRvs, pVs, pInv); pVs.clear();
   }
 
   /**
@@ -388,7 +390,7 @@ public class UtInLnTxToBs<RS> {
       final Map<String, Object> pVs, final T pInv, final List<TxDtLn> pTxdLns,
         final AcStg pAs, final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
     String[] fdsSel =
-      new String[] {"iid", "txCt", "tot", "toFc", "subt", "suFc"};
+      new String[] {"iid", "subt", "suFc", "toFc", "tot", "txCt", "ver"};
     pVs.put("TxCtdpLv", 0);
     pVs.put(pInvTxMeth.getGoodLnCl().getSimpleName() + "ndFds", fdsSel);
     List<? extends AInvLn<T, ?>> gls = getOrm().retLstCnd(pRvs, pVs, pInvTxMeth
@@ -407,7 +409,7 @@ public class UtInLnTxToBs<RS> {
     List<AInvLn<T, ?>> ilsm = new ArrayList<AInvLn<T, ?>>();
     Comparator<AInvLn<?, ?>> cmpr = Collections
       .reverseOrder(new CmprInvLnTot());
-    String[] fdsUpd =  new String[] {"tot", "toFc", "subt", "suFc"};
+    String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot", "ver"};
     pVs.put("ndFds", fdsUpd);
     for (TxDtLn txdLn : pTxdLns) {
       for (AInvLn<T, ?> gl : gls) {
@@ -739,8 +741,7 @@ public class UtInLnTxToBs<RS> {
           itlsr.get(j).setTot(itls.get(j).getTot());
           itlsr.get(j).setOwnr(pLine);
           pVs.put("ndFds", taxTotOwnr);
-          getOrm().update(pRvs, pVs, itlsr.get(j));
-          pVs.clear();
+          getOrm().update(pRvs, pVs, itlsr.get(j)); pVs.clear();
         } else {
           itls.get(j).setOwnr(pLine);
           itls.get(j).setInvId(pLine.getOwnr().getIid());
@@ -776,8 +777,8 @@ public class UtInLnTxToBs<RS> {
           final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
     DataTx dtTx = new DataTx();
     String query;
-    if (!pTxRules.getStAg() && !pTxRules.getStIb()
-      && pLine.getOwnr().getInTx()) {
+    if (!pTxRules.getStAg() && !(pTxRules.getStIb()
+      && pLine.getOwnr().getInTx())) {
       //non-aggregate except invoice basis with included taxes:
       dtTx.setTxs(new ArrayList<TaxEx>());
       dtTx.setTxTotTaxb(new ArrayList<Double>());
@@ -843,8 +844,8 @@ public class UtInLnTxToBs<RS> {
           TaxEx tax = new TaxEx();
           tax.setIid(txId);
           tax.setNme(txNm);
-          if (!pTxRules.getStAg() && !pTxRules.getStIb()
-            && pLine.getOwnr().getInTx()) {
+          if (!pTxRules.getStAg() && !(pTxRules.getStIb()
+            && pLine.getOwnr().getInTx())) {
             //non-aggregate except invoice basis with included taxes:
             if (!pTxRules.getStIb()) {
               //item basis, taxes excluded/included:
