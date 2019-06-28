@@ -29,7 +29,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.hld;
 
 import org.beigesoft.mdl.IHasId;
+import org.beigesoft.mdl.IOwned;
 import org.beigesoft.hld.IHlNmClSt;
+import org.beigesoft.prc.PrcEnoCr;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.prc.PrcEntCr;
 import org.beigesoft.acc.mdlb.ISacnt;
@@ -107,10 +109,11 @@ public class HlAcEnPr implements IHlNmClSt {
           return SacntCr.class.getSimpleName();
         } else if (IEntrSrc.class.isAssignableFrom(pCls)) {
           return EntrSrcCr.class.getSimpleName();
-        } else if (TxCtLn.class == pCls || Acnt.class == pCls
-          || ISacnt.class.isAssignableFrom(pCls)
-            || AInvLn.class.isAssignableFrom(pCls)) {
+        } else if (Acnt.class == pCls
+          || ISacnt.class.isAssignableFrom(pCls)) {
           return PrcEntCr.class.getSimpleName();
+        } else if (IOwned.class.isAssignableFrom(pCls)) {
+          return PrcEnoCr.class.getSimpleName();
         }
       } else if ("entCp".equals(pAct)) { //Copy
         if (Entr.class == pCls) {

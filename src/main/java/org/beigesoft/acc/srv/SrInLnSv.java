@@ -30,6 +30,7 @@ package org.beigesoft.acc.srv;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
@@ -77,12 +78,13 @@ public class SrInLnSv {
       final Map<String, Object> pRvs, final L pEnt, final IReqDt pRqDt,
         final UtInLnTxTo<RS, T, L, TL, LTL> pUtTxTo,
           final ISrInItLn<T, L> pSrInItLn) throws Exception {
-    if (pEnt.getIsNew() && !pUtTxTo.getIsMutable()) {
+    if (!pEnt.getIsNew() && !pUtTxTo.getIsMutable()) {
       throw new ExcCode(ExcCode.SPAM, "Attempt to update immutable line");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
-    vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds",
-      new String[] {"dbcr", "iid", "inTx", "omTx"});
+    String[] ifds = new String[] {"dbcr", "dbOr", "iid", "inTx", "omTx", "ver"};
+    Arrays.sort(ifds);
+    vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds", ifds);
     vs.put("DbCrndFds", new String[] {"iid", "txDs"});
     this.orm.refrEnt(pRvs, vs, pEnt.getOwnr()); vs.clear();
     if (!pEnt.getOwnr().getDbOr().equals(this.orm.getDbId())) {

@@ -9,4 +9,6 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="frmFds">iid,idOr,dbOr,rvId,mdEnr,dat,dbcr,cuFr,exRt,inTx,omTx,subt,suFc,toTx,txFc,tot,toFc,prep,payb,pdsc,dscr</entry>
 <entry key="owdEnts">org.beigesoft.acc.mdlp.PuInGdLn,org.beigesoft.acc.mdlp.PuInSrLn,org.beigesoft.acc.mdlp.PuInTxLn</entry>
+<entry key="selDpl">TxDst,1</entry>
+<entry key="selFds">DbCr,iid,nme,txDs,#Curr,iid,nme,#PrepTo,iid,dat,tot,toFc,#TxDst,iid,stRm,stIb,stAg</entry>
 </properties>
