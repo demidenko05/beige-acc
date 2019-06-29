@@ -10,5 +10,5 @@
   <suppress checks="MagicNumber"
     files="PuInGdLn|PurInv|PrepTo|UtInLnTxToBs|SrPuGdLn|SrPuSrLn"/>
   <suppress checks="MethodLength"
-    files="BlnPdf|UtInLnTxToBs"/>
+    files="BlnPdf|UtInLnTxToBs|SrInvSv"/>
 </suppressions>

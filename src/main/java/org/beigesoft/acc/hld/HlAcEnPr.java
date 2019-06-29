@@ -38,6 +38,7 @@ import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
 import org.beigesoft.acc.mdlb.ADcTxLn;
 import org.beigesoft.acc.mdlp.AcStg;
@@ -75,6 +76,7 @@ import org.beigesoft.acc.prc.TxCtLnDl;
 import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.prc.DocPr;
+import org.beigesoft.acc.prc.DocWhPr;
 
 /**
  * <p>Additional holder of names of ACC entities processors.</p>
@@ -149,6 +151,9 @@ public class HlAcEnPr implements IHlNmClSt {
           }
           return NULL;
         } else if ("entPr".equals(pAct) && IDoc.class.isAssignableFrom(pCls)) {
+          if (AInv.class.isAssignableFrom(pCls)) {
+            return DocWhPr.class.getSimpleName();
+          }
           return DocPr.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrcEntRt.class.getSimpleName();

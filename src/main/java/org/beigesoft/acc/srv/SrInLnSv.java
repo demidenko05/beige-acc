@@ -82,11 +82,15 @@ public class SrInLnSv {
       throw new ExcCode(ExcCode.SPAM, "Attempt to update immutable line");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
-    String[] ifds = new String[] {"dbcr", "dbOr", "iid", "inTx", "omTx", "ver"};
-    Arrays.sort(ifds);
+    String[] ifds = new String[] {"dat", "dbcr", "dbOr", "dscr", "iid", "inTx",
+      "mdEnr", "omTx", "ver"};
+    Arrays.sort(ifds); //without it dbOr is omitted
     vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds", ifds);
     vs.put("DbCrndFds", new String[] {"iid", "txDs"});
     this.orm.refrEnt(pRvs, vs, pEnt.getOwnr()); vs.clear();
+    if (pEnt.getOwnr().getMdEnr()) {
+      throw new ExcCode(ExcCode.SPAM, "Attempt to change accounted document!");
+    }
     if (!pEnt.getOwnr().getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
     }

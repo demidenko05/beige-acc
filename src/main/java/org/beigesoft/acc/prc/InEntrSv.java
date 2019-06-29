@@ -30,6 +30,7 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
@@ -72,6 +73,7 @@ public class InEntrSv implements IPrcEnt<InEntr, Long> {
       pRvs.put("msgSuc", "insert_ok");
     } else {
       String[] ndFds = new String[] {"dat", "dscr", "ver"};
+      Arrays.sort(ndFds);
       vs.put("ndFds", ndFds);
       getOrm().update(pRvs, vs, pEnt);
       vs.clear();

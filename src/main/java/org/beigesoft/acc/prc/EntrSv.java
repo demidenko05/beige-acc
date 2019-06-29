@@ -200,7 +200,7 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
     String qu = "select sum(DEBT) as DEBT, sum(CRED) as CRED from ENTR where"
       + " RVID is null and SRTY=" + pEnt.getSrTy() + " and SRID="
         + doc.getIid() + ";";
-    String[] cols = new String[]{"DEBT", "CRED"};
+    String[] cols = new String[] {"DEBT", "CRED"};
     Double[] tots = getRdb().evDoubles(qu, cols);
     if (tots[0] == null) {
       tots[0] = 0.0;

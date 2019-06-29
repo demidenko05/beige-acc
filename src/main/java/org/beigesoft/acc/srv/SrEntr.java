@@ -217,7 +217,7 @@ public class SrEntr<RS> implements ISrEntr {
     if (pRvs.get("docFdsUpd") != null) {
       vs.put("ndFds", pRvs.get("docFdsUpd"));
     }
-    getOrm().update(pRvs, vs, pDoc); vs.clear();
+    getOrm().update(pRvs, vs, pDoc);
   }
 
   /**

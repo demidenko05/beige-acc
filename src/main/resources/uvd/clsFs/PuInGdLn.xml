@@ -10,10 +10,14 @@ See LICENSE in base folder
 <entry key="totcnToSt">CnvPriStr</entry>
 <entry key="toFccnToSt">CnvPriStr</entry>
 <entry key="pricnToSt">CnvCostStr</entry>
-<entry key="priFccnToSt">CnvCostStr</entry>
+<entry key="prFccnToSt">CnvCostStr</entry>
 <entry key="subtcnToSt">CnvPriStr</entry>
 <entry key="suFccnToSt">CnvPriStr</entry>
+<entry key="toTxcnToSt">CnvPriStr</entry>
+<entry key="txFccnToSt">CnvPriStr</entry>
 <entry key="quancnToSt">CnvQuanStr</entry>
+<entry key="itLfcnToSt">CnvQuanStr</entry>
+<entry key="toLfcnToSt">CnvQuanStr</entry>
 <entry key="priinp">invl</entry>
 <entry key="prFcinp"></entry>
 <entry key="quaninp"></entry>

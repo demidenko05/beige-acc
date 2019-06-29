@@ -31,6 +31,7 @@ package org.beigesoft.acc.srv;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Locale;
 import java.text.DateFormat;
 import java.math.BigDecimal;
@@ -273,7 +274,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     rz.setUom(pEnt.getUom());
     rz.setIsNew(true);
     WrhItm rzt = this.orm.retEnt(pRvs, pVs, rz);
-    if (rzt.getIid() != null) {
+    if (rzt != null) {
       rz = rzt;
     }
     rz.setItLf(rz.getItLf().add(pQuan));
@@ -385,6 +386,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
       .getMsg("reversing", cpf.getLngDef().getIid()) + " #" + revg.getDbOr()
         + "-" + revg.getIid() + "!");
     String[] ndFds = new String[] {"dscr", "rvId", "ver"};
+    Arrays.sort(ndFds);
     pVs.put("ndFds", ndFds);
     this.orm.update(pRvs, pVs, revd);
     return new WrhEnr[] {revg, revd};

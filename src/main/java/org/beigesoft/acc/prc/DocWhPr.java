@@ -35,14 +35,17 @@ import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlp.Entr;
+import org.beigesoft.acc.mdlp.WrhEnr;
 import org.beigesoft.acc.srv.ISrEntr;
+import org.beigesoft.acc.srv.ISrWrhEnr;
 
 /**
- * <p>Service that retrieves document with entries for printing.</p>
+ * <p>Service that retrieves document with accounting and warehouse
+ * entries for printing.</p>
  *
  * @author Yury Demidenko
  */
-public class DocPr implements IPrcEnt<IDoc, Long> {
+public class DocWhPr implements IPrcEnt<IDoc, Long> {
 
   /**
    * <p>Base retriever.</p>
@@ -53,6 +56,11 @@ public class DocPr implements IPrcEnt<IDoc, Long> {
    * <p>Entries service.</p>
    **/
   private ISrEntr srEntr;
+
+  /**
+   * <p>Warehouse entries service.</p>
+   **/
+  private ISrWrhEnr srWrhEnr;
 
   /**
    * <p>Process that pertieves entity.</p>
@@ -70,6 +78,8 @@ public class DocPr implements IPrcEnt<IDoc, Long> {
       pRvs.put("entrCls", Entr.class);
       pRvs.put("entrs", this.srEntr.retEntrs(pRvs, pEnt));
     }
+    pRvs.put("whEnrCls", WrhEnr.class);
+    pRvs.put("whEnrs", this.srWrhEnr.retEntrs(pRvs, pEnt));
     return pEnt;
   }
 
@@ -104,5 +114,21 @@ public class DocPr implements IPrcEnt<IDoc, Long> {
    **/
   public final void setSrEntr(final ISrEntr pSrEntr) {
     this.srEntr = pSrEntr;
+  }
+
+  /**
+   * <p>Getter for srWrhEnr.</p>
+   * @return ISrWrhEnr
+   **/
+  public final ISrWrhEnr getSrWrhEnr() {
+    return this.srWrhEnr;
+  }
+
+  /**
+   * <p>Setter for srWrhEnr.</p>
+   * @param pSrWrhEnr reference
+   **/
+  public final void setSrWrhEnr(final ISrWrhEnr pSrWrhEnr) {
+    this.srWrhEnr = pSrWrhEnr;
   }
 }

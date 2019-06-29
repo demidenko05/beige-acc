@@ -34,8 +34,11 @@ import java.util.HashMap;
 import org.beigesoft.fct.IFctPrcEnt;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.FctOrId;
+import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrcEnt;
+import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.rdb.IRdb;
+import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlp.PurInv;
 import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.PuInSrLn;
@@ -66,6 +69,7 @@ import org.beigesoft.acc.prc.AcStgRt;
 import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
 import org.beigesoft.acc.prc.DocPr;
+import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.InvLnSv;
 import org.beigesoft.acc.prc.InvSv;
@@ -172,6 +176,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuTxCtLnSv(pRvs);
           } else if (PrepCpr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrepCpr(pRvs);
+          } else if (DocWhPr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuDocWhPr(pRvs);
           } else if (DocPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocPr(pRvs);
           } else if (PURINVSRLNSV.equals(pPrNm)) {
@@ -412,6 +418,33 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map DocWhPr.</p>
+   * @param pRvs request scoped vars
+   * @return DocWhPr
+   * @throws Exception - an exception
+   */
+  private DocWhPr crPuDocWhPr(final Map<String, Object> pRvs) throws Exception {
+    DocWhPr rz = new DocWhPr();
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
+      .laz(pRvs, FctEnPrc.class.getSimpleName());
+    @SuppressWarnings("unchecked")
+    PrcEntRt<IDoc, Long> rtr = (PrcEntRt<IDoc, Long>) fctEnPrc
+      .lazPart(pRvs, PrcEntRt.class.getSimpleName());
+    rz.setRetrv(rtr);
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    this.procs.put(DocWhPr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DocWhPr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map DocPr.</p>
    * @param pRvs request scoped vars
    * @return DocPr
@@ -419,11 +452,16 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
    */
   private DocPr crPuDocPr(final Map<String, Object> pRvs) throws Exception {
     DocPr rz = new DocPr();
-    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
+      .laz(pRvs, FctEnPrc.class.getSimpleName());
+    @SuppressWarnings("unchecked")
+    PrcEntRt<IDoc, Long> rtr = (PrcEntRt<IDoc, Long>) fctEnPrc
+      .lazPart(pRvs, PrcEntRt.class.getSimpleName());
+    rz.setRetrv(rtr);
     ISrEntr srEntr = (ISrEntr) this.fctBlc
       .laz(pRvs, ISrEntr.class.getSimpleName());
     rz.setSrEntr(srEntr);
-    rz.setHldUvd(this.fctBlc.lazHldUvd(pRvs));
     this.procs.put(DocPr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DocPr.class
       .getSimpleName() + " has been created.");

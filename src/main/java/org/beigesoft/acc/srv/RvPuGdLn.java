@@ -143,7 +143,9 @@ public class RvPuGdLn<RS> implements IRvInvLn<PurInv, PuInGdLn> {
     pRved.setRvId(pRvng.getIid());
     pRved.setItLf(BigDecimal.ZERO);
     pRved.setToLf(BigDecimal.ZERO);
-    pVs.put("ndFds", new String[] {"dscr", "itLf", "rvId", "toLf"});
+    String[] ndFds = new String[] {"dscr", "itLf", "rvId", "toLf", "ver"};
+    Arrays.sort(ndFds);
+    pVs.put("ndFds", ndFds);
     this.orm.update(pRvs, pVs, pRved); pVs.clear();
   }
 

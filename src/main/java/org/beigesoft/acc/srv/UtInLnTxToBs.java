@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.math.BigDecimal;
@@ -368,6 +369,7 @@ public class UtInLnTxToBs<RS> {
       pInv.setToFc(pInv.getSuFc().add(pInv.getTxFc()));
     }
     String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot", "ver"};
+    Arrays.sort(fdsUpd);
     pVs.put("ndFds", fdsUpd);
     getOrm().update(pRvs, pVs, pInv); pVs.clear();
   }
@@ -391,6 +393,7 @@ public class UtInLnTxToBs<RS> {
         final AcStg pAs, final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
     String[] fdsSel =
       new String[] {"iid", "subt", "suFc", "toFc", "tot", "txCt", "ver"};
+    Arrays.sort(fdsSel);
     pVs.put("TxCtdpLv", 0);
     pVs.put(pInvTxMeth.getGoodLnCl().getSimpleName() + "ndFds", fdsSel);
     List<? extends AInvLn<T, ?>> gls = getOrm().retLstCnd(pRvs, pVs, pInvTxMeth
@@ -410,6 +413,7 @@ public class UtInLnTxToBs<RS> {
     Comparator<AInvLn<?, ?>> cmpr = Collections
       .reverseOrder(new CmprInvLnTot());
     String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot", "ver"};
+    Arrays.sort(fdsUpd);
     pVs.put("ndFds", fdsUpd);
     for (TxDtLn txdLn : pTxdLns) {
       for (AInvLn<T, ?> gl : gls) {
@@ -734,7 +738,8 @@ public class UtInLnTxToBs<RS> {
           "where OWNR=" + pLine.getIid());
         pVs.clear();
       }
-      String[] taxTotOwnr = new String[] {"ownr", "tax", "tot"};
+      String[] taxTotOwnr = new String[] {"ownr", "tax", "tot", "ver"};
+      Arrays.sort(taxTotOwnr);
       for (int j = 0; j < itls.size(); j++) {
         if (itlsr != null && j < itlsr.size()) {
           itlsr.get(j).setTax(itls.get(j).getTax());

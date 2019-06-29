@@ -9,11 +9,13 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="totcnToSt">CnvPriStr</entry>
 <entry key="toFccnToSt">CnvPriStr</entry>
-<entry key="txbcnToSt">CnvPriStr</entry>
-<entry key="txbFccnToSt">CnvPriStr</entry>
-<entry key="quancnToSt">CnvPriStr</entry>
+<entry key="pricnToSt">CnvCostStr</entry>
+<entry key="prFccnToSt">CnvCostStr</entry>
 <entry key="subtcnToSt">CnvPriStr</entry>
 <entry key="suFccnToSt">CnvPriStr</entry>
+<entry key="toTxcnToSt">CnvPriStr</entry>
+<entry key="txFccnToSt">CnvPriStr</entry>
+<entry key="quancnToSt">CnvQuanStr</entry>
 <entry key="priinp">invl</entry>
 <entry key="prFcinp"></entry>
 <entry key="quaninp"></entry>
@@ -21,7 +23,13 @@ See LICENSE in base folder
 <entry key="suFcinp"></entry>
 <entry key="toTxinp"></entry>
 <entry key="txFcinp"></entry>
+<entry key="txCtinp"></entry>
 <entry key="tdscinp"></entry>
 <entry key="totinp"></entry>
 <entry key="toFcinp"></entry>
+<entry key="itLfinp"></entry>
+<entry key="toLfinp"></entry>
+<entry key="rvIdinp"></entry>
+<entry key="itminp"></entry>
+<entry key="uominp"></entry>
 </properties>

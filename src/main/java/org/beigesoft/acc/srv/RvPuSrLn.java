@@ -126,7 +126,9 @@ public class RvPuSrLn<RS> implements IRvInvLn<PurInv, PuInSrLn> {
     sb.append(" #" + pRvng.getDbOr() + "-" + pRvng.getIid());
     pRved.setDscr(sb.toString());
     pRved.setRvId(pRvng.getIid());
-    pVs.put("ndFds", new String[] {"dscr", "rvId"});
+    String[] ndFds = new String[] {"dscr", "rvId", "ver"};
+    Arrays.sort(ndFds);
+    pVs.put("ndFds", ndFds);
     this.orm.update(pRvs, pVs, pRved); pVs.clear();
   }
 

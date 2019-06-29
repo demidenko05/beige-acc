@@ -31,6 +31,7 @@ package org.beigesoft.acc.srv;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
@@ -167,8 +168,9 @@ public class SrInvSv {
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
       if (!pEnt.getIsNew()) {
-        vs.put(pEnt.getClass().getSimpleName() + "ndFds",
-          new String[] {"dbcr", "iid", "inTx", "omTx", "prep"});
+        String[] ndf = new String[] {"dbcr", "iid", "inTx", "omTx", "prep"};
+        Arrays.sort(ndf);
+        vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndf);
         vs.put("DbCrndFds", new String[] {"iid", "txDs"});
         vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds",
           new String[] {"iid"});
@@ -199,6 +201,7 @@ public class SrInvSv {
       }
       String[] docFdsUpd = new String[] {"cuFr", "dat", "dbcr", "dscr", "exRt",
         "inTx", "ndEnr", "omTx", "payb", "pdsc", "prep", "toPa", "ver"};
+      Arrays.sort(docFdsUpd);
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
         if (pEnt.getTot().compareTo(BigDecimal.ZERO) == 0) {
           throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
