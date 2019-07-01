@@ -158,6 +158,18 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
   }
 
   /**
+   * <p>Getter for initial total to withdraw.
+   * This is because of complex tax calculation. For invoice basis subtotal
+   * of a line maybe changed (adjusted) after inserting new one
+   * in case of price inclusive of tax.</p>
+   * @return BigDecimal
+   **/
+  @Override
+  public final BigDecimal getIniTo() {
+    return getSubt();
+  }
+
+  /**
    * <p>Getter for document date (own or owner's).</p>
    * @return Date
    **/

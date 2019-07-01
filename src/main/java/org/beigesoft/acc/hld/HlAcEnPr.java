@@ -77,6 +77,7 @@ import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.DocWhPr;
+import org.beigesoft.acc.prc.EnrSrcChu;
 
 /**
  * <p>Additional holder of names of ACC entities processors.</p>
@@ -172,6 +173,8 @@ public class HlAcEnPr implements IHlNmClSt {
           return AcStgSv.class.getSimpleName();
         } else if (TxCtLn.class == pCls) {
           return TxCtLnSv.class.getSimpleName();
+        } else if (EnrSrc.class == pCls) {
+          return EnrSrcChu.class.getSimpleName();
         } else if (Entr.class == pCls) {
           return EntrSv.class.getSimpleName();
         } else if (InEntr.class == pCls) {

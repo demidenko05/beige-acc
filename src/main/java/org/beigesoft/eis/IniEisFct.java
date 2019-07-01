@@ -66,6 +66,7 @@ import org.beigesoft.acc.mdlp.WrhPl;
 import org.beigesoft.acc.mdlp.TxDst;
 import org.beigesoft.acc.mdlp.Expn;
 import org.beigesoft.acc.mdlp.Bnka;
+import org.beigesoft.acc.mdlp.PuInGdLn;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -159,6 +160,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");
     hlClSt.getStgClss().put(EnrSrc.class, "ace");
+    hlClSt.getStgClss().put(PuInGdLn.class, "acrv");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);

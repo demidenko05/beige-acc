@@ -86,20 +86,26 @@ public class SrInLnSv {
       "mdEnr", "omTx", "ver"};
     Arrays.sort(ifds); //without it dbOr is omitted
     vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds", ifds);
-    vs.put("DbCrndFds", new String[] {"iid", "txDs"});
+    String[] fdsdc = new String[] {"iid", "txDs"};
+    Arrays.sort(fdsdc);
+    vs.put("DbCrndFds", fdsdc);
+    String[] fdstd = new String[] {"iid", "stRm", "stIb", "stAg"};
+    Arrays.sort(fdstd);
+    vs.put("TxDstndFds", fdstd);
+    vs.put("DbCrdpLv", 2);
     this.orm.refrEnt(pRvs, vs, pEnt.getOwnr()); vs.clear();
-    if (pEnt.getOwnr().getMdEnr()) {
-      throw new ExcCode(ExcCode.SPAM, "Attempt to change accounted document!");
-    }
-    if (!pEnt.getOwnr().getDbOr().equals(this.orm.getDbId())) {
-      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
-    }
     long owVrWs = Long.parseLong(pRqDt.getParam("owVr"));
     if (owVrWs != pEnt.getOwnr().getVer()) {
       throw new ExcCode(IOrm.DRTREAD, "dirty_read");
     }
+    if (!pEnt.getOwnr().getDbOr().equals(this.orm.getDbId())) {
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
+    }
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
+    }
+    if (pEnt.getOwnr().getMdEnr()) {
+      throw new ExcCode(ExcCode.SPAM, "Attempt to change accounted document!");
     }
     AcStg as = (AcStg) pRvs.get("astg");
     TxDst txRules = pUtTxTo.revealTaxRules(pEnt.getOwnr(), as);

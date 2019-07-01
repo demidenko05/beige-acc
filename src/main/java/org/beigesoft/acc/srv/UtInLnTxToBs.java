@@ -144,6 +144,7 @@ public class UtInLnTxToBs<RS> {
       "where OWNR=" + pLine.getOwnr().getIid());
     pVs.clear();
     for (TL tl : invTxLns) {
+      tl.setDbOr(this.orm.getDbId());
       tl.setTax(null);
       tl.setTxb(BigDecimal.ZERO);
       tl.setTxbFc(BigDecimal.ZERO);
@@ -325,7 +326,7 @@ public class UtInLnTxToBs<RS> {
       query = query.replace(":TGDLN", pInvTxMeth.getTblNmsTot()[0]);
       query = query.replace(":TTAXLN", pInvTxMeth.getTblNmsTot()[1]);
     }
-    String[] cls = new String[] {"SUBT", "TOT", "TOTX", "SUFC", "SUFC", "TXFC"};
+    String[] cls = new String[] {"TOT", "TOTX", "TOFC", "TXFC"};
     Double[] totals = getRdb().evDoubles(query, cls);
     if (totals[0] == null) {
       totals[0] = 0d;
@@ -339,36 +340,18 @@ public class UtInLnTxToBs<RS> {
     if (totals[3] == null) {
       totals[3] = 0d;
     }
-    if (totals[4] == null) {
-      totals[4] = 0d;
-    }
-    if (totals[5] == null) {
-      totals[5] = 0d;
-    }
-    if (pInv.getInTx()) {
-      pInv.setTot(BigDecimal.valueOf(totals[1]).setScale(
-        pAs.getPrDp(), pAs.getRndm()));
-      pInv.setToTx(BigDecimal.valueOf(totals[2]).setScale(
-        pAs.getPrDp(), pAs.getStRm()));
-      pInv.setSubt(pInv.getTot().subtract(pInv.getToTx()));
-      pInv.setToFc(BigDecimal.valueOf(totals[4]).setScale(
-        pAs.getPrDp(), pAs.getRndm()));
-      pInv.setTxFc(BigDecimal.valueOf(totals[5]).setScale(
-        pAs.getPrDp(), pAs.getStRm()));
-      pInv.setSuFc(pInv.getToFc().subtract(pInv.getTxFc()));
-    } else {
-      pInv.setSubt(BigDecimal.valueOf(totals[0]).setScale(
-        pAs.getPrDp(), pAs.getRndm()));
-      pInv.setToTx(BigDecimal.valueOf(totals[2]).setScale(
-        pAs.getPrDp(), pAs.getStRm()));
-      pInv.setTot(pInv.getSubt().add(pInv.getToTx()));
-      pInv.setSuFc(BigDecimal.valueOf(totals[3]).setScale(
-        pAs.getPrDp(), pAs.getRndm()));
-      pInv.setTxFc(BigDecimal.valueOf(totals[5]).setScale(
-        pAs.getPrDp(), pAs.getStRm()));
-      pInv.setToFc(pInv.getSuFc().add(pInv.getTxFc()));
-    }
-    String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot", "ver"};
+    pInv.setTot(BigDecimal.valueOf(totals[0]).setScale(
+      pAs.getPrDp(), pAs.getRndm()));
+    pInv.setToTx(BigDecimal.valueOf(totals[1]).setScale(
+      pAs.getPrDp(), pAs.getStRm()));
+    pInv.setSubt(pInv.getTot().subtract(pInv.getToTx()));
+    pInv.setToFc(BigDecimal.valueOf(totals[2]).setScale(
+      pAs.getPrDp(), pAs.getRndm()));
+    pInv.setTxFc(BigDecimal.valueOf(totals[3]).setScale(
+      pAs.getPrDp(), pAs.getStRm()));
+    pInv.setSuFc(pInv.getToFc().subtract(pInv.getTxFc()));
+    String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot",
+      "toTx", "txFc", "ver"};
     Arrays.sort(fdsUpd);
     pVs.put("ndFds", fdsUpd);
     getOrm().update(pRvs, pVs, pInv); pVs.clear();
@@ -733,7 +716,10 @@ public class UtInLnTxToBs<RS> {
       List<LTL> itlsr = null;
       if (pInvLnTxMeth.getIsMutable() && !pLine.getIsNew()) {
         pVs.put(pInvLnTxMeth.getInvLnCl().getSimpleName() + "dpLv", 0);
-        pVs.put("TaxdpLv", 0);
+        pVs.put(pInvLnTxMeth.getLtlCl().getSimpleName() + "dpLv", 1);
+        String[] ndfitl = new String[] {"iid", "dbOr", "ver", "tax"};
+        Arrays.sort(ndfitl);
+        pVs.put(pInvLnTxMeth.getLtlCl().getSimpleName() + "ndFds", ndfitl);
         itlsr = getOrm().retLstCnd(pRvs, pVs, pInvLnTxMeth.getLtlCl(),
           "where OWNR=" + pLine.getIid());
         pVs.clear();
@@ -1163,12 +1149,14 @@ public class UtInLnTxToBs<RS> {
         break;
       }
     }
-    //find and enable disabled line:
-    for (TL tl : pInvTxLns) {
-      if (tl.getTax() == null) {
-        itl = tl;
-        itl.setTax(pTax);
-        break;
+    if (itl == null) {
+      //find and enable disabled line:
+      for (TL tl : pInvTxLns) {
+        if (tl.getTax() == null) {
+          itl = tl;
+          itl.setTax(pTax);
+          break;
+        }
       }
     }
     if (itl == null) {

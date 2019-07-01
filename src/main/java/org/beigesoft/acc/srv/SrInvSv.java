@@ -168,14 +168,19 @@ public class SrInvSv {
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
       if (!pEnt.getIsNew()) {
-        String[] ndf = new String[] {"dbcr", "iid", "inTx", "omTx", "prep"};
+        String[] ndf = new String[] {"dbcr", "iid", "inTx", "omTx",
+          "prep", "tot", "mdEnr"};
         Arrays.sort(ndf);
         vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndf);
         vs.put("DbCrndFds", new String[] {"iid", "txDs"});
         vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds",
           new String[] {"iid"});
         T old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
-        if (pEnt.getTot().compareTo(BigDecimal.ZERO) == 1) {
+        pEnt.setMdEnr(old.getMdEnr());
+        if (pEnt.getMdEnr()) {
+          throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
+        }
+        if (old.getTot().compareTo(BigDecimal.ZERO) == 1) {
           if (!old.getOmTx().equals(pEnt.getOmTx())
             || !old.getInTx().equals(pEnt.getInTx())) {
             throw new ExcCode(ExcCode.WRPR, "can_not_change_tax_method");
@@ -183,10 +188,10 @@ public class SrInvSv {
           vs.put("DbCrndFds", new String[] {"iid", "txDs"});
           this.orm.refrEnt(pRvs, vs, pEnt.getDbcr()); vs.clear();
           if (!old.getDbcr().getIid().equals(pEnt.getDbcr().getIid())
-        && (pEnt.getDbcr().getTxDs() == null && old.getDbcr().getTxDs() != null)
+        && (pEnt.getDbcr().getTxDs() == null && old.getDbcr().getTxDs() != null
       || pEnt.getDbcr().getTxDs() != null && old.getDbcr().getTxDs() == null
     || pEnt.getDbcr().getTxDs().getIid().equals(old.getDbcr()
-  .getTxDs().getIid())) {
+  .getTxDs().getIid()))) {
             throw new ExcCode(ExcCode.WRPR,
               "can_not_cange_customer_with_another_tax_destination");
           }
@@ -195,39 +200,31 @@ public class SrInvSv {
           || old.getPrep() == null && pEnt.getPrep() != null
            || !old.getPrep().getIid().equals(pEnt.getPrep().getIid())) {
           old.getPrep().setInvId(null);
-          vs.put("ndFds", new String[] {"invId"});
+          vs.put("ndFds", new String[] {"invId", "ver"});
           this.orm.update(pRvs, vs, old.getPrep()); vs.clear();
         }
-      }
-      String[] docFdsUpd = new String[] {"cuFr", "dat", "dbcr", "dscr", "exRt",
-        "inTx", "ndEnr", "omTx", "payb", "pdsc", "prep", "toPa", "ver"};
-      Arrays.sort(docFdsUpd);
-      if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
-        if (pEnt.getTot().compareTo(BigDecimal.ZERO) == 0) {
-          throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
-        }
-        if (pEnt.getIsNew()) {
-          this.orm.insIdLn(pRvs, vs, pEnt);
-          pRvs.put("docFdsUpd", docFdsUpd);
+        String[] fdDcUpd = new String[] {"cuFr", "dat", "dbcr", "dscr", "exRt",
+          "inTx", "ndEnr", "omTx", "payb", "pdsc", "prep", "toPa", "ver"};
+        Arrays.sort(fdDcUpd);
+        if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+          if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
+            throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
+          }
+          pRvs.put("fdDcUpd", fdDcUpd);
+          this.srEntr.mkEntrs(pRvs, pEnt);
+          pRvs.remove("fdDcUpd");
+          pRvs.put("msgSuc", "account_ok");
         } else {
-          pRvs.put("docFdsUpd", new String[] {"mdEnr", "ver"});
-        }
-        this.srEntr.mkEntrs(pRvs, pEnt);
-        pRvs.remove("docFdsUpd");
-        pRvs.put("msgSuc", "account_ok");
-      } else {
-        if (pEnt.getIsNew()) {
-          this.orm.insIdLn(pRvs, vs, pEnt);
-          pRvs.put("msgSuc", "insert_ok");
-        } else {
-          vs.put("ndFds", docFdsUpd);
+          vs.put("ndFds", fdDcUpd);
           this.orm.update(pRvs, vs, pEnt); vs.clear();
           pRvs.put("msgSuc", "update_ok");
         }
+      } else {
+        this.orm.insIdLn(pRvs, vs, pEnt);
       }
       if (pEnt.getPrep() != null) {
         pEnt.getPrep().setInvId(pEnt.getIid());
-        vs.put("ndFds", new String[] {"invId"});
+        vs.put("ndFds", new String[] {"invId", "ver"});
         this.orm.update(pRvs, vs, pEnt.getPrep()); vs.clear();
       }
     }

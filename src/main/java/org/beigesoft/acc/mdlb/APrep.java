@@ -106,7 +106,6 @@ public abstract class APrep extends ADoc {
     this.dbcr = pDbcr;
   }
 
-
   /**
    * <p>Getter for acc.</p>
    * @return Acnt

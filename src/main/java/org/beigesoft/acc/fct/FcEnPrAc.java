@@ -52,6 +52,7 @@ import org.beigesoft.acc.mdlp.SrTxDl;
 import org.beigesoft.acc.prc.SacntSv;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.EntrCr;
+import org.beigesoft.acc.prc.EnrSrcChu;
 import org.beigesoft.acc.prc.EntrChd;
 import org.beigesoft.acc.prc.EntrCpr;
 import org.beigesoft.acc.prc.EntrRt;
@@ -142,6 +143,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuEntrCr(pRvs);
           } else if (EntrRt.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrRt(pRvs);
+          } else if (EnrSrcChu.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuEnrSrcChu(pRvs);
           } else if (EntrChd.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrChd(pRvs);
           } else if (EntrCpr.class.getSimpleName().equals(pPrNm)) {
@@ -698,6 +701,22 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(EntrRt.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), EntrRt.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map EnrSrcChu.</p>
+   * @param pRvs request scoped vars
+   * @return EnrSrcChu
+   * @throws Exception - an exception
+   */
+  private EnrSrcChu crPuEnrSrcChu(
+    final Map<String, Object> pRvs) throws Exception {
+    EnrSrcChu rz = new EnrSrcChu();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(EnrSrcChu.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), EnrSrcChu.class
       .getSimpleName() + " has been created.");
     return rz;
   }

@@ -75,14 +75,11 @@ public interface IItmSrc extends IMkWsEnr {
   void setToLf(BigDecimal pToLf);
 
   /**
-   * <p>Getter for cost.</p>
+   * <p>Getter for initial total - it's subtotal for invoice line.
+   * This is because of complex tax calculation. For invoice basis subtotal
+   * of a line maybe changed (adjusted) after inserting new one
+   * in case of price inclusive of tax.</p>
    * @return BigDecimal
    **/
-  BigDecimal getPri();
-
-  /**
-   * <p>Setter for cost.</p>
-   * @param pPri reference
-   **/
-  void setPri(BigDecimal pPri);
+  BigDecimal getIniTo();
 }

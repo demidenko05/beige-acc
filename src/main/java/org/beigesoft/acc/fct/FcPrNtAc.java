@@ -40,6 +40,7 @@ import org.beigesoft.acc.rep.PrcBln;
 import org.beigesoft.acc.rep.PrLdgr;
 import org.beigesoft.acc.rep.PrChrAc;
 import org.beigesoft.acc.rep.ISrBlnSht;
+import org.beigesoft.acc.prc.RvTxCt;
 import org.beigesoft.acc.srv.ISrBlnc;
 
 /**
@@ -79,6 +80,8 @@ public class FcPrNtAc<RS> implements IFctPrc {
           rz = crPuPrBlShTr(pRvs);
         } else if (rz == null && PrChrAc.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrChrAc(pRvs);
+        } else if (rz == null && RvTxCt.class.getSimpleName().equals(pPrNm)) {
+          rz = crPuRvTxCt(pRvs);
         } else if (rz == null && PrLdgr.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrLdgr(pRvs);
         } else if (rz == null && PrcBln.class.getSimpleName().equals(pPrNm)) {
@@ -106,6 +109,25 @@ public class FcPrNtAc<RS> implements IFctPrc {
     this.procs.put(PrChrAc.class.getSimpleName(), rz);
     this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
       PrChrAc.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF RvTxCt.</p>
+   * @param pRvs request scoped vars
+   * @return RvTxCt
+   * @throws Exception - an exception
+   */
+  private RvTxCt<RS> crPuRvTxCt(
+    final Map<String, Object> pRvs) throws Exception {
+    RvTxCt<RS> rz = new RvTxCt<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctApp.getFctBlc().getFctDt().getReadTi());
+    this.procs.put(RvTxCt.class.getSimpleName(), rz);
+    this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
+      RvTxCt.class.getSimpleName() + " has been created");
     return rz;
   }
 

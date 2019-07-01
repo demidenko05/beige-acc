@@ -50,6 +50,21 @@ public class PuInSrLn extends AInvLn<PurInv, Srv> {
   private Srv itm;
 
   /**
+   * <p>Account expenses.</p>
+   **/
+  private Acnt acc;
+
+  /**
+   * <p>Sub-account cash name if exist.</p>
+   **/
+  private String saNm;
+
+  /**
+   * <p>Sub-account cash ID if exist.</p>
+   **/
+  private Long saId;
+
+  /**
    * <p>Item basis tax lines.</p>
    **/
   private List<PuInSrTxLn> txLns;
@@ -105,5 +120,53 @@ public class PuInSrLn extends AInvLn<PurInv, Srv> {
    **/
   public final void setTxLns(final List<PuInSrTxLn> pTxLns) {
     this.txLns = pTxLns;
+  }
+
+  /**
+   * <p>Getter for acc.</p>
+   * @return Acnt
+   **/
+  public final Acnt getAcc() {
+    return this.acc;
+  }
+
+  /**
+   * <p>Setter for acc.</p>
+   * @param pAcc reference
+   **/
+  public final void setAcc(final Acnt pAcc) {
+    this.acc = pAcc;
+  }
+
+  /**
+   * <p>Getter for saNm.</p>
+   * @return String
+   **/
+  public final String getSaNm() {
+    return this.saNm;
+  }
+
+  /**
+   * <p>Setter for saNm.</p>
+   * @param pSaNm reference
+   **/
+  public final void setSaNm(final String pSaNm) {
+    this.saNm = pSaNm;
+  }
+
+  /**
+   * <p>Getter for saId.</p>
+   * @return Long
+   **/
+  public final Long getSaId() {
+    return this.saId;
+  }
+
+  /**
+   * <p>Setter for saId.</p>
+   * @param pSaId reference
+   **/
+  public final void setSaId(final Long pSaId) {
+    this.saId = pSaId;
   }
 }

@@ -26,63 +26,65 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
+package org.beigesoft.acc.prc;
 
-import org.beigesoft.mdl.IOwned;
-import org.beigesoft.mdl.IIdLn;
-import org.beigesoft.mdlp.AIdLn;
-import org.beigesoft.acc.mdlp.TxDst;
-import org.beigesoft.acc.mdlp.TxCt;
+import java.util.Map;
+import java.util.HashMap;
+
+import org.beigesoft.exc.ExcCode;
+import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.rdb.IOrm;
+import org.beigesoft.prc.IPrcEnt;
+import org.beigesoft.acc.mdlp.EnrSrc;
 
 /**
- * <p>Abstract model of tax destination line of an item.</p>
+ * <p>Service that updates only entries source using in DB.</p>
  *
- * @param <T> owner (item) type
  * @author Yury Demidenko
  */
-public abstract class ATxDsLn<T extends IIdLn> extends AIdLn
-  implements IOwned<T, Long> {
+public class EnrSrcChu implements IPrcEnt<EnrSrc, Long> {
 
   /**
-   * <p>Tax destination, not null.</p>
+   * <p>ORM service.</p>
    **/
-  private TxDst txDs;
+  private IOrm orm;
 
   /**
-   * <p>Tax category, null means non-taxable.</p>
+   * <p>Process that saves entity.</p>
+   * @param pRvs request scoped vars, e.g. return this line's
+   * owner(document) in "nextEntity" for farther processing
+   * @param pRqDt Request Data
+   * @param pEnt Entity to process
+   * @return Entity processed for farther process or null
+   * @throws Exception - an exception
    **/
-  private TxCt txCt;
+  @Override
+  public final EnrSrc process(final Map<String, Object> pRvs, final EnrSrc pEnt,
+    final IReqDt pRqDt) throws Exception {
+    if (pEnt.getIsNew()) {
+      throw new ExcCode(ExcCode.SPAM, "New not allowed!");
+    }
+    Map<String, Object> vs = new HashMap<String, Object>();
+    String[] ndFds = new String[] {"used", "ver"};
+    vs.put("ndFds", ndFds);
+    getOrm().update(pRvs, vs, pEnt);
+    return pEnt;
+  }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for txDs.</p>
-   * @return TxDs
+   * <p>Getter for orm.</p>
+   * @return IOrm
    **/
-  public final TxDst getTxDs() {
-    return this.txDs;
+  public final IOrm getOrm() {
+    return this.orm;
   }
 
   /**
-   * <p>Setter for txDs.</p>
-   * @param pTxDs reference
+   * <p>Setter for orm.</p>
+   * @param pOrm reference
    **/
-  public final void setTxDs(final TxDst pTxDs) {
-    this.txDs = pTxDs;
-  }
-
-  /**
-   * <p>Getter for txCt.</p>
-   * @return TxCt
-   **/
-  public final TxCt getTxCt() {
-    return this.txCt;
-  }
-
-  /**
-   * <p>Setter for txCt.</p>
-   * @param pTxCt reference
-   **/
-  public final void setTxCt(final TxCt pTxCt) {
-    this.txCt = pTxCt;
+  public final void setOrm(final IOrm pOrm) {
+    this.orm = pOrm;
   }
 }
