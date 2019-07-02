@@ -109,9 +109,15 @@ public abstract class AInv extends ADoc {
 
   /**
    * <p>Getter for prepayment class.</p>
-   * @return PrepTo
+   * @return Prepayment class
    **/
   public abstract Class<? extends APrep> getPrepCls();
+
+  /**
+   * <p>Getter for payment class.</p>
+   * @return Payment class
+   **/
+  public abstract Class<? extends APaym<?>> getPaymCls();
 
   //Simple getters and setters:
   /**

@@ -13,6 +13,7 @@ See LICENSE in base folder
 <entry key="txFccnToSt">CnvPriStr</entry>
 <entry key="subtcnToSt">CnvPriStr</entry>
 <entry key="suFccnToSt">CnvPriStr</entry>
+<entry key="toPacnToSt">CnvPriStr</entry>
 <entry key="exRtcnToSt">CnvMaxStr</entry>
 <entry key="paybstr">dtTm</entry>
 <entry key="datstr">dtTm</entry>
@@ -26,4 +27,7 @@ See LICENSE in base folder
 <entry key="omTxinp">omTxi</entry>
 <entry key="inTxinp"></entry>
 <entry key="rvIdinp"></entry>
+<entry key="toPainp">reo</entry>
+<entry key="toPaflt">explToPa</entry>
+<entry key="toPastr">toPa</entry>
 </properties>

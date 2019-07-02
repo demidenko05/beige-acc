@@ -80,7 +80,7 @@ public class RvPuGdLn<RS> implements IRvInvLn<PurInv, PuInGdLn> {
    * e.g. for purchase goods lines it checks for withdrawals.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
-   * @param pEnt invoice, not null
+   * @param pEnt reversed invoice, not null
    * @return checked lines
    * @throws Exception - an exception
    **/
@@ -96,7 +96,7 @@ public class RvPuGdLn<RS> implements IRvInvLn<PurInv, PuInGdLn> {
     pVs.put("WrhPldpLv", 0);
     pVs.put("UomdpLv", 0);
     List<PuInGdLn> lst = this.orm.retLstCnd(pRvs, pVs, PuInGdLn.class,
-      "where RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
+      "where PUINGDLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
     for (PuInGdLn gl : lst) {
       if (gl.getQuan().compareTo(gl.getItLf()) == 1) {
         throw new ExcCode(ExcCode.WRPR, "where_is_withdraw");
@@ -112,7 +112,7 @@ public class RvPuGdLn<RS> implements IRvInvLn<PurInv, PuInGdLn> {
    * It removes line tax lines.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
-   * @param pEnt invoice, not null
+   * @param pEnt reversed invoice, not null
    * @param pRvng reversing line, not null
    * @param pRved reversed line, not null
    * @throws Exception - an exception

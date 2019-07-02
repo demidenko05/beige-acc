@@ -30,6 +30,7 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
@@ -37,18 +38,20 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.APaym;
+import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.srv.UtlBas;
 import org.beigesoft.acc.srv.ISrEntr;
+import org.beigesoft.acc.srv.ISrToPa;
 
 /**
- * <p>Service that saves prepayment into DB.</p>
+ * <p>Service that saves payment into DB.</p>
  *
  * @author Yury Demidenko
  */
-public class PrepSv implements IPrcEnt<APrep, Long> {
+public class PaymSv implements IPrcEnt<APaym<AInv>, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -66,6 +69,11 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
   private UtlBas utlBas;
 
   /**
+   * <p>Total payment service.</p>
+   **/
+  private ISrToPa srToPa;
+
+  /**
    * <p>Process that saves entity.</p>
    * @param pRvs request scoped vars, e.g. return this line's
    * owner(document) in "nextEntity" for farther processing
@@ -75,19 +83,17 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final APrep process(final Map<String, Object> pRvs, final APrep pEnt,
-    final IReqDt pRqDt) throws Exception {
+  public final APaym<AInv> process(final Map<String, Object> pRvs,
+    final APaym<AInv> pEnt, final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     if (pEnt.getRvId() != null) {
-      APrep revd = pEnt.getClass().newInstance();
+      @SuppressWarnings("unchecked")
+      APaym<AInv> revd = pEnt.getClass().newInstance();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
-      if (revd.getInvId() != null) {
-        throw new ExcCode(ExcCode.WRPR, "reverse_inv_first");
-      }
       pEnt.setDbOr(this.orm.getDbId());
-      pEnt.setDbcr(revd.getDbcr());
+      pEnt.setInv(revd.getInv());
       pEnt.setAcc(revd.getAcc());
       pEnt.setSaId(revd.getSaId());
       pEnt.setSaNm(revd.getSaNm());
@@ -113,14 +119,19 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
           pEnt.setSaNm(sa.getSaNm());
         }
       }
+      String[] ndfMe = new String[] {"mdEnr", "ver"};
+      vs.put(pEnt.getInv().getClass().getSimpleName() + "ndFds", ndfMe);
+      if (!pEnt.getInv().getMdEnr()) {
+        throw new ExcCode(ExcCode.WRPR, "invoice_must_be_accd");
+      }
+      this.orm.refrEnt(pRvs, vs, pEnt.getInv()); vs.clear();
       AcStg astg = (AcStg) pRvs.get("astg");
       pEnt.setTot(pEnt.getTot().setScale(astg.getPrDp(), astg.getRndm()));
       pEnt.setToFc(pEnt.getToFc().setScale(astg.getPrDp(), astg.getRndm()));
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
         if (!pEnt.getIsNew()) {
-          String[] fdsMe = new String[] {"mdEnr"};
-          vs.put(pEnt.getClass().getSimpleName() + "ndFds", fdsMe);
-          APrep old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
+          vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndfMe);
+          APaym<AInv> old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
           if (old.getMdEnr()) {
             throw new ExcCode(ExcCode.SPAM, "Attempt account accounted!");
           }
@@ -141,6 +152,11 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
         }
       }
     }
+    this.srToPa.mkToPa(pRvs, pEnt.getInv());
+    String[] fdsIa = new String[] {"pdsc", "toPa", "ver"};
+    Arrays.sort(fdsIa);
+    vs.put("ndFds", fdsIa);
+    this.orm.update(pRvs, vs, pEnt.getInv());
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
     return pEnt;
@@ -193,5 +209,21 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
    **/
   public final void setUtlBas(final UtlBas pUtlBas) {
     this.utlBas = pUtlBas;
+  }
+
+  /**
+   * <p>Getter for srToPa.</p>
+   * @return ISrToPa
+   **/
+  public final ISrToPa getSrToPa() {
+    return this.srToPa;
+  }
+
+  /**
+   * <p>Setter for srToPa.</p>
+   * @param pSrToPa reference
+   **/
+  public final void setSrToPa(final ISrToPa pSrToPa) {
+    this.srToPa = pSrToPa;
   }
 }

@@ -37,6 +37,7 @@ import org.beigesoft.prc.PrcEntCr;
 import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
@@ -77,6 +78,8 @@ import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.DocWhPr;
+import org.beigesoft.acc.prc.DocCpr;
+import org.beigesoft.acc.prc.PaymSv;
 import org.beigesoft.acc.prc.EnrSrcChu;
 
 /**
@@ -123,12 +126,16 @@ public class HlAcEnPr implements IHlNmClSt {
           return EntrCpr.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepCpr.class.getSimpleName();
+        } else if (IDoc.class.isAssignableFrom(pCls)) {
+          return DocCpr.class.getSimpleName();
         }
       } else if ("entRv".equals(pAct)) { //Create copy for reversing
         if (Entr.class == pCls) {
           return EntrCpr.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepCpr.class.getSimpleName();
+        } else if (IDoc.class.isAssignableFrom(pCls)) {
+          return DocCpr.class.getSimpleName();
         }
       } else if ("entEd".equals(pAct) || "entPr".equals(pAct)
         || "entCd".equals(pAct)) { //Retrieve for any action
@@ -156,8 +163,6 @@ public class HlAcEnPr implements IHlNmClSt {
             return DocWhPr.class.getSimpleName();
           }
           return DocPr.class.getSimpleName();
-        } else if (APrep.class.isAssignableFrom(pCls)) {
-          return PrcEntRt.class.getSimpleName();
         }
         return PrcEntRt.class.getSimpleName();
       } else if ("entSv".equals(pAct)) { //Save
@@ -185,6 +190,8 @@ public class HlAcEnPr implements IHlNmClSt {
           return IsacntSv.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepSv.class.getSimpleName();
+        } else if (APaym.class.isAssignableFrom(pCls)) {
+          return PaymSv.class.getSimpleName();
         }
       } else if ("entChd".equals(pAct) && Entr.class == pCls) {
         //Entr save only changed description

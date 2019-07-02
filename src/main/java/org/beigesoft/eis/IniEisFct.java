@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.HashSet;
+import java.math.BigDecimal;
 
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.mdl.IHasNm;
@@ -178,6 +179,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(InEntr.class, "deia");
     stgNm = "pic"; //picker
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgSclss().put(IDoc.class, "doc");
     hlClSt.getStgClss().put(Acnt.class, "acc");
     hlClSt.getStgClss().put(Sacnt.class, "sac");
   }
@@ -197,6 +199,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getCustClss().add(Integer.class);
     stgNm = "str"; //to string
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getCustClss().add(BigDecimal.class); //inv.payment total vs others
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
     hlFdSt.getStgSclss().put(IDoc.class, "doc");
@@ -204,6 +207,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("rvId", null);
+    hlFdSt.getStgFdNm().put("dscr", null);
     stgNm = "flt"; //filter
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);

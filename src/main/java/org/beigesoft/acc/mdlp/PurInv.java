@@ -33,6 +33,7 @@ import java.util.List;
 import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.APaym;
 
 /**
  * <p>Model of purchase invoice line.</p>
@@ -85,11 +86,20 @@ public class PurInv extends AInv {
 
   /**
    * <p>Getter for prepayment class.</p>
-   * @return PrepTo
+   * @return Prepayment class
    **/
   @Override
   public final Class<? extends APrep> getPrepCls() {
     return PrepTo.class;
+  }
+
+  /**
+   * <p>Getter for payment class.</p>
+   * @return payment class
+   **/
+  @Override
+  public final Class<? extends APaym<?>> getPaymCls() {
+    return PaymTo.class;
   }
 
   //Simple getters and setters:

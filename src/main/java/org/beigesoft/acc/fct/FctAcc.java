@@ -52,6 +52,8 @@ import org.beigesoft.acc.srv.UtInLnTxToBs;
 import org.beigesoft.acc.srv.ISrWrhEnr;
 import org.beigesoft.acc.srv.RvPuGdLn;
 import org.beigesoft.acc.srv.RvPuSrLn;
+import org.beigesoft.acc.srv.SrToPa;
+import org.beigesoft.acc.srv.ISrToPa;
 import org.beigesoft.acc.srv.SrWrhEnr;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.SrEntr;
@@ -118,6 +120,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuUtInLnTxToBs(pRvs, pFctApp);
     } else if (PURINVTXMETH.equals(pBnNm)) {
       rz = crPuPurInvTxMeth(pRvs, pFctApp);
+    } else if (ISrToPa.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrToPa(pRvs, pFctApp);
     } else if (ISrWrhEnr.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrWrhEnr(pRvs, pFctApp);
     } else if (ISrEntr.class.getSimpleName().equals(pBnNm)) {
@@ -270,6 +274,9 @@ public class FctAcc<RS> implements IFctAux<RS> {
     final FctBlc<RS> pFctApp) throws Exception {
     SrInvSv rz = new SrInvSv();
     rz.setOrm(pFctApp.lazOrm(pRvs));
+    ISrToPa srToPa = (ISrToPa) pFctApp
+      .laz(pRvs, ISrToPa.class.getSimpleName());
+    rz.setSrToPa(srToPa);
     ISrEntr srEntr = (ISrEntr) pFctApp
       .laz(pRvs, ISrEntr.class.getSimpleName());
     rz.setSrEntr(srEntr);
@@ -398,6 +405,24 @@ public class FctAcc<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, UtInLnTxToBs.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       UtInLnTxToBs.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF SrToPa.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrToPa
+   * @throws Exception - an exception
+   */
+  private SrToPa crPuSrToPa(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrToPa rz = new SrToPa();
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    pFctApp.put(pRvs, ISrToPa.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrToPa.class.getSimpleName() + " has been created");
     return rz;
   }
 

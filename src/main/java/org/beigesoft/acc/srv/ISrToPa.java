@@ -26,63 +26,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
+package org.beigesoft.acc.srv;
+
+import java.util.Map;
+
+import org.beigesoft.acc.mdlb.AInv;
 
 /**
- * <p>Document type - ACC/WRH/WRHLN/WRHBTH/ITSR/ITSRLN/ITSRBTH/
- * DRAW/DRAWLN/DRAWBTH.</p>
+ * <p>Abstraction of service that makes total payment for given
+ * purchase/sales invoice.</p>
  *
  * @author Yury Demidenko
  */
-public enum EDocTy { //TODO useless?
+public interface ISrToPa {
 
   /**
-   * <p>0 only accounting entries.</p>
+   * <p>Makes total payment for given invoice.</p>
+   * @param <T> invoice type
+   * @param pRvs Request scoped variables, not null
+   * @param pEnt invoice, not null
+   * @throws Exception - an exception
    **/
-  ACC,
-
-  /**
-   * <p>1 makes warehouse entries.</p>
-   **/
-  WRH,
-
-  /**
-   * <p>2 lines make warehouse entries.</p>
-   **/
-  WRHLN,
-
-  /**
-   * <p>3 document and lines make warehouse entries.</p>
-   **/
-  WRHBTH,
-
-  /**
-   * <p>4 it is draw item source.</p>
-   **/
-  ITSR,
-
-  /**
-   * <p>5 lines are draw item sources.</p>
-   **/
-  ITSRLN,
-
-  /**
-   * <p>6 document and lines are draw item sources.</p>
-   **/
-  ITSRBTH,
-
-  /**
-   * <p>7 makes draw item entries.</p>
-   **/
-  DRAW,
-
-  /**
-   * <p>8 lines make draw item entries.</p>
-   **/
-  DRAWLN,
-
-  /**
-   * <p>9 document and lines make draw item entries.</p>
-   **/
-  DRAWBTH;
+  <T extends AInv> void mkToPa(Map<String, Object> pRvs,
+    T pEnt) throws Exception;
 }

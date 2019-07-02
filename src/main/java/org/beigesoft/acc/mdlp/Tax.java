@@ -52,8 +52,8 @@ public class Tax extends AIdLnNm implements ISacnt {
   public final Integer cnsTy() {
     return 1008;
   }
-  //Simple getters and setters:
 
+  //Simple getters and setters:
   /**
    * <p>Getter for typ.</p>
    * @return ETxTy

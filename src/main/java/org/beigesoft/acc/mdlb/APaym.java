@@ -26,63 +26,101 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
+package org.beigesoft.acc.mdlb;
+
+import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.acc.mdlp.Acnt;
 
 /**
- * <p>Document type - ACC/WRH/WRHLN/WRHBTH/ITSR/ITSRLN/ITSRBTH/
- * DRAW/DRAWLN/DRAWBTH.</p>
+ * <p>Model of payment for an invoice.</p>
  *
+ * @param <T> invoice type
  * @author Yury Demidenko
  */
-public enum EDocTy { //TODO useless?
+public abstract class APaym<T extends AInv> extends ADoc {
 
   /**
-   * <p>0 only accounting entries.</p>
+   * <p>Account cash.</p>
    **/
-  ACC,
+  private Acnt acc;
 
   /**
-   * <p>1 makes warehouse entries.</p>
+   * <p>Sub-account cash name if exist.</p>
    **/
-  WRH,
+  private String saNm;
 
   /**
-   * <p>2 lines make warehouse entries.</p>
+   * <p>Sub-account cash ID if exist.</p>
    **/
-  WRHLN,
+  private Long saId;
 
   /**
-   * <p>3 document and lines make warehouse entries.</p>
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
    **/
-  WRHBTH,
+  @Override
+  public final EDocTy getDocTy() {
+    return EDocTy.ACC;
+  }
 
   /**
-   * <p>4 it is draw item source.</p>
+   * <p>Getter for inv.</p>
+   * @return T
    **/
-  ITSR,
+  public abstract T getInv();
 
   /**
-   * <p>5 lines are draw item sources.</p>
+   * <p>Setter for inv.</p>
+   * @param pInv reference
    **/
-  ITSRLN,
+  public abstract void setInv(final T pInv);
+
+  //Simple getters and setters:
+  /**
+   * <p>Getter for acc.</p>
+   * @return Acnt
+   **/
+  public final Acnt getAcc() {
+    return this.acc;
+  }
 
   /**
-   * <p>6 document and lines are draw item sources.</p>
+   * <p>Setter for acc.</p>
+   * @param pAcc reference
    **/
-  ITSRBTH,
+  public final void setAcc(final Acnt pAcc) {
+    this.acc = pAcc;
+  }
 
   /**
-   * <p>7 makes draw item entries.</p>
+   * <p>Getter for saNm.</p>
+   * @return String
    **/
-  DRAW,
+  public final String getSaNm() {
+    return this.saNm;
+  }
 
   /**
-   * <p>8 lines make draw item entries.</p>
+   * <p>Setter for saNm.</p>
+   * @param pSaNm reference
    **/
-  DRAWLN,
+  public final void setSaNm(final String pSaNm) {
+    this.saNm = pSaNm;
+  }
 
   /**
-   * <p>9 document and lines make draw item entries.</p>
+   * <p>Getter for saId.</p>
+   * @return Long
    **/
-  DRAWBTH;
+  public final Long getSaId() {
+    return this.saId;
+  }
+
+  /**
+   * <p>Setter for saId.</p>
+   * @param pSaId reference
+   **/
+  public final void setSaId(final Long pSaId) {
+    this.saId = pSaId;
+  }
 }

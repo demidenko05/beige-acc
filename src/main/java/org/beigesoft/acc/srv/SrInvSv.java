@@ -68,6 +68,11 @@ public class SrInvSv {
   private UtlBas utlBas;
 
   /**
+   * <p>Total payment service.</p>
+   **/
+  private ISrToPa srToPa;
+
+  /**
    * <p>Saves entity generic method.</p>
    * @param <T> invoice type
    * @param <G> invoice goods line type
@@ -91,22 +96,19 @@ public class SrInvSv {
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
-      if (revd.getToPa().compareTo(BigDecimal.ZERO) == 1) {
-        if (revd.getPrep() != null) {
-          vs.put(revd.getPrep().getClass().getSimpleName() + "ndFds",
-            new String[] {"iid", "tot"});
-          this.orm.refrEnt(pRvs, vs, revd.getPrep()); vs.clear();
-        }
-        if (revd.getPrep() == null
-          || revd.getToPa().compareTo(revd.getPrep().getTot()) == 1) {
-          throw new ExcCode(ExcCode.WRPR, "reverse_pay_first");
-        }
-        if (revd.getPrep() != null) {
-          revd.getPrep().setInvId(null);
-          vs.put("ndFds", new String[] {"invId"});
-          this.orm.update(pRvs, vs, revd.getPrep()); vs.clear();
-        }
-        pEnt.setToPa(revd.getToPa().negate());
+      if (revd.getPrep() != null) {
+        vs.put(revd.getPrep().getClass().getSimpleName() + "ndFds",
+          new String[] {"iid", "tot", "ver"});
+        this.orm.refrEnt(pRvs, vs, revd.getPrep()); vs.clear();
+      }
+      if (revd.getPrep() == null && revd.getToPa().compareTo(BigDecimal
+        .ZERO) == 1 || revd.getToPa().compareTo(revd.getPrep().getTot()) == 1) {
+        throw new ExcCode(ExcCode.WRPR, "reverse_pay_first");
+      }
+      if (revd.getPrep() != null) {
+        revd.getPrep().setInvId(null);
+        vs.put("ndFds", new String[] {"invId"});
+        this.orm.update(pRvs, vs, revd.getPrep()); vs.clear();
       }
       pEnt.setDbOr(this.orm.getDbId());
       pEnt.setDbcr(revd.getDbcr());
@@ -119,7 +121,7 @@ public class SrInvSv {
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       pRvs.put("msgSuc", "reverse_ok");
       //for purchase goods lines it also checks for withdrawals:
-      List<G> gdLns = pRvGdLn.retChkLns(pRvs, vs, pEnt);
+      List<G> gdLns = pRvGdLn.retChkLns(pRvs, vs, revd);
       for (G rvdLn : gdLns) {
         @SuppressWarnings("unchecked")
         G rvgLn = (G) rvdLn.getClass().newInstance();
@@ -144,7 +146,7 @@ public class SrInvSv {
         //It removes line tax lines:
         pRvGdLn.revLns(pRvs, vs, pEnt, rvgLn, rvdLn);
       }
-      List<S> srLns = pRvSrLn.retChkLns(pRvs, vs, pEnt);
+      List<S> srLns = pRvSrLn.retChkLns(pRvs, vs, revd);
       for (S rvdLn : srLns) {
         @SuppressWarnings("unchecked")
         S rvgLn = (S) rvdLn.getClass().newInstance();
@@ -197,11 +199,11 @@ public class SrInvSv {
           }
         }
         if (old.getPrep() != null && pEnt.getPrep() == null
-          || old.getPrep() == null && pEnt.getPrep() != null
-           || !old.getPrep().getIid().equals(pEnt.getPrep().getIid())) {
+          || !old.getPrep().getIid().equals(pEnt.getPrep().getIid())) {
           old.getPrep().setInvId(null);
           vs.put("ndFds", new String[] {"invId", "ver"});
           this.orm.update(pRvs, vs, old.getPrep()); vs.clear();
+          this.srToPa.mkToPa(pRvs, pEnt);
         }
         String[] fdDcUpd = new String[] {"cuFr", "dat", "dbcr", "dscr", "exRt",
           "inTx", "ndEnr", "omTx", "payb", "pdsc", "prep", "toPa", "ver"};
@@ -210,9 +212,9 @@ public class SrInvSv {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
-          pRvs.put("fdDcUpd", fdDcUpd);
+          pRvs.put(ISrEntr.DOCFDSUPD, fdDcUpd);
           this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.remove("fdDcUpd");
+          pRvs.remove(ISrEntr.DOCFDSUPD);
           pRvs.put("msgSuc", "account_ok");
         } else {
           vs.put("ndFds", fdDcUpd);
@@ -220,12 +222,15 @@ public class SrInvSv {
           pRvs.put("msgSuc", "update_ok");
         }
       } else {
+        if (pEnt.getPrep() != null) {
+          this.srToPa.mkToPa(pRvs, pEnt);
+        }
         this.orm.insIdLn(pRvs, vs, pEnt);
-      }
-      if (pEnt.getPrep() != null) {
-        pEnt.getPrep().setInvId(pEnt.getIid());
-        vs.put("ndFds", new String[] {"invId", "ver"});
-        this.orm.update(pRvs, vs, pEnt.getPrep()); vs.clear();
+        if (pEnt.getPrep() != null) {
+          pEnt.getPrep().setInvId(pEnt.getIid());
+          vs.put("ndFds", new String[] {"invId", "ver"});
+          this.orm.update(pRvs, vs, pEnt.getPrep()); vs.clear();
+        }
       }
     }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
@@ -280,5 +285,21 @@ public class SrInvSv {
    **/
   public final void setUtlBas(final UtlBas pUtlBas) {
     this.utlBas = pUtlBas;
+  }
+
+  /**
+   * <p>Getter for srToPa.</p>
+   * @return ISrToPa
+   **/
+  public final ISrToPa getSrToPa() {
+    return this.srToPa;
+  }
+
+  /**
+   * <p>Setter for srToPa.</p>
+   * @param pSrToPa reference
+   **/
+  public final void setSrToPa(final ISrToPa pSrToPa) {
+    this.srToPa = pSrToPa;
   }
 }

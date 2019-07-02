@@ -26,63 +26,46 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
+package org.beigesoft.acc.mdlp;
+
+import org.beigesoft.acc.mdlb.APaym;
 
 /**
- * <p>Document type - ACC/WRH/WRHLN/WRHBTH/ITSR/ITSRLN/ITSRBTH/
- * DRAW/DRAWLN/DRAWBTH.</p>
+ * <p>Model of payment to vendor document.</p>
  *
  * @author Yury Demidenko
  */
-public enum EDocTy { //TODO useless?
+public class PaymTo extends APaym<PurInv> {
 
   /**
-   * <p>0 only accounting entries.</p>
+   * <p>Invoice.</p>
    **/
-  ACC,
+  private PurInv inv;
 
   /**
-   * <p>1 makes warehouse entries.</p>
+   * <p>Constant of code type.</p>
+   * @return 5
    **/
-  WRH,
+  @Override
+  public final Integer cnsTy() {
+    return 5;
+  }
 
   /**
-   * <p>2 lines make warehouse entries.</p>
+   * <p>Getter for inv.</p>
+   * @return PurInv
    **/
-  WRHLN,
+  @Override
+  public final PurInv getInv() {
+    return this.inv;
+  }
 
   /**
-   * <p>3 document and lines make warehouse entries.</p>
+   * <p>Setter for inv.</p>
+   * @param pInv reference
    **/
-  WRHBTH,
-
-  /**
-   * <p>4 it is draw item source.</p>
-   **/
-  ITSR,
-
-  /**
-   * <p>5 lines are draw item sources.</p>
-   **/
-  ITSRLN,
-
-  /**
-   * <p>6 document and lines are draw item sources.</p>
-   **/
-  ITSRBTH,
-
-  /**
-   * <p>7 makes draw item entries.</p>
-   **/
-  DRAW,
-
-  /**
-   * <p>8 lines make draw item entries.</p>
-   **/
-  DRAWLN,
-
-  /**
-   * <p>9 document and lines make draw item entries.</p>
-   **/
-  DRAWBTH;
+  @Override
+  public final void setInv(final PurInv pInv) {
+    this.inv = pInv;
+  }
 }

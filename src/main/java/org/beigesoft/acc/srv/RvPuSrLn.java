@@ -88,7 +88,7 @@ public class RvPuSrLn<RS> implements IRvInvLn<PurInv, PuInSrLn> {
     pVs.put("TxCtdpLv", 0);
     pVs.put("UomdpLv", 0);
     List<PuInSrLn> lst = this.orm.retLstCnd(pRvs, pVs, PuInSrLn.class,
-      "where RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
+      "where PUINSRLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
     return lst;
   }
 

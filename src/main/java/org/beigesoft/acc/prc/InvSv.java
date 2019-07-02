@@ -67,8 +67,7 @@ public class InvSv<T extends AInv, G extends AInvLn<T, Itm>,
 
   /**
    * <p>Process that saves entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
    * @return Entity processed for farther process or null

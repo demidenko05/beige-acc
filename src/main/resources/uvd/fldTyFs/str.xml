@@ -9,4 +9,5 @@ See LICENSE in base folder
 <comment>Correspondence of Java types to services that explain about property. ORDER is essential, the FIRST value will be used.</comment>
 <entry key="java.lang.Integer">str</entry>
 <entry key="java.lang.Long">str</entry>
+<entry key="java.math.BigDecimal">str</entry>
 </properties>
