@@ -50,17 +50,17 @@ public class PuInSrLn extends AInvLn<PurInv, Srv> {
   private Srv itm;
 
   /**
-   * <p>Account expenses.</p>
+   * <p>Account with subaccount expenses, not null.</p>
    **/
   private Acnt acc;
 
   /**
-   * <p>Sub-account cash name if exist.</p>
+   * <p>Sub-account, not null.</p>
    **/
   private String saNm;
 
   /**
-   * <p>Sub-account cash ID if exist.</p>
+   * <p>Sub-account, not null.</p>
    **/
   private Long saId;
 

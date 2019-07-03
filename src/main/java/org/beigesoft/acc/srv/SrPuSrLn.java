@@ -119,6 +119,7 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
     pVs.put("SrvdpLv", 0);
     pVs.put("TxCtdpLv", 0);
     pVs.put("UomdpLv", 0);
+    pVs.put("AcntdpLv", 0);
     PuInSrLn rz = new PuInSrLn();
     rz.setIid(pEnt.getRvId());
     this.orm.refrEnt(pRvs, pVs, rz); pVs.clear();
@@ -131,6 +132,9 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
         + pEnt.getRvId());
     }
     pEnt.setItm(rz.getItm());
+    pEnt.setAcc(rz.getAcc());
+    pEnt.setSaId(rz.getSaId());
+    pEnt.setSaNm(rz.getSaNm());
     return rz;
   }
 

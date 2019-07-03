@@ -86,6 +86,7 @@ public class PaymSv implements IPrcEnt<APaym<AInv>, Long> {
   public final APaym<AInv> process(final Map<String, Object> pRvs,
     final APaym<AInv> pEnt, final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
+    boolean ndToPa = false;
     if (pEnt.getRvId() != null) {
       @SuppressWarnings("unchecked")
       APaym<AInv> revd = pEnt.getClass().newInstance();
@@ -99,6 +100,7 @@ public class PaymSv implements IPrcEnt<APaym<AInv>, Long> {
       pEnt.setSaNm(revd.getSaNm());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       pRvs.put("msgSuc", "reverse_ok");
+      ndToPa = true;
     } else {
       if (pEnt.getTot().compareTo(BigDecimal.ZERO) == 0) {
         throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
@@ -119,12 +121,13 @@ public class PaymSv implements IPrcEnt<APaym<AInv>, Long> {
           pEnt.setSaNm(sa.getSaNm());
         }
       }
-      String[] ndfMe = new String[] {"mdEnr", "ver"};
+      String[] ndfMe = new String[] {"mdEnr", "ver", "prep"};
+      Arrays.sort(ndfMe);
       vs.put(pEnt.getInv().getClass().getSimpleName() + "ndFds", ndfMe);
+      this.orm.refrEnt(pRvs, vs, pEnt.getInv()); vs.clear();
       if (!pEnt.getInv().getMdEnr()) {
         throw new ExcCode(ExcCode.WRPR, "invoice_must_be_accd");
       }
-      this.orm.refrEnt(pRvs, vs, pEnt.getInv()); vs.clear();
       AcStg astg = (AcStg) pRvs.get("astg");
       pEnt.setTot(pEnt.getTot().setScale(astg.getPrDp(), astg.getRndm()));
       pEnt.setToFc(pEnt.getToFc().setScale(astg.getPrDp(), astg.getRndm()));
@@ -142,6 +145,7 @@ public class PaymSv implements IPrcEnt<APaym<AInv>, Long> {
         this.srEntr.mkEntrs(pRvs, pEnt);
         pRvs.remove(ISrEntr.DOCFDSUPD);
         pRvs.put("msgSuc", "account_ok");
+        ndToPa = true;
       } else {
         if (pEnt.getIsNew()) {
           this.orm.insIdLn(pRvs, vs, pEnt);
@@ -152,11 +156,13 @@ public class PaymSv implements IPrcEnt<APaym<AInv>, Long> {
         }
       }
     }
-    this.srToPa.mkToPa(pRvs, pEnt.getInv());
-    String[] fdsIa = new String[] {"pdsc", "toPa", "ver"};
-    Arrays.sort(fdsIa);
-    vs.put("ndFds", fdsIa);
-    this.orm.update(pRvs, vs, pEnt.getInv());
+    if (ndToPa) {
+      this.srToPa.mkToPa(pRvs, pEnt.getInv());
+      String[] fdsIa = new String[] {"pdsc", "toPa", "paFc", "ver"};
+      Arrays.sort(fdsIa);
+      vs.put("ndFds", fdsIa);
+      this.orm.update(pRvs, vs, pEnt.getInv());
+    }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
     return pEnt;

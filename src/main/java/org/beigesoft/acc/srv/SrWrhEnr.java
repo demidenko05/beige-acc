@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 import java.text.DateFormat;
 import java.math.BigDecimal;
@@ -352,7 +353,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     final Map<String, Object> pVs, final IMkWsEnr pEnt,
       final DateFormat pDtFrm) throws Exception {
     WrhEnr revd = this.orm.retEntCnd(pRvs, pVs, WrhEnr.class, "SRTY="
-      + pEnt.cnsTy() + " and SRID=" + pEnt.getRvId());
+      + pEnt.cnsTy() + " and SRID=" + pEnt.getIid());
     if (revd == null) {
       throw new ExcCode(ExcCode.WR, "Can't reverse for CLS/RVID/ID/TY: "
         + pEnt.getClass() + "/" + pEnt.getRvId() + "/" + pEnt.getIid()
@@ -404,7 +405,8 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     final IMkWsEnr pSrc, final DateFormat pDtFrm) throws Exception {
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     StringBuffer sb = new StringBuffer();
-    sb.append(getI18n().getMsg("Made_at", cpf.getLngDef().getIid()));
+    sb.append(getI18n().getMsg("Made_at", cpf.getLngDef().getIid()) + " "
+      + pDtFrm.format(new Date()) + " ");
     sb.append(getI18n().getMsg("by_who", cpf.getLngDef().getIid()) + ": ");
     sb.append(getI18n().getMsg(pSrc.getClass().getSimpleName() + "sht",
       cpf.getLngDef().getIid()) + " #" + pSrc.getDbOr() + "-" + pSrc

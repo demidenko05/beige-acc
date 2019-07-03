@@ -179,6 +179,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(InEntr.class, "deia");
     stgNm = "pic"; //picker
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgSclss().put(AInv.class, "inv");
     hlClSt.getStgSclss().put(IDoc.class, "doc");
     hlClSt.getStgClss().put(Acnt.class, "acc");
     hlClSt.getStgClss().put(Sacnt.class, "sac");
@@ -202,6 +203,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getCustClss().add(BigDecimal.class); //inv.payment total vs others
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
+    hlFdSt.getStgSclss().put(AInv.class, "inv");
     hlFdSt.getStgSclss().put(IDoc.class, "doc");
     stgNm = "ord"; //order
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);

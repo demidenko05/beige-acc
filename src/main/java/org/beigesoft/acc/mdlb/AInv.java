@@ -97,6 +97,11 @@ public abstract class AInv extends ADoc {
   private BigDecimal toPa = BigDecimal.ZERO;
 
   /**
+   * <p>Total payments FC.</p>
+   **/
+  private BigDecimal paFc = BigDecimal.ZERO;
+
+  /**
    * <p>Payments description.</p>
    **/
   private String pdsc;
@@ -294,6 +299,22 @@ public abstract class AInv extends ADoc {
    **/
   public final void setToPa(final BigDecimal pToPa) {
     this.toPa = pToPa;
+  }
+
+  /**
+   * <p>Getter for paFc.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getPaFc() {
+    return this.paFc;
+  }
+
+  /**
+   * <p>Setter for paFc.</p>
+   * @param pPaFc reference
+   **/
+  public final void setPaFc(final BigDecimal pPaFc) {
+    this.paFc = pPaFc;
   }
 
   /**

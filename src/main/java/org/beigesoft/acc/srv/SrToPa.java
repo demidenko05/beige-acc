@@ -37,11 +37,13 @@ import java.text.DateFormat;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdl.CmnPrf;
+import org.beigesoft.mdlp.UsPrf;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.srv.II18n;
+import org.beigesoft.srv.INumStr;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.APaym;
-import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlp.AcStg;
 
 /**
  * <p>Service that makes total payment for given
@@ -62,6 +64,11 @@ public class SrToPa implements ISrToPa {
   private II18n i18n;
 
   /**
+   * <p>Service print number.</p>
+   **/
+  private INumStr numStr;
+
+  /**
    * <p>Makes total payment for given invoice.</p>
    * @param <T> invoice type
    * @param pRvs Request scoped variables, not null
@@ -73,29 +80,32 @@ public class SrToPa implements ISrToPa {
     final T pEnt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+    AcStg as = (AcStg) pRvs.get("astg");
+    UsPrf upf = (UsPrf) pRvs.get("upf");
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
       .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
     StringBuffer sb = new StringBuffer();
     BigDecimal toPa = BigDecimal.ZERO;
-    String[] fds =  new String[] {"iid", "dat", "dbOr", "tot"};
+    BigDecimal paFc = BigDecimal.ZERO;
+    boolean isFst = true;
+    BigDecimal to;
+    String[] fds =  new String[] {"iid", "dat", "dbOr", "tot", "toFc"};
     Arrays.sort(fds);
     vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds", fds);
-    APrep prep;
-    if (!pEnt.getIsNew()) {
-      prep = this.orm.retEntCnd(pRvs, vs, pEnt.getPrepCls(),
-      "rvId is null and mdEnr=1 and invId=" + pEnt.getIid());
-    } else {
-      prep = this.orm.retEntCnd(pRvs, vs, pEnt.getPrepCls(),
-      "rvId is null and mdEnr=1 and iid=" + pEnt.getPrep().getIid());
-    }
-    vs.clear();
-    boolean isFst = true;
-    if (prep != null) {
-      sb.append(getI18n().getMsg(prep.getClass().getSimpleName() + "sht",
-    cpf.getLngDef().getIid()) + " #" + prep.getDbOr() + "-" + prep
-  .getIid() + ", " + dtFr.format(prep.getDat()) + ", " + prep.getTot());
+    if (pEnt.getPrep() != null) {
+      this.orm.refrEnt(pRvs, vs, pEnt.getPrep()); vs.clear();
+      if (pEnt.getCuFr() == null) {
+        to = pEnt.getPrep().getTot();
+      } else {
+        to = pEnt.getPrep().getToFc();
+      }
+      sb.append(getI18n().getMsg(pEnt.getPrep().getClass().getSimpleName()
+    + "sht", cpf.getLngDef().getIid()) + " #" + pEnt.getPrep().getDbOr() + "-"
+  + pEnt.getPrep().getIid() + ", " + dtFr.format(pEnt.getPrep().getDat())
++ ", " + prn(as, cpf,  upf, to));
       isFst = false;
-      toPa = toPa.add(prep.getTot());
+      toPa = toPa.add(pEnt.getPrep().getTot());
+      paFc = paFc.add(pEnt.getPrep().getToFc());
     }
     if (!pEnt.getIsNew()) {
       vs.put(pEnt.getPaymCls().getSimpleName() + "ndFds", fds);
@@ -104,17 +114,44 @@ public class SrToPa implements ISrToPa {
       vs.clear();
       for (APaym<?> paym : payms) {
         if (isFst) {
-          sb.append("; ");
           isFst = false;
+        } else {
+          sb.append("; ");
+        }
+        if (pEnt.getCuFr() == null) {
+          to = paym.getTot();
+        } else {
+          to = paym.getToFc();
         }
         sb.append(getI18n().getMsg(paym.getClass().getSimpleName() + "sht",
-      cpf.getLngDef().getIid()) + " #" + paym.getDbOr() + "-" + paym
-    .getIid() + ", " + dtFr.format(paym.getDat()) + ", " + paym.getTot());
+      cpf.getLngDef().getIid()) + " #" + paym.getDbOr() + "-" + paym.getIid()
+    + ", " + dtFr.format(paym.getDat()) + ", " + prn(as, cpf,  upf, to));
         toPa = toPa.add(paym.getTot());
+        paFc = paFc.add(paym.getToFc());
       }
+    }
+    if (pEnt.getCuFr() == null) {
+      sb.append(" (" + as.getCurr().getNme() + ")");
+    } else {
+      sb.append(" (" + pEnt.getCuFr().getNme() + ")");
     }
     pEnt.setPdsc(sb.toString());
     pEnt.setToPa(toPa);
+    pEnt.setPaFc(paFc);
+  }
+
+  /**
+   * <p>Simple delegator to print number.</p>
+   * @param pAs ACC stg
+   * @param pCpf common prefs
+   * @param pUpf user prefs
+   * @param pVal value
+   * @return String
+   **/
+  public final String prn(final AcStg pAs, final CmnPrf pCpf, final UsPrf pUpf,
+    final BigDecimal pVal) {
+    return this.numStr.frmt(pVal.toString(), pCpf.getDcSpv(),
+      pCpf.getDcGrSpv(), pAs.getPrDp(), pUpf.getDgInGr());
   }
 
   //Simple getters and setters:
@@ -148,5 +185,21 @@ public class SrToPa implements ISrToPa {
    **/
   public final void setI18n(final II18n pI18n) {
     this.i18n = pI18n;
+  }
+
+  /**
+   * <p>Getter for numStr.</p>
+   * @return INumStr
+   **/
+  public final INumStr getNumStr() {
+    return this.numStr;
+  }
+
+  /**
+   * <p>Setter for numStr.</p>
+   * @param pNumStr reference
+   **/
+  public final void setNumStr(final INumStr pNumStr) {
+    this.numStr = pNumStr;
   }
 }

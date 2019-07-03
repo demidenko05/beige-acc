@@ -418,6 +418,7 @@ public class FctAcc<RS> implements IFctAux<RS> {
   private SrToPa crPuSrToPa(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     SrToPa rz = new SrToPa();
+    rz.setNumStr(pFctApp.lazNumStr(pRvs));
     rz.setOrm(pFctApp.lazOrm(pRvs));
     rz.setI18n(pFctApp.lazI18n(pRvs));
     pFctApp.put(pRvs, ISrToPa.class.getSimpleName(), rz);

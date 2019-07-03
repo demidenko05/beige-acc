@@ -46,3 +46,4 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (3,4,'PuInPaybDbP
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (4,4,'PuInSaTxDbPaybCr',1462867931627,0,'PURINV.IID','Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (5,4,'PuInInvCtDbPaybCr',1462867931627,1,'PURINV.IID','Debit Inventory per item category, Credit Payable per vendor for subtotal amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (6,4,'PuInExpDbPaybCr',1462867931627,1,'PURINV.IID','Debit Expenses, Credit Payable per vendor for subtotal amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (7,5,'PayToPaybDbCashCr',1462867931627,1,'PAYMTO.IID','Debit Payable per vendor, Credit Cash for payment amount.');

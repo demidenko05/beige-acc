@@ -165,10 +165,13 @@ public class SrInvSv {
         rvgLn.setTot(rvdLn.getTot().negate());
         rvgLn.setToFc(rvdLn.getToFc().negate());
         rvgLn.setTdsc(rvdLn.getTdsc());
+        //it also set service line specific fields - acc...
         pRvSrLn.revLns(pRvs, vs, pEnt, rvgLn, rvdLn);
       }
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
+      String[] prUpFds = new String[] {"invId", "ver"};
+      Arrays.sort(prUpFds);
       if (!pEnt.getIsNew()) {
         String[] ndf = new String[] {"dbcr", "iid", "inTx", "omTx",
           "prep", "tot", "mdEnr"};
@@ -198,15 +201,26 @@ public class SrInvSv {
               "can_not_cange_customer_with_another_tax_destination");
           }
         }
-        if (old.getPrep() != null && pEnt.getPrep() == null
-          || !old.getPrep().getIid().equals(pEnt.getPrep().getIid())) {
+        boolean ndUpToPa = false;
+        if (old.getPrep() != null && (pEnt.getPrep() == null
+            || !old.getPrep().getIid().equals(pEnt.getPrep().getIid()))) {
           old.getPrep().setInvId(null);
-          vs.put("ndFds", new String[] {"invId", "ver"});
+          vs.put("ndFds", prUpFds);
           this.orm.update(pRvs, vs, old.getPrep()); vs.clear();
+          ndUpToPa = true;
+        }
+        if (pEnt.getPrep() != null && (old.getPrep() == null
+          || !old.getPrep().getIid().equals(pEnt.getPrep().getIid()))) {
+          pEnt.getPrep().setInvId(pEnt.getIid());
+          vs.put("ndFds", prUpFds);
+          this.orm.update(pRvs, vs, pEnt.getPrep()); vs.clear();
+          ndUpToPa = true;
+        }
+        if (ndUpToPa) {
           this.srToPa.mkToPa(pRvs, pEnt);
         }
         String[] fdDcUpd = new String[] {"cuFr", "dat", "dbcr", "dscr", "exRt",
-          "inTx", "ndEnr", "omTx", "payb", "pdsc", "prep", "toPa", "ver"};
+        "inTx", "mdEnr", "omTx", "payb", "pdsc", "prep", "toPa", "paFc", "ver"};
         Arrays.sort(fdDcUpd);
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
@@ -228,7 +242,7 @@ public class SrInvSv {
         this.orm.insIdLn(pRvs, vs, pEnt);
         if (pEnt.getPrep() != null) {
           pEnt.getPrep().setInvId(pEnt.getIid());
-          vs.put("ndFds", new String[] {"invId", "ver"});
+          vs.put("ndFds", prUpFds);
           this.orm.update(pRvs, vs, pEnt.getPrep()); vs.clear();
         }
       }

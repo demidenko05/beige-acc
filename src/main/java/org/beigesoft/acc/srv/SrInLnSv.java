@@ -113,6 +113,7 @@ public class SrInLnSv {
       //retrieves reversed, make reversing item,
       //for purchase goods lines it also checks for withdrawals:
       L revd = pSrInItLn.retChkRv(pRvs, vs, pEnt);
+      revd.setOwnr(pEnt.getOwnr());
       pEnt.setDbOr(this.orm.getDbId());
       pEnt.setUom(revd.getUom());
       pEnt.setTxCt(revd.getTxCt());
@@ -139,6 +140,16 @@ public class SrInLnSv {
       if (!(pEnt.getPri().compareTo(BigDecimal.ZERO) == 1
         || pEnt.getPrFc().compareTo(BigDecimal.ZERO) == 1)) {
         throw new ExcCode(ExcCode.WRPR, "price_less_eq_0");
+      }
+      if (txRules != null && pEnt.getOwnr().getDbcr().getTxDs() == null) {
+        //for tax category
+        String[] fdit = new String[] {"iid", "nme", "txCt"};
+        Arrays.sort(fdit);
+        String[] fdtc = new String[] {"iid", "nme", "agRt"};
+        Arrays.sort(fdtc);
+        vs.put(pEnt.getItm().getClass().getSimpleName() + "ndFds", fdit);
+        vs.put("TxCtndFds", fdtc);
+        this.orm.refrEnt(pRvs, vs, pEnt.getItm()); vs.clear();
       }
       //prepare line, e.g. for purchase good it makes items left,
       //it may makes totals/subtotals (depends of price inclusive),

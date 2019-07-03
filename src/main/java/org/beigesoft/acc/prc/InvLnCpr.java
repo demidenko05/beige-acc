@@ -37,14 +37,14 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.AInvLn;
 
 /**
- * <p>Service that makes copy of document to copy or reverse.</p>
+ * <p>Service that makes copy of invoice line to copy or reverse.</p>
  *
  * @author Yury Demidenko
  */
-public class DocCpr implements IPrcEnt<IDoc, Long> {
+public class InvLnCpr implements IPrcEnt<AInvLn<?, ?>, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -60,8 +60,8 @@ public class DocCpr implements IPrcEnt<IDoc, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final IDoc process(final Map<String, Object> pRvs, final IDoc pEnt,
-    final IReqDt pRqDt) throws Exception {
+  public final AInvLn<?, ?> process(final Map<String, Object> pRvs,
+    final AInvLn<?, ?> pEnt, final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
       throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
@@ -69,16 +69,30 @@ public class DocCpr implements IPrcEnt<IDoc, Long> {
     Long rvId = pEnt.getRvId();
     this.orm.refrEnt(pRvs, vs, pEnt);
     if (rvId == null) {
+      pEnt.setQuan(BigDecimal.ZERO);
+      pEnt.setPri(BigDecimal.ZERO);
+      pEnt.setPrFc(BigDecimal.ZERO);
+      pEnt.setSubt(BigDecimal.ZERO);
+      pEnt.setSuFc(BigDecimal.ZERO);
+      pEnt.setToTx(BigDecimal.ZERO);
+      pEnt.setTxFc(BigDecimal.ZERO);
       pEnt.setTot(BigDecimal.ZERO);
       pEnt.setToFc(BigDecimal.ZERO);
+      pEnt.setTxCt(null);
     } else {
       pEnt.setRvId(rvId);
+      pEnt.setPri(pEnt.getTot().negate());
+      pEnt.setPrFc(pEnt.getTot().negate());
+      pEnt.setSubt(pEnt.getTot().negate());
+      pEnt.setSuFc(pEnt.getTot().negate());
+      pEnt.setToTx(pEnt.getTot().negate());
+      pEnt.setTxFc(pEnt.getTot().negate());
       pEnt.setTot(pEnt.getTot().negate());
       pEnt.setToFc(pEnt.getToFc().negate());
     }
-    pEnt.setMdEnr(false);
-    pEnt.setIid(null);
+    pEnt.setTdsc(null);
     pEnt.setDscr(null);
+    pEnt.setIid(null);
     pEnt.setIsNew(true);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);

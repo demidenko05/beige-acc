@@ -34,6 +34,7 @@ import org.beigesoft.hld.IHlNmClSt;
 import org.beigesoft.prc.PrcEnoCr;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.prc.PrcEntCr;
+import org.beigesoft.prc.PrcEnoDl;
 import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
@@ -81,6 +82,7 @@ import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.DocCpr;
 import org.beigesoft.acc.prc.PaymSv;
 import org.beigesoft.acc.prc.EnrSrcChu;
+import org.beigesoft.acc.prc.InvLnCpr;
 
 /**
  * <p>Additional holder of names of ACC entities processors.</p>
@@ -136,6 +138,8 @@ public class HlAcEnPr implements IHlNmClSt {
           return PrepCpr.class.getSimpleName();
         } else if (IDoc.class.isAssignableFrom(pCls)) {
           return DocCpr.class.getSimpleName();
+        } else if (AInvLn.class.isAssignableFrom(pCls)) {
+          return InvLnCpr.class.getSimpleName();
         }
       } else if ("entEd".equals(pAct) || "entPr".equals(pAct)
         || "entCd".equals(pAct)) { //Retrieve for any action
@@ -205,6 +209,12 @@ public class HlAcEnPr implements IHlNmClSt {
           return InEntrDl.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {
           return IsacntDl.class.getSimpleName();
+        } else if (AInvLn.class.isAssignableFrom(pCls)) {
+          return NULL;
+        } else if (ADcTxLn.class.isAssignableFrom(pCls)) {
+          return NULL;
+        } else if (IOwned.class.isAssignableFrom(pCls)) {
+          return PrcEnoDl.class.getSimpleName();
         }
       }
       //Forbidden:

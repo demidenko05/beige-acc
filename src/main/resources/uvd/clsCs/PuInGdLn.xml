@@ -7,7 +7,7 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
-<entry key="frmFds">ownr,iid,idOr,dbOr,rvId,wrhp,itm,uom,quan,pri,prFc,subt,suFc,toTx,txFc,tot,toFc,txCt,tdsc,itLf,toLf,dscr</entry>
+<entry key="frmFds">ownr,iid,idOr,dbOr,rvId,wrhp,itm,uom,quan,pri,subt,toTx,tot,prFc,suFc,txFc,toFc,txCt,tdsc,itLf,toLf,dscr</entry>
 <entry key="selDpl">PurInv,3</entry><!--PurInv.DbCr.TxDst-->
 <entry key="selFds">PurInv,iid,dbOr,ver,inTx,omTx,cuFr,dbcr,#Curr,iid,nme,#DbCr,iid,nme,txDs,#TxDst,iid,stRm,stIb,stAg,#TxCt,iid,nme,agRt</entry>
 </properties>

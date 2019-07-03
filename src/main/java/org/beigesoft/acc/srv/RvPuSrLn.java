@@ -87,6 +87,7 @@ public class RvPuSrLn<RS> implements IRvInvLn<PurInv, PuInSrLn> {
     pVs.put("ItmdpLv", 0);
     pVs.put("TxCtdpLv", 0);
     pVs.put("UomdpLv", 0);
+    pVs.put("AcntdpLv", 0);
     List<PuInSrLn> lst = this.orm.retLstCnd(pRvs, pVs, PuInSrLn.class,
       "where PUINSRLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
     return lst;
@@ -109,6 +110,9 @@ public class RvPuSrLn<RS> implements IRvInvLn<PurInv, PuInSrLn> {
     final Map<String, Object> pVs, final PurInv pEnt,
       final PuInSrLn pRvng, final PuInSrLn pRved) throws Exception {
     this.rdb.delete("PUINSRTXLN", "OWNR=" + pRved.getIid());
+    pRvng.setAcc(pRved.getAcc());
+    pRvng.setSaId(pRved.getSaId());
+    pRvng.setSaNm(pRved.getSaNm());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     StringBuffer sb = new StringBuffer();
     if (pRvng.getDscr() != null) {
