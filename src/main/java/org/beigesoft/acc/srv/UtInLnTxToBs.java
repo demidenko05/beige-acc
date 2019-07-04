@@ -629,7 +629,6 @@ public class UtInLnTxToBs<RS> {
             final IInvLnTxMeth<T, L, LTL> pInvLnTxMeth) throws Exception {
     if (pInvLnTxMeth.getNeedMkTxCat()) {
       if (pTxRules != null) {
-        pLine.setTxCt(pLine.getItm().getTxCt());
         if (pLine.getOwnr().getDbcr().getTxDs() != null) {
           //override tax method:
           pVs.put(pInvLnTxMeth.getItmCl().getSimpleName() + "dpLv", 0);
@@ -644,6 +643,15 @@ public class UtInLnTxToBs<RS> {
               break;
             }
           }
+        } else {
+          String[] fdit = new String[] {"iid", "nme", "txCt"};
+          Arrays.sort(fdit);
+          String[] fdtc = new String[] {"iid", "nme", "agRt"};
+          Arrays.sort(fdtc);
+          pVs.put(pLine.getItm().getClass().getSimpleName() + "ndFds", fdit);
+          pVs.put("TxCtndFds", fdtc);
+          this.orm.refrEnt(pRvs, pVs, pLine.getItm()); pVs.clear();
+          pLine.setTxCt(pLine.getItm().getTxCt());
         }
       } else {
         pLine.setTxCt(null);

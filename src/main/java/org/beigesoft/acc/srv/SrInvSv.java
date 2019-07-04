@@ -165,7 +165,7 @@ public class SrInvSv {
         rvgLn.setTot(rvdLn.getTot().negate());
         rvgLn.setToFc(rvdLn.getToFc().negate());
         rvgLn.setTdsc(rvdLn.getTdsc());
-        //it also set service line specific fields - acc...
+        //it also sets service line specific fields - acc...
         pRvSrLn.revLns(pRvs, vs, pEnt, rvgLn, rvdLn);
       }
     } else {
@@ -174,21 +174,42 @@ public class SrInvSv {
       Arrays.sort(prUpFds);
       if (!pEnt.getIsNew()) {
         String[] ndf = new String[] {"dbcr", "iid", "inTx", "omTx",
-          "prep", "tot", "mdEnr"};
+          "prep", "tot", "mdEnr", "exRt", "cuFr"};
         Arrays.sort(ndf);
         vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndf);
         vs.put("DbCrndFds", new String[] {"iid", "txDs"});
-        vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds",
-          new String[] {"iid"});
+        String[] fdIid = new String[] {"iid"};
+        vs.put("CurrndFds", fdIid);
+        vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds", fdIid);
         T old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
         pEnt.setMdEnr(old.getMdEnr());
         if (pEnt.getMdEnr()) {
           throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
         }
+        if (pEnt.getPrep() != null) {
+          vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds",
+            new String[] {"dbcr", "iid"});
+          vs.put("DbCrndFds", fdIid);
+          this.orm.refrEnt(pRvs, vs, pEnt.getPrep()); vs.clear();
+          if (!pEnt.getDbcr().getIid()
+            .equals(pEnt.getPrep().getDbcr().getIid())) {
+        throw new ExcCode(ExcCode.WRPR, "wrong_debtor_creditor_for_prepayment");
+          }
+        }
+        String[] fdDcUpd;
         if (old.getTot().compareTo(BigDecimal.ZERO) == 1) {
+          if (!old.getExRt().equals(pEnt.getExRt())) {
+            throw new ExcCode(ExcCode.SPAM, "Attempt to change exchange rate!");
+          }
+          if (old.getCuFr() == null && pEnt.getCuFr() != null
+            || old.getCuFr() != null && pEnt.getCuFr() == null
+              || old.getCuFr() != null && pEnt.getCuFr() != null
+                && !old.getCuFr().getIid().equals(pEnt.getCuFr().getIid())) {
+            throw new ExcCode(ExcCode.SPAM, "Attempt to change currency!");
+          }
           if (!old.getOmTx().equals(pEnt.getOmTx())
             || !old.getInTx().equals(pEnt.getInTx())) {
-            throw new ExcCode(ExcCode.WRPR, "can_not_change_tax_method");
+            throw new ExcCode(ExcCode.SPAM, "Attempt to change tax method!");
           }
           vs.put("DbCrndFds", new String[] {"iid", "txDs"});
           this.orm.refrEnt(pRvs, vs, pEnt.getDbcr()); vs.clear();
@@ -200,6 +221,16 @@ public class SrInvSv {
             throw new ExcCode(ExcCode.WRPR,
               "can_not_cange_customer_with_another_tax_destination");
           }
+          if (pEnt.getDbcr().getTxDs() == null) {
+            fdDcUpd = new String[] {"dat", "dscr", "dbcr", "mdEnr", "payb",
+              "pdsc", "prep", "toPa", "paFc", "ver"};
+          } else {
+            fdDcUpd = new String[] {"dat", "dscr", "mdEnr", "payb", "pdsc",
+              "prep", "toPa", "paFc", "ver"};
+          }
+        } else {
+          fdDcUpd = new String[] {"cuFr", "exRt", "dat", "dbcr", "dscr", "inTx",
+            "mdEnr", "omTx", "payb", "pdsc", "prep", "toPa", "paFc", "ver"};
         }
         boolean ndUpToPa = false;
         if (old.getPrep() != null && (pEnt.getPrep() == null
@@ -219,8 +250,6 @@ public class SrInvSv {
         if (ndUpToPa) {
           this.srToPa.mkToPa(pRvs, pEnt);
         }
-        String[] fdDcUpd = new String[] {"cuFr", "dat", "dbcr", "dscr", "exRt",
-        "inTx", "mdEnr", "omTx", "payb", "pdsc", "prep", "toPa", "paFc", "ver"};
         Arrays.sort(fdDcUpd);
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {

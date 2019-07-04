@@ -417,9 +417,6 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
         .getSimpleName() + "sht", cpf.getLngDef().getIid()));
       sb.append(" #" + pSrc.getDbOr() + "-" + pSrc.getOwnrId());
     }
-    if (pSrc.getDscr() != null) {
-      sb.append(", " + pSrc.getDscr());
-    }
     return sb;
   }
 

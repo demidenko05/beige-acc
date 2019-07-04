@@ -28,7 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
-import java.util.Date;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdlp.AOrId;
@@ -42,11 +41,6 @@ import org.beigesoft.acc.mdlp.Itm;
  * @author Yury Demidenko
  */
 public abstract class ADrItEnr extends AOrId {
-
-  /**
-   * <p>Date.</p>
-   **/
-  private Date dat;
 
   /**
    * <p>Reversed/reversing ID.</p>
@@ -110,17 +104,12 @@ public abstract class ADrItEnr extends AOrId {
   /**
    * <p>Cost.</p>
    **/
-  private BigDecimal cst;
+  private BigDecimal cst = BigDecimal.ZERO;
 
   /**
    * <p>Quantity.</p>
    **/
   private BigDecimal quan = BigDecimal.ZERO;
-
-  /**
-   * <p>Subtotal.</p>
-   **/
-  private BigDecimal subt = BigDecimal.ZERO;
 
   /**
    * <p>Total.</p>
@@ -133,22 +122,6 @@ public abstract class ADrItEnr extends AOrId {
   private String dscr;
 
   //Simple getters and setters:
-  /**
-   * <p>Getter for dat.</p>
-   * @return Date
-   **/
-  public final Date getDat() {
-    return this.dat;
-  }
-
-  /**
-   * <p>Setter for dat.</p>
-   * @param pDat reference
-   **/
-  public final void setDat(final Date pDat) {
-    this.dat = pDat;
-  }
-
   /**
    * <p>Getter for rvId.</p>
    * @return Long
@@ -355,22 +328,6 @@ public abstract class ADrItEnr extends AOrId {
    **/
   public final void setQuan(final BigDecimal pQuan) {
     this.quan = pQuan;
-  }
-
-  /**
-   * <p>Getter for subt.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getSubt() {
-    return this.subt;
-  }
-
-  /**
-   * <p>Setter for subt.</p>
-   * @param pSubt reference
-   **/
-  public final void setSubt(final BigDecimal pSubt) {
-    this.subt = pSubt;
   }
 
   /**

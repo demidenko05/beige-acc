@@ -30,6 +30,7 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
@@ -101,6 +102,10 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
         throw new ExcCode(ExcCode.WRPR, "account_is_null");
       }
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
+      String[] ndfAc = new String[] {"iid", "saTy"};
+      Arrays.sort(ndfAc);
+      vs.put("AcntndFds", ndfAc);
+      this.orm.refrEnt(pRvs, vs, pEnt.getAcc()); vs.clear();
       if (pEnt.getAcc().getSaTy() != null) {
         if (pEnt.getSaId() == null) {
           throw new ExcCode(ExcCode.WRPR, "select_subaccount");

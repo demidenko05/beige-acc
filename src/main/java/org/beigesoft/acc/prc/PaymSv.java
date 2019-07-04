@@ -109,6 +109,10 @@ public class PaymSv implements IPrcEnt<APaym<AInv>, Long> {
         throw new ExcCode(ExcCode.WRPR, "account_is_null");
       }
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
+      String[] ndfAc = new String[] {"iid", "saTy"};
+      Arrays.sort(ndfAc);
+      vs.put("AcntndFds", ndfAc);
+      this.orm.refrEnt(pRvs, vs, pEnt.getAcc()); vs.clear();
       if (pEnt.getAcc().getSaTy() != null) {
         if (pEnt.getSaId() == null) {
           throw new ExcCode(ExcCode.WRPR, "select_subaccount");

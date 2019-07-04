@@ -141,16 +141,6 @@ public class SrInLnSv {
         || pEnt.getPrFc().compareTo(BigDecimal.ZERO) == 1)) {
         throw new ExcCode(ExcCode.WRPR, "price_less_eq_0");
       }
-      if (txRules != null && pEnt.getOwnr().getDbcr().getTxDs() == null) {
-        //for tax category
-        String[] fdit = new String[] {"iid", "nme", "txCt"};
-        Arrays.sort(fdit);
-        String[] fdtc = new String[] {"iid", "nme", "agRt"};
-        Arrays.sort(fdtc);
-        vs.put(pEnt.getItm().getClass().getSimpleName() + "ndFds", fdit);
-        vs.put("TxCtndFds", fdtc);
-        this.orm.refrEnt(pRvs, vs, pEnt.getItm()); vs.clear();
-      }
       //prepare line, e.g. for purchase good it makes items left,
       //it may makes totals/subtotals (depends of price inclusive),
       //known cost:
