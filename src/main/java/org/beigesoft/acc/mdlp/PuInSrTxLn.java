@@ -31,7 +31,7 @@ package org.beigesoft.acc.mdlp;
 import org.beigesoft.acc.mdlb.ALnTxLn;
 
 /**
- * <p>Model of purchase invoice goods line tax line.</p>
+ * <p>Model of purchase invoice service line tax line.</p>
  *
  * @author Yury Demidenko
  */

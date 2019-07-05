@@ -38,11 +38,6 @@ import org.beigesoft.mdl.IIdLnNm;
  *
  * @author Yury Demidenko
  */
-public interface ISacnt extends IIdLnNm {
+public interface ISacnt extends IIdLnNm, ITyp {
 
-  /**
-   * <p>Constant of subaccount type, range 1000...1999.</p>
-   * @return entity type code
-   **/
-  Integer cnsTy();
 }

@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.mdlp;
 
 import org.beigesoft.mdlp.AIdLn;
-import org.beigesoft.acc.mdl.ECogsMth;
 
 /**
  * <p>Model of draw item sources SQL queries.</p>
@@ -48,11 +47,6 @@ public class DriEnrSr extends AIdLn {
    * <p>File name of SQL query, not null.</p>
    **/
   private String quFl;
-
-  /**
-   * <p>Use for method FIFO/LIFO/AVERAGE, not Null.</p>
-   **/
-  private ECogsMth mth;
 
   /**
    * <p>Is used in current method, not Null.</p>
@@ -100,22 +94,6 @@ public class DriEnrSr extends AIdLn {
    **/
   public final void setQuFl(final String pQuFl) {
     this.quFl = pQuFl;
-  }
-
-  /**
-   * <p>Getter for mth.</p>
-   * @return ECogsMth
-   **/
-  public final ECogsMth getMth() {
-    return this.mth;
-  }
-
-  /**
-   * <p>Setter for mth.</p>
-   * @param pMth reference
-   **/
-  public final void setMth(final ECogsMth pMth) {
-    this.mth = pMth;
   }
 
   /**

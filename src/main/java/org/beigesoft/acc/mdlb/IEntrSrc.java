@@ -41,13 +41,7 @@ import org.beigesoft.mdlp.IOrId;
  *
  * @author Yury Demidenko
  */
-public interface IEntrSrc extends IOrId {
-
-  /**
-   * <p>Constant making AC entries type, range 1...999.</p>
-   * @return entity type code
-   **/
-  Integer cnsTy();
+public interface IEntrSrc extends IOrId, ITyp {
 
   /**
    * <p>Getter for dat.</p>

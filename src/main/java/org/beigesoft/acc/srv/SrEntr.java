@@ -148,10 +148,10 @@ public class SrEntr<RS> implements ISrEntr {
         sb.append(qu);
       }
     }
-    String qu = sb.toString().trim() + ";";
-    if (qu.length() == 1) {
+    if (isFst) {
       throw new ExcCode(ExcCode.WRPR, "doc_entr_src_no_set");
     }
+    String qu = sb.toString().trim() + ";";
     @SuppressWarnings("unchecked")
     Set<IHnTrRlBk> hnsTrRlBk = (Set<IHnTrRlBk>) pRvs.get(IHnTrRlBk.HNSTRRLBK);
     if (hnsTrRlBk == null) {

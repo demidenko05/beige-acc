@@ -40,17 +40,6 @@ import java.math.BigDecimal;
 public interface IItmSrc extends IMkWsEnr {
 
   /**
-   * <p>There is no goods in stock.</p>
-   **/
-  int THERE_IS_NO_GOODS = 1301;
-
-  /**
-   * <p>There is withdrawals from this source!
-   * It arises when items left != quantity for non-reversed item source</p>
-   **/
-  int SOURSE_IS_IN_USE = 1303;
-
-  /**
    * <p>Getter for itLf.</p>
    * @return BigDecimal
    **/
@@ -82,4 +71,11 @@ public interface IItmSrc extends IMkWsEnr {
    * @return BigDecimal
    **/
   BigDecimal getIniTo();
+
+  /**
+   * <p>Setter for owner ID if exist.
+   * Quick and cheap solution for draw item service.</p>
+   * @param pOwnrId owner ID from SQL query
+   **/
+  void setOwnrId(Long pOwnrId);
 }

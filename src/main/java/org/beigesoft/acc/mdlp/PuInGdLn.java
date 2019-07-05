@@ -77,6 +77,12 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
   private List<PuInGdTxLn> txLns;
 
   /**
+   * <p>Owner ID if exist.
+   * Quick and cheap solution for draw item service.</p>
+   **/
+  private Long ownrId;
+
+  /**
    * <p>Constant of code type.</p>
    * @return 2000
    **/
@@ -184,16 +190,30 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
    **/
   @Override
   public final Long getOwnrId() {
-    return this.ownr.getIid();
+    if (this.ownr != null) {
+      return this.ownr.getIid();
+    } else { //quick and cheap implementation for draw item service:
+      return this.ownrId;
+    }
   }
 
   /**
-   * <p>Getter for owner type code if exist.</p>
-   * @return type code
+   * <p>Setter for owner ID if exist.
+   * Quick and cheap solution for draw item service.</p>
+   * @param pOwnrId owner ID from SQL query
+   **/
+  @Override
+  public final void setOwnrId(final Long pOwnrId) {
+    this.ownrId = pOwnrId;
+  }
+
+  /**
+   * <p>Getter for owner type.</p>
+   * @return type code 4
    **/
   @Override
   public final Integer getOwnrTy() {
-    return this.ownr.cnsTy();
+    return 4;
   }
 
   //Simple getters and setters:

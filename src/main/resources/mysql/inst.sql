@@ -49,3 +49,4 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (4,4,'PuInSaTxDbP
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (5,4,'PuInInvCtDbPaybCr',1462867931627,1,'PURINV.IID','Debit Inventory per item category, Credit Payable per vendor for subtotal amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (6,4,'PuInExpDbPaybCr',1462867931627,1,'PURINV.IID','Debit Expenses, Credit Payable per vendor for subtotal amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (7,5,'PayToPaybDbCashCr',1462867931627,1,'PAYMTO.IID','Debit Payable per vendor, Credit Cash for payment amount.');
+insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (1,2000,'puGdLn',1462867931627,1,'CogsEnr','Purchase invoice good line for FIFO/LIFO');

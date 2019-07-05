@@ -43,13 +43,7 @@ import org.beigesoft.acc.mdlp.Itm;
  *
  * @author Yury Demidenko
  */
-public interface IMkWsEnr extends IOrId {
-
-  /**
-   * <p>Constant of making WS entries, range 2000...2999.</p>
-   * @return entity type code
-   **/
-  Integer cnsTy();
+public interface IMkWsEnr extends IOrId, ITyp {
 
   /**
    * <p>Getter for rvId.</p>

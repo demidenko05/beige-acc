@@ -102,11 +102,6 @@ public abstract class ADrItEnr extends AOrId {
   private Uom uom;
 
   /**
-   * <p>Cost.</p>
-   **/
-  private BigDecimal cst = BigDecimal.ZERO;
-
-  /**
    * <p>Quantity.</p>
    **/
   private BigDecimal quan = BigDecimal.ZERO;
@@ -296,22 +291,6 @@ public abstract class ADrItEnr extends AOrId {
    **/
   public final void setUom(final Uom pUom) {
     this.uom = pUom;
-  }
-
-  /**
-   * <p>Getter for cst.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getCst() {
-    return this.cst;
-  }
-
-  /**
-   * <p>Setter for cst.</p>
-   * @param pCst reference
-   **/
-  public final void setCst(final BigDecimal pCst) {
-    this.cst = pCst;
   }
 
   /**

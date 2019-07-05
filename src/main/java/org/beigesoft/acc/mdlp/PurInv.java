@@ -36,7 +36,7 @@ import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.APaym;
 
 /**
- * <p>Model of purchase invoice line.</p>
+ * <p>Model of purchase invoice.</p>
  *
  * @author Yury Demidenko
  */
@@ -56,6 +56,11 @@ public class PurInv extends AInv {
    * <p>Goods lines.</p>
    **/
   private List<PuInGdLn> gdLns;
+
+  /**
+   * <p>Service lines.</p>
+   **/
+  private List<PuInSrLn> srLns;
 
   /**
    * <p>Constant of code type.</p>
@@ -141,5 +146,21 @@ public class PurInv extends AInv {
    **/
   public final void setGdLns(final List<PuInGdLn> pGdLns) {
     this.gdLns = pGdLns;
+  }
+
+  /**
+   * <p>Getter for srLns.</p>
+   * @return List<PuInSrLn>
+   **/
+  public final List<PuInSrLn> getSrLns() {
+    return this.srLns;
+  }
+
+  /**
+   * <p>Setter for srLns.</p>
+   * @param pSrLns reference
+   **/
+  public final void setSrLns(final List<PuInSrLn> pSrLns) {
+    this.srLns = pSrLns;
   }
 }

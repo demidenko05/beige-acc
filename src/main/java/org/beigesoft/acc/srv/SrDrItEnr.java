@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.srv;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
@@ -42,7 +43,7 @@ import java.net.URL;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.CmnPrf;
-//import org.beigesoft.mdl.IRecSet;
+import org.beigesoft.mdl.IRecSet;
 import org.beigesoft.mdl.ColVals;
 import org.beigesoft.log.ILog;
 import org.beigesoft.hld.IHlIntCls;
@@ -50,12 +51,14 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.SrvClVl;
 import org.beigesoft.srv.II18n;
+import org.beigesoft.acc.mdl.ECogsMth;
 import org.beigesoft.acc.mdlb.ADrItEnr;
 import org.beigesoft.acc.mdlb.IMkDriEnr;
 import org.beigesoft.acc.mdlb.IItmSrc;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.DriEnrSr;
+import org.beigesoft.acc.mdlp.SalInv;
 
 /**
  * <p>Service that makes, reverses, retrieves draw item entries
@@ -90,6 +93,11 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
    * <p>Column values service.</p>
    **/
   private SrvClVl srvClVl;
+
+  /**
+   * <p>Holder of item to draw sources types.</p>
+   **/
+  private IHlIntCls hlTyItSr;
 
   /**
    * <p>Holder of entries sources types.</p>
@@ -142,6 +150,71 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
         }
       }
     }
+    StringBuffer sb =
+      new StringBuffer("select SRTY, DAT, IID, OWID, ITLF, TOLF from(\n");
+    boolean isFst = true;
+    for (DriEnrSr ensr : this.entrSrcs) {
+      if (ensr.getUsed() && ensr.getEnClNm()
+        .equals(pDrer.getEnrCls().getSimpleName())) {
+        String qu = lazEntrQu(ensr.getQuFl());
+        qu = qu.replace(":DBOR", this.orm.getDbId().toString());
+        qu = qu.replace(":ITM", pDrer.getItm().getIid().toString());
+        qu = qu.replace(":UOM", pDrer.getUom().getIid().toString());
+        if (isFst) {
+          isFst = false;
+        } else {
+          sb.append("\nunion all\n");
+        }
+        sb.append(qu);
+      }
+    }
+    if (isFst) {
+      throw new ExcCode(ExcCode.WRPR, "dri_entr_src_no_set");
+    }
+    AcStg as = (AcStg) pRvs.get("astg");
+    if (as.getCogs() == ECogsMth.FIFO) {
+      sb.append("\n) as ALRC order by DAT asc;");
+    } else if (as.getCogs() == ECogsMth.LIFO) {
+      sb.append("\n) as ALRC order by DAT desc;");
+    } else {
+      throw new ExcCode(ExcCode.WRPR, "cogs_av_not_imp");
+    }
+    String qu = sb.toString();
+    IRecSet<RS> rs = null;
+    BigDecimal itq = BigDecimal.ZERO;
+    List<IItmSrc> isrs = new ArrayList<IItmSrc>();
+    try {
+      rs = getRdb().retRs(qu);
+      if (rs.first()) {
+        do {
+          Integer srTy = rs.getInt("SRTY");
+          @SuppressWarnings("unchecked")
+          IItmSrc sr = (IItmSrc) this.hlTyItSr.get(srTy).newInstance();
+          isrs.add(sr);
+          sr.setIid(rs.getLong("IID"));
+          sr.setOwnrId(rs.getLong("OWID"));
+          sr.setItLf(BigDecimal.valueOf(rs.getDouble("ITLF")));
+          sr.setToLf(BigDecimal.valueOf(rs.getDouble("TOLF")));
+          itq = itq.add(sr.getItLf());
+          if (itq.compareTo(pDrer.getQuan()) >= 0) {
+            break;
+          }
+        } while (rs.next());
+      }
+    } finally {
+      if (rs != null) {
+        rs.close();
+      }
+    }
+    if (itq.compareTo(pDrer.getQuan()) == -1) {
+      throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");
+    }
+    itq = pDrer.getQuan();
+    for (IItmSrc sr : isrs) {
+      BigDecimal quan = itq.min(sr.getItLf());
+      drawFr(pRvs, pDrer, sr, quan);
+      itq = itq.subtract(quan);
+    }
   }
 
   /**
@@ -169,31 +242,20 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
       .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
-    BigDecimal tot = pSrc.getToLf().divide(pSrc.getItLf()).multiply(pQuan)
-      .setScale(as.getCsDp(), as.getRndm());
+    BigDecimal tot;
+    if (pQuan.compareTo(pSrc.getItLf()) == 0) {
+      tot = pSrc.getToLf();
+    } else {
+      tot = pSrc.getToLf().divide(pSrc.getItLf()).multiply(pQuan)
+        .setScale(as.getCsDp(), as.getRndm());
+    }
     pSrc.setToLf(pSrc.getToLf().subtract(tot));
     pSrc.setItLf(pSrc.getItLf().subtract(pQuan));
-    T enr = pDrer.getEnrCls().newInstance();
-    enr.setDbOr(this.orm.getDbId());
-    enr.setSrTy(pSrc.cnsTy());
-    enr.setSrId(pSrc.getIid());
-    enr.setSowTy(pSrc.getOwnrTy());
-    enr.setSowId(pSrc.getOwnrId());
-    enr.setDrTy(pDrer.cnsTy());
-    enr.setDrId(pDrer.getIid());
-    enr.setDowTy(pDrer.getOwnrTy());
-    enr.setDowId(pDrer.getOwnrId());
-    enr.setItm(pDrer.getItm());
-    enr.setUom(pDrer.getUom());
-    enr.setQuan(pDrer.getQuan());
-    StringBuffer sb = mkDscr(pRvs, pDrer, dtFr);
-    enr.setDscr(sb.toString());
-    this.orm.insIdLn(pRvs, vs, enr);
     if (this.isAndr) {
       String[] ndf = new String[] {"itLf", "toLf", "ver"};
       Arrays.sort(ndf);
       vs.put("ndFds", ndf);
-      this.orm.update(pRvs, vs, pSrc);
+      this.orm.update(pRvs, vs, pSrc); vs.clear();
     } else { //use fastest locking:
       ColVals cv = new ColVals();
       this.srvClVl.put(cv, "itLf", "ITLF-" + pQuan);
@@ -208,6 +270,23 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
         throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");
       }
     }
+    T enr = pDrer.getEnrCls().newInstance();
+    enr.setDbOr(this.orm.getDbId());
+    enr.setSrTy(pSrc.cnsTy());
+    enr.setSrId(pSrc.getIid());
+    enr.setSowTy(pSrc.getOwnrTy());
+    enr.setSowId(pSrc.getOwnrId());
+    enr.setDrTy(pDrer.cnsTy());
+    enr.setDrId(pDrer.getIid());
+    enr.setDowTy(pDrer.getOwnrTy());
+    enr.setDowId(pDrer.getOwnrId());
+    enr.setItm(pDrer.getItm());
+    enr.setUom(pDrer.getUom());
+    enr.setQuan(pQuan);
+    enr.setTot(tot);
+    StringBuffer sb = mkDscr(pRvs, pDrer, dtFr);
+    enr.setDscr(sb.toString());
+    this.orm.insIdLn(pRvs, vs, enr);
   }
 
   /**
@@ -233,7 +312,14 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
   @Override
   public final <T extends ADrItEnr> List<T> retEntrs(
     final Map<String, Object> pRvs, final IDcDri<T> pDoc) throws Exception {
-    List<T> rz = null;
+    String whe;
+    if (pDoc.getClass() == SalInv.class) { //resource friendly implementation:
+      whe = "where DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid();
+    } else {
+      throw new Exception("NEI!");
+    }
+    Map<String, Object> vs = new HashMap<String, Object>();
+    List<T> rz = this.orm.retLstCnd(pRvs, vs, pDoc.getEnrCls(), whe);
     return rz;
   }
 
@@ -253,14 +339,14 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
       + pDtFrm.format(new Date()) + " ");
     sb.append(getI18n().getMsg("by_who", cpf.getLngDef().getIid()) + ": ");
     sb.append(getI18n().getMsg(pDrer.getClass().getSimpleName() + "sht",
-      cpf.getLngDef().getIid()) + " #" + pDrer.getDbOr() + "-" + pDrer
-        .getIid() + ", " + pDtFrm.format(pDrer.getDocDt()));
+  cpf.getLngDef().getIid()) + " #" + pDrer.getDbOr() + "-" + pDrer.getIid());
     if (pDrer.getOwnrId() != null) {
       sb.append(", " + getI18n().getMsg("in", cpf.getLngDef().getIid())
        + getI18n().getMsg(this.hlTyEnSr.get(pDrer.getOwnrTy())
         .getSimpleName() + "sht", cpf.getLngDef().getIid()));
       sb.append(" #" + pDrer.getDbOr() + "-" + pDrer.getOwnrId());
     }
+    sb.append(", " + pDtFrm.format(pDrer.getDocDt()));
     return sb;
   }
 
@@ -403,6 +489,22 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
    **/
   public final void setIsAndr(final boolean pIsAndr) {
     this.isAndr = pIsAndr;
+  }
+
+  /**
+   * <p>Getter for hlTyItSr.</p>
+   * @return IHlIntCls
+   **/
+  public final IHlIntCls getHlTyItSr() {
+    return this.hlTyItSr;
+  }
+
+  /**
+   * <p>Setter for hlTyItSr.</p>
+   * @param pHlTyItSr reference
+   **/
+  public final void setHlTyItSr(final IHlIntCls pHlTyItSr) {
+    this.hlTyItSr = pHlTyItSr;
   }
 
   /**

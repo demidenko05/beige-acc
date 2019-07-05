@@ -8,7 +8,7 @@
   <suppress checks="MagicNumber"
     files="BlnPdf|ItmCt|Bnka|Expn|AcStg|Itm|DbCr|SrvCt|Itm|Srv|DcrCt|SrAcStg|SrBlnc|SrBlnSht|Tax"/>
   <suppress checks="MagicNumber"
-    files="PuInGdLn|PurInv|PrepTo|UtInLnTxToBs|SrPuGdLn|SrPuSrLn|PaymTo"/>
+    files="SaInGdLn|SalInv|PuInGdLn|PurInv|PrepTo|UtInLnTxToBs|SrSaGdLn|SrSaSrLn|SrPuGdLn|SrPuSrLn|PaymTo|PaymFr"/>
   <suppress checks="MethodLength"
     files="BlnPdf|UtInLnTxToBs|SrInvSv"/>
 </suppressions>

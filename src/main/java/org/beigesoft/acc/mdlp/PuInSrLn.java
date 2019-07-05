@@ -33,7 +33,7 @@ import java.util.List;
 import org.beigesoft.acc.mdlb.AInvLn;
 
 /**
- * <p>Model of purchase invoice goods line.</p>
+ * <p>Model of purchase invoice service line.</p>
  *
  * @author Yury Demidenko
  */

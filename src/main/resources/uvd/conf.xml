@@ -56,6 +56,13 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.PuInSrLn,
   org.beigesoft.acc.mdlp.PuInTxLn,
   org.beigesoft.acc.mdlp.PaymTo,
+  org.beigesoft.acc.mdlp.SalInv,
+  org.beigesoft.acc.mdlp.SaInGdLn,
+  org.beigesoft.acc.mdlp.SaInGdTxLn,
+  org.beigesoft.acc.mdlp.SaInSrLn,
+  org.beigesoft.acc.mdlp.SaInSrTxLn,
+  org.beigesoft.acc.mdlp.SaInTxLn,
+  org.beigesoft.acc.mdlp.PaymFr,
   org.beigesoft.acc.mdlp.I18Curr,
   org.beigesoft.acc.mdlp.WrhEnr,
   org.beigesoft.acc.mdlp.I18Acc</entry>
