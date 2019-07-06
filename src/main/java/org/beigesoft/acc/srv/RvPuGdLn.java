@@ -121,7 +121,6 @@ public class RvPuGdLn<RS> implements IRvInvLn<PurInv, PuInGdLn> {
   public final void revLns(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final PurInv pEnt,
       final PuInGdLn pRvng, final PuInGdLn pRved) throws Exception {
-    this.srWrhEnr.revLoad(pRvs, pRved);
     this.rdb.delete("PUINGDTXLN", "OWNR=" + pRved.getIid());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     pRvng.setWrhp(pRved.getWrhp());
@@ -133,6 +132,7 @@ public class RvPuGdLn<RS> implements IRvInvLn<PurInv, PuInGdLn> {
     sb.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
     pRvng.setDscr(sb.toString());
     this.orm.insIdLn(pRvs, pVs, pRvng);
+    this.srWrhEnr.revLoad(pRvs, pRvng);
     sb.delete(0, sb.length());
     if (pRved.getDscr() != null) {
       sb.append(pRved.getDscr() + " !");

@@ -55,6 +55,7 @@ import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
 import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.EnrSrc;
+import org.beigesoft.acc.mdlp.DriEnrSr;
 import org.beigesoft.acc.mdlp.Curr;
 import org.beigesoft.acc.mdlp.SrvCt;
 import org.beigesoft.acc.mdlp.ItmCt;
@@ -68,6 +69,7 @@ import org.beigesoft.acc.mdlp.TxDst;
 import org.beigesoft.acc.mdlp.Expn;
 import org.beigesoft.acc.mdlp.Bnka;
 import org.beigesoft.acc.mdlp.PuInGdLn;
+import org.beigesoft.acc.mdlp.SaInGdLn;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -113,6 +115,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(Acnt.class);
     hlClSt.getNulClss().add(Sacnt.class);
     hlClSt.getNulClss().add(EnrSrc.class);
+    hlClSt.getNulClss().add(DriEnrSr.class);
     hlClSt.getNulClss().add(Curr.class);
     hlClSt.getNulClss().add(SrvCt.class);
     hlClSt.getNulClss().add(ItmCt.class);
@@ -154,6 +157,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.setNulClss(new HashSet<Class<? extends IHasId<?>>>());
     hlClSt.getNulClss().add(AcStg.class);
     hlClSt.getNulClss().add(EnrSrc.class);
+    hlClSt.getNulClss().add(DriEnrSr.class);
     stgNm = "liAc"; //list item actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgClss().put(Acnt.class, "acac");
@@ -161,7 +165,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");
     hlClSt.getStgClss().put(EnrSrc.class, "ace");
+    hlClSt.getStgClss().put(DriEnrSr.class, "ace");
     hlClSt.getStgClss().put(PuInGdLn.class, "acrv");
+    hlClSt.getStgClss().put(SaInGdLn.class, "acrv");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);

@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
+import java.util.Date;
 import java.math.BigDecimal;
 
 /**
@@ -67,7 +68,8 @@ public interface IItmSrc extends IMkWsEnr {
    * <p>Getter for initial total - it's subtotal for invoice line.
    * This is because of complex tax calculation. For invoice basis subtotal
    * of a line maybe changed (adjusted) after inserting new one
-   * in case of price inclusive of tax.</p>
+   * in case of price inclusive of tax.
+   * It's made by service or SQL query.</p>
    * @return BigDecimal
    **/
   BigDecimal getIniTo();
@@ -78,4 +80,11 @@ public interface IItmSrc extends IMkWsEnr {
    * @param pOwnrId owner ID from SQL query
    **/
   void setOwnrId(Long pOwnrId);
+
+  /**
+   * <p>Setter for owner date if exist.
+   * Quick and cheap solution for draw item service.</p>
+   * @param pDocDt owner date from SQL query
+   **/
+  void setDocDt(Date pDocDt);
 }

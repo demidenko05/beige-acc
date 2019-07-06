@@ -130,10 +130,12 @@ public class SrToPa implements ISrToPa {
         paFc = paFc.add(paym.getToFc());
       }
     }
-    if (pEnt.getCuFr() == null) {
-      sb.append(" (" + as.getCurr().getNme() + ")");
-    } else {
-      sb.append(" (" + pEnt.getCuFr().getNme() + ")");
+    if (!isFst) {
+      if (pEnt.getCuFr() == null) {
+        sb.append(" (" + as.getCurr().getNme() + ")");
+      } else {
+        sb.append(" (" + pEnt.getCuFr().getNme() + ")");
+      }
     }
     pEnt.setPdsc(sb.toString());
     pEnt.setToPa(toPa);

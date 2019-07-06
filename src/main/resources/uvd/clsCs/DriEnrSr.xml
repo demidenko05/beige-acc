@@ -7,9 +7,5 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
-<entry key="quFlinp">reo</entry>
-<entry key="srIdNminp">reo</entry>
-<entry key="srTyinp">stro</entry>
-<entry key="srTystr">ensr</entry>
-<entry key="dscrinp">reo</entry>
+<entry key="frmFds">iid,srTy,quFl,enClNm,used,dscr</entry>
 </properties>

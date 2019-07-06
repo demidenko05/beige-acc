@@ -35,14 +35,14 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlp.EnrSrc;
+import org.beigesoft.acc.mdlb.AEnrSrc;
 
 /**
  * <p>Service that updates only entries source using in DB.</p>
  *
  * @author Yury Demidenko
  */
-public class EnrSrcChu implements IPrcEnt<EnrSrc, Long> {
+public class EnrSrcChu implements IPrcEnt<AEnrSrc, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -51,16 +51,15 @@ public class EnrSrcChu implements IPrcEnt<EnrSrc, Long> {
 
   /**
    * <p>Process that saves entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
    * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
   @Override
-  public final EnrSrc process(final Map<String, Object> pRvs, final EnrSrc pEnt,
-    final IReqDt pRqDt) throws Exception {
+  public final AEnrSrc process(final Map<String, Object> pRvs,
+    final AEnrSrc pEnt, final IReqDt pRqDt) throws Exception {
     if (pEnt.getIsNew()) {
       throw new ExcCode(ExcCode.SPAM, "New not allowed!");
     }

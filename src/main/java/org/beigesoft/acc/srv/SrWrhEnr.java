@@ -172,7 +172,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
   /**
    * <p>Reverse for given loading.</p>
    * @param pRvs Request scoped variables, not null
-   * @param pEnt loader source, not null
+   * @param pEnt reversing loader source, not null
    * @throws Exception - an exception
    **/
   @Override
@@ -189,7 +189,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
   /**
    * <p>Reverse for given drawing.</p>
    * @param pRvs Request scoped variables, not null
-   * @param pEnt drawer source, not null
+   * @param pEnt reversing drawer source, not null
    * @throws Exception - an exception
    **/
   @Override
@@ -206,7 +206,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
   /**
    * <p>Reverse for given moving.</p>
    * @param pRvs Request scoped variables, not null
-   * @param pEnt move source, not null
+   * @param pEnt reversing move source, not null
    * @throws Exception - an exception
    **/
   @Override
@@ -344,7 +344,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
    * <p>Makes reversed/reversing entries for given source.</p>
    * @param pRvs Request scoped variables
    * @param pVs Invoker scoped variables
-   * @param pEnt source
+   * @param pEnt reversing
    * @param pDtFrm date format
    * @return entries reversing, reversed
    * @throws Exception - an exception
@@ -353,7 +353,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     final Map<String, Object> pVs, final IMkWsEnr pEnt,
       final DateFormat pDtFrm) throws Exception {
     WrhEnr revd = this.orm.retEntCnd(pRvs, pVs, WrhEnr.class, "SRTY="
-      + pEnt.cnsTy() + " and SRID=" + pEnt.getIid());
+      + pEnt.cnsTy() + " and SRID=" + pEnt.getRvId());
     if (revd == null) {
       throw new ExcCode(ExcCode.WR, "Can't reverse for CLS/RVID/ID/TY: "
         + pEnt.getClass() + "/" + pEnt.getRvId() + "/" + pEnt.getIid()
@@ -413,7 +413,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
         .getIid() + ", " + pDtFrm.format(pSrc.getDocDt()));
     if (pSrc.getOwnrId() != null) {
       sb.append(", " + getI18n().getMsg("in", cpf.getLngDef().getIid())
-       + getI18n().getMsg(this.hlTyEnSr.get(pSrc.getOwnrTy())
+       + " " + getI18n().getMsg(this.hlTyEnSr.get(pSrc.getOwnrTy())
         .getSimpleName() + "sht", cpf.getLngDef().getIid()));
       sb.append(" #" + pSrc.getDbOr() + "-" + pSrc.getOwnrId());
     }

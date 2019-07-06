@@ -110,6 +110,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
     Object rz = null;
     if (HndAcc.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHndAcc(pRvs, pFctApp);
+    } else if (HlTyItSr.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuHlTyItSr(pRvs, pFctApp);
     } else if (HlTyEnSr.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHlTyEnSr(pRvs, pFctApp);
     } else if (HlTySac.class.getSimpleName().equals(pBnNm)) {
@@ -166,6 +168,22 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public final void release(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     //nothing
+  }
+
+  /**
+   * <p>Creates and puts into MF HlTyItSr.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HlTyItSr
+   * @throws Exception - an exception
+   */
+  private HlTyItSr crPuHlTyItSr(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HlTyItSr rz = new HlTyItSr();
+    pFctApp.put(pRvs, HlTyItSr.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      HlTyItSr.class.getSimpleName() + " has been created");
+    return rz;
   }
 
   /**
@@ -549,8 +567,10 @@ public class FctAcc<RS> implements IFctAux<RS> {
     rz.setI18n(pFctApp.lazI18n(pRvs));
     rz.setLog(pFctApp.lazLogStd(pRvs));
     rz.setIsAndr(pFctApp.getFctDt().getIsAndr());
-    rz.setHlTyItSr(new HlTyItSr());
     rz.setSrvClVl(pFctApp.lazSrvClVl(pRvs));
+    HlTyItSr hlTyItSr = (HlTyItSr) pFctApp
+      .laz(pRvs, HlTyItSr.class.getSimpleName());
+    rz.setHlTyItSr(hlTyItSr);
     HlTyEnSr hlTyEnSr = (HlTyEnSr) pFctApp
       .laz(pRvs, HlTyEnSr.class.getSimpleName());
     rz.setHlTyEnSr(hlTyEnSr);
@@ -656,6 +676,9 @@ public class FctAcc<RS> implements IFctAux<RS> {
     ISrAcStg srAcStg = (ISrAcStg) pFctApp
       .laz(pRvs, ISrAcStg.class.getSimpleName());
     rz.setSrAcStg(srAcStg);
+    HlTyItSr hlTyItSr = (HlTyItSr) pFctApp
+      .laz(pRvs, HlTyItSr.class.getSimpleName());
+    rz.setHlTyItSr(hlTyItSr);
     HlTyEnSr hlTyEnSr = (HlTyEnSr) pFctApp
       .laz(pRvs, HlTyEnSr.class.getSimpleName());
     rz.setHlTyEnSr(hlTyEnSr);

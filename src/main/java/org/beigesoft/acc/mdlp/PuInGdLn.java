@@ -83,6 +83,12 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
   private Long ownrId;
 
   /**
+   * <p>Owner date if exist.
+   * Quick and cheap solution for draw item service.</p>
+   **/
+  private Date docDt;
+
+  /**
    * <p>Constant of code type.</p>
    * @return 2000
    **/
@@ -181,7 +187,21 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
    **/
   @Override
   public final Date getDocDt() {
-    return this.ownr.getDat();
+    if (this.ownr != null) {
+      return this.ownr.getDat();
+    } else { //quick and cheap implementation for draw item service:
+      return this.docDt;
+    }
+  }
+
+  /**
+   * <p>Setter for owner date if exist.
+   * Quick and cheap solution for draw item service.</p>
+   * @param pDocDt owner date from SQL query
+   **/
+  @Override
+  public final void setDocDt(final Date pDocDt) {
+    this.docDt = pDocDt;
   }
 
   /**

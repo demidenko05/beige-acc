@@ -39,6 +39,7 @@ import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.SaInGdLn;
 import org.beigesoft.acc.mdlp.SaInSrLn;
@@ -76,6 +77,7 @@ import org.beigesoft.acc.prc.AcStgRt;
 import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
 import org.beigesoft.acc.prc.DocPr;
+import org.beigesoft.acc.prc.DcDriPr;
 import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.PaymSv;
 import org.beigesoft.acc.prc.PrepSv;
@@ -213,6 +215,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuDocCpr(pRvs);
           } else if (PrepCpr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrepCpr(pRvs);
+          } else if (DcDriPr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuDcDriPr(pRvs);
           } else if (DocWhPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocWhPr(pRvs);
           } else if (DocPr.class.getSimpleName().equals(pPrNm)) {
@@ -490,6 +494,36 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(PrepCpr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), PrepCpr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map DcDriPr.</p>
+   * @param pRvs request scoped vars
+   * @return DcDriPr
+   * @throws Exception - an exception
+   */
+  private DcDriPr crPuDcDriPr(final Map<String, Object> pRvs) throws Exception {
+    DcDriPr rz = new DcDriPr();
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
+      .laz(pRvs, FctEnPrc.class.getSimpleName());
+    @SuppressWarnings("unchecked")
+    PrcEntRt<IDcDri<?>, Long> rtr = (PrcEntRt<IDcDri<?>, Long>) fctEnPrc
+      .lazPart(pRvs, PrcEntRt.class.getSimpleName());
+    rz.setRetrv(rtr);
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    ISrDrItEnr srDrItEnr = (ISrDrItEnr) this.fctBlc
+      .laz(pRvs, ISrDrItEnr.class.getSimpleName());
+    rz.setSrDrItEnr(srDrItEnr);
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    this.procs.put(DcDriPr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DcDriPr.class
       .getSimpleName() + " has been created.");
     return rz;
   }

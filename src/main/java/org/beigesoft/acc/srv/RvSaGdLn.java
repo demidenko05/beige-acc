@@ -119,8 +119,6 @@ public class RvSaGdLn<RS> implements IRvInvLn<SalInv, SaInGdLn> {
   public final void revLns(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final SalInv pEnt,
       final SaInGdLn pRvng, final SaInGdLn pRved) throws Exception {
-    this.srWrhEnr.revDraw(pRvs, pRved);
-    this.srDrItEnr.rvDraw(pRvs, pRved);
     this.rdb.delete("SAINGDTXLN", "OWNR=" + pRved.getIid());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     pRvng.setWhpo(pRved.getWhpo());
@@ -132,6 +130,8 @@ public class RvSaGdLn<RS> implements IRvInvLn<SalInv, SaInGdLn> {
     sb.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
     pRvng.setDscr(sb.toString());
     this.orm.insIdLn(pRvs, pVs, pRvng);
+    this.srWrhEnr.revDraw(pRvs, pRvng);
+    this.srDrItEnr.rvDraw(pRvs, pRvng);
     sb.delete(0, sb.length());
     if (pRved.getDscr() != null) {
       sb.append(pRved.getDscr() + " !");

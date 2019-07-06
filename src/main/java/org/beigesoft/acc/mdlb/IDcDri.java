@@ -29,7 +29,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.mdlb;
 
 /**
- * <p>Model of entity that makes warehouse entries and draw item entries.</p>
+ * <p>Model of entity that makes warehouse entries and draw item entries
+ * or it's draw item source.</p>
  *
  * @param <T> draw entry type
  * @author Yury Demidenko

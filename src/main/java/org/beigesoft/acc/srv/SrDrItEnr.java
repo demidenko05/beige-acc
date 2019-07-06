@@ -58,6 +58,7 @@ import org.beigesoft.acc.mdlb.IItmSrc;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.DriEnrSr;
+import org.beigesoft.acc.mdlp.PurInv;
 import org.beigesoft.acc.mdlp.SalInv;
 
 /**
@@ -151,7 +152,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
       }
     }
     StringBuffer sb =
-      new StringBuffer("select SRTY, DAT, IID, OWID, ITLF, TOLF from(\n");
+      new StringBuffer("select SRTY, DAT, IID, OWID, TOLF, ITLF from(\n");
     boolean isFst = true;
     for (DriEnrSr ensr : this.entrSrcs) {
       if (ensr.getUsed() && ensr.getEnClNm()
@@ -173,12 +174,13 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     }
     AcStg as = (AcStg) pRvs.get("astg");
     if (as.getCogs() == ECogsMth.FIFO) {
-      sb.append("\n) as ALRC order by DAT asc;");
+      sb.append("\n) as ALRC order by DAT asc");
     } else if (as.getCogs() == ECogsMth.LIFO) {
-      sb.append("\n) as ALRC order by DAT desc;");
+      sb.append("\n) as ALRC order by DAT desc");
     } else {
       throw new ExcCode(ExcCode.WRPR, "cogs_av_not_imp");
     }
+    sb.append(" limit " + pDrer.getQuan().longValue() + ";");
     String qu = sb.toString();
     IRecSet<RS> rs = null;
     BigDecimal itq = BigDecimal.ZERO;
@@ -192,7 +194,9 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
           IItmSrc sr = (IItmSrc) this.hlTyItSr.get(srTy).newInstance();
           isrs.add(sr);
           sr.setIid(rs.getLong("IID"));
+          sr.setDbOr(this.orm.getDbId());
           sr.setOwnrId(rs.getLong("OWID"));
+          sr.setDocDt(new Date(rs.getLong("DAT")));
           sr.setItLf(BigDecimal.valueOf(rs.getDouble("ITLF")));
           sr.setToLf(BigDecimal.valueOf(rs.getDouble("TOLF")));
           itq = itq.add(sr.getItLf());
@@ -218,7 +222,8 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
   }
 
   /**
-   * <p>Makes drawing entries for given drawer from given source.</p>
+   * <p>Makes drawing entries for given drawer from given source.
+   * Field "toLf" mast be already made by SQL query or invoker.</p>
    * @param <T> draw entry type
    * @param pRvs Request scoped variables
    * @param pDrer drawer document or line
@@ -234,9 +239,6 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
       throw new ExcCode(ExcCode.WR, "Src has no enough items! srCls/itLf/quan: "
         + pSrc.getClass() + "/" + pSrc.getItLf() + "/" + pQuan);
     }
-    if (pSrc.getToLf().compareTo(BigDecimal.ZERO) == 0) { //first withdrawal:
-      pSrc.setToLf(pSrc.getIniTo());
-    }
     Map<String, Object> vs = new HashMap<String, Object>();
     AcStg as = (AcStg) pRvs.get("astg");
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
@@ -246,8 +248,8 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     if (pQuan.compareTo(pSrc.getItLf()) == 0) {
       tot = pSrc.getToLf();
     } else {
-      tot = pSrc.getToLf().divide(pSrc.getItLf()).multiply(pQuan)
-        .setScale(as.getCsDp(), as.getRndm());
+      tot = pSrc.getToLf().divide(pSrc.getItLf(), as.getCsDp(), as.getRndm())
+        .multiply(pQuan).setScale(as.getCsDp(), as.getRndm());
     }
     pSrc.setToLf(pSrc.getToLf().subtract(tot));
     pSrc.setItLf(pSrc.getItLf().subtract(pQuan));
@@ -285,6 +287,17 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     enr.setQuan(pQuan);
     enr.setTot(tot);
     StringBuffer sb = mkDscr(pRvs, pDrer, dtFr);
+    sb.append(", " + getI18n().getMsg("from", cpf.getLngDef().getIid())
+       + " " + getI18n().getMsg(pSrc.getClass().getSimpleName() + "sht",
+          cpf.getLngDef().getIid()));
+    sb.append(" #" + pSrc.getDbOr() + "-" + pSrc.getIid());
+    if (pSrc.getOwnrTy() != null) {
+      sb.append(", " + getI18n().getMsg("in", cpf.getLngDef().getIid())
+         + " " + getI18n().getMsg(this.hlTyEnSr.get(pSrc.getOwnrTy())
+          .getSimpleName() + "sht", cpf.getLngDef().getIid()));
+      sb.append(" #" + pSrc.getDbOr() + "-" + pSrc.getOwnrId());
+    }
+    sb.append(", " + dtFr.format(pSrc.getDocDt()));
     enr.setDscr(sb.toString());
     this.orm.insIdLn(pRvs, vs, enr);
   }
@@ -293,12 +306,78 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
    * <p>Reverses drawing entries for given drawer.</p>
    * @param <T> draw entry type
    * @param pRvs Request scoped variables
-   * @param pDrer drawer document or line
+   * @param pDrer reversing drawer document or line
    * @throws Exception - an exception
    **/
   @Override
   public final <T extends ADrItEnr> void rvDraw(final Map<String, Object> pRvs,
     final IMkDriEnr<T> pDrer) throws Exception {
+    Map<String, Object> vs = new HashMap<String, Object>();
+    T revd = this.orm.retEntCnd(pRvs, vs, pDrer.getEnrCls(), "DRTY="
+      + pDrer.cnsTy() + " and DRID=" + pDrer.getRvId());
+    if (revd == null) {
+      throw new ExcCode(ExcCode.WR, "Can't reverse for CLS/RVID/ID/TY: "
+        + pDrer.getClass() + "/" + pDrer.getRvId() + "/" + pDrer.getIid()
+          + "/" + pDrer.cnsTy());
+    }
+    if (revd.getRvId() != null) {
+      throw new ExcCode(ExcCode.WR, "Reverse reversed for CLS/RVID/ID/TY: "
+        + pDrer.getClass() + "/" + pDrer.getRvId() + "/" + pDrer.getIid()
+          + "/" + pDrer.cnsTy());
+    }
+    T revg = pDrer.getEnrCls().newInstance();
+    revg.setDbOr(this.orm.getDbId());
+    revg.setDrTy(pDrer.cnsTy());
+    revg.setDrId(pDrer.getIid());
+    revg.setDowTy(pDrer.getOwnrTy());
+    revg.setDowId(pDrer.getOwnrId());
+    revg.setSrTy(revd.getSrTy());
+    revg.setSrId(revd.getSrId());
+    revg.setSowTy(revd.getSowTy());
+    revg.setSowId(revd.getSowId());
+    revg.setRvId(revd.getIid());
+    revg.setItm(revd.getItm());
+    revg.setUom(revd.getUom());
+    revg.setQuan(revd.getQuan().negate());
+    revg.setTot(revd.getTot().negate());
+    CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+    DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
+      .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
+    StringBuffer sb = mkDscr(pRvs, pDrer, dtFr);
+    sb.append(" ," + getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
+    sb.append(" #" + revd.getDbOr() + "-" + revd.getIid());
+    revg.setDscr(sb.toString() + "!");
+    this.orm.insIdLn(pRvs, vs, revg);
+    revd.setRvId(revg.getIid());
+    revd.setDscr(revd.getDscr() + ", !" + getI18n()
+      .getMsg("reversing", cpf.getLngDef().getIid()) + " #" + revg.getDbOr()
+        + "-" + revg.getIid() + "!");
+    String[] ndFds = new String[] {"dscr", "rvId", "ver"};
+    Arrays.sort(ndFds);
+    vs.put("ndFds", ndFds);
+    this.orm.update(pRvs, vs, revd); vs.clear();
+    @SuppressWarnings("unchecked")
+    IItmSrc sr = (IItmSrc) this.hlTyItSr.get(revd.getSrTy()).newInstance();
+    sr.setIid(revd.getSrId());
+    if (this.isAndr) {
+      String[] ndf = new String[] {"itLf", "toLf", "ver"};
+      Arrays.sort(ndf);
+      vs.put(sr.getClass().getSimpleName() + "ndFds", ndf);
+      this.orm.refrEnt(pRvs, vs, sr); vs.clear();
+      sr.setItLf(sr.getItLf().add(revd.getQuan()));
+      sr.setToLf(sr.getToLf().add(revd.getTot()));
+      vs.put("ndFds", ndf);
+      this.orm.update(pRvs, vs, sr); vs.clear();
+    } else { //use fastest locking:
+      ColVals cv = new ColVals();
+      this.srvClVl.put(cv, "itLf", "ITLF+" + revd.getQuan());
+      this.srvClVl.put(cv, "toLf", "TOLF+" + revd.getTot());
+      this.srvClVl.putExpr(cv, "itLf");
+      this.srvClVl.putExpr(cv, "toLf");
+      this.srvClVl.put(cv, "ver", "VER+1");
+      this.srvClVl.putExpr(cv, "ver");
+      this.rdb.update(sr.getClass(), cv, "IID=" + sr.getIid());
+    }
   }
 
   /**
@@ -315,6 +394,8 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     String whe;
     if (pDoc.getClass() == SalInv.class) { //resource friendly implementation:
       whe = "where DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid();
+    } else if (pDoc.getClass() == PurInv.class) {
+      whe = "where SOWTY=" + pDoc.cnsTy() + " and SOWID=" + pDoc.getIid();
     } else {
       throw new Exception("NEI!");
     }
@@ -342,7 +423,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
   cpf.getLngDef().getIid()) + " #" + pDrer.getDbOr() + "-" + pDrer.getIid());
     if (pDrer.getOwnrId() != null) {
       sb.append(", " + getI18n().getMsg("in", cpf.getLngDef().getIid())
-       + getI18n().getMsg(this.hlTyEnSr.get(pDrer.getOwnrTy())
+       + " " + getI18n().getMsg(this.hlTyEnSr.get(pDrer.getOwnrTy())
         .getSimpleName() + "sht", cpf.getLngDef().getIid()));
       sb.append(" #" + pDrer.getDbOr() + "-" + pDrer.getOwnrId());
     }

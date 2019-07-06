@@ -38,18 +38,19 @@ import org.beigesoft.prc.PrcEnoDl;
 import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
 import org.beigesoft.acc.mdlb.ADcTxLn;
+import org.beigesoft.acc.mdlb.AEnrSrc;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.Acnt;
 import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.TxCtLn;
-import org.beigesoft.acc.mdlp.EnrSrc;
 import org.beigesoft.acc.mdlp.Blnc;
 import org.beigesoft.acc.mdlp.BlnCh;
 import org.beigesoft.acc.mdlp.SalInv;
@@ -81,6 +82,7 @@ import org.beigesoft.acc.prc.TxCtLnDl;
 import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.prc.DocPr;
+import org.beigesoft.acc.prc.DcDriPr;
 import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.DocCpr;
 import org.beigesoft.acc.prc.PaymSv;
@@ -109,9 +111,9 @@ public class HlAcEnPr implements IHlNmClSt {
       return NULL;
     }
     if (Entr.class == pCls || Acnt.class == pCls || Sacnt.class == pCls
-    || AcStg.class == pCls || TxCtLn.class == pCls || EnrSrc.class == pCls
-  || ISacnt.class.isAssignableFrom(pCls) || AInvLn.class.isAssignableFrom(pCls)
-|| IEntrSrc.class.isAssignableFrom(pCls)
+    || AcStg.class == pCls || TxCtLn.class == pCls || AEnrSrc.class
+  .isAssignableFrom(pCls) || ISacnt.class.isAssignableFrom(pCls) || AInvLn.class
+.isAssignableFrom(pCls) || IEntrSrc.class.isAssignableFrom(pCls)
   || ADcTxLn.class.isAssignableFrom(pCls)) {
       if ("entCr".equals(pAct)) { //Create
         if (Entr.class == pCls) {
@@ -148,13 +150,6 @@ public class HlAcEnPr implements IHlNmClSt {
         || "entCd".equals(pAct)) { //Retrieve for any action
         if (InEntr.class == pCls) {
           return InEntrRt.class.getSimpleName();
-        } else if (TxCtLn.class == pCls) {
-          return PrcEntRt.class.getSimpleName();
-        } else if (TxCtLn.class == pCls || EnrSrc.class == pCls) {
-          if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
-            return PrcEntRt.class.getSimpleName();
-          }
-          return NULL;
         } else if (Entr.class == pCls) {
           if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
             return EntrRt.class.getSimpleName();
@@ -165,11 +160,18 @@ public class HlAcEnPr implements IHlNmClSt {
             return AcStgRt.class.getSimpleName();
           }
           return NULL;
+       } else if ("entPr".equals(pAct) && IDcDri.class.isAssignableFrom(pCls)) {
+          return DcDriPr.class.getSimpleName();
         } else if ("entPr".equals(pAct) && IDoc.class.isAssignableFrom(pCls)) {
           if (AInv.class.isAssignableFrom(pCls)) {
             return DocWhPr.class.getSimpleName();
           }
           return DocPr.class.getSimpleName();
+        } else if (AEnrSrc.class.isAssignableFrom(pCls)) {
+          if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
+            return PrcEntRt.class.getSimpleName();
+          }
+          return NULL;
         }
         return PrcEntRt.class.getSimpleName();
       } else if ("entSv".equals(pAct)) { //Save
@@ -191,14 +193,14 @@ public class HlAcEnPr implements IHlNmClSt {
           return AcStgSv.class.getSimpleName();
         } else if (TxCtLn.class == pCls) {
           return TxCtLnSv.class.getSimpleName();
-        } else if (EnrSrc.class == pCls) {
-          return EnrSrcChu.class.getSimpleName();
         } else if (Entr.class == pCls) {
           return EntrSv.class.getSimpleName();
         } else if (InEntr.class == pCls) {
           return InEntrSv.class.getSimpleName();
         } else if (Sacnt.class == pCls) {
           return SacntSv.class.getSimpleName();
+        } else if (AEnrSrc.class.isAssignableFrom(pCls)) {
+          return EnrSrcChu.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {
           return IsacntSv.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {

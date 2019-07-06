@@ -34,13 +34,14 @@ import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.APaym;
+import org.beigesoft.acc.mdlb.IDcDri;
 
 /**
  * <p>Model of purchase invoice.</p>
  *
  * @author Yury Demidenko
  */
-public class PurInv extends AInv {
+public class PurInv extends AInv implements IDcDri<CogsEnr> {
 
   /**
    * <p>Prepayments.</p>
@@ -105,6 +106,15 @@ public class PurInv extends AInv {
   @Override
   public final Class<? extends APaym<?>> getPaymCls() {
     return PaymTo.class;
+  }
+
+  /**
+   * <p>Getter for draw item entry class.</p>
+   * @return draw item entry class
+   **/
+  @Override
+  public final Class<CogsEnr> getEnrCls() {
+    return CogsEnr.class;
   }
 
   //Simple getters and setters:
