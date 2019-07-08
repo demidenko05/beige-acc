@@ -151,6 +151,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(Acnt.class, "lfac");
     hlClSt.getStgClss().put(Entr.class, "lfna");
     hlClSt.getStgClss().put(InEntr.class, "lfia");
+    hlClSt.getStgClss().put(PuInGdLn.class, "pglf");
     hlClSt.getStgSclss().remove(IOwned.class);
     hlClSt.getStgSclss().put(ADcTxLn.class, null);
     hlClSt.getStgSclss().put(IOwned.class, "olf");
@@ -216,10 +217,15 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("rvId", null);
     hlFdSt.getStgFdNm().put("dscr", null);
+    hlFdSt.getStgFdNm().put("cuFr", null);
+    hlFdSt.getStgFdNm().put("omTx", null);
+    hlFdSt.getStgFdNm().put("inTx", null);
+    hlFdSt.getStgFdNm().put("payb", null);
+    hlFdSt.getStgFdNm().put("knCs", "ord");
+    hlFdSt.getStgFdNm().put("tot", "ord");
     stgNm = "flt"; //filter
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
-    hlFdSt.getStgFdNm().put("rvId", null);
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);

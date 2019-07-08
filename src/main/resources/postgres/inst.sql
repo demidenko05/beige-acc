@@ -56,5 +56,6 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (9,6,'SaInRecvDbS
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (10,6,'SaInPrepFrDbRecvCr',1462867931627,1,'SALINV.IID','Debit Prepayments from per customer, Credit Receivable per customer for min(prepayment,sales) amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (11,6,'SaInRecvDbSaTxCr',1462867931627,1,'SALINV.IID','Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (12,6,'SaInCogsDbInvCrItc',1462867931627,1,'SALINV.IID','Debit COGS per good category, Credit Inventory per good category for total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (13,7,'PayFrCashDbRecvCr',1462867931627,1,'PAYMFR.IID','Debit Cash, Credit Receivable per customer for total amount.');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (1,2000,'puGdLn',1462867931627,1,'CogsEnr','Purchase invoice good line for FIFO/LIFO');
 

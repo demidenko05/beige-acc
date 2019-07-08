@@ -1,5 +1,5 @@
 create trigger WrhItmitLfgteq0 before update on WRHITM for each row begin if NEW.ITLF<0 then signal sqlstate '45000' set MESSAGE_TEXT = 'items left < 0!'; end if; end;
-create trigger PuInGdLnitLfgteq0quanprigt0 before update on PUINGDLN for each row begin if NEW.ITLF<0 or NEW.QUAN<=0 or NEW.PRI<=0 then signal sqlstate '45000' set MESSAGE_TEXT = 'items left , quantity or price < 0!'; end if; end;
+create trigger PuInGdLnitLfgteq0quanprigt0 before update on PUINGDLN for each row begin if NEW.ITLF<0 or NEW.PRI<=0 then signal sqlstate '45000' set MESSAGE_TEXT = 'items left or price < 0!'; end if; end;
 insert into LNG (IID,NME,VER) values ('ru','Русский',1462867931627);
 insert into LNG (IID,NME,VER) values ('en','English',1462867931627);
 insert into CNTR (IID,NME,VER) values ('US','USA',1462867931627);
@@ -58,4 +58,5 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (9,6,'SaInRecvDbS
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (10,6,'SaInPrepFrDbRecvCr',1462867931627,1,'SALINV.IID','Debit Prepayments from per customer, Credit Receivable per customer for min(prepayment,sales) amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (11,6,'SaInRecvDbSaTxCr',1462867931627,1,'SALINV.IID','Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (12,6,'SaInCogsDbInvCrItc',1462867931627,1,'SALINV.IID','Debit COGS per good category, Credit Inventory per good category for total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (13,7,'PayFrCashDbRecvCr',1462867931627,1,'PAYMFR.IID','Debit Cash, Credit Receivable per customer for total amount.');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (1,2000,'puGdLn',1462867931627,1,'CogsEnr','Purchase invoice good line for FIFO/LIFO');

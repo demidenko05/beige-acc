@@ -38,6 +38,7 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.rep.PrBlShTr;
 import org.beigesoft.acc.rep.PrcBln;
 import org.beigesoft.acc.rep.PrLdgr;
+import org.beigesoft.acc.rep.PrWrhItm;
 import org.beigesoft.acc.rep.PrChrAc;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.prc.RvTxCt;
@@ -78,6 +79,8 @@ public class FcPrNtAc<RS> implements IFctPrc {
         rz = this.procs.get(pPrNm);
         if (rz == null && PrBlShTr.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrBlShTr(pRvs);
+        } else if (rz == null && PrWrhItm.class.getSimpleName().equals(pPrNm)) {
+          rz = crPuPrWrhItm(pRvs);
         } else if (rz == null && PrChrAc.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrChrAc(pRvs);
         } else if (rz == null && RvTxCt.class.getSimpleName().equals(pPrNm)) {
@@ -89,6 +92,26 @@ public class FcPrNtAc<RS> implements IFctPrc {
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF PrWrhItm.</p>
+   * @param pRvs request scoped vars
+   * @return PrWrhItm
+   * @throws Exception - an exception
+   */
+  private PrWrhItm<RS> crPuPrWrhItm(
+    final Map<String, Object> pRvs) throws Exception {
+    PrWrhItm<RS> rz = new PrWrhItm<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(this.fctApp.getFctBlc().lazOrm(pRvs));
+    rz.setTrIsl(this.fctApp.getFctBlc().getFctDt().getReadTi());
+    this.procs.put(PrWrhItm.class.getSimpleName(), rz);
+    this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
+      PrWrhItm.class.getSimpleName() + " has been created");
     return rz;
   }
 

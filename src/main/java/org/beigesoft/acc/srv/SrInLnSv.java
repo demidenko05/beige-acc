@@ -141,6 +141,11 @@ public class SrInLnSv {
         || pEnt.getPrFc().compareTo(BigDecimal.ZERO) == 1)) {
         throw new ExcCode(ExcCode.WRPR, "price_less_eq_0");
       }
+      if (pEnt.getIsNew()) {
+        pRvs.put("msgSuc", "insert_ok");
+      } else {
+        pRvs.put("msgSuc", "update_ok");
+      }
       //prepare line, e.g. for purchase good it makes items left,
       //it may makes totals/subtotals (depends of price inclusive),
       //known cost:

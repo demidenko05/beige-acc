@@ -26,23 +26,31 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.prc;
+package org.beigesoft.acc.rep;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
-import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
-import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlb.AEnrSrc;
+import org.beigesoft.prc.IPrc;
+import org.beigesoft.acc.mdlp.WrhItm;
 
 /**
- * <p>Service that updates only entries source using in DB.</p>
+ * <p>Transactional service that retrieves items in warehouse and
+ * puts it into request vars.</p>
  *
  * @author Yury Demidenko
+ * @param <RS> platform dependent record set type
  */
-public class EnrSrcChu implements IPrcEnt<AEnrSrc, Long> {
+public class PrWrhItm<RS> implements IPrc {
+
+  /**
+   * <p>RDB service.</p>
+   **/
+  private IRdb<RS> rdb;
 
   /**
    * <p>ORM service.</p>
@@ -50,28 +58,73 @@ public class EnrSrcChu implements IPrcEnt<AEnrSrc, Long> {
   private IOrm orm;
 
   /**
-   * <p>Process that saves entity.</p>
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
+  /**
+   * <p>Process request.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
-   * @param pEnt Entity to process
-   * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
   @Override
-  public final AEnrSrc process(final Map<String, Object> pRvs,
-    final AEnrSrc pEnt, final IReqDt pRqDt) throws Exception {
-    if (pEnt.getIsNew()) {
-      throw new ExcCode(ExcCode.SPAM, "New not allowed!");
+  public final void process(final Map<String, Object> pRvs,
+    final IReqDt pRqDt) throws Exception {
+    try {
+      this.rdb.setAcmt(false);
+      this.rdb.setTrIsl(this.trIsl);
+      this.rdb.begin();
+      Map<String, Object> vs = new HashMap<String, Object>();
+      vs.put("WrhdpLv", 1);
+      List<WrhItm> wrhItms = this.orm.retLstCnd(pRvs, vs, WrhItm.class,
+        "order by WRH22.NME, WRHP10.NME, ITM11.NME");
+      pRvs.put("wrhItms", wrhItms);
+      pRqDt.setAttr("rnd", "wrhit");
+      this.rdb.commit();
+    } catch (Exception ex) {
+      if (!this.rdb.getAcmt()) {
+        this.rdb.rollBack();
+      }
+      throw ex;
+    } finally {
+      this.rdb.release();
     }
-    Map<String, Object> vs = new HashMap<String, Object>();
-    String[] ndFds = new String[] {"used", "ver"};
-    vs.put("ndFds", ndFds);
-    getOrm().update(pRvs, vs, pEnt);
-    pRvs.put("msgSuc", "update_ok");
-    return pEnt;
   }
 
   //Simple getters and setters:
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
+  }
+
   /**
    * <p>Getter for orm.</p>
    * @return IOrm

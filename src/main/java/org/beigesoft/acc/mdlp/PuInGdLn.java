@@ -76,6 +76,7 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
    **/
   private List<PuInGdTxLn> txLns;
 
+  //non-persistable fields:
   /**
    * <p>Owner ID if exist.
    * Quick and cheap solution for draw item service.</p>

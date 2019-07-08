@@ -127,6 +127,7 @@ public class SrInvSv {
         G rvgLn = (G) rvdLn.getClass().newInstance();
         rvgLn.setOwnr(pEnt);
         rvgLn.setDbOr(this.orm.getDbId());
+        rvgLn.setRvId(rvdLn.getIid());
         rvgLn.setItm(rvdLn.getItm());
         rvgLn.setUom(rvdLn.getUom());
         rvgLn.setTxCt(rvdLn.getTxCt());
@@ -152,6 +153,7 @@ public class SrInvSv {
         S rvgLn = (S) rvdLn.getClass().newInstance();
         rvgLn.setOwnr(pEnt);
         rvgLn.setDbOr(this.orm.getDbId());
+        rvgLn.setRvId(rvdLn.getIid());
         rvgLn.setItm(rvdLn.getItm());
         rvgLn.setUom(rvdLn.getUom());
         rvgLn.setTxCt(rvdLn.getTxCt());
