@@ -39,7 +39,7 @@ import org.beigesoft.acc.mdlp.DbCr;
  *
  * @author Yury Demidenko
  */
-public abstract class AInv extends ADoc {
+public abstract class AInv extends ADoc implements IInv {
 
   /**
    * <p>Debtor/creditor.</p>
@@ -107,28 +107,10 @@ public abstract class AInv extends ADoc {
   private String pdsc;
 
   /**
-   * <p>Getter for prep.</p>
-   * @return PrepTo
-   **/
-  public abstract APrep getPrep();
-
-  /**
-   * <p>Getter for prepayment class.</p>
-   * @return Prepayment class
-   **/
-  public abstract Class<? extends APrep> getPrepCls();
-
-  /**
-   * <p>Getter for payment class.</p>
-   * @return Payment class
-   **/
-  public abstract Class<? extends APaym<?>> getPaymCls();
-
-  //Simple getters and setters:
-  /**
    * <p>Getter for dbcr.</p>
    * @return DbCr
    **/
+  @Override
   public final DbCr getDbcr() {
     return this.dbcr;
   }
@@ -137,6 +119,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for dbcr.</p>
    * @param pDbcr reference
    **/
+  @Override
   public final void setDbcr(final DbCr pDbcr) {
     this.dbcr = pDbcr;
   }
@@ -145,6 +128,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for cuFr.</p>
    * @return Curr
    **/
+  @Override
   public final Curr getCuFr() {
     return this.cuFr;
   }
@@ -153,6 +137,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for cuFr.</p>
    * @param pCuFr reference
    **/
+  @Override
   public final void setCuFr(final Curr pCuFr) {
     this.cuFr = pCuFr;
   }
@@ -161,6 +146,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for exRt.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getExRt() {
     return this.exRt;
   }
@@ -169,6 +155,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for exRt.</p>
    * @param pExRt reference
    **/
+  @Override
   public final void setExRt(final BigDecimal pExRt) {
     this.exRt = pExRt;
   }
@@ -177,6 +164,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for subt.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getSubt() {
     return this.subt;
   }
@@ -185,6 +173,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for subt.</p>
    * @param pSubt reference
    **/
+  @Override
   public final void setSubt(final BigDecimal pSubt) {
     this.subt = pSubt;
   }
@@ -193,6 +182,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for suFc.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getSuFc() {
     return this.suFc;
   }
@@ -201,6 +191,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for suFc.</p>
    * @param pSuFc reference
    **/
+  @Override
   public final void setSuFc(final BigDecimal pSuFc) {
     this.suFc = pSuFc;
   }
@@ -209,6 +200,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for toTx.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getToTx() {
     return this.toTx;
   }
@@ -217,6 +209,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for toTx.</p>
    * @param pToTx reference
    **/
+  @Override
   public final void setToTx(final BigDecimal pToTx) {
     this.toTx = pToTx;
   }
@@ -225,6 +218,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for txFc.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getTxFc() {
     return this.txFc;
   }
@@ -233,6 +227,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for txFc.</p>
    * @param pTxFc reference
    **/
+  @Override
   public final void setTxFc(final BigDecimal pTxFc) {
     this.txFc = pTxFc;
   }
@@ -241,6 +236,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for inTx.</p>
    * @return Boolean
    **/
+  @Override
   public final Boolean getInTx() {
     return this.inTx;
   }
@@ -249,6 +245,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for inTx.</p>
    * @param pInTx reference
    **/
+  @Override
   public final void setInTx(final Boolean pInTx) {
     this.inTx = pInTx;
   }
@@ -257,6 +254,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for omTx.</p>
    * @return Boolean
    **/
+  @Override
   public final Boolean getOmTx() {
     return this.omTx;
   }
@@ -265,6 +263,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for omTx.</p>
    * @param pOmTx reference
    **/
+  @Override
   public final void setOmTx(final Boolean pOmTx) {
     this.omTx = pOmTx;
   }
@@ -273,6 +272,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for payb.</p>
    * @return Date
    **/
+  @Override
   public final Date getPayb() {
     return this.payb;
   }
@@ -281,6 +281,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for payb.</p>
    * @param pPayb reference
    **/
+  @Override
   public final void setPayb(final Date pPayb) {
     this.payb = pPayb;
   }
@@ -289,6 +290,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for toPa.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getToPa() {
     return this.toPa;
   }
@@ -297,6 +299,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for toPa.</p>
    * @param pToPa reference
    **/
+  @Override
   public final void setToPa(final BigDecimal pToPa) {
     this.toPa = pToPa;
   }
@@ -305,6 +308,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for paFc.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getPaFc() {
     return this.paFc;
   }
@@ -313,6 +317,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for paFc.</p>
    * @param pPaFc reference
    **/
+  @Override
   public final void setPaFc(final BigDecimal pPaFc) {
     this.paFc = pPaFc;
   }
@@ -321,6 +326,7 @@ public abstract class AInv extends ADoc {
    * <p>Getter for pdsc.</p>
    * @return String
    **/
+  @Override
   public final String getPdsc() {
     return this.pdsc;
   }
@@ -329,6 +335,7 @@ public abstract class AInv extends ADoc {
    * <p>Setter for pdsc.</p>
    * @param pPdsc reference
    **/
+  @Override
   public final void setPdsc(final String pPdsc) {
     this.pdsc = pPdsc;
   }

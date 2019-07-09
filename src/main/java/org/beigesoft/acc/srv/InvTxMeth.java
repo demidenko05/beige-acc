@@ -34,8 +34,8 @@ import java.net.URL;
 
 import org.beigesoft.fct.IFctRq;
 import org.beigesoft.acc.mdlb.AInTxLn;
-import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Srv;
 
@@ -47,7 +47,7 @@ import org.beigesoft.acc.mdlp.Srv;
  * @param <TL> invoice tax line type
  * @author Yury Demidenko
  */
-public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
+public class InvTxMeth<T extends IInv, TL extends AInTxLn<T>>
   implements IInvTxMeth<T, TL> {
 
   /**
@@ -136,12 +136,12 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
   /**
    * <p>Good line class.</p>
    **/
-  private Class<? extends AInvLn<T, Itm>> goodLnCl;
+  private Class<? extends IInvLn<T, Itm>> goodLnCl;
 
   /**
    * <p>Service line class, NULL for returns.</p>
    **/
-  private Class<? extends AInvLn<T, Srv>> serviceLnCl;
+  private Class<? extends IInvLn<T, Srv>> serviceLnCl;
 
   /**
    * <p>Invoice tax line factory.</p>
@@ -203,19 +203,19 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
 
   /**
    * <p>Getter for good line class.</p>
-   * @return Class<? extends AInvLn<T, ?>>
+   * @return Class<? extends IInvLn<T, ?>>
    **/
   @Override
-  public final Class<? extends AInvLn<T, Itm>> getGoodLnCl() {
+  public final Class<? extends IInvLn<T, Itm>> getGoodLnCl() {
     return this.goodLnCl;
   }
 
   /**
    * <p>Getter for service line class.</p>
-   * @return Class<? extends AInvLn<T, ?>>
+   * @return Class<? extends IInvLn<T, ?>>
    **/
   @Override
-  public final Class<? extends AInvLn<T, Srv>> getServiceLnCl() {
+  public final Class<? extends IInvLn<T, Srv>> getServiceLnCl() {
     return this.serviceLnCl;
   }
 
@@ -509,7 +509,7 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    * @param pGoodLnCl reference
    **/
   public final void setGoodLnCl(
-    final Class<? extends AInvLn<T, Itm>> pGoodLnCl) {
+    final Class<? extends IInvLn<T, Itm>> pGoodLnCl) {
     this.goodLnCl = pGoodLnCl;
   }
 
@@ -518,7 +518,7 @@ public class InvTxMeth<T extends AInv, TL extends AInTxLn<T>>
    * @param pServiceLnCl reference
    **/
   public final void setServiceLnCl(
-    final Class<? extends AInvLn<T, Srv>> pServiceLnCl) {
+    final Class<? extends IInvLn<T, Srv>> pServiceLnCl) {
     this.serviceLnCl = pServiceLnCl;
   }
 

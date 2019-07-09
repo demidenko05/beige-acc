@@ -56,11 +56,10 @@ import org.beigesoft.acc.srv.ISrAcStg;
 /**
  * <p>Balance sheet report into PDF.</p>
  *
- * @param <RS> platform dependent RDBMS recordset
  * @param <WI> writing instrument type PDF
  * @author Yury Demidenko
  */
-public class BlnPdf<RS, WI> implements IBlnPdf {
+public class BlnPdf<WI> implements IBlnPdf {
 
   /**
    * <p>PDF Factory.</p>
@@ -275,11 +274,7 @@ public class BlnPdf<RS, WI> implements IBlnPdf {
     tblBal.getItsCells().get(lastRowIdx * 4 + 3).setItsContent(cntc);
     docMaker.deriveElements(doc);
     pdfMaker.prepareBeforeWrite(docPdf);
-    try {
-      this.pdfFactory.lazyGetPdfWriter().write(null, docPdf, pOus);
-    } finally {
-      pOus.close();
-    }
+    this.pdfFactory.lazyGetPdfWriter().write(null, docPdf, pOus);
   }
 
   /**

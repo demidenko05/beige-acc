@@ -39,7 +39,7 @@ import org.beigesoft.mdl.IOwned;
  * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public abstract class ALnTxLn<T extends AInv, L extends AInvLn<T, ?>>
+public abstract class ALnTxLn<T extends IInv, L extends IInvLn<T, ?>>
   extends ADcTxLn implements IOwned<L, Long> {
 
   /**

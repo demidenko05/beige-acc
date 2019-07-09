@@ -38,7 +38,7 @@ import org.beigesoft.mdl.IOwned;
  * @param <T> invoice type
  * @author Yury Demidenko
  */
-public abstract class AInTxLn<T extends AInv> extends ADcTxLn
+public abstract class AInTxLn<T extends IInv> extends ADcTxLn
   implements IOwned<T, Long> {
 
   /**

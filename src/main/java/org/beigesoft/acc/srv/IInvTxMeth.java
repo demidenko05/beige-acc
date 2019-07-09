@@ -32,8 +32,8 @@ import java.io.IOException;
 
 import org.beigesoft.fct.IFctRq;
 import org.beigesoft.acc.mdlb.AInTxLn;
-import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Srv;
 
@@ -45,7 +45,7 @@ import org.beigesoft.acc.mdlp.Srv;
  * @param <TL> invoice tax line type
  * @author Yury Demidenko
  */
-public interface IInvTxMeth<T extends AInv, TL extends AInTxLn<T>> {
+public interface IInvTxMeth<T extends IInv, TL extends AInTxLn<T>> {
 
   /**
    * <p>Getter for invoice SQL tables names: {[GOOD LINE], [SERVICE LINE],
@@ -60,13 +60,13 @@ public interface IInvTxMeth<T extends AInv, TL extends AInTxLn<T>> {
    * <p>Getter for good line class.</p>
    * @return Class<InvoiceLine<T>>
    **/
-  Class<? extends AInvLn<T, Itm>> getGoodLnCl();
+  Class<? extends IInvLn<T, Itm>> getGoodLnCl();
 
   /**
    * <p>Getter for service line class.</p>
-   * @return Class<? extends AInvLn<T>>
+   * @return Class<? extends IInvLn<T>>
    **/
-  Class<? extends AInvLn<T, Srv>> getServiceLnCl();
+  Class<? extends IInvLn<T, Srv>> getServiceLnCl();
 
   /**
    * <p>Getter for invTxLnCl.</p>

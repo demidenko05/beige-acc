@@ -36,6 +36,8 @@ import org.beigesoft.fct.FctBlc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcFl;
 import org.beigesoft.acc.rep.PrcBlnSht;
+import org.beigesoft.acc.rep.PrInvPdf;
+import org.beigesoft.acc.rep.IInvPdf;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.rep.IBlnPdf;
 import org.beigesoft.acc.srv.ISrBlnc;
@@ -74,9 +76,33 @@ public class FcPrFlAc<RS> implements IFctPrcFl {
         rz = this.procs.get(pPrNm);
         if (rz == null && PrcBlnSht.class.getSimpleName().equals(pPrNm)) {
           rz = crPuPrcBlnSht(pRvs);
+        } else if (rz == null && PrInvPdf.class.getSimpleName().equals(pPrNm)) {
+          rz = crPuPrInvPdf(pRvs);
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map PrInvPdf.</p>
+   * @param pRvs request scoped vars
+   * @return PrInvPdf
+   * @throws Exception - an exception
+   */
+  private PrInvPdf<RS> crPuPrInvPdf(
+    final Map<String, Object> pRvs) throws Exception {
+    PrInvPdf<RS> rz = new PrInvPdf<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
+    IInvPdf invPdf = (IInvPdf) this.fctBlc
+      .laz(pRvs, IInvPdf.class.getSimpleName());
+    rz.setInvPdf(invPdf);
+    this.procs.put(PrInvPdf.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), PrInvPdf.class
+      .getSimpleName() + " has been created.");
     return rz;
   }
 

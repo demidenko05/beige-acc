@@ -30,8 +30,8 @@ package org.beigesoft.acc.srv;
 
 import java.util.Map;
 
-import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlp.TxDst;
 
 /**
@@ -41,7 +41,7 @@ import org.beigesoft.acc.mdlp.TxDst;
  * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public interface ISrInItLn<T extends AInv, L extends AInvLn<T, ?>> {
+public interface ISrInItLn<T extends IInv, L extends IInvLn<T, ?>> {
 
   /**
    * <p>For good it makes warehouse entry

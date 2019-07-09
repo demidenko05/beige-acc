@@ -18,7 +18,7 @@ See LICENSE in base folder
 <entry key="quancnToSt">CnvQuanStr</entry>
 <entry key="itLfcnToSt">CnvQuanStr</entry>
 <entry key="toLfcnToSt">CnvCostStr</entry>
-<entry key="priinp">invl</entry>
+<entry key="priinp"></entry>
 <entry key="prFcinp"></entry>
 <entry key="quaninp"></entry>
 <entry key="subtinp"></entry>
@@ -29,7 +29,6 @@ See LICENSE in base folder
 <entry key="tdscinp"></entry>
 <entry key="totinp"></entry>
 <entry key="toFcinp"></entry>
-<entry key="itLfinp"></entry>
 <entry key="toLfinp"></entry>
 <entry key="rvIdinp"></entry>
 <entry key="itminp"></entry>

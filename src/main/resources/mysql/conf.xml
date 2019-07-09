@@ -74,6 +74,10 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.WrhEnr,
   org.beigesoft.acc.mdlp.CogsEnr,
   org.beigesoft.acc.mdlp.DriEnrSr,
+  org.beigesoft.acc.mdlp.I18Uom,
+  org.beigesoft.acc.mdlp.I18Srv,
+  org.beigesoft.acc.mdlp.I18Itm,
+  org.beigesoft.acc.mdlp.I18Buyr,
   org.beigesoft.acc.mdlp.BlnCh</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
 <entry key="stgFldNms">def,nul</entry>

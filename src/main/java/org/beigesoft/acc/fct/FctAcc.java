@@ -74,6 +74,8 @@ import org.beigesoft.acc.srv.SrInvSv;
 import org.beigesoft.acc.srv.InvTxMeth;
 import org.beigesoft.acc.rep.ISrBlnSht;
 import org.beigesoft.acc.rep.SrBlnSht;
+import org.beigesoft.acc.rep.IInvPdf;
+import org.beigesoft.acc.rep.InvPdf;
 import org.beigesoft.acc.rep.IBlnPdf;
 import org.beigesoft.acc.rep.BlnPdf;
 
@@ -116,6 +118,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuHlTyEnSr(pRvs, pFctApp);
     } else if (HlTySac.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHlTySac(pRvs, pFctApp);
+    } else if (IInvPdf.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuInvPdf(pRvs, pFctApp);
     } else if (IBlnPdf.class.getSimpleName().equals(pBnNm)) {
       rz = crPuBlnPdf(pRvs, pFctApp);
     } else if (IPdfFactory.class.getSimpleName().equals(pBnNm)) {
@@ -219,15 +223,38 @@ public class FctAcc<RS> implements IFctAux<RS> {
   }
 
   /**
+   * <p>Creates and puts into MF InvPdf.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return InvPdf
+   * @throws Exception - an exception
+   */
+  private InvPdf<HasPdfContent> crPuInvPdf(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    InvPdf<HasPdfContent> rz = new InvPdf<HasPdfContent>();
+    @SuppressWarnings("unchecked")
+    IPdfFactory<HasPdfContent> pdfFactory = (IPdfFactory<HasPdfContent>) pFctApp
+      .laz(pRvs, IPdfFactory.class.getSimpleName());
+    rz.setPdfFactory(pdfFactory);
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    rz.setNumStr(pFctApp.lazNumStr(pRvs));
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    pFctApp.put(pRvs, IInvPdf.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      InvPdf.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
    * <p>Creates and puts into MF BlnPdf.</p>
    * @param pRvs request scoped vars
    * @param pFctApp main factory
    * @return BlnPdf
    * @throws Exception - an exception
    */
-  private BlnPdf<RS, HasPdfContent> crPuBlnPdf(final Map<String, Object> pRvs,
+  private BlnPdf<HasPdfContent> crPuBlnPdf(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
-    BlnPdf<RS, HasPdfContent> rz = new BlnPdf<RS, HasPdfContent>();
+    BlnPdf<HasPdfContent> rz = new BlnPdf<HasPdfContent>();
     @SuppressWarnings("unchecked")
     IPdfFactory<HasPdfContent> pdfFactory = (IPdfFactory<HasPdfContent>) pFctApp
       .laz(pRvs, IPdfFactory.class.getSimpleName());

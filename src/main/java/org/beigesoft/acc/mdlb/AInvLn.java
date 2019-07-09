@@ -30,18 +30,17 @@ package org.beigesoft.acc.mdlb;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
 import org.beigesoft.acc.mdlp.Uom;
 
 /**
- * <p>Base model of invoice.</p>
+ * <p>Base model of invoice line.</p>
  *
  * @param <T> invoice type
  * @param <I> item type
  * @author Yury Demidenko
  */
-public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
-  extends TxDtLn implements IOwned<T, Long> {
+public abstract class AInvLn<T extends IInv, I extends AItm<?, ?>>
+  extends TxDtLn implements IInvLn<T, I> {
 
   /**
    * <p>Reversed ID.</p>
@@ -79,22 +78,10 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
   private String dscr;
 
   /**
-   * <p>Getter for itm.</p>
-   * @return AItm<?, ?>
-   **/
-  public abstract I getItm();
-
-  /**
-   * <p>Setter for itm.</p>
-   * @param pItm reference
-   **/
-  public abstract void setItm(I pItm);
-
-  //Simple getters and setters:
-  /**
    * <p>Getter for rvId.</p>
    * @return Long
    **/
+  @Override
   public final Long getRvId() {
     return this.rvId;
   }
@@ -103,6 +90,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Setter for rvId.</p>
    * @param pRvId reference
    **/
+  @Override
   public final void setRvId(final Long pRvId) {
     this.rvId = pRvId;
   }
@@ -111,6 +99,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Getter for uom.</p>
    * @return Uom
    **/
+  @Override
   public final Uom getUom() {
     return this.uom;
   }
@@ -119,6 +108,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Setter for uom.</p>
    * @param pUom reference
    **/
+  @Override
   public final void setUom(final Uom pUom) {
     this.uom = pUom;
   }
@@ -127,6 +117,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Getter for pri.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getPri() {
     return this.pri;
   }
@@ -135,6 +126,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Setter for pri.</p>
    * @param pPri reference
    **/
+  @Override
   public final void setPri(final BigDecimal pPri) {
     this.pri = pPri;
   }
@@ -143,6 +135,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Getter for prFc.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getPrFc() {
     return this.prFc;
   }
@@ -151,6 +144,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Setter for prFc.</p>
    * @param pPrFc reference
    **/
+  @Override
   public final void setPrFc(final BigDecimal pPrFc) {
     this.prFc = pPrFc;
   }
@@ -159,6 +153,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Getter for quan.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getQuan() {
     return this.quan;
   }
@@ -167,6 +162,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Setter for quan.</p>
    * @param pQuan reference
    **/
+  @Override
   public final void setQuan(final BigDecimal pQuan) {
     this.quan = pQuan;
   }
@@ -175,6 +171,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Getter for tdsc.</p>
    * @return String
    **/
+  @Override
   public final String getTdsc() {
     return this.tdsc;
   }
@@ -183,6 +180,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Setter for tdsc.</p>
    * @param pTdsc reference
    **/
+  @Override
   public final void setTdsc(final String pTdsc) {
     this.tdsc = pTdsc;
   }
@@ -191,6 +189,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Getter for dscr.</p>
    * @return String
    **/
+  @Override
   public final String getDscr() {
     return this.dscr;
   }
@@ -199,6 +198,7 @@ public abstract class AInvLn<T extends AInv, I extends AItm<?, ?>>
    * <p>Setter for dscr.</p>
    * @param pDscr reference
    **/
+  @Override
   public final void setDscr(final String pDscr) {
     this.dscr = pDscr;
   }

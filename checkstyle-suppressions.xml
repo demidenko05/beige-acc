@@ -6,9 +6,9 @@
 
 <suppressions>
   <suppress checks="MagicNumber"
-    files="BlnPdf|ItmCt|Bnka|Expn|AcStg|Itm|DbCr|SrvCt|Itm|Srv|DcrCt|SrAcStg|SrBlnc|SrBlnSht|Tax"/>
+    files="BlnPdf|ItmCt|Bnka|Expn|AcStg|Itm|DbCr|SrvCt|Itm|Srv|DcrCt|SrAcStg|SrBlnc|SrBlnSht|Tax|InvPdf"/>
   <suppress checks="MagicNumber"
     files="SaInGdLn|SalInv|PuInGdLn|PurInv|PrepTo|UtInLnTxToBs|SrSaGdLn|SrSaSrLn|SrPuGdLn|SrPuSrLn|PaymTo|PaymFr"/>
   <suppress checks="MethodLength"
-    files="BlnPdf|UtInLnTxToBs|SrInvSv"/>
+    files="BlnPdf|UtInLnTxToBs|SrInvSv|InvPdf"/>
 </suppressions>

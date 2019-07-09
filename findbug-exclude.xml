@@ -19,6 +19,15 @@
      <Class name="org.beigesoft.acc.srv.SrDrItEnr" />
      <Bug pattern="IS2_INCONSISTENT_SYNC" />
   </Match>
+  <!--It's not true, cached queries are synchronized.-->
+  <Match>
+     <Class name="org.beigesoft.acc.rep.InvPdf" />
+     <Bug pattern="IS2_INCONSISTENT_SYNC" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.rep.InfPdf" />
+     <Bug pattern="IS2_INCONSISTENT_SYNC" />
+  </Match>
   <!--It's for best performance, it allows to use outdated (last version) data but it never causes
     serious problems for this task.-->
   <Match>

@@ -32,8 +32,8 @@ import org.beigesoft.fct.IFctRq;
 import org.beigesoft.mdl.IIdLn;
 import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlb.ATxDsLn;
-import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvLn;
 
 /**
  * <p>Abstraction of tax method code/data for purchase/sales invoice line.
@@ -44,7 +44,7 @@ import org.beigesoft.acc.mdlb.AInvLn;
  * @param <LTL> invoice line's tax line type
  * @author Yury Demidenko
  */
-public interface IInvLnTxMeth<T extends AInv, L extends AInvLn<T, ?>,
+public interface IInvLnTxMeth<T extends IInv, L extends IInvLn<T, ?>,
   LTL extends ALnTxLn<T, L>> {
 
   /**

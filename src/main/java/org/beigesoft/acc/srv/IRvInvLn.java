@@ -31,8 +31,8 @@ package org.beigesoft.acc.srv;
 import java.util.List;
 import java.util.Map;
 
-import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvLn;
 
 /**
  * <p>Abstraction of reverser for purchase/sales invoice line.</p>
@@ -41,7 +41,7 @@ import org.beigesoft.acc.mdlb.AInvLn;
  * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public interface IRvInvLn<T extends AInv, L extends AInvLn<T, ?>> {
+public interface IRvInvLn<T extends IInv, L extends IInvLn<T, ?>> {
 
   /**
    * <p>Retrieves and checks lines for reversing,

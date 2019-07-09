@@ -50,6 +50,10 @@ import org.beigesoft.acc.mdlb.ADcTxLn;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.I18Acc;
 import org.beigesoft.acc.mdlp.I18Curr;
+import org.beigesoft.acc.mdlp.I18Itm;
+import org.beigesoft.acc.mdlp.I18Buyr;
+import org.beigesoft.acc.mdlp.I18Srv;
+import org.beigesoft.acc.mdlp.I18Uom;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Acnt;
@@ -70,6 +74,7 @@ import org.beigesoft.acc.mdlp.Expn;
 import org.beigesoft.acc.mdlp.Bnka;
 import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.SaInGdLn;
+import org.beigesoft.acc.mdlp.SalInv;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -109,6 +114,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     final IFctAsm<RS> pFct) throws Exception {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Acc.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Curr.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Srv.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Uom.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Itm.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Buyr.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
@@ -169,6 +178,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(DriEnrSr.class, "ace");
     hlClSt.getStgClss().put(PuInGdLn.class, "acrv");
     hlClSt.getStgClss().put(SaInGdLn.class, "acrv");
+    hlClSt.getStgClss().put(SalInv.class, "asiv");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
@@ -264,5 +274,6 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
+    hlFdSt.getStgFdNm().put("itLf", "iwpg"); //unique filed name in PuInGdLn!
   }
 }
