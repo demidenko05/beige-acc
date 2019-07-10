@@ -45,8 +45,9 @@ public interface ISrToPa {
    * @param <T> invoice type
    * @param pRvs Request scoped variables, not null
    * @param pEnt invoice, not null
+   * @param pRvLn - just holds payment, prepayment class, not null
    * @throws Exception - an exception
    **/
   <T extends AInv> void mkToPa(Map<String, Object> pRvs,
-    T pEnt) throws Exception;
+    T pEnt, IRvInvLn<T, ?> pRvLn) throws Exception;
 }

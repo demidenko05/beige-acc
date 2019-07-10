@@ -31,8 +31,10 @@ package org.beigesoft.acc.srv;
 import java.util.List;
 import java.util.Map;
 
-import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.IInvLn;
+import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.APaym;
 
 /**
  * <p>Abstraction of reverser for purchase/sales invoice line.</p>
@@ -41,7 +43,7 @@ import org.beigesoft.acc.mdlb.IInvLn;
  * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public interface IRvInvLn<T extends IInv, L extends IInvLn<T, ?>> {
+public interface IRvInvLn<T extends IInvb, L extends IInvLn<T, ?>> {
 
   /**
    * <p>Retrieves and checks lines for reversing,
@@ -70,4 +72,17 @@ public interface IRvInvLn<T extends IInv, L extends IInvLn<T, ?>> {
    **/
   void revLns(Map<String, Object> pRvs, Map<String, Object> pVs, T pEnt,
     L pRvng, L pRved) throws Exception;
+
+  //Only for invoices, only in reverser good lines! Cheapest method.
+  /**
+   * <p>Getter for prepayment class.</p>
+   * @return Prepayment class
+   **/
+  Class<? extends APrep> getPrepCls();
+
+  /**
+   * <p>Getter for payment class.</p>
+   * @return Payment class
+   **/
+  Class<? extends APaym<?>> getPaymCls();
 }

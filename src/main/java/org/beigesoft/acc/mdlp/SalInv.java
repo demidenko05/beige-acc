@@ -32,8 +32,6 @@ import java.util.List;
 
 import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.APrep;
-import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlb.IDcDri;
 
 /**
@@ -83,7 +81,7 @@ public class SalInv extends AInv implements IDcDri<CogsEnr> {
    **/
   @Override
   public final EDocTy getDocTy() {
-    return EDocTy.ITSRLN;
+    return EDocTy.DRAWLN;
   }
 
   /**
@@ -96,30 +94,12 @@ public class SalInv extends AInv implements IDcDri<CogsEnr> {
   }
 
   /**
-   * <p>Getter for prepayment class.</p>
-   * @return Prepayment class
-   **/
-  @Override
-  public final Class<? extends APrep> getPrepCls() {
-    return PrepFr.class;
-  }
-
-  /**
    * <p>Getter for draw item entry class.</p>
    * @return draw item entry class
    **/
   @Override
   public final Class<CogsEnr> getEnrCls() {
     return CogsEnr.class;
-  }
-
-  /**
-   * <p>Getter for payment class.</p>
-   * @return payment class
-   **/
-  @Override
-  public final Class<? extends APaym<?>> getPaymCls() {
-    return PaymFr.class;
   }
 
   //Simple getters and setters:

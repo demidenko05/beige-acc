@@ -32,8 +32,6 @@ import java.util.List;
 
 import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.APrep;
-import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlb.IDcDri;
 
 /**
@@ -88,24 +86,6 @@ public class PurInv extends AInv implements IDcDri<CogsEnr> {
   @Override
   public final PrepTo getPrep() {
     return this.prep;
-  }
-
-  /**
-   * <p>Getter for prepayment class.</p>
-   * @return Prepayment class
-   **/
-  @Override
-  public final Class<? extends APrep> getPrepCls() {
-    return PrepTo.class;
-  }
-
-  /**
-   * <p>Getter for payment class.</p>
-   * @return payment class
-   **/
-  @Override
-  public final Class<? extends APaym<?>> getPaymCls() {
-    return PaymTo.class;
   }
 
   /**

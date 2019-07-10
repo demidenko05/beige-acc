@@ -30,100 +30,121 @@ package org.beigesoft.acc.mdlb;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.acc.mdlp.Curr;
+import org.beigesoft.acc.mdlp.DbCr;
 
 /**
- * <p>Abstract model of invoice's line tax line.</p>
+ * <p>Base model of invoice and goods returns.</p>
  *
- * @param <T> invoice type
- * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public abstract class ALnTxLn<T extends IInvb, L extends IInvLn<T, ?>>
-  extends ADcTxLn implements IOwned<L, Long> {
+public interface IInvb extends IDoc {
 
   /**
-   * <p>Invoice ID for bulk operations, not null. It's cheaper than 2 joins.</p>
+   * <p>Getter for dbcr.</p>
+   * @return DbCr
    **/
-  private Long invId;
+  DbCr getDbcr();
 
   /**
-   * <p>Total FC.</p>
+   * <p>Setter for dbcr.</p>
+   * @param pDbcr reference
    **/
-  private BigDecimal toFc = BigDecimal.ZERO;
+  void setDbcr(DbCr pDbcr);
 
   /**
-   * <p>Taxable amount for invoice basis.</p>
+   * <p>Getter for cuFr.</p>
+   * @return Curr
    **/
-  private BigDecimal txb = BigDecimal.ZERO;
+  Curr getCuFr();
 
   /**
-   * <p>Taxable amount for invoice basis FC.</p>
+   * <p>Setter for cuFr.</p>
+   * @param pCuFr reference
    **/
-  private BigDecimal txbFc = BigDecimal.ZERO;
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for invId.</p>
-   * @return Long
-   **/
-  public final Long getInvId() {
-    return this.invId;
-  }
+  void setCuFr(Curr pCuFr);
 
   /**
-   * <p>Setter for invId.</p>
-   * @param pInvId reference
-   **/
-  public final void setInvId(final Long pInvId) {
-    this.invId = pInvId;
-  }
-
-  /**
-   * <p>Getter for toFc.</p>
+   * <p>Getter for exRt.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getToFc() {
-    return this.toFc;
-  }
+  BigDecimal getExRt();
 
   /**
-   * <p>Setter for toFc.</p>
-   * @param pToFc reference
+   * <p>Setter for exRt.</p>
+   * @param pExRt reference
    **/
-  public final void setToFc(final BigDecimal pToFc) {
-    this.toFc = pToFc;
-  }
+  void setExRt(BigDecimal pExRt);
 
   /**
-   * <p>Getter for txb.</p>
+   * <p>Getter for subt.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getTxb() {
-    return this.txb;
-  }
+  BigDecimal getSubt();
 
   /**
-   * <p>Setter for txb.</p>
-   * @param pTxb reference
+   * <p>Setter for subt.</p>
+   * @param pSubt reference
    **/
-  public final void setTxb(final BigDecimal pTxb) {
-    this.txb = pTxb;
-  }
+  void setSubt(BigDecimal pSubt);
 
   /**
-   * <p>Getter for txbFc.</p>
+   * <p>Getter for suFc.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getTxbFc() {
-    return this.txbFc;
-  }
+  BigDecimal getSuFc();
 
   /**
-   * <p>Setter for txbFc.</p>
-   * @param pTxbFc reference
+   * <p>Setter for suFc.</p>
+   * @param pSuFc reference
    **/
-  public final void setTxbFc(final BigDecimal pTxbFc) {
-    this.txbFc = pTxbFc;
-  }
+  void setSuFc(BigDecimal pSuFc);
+
+  /**
+   * <p>Getter for toTx.</p>
+   * @return BigDecimal
+   **/
+  BigDecimal getToTx();
+
+  /**
+   * <p>Setter for toTx.</p>
+   * @param pToTx reference
+   **/
+  void setToTx(BigDecimal pToTx);
+
+  /**
+   * <p>Getter for txFc.</p>
+   * @return BigDecimal
+   **/
+  BigDecimal getTxFc();
+
+  /**
+   * <p>Setter for txFc.</p>
+   * @param pTxFc reference
+   **/
+  void setTxFc(BigDecimal pTxFc);
+
+  /**
+   * <p>Getter for inTx.</p>
+   * @return Boolean
+   **/
+  Boolean getInTx();
+
+  /**
+   * <p>Setter for inTx.</p>
+   * @param pInTx reference
+   **/
+  void setInTx(Boolean pInTx);
+
+  /**
+   * <p>Getter for omTx.</p>
+   * @return Boolean
+   **/
+  Boolean getOmTx();
+
+  /**
+   * <p>Setter for omTx.</p>
+   * @param pOmTx reference
+   **/
+  void setOmTx(Boolean pOmTx);
 }

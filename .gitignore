@@ -9,4 +9,4 @@ release.properties
 /maven-central-deploy.log
 /maven-central-deploy.sh~
 *.releaseBackup
-bseift.sqlite
+bseist.sqlite

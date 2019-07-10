@@ -33,13 +33,13 @@ import java.math.BigDecimal;
 import org.beigesoft.acc.mdlp.Uom;
 
 /**
- * <p>Base model of invoice line.</p>
+ * <p>Base model of sales/purchase invoice line.</p>
  *
  * @param <T> invoice type
  * @param <I> item type
  * @author Yury Demidenko
  */
-public abstract class AInvLn<T extends IInv, I extends AItm<?, ?>>
+public abstract class AInvLn<T extends IInvb, I extends AItm<?, ?>>
   extends TxDtLn implements IInvLn<T, I> {
 
   /**

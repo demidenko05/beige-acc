@@ -36,7 +36,7 @@ import org.beigesoft.mdl.IIdLn;
 import org.beigesoft.acc.mdlb.AInTxLn;
 import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlb.ATxDsLn;
-import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlb.TxDtLn;
 import org.beigesoft.acc.mdlp.AcStg;
@@ -55,7 +55,7 @@ import org.beigesoft.acc.mdlp.TxDst;
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class UtInLnTxTo<RS, T extends IInv, L extends IInvLn<T, ?>,
+public class UtInLnTxTo<RS, T extends IInvb, L extends IInvLn<T, ?>,
   TL extends AInTxLn<T>, LTL extends ALnTxLn<T, L>>
     implements IInvLnTxMeth<T, L, LTL> {
 
@@ -179,7 +179,7 @@ public class UtInLnTxTo<RS, T extends IInv, L extends IInvLn<T, ?>,
    * @return tax rules, NULL if not taxable
    * @throws Exception - an exception.
    **/
-  public final TxDst revealTaxRules(final IInv pInv,
+  public final TxDst revealTaxRules(final IInvb pInv,
     final AcStg pAs) throws Exception {
     Boolean extSt;
     if (this.isPurch) {

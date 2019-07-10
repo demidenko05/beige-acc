@@ -54,7 +54,7 @@ import org.beigesoft.acc.mdl.CmprInvLnTot;
 import org.beigesoft.acc.mdlb.AInTxLn;
 import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlb.ATxDsLn;
-import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlb.TxDtLn;
 import org.beigesoft.acc.mdlp.AcStg;
@@ -102,7 +102,7 @@ public class UtInLnTxToBs<RS> {
    * @return tax rules, NULL if not taxable
    * @throws Exception - an exception.
    **/
-  public final TxDst revealTaxRules(final IInv pInv, final AcStg pAs,
+  public final TxDst revealTaxRules(final IInvb pInv, final AcStg pAs,
     final Boolean pIsExtrTx) throws Exception {
     TxDst txRules = null;
     if (pIsExtrTx && !pInv.getOmTx()) {
@@ -133,7 +133,7 @@ public class UtInLnTxToBs<RS> {
    * @param pInvTxMeth tax method code/data for purchase/sales invoice
    * @throws Exception - an exception.
    **/
-  public final <T extends IInv, L extends IInvLn<T, ?>,
+  public final <T extends IInvb, L extends IInvLn<T, ?>,
     TL extends AInTxLn<T>> void makeTotals(final Map<String, Object> pRvs,
       final Map<String, Object> pVs, final L pLine, final AcStg pAs,
         final TxDst pTxRules,
@@ -313,7 +313,7 @@ public class UtInLnTxToBs<RS> {
    * @param pInvTxMeth tax method code/data for purchase/sales invoice
    * @throws Exception - an exception
    **/
-  public final <T extends IInv> void updInvTots(final Map<String, Object> pRvs,
+  public final <T extends IInvb> void updInvTots(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final T pInv, final AcStg pAs,
       final IInvTxMeth<T, ?> pInvTxMeth) throws Exception {
     String query = pInvTxMeth.lazyGetQuTotals();
@@ -370,7 +370,7 @@ public class UtInLnTxToBs<RS> {
    * @param pInvTxMeth tax method code/data for purchase/sales invoice
    * @throws Exception an Exception
    **/
-  public final <T extends IInv, L extends IInvLn<T, ?>,
+  public final <T extends IInvb, L extends IInvLn<T, ?>,
     TL extends AInTxLn<T>> void adjustInvoiceLns(final Map<String, Object> pRvs,
       final Map<String, Object> pVs, final T pInv, final List<TxDtLn> pTxdLns,
         final AcStg pAs, final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
@@ -479,7 +479,7 @@ public class UtInLnTxToBs<RS> {
    * @return taxes data
    * @throws Exception - an exception.
    **/
-  public final <T extends IInv, L extends IInvLn<T, ?>,
+  public final <T extends IInvb, L extends IInvLn<T, ?>,
     TL extends AInTxLn<T>> ArrayList<TxDtLn> retrTxdLnsAdjInv(
       final Map<String, Object> pRvs, final T pInv, final AcStg pAs,
         final TxDst pTxRules,
@@ -621,7 +621,7 @@ public class UtInLnTxToBs<RS> {
    * @param pInvLnTxMeth tax method code/data for purchase/sales invoice line
    * @throws Exception - an exception.
    **/
-  public final <T extends IInv, L extends IInvLn<T, ?>,
+  public final <T extends IInvb, L extends IInvLn<T, ?>,
     TL extends AInTxLn<T>, LTL extends ALnTxLn<T, L>> void mkLnTxTo(
       final Map<String, Object> pRvs, final Map<String, Object> pVs,
         final L pLine, final AcStg pAs, final TxDst pTxRules,
@@ -769,7 +769,7 @@ public class UtInLnTxToBs<RS> {
    * @return taxes data
    * @throws Exception - an exception.
    **/
-  public final <T extends IInv, L extends IInvLn<T, ?>,
+  public final <T extends IInvb, L extends IInvLn<T, ?>,
     TL extends AInTxLn<T>> DataTx retrieveDataTx(
       final Map<String, Object> pRvs, final L pLine, final AcStg pAs,
         final TxDst pTxRules,
@@ -1001,7 +1001,7 @@ public class UtInLnTxToBs<RS> {
    * @return created invoice line taxes for farther proceed
    * @throws Exception - an exception.
    **/
-  public final <T extends IInv, L extends IInvLn<T, ?>,
+  public final <T extends IInvb, L extends IInvLn<T, ?>,
     LTL extends ALnTxLn<T, L>> List<LTL> mkLnTxItBasNonAggr(
       final Map<String, Object> pRvs, final Map<String, Object> pVs,
         final L pLine, final AcStg pAs, final TxDst pTxRules,
@@ -1096,7 +1096,7 @@ public class UtInLnTxToBs<RS> {
    * @param pTotTxsFc total line taxes FC
    * @param pIsTxByUser if tax set by user
    **/
-  public final <T extends IInv, L extends IInvLn<T,  ?>> void mkLnFinal(
+  public final <T extends IInvb, L extends IInvLn<T,  ?>> void mkLnFinal(
     final L pLine, final BigDecimal pTotTxs, final BigDecimal pTotTxsFc,
       final Boolean pIsTxByUser) {
     if (pIsTxByUser) {
@@ -1141,7 +1141,7 @@ public class UtInLnTxToBs<RS> {
    * @return line
    * @throws Exception if no need to find but line is found
    **/
-  public final <T extends IInv, TL extends AInTxLn<T>>
+  public final <T extends IInvb, TL extends AInTxLn<T>>
     TL findCreateTaxLine(final Map<String, Object> pRvs, final T pInv,
       final List<TL> pInvTxLns, final Tax pTax, final boolean pNeedFind,
         final IFctRq<TL> pFctInvTxLn) throws Exception {

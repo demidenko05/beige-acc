@@ -29,36 +29,38 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.prc;
 
 import java.util.Map;
+import java.util.HashMap;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.hld.UvdVar;
+import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.srv.IRvInvLn;
-import org.beigesoft.acc.srv.SrPaymSv;
+import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.IRet;
+import org.beigesoft.acc.mdlb.IRetLn;
+import org.beigesoft.acc.mdlp.Itm;
 
 /**
- * <p>Service that saves payment into DB.</p>
+ * <p>Service that makes copy of return line to  reverse.</p>
  *
- * @param <T> payment type
+ * @param <T> return line type
+ * @param <R> return type
  * @param <I> invoice type
+ * @param <L> invoice good line type
  * @author Yury Demidenko
  */
-public class PaymSv<T extends APaym<I>, I extends AInv>
-  implements IPrcEnt<T, Long> {
+public class RetLnRv<T extends IRetLn<R, I, L>, R extends IRet<I>,
+  I extends AInv, L extends AInvLn<I, Itm>> implements IPrcEnt<T, Long> {
 
   /**
-   * <p>Save service.</p>
+   * <p>ORM service.</p>
    **/
-  private SrPaymSv srPaymSv;
+  private IOrm orm;
 
   /**
-   * <p>Just hold payment/prepayment class.</p>
-   **/
-  private IRvInvLn<I, ?> rvLn;
-
-  /**
-   * <p>Process that saves entity.</p>
+   * <p>Process that creates copy entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
@@ -68,39 +70,47 @@ public class PaymSv<T extends APaym<I>, I extends AInv>
   @Override
   public final T process(final Map<String, Object> pRvs,
     final T pEnt, final IReqDt pRqDt) throws Exception {
-    return this.srPaymSv.save(pRvs, pEnt, pRqDt, this.rvLn);
+    Map<String, Object> vs = new HashMap<String, Object>();
+    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
+    }
+    Long rvId = pEnt.getRvId();
+    this.orm.refrEnt(pRvs, vs, pEnt);
+    if (rvId == null) {
+      throw new ExcCode(ExcCode.SPAM, "Copy not allowed!");
+    } else {
+      pEnt.setRvId(rvId);
+      pEnt.setInvl(pEnt.getInvl());
+      pEnt.setSubt(pEnt.getTot().negate());
+      pEnt.setSuFc(pEnt.getTot().negate());
+      pEnt.setToTx(pEnt.getTot().negate());
+      pEnt.setTxFc(pEnt.getTot().negate());
+      pEnt.setTot(pEnt.getTot().negate());
+      pEnt.setToFc(pEnt.getToFc().negate());
+      pEnt.setTdsc(null);
+      pEnt.setDscr(null);
+      pEnt.setIid(null);
+      pEnt.setIsNew(true);
+      UvdVar uvs = (UvdVar) pRvs.get("uvs");
+      uvs.setEnt(pEnt);
+      return pEnt;
+    }
   }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for srPaymSv.</p>
-   * @return SrPaymSv
+   * <p>Getter for orm.</p>
+   * @return IOrm
    **/
-  public final SrPaymSv getSrPaymSv() {
-    return this.srPaymSv;
+  public final IOrm getOrm() {
+    return this.orm;
   }
 
   /**
-   * <p>Setter for srPaymSv.</p>
-   * @param pSrPaymSv reference
+   * <p>Setter for orm.</p>
+   * @param pOrm reference
    **/
-  public final void setSrPaymSv(final SrPaymSv pSrPaymSv) {
-    this.srPaymSv = pSrPaymSv;
-  }
-
-  /**
-   * <p>Getter for rvLn.</p>
-   * @return IRvInvLn
-   **/
-  public final IRvInvLn<I, ?> getRvLn() {
-    return this.rvLn;
-  }
-
-  /**
-   * <p>Setter for rvLn.</p>
-   * @param pRvLn reference
-   **/
-  public final void setRvLn(final IRvInvLn<I, ?> pRvLn) {
-    this.rvLn = pRvLn;
+  public final void setOrm(final IOrm pOrm) {
+    this.orm = pOrm;
   }
 }

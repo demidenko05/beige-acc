@@ -37,21 +37,21 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
-import org.beigesoft.acc.mdlb.AInv;
-import org.beigesoft.acc.mdlb.AInvLn;
+import org.beigesoft.acc.mdlb.IRet;
+import org.beigesoft.acc.mdlb.IRetLn;
 import org.beigesoft.acc.mdlb.AInTxLn;
 import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.TxDst;
 
 /**
- * <p>Service that saves invoice line into DB.
+ * <p>Service that saves return line into DB.
  * It's type-safe part (shared code) that is used inside type safe
  * processor-assembly.</p>
  *
  * @author Yury Demidenko
  */
-public class SrInLnSv {
+public class SrRtLnSv {
 
   /**
    * <p>ORM service.</p>
@@ -61,8 +61,8 @@ public class SrInLnSv {
   /**
    * <p>Saves entity generic method.</p>
    * @param <RS> platform dependent record set type
-   * @param <T> invoice type
-   * @param <L> invoice line type
+   * @param <T> return type
+   * @param <L> return line type
    * @param <TL> tax line type
    * @param <LTL> item tax line type
    * @param pRvs request scoped vars
@@ -73,7 +73,7 @@ public class SrInLnSv {
    * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
-  public final <RS, T extends AInv, L extends AInvLn<T, ?>,
+  public final <RS, T extends IRet<?>, L extends IRetLn<T, ?, ?>,
     TL extends AInTxLn<T>, LTL extends ALnTxLn<T, L>> L save(
       final Map<String, Object> pRvs, final L pEnt, final IReqDt pRqDt,
         final UtInLnTxTo<RS, T, L, TL, LTL> pUtTxTo,
@@ -82,17 +82,18 @@ public class SrInLnSv {
       throw new ExcCode(ExcCode.SPAM, "Attempt to update immutable line");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
-    String[] ifds = new String[] {"dat", "dbcr", "dbOr", "dscr", "iid", "inTx",
-      "mdEnr", "omTx", "ver", "cuFr", "exRt"};
+    String[] fds = new String[] {"dat", "dbOr", "dscr", "mdEnr", "ver"};
+    Arrays.sort(fds);
+    vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds", fds);
+    String[] ifds = new String[] {"dat", "dbcr", "inTx", "mdEnr", "omTx",
+      "exRt", "cuFr"};
     Arrays.sort(ifds);
-    vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds", ifds);
-    String[] fdsdc = new String[] {"iid", "txDs"};
-    Arrays.sort(fdsdc);
-    vs.put("DbCrndFds", fdsdc);
+    vs.put(pSrInItLn.getBinvCls().getSimpleName() + "ndFds", ifds);
+    vs.put(pSrInItLn.getBinvCls().getSimpleName() + "dpLv", 3);
+    vs.put("DbCrndFds", new String[] {"txDs"});
     String[] fdstd = new String[] {"iid", "stRm", "stIb", "stAg"};
     Arrays.sort(fdstd);
     vs.put("TxDstndFds", fdstd);
-    vs.put("DbCrdpLv", 2);
     this.orm.refrEnt(pRvs, vs, pEnt.getOwnr()); vs.clear();
     long owVrWs = Long.parseLong(pRqDt.getParam("owVr"));
     if (owVrWs != pEnt.getOwnr().getVer()) {
@@ -107,6 +108,11 @@ public class SrInLnSv {
     if (pEnt.getOwnr().getMdEnr()) {
       throw new ExcCode(ExcCode.SPAM, "Attempt to change accounted document!");
     }
+    fds = new String[] {"itm", "uom", "pri", "prFc", "txCt"};
+    Arrays.sort(fds);
+    vs.put(pEnt.getInvl().getClass().getSimpleName() + "ndFds", fds);
+    vs.put(pEnt.getInvl().getClass().getSimpleName() + "dpLv", 1);
+    this.orm.refrEnt(pRvs, vs, pEnt.getInvl()); vs.clear();
     AcStg as = (AcStg) pRvs.get("astg");
     TxDst txRules = pUtTxTo.revealTaxRules(pEnt.getOwnr(), as);
     if (pEnt.getRvId() != null) {
@@ -115,11 +121,7 @@ public class SrInLnSv {
       L revd = pSrInItLn.retChkRv(pRvs, vs, pEnt);
       revd.setOwnr(pEnt.getOwnr());
       pEnt.setDbOr(this.orm.getDbId());
-      pEnt.setUom(revd.getUom());
-      pEnt.setTxCt(revd.getTxCt());
       pEnt.setTdsc(revd.getTdsc());
-      pEnt.setPri(revd.getPri());
-      pEnt.setPrFc(revd.getPrFc());
       pEnt.setQuan(revd.getQuan().negate());
       pEnt.setSubt(revd.getSubt().negate());
       pEnt.setSuFc(revd.getSuFc().negate());
@@ -127,9 +129,10 @@ public class SrInLnSv {
       pEnt.setTxFc(revd.getTxFc().negate());
       pEnt.setTot(revd.getTot().negate());
       pEnt.setToFc(revd.getToFc().negate());
-      //it also inserts reversing and updates reversed
-      //for good it also makes warehouse reversing
-      //for sales good it also makes draw item reversing
+      //it also sets invl,
+      //inserts reversing and updates reversed
+      //makes warehouse reversing,
+      //it also makes draw item reversing
       //It removes line tax lines:
       pSrInItLn.revLns(pRvs, vs, pEnt, revd);
       pRvs.put("msgSuc", "reverse_ok");
@@ -137,24 +140,19 @@ public class SrInLnSv {
       if (pEnt.getQuan().compareTo(BigDecimal.ZERO) != 1) {
         throw new ExcCode(ExcCode.WRPR, "quantity_less_or_equal_zero");
       }
-      if (!(pEnt.getPri().compareTo(BigDecimal.ZERO) == 1
-        || pEnt.getPrFc().compareTo(BigDecimal.ZERO) == 1)) {
-        throw new ExcCode(ExcCode.WRPR, "price_less_eq_0");
-      }
       if (pEnt.getIsNew()) {
         pRvs.put("msgSuc", "insert_ok");
       } else {
         pRvs.put("msgSuc", "update_ok");
       }
       //prepare line, e.g. for purchase good it makes items left,
-      //it may makes totals/subtotals (depends of price inclusive),
-      //known cost:
+      //it may makes totals/subtotals (depends of price inclusive):
       pSrInItLn.prepLn(pRvs, vs, pEnt, txRules);
       //it make taxes for line and update it
       //it also inserts or updates line and put success message
       pUtTxTo.mkLnTxTo(pRvs, vs, pEnt, as, txRules);
-      //for good it makes warehouse entry
-      //for sales good it also makes draw item entry:
+      //fit makes warehouse entry
+      //it also might makes draw item entry:
       pSrInItLn.mkEntrs(pRvs, vs, pEnt);
     }
     //it updates invoice

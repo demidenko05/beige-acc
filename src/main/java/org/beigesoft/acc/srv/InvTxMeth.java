@@ -34,7 +34,7 @@ import java.net.URL;
 
 import org.beigesoft.fct.IFctRq;
 import org.beigesoft.acc.mdlb.AInTxLn;
-import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Srv;
@@ -47,7 +47,7 @@ import org.beigesoft.acc.mdlp.Srv;
  * @param <TL> invoice tax line type
  * @author Yury Demidenko
  */
-public class InvTxMeth<T extends IInv, TL extends AInTxLn<T>>
+public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   implements IInvTxMeth<T, TL> {
 
   /**

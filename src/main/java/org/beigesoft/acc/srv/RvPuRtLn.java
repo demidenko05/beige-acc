@@ -39,16 +39,16 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.II18n;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.APaym;
-import org.beigesoft.acc.mdlp.SalInv;
-import org.beigesoft.acc.mdlp.SaInSrLn;
+import org.beigesoft.acc.mdlp.PurRet;
+import org.beigesoft.acc.mdlp.PuRtLn;
 
 /**
- * <p>Reverser for sales service invoice line.</p>
+ * <p>Reverser for purchase return line.</p>
  *
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class RvSaSrLn<RS> implements IRvInvLn<SalInv, SaInSrLn> {
+public class RvPuRtLn<RS> implements IRvInvLn<PurRet, PuRtLn> {
 
   /**
    * <p>Database service.</p>
@@ -59,6 +59,16 @@ public class RvSaSrLn<RS> implements IRvInvLn<SalInv, SaInSrLn> {
    * <p>ORM service.</p>
    **/
   private IOrm orm;
+
+  /**
+   * <p>Warehouse entries service.</p>
+   **/
+  private ISrWrhEnr srWrhEnr;
+
+  /**
+   * <p>Draw item service.</p>
+   **/
+  private ISrDrItEnr srDrItEnr;
 
   /**
    * <p>Holder UVD settings, vars.</p>
@@ -75,23 +85,20 @@ public class RvSaSrLn<RS> implements IRvInvLn<SalInv, SaInSrLn> {
    * e.g. for sales goods lines it checks for withdrawals.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
-   * @param pEnt invoice, not null
+   * @param pEnt reversed invoice, not null
    * @return checked lines
    * @throws Exception - an exception
    **/
   @Override
-  public final List<SaInSrLn> retChkLns(final Map<String, Object> pRvs,
-    final Map<String, Object> pVs, final SalInv pEnt) throws Exception {
-    String[] lstFds = this.hldUvd.lazLstFds(SaInSrLn.class);
+  public final List<PuRtLn> retChkLns(final Map<String, Object> pRvs,
+    final Map<String, Object> pVs, final PurRet pEnt) throws Exception {
+    String[] lstFds = this.hldUvd.lazLstFds(PuRtLn.class);
     String[] ndFds = Arrays.copyOf(lstFds, lstFds.length);
     Arrays.sort(ndFds);
-    pVs.put("SaInSrLnndFds", ndFds);
-    pVs.put("ItmdpLv", 0);
-    pVs.put("TxCtdpLv", 0);
-    pVs.put("UomdpLv", 0);
-    pVs.put("AcntdpLv", 0);
-    List<SaInSrLn> lst = this.orm.retLstCnd(pRvs, pVs, SaInSrLn.class,
-      "where SAINSRLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
+    pVs.put("PuRtLnndFds", ndFds);
+    pVs.put("invldpLv", 0);
+    List<PuRtLn> lst = this.orm.retLstCnd(pRvs, pVs, PuRtLn.class,
+      "where PURTLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
     return lst;
   }
 
@@ -102,17 +109,18 @@ public class RvSaSrLn<RS> implements IRvInvLn<SalInv, SaInSrLn> {
    * It removes line tax lines.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
-   * @param pEnt invoice, not null
+   * @param pEnt reversed invoice, not null
    * @param pRvng reversing line, not null
    * @param pRved reversed line, not null
    * @throws Exception - an exception
    **/
   @Override
   public final void revLns(final Map<String, Object> pRvs,
-    final Map<String, Object> pVs, final SalInv pEnt,
-      final SaInSrLn pRvng, final SaInSrLn pRved) throws Exception {
-    this.rdb.delete("SAINSRTXLN", "OWNR=" + pRved.getIid());
+    final Map<String, Object> pVs, final PurRet pEnt,
+      final PuRtLn pRvng, final PuRtLn pRved) throws Exception {
+    this.rdb.delete("PURTLTL", "OWNR=" + pRved.getIid());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+    pRvng.setInvl(pRved.getInvl());
     StringBuffer sb = new StringBuffer();
     if (pRvng.getDscr() != null) {
       sb.append(pRvng.getDscr() + " !");
@@ -121,6 +129,8 @@ public class RvSaSrLn<RS> implements IRvInvLn<SalInv, SaInSrLn> {
     sb.append(" #" + pRved.getDbOr() + "-" + pRved.getIid());
     pRvng.setDscr(sb.toString());
     this.orm.insIdLn(pRvs, pVs, pRvng);
+    this.srWrhEnr.revDraw(pRvs, pRvng);
+    this.srDrItEnr.rvDraw(pRvs, pRvng);
     sb.delete(0, sb.length());
     if (pRved.getDscr() != null) {
       sb.append(pRved.getDscr() + " !");
@@ -171,6 +181,22 @@ public class RvSaSrLn<RS> implements IRvInvLn<SalInv, SaInSrLn> {
   }
 
   /**
+   * <p>Getter for srWrhEnr.</p>
+   * @return ISrWrhEnr
+   **/
+  public final ISrWrhEnr getSrWrhEnr() {
+    return this.srWrhEnr;
+  }
+
+  /**
+   * <p>Setter for srWrhEnr.</p>
+   * @param pSrWrhEnr reference
+   **/
+  public final void setSrWrhEnr(final ISrWrhEnr pSrWrhEnr) {
+    this.srWrhEnr = pSrWrhEnr;
+  }
+
+  /**
    * <p>Getter for hldUvd.</p>
    * @return HldUvd
    **/
@@ -217,5 +243,21 @@ public class RvSaSrLn<RS> implements IRvInvLn<SalInv, SaInSrLn> {
    **/
   public final void setI18n(final II18n pI18n) {
     this.i18n = pI18n;
+  }
+
+  /**
+   * <p>Getter for srDrItEnr.</p>
+   * @return ISrDrItEnr
+   **/
+  public final ISrDrItEnr getSrDrItEnr() {
+    return this.srDrItEnr;
+  }
+
+  /**
+   * <p>Setter for srDrItEnr.</p>
+   * @param pSrDrItEnr reference
+   **/
+  public final void setSrDrItEnr(final ISrDrItEnr pSrDrItEnr) {
+    this.srDrItEnr = pSrDrItEnr;
   }
 }

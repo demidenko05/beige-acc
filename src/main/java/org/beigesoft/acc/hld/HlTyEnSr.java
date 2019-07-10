@@ -41,6 +41,7 @@ import org.beigesoft.acc.mdlp.PurInv;
 import org.beigesoft.acc.mdlp.PaymTo;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.PaymFr;
+import org.beigesoft.acc.mdlp.PurRet;
 
 /**
  * <p>Holder entries sources classes by type.</p>
@@ -66,6 +67,7 @@ public class HlTyEnSr implements IHlIntCls {
     this.clsMp.put(new PaymTo().cnsTy(), PaymTo.class); //5
     this.clsMp.put(new SalInv().cnsTy(), SalInv.class); //6
     this.clsMp.put(new PaymFr().cnsTy(), PaymFr.class); //7
+    this.clsMp.put(new PurRet().cnsTy(), PurRet.class); //8
   }
 
   /**

@@ -37,15 +37,16 @@ import org.beigesoft.rdb.IOrm;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.PurInv;
-import org.beigesoft.acc.mdlp.PuInSrLn;
+import org.beigesoft.acc.mdlp.PurRet;
+import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.TxDst;
 
 /**
- * <p>Service item oriented for purchase good line.</p>
+ * <p>Service line oriented for purchase return line.</p>
  *
  * @author Yury Demidenko
  */
-public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
+public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
 
   /**
    * <p>ORM service.</p>
@@ -53,13 +54,22 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
   private IOrm orm;
 
   /**
-   * <p>Line reverser.</p>
+   * <p>Warehouse entries service.</p>
    **/
-  private IRvInvLn<PurInv, PuInSrLn> rvInvLn;
+  private ISrWrhEnr srWrhEnr;
 
   /**
-   * <p>For good it makes warehouse entry
-   * for sales good it also makes draw item entry.</p>
+   * <p>Line reverser.</p>
+   **/
+  private IRvInvLn<PurRet, PuRtLn> rvInvLn;
+
+  /**
+   * <p>Draw item service.</p>
+   **/
+  private ISrDrItEnr srDrItEnr;
+
+  /**
+   * <p>It makes warehouse entry and draw item entry.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
    * @param pEnt line, not null
@@ -67,12 +77,13 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
    **/
   @Override
   public final void mkEntrs(final Map<String, Object> pRvs,
-    final Map<String, Object> pVs, final PuInSrLn pEnt) throws Exception {
-    //nothing
+    final Map<String, Object> pVs, final PuRtLn pEnt) throws Exception {
+    this.srDrItEnr.draw(pRvs, pEnt);
+    this.srWrhEnr.draw(pRvs, pEnt, null);
   }
 
   /**
-   * <p>Prepare line, e.g. for purchase good it makes items left,
+   * <p>Prepare line, e.g. for sales good it makes items left,
    * it may makes totals/subtotals (depends of price inclusive),
    * known cost.</p>
    * @param pRvs Request scoped variables, not null
@@ -83,17 +94,14 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
    **/
   @Override
   public final void prepLn(final Map<String, Object> pRvs,
-    final Map<String, Object> pVs, final PuInSrLn pEnt,
+    final Map<String, Object> pVs, final PuRtLn pEnt,
       final TxDst pTxRules) throws Exception {
+    BigDecimal exchRt = pEnt.getOwnr().getExRt();
+    if (exchRt.compareTo(BigDecimal.ZERO) == -1) {
+      exchRt = BigDecimal.ONE.divide(exchRt.negate(), 15, RoundingMode.HALF_UP);
+    }
+    AcStg as = (AcStg) pRvs.get("astg");
     if (pEnt.getOwnr().getCuFr() != null) { //user passed values:
-      BigDecimal exchRt = pEnt.getOwnr().getExRt();
-      if (exchRt.compareTo(BigDecimal.ZERO) == -1) {
-        exchRt = BigDecimal.ONE.divide(exchRt.negate(), 15,
-          RoundingMode.HALF_UP);
-      }
-      AcStg as = (AcStg) pRvs.get("astg");
-      pEnt.setPri(pEnt.getPrFc().multiply(exchRt)
-        .setScale(as.getPrDp(), as.getRndm()));
       if (pTxRules == null || pEnt.getOwnr().getInTx()) {
         pEnt.setTot(pEnt.getToFc().multiply(exchRt)
           .setScale(as.getPrDp(), as.getRndm()));
@@ -106,7 +114,7 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
 
   /**
    * <p>Retrieves and checks line for reversing, makes reversing item,
-   * e.g. for purchase goods lines it checks for withdrawals.</p>
+   * e.g. for sales goods lines it checks for withdrawals.</p>
    * @param pRvs Request scoped variables, not null
    * @param pVs Invoker scoped variables, not null
    * @param pEnt reversing, not null
@@ -114,28 +122,21 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
    * @throws Exception - an exception
    **/
   @Override
-  public final PuInSrLn retChkRv(final Map<String, Object> pRvs,
-    final Map<String, Object> pVs, final PuInSrLn pEnt) throws Exception {
-    pVs.put("PurInvdpLv", 0);
-    pVs.put("SrvdpLv", 0);
-    pVs.put("TxCtdpLv", 0);
-    pVs.put("UomdpLv", 0);
-    pVs.put("AcntdpLv", 0);
-    PuInSrLn rz = new PuInSrLn();
+  public final PuRtLn retChkRv(final Map<String, Object> pRvs,
+    final Map<String, Object> pVs, final PuRtLn pEnt) throws Exception {
+    pVs.put("PrRtLndpLv", 1);
+    PuRtLn rz = new PuRtLn();
     rz.setIid(pEnt.getRvId());
     this.orm.refrEnt(pRvs, pVs, rz); pVs.clear();
     if (rz.getIid() == null) {
-      throw new ExcCode(ExcCode.SPAM, "Reversed not found! PuInSrLn id= "
+      throw new ExcCode(ExcCode.SPAM, "Reversed not found! PuRtLn id= "
         + pEnt.getRvId());
     }
     if (rz.getRvId() != null) {
-      throw new ExcCode(ExcCode.SPAM, "Attempt reverse reversed PuInSrLn id= "
+      throw new ExcCode(ExcCode.SPAM, "Attempt reverse reversed PuRtLn id= "
         + pEnt.getRvId());
     }
-    pEnt.setItm(rz.getItm());
-    pEnt.setAcc(rz.getAcc());
-    pEnt.setSaId(rz.getSaId());
-    pEnt.setSaNm(rz.getSaNm());
+    pEnt.setInvl(rz.getInvl());
     return rz;
   }
 
@@ -153,8 +154,8 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
    **/
   @Override
   public final void revLns(final Map<String, Object> pRvs,
-    final Map<String, Object> pVs, final PuInSrLn pRvng,
-      final PuInSrLn pRved) throws Exception {
+    final Map<String, Object> pVs, final PuRtLn pRvng,
+      final PuRtLn pRved) throws Exception {
     this.rvInvLn.revLns(pRvs, pVs, pRvng.getOwnr(), pRvng, pRved);
   }
 
@@ -165,7 +166,7 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
    **/
   @Override
   public final Class<? extends AInv> getBinvCls() {
-    throw new RuntimeException("Not allowed!");
+    return PurInv.class;
   }
 
   //Simple getters and setters:
@@ -186,10 +187,26 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
   }
 
   /**
-   * <p>Getter for rvInvLn.</p>
-   * @return IRvInvLn<PurInv, PuInSrLn>
+   * <p>Getter for srWrhEnr.</p>
+   * @return ISrWrhEnr
    **/
-  public final IRvInvLn<PurInv, PuInSrLn> getRvInvLn() {
+  public final ISrWrhEnr getSrWrhEnr() {
+    return this.srWrhEnr;
+  }
+
+  /**
+   * <p>Setter for srWrhEnr.</p>
+   * @param pSrWrhEnr reference
+   **/
+  public final void setSrWrhEnr(final ISrWrhEnr pSrWrhEnr) {
+    this.srWrhEnr = pSrWrhEnr;
+  }
+
+  /**
+   * <p>Getter for rvInvLn.</p>
+   * @return IRvInvLn<PurRet, PuRtLn>
+   **/
+  public final IRvInvLn<PurRet, PuRtLn> getRvInvLn() {
     return this.rvInvLn;
   }
 
@@ -197,7 +214,23 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
    * <p>Setter for rvInvLn.</p>
    * @param pRvInvLn reference
    **/
-  public final void setRvInvLn(final IRvInvLn<PurInv, PuInSrLn> pRvInvLn) {
+  public final void setRvInvLn(final IRvInvLn<PurRet, PuRtLn> pRvInvLn) {
     this.rvInvLn = pRvInvLn;
+  }
+
+  /**
+   * <p>Getter for srDrItEnr.</p>
+   * @return ISrDrItEnr
+   **/
+  public final ISrDrItEnr getSrDrItEnr() {
+    return this.srDrItEnr;
+  }
+
+  /**
+   * <p>Setter for srDrItEnr.</p>
+   * @param pSrDrItEnr reference
+   **/
+  public final void setSrDrItEnr(final ISrDrItEnr pSrDrItEnr) {
+    this.srDrItEnr = pSrDrItEnr;
   }
 }

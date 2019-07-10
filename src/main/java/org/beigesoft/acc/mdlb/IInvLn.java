@@ -31,18 +31,19 @@ package org.beigesoft.acc.mdlb;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdlp.IOrId;
 import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.acc.mdlp.TxCt;
 
 /**
- * <p>Base model of invoice line.</p>
+ * <p>Base model of invoice and goods returns line.</p>
  *
  * @param <T> invoice type
  * @param <I> item type
  * @author Yury Demidenko
  */
-public interface IInvLn<T extends IInv, I extends AItm<?, ?>>
-  extends IOwned<T, Long> {
+public interface IInvLn<T extends IInvb, I extends AItm<?, ?>>
+  extends IOwned<T, Long>, IOrId {
 
   /**
    * <p>Getter for itm.</p>

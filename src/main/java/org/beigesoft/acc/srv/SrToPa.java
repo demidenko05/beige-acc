@@ -73,11 +73,12 @@ public class SrToPa implements ISrToPa {
    * @param <T> invoice type
    * @param pRvs Request scoped variables, not null
    * @param pEnt invoice, not null
+   * @param pRvLn - just holds payment, prepayment class, not null
    * @throws Exception - an exception
    **/
   @Override
   public final <T extends AInv> void mkToPa(final Map<String, Object> pRvs,
-    final T pEnt) throws Exception {
+    final T pEnt, final IRvInvLn<T, ?> pRvLn) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     AcStg as = (AcStg) pRvs.get("astg");
@@ -91,7 +92,7 @@ public class SrToPa implements ISrToPa {
     BigDecimal to;
     String[] fds =  new String[] {"iid", "dat", "dbOr", "tot", "toFc"};
     Arrays.sort(fds);
-    vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds", fds);
+    vs.put(pRvLn.getPrepCls().getSimpleName() + "ndFds", fds);
     if (pEnt.getPrep() != null) {
       this.orm.refrEnt(pRvs, vs, pEnt.getPrep()); vs.clear();
       if (pEnt.getCuFr() == null) {
@@ -108,8 +109,8 @@ public class SrToPa implements ISrToPa {
       paFc = paFc.add(pEnt.getPrep().getToFc());
     }
     if (!pEnt.getIsNew()) {
-      vs.put(pEnt.getPaymCls().getSimpleName() + "ndFds", fds);
-      List<? extends APaym<?>> payms = this.orm.retLstCnd(pRvs, vs, pEnt
+      vs.put(pRvLn.getPaymCls().getSimpleName() + "ndFds", fds);
+      List<? extends APaym<?>> payms = this.orm.retLstCnd(pRvs, vs, pRvLn
 .getPaymCls(), "where rvId is null and mdEnr=1 and inv="      + pEnt.getIid());
       vs.clear();
       for (APaym<?> paym : payms) {

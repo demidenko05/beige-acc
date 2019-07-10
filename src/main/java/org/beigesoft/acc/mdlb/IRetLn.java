@@ -26,63 +26,31 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
+package org.beigesoft.acc.mdlb;
+
+import org.beigesoft.acc.mdlp.Itm;
 
 /**
- * <p>Document type - ACC/WRH/WRHLN/WRHBTH/ITSR/ITSRLN/ITSRBTH/
- * DRAW/DRAWLN/DRAWBTH.</p>
+ * <p>Base model of goods returns line.</p>
  *
+ * @param <T> return type
+ * @param <I> invoice type
+ * @param <L> invoice good line type
  * @author Yury Demidenko
  */
-public enum EDocTy {
+public interface IRetLn<T extends IRet<I>, I extends AInv,
+  L extends AInvLn<I, Itm>> extends IInvLn<T, Itm> {
+
 
   /**
-   * <p>0 only accounting entries.</p>
+   * <p>Getter for invl.</p>
+   * @return base invoice line
    **/
-  ACC,
+  L getInvl();
 
   /**
-   * <p>1 makes warehouse entries.</p>
+   * <p>Setter for invl.</p>
+   * @param pInvl base invoice line reference
    **/
-  WRH,
-
-  /**
-   * <p>2 lines make warehouse entries.</p>
-   **/
-  WRHLN,
-
-  /**
-   * <p>3 document and lines make warehouse entries.</p>
-   **/
-  WRHBTH,
-
-  /**
-   * <p>4 it is draw item source.</p>
-   **/
-  ITSR,
-
-  /**
-   * <p>5 lines are draw item sources.</p>
-   **/
-  ITSRLN,
-
-  /**
-   * <p>6 document and lines are draw item sources.</p>
-   **/
-  ITSRBTH,
-
-  /**
-   * <p>7 makes draw item entries.</p>
-   **/
-  DRAW,
-
-  /**
-   * <p>8 lines make draw item entries.</p>
-   **/
-  DRAWLN,
-
-  /**
-   * <p>9 document and lines make draw item entries.</p>
-   **/
-  DRAWBTH;
+  void setInvl(final L pInvl);
 }

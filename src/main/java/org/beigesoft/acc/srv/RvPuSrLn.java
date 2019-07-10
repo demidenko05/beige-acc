@@ -37,6 +37,8 @@ import org.beigesoft.hld.HldUvd;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.II18n;
+import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlp.PurInv;
 import org.beigesoft.acc.mdlp.PuInSrLn;
 
@@ -136,8 +138,25 @@ public class RvPuSrLn<RS> implements IRvInvLn<PurInv, PuInSrLn> {
     this.orm.update(pRvs, pVs, pRved); pVs.clear();
   }
 
-  //Simple getters and setters:
+  /**
+   * <p>Getter for prepayment class.</p>
+   * @return Prepayment class
+   **/
+  @Override
+  public final Class<? extends APrep> getPrepCls() {
+    throw new RuntimeException("Not allowed!");
+  }
 
+  /**
+   * <p>Getter for payment class.</p>
+   * @return payment class
+   **/
+  @Override
+  public final Class<? extends APaym<?>> getPaymCls() {
+    throw new RuntimeException("Not allowed!");
+  }
+
+  //Simple getters and setters:
   /**
    * <p>Getter for orm.</p>
    * @return IOrm

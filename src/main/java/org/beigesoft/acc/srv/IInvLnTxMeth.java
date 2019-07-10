@@ -32,7 +32,7 @@ import org.beigesoft.fct.IFctRq;
 import org.beigesoft.mdl.IIdLn;
 import org.beigesoft.acc.mdlb.ALnTxLn;
 import org.beigesoft.acc.mdlb.ATxDsLn;
-import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.IInvLn;
 
 /**
@@ -44,7 +44,7 @@ import org.beigesoft.acc.mdlb.IInvLn;
  * @param <LTL> invoice line's tax line type
  * @author Yury Demidenko
  */
-public interface IInvLnTxMeth<T extends IInv, L extends IInvLn<T, ?>,
+public interface IInvLnTxMeth<T extends IInvb, L extends IInvLn<T, ?>,
   LTL extends ALnTxLn<T, L>> {
 
   /**

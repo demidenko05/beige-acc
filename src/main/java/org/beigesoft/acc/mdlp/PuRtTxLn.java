@@ -26,63 +26,37 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdl;
+package org.beigesoft.acc.mdlp;
+
+import org.beigesoft.acc.mdlb.AInTxLn;
 
 /**
- * <p>Document type - ACC/WRH/WRHLN/WRHBTH/ITSR/ITSRLN/ITSRBTH/
- * DRAW/DRAWLN/DRAWBTH.</p>
+ * <p>Model of purchase return tax line.</p>
  *
  * @author Yury Demidenko
  */
-public enum EDocTy {
+public class PuRtTxLn extends AInTxLn<PurRet> {
 
   /**
-   * <p>0 only accounting entries.</p>
+   * <p>Invoice.</p>
    **/
-  ACC,
+  private PurRet ownr;
 
   /**
-   * <p>1 makes warehouse entries.</p>
+   * <p>Getter for ownr.</p>
+   * @return PurRet
    **/
-  WRH,
+  @Override
+  public final PurRet getOwnr() {
+    return this.ownr;
+  }
 
   /**
-   * <p>2 lines make warehouse entries.</p>
+   * <p>Setter for ownr.</p>
+   * @param pOwnr reference
    **/
-  WRHLN,
-
-  /**
-   * <p>3 document and lines make warehouse entries.</p>
-   **/
-  WRHBTH,
-
-  /**
-   * <p>4 it is draw item source.</p>
-   **/
-  ITSR,
-
-  /**
-   * <p>5 lines are draw item sources.</p>
-   **/
-  ITSRLN,
-
-  /**
-   * <p>6 document and lines are draw item sources.</p>
-   **/
-  ITSRBTH,
-
-  /**
-   * <p>7 makes draw item entries.</p>
-   **/
-  DRAW,
-
-  /**
-   * <p>8 lines make draw item entries.</p>
-   **/
-  DRAWLN,
-
-  /**
-   * <p>9 document and lines make draw item entries.</p>
-   **/
-  DRAWBTH;
+  @Override
+  public final void setOwnr(final PurRet pOwnr) {
+    this.ownr = pOwnr;
+  }
 }

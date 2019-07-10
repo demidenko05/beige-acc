@@ -32,30 +32,33 @@ import java.util.Map;
 
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlb.AInv;
+import org.beigesoft.acc.mdlb.IRet;
+import org.beigesoft.acc.mdlb.IInvLn;
+import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.srv.IRvInvLn;
-import org.beigesoft.acc.srv.SrPaymSv;
+import org.beigesoft.acc.srv.SrRetSv;
 
 /**
- * <p>Service that saves payment into DB.</p>
+ * <p>Service that saves return into DB.</p>
  *
- * @param <T> payment type
+ * @param <T> invoice type
  * @param <I> invoice type
+ * @param <G> invoice goods line type
  * @author Yury Demidenko
  */
-public class PaymSv<T extends APaym<I>, I extends AInv>
+public class RetSv<T extends IRet<I>, I extends AInv, G extends IInvLn<T, Itm>>
   implements IPrcEnt<T, Long> {
 
   /**
-   * <p>Save service.</p>
+   * <p>Saving service.</p>
    **/
-  private SrPaymSv srPaymSv;
+  private SrRetSv srRetSv;
 
   /**
-   * <p>Just hold payment/prepayment class.</p>
+   * <p>Reverser service for good line.</p>
    **/
-  private IRvInvLn<I, ?> rvLn;
+  private IRvInvLn<T, G> rvLn;
 
   /**
    * <p>Process that saves entity.</p>
@@ -66,33 +69,33 @@ public class PaymSv<T extends APaym<I>, I extends AInv>
    * @throws Exception - an exception
    **/
   @Override
-  public final T process(final Map<String, Object> pRvs,
-    final T pEnt, final IReqDt pRqDt) throws Exception {
-    return this.srPaymSv.save(pRvs, pEnt, pRqDt, this.rvLn);
+  public final T process(final Map<String, Object> pRvs, final T pEnt,
+    final IReqDt pRqDt) throws Exception {
+    return this.srRetSv.save(pRvs, pEnt, pRqDt, this.rvLn);
   }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for srPaymSv.</p>
-   * @return SrPaymSv
+   * <p>Getter for srRetSv.</p>
+   * @return SrRetSv
    **/
-  public final SrPaymSv getSrPaymSv() {
-    return this.srPaymSv;
+  public final SrRetSv getSrRetSv() {
+    return this.srRetSv;
   }
 
   /**
-   * <p>Setter for srPaymSv.</p>
-   * @param pSrPaymSv reference
+   * <p>Setter for srRetSv.</p>
+   * @param pSrRetSv reference
    **/
-  public final void setSrPaymSv(final SrPaymSv pSrPaymSv) {
-    this.srPaymSv = pSrPaymSv;
+  public final void setSrRetSv(final SrRetSv pSrRetSv) {
+    this.srRetSv = pSrRetSv;
   }
 
   /**
    * <p>Getter for rvLn.</p>
-   * @return IRvInvLn
+   * @return IRvInvLn<T, G>
    **/
-  public final IRvInvLn<I, ?> getRvLn() {
+  public final IRvInvLn<T, G> getRvLn() {
     return this.rvLn;
   }
 
@@ -100,7 +103,7 @@ public class PaymSv<T extends APaym<I>, I extends AInv>
    * <p>Setter for rvLn.</p>
    * @param pRvLn reference
    **/
-  public final void setRvLn(final IRvInvLn<I, ?> pRvLn) {
+  public final void setRvLn(final IRvInvLn<T, G> pRvLn) {
     this.rvLn = pRvLn;
   }
 }

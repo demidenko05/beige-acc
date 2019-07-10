@@ -37,6 +37,10 @@ import org.beigesoft.hld.HldUvd;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.II18n;
+import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.APaym;
+import org.beigesoft.acc.mdlp.PaymFr;
+import org.beigesoft.acc.mdlp.PrepFr;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.SaInGdLn;
 
@@ -146,8 +150,25 @@ public class RvSaGdLn<RS> implements IRvInvLn<SalInv, SaInGdLn> {
     this.orm.update(pRvs, pVs, pRved); pVs.clear();
   }
 
-  //Simple getters and setters:
+  /**
+   * <p>Getter for prepayment class.</p>
+   * @return Prepayment class
+   **/
+  @Override
+  public final Class<? extends APrep> getPrepCls() {
+    return PrepFr.class;
+  }
 
+  /**
+   * <p>Getter for payment class.</p>
+   * @return payment class
+   **/
+  @Override
+  public final Class<? extends APaym<?>> getPaymCls() {
+    return PaymFr.class;
+  }
+
+  //Simple getters and setters:
   /**
    * <p>Getter for orm.</p>
    * @return IOrm

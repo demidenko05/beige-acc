@@ -34,6 +34,7 @@ import java.math.RoundingMode;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.SaInGdLn;
@@ -162,6 +163,16 @@ public class SrSaGdLn implements ISrInItLn<SalInv, SaInGdLn> {
     final Map<String, Object> pVs, final SaInGdLn pRvng,
       final SaInGdLn pRved) throws Exception {
     this.rvInvLn.revLns(pRvs, pVs, pRvng.getOwnr(), pRvng, pRved);
+  }
+
+  //Only for returns, only in reverser good lines! Cheapest method.
+  /**
+   * <p>Getter for invoice class.</p>
+   * @return invoice class
+   **/
+  @Override
+  public final Class<? extends AInv> getBinvCls() {
+    throw new RuntimeException("Not allowed!");
   }
 
   //Simple getters and setters:

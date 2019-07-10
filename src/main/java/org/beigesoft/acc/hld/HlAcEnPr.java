@@ -39,7 +39,6 @@ import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.IDcDri;
-import org.beigesoft.acc.mdlb.APaym;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
@@ -53,9 +52,13 @@ import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.TxCtLn;
 import org.beigesoft.acc.mdlp.Blnc;
 import org.beigesoft.acc.mdlp.BlnCh;
+import org.beigesoft.acc.mdlp.PurRet;
+import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.SaInGdLn;
 import org.beigesoft.acc.mdlp.SaInSrLn;
+import org.beigesoft.acc.mdlp.PaymFr;
+import org.beigesoft.acc.mdlp.PaymTo;
 import org.beigesoft.acc.mdlp.PurInv;
 import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.PuInSrLn;
@@ -85,7 +88,6 @@ import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.DcDriPr;
 import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.DocCpr;
-import org.beigesoft.acc.prc.PaymSv;
 import org.beigesoft.acc.prc.EnrSrcChu;
 import org.beigesoft.acc.prc.InvLnCpr;
 
@@ -177,6 +179,10 @@ public class HlAcEnPr implements IHlNmClSt {
       } else if ("entSv".equals(pAct)) { //Save
         if (Acnt.class == pCls) {
           return AcntSv.class.getSimpleName();
+        } else if (PurRet.class == pCls) {
+          return FcEnPrAc.PURETSV;
+        } else if (PuRtLn.class == pCls) {
+          return FcEnPrAc.PURTLNSV;
         } else if (PurInv.class == pCls) {
           return FcEnPrAc.PURINVSV;
         } else if (SalInv.class == pCls) {
@@ -199,14 +205,16 @@ public class HlAcEnPr implements IHlNmClSt {
           return InEntrSv.class.getSimpleName();
         } else if (Sacnt.class == pCls) {
           return SacntSv.class.getSimpleName();
+        } else if (PaymFr.class.isAssignableFrom(pCls)) {
+          return FcEnPrAc.PAYFRSV;
+        } else if (PaymTo.class.isAssignableFrom(pCls)) {
+          return FcEnPrAc.PAYTOSV;
         } else if (AEnrSrc.class.isAssignableFrom(pCls)) {
           return EnrSrcChu.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {
           return IsacntSv.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepSv.class.getSimpleName();
-        } else if (APaym.class.isAssignableFrom(pCls)) {
-          return PaymSv.class.getSimpleName();
         }
       } else if ("entChd".equals(pAct) && Entr.class == pCls) {
         //Entr save only changed description

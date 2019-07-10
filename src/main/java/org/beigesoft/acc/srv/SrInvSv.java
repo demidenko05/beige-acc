@@ -175,23 +175,23 @@ public class SrInvSv {
       String[] prUpFds = new String[] {"invId", "ver"};
       Arrays.sort(prUpFds);
       if (!pEnt.getIsNew()) {
-        String[] ndf = new String[] {"dbcr", "iid", "inTx", "omTx",
+        String[] ndf = new String[] {"dbcr", "inTx", "omTx",
           "prep", "tot", "mdEnr", "exRt", "cuFr"};
         Arrays.sort(ndf);
         vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndf);
-        vs.put("DbCrndFds", new String[] {"iid", "txDs"});
-        String[] fdIid = new String[] {"iid"};
-        vs.put("CurrndFds", fdIid);
-        vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds", fdIid);
+        vs.put("DbCrndFds", new String[] {"txDs"});
+        vs.put("CurrdpLv", 0);
+        vs.put(pRvGdLn.getPrepCls().getSimpleName() + "ndFds",
+          new String[] {"dbcr"});
         T old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
         pEnt.setMdEnr(old.getMdEnr());
         if (pEnt.getMdEnr()) {
           throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
         }
         if (pEnt.getPrep() != null) {
-          vs.put(pEnt.getPrepCls().getSimpleName() + "ndFds",
-            new String[] {"dbcr", "iid"});
-          vs.put("DbCrndFds", fdIid);
+          vs.put(pRvGdLn.getPrepCls().getSimpleName() + "ndFds",
+            new String[] {"dbcr"});
+          vs.put("DbCrdpLv", 0);
           this.orm.refrEnt(pRvs, vs, pEnt.getPrep()); vs.clear();
           if (!pEnt.getDbcr().getIid()
             .equals(pEnt.getPrep().getDbcr().getIid())) {
@@ -250,7 +250,7 @@ public class SrInvSv {
           ndUpToPa = true;
         }
         if (ndUpToPa) {
-          this.srToPa.mkToPa(pRvs, pEnt);
+          this.srToPa.mkToPa(pRvs, pEnt, pRvGdLn);
         }
         Arrays.sort(fdDcUpd);
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
@@ -268,7 +268,7 @@ public class SrInvSv {
         }
       } else {
         if (pEnt.getPrep() != null) {
-          this.srToPa.mkToPa(pRvs, pEnt);
+          this.srToPa.mkToPa(pRvs, pEnt, pRvGdLn);
         }
         this.orm.insIdLn(pRvs, vs, pEnt);
         if (pEnt.getPrep() != null) {

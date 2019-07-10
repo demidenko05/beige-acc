@@ -30,18 +30,20 @@ package org.beigesoft.acc.srv;
 
 import java.util.Map;
 
-import org.beigesoft.acc.mdlb.IInv;
+import org.beigesoft.acc.mdlb.AInv;
+import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlp.TxDst;
 
 /**
- * <p>Abstraction of item oriented service for purchase/sales invoice line.</p>
+ * <p>Abstraction of item oriented service for purchase/sales
+ *  invoice/return line.</p>
  *
  * @param <T> invoice type
  * @param <L> invoice line type
  * @author Yury Demidenko
  */
-public interface ISrInItLn<T extends IInv, L extends IInvLn<T, ?>> {
+public interface ISrInItLn<T extends IInvb, L extends IInvLn<T, ?>> {
 
   /**
    * <p>For good it makes warehouse entry
@@ -93,4 +95,11 @@ public interface ISrInItLn<T extends IInv, L extends IInvLn<T, ?>> {
    **/
   void revLns(Map<String, Object> pRvs, Map<String, Object> pVs,
     L pRvng, L pRved) throws Exception;
+
+  //Only for returns, only in reverser good lines! Cheapest method.
+  /**
+   * <p>Getter base for invoice class.</p>
+   * @return base invoice class
+   **/
+  Class<? extends AInv> getBinvCls();
 }

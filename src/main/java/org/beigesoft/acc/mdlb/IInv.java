@@ -31,141 +31,18 @@ package org.beigesoft.acc.mdlb;
 import java.util.Date;
 import java.math.BigDecimal;
 
-import org.beigesoft.acc.mdlp.Curr;
-import org.beigesoft.acc.mdlp.DbCr;
-
 /**
  * <p>Base model of invoice.</p>
  *
  * @author Yury Demidenko
  */
-public interface IInv extends IDoc {
+public interface IInv extends IInvb {
 
   /**
    * <p>Getter for prep.</p>
    * @return PrepTo
    **/
   APrep getPrep();
-
-  /**
-   * <p>Getter for prepayment class.</p>
-   * @return Prepayment class
-   **/
-  Class<? extends APrep> getPrepCls();
-
-  /**
-   * <p>Getter for payment class.</p>
-   * @return Payment class
-   **/
-  Class<? extends APaym<?>> getPaymCls();
-
-  /**
-   * <p>Getter for dbcr.</p>
-   * @return DbCr
-   **/
-  DbCr getDbcr();
-
-  /**
-   * <p>Setter for dbcr.</p>
-   * @param pDbcr reference
-   **/
-  void setDbcr(DbCr pDbcr);
-
-  /**
-   * <p>Getter for cuFr.</p>
-   * @return Curr
-   **/
-  Curr getCuFr();
-
-  /**
-   * <p>Setter for cuFr.</p>
-   * @param pCuFr reference
-   **/
-  void setCuFr(Curr pCuFr);
-
-  /**
-   * <p>Getter for exRt.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getExRt();
-
-  /**
-   * <p>Setter for exRt.</p>
-   * @param pExRt reference
-   **/
-  void setExRt(BigDecimal pExRt);
-
-  /**
-   * <p>Getter for subt.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getSubt();
-
-  /**
-   * <p>Setter for subt.</p>
-   * @param pSubt reference
-   **/
-  void setSubt(BigDecimal pSubt);
-
-  /**
-   * <p>Getter for suFc.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getSuFc();
-
-  /**
-   * <p>Setter for suFc.</p>
-   * @param pSuFc reference
-   **/
-  void setSuFc(BigDecimal pSuFc);
-
-  /**
-   * <p>Getter for toTx.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getToTx();
-
-  /**
-   * <p>Setter for toTx.</p>
-   * @param pToTx reference
-   **/
-  void setToTx(BigDecimal pToTx);
-
-  /**
-   * <p>Getter for txFc.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getTxFc();
-
-  /**
-   * <p>Setter for txFc.</p>
-   * @param pTxFc reference
-   **/
-  void setTxFc(BigDecimal pTxFc);
-
-  /**
-   * <p>Getter for inTx.</p>
-   * @return Boolean
-   **/
-  Boolean getInTx();
-
-  /**
-   * <p>Setter for inTx.</p>
-   * @param pInTx reference
-   **/
-  void setInTx(Boolean pInTx);
-
-  /**
-   * <p>Getter for omTx.</p>
-   * @return Boolean
-   **/
-  Boolean getOmTx();
-
-  /**
-   * <p>Setter for omTx.</p>
-   * @param pOmTx reference
-   **/
-  void setOmTx(Boolean pOmTx);
 
   /**
    * <p>Getter for payb.</p>
