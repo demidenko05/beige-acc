@@ -7,7 +7,9 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
-<entry key="frmFds">ownr,iid,idOr,dbOr,invl,rvId,quan,subt,toTx,tot,suFc,txFc,toFc,tdsc,dscr</entry>
-<entry key="selDpl">PurInv,3</entry><!--PurInv.DbCr.TxDst-->
-<entry key="selFds">PuInGdLn,uom,itm,pri,prFc,txCt,#PurInv,iid,dbOr,ver,inTx,omTx,cuFr,dbcr,#Curr,iid,nme,#DbCr,iid,nme,txDs,#TxDst,iid,stRm,stIb,stAg,#TxCt,iid,nme,agRt</entry>
+<entry key="frmFds">ownr,iid,idOr,dbOr,whpo,invl,rvId,quan,subt,toTx,tot,suFc,txFc,toFc,tdsc,dscr</entry>
+<entry key="pgDpl">PuInGdLn,2</entry>
+<entry key="pgFds">PuInGdLn,dbOr,itm,pri,itLf,#Itm,nme</entry>
+<entry key="selDpl">PurInv,3</entry>
+<entry key="selFds">PurRet,inv,#PurInv,dbOr,dbcr,cuFr,exRt,dat,inTx,omTx,toTx,tot,toPa,#DbCr,nme,txDs,#Curr,nme,#TxDst,nme,stRm,stIb,stAg</entry>
 </properties>

@@ -82,7 +82,7 @@ public class SrRtLnSv {
       throw new ExcCode(ExcCode.SPAM, "Attempt to update immutable line");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
-    String[] fds = new String[] {"dat", "dbOr", "dscr", "mdEnr", "ver"};
+    String[] fds = new String[] {"dat", "dbOr", "inv", "dscr", "mdEnr", "ver"};
     Arrays.sort(fds);
     vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds", fds);
     String[] ifds = new String[] {"dat", "dbcr", "inTx", "mdEnr", "omTx",
@@ -108,11 +108,6 @@ public class SrRtLnSv {
     if (pEnt.getOwnr().getMdEnr()) {
       throw new ExcCode(ExcCode.SPAM, "Attempt to change accounted document!");
     }
-    fds = new String[] {"itm", "uom", "pri", "prFc", "txCt"};
-    Arrays.sort(fds);
-    vs.put(pEnt.getInvl().getClass().getSimpleName() + "ndFds", fds);
-    vs.put(pEnt.getInvl().getClass().getSimpleName() + "dpLv", 1);
-    this.orm.refrEnt(pRvs, vs, pEnt.getInvl()); vs.clear();
     AcStg as = (AcStg) pRvs.get("astg");
     TxDst txRules = pUtTxTo.revealTaxRules(pEnt.getOwnr(), as);
     if (pEnt.getRvId() != null) {

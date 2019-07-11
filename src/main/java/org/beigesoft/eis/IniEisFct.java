@@ -46,6 +46,7 @@ import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.AInv;
+import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.ADcTxLn;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.I18Acc;
@@ -74,6 +75,7 @@ import org.beigesoft.acc.mdlp.Expn;
 import org.beigesoft.acc.mdlp.Bnka;
 import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.SaInGdLn;
+import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.SalInv;
 
 /**
@@ -178,11 +180,12 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(DriEnrSr.class, "ace");
     hlClSt.getStgClss().put(PuInGdLn.class, "acrv");
     hlClSt.getStgClss().put(SaInGdLn.class, "acrv");
+    hlClSt.getStgClss().put(PuRtLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
-    hlClSt.getStgSclss().put(AInv.class, "adcl");
+    hlClSt.getStgSclss().put(IInvb.class, "adcl");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "prn"; //print
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
@@ -200,6 +203,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().put(IDoc.class, "doc");
     hlClSt.getStgClss().put(Acnt.class, "acc");
     hlClSt.getStgClss().put(Sacnt.class, "sac");
+    hlClSt.getStgClss().put(PuInGdLn.class, "pinl");
+    hlClSt.getStgClss().put(SaInGdLn.class, "inl");
   }
 
   /**
@@ -218,6 +223,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "str"; //to string
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getCustClss().add(BigDecimal.class); //inv.payment total vs others
+    hlFdSt.getStgClss().put(PuInGdLn.class, "pinl");
+    hlFdSt.getStgClss().put(SaInGdLn.class, "inl");
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
     hlFdSt.getStgSclss().put(AInv.class, "inv");
@@ -241,7 +248,6 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
     hlFdSt.getStgFdNm().put("rvId", "empt");
-    hlFdSt.getStgFdNm().put("itLf", "empt");
     hlFdSt.getStgFdNm().put("toLf", "empt");
     hlFdSt.getStgFdNm().put("txCt", "cdNil");
     hlFdSt.getStgFdNm().put("tot", "cdNil");
@@ -253,12 +259,12 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("txFc", "cdNil");
     hlFdSt.getStgFdNm().put("pri", "cdIl");
     hlFdSt.getStgFdNm().put("tdsc", "cdTd");
+    hlFdSt.getStgFdNm().put("invl", "cdinl");
     stgNm = "ceHe"; //to cell header
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
     hlFdSt.getStgFdNm().put("rvId", "empt");
-    hlFdSt.getStgFdNm().put("itLf", "empt");
     hlFdSt.getStgFdNm().put("toLf", "empt");
     hlFdSt.getStgFdNm().put("txCt", "chNil");
     hlFdSt.getStgFdNm().put("tot", "chNil");
@@ -270,6 +276,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("txFc", "chNil");
     hlFdSt.getStgFdNm().put("pri", "chIl");
     hlFdSt.getStgFdNm().put("tdsc", "chTd");
+    hlFdSt.getStgFdNm().put("invl", "chinl");
     stgNm = "inWr"; //input wrapper
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);

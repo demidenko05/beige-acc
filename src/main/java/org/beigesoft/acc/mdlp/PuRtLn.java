@@ -42,7 +42,7 @@ import org.beigesoft.acc.mdlb.IMkDriEnr;
  * @author Yury Demidenko
  */
 public class PuRtLn extends AOrId
-  implements IRetLn<PurRet, PurInv, PuInGdLn>, IMkDriEnr<CogsEnr> {
+  implements IRetLn<PurRet, PurInv, PuInGdLn>, IMkDriEnr<DrItEnr> {
 
   /**
    * <p>Return.</p>
@@ -53,6 +53,11 @@ public class PuRtLn extends AOrId
    * <p>Invoice line.</p>
    **/
   private PuInGdLn invl;
+
+  /**
+   * <p>Warehouse place optional.</p>
+   **/
+  private WrhPl whpo;
 
   /**
    * <p>Reversed ID.</p>
@@ -168,8 +173,8 @@ public class PuRtLn extends AOrId
    * @return draw item entry class
    **/
   @Override
-  public final Class<CogsEnr> getEnrCls() {
-    return CogsEnr.class;
+  public final Class<DrItEnr> getEnrCls() {
+    return DrItEnr.class;
   }
 
   /**
@@ -178,6 +183,9 @@ public class PuRtLn extends AOrId
    **/
   @Override
   public final Itm getItm() {
+    if (this.invl == null) {
+      return null;
+    }
     return this.invl.getItm();
   }
 
@@ -214,6 +222,9 @@ public class PuRtLn extends AOrId
    **/
   @Override
   public final Uom getUom() {
+    if (this.invl == null) {
+      return null;
+    }
     return this.invl.getUom();
   }
 
@@ -232,6 +243,9 @@ public class PuRtLn extends AOrId
    **/
   @Override
   public final BigDecimal getPri() {
+    if (this.invl == null) {
+      return null;
+    }
     return this.invl.getPri();
   }
 
@@ -250,6 +264,9 @@ public class PuRtLn extends AOrId
    **/
   @Override
   public final BigDecimal getPrFc() {
+    if (this.invl == null) {
+      return null;
+    }
     return this.invl.getPrFc();
   }
 
@@ -267,6 +284,9 @@ public class PuRtLn extends AOrId
    * @return TxCt
    **/
   public final TxCt getTxCt() {
+    if (this.invl == null) {
+      return null;
+    }
     return this.invl.getTxCt();
   }
 
@@ -473,5 +493,21 @@ public class PuRtLn extends AOrId
    **/
   public final void setTxLns(final List<PuRtLtl> pTxLns) {
     this.txLns = pTxLns;
+  }
+
+  /**
+   * <p>Getter for whpo.</p>
+   * @return WrhPl
+   **/
+  public final WrhPl getWhpo() {
+    return this.whpo;
+  }
+
+  /**
+   * <p>Setter for whpo.</p>
+   * @param pWhpo reference
+   **/
+  public final void setWhpo(final WrhPl pWhpo) {
+    this.whpo = pWhpo;
   }
 }

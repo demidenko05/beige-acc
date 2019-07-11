@@ -41,7 +41,7 @@ import org.beigesoft.acc.mdlb.IDcDri;
  *
  * @author Yury Demidenko
  */
-public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
+public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<DrItEnr> {
 
   /**
    * <p>Invoice.</p>
@@ -101,8 +101,8 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
    * @return draw item entry class
    **/
   @Override
-  public final Class<CogsEnr> getEnrCls() {
-    return CogsEnr.class;
+  public final Class<DrItEnr> getEnrCls() {
+    return DrItEnr.class;
   }
 
   /**
@@ -111,6 +111,9 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
    **/
   @Override
   public final DbCr getDbcr() {
+    if (this.inv == null) {
+      return null;
+    }
     return this.inv.getDbcr();
   }
 
@@ -129,6 +132,9 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
    **/
   @Override
   public final Curr getCuFr() {
+    if (this.inv == null) {
+      return null;
+    }
     return this.inv.getCuFr();
   }
 
@@ -147,6 +153,9 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
    **/
   @Override
   public final BigDecimal getExRt() {
+    if (this.inv == null) {
+      return null;
+    }
     return this.inv.getExRt();
   }
 
@@ -219,6 +228,9 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
    **/
   @Override
   public final BigDecimal getTxFc() {
+    if (this.inv == null) {
+      return null;
+    }
     return this.txFc;
   }
 
@@ -237,6 +249,9 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
    **/
   @Override
   public final Boolean getInTx() {
+    if (this.inv == null) {
+      return null;
+    }
     return this.inv.getInTx();
   }
 
@@ -255,6 +270,9 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<CogsEnr> {
    **/
   @Override
   public final Boolean getOmTx() {
+    if (this.inv == null) {
+      return null;
+    }
     return this.inv.getOmTx();
   }
 

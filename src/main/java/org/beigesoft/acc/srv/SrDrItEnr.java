@@ -52,14 +52,13 @@ import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.SrvClVl;
 import org.beigesoft.srv.II18n;
 import org.beigesoft.acc.mdl.ECogsMth;
+import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlb.ADrItEnr;
 import org.beigesoft.acc.mdlb.IMkDriEnr;
 import org.beigesoft.acc.mdlb.IItmSrc;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.DriEnrSr;
-import org.beigesoft.acc.mdlp.PurInv;
-import org.beigesoft.acc.mdlp.SalInv;
 
 /**
  * <p>Service that makes, reverses, retrieves draw item entries
@@ -392,12 +391,26 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
   public final <T extends ADrItEnr> List<T> retEntrs(
     final Map<String, Object> pRvs, final IDcDri<T> pDoc) throws Exception {
     String whe;
-    if (pDoc.getClass() == SalInv.class) { //resource friendly implementation:
+    //resource friendly implementation:
+    if (pDoc.getDocTy() == EDocTy.DRAWLN || pDoc.getDocTy() == EDocTy.DRAWBTH) {
       whe = "where DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid();
-    } else if (pDoc.getClass() == PurInv.class) {
+      if (pDoc.getDocTy() == EDocTy.DRAWBTH) {
+        whe = "(" + whe + ") or (DRTY=" + pDoc.cnsTy() + " and DRID="
+          + pDoc.getIid() + ")";
+      }
+    } else if (pDoc.getDocTy() == EDocTy.DRAW) {
+      whe = "where DRTY=" + pDoc.cnsTy() + " and DRID=" + pDoc.getIid();
+    } else if (pDoc.getDocTy() == EDocTy.ITSRLN
+      || pDoc.getDocTy() == EDocTy.ITSRBTH) {
       whe = "where SOWTY=" + pDoc.cnsTy() + " and SOWID=" + pDoc.getIid();
+      if (pDoc.getDocTy() == EDocTy.ITSRBTH) {
+        whe = "(" + whe + ") or (SRTY=" + pDoc.cnsTy() + " and SRID="
+          + pDoc.getIid() + ")";
+      }
+    } else if (pDoc.getDocTy() == EDocTy.ITSR) {
+      whe = "where SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid();
     } else {
-      throw new Exception("NEI!");
+      throw new Exception("Not allowed!");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
     List<T> rz = this.orm.retLstCnd(pRvs, vs, pDoc.getEnrCls(), whe);

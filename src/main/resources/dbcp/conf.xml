@@ -69,6 +69,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.I18Acc,
   org.beigesoft.acc.mdlp.WrhItm,
   org.beigesoft.acc.mdlp.WrhEnr,
+  org.beigesoft.acc.mdlp.DrItEnr,
   org.beigesoft.acc.mdlp.CogsEnr,
   org.beigesoft.acc.mdlp.DriEnrSr,
   org.beigesoft.acc.mdlp.I18Uom,

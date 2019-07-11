@@ -298,9 +298,12 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
         this.srvClVl.put(cv, "ver", "VER+1");
         this.srvClVl.putExpr(cv, "ver");
         try {
-          this.rdb.update(WrhItm.class, cv, "WRHP=" + rz.getWrhp().getIid()
-          + " and ITM=" + rz.getItm().getIid() + " and UOM="
-            + rz.getItm().getIid());
+          int ur = this.rdb.update(WrhItm.class, cv, "WRHP=" + rz.getWrhp()
+            .getIid() + " and ITM=" + rz.getItm().getIid() + " and UOM="
+            + rz.getUom().getIid());
+          if (ur == 0) {
+            throw new Exception("Something wrong!");
+          }
         } catch (Exception e) {
           this.log.error(pRvs,  getClass(), "THERE_IS_NO_GOODS", e);
           throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");

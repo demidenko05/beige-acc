@@ -107,7 +107,7 @@ public class FctAcc<RS> implements IFctAux<RS> {
   /**
    * <p>Purchase return tax method name.</p>
    **/
-  public static final String PURTTXMT = "SalInvTxMeth";
+  public static final String PURTTXMT = "PuRtTxMt";
 
   /**
    * <p>Creates requested bean and put into given main factory.

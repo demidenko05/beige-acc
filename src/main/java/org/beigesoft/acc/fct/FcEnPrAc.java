@@ -91,6 +91,7 @@ import org.beigesoft.acc.prc.InvLnSv;
 import org.beigesoft.acc.prc.RetSv;
 import org.beigesoft.acc.prc.RetLnSv;
 import org.beigesoft.acc.prc.InvSv;
+import org.beigesoft.acc.prc.RetLnRv;
 import org.beigesoft.acc.prc.InvLnCpr;
 import org.beigesoft.acc.prc.DocCpr;
 import org.beigesoft.acc.prc.PrepCpr;
@@ -241,6 +242,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuTxCtLnDl(pRvs);
           } else if (TxCtLnSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuTxCtLnSv(pRvs);
+          } else if (RetLnRv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuRetLnRv(pRvs);
           } else if (InvLnCpr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuInvLnCpr(pRvs);
           } else if (DocCpr.class.getSimpleName().equals(pPrNm)) {
@@ -484,6 +487,22 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setRdb(rdb);
     this.procs.put(TxCtLnSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), TxCtLnSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map RetLnRv.</p>
+   * @param pRvs request scoped vars
+   * @return RetLnRv
+   * @throws Exception - an exception
+   */
+  private RetLnRv crPuRetLnRv(
+    final Map<String, Object> pRvs) throws Exception {
+    RetLnRv rz = new RetLnRv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(RetLnRv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), RetLnRv.class
       .getSimpleName() + " has been created.");
     return rz;
   }

@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.srv;
 
 import java.util.Map;
+import java.util.Arrays;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -78,8 +79,8 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
   @Override
   public final void mkEntrs(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final PuRtLn pEnt) throws Exception {
-    this.srDrItEnr.draw(pRvs, pEnt);
-    this.srWrhEnr.draw(pRvs, pEnt, null);
+    this.srDrItEnr.drawFr(pRvs, pEnt, pEnt.getInvl(), pEnt.getQuan());
+    this.srWrhEnr.draw(pRvs, pEnt, pEnt.getWhpo());
   }
 
   /**
@@ -109,6 +110,22 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
         pEnt.setSubt(pEnt.getSuFc().multiply(exchRt)
           .setScale(as.getPrDp(), as.getRndm()));
       }
+    }
+    String[] fds = new String[] {"itm", "uom", "pri", "prFc", "txCt", "itLf"};
+    Arrays.sort(fds);
+    pVs.put(pEnt.getInvl().getClass().getSimpleName() + "ndFds", fds);
+    pVs.put(pEnt.getInvl().getClass().getSimpleName() + "dpLv", 1);
+    this.orm.refrEnt(pRvs, pVs, pEnt.getInvl()); pVs.clear();
+    pEnt.getInvl().setOwnr(pEnt.getOwnr().getInv());
+    if (pEnt.getInvl().getItLf().compareTo(pEnt.getQuan()) == -1) {
+      throw new ExcCode(ExcCode.WRPR, "LINE_HAS_NO_GOODS");
+    }
+    String src = "*" + pEnt.getInvl().getPri() + ", "
+      + pEnt.getInvl().getItLf() + "*";
+    if (pEnt.getDscr() == null) {
+      pEnt.setDscr(src);
+    } else {
+      pEnt.setDscr(pEnt.getDscr() + " " + src);
     }
   }
 

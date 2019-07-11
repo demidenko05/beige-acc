@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
+  <!--non-initialized.-->
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.PurRet" />
+     <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+  </Match>
   <!--See test DoubleCkeckLockingRiApTest. Assigning fully
   initialized bean to the class variable is reliable method.-->
   <Match>

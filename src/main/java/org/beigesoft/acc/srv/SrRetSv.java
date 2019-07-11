@@ -125,23 +125,32 @@ public class SrRetSv {
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
       if (!pEnt.getIsNew()) {
-        String[] ndf = new String[] {"inv", "iid", "rvId", "mdEnr"};
+        String[] ndf = new String[] {"inv", "rvId", "mdEnr"};
         Arrays.sort(ndf);
         vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndf);
-        String[] ndfi = new String[] {"dbcr", "rvId", "inTx", "omTx", "mdEnr",
-          "exRt", "cuFr"};
+        String[] ndfi = new String[] {"rvId", "mdEnr", "tot"};
         Arrays.sort(ndfi);
         vs.put(pEnt.getInv().getClass().getSimpleName() + "ndFds", ndfi);
-        vs.put("DbCrdpLv", 1);
-        vs.put("DbCrndFds", new String[] {"txDs"});
         T old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
         pEnt.setMdEnr(old.getMdEnr());
-        pEnt.setInv(old.getInv());
+        if (pEnt.getMdEnr()) {
+          throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
+        }
         if (old.getRvId() != null) {
           throw new ExcCode(ExcCode.SPAM, "Trying to change reversed!");
         }
-        if (pEnt.getMdEnr()) {
-          throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
+        if (old.getTot().compareTo(BigDecimal.ZERO) == 1
+          && !old.getInv().getIid().equals(pEnt.getInv().getIid())) {
+          throw new ExcCode(ExcCode.SPAM, "Trying to change involved invoice!");
+        }
+        String[] fdDcUpd;
+        if (old.getInv().getIid().equals(pEnt.getInv().getIid())) {
+          pEnt.setInv(old.getInv());
+          fdDcUpd = new String[] {"dat", "dscr", "mdEnr", "ver", "inv"};
+        } else {
+          vs.put(pEnt.getInv().getClass().getSimpleName() + "ndFds", ndfi);
+          this.orm.refrEnt(pRvs, vs, pEnt.getInv()); vs.clear();
+          fdDcUpd = new String[] {"dat", "dscr", "mdEnr", "ver", "inv"};
         }
         if (!pEnt.getInv().getMdEnr()) {
           throw new ExcCode(ExcCode.WRPR, "inv_not_accounted");
@@ -149,11 +158,10 @@ public class SrRetSv {
         if (pEnt.getInv().getRvId() != null) {
           throw new ExcCode(ExcCode.WRPR, "inv_reversed");
         }
-        String[] fdDcUpd = new String[] {"dat", "dscr", "mdEnr", "ver"};
         Arrays.sort(fdDcUpd);
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
-            throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
+            throw new ExcCode(ExcCode.SPAM, "Attempt to account zero doc!");
           }
           pRvs.put(ISrEntr.DOCFDSUPD, fdDcUpd);
           this.srEntr.mkEntrs(pRvs, pEnt);
@@ -165,6 +173,7 @@ public class SrRetSv {
           pRvs.put("msgSuc", "update_ok");
         }
       } else {
+        pRvs.put("msgSuc", "insert_ok");
         this.orm.insIdLn(pRvs, vs, pEnt);
       }
     }

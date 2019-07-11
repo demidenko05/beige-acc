@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--BSD 2-Clause License
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+See LICENSE in base folder
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Explicit final definition.</comment>
+<entry key="totcnToSt">CnvPriStr</entry>
+<entry key="toFccnToSt">CnvPriStr</entry>
+<entry key="subtcnToSt">CnvPriStr</entry>
+<entry key="suFccnToSt">CnvPriStr</entry>
+<entry key="toTxcnToSt">CnvPriStr</entry>
+<entry key="txFccnToSt">CnvPriStr</entry>
+<entry key="quancnToSt">CnvQuanStr</entry>
+<entry key="invlinp">retl</entry>
+<entry key="quaninp"></entry>
+<entry key="subtinp"></entry>
+<entry key="suFcinp"></entry>
+<entry key="toTxinp"></entry>
+<entry key="txFcinp"></entry>
+<entry key="txCtinp"></entry>
+<entry key="tdscinp"></entry>
+<entry key="totinp"></entry>
+<entry key="toFcinp"></entry>
+<entry key="rvIdinp"></entry>
+</properties>

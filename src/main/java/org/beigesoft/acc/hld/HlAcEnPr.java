@@ -40,7 +40,9 @@ import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlb.APrep;
+import org.beigesoft.acc.mdlb.IRetLn;
 import org.beigesoft.acc.mdlb.AInv;
+import org.beigesoft.acc.mdlb.IInvLn;
 import org.beigesoft.acc.mdlb.AInvLn;
 import org.beigesoft.acc.mdlb.ADcTxLn;
 import org.beigesoft.acc.mdlb.AEnrSrc;
@@ -89,6 +91,7 @@ import org.beigesoft.acc.prc.DcDriPr;
 import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.DocCpr;
 import org.beigesoft.acc.prc.EnrSrcChu;
+import org.beigesoft.acc.prc.RetLnRv;
 import org.beigesoft.acc.prc.InvLnCpr;
 
 /**
@@ -114,7 +117,7 @@ public class HlAcEnPr implements IHlNmClSt {
     }
     if (Entr.class == pCls || Acnt.class == pCls || Sacnt.class == pCls
     || AcStg.class == pCls || TxCtLn.class == pCls || AEnrSrc.class
-  .isAssignableFrom(pCls) || ISacnt.class.isAssignableFrom(pCls) || AInvLn.class
+  .isAssignableFrom(pCls) || ISacnt.class.isAssignableFrom(pCls) || IInvLn.class
 .isAssignableFrom(pCls) || IEntrSrc.class.isAssignableFrom(pCls)
   || ADcTxLn.class.isAssignableFrom(pCls)) {
       if ("entCr".equals(pAct)) { //Create
@@ -147,6 +150,8 @@ public class HlAcEnPr implements IHlNmClSt {
           return DocCpr.class.getSimpleName();
         } else if (AInvLn.class.isAssignableFrom(pCls)) {
           return InvLnCpr.class.getSimpleName();
+        } else if (IRetLn.class.isAssignableFrom(pCls)) {
+          return RetLnRv.class.getSimpleName();
         }
       } else if ("entEd".equals(pAct) || "entPr".equals(pAct)
         || "entCd".equals(pAct)) { //Retrieve for any action
@@ -228,7 +233,7 @@ public class HlAcEnPr implements IHlNmClSt {
           return InEntrDl.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {
           return IsacntDl.class.getSimpleName();
-        } else if (AInvLn.class.isAssignableFrom(pCls)) {
+        } else if (IInvLn.class.isAssignableFrom(pCls)) {
           return NULL;
         } else if (ADcTxLn.class.isAssignableFrom(pCls)) {
           return NULL;
