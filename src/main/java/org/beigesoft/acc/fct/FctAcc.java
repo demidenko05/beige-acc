@@ -39,6 +39,9 @@ import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.FctOrId;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.acc.mdlp.SalRet;
+import org.beigesoft.acc.mdlp.SaRtLn;
+import org.beigesoft.acc.mdlp.SaRtTxLn;
 import org.beigesoft.acc.mdlp.PurRet;
 import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.PuRtTxLn;
@@ -58,6 +61,7 @@ import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.SrAcStg;
 import org.beigesoft.acc.srv.UtInLnTxToBs;
 import org.beigesoft.acc.srv.ISrWrhEnr;
+import org.beigesoft.acc.srv.RvSaRtLn;
 import org.beigesoft.acc.srv.RvPuRtLn;
 import org.beigesoft.acc.srv.RvSaGdLn;
 import org.beigesoft.acc.srv.RvSaSrLn;
@@ -110,6 +114,11 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public static final String PURTTXMT = "PuRtTxMt";
 
   /**
+   * <p>Sales return tax method name.</p>
+   **/
+  public static final String SARTTXMT = "SaRtTxMt";
+
+  /**
    * <p>Creates requested bean and put into given main factory.
    * The main factory is already synchronized when invokes this.</p>
    * @param pRvs request scoped vars
@@ -150,6 +159,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuSrInvSv(pRvs, pFctApp);
     } else if (UtlBas.class.getSimpleName().equals(pBnNm)) {
       rz = crPuUtlBas(pRvs, pFctApp);
+    } else if (RvSaRtLn.class.getSimpleName().equals(pBnNm)) {
+      rz = crSaRvSaRtLn(pRvs, pFctApp);
     } else if (RvPuRtLn.class.getSimpleName().equals(pBnNm)) {
       rz = crSaRvPuRtLn(pRvs, pFctApp);
     } else if (RvSaGdLn.class.getSimpleName().equals(pBnNm)) {
@@ -164,6 +175,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuUtInLnTxToBs(pRvs, pFctApp);
     } else if (SALINVTXMETH.equals(pBnNm)) {
       rz = crPuSalInvTxMeth(pRvs, pFctApp);
+    } else if (SARTTXMT.equals(pBnNm)) {
+      rz = crPuSalRetTxMeth(pRvs, pFctApp);
     } else if (PURTTXMT.equals(pBnNm)) {
       rz = crPuPurRetTxMeth(pRvs, pFctApp);
     } else if (PURINVTXMETH.equals(pBnNm)) {
@@ -462,6 +475,31 @@ public class FctAcc<RS> implements IFctAux<RS> {
   }
 
   /**
+   * <p>Creates and puts into MF RvSaRtLn.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return RvSaRtLn
+   * @throws Exception - an exception
+   */
+  private RvSaRtLn<RS> crSaRvSaRtLn(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    RvSaRtLn<RS> rz = new RvSaRtLn<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setI18n(pFctApp.lazI18n(pRvs));
+    rz.setHldUvd(pFctApp.lazHldUvd(pRvs));
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) pFctApp
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    pFctApp.put(pRvs, RvSaRtLn.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      RvSaRtLn.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
    * <p>Creates and puts into MF RvPuRtLn.</p>
    * @param pRvs request scoped vars
    * @param pFctApp main factory
@@ -593,6 +631,37 @@ public class FctAcc<RS> implements IFctAux<RS> {
    * @return PurRetTxMeth
    * @throws Exception - an exception
    */
+  private InvTxMeth<SalRet, SaRtTxLn> crPuSalRetTxMeth(
+    final Map<String, Object> pRvs, final FctBlc<RS> pFctApp) throws Exception {
+    InvTxMeth<SalRet, SaRtTxLn> rz = new InvTxMeth<SalRet, SaRtTxLn>();
+    FctOrId<SaRtTxLn> fpitl = new FctOrId<SaRtTxLn>();
+    rz.setFctInvTxLn(fpitl);
+    fpitl.setCls(SaRtTxLn.class);
+    fpitl.setDbOr(pFctApp.lazOrm(pRvs).getDbId());
+    rz.setFlTotals("invGdTot");
+    rz.setFlTxInvAdj("saRtTxInAdj");
+    rz.setFlTxInvBas("saRtTxInBs");
+    rz.setFlTxInvBasAggr("saRtTxInBsAg");
+    rz.setFlTxItBas("invGdTxItBs");
+    rz.setFlTxItBasAggr("saRtTxItBsAg");
+    rz.setTblNmsTot(new String[] {"SARTLN", "SARTTXLN", "SARTLTL"});
+    rz.setIsTxByUser(true);
+    rz.setGoodLnCl(SaRtLn.class);
+    rz.setInvTxLnCl(SaRtTxLn.class);
+    rz.setInvCl(SalRet.class);
+    pFctApp.put(pRvs, SARTTXMT, rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SARTTXMT + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF PurRetTxMeth.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return PurRetTxMeth
+   * @throws Exception - an exception
+   */
   private InvTxMeth<PurRet, PuRtTxLn> crPuPurRetTxMeth(
     final Map<String, Object> pRvs, final FctBlc<RS> pFctApp) throws Exception {
     InvTxMeth<PurRet, PuRtTxLn> rz = new InvTxMeth<PurRet, PuRtTxLn>();
@@ -605,7 +674,7 @@ public class FctAcc<RS> implements IFctAux<RS> {
     rz.setFlTxInvBas("purRtTxInBs");
     rz.setFlTxInvBasAggr("purRtTxInBsAg");
     rz.setFlTxItBas("invGdTxItBs");
-    rz.setFlTxItBasAggr("purRtItBsAg");
+    rz.setFlTxItBasAggr("purRtTxItBsAg");
     rz.setTblNmsTot(new String[] {"PURTLN", "PURTTXLN", "PURTLTL"});
     rz.setIsTxByUser(true);
     rz.setGoodLnCl(PuRtLn.class);

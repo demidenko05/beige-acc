@@ -644,9 +644,9 @@ public class UtInLnTxToBs<RS> {
             }
           }
         } else {
-          String[] fdit = new String[] {"iid", "nme", "txCt"};
+          String[] fdit = new String[] {"nme", "txCt"};
           Arrays.sort(fdit);
-          String[] fdtc = new String[] {"iid", "nme", "agRt"};
+          String[] fdtc = new String[] {"nme", "agRt"};
           Arrays.sort(fdtc);
           pVs.put(pLine.getItm().getClass().getSimpleName() + "ndFds", fdit);
           pVs.put("TxCtndFds", fdtc);

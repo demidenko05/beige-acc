@@ -98,10 +98,7 @@ public class RvSaGdLn<RS> implements IRvInvLn<SalInv, SaInGdLn> {
     String[] ndFds = Arrays.copyOf(lstFds, lstFds.length);
     Arrays.sort(ndFds);
     pVs.put("SaInGdLnndFds", ndFds);
-    pVs.put("ItmdpLv", 0);
-    pVs.put("TxCtdpLv", 0);
-    pVs.put("WrhPldpLv", 0);
-    pVs.put("UomdpLv", 0);
+    pVs.put("SaInGdLndpLv", 1);
     List<SaInGdLn> lst = this.orm.retLstCnd(pRvs, pVs, SaInGdLn.class,
       "where SAINGDLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
     return lst;

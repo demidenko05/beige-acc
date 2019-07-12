@@ -11,5 +11,7 @@ See LICENSE in base folder
 <entry key="lstFds">iid,idOr,dbOr,rvId,mdEnr,dat,inv,toTx,tot,toFc,dscr</entry>
 <entry key="owdEnts">org.beigesoft.acc.mdlp.PuRtLn,org.beigesoft.acc.mdlp.PuRtTxLn</entry>
 <entry key="selDpl">PurInv,3</entry>
-<entry key="selFds">PurInv,dbOr,dbcr,cuFr,exRt,dat,inTx,omTx,toTx,tot,toPa,#DbCr,nme,txDs,#Curr,nme,#TxDst,nme,stRm,stIb,stAg</entry>
+<entry key="selFds">PurInv,dbOr,dbcr,cuFr,exRt,dat,inTx,omTx,toTx,toFc,tot,toPa,paFc,#DbCr,nme,txDs,#Curr,nme,#TxDst,nme,stRm,stIb,stAg</entry>
+<entry key="pgDpl">PurInv,2</entry>
+<entry key="pgFds">PurInv,dbOr,dbcr,cuFr,dat,toFc,tot,toPa,paFc,#DbCr,nme,#Curr,nme</entry>
 </properties>

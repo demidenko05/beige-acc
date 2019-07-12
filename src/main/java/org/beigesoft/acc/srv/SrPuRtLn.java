@@ -115,6 +115,10 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
     Arrays.sort(fds);
     pVs.put(pEnt.getInvl().getClass().getSimpleName() + "ndFds", fds);
     pVs.put(pEnt.getInvl().getClass().getSimpleName() + "dpLv", 1);
+    String[] fdstc = new String[] {"nme", "agRt"};
+    Arrays.sort(fdstc);
+    pVs.put("TxCtndFds", fdstc);
+    pVs.put("TxCtdpLv", 1);
     this.orm.refrEnt(pRvs, pVs, pEnt.getInvl()); pVs.clear();
     pEnt.getInvl().setOwnr(pEnt.getOwnr().getInv());
     if (pEnt.getInvl().getItLf().compareTo(pEnt.getQuan()) == -1) {

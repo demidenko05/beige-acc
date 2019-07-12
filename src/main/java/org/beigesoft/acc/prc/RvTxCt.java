@@ -184,7 +184,7 @@ public class RvTxCt<RS> implements IPrc {
   /**
    * <p>Load string file (usually SQL query).</p>
    * @param pFlNm file name
-   * @return String usually SQL query
+   * @return SQL query, not null
    * @throws IOException - IO exception
    **/
   public final synchronized String loadStr(
@@ -203,7 +203,7 @@ public class RvTxCt<RS> implements IPrc {
         }
       }
     }
-    return null;
+    throw new RuntimeException("File not found: " + pFlNm);
   }
 
   //Simple getters and setters:

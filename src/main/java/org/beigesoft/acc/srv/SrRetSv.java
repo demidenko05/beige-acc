@@ -125,7 +125,7 @@ public class SrRetSv {
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
       if (!pEnt.getIsNew()) {
-        String[] ndf = new String[] {"inv", "rvId", "mdEnr"};
+        String[] ndf = new String[] {"inv", "rvId", "mdEnr", "tot"};
         Arrays.sort(ndf);
         vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndf);
         String[] ndfi = new String[] {"rvId", "mdEnr", "tot"};

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--BSD 2-Clause License
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+See LICENSE in base folder
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Explicit final definition.</comment>
+<entry key="frmFds">ownr,iid,idOr,dbOr,wrhp,invl,rvId,quan,subt,toTx,tot,suFc,txFc,toFc,tdsc,itLf,toLf,dscr</entry>
+<entry key="pgDpl">SaInGdLn,2</entry>
+<entry key="pgFds">SaInGdLn,dbOr,itm,pri,#Itm,nme</entry>
+<entry key="selDpl">SalInv,3</entry>
+<entry key="selFds">SalRet,inv,#SalInv,dbOr,dbcr,cuFr,exRt,dat,inTx,omTx,toTx,tot,toPa,#DbCr,nme,txDs,#Curr,nme,#TxDst,nme,stRm,stIb,stAg</entry>
+</properties>

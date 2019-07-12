@@ -12,13 +12,15 @@ insert into USPRF (DCGRSP,LNG,CNTR,DCSP,DEF,VER,DGINGR) values (',','en','US','.
 insert into USPRF (DCGRSP,LNG,CNTR,DCSP,DEF,VER,DGINGR) values ('SPACE','ru','RU',',',0,1462867931627,3);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'BANK','1030','Cash in bank',1462867931627,1,1003);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RECEIVABLE','1105','Accounts receivable',1462867931627,1,1002);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RETRECV','1110','Returns receivable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVENTORY','1200','Inventory',1462867931627,1,1004);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXFR','1310','Sales taxes from purchases',1462867931627,1,1008);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXSRET','1315','Sales taxes from sales returns',1462867931627,1,1008);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECV','1310','Sales taxes receivable',1462867931627,1,1008);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECVRT','1315','Sales taxes receivable from returns',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PREPTO','1400','Prepayments to',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PAYABLE','2050','Accounts payable',1462867931627,1,1002);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'RETPAY','2055','Returns payable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAY','2310','Sales taxes payable',1462867931627,1,1008);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPRET','2315','Sales taxes from purchase returns',1462867931627,1,1008);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAYRT','2315','Sales taxes payable from returns',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PREPFR','2400','Prepayments from',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'SCAPITAL','3010','Started capital',1462867931627,1);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'REARNINGS','3200','Retained earnings',1462867931627,1);
@@ -59,4 +61,9 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (10,6,'SaInPrepFr
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (11,6,'SaInRecvDbSaTxCr',1462867931627,1,'SALINV.IID','Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (12,6,'SaInCogsDbInvCrItc',1462867931627,1,'SALINV.IID','Debit COGS per good category, Credit Inventory per good category for total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (13,7,'PayFrCashDbRecvCr',1462867931627,1,'PAYMFR.IID','Debit Cash, Credit Receivable per customer for total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (14,8,'PuRtRecvDbInvCtCr',1462867931627,1,'PURRET.IID','Debit Returns Receivable per vendor, Credit Inventory per good category for subtotal amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (15,8,'PuRtRecvDbSaTxCr',1462867931627,1,'PURRET.IID','Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (16,9,'SaRtItCtDbPaybCr',1462867931627,1,'SALRET.IID','Debit Goods sales returns per good category, Credit Returns Payable per Customer for subtotal amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (17,9,'SaRtSaTaxDbPaybCr',1462867931627,1,'SALRET.IID','Debit Sales tax receivable from returns per Tax, Credit Returns Payable per Customer for tax amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (18,9,'SaRtInvCtDbCogsCr',1462867931627,1,'SALRET.IID','Debit Inventory per good category, Credit COGS per good category for (quantity*COGS price) amount.');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (1,2000,'puGdLn',1462867931627,1,'CogsEnr','Purchase invoice good line for FIFO/LIFO');

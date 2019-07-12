@@ -789,7 +789,7 @@ public class InvPdf<WI> implements IInvPdf {
   /**
    * <p>Load string file (usually SQL query).</p>
    * @param pFlNm file name
-   * @return String usually SQL query
+   * @return SQL query, not null
    * @throws IOException - IO exception
    **/
   public final String loadStr(final String pFlNm) throws IOException {
@@ -808,7 +808,7 @@ public class InvPdf<WI> implements IInvPdf {
         }
       }
     }
-    return null;
+    throw new RuntimeException("File not found: " + pFlNm);
   }
 
   /**

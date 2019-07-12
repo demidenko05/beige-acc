@@ -467,7 +467,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
   /**
    * <p>Loads SQL query.</p>
    * @param pFlNm file name
-   * @return SQL query
+   * @return SQL query, not null
    * @throws IOException - IO exception
    **/
   public final String loadStr(final String pFlNm) throws IOException {
@@ -485,7 +485,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
         }
       }
     }
-    return null;
+    throw new RuntimeException("File not found: " + pFlNm);
   }
 
   //Simple getters and setters:

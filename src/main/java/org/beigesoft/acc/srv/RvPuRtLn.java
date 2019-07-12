@@ -96,7 +96,7 @@ public class RvPuRtLn<RS> implements IRvInvLn<PurRet, PuRtLn> {
     String[] ndFds = Arrays.copyOf(lstFds, lstFds.length);
     Arrays.sort(ndFds);
     pVs.put("PuRtLnndFds", ndFds);
-    pVs.put("invldpLv", 0);
+    pVs.put("PuRtLndpLv", 1);
     List<PuRtLn> lst = this.orm.retLstCnd(pRvs, pVs, PuRtLn.class,
       "where PURTLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
     return lst;
@@ -121,6 +121,7 @@ public class RvPuRtLn<RS> implements IRvInvLn<PurRet, PuRtLn> {
     this.rdb.delete("PURTLTL", "OWNR=" + pRved.getIid());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     pRvng.setInvl(pRved.getInvl());
+    pRvng.setWhpo(pRved.getWhpo());
     StringBuffer sb = new StringBuffer();
     if (pRvng.getDscr() != null) {
       sb.append(pRvng.getDscr() + " !");

@@ -159,40 +159,6 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   private Class<T> invCl;
 
   /**
-   * <p>Where start clause for adjusting invoice goods
-   * lines for invoice basis method.</p>
-   **/
-  private String stWhereAdjGdLnInvBas; //TODO useless?
-
-  /**
-   * <p>Where start clause for adjusting invoice service
-   * lines for invoice basis method.</p>
-   **/
-  private String stWhereAdjSrLnInvBas;
-
-  /**
-   * <p>Getter for stWhereAdjGdLnInvBas.
-   * Where start clause for adjusting invoice goods
-   * lines for invoice basis method.</p>
-   * @return String
-   **/
-  @Override
-  public final String getStWhereAdjGdLnInvBas() {
-    return this.stWhereAdjGdLnInvBas;
-  }
-
-  /**
-   * <p>Getter for stWhereAdjSrLnInvBas.
-   * Where start clause for adjusting invoice service
-   * lines for invoice basis method.</p>
-   * @return String
-   **/
-  @Override
-  public final String getStWhereAdjSrLnInvBas() {
-    return this.stWhereAdjSrLnInvBas;
-  }
-
-  /**
    * <p>Getter for fctInvTxLn.</p>
    * @return IFctRq<TL>
    **/
@@ -236,7 +202,7 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTxInvAdj() throws IOException {
     if (this.quTxInvAdj == null) {
-      this.quTxInvAdj = loadString("/acc/trade/" + this.flTxInvAdj
+      this.quTxInvAdj = loadStr("/acc/trade/" + this.flTxInvAdj
         + ".sql");
     }
     return this.quTxInvAdj;
@@ -250,7 +216,7 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTxInvBas() throws IOException {
     if (this.quTxInvBas == null) {
-      this.quTxInvBas = loadString("/acc/trade/" + this.flTxInvBas
+      this.quTxInvBas = loadStr("/acc/trade/" + this.flTxInvBas
         + ".sql");
     }
     return this.quTxInvBas;
@@ -264,7 +230,7 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTxInvBasAggr() throws IOException {
     if (this.quTxInvBasAggr == null) {
-      this.quTxInvBasAggr = loadString("/acc/trade/"
+      this.quTxInvBasAggr = loadStr("/acc/trade/"
         + this.flTxInvBasAggr + ".sql");
     }
     return this.quTxInvBasAggr;
@@ -279,7 +245,7 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   public final String lazyGetQuTxItBasAggr() throws IOException {
     if (this.quTxItBasAggr == null) {
       this.quTxItBasAggr =
-        loadString("/acc/trade/" + this.flTxItBasAggr
+        loadStr("/acc/trade/" + this.flTxItBasAggr
           + ".sql");
     }
     return this.quTxItBasAggr;
@@ -293,7 +259,7 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTxItBas() throws IOException {
     if (this.quTxItBas == null) {
-      this.quTxItBas = loadString("/acc/trade/" + this.flTxItBas
+      this.quTxItBas = loadStr("/acc/trade/" + this.flTxItBas
         + ".sql");
     }
     return this.quTxItBas;
@@ -307,7 +273,7 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   @Override
   public final String lazyGetQuTotals() throws IOException {
     if (this.quTotals == null) {
-      this.quTotals = loadString("/acc/trade/" + this.flTotals
+      this.quTotals = loadStr("/acc/trade/" + this.flTotals
         + ".sql");
     }
     return this.quTotals;
@@ -345,16 +311,16 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
 
   /**
    * <p>Load string file (usually SQL query).</p>
-   * @param pFileName file name
-   * @return String usually SQL query
+   * @param pFlNm file name
+   * @return SQL query, not null
    * @throws IOException - IO exception
    **/
-  public final String loadString(final String pFileName) throws IOException {
-    URL urlFile = InvTxMeth.class.getResource(pFileName);
+  public final String loadStr(final String pFlNm) throws IOException {
+    URL urlFile = InvTxMeth.class.getResource(pFlNm);
     if (urlFile != null) {
       InputStream inputStream = null;
       try {
-        inputStream = InvTxMeth.class.getResourceAsStream(pFileName);
+        inputStream = InvTxMeth.class.getResourceAsStream(pFlNm);
         byte[] bArray = new byte[inputStream.available()];
         inputStream.read(bArray, 0, inputStream.available());
         return new String(bArray, "UTF-8");
@@ -364,7 +330,7 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
         }
       }
     }
-    return null;
+    throw new RuntimeException("File not found: " + pFlNm);
   }
 
   //Simple getters and setters:
@@ -520,23 +486,5 @@ public class InvTxMeth<T extends IInvb, TL extends AInTxLn<T>>
   public final void setServiceLnCl(
     final Class<? extends IInvLn<T, Srv>> pServiceLnCl) {
     this.serviceLnCl = pServiceLnCl;
-  }
-
-  /**
-   * <p>Setter for stWhereAdjGdLnInvBas.</p>
-   * @param pStWhereAdjGdLnInvBas reference
-   **/
-  public final void setStWhereAdjGdLnInvBas(
-    final String pStWhereAdjGdLnInvBas) {
-    this.stWhereAdjGdLnInvBas = pStWhereAdjGdLnInvBas;
-  }
-
-  /**
-   * <p>Setter for stWhereAdjSrLnInvBas.</p>
-   * @param pStWhereAdjSrLnInvBas reference
-   **/
-  public final void setStWhereAdjSrLnInvBas(
-    final String pStWhereAdjSrLnInvBas) {
-    this.stWhereAdjSrLnInvBas = pStWhereAdjSrLnInvBas;
   }
 }

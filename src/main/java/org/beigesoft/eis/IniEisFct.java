@@ -219,6 +219,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     String stgNm = "inp"; //input
     HldFldStg hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     //saTy, srTy
+    hlFdSt.getStgClss().remove(Integer.class); //reconfiguration!
     hlFdSt.getCustClss().add(Integer.class);
     stgNm = "str"; //to string
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);

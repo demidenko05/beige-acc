@@ -54,6 +54,8 @@ import org.beigesoft.acc.mdlp.Sacnt;
 import org.beigesoft.acc.mdlp.TxCtLn;
 import org.beigesoft.acc.mdlp.Blnc;
 import org.beigesoft.acc.mdlp.BlnCh;
+import org.beigesoft.acc.mdlp.SalRet;
+import org.beigesoft.acc.mdlp.SaRtLn;
 import org.beigesoft.acc.mdlp.PurRet;
 import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.SalInv;
@@ -184,6 +186,10 @@ public class HlAcEnPr implements IHlNmClSt {
       } else if ("entSv".equals(pAct)) { //Save
         if (Acnt.class == pCls) {
           return AcntSv.class.getSimpleName();
+        } else if (SalRet.class == pCls) {
+          return FcEnPrAc.SARETSV;
+        } else if (SaRtLn.class == pCls) {
+          return FcEnPrAc.SARTLNSV;
         } else if (PurRet.class == pCls) {
           return FcEnPrAc.PURETSV;
         } else if (PuRtLn.class == pCls) {

@@ -188,7 +188,7 @@ public class SrEntr<RS> implements ISrEntr {
             entr.setSadId(rs.getLong("SADID"));
             Double debt = rs.getDouble("DEBT");
             entr.setDebt(BigDecimal.valueOf(debt)
-              .setScale(as.getRpDp(), as.getRndm()));
+              .setScale(as.getCsDp(), as.getRndm()));
           }
           String acCrs = rs.getStr("ACCR");
           if (acCrs !=  null) {
@@ -199,7 +199,7 @@ public class SrEntr<RS> implements ISrEntr {
             entr.setSacId(rs.getLong("SACID"));
             Double cred = rs.getDouble("CRED");
             entr.setCred(BigDecimal.valueOf(cred)
-              .setScale(as.getRpDp(), as.getRndm()));
+              .setScale(as.getCsDp(), as.getRndm()));
           }
           entr.setDscr(getI18n().getMsg(pDoc.getClass().getSimpleName() + "sht",
         cpf.getLngDef().getIid()) + " #" + pDoc.getDbOr() + "-" + pDoc.getIid()
@@ -387,7 +387,7 @@ public class SrEntr<RS> implements ISrEntr {
   /**
    * <p>Loads SQL query.</p>
    * @param pFlNm file name
-   * @return SQL query
+   * @return SQL query, not null
    * @throws IOException - IO exception
    **/
   public final String loadStr(final String pFlNm) throws IOException {
@@ -405,7 +405,7 @@ public class SrEntr<RS> implements ISrEntr {
         }
       }
     }
-    return null;
+    throw new RuntimeException("File not found: " + pFlNm);
   }
 
   //Simple getters and setters:

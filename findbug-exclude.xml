@@ -5,6 +5,10 @@
      <Class name="org.beigesoft.acc.mdlp.PurRet" />
      <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
   </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.SalRet" />
+     <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+  </Match>
   <!--See test DoubleCkeckLockingRiApTest. Assigning fully
   initialized bean to the class variable is reliable method.-->
   <Match>
@@ -130,6 +134,14 @@
   </Match>
   <Match>
      <Class name="org.beigesoft.acc.mdlp.PuInGdLn" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.SaRtLn" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.SaRtLn" />
      <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
 </FindBugsFilter>

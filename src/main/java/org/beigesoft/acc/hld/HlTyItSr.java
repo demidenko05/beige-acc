@@ -35,6 +35,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.hld.IHlIntCls;
 import org.beigesoft.acc.mdlb.IItmSrc;
 import org.beigesoft.acc.mdlp.PuInGdLn;
+import org.beigesoft.acc.mdlp.SaRtLn;
 
 /**
  * <p>Holder item to draw sources classes by type.</p>
@@ -54,6 +55,7 @@ public class HlTyItSr implements IHlIntCls {
   public HlTyItSr() {
     this.clsMp = new HashMap<Integer, Class<? extends IItmSrc>>();
     this.clsMp.put(new PuInGdLn().cnsTy(), PuInGdLn.class); //2000
+    this.clsMp.put(new SaRtLn().cnsTy(), SaRtLn.class); //2003
   }
 
   /**

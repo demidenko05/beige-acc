@@ -10,7 +10,7 @@
   <suppress checks="MagicNumber"
     files="SaInGdLn|SalInv|PuInGdLn|PurInv|PrepTo|UtInLnTxToBs|SrSaGdLn|SrSaSrLn|SrPuGdLn|SrPuSrLn|PaymTo|PaymFr"/>
   <suppress checks="MagicNumber"
-    files="PurRet|PuRtLn|SrRtLnSv"/>
+    files="PurRet|PuRtLn|SrRtLnSv|SalRet|SaRtLn"/>
   <suppress checks="MethodLength"
     files="BlnPdf|UtInLnTxToBs|SrInvSv|InvPdf"/>
 </suppressions>

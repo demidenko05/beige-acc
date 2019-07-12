@@ -98,7 +98,7 @@ public class SrPuGdLn implements ISrInItLn<PurInv, PuInGdLn> {
       exchRt = BigDecimal.ONE.divide(exchRt.negate(), 15, RoundingMode.HALF_UP);
     }
     AcStg as = (AcStg) pRvs.get("astg");
-    pVs.put("ItmNdFds", new String[] {"iid", "knCs"});
+    pVs.put("ItmndFds", new String[] {"iid", "knCs"});
     this.orm.refrEnt(pRvs, pVs, pEnt.getItm()); pVs.clear();
     if (pEnt.getItm().getKnCs().compareTo(BigDecimal.ZERO) == 1) {
       //known cost
@@ -148,11 +148,7 @@ public class SrPuGdLn implements ISrInItLn<PurInv, PuInGdLn> {
   @Override
   public final PuInGdLn retChkRv(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final PuInGdLn pEnt) throws Exception {
-    pVs.put("PurInvdpLv", 0);
-    pVs.put("ItmdpLv", 0);
-    pVs.put("TxCtdpLv", 0);
-    pVs.put("WrhPldpLv", 0);
-    pVs.put("UomdpLv", 0);
+    pVs.put("PuInGdLndpLv", 1);
     PuInGdLn rz = new PuInGdLn();
     rz.setIid(pEnt.getRvId());
     this.orm.refrEnt(pRvs, pVs, rz); pVs.clear();
