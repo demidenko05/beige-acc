@@ -26,87 +26,101 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
+package org.beigesoft.acc.mdlp;
 
-import java.math.BigDecimal;
+import java.util.List;
+import java.util.Date;
 
 import org.beigesoft.mdlp.AOrId;
-import org.beigesoft.acc.mdlp.Tax;
+import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.acc.mdlb.IDocb;
 
 /**
- * <p>Abstract model of document tax line. It holds grouped total tax amount
- * for whole document for any method - invoice/item basis,
- * price included/excluded. It used for making resulting accounting tax
- * entries, e.g. sales invoice:
- * Debit AccReceivable.Customer Credit SalesTaxPayable.Tax for total amount.</p>
+ * <p>Model of document that moves items inside/between warehouse/s.</p>
  *
  * @author Yury Demidenko
  */
-public abstract class ADcTxLn extends AOrId implements IRvId {
+public class MovItm extends AOrId implements IDocb {
 
   /**
-   * <p>ID of reversed/reversing document tax line.</p>
+   * <p>Date.</p>
    **/
-  private Long rvId;
+  private Date dat;
 
   /**
-   * <p>Tax.</p>
+   * <p>Description.</p>
    **/
-  private Tax tax;
+  private String dscr;
 
   /**
-   * <p>Total.</p>
+   * <p>Lines.</p>
    **/
-  private BigDecimal tot = BigDecimal.ZERO;
+  private List<MoItLn> lns;
 
   /**
-   * <p>Getter for rvId.</p>
-   * @return Long
+   * <p>Constant of code type.</p>
+   * @return 10
    **/
   @Override
-  public final Long getRvId() {
-    return this.rvId;
+  public final Integer cnsTy() {
+    return 10;
   }
 
   /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
    **/
   @Override
-  public final void setRvId(final Long pRvId) {
-    this.rvId = pRvId;
+  public final EDocTy getDocTy() {
+    return EDocTy.WRHLN;
   }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for tax.</p>
-   * @return Tax
+   * <p>Getter for dat.</p>
+   * @return Date
    **/
-  public final Tax getTax() {
-    return this.tax;
+  public final Date getDat() {
+    return this.dat;
   }
 
   /**
-   * <p>Setter for tax.</p>
-   * @param pTax reference
+   * <p>Setter for dat.</p>
+   * @param pDat reference
    **/
-  public final void setTax(final Tax pTax) {
-    this.tax = pTax;
+  public final void setDat(final Date pDat) {
+    this.dat = pDat;
   }
 
   /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
+   * <p>Getter for dscr.</p>
+   * @return String
    **/
-  public final BigDecimal getTot() {
-    return this.tot;
+  public final String getDscr() {
+    return this.dscr;
   }
 
   /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
+   * <p>Setter for dscr.</p>
+   * @param pDscr reference
    **/
-  public final void setTot(final BigDecimal pTot) {
-    this.tot = pTot;
+  public final void setDscr(final String pDscr) {
+    this.dscr = pDscr;
+  }
+
+  /**
+   * <p>Getter for lns.</p>
+   * @return List<MoItLn>
+   **/
+  public final List<MoItLn> getLns() {
+    return this.lns;
+  }
+
+  /**
+   * <p>Setter for lns.</p>
+   * @param pLns reference
+   **/
+  public final void setLns(final List<MoItLn> pLns) {
+    this.lns = pLns;
   }
 }

@@ -26,31 +26,24 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.rep;
+package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
-import org.beigesoft.rdb.IRdb;
+import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
-import org.beigesoft.prc.IPrc;
-import org.beigesoft.acc.mdlp.WrhItm;
+import org.beigesoft.prc.IPrcEnt;
+import org.beigesoft.acc.mdlp.MoItLn;
 
 /**
- * <p>Transactional service that retrieves items in warehouse and
- * puts it into request vars.</p>
+ * <p>Service that makes copy of move item line to reverse.</p>
  *
  * @author Yury Demidenko
- * @param <RS> platform dependent record set type
  */
-public class PrWrhItm<RS> implements IPrc {
-
-  /**
-   * <p>RDB service.</p>
-   **/
-  private IRdb<RS> rdb;
+public class MoItLnRv implements IPrcEnt<MoItLn, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -58,73 +51,37 @@ public class PrWrhItm<RS> implements IPrc {
   private IOrm orm;
 
   /**
-   * <p>Transaction isolation.</p>
-   **/
-  private Integer trIsl;
-
-  /**
-   * <p>Process request.</p>
+   * <p>Process that creates copy entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
+   * @param pEnt Entity to process
+   * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
   @Override
-  public final void process(final Map<String, Object> pRvs,
-    final IReqDt pRqDt) throws Exception {
-    try {
-      this.rdb.setAcmt(false);
-      this.rdb.setTrIsl(this.trIsl);
-      this.rdb.begin();
-      Map<String, Object> vs = new HashMap<String, Object>();
-      vs.put("WrhdpLv", 1);
-      List<WrhItm> wrhItms = this.orm.retLstCnd(pRvs, vs, WrhItm.class,
-        "where  WRHITM.ITLF>0 order by WRH22.NME, WRHP10.NME, ITM11.NME");
-      pRvs.put("wrhItms", wrhItms);
-      pRqDt.setAttr("rnd", "wrhit");
-      this.rdb.commit();
-    } catch (Exception ex) {
-      if (!this.rdb.getAcmt()) {
-        this.rdb.rollBack();
-      }
-      throw ex;
-    } finally {
-      this.rdb.release();
+  public final MoItLn process(final Map<String, Object> pRvs,
+    final MoItLn pEnt, final IReqDt pRqDt) throws Exception {
+    Map<String, Object> vs = new HashMap<String, Object>();
+    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
+    }
+    Long rvId = pEnt.getRvId();
+    this.orm.refrEnt(pRvs, vs, pEnt);
+    if (rvId == null) {
+      throw new ExcCode(ExcCode.SPAM, "Copy not allowed!");
+    } else {
+      pEnt.setRvId(rvId);
+      pEnt.setQuan(pEnt.getQuan().negate());
+      pEnt.setDscr(null);
+      pEnt.setIid(null);
+      pEnt.setIsNew(true);
+      UvdVar uvs = (UvdVar) pRvs.get("uvs");
+      uvs.setEnt(pEnt);
+      return pEnt;
     }
   }
 
   //Simple getters and setters:
-  /**
-   * <p>Getter for rdb.</p>
-   * @return IRdb
-   **/
-  public final IRdb<RS> getRdb() {
-    return this.rdb;
-  }
-
-  /**
-   * <p>Setter for rdb.</p>
-   * @param pRdb reference
-   **/
-  public final void setRdb(final IRdb<RS> pRdb) {
-    this.rdb = pRdb;
-  }
-
-  /**
-   * <p>Getter for trIsl.</p>
-   * @return Integer
-   **/
-  public final Integer getTrIsl() {
-    return this.trIsl;
-  }
-
-  /**
-   * <p>Setter for trIsl.</p>
-   * @param pTrIsl reference
-   **/
-  public final void setTrIsl(final Integer pTrIsl) {
-    this.trIsl = pTrIsl;
-  }
-
   /**
    * <p>Getter for orm.</p>
    * @return IOrm

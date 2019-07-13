@@ -43,7 +43,7 @@ import org.beigesoft.acc.mdlp.TxCt;
  * @author Yury Demidenko
  */
 public interface IInvLn<T extends IInvb, I extends AItm<?, ?>>
-  extends IOwned<T, Long>, IOrId {
+  extends IOwned<T, Long>, IOrId, IRvId {
 
   /**
    * <p>Getter for itm.</p>
@@ -140,18 +140,6 @@ public interface IInvLn<T extends IInvb, I extends AItm<?, ?>>
    * @param pToFc reference
    **/
   void setToFc(BigDecimal pToFc);
-
-  /**
-   * <p>Getter for rvId.</p>
-   * @return Long
-   **/
-  Long getRvId();
-
-  /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
-   **/
-  void setRvId(Long pRvId);
 
   /**
    * <p>Getter for uom.</p>

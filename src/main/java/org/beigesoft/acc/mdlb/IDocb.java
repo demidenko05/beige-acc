@@ -28,40 +28,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
-import java.util.Date;
+import org.beigesoft.mdlp.IOrId;
+import org.beigesoft.acc.mdl.EDocTy;
 
 /**
- * <p>Abstract model of a source of accounting entries. It's any document that
- * makes accounting entry by hand or automatically.
- * Method cnsTy returns unique code of entity type (OOP consumable constant),
- * range 1...999, e.g. 1 - input accounting entries by hand base document.
- * Any source has date and description.</p>
+ * <p>Abstraction of base model of document that makes any entries,
+ * e.g. move items in warehouse.</p>
  *
  * @author Yury Demidenko
  */
-public interface IEntrSrc extends IDocb {
+public interface IDocb extends IOrId, ITyp {
 
   /**
-   * <p>Getter for dat.</p>
-   * @return Date
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
    **/
-  Date getDat();
-
-  /**
-   * <p>Setter for dat.</p>
-   * @param pDat reference
-   **/
-  void setDat(Date pDat);
-
-  /**
-   * <p>Getter for dscr.</p>
-   * @return String
-   **/
-  String getDscr();
-
-  /**
-   * <p>Setter for dscr.</p>
-   * @param pDscr reference
-   **/
-  void setDscr(String pDscr);
+  EDocTy getDocTy();
 }

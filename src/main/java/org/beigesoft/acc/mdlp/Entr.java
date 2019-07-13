@@ -32,13 +32,14 @@ import java.util.Date;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.acc.mdlb.IRvId;
 
 /**
  * <p>Model of Accounting Record (journal entry).</p>
  *
  * @author Yury Demidenko
  */
-public class Entr extends AOrId {
+public class Entr extends AOrId implements IRvId {
 
   /**
    * <p>Date, not null.</p>
@@ -118,6 +119,24 @@ public class Entr extends AOrId {
    **/
   private String dscr;
 
+  /**
+   * <p>Getter for rvId.</p>
+   * @return Long
+   **/
+  @Override
+  public final Long getRvId() {
+    return this.rvId;
+  }
+
+  /**
+   * <p>Setter for rvId.</p>
+   * @param pRvId reference
+   **/
+  @Override
+  public final void setRvId(final Long pRvId) {
+    this.rvId = pRvId;
+  }
+
   //Simple getters and setters:
   /**
    * <p>Getter for dat.</p>
@@ -133,22 +152,6 @@ public class Entr extends AOrId {
    **/
   public final void setDat(final Date pDat) {
     this.dat = pDat;
-  }
-
-  /**
-   * <p>Getter for rvId.</p>
-   * @return Long
-   **/
-  public final Long getRvId() {
-    return this.rvId;
-  }
-
-  /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
-   **/
-  public final void setRvId(final Long pRvId) {
-    this.rvId = pRvId;
   }
 
   /**

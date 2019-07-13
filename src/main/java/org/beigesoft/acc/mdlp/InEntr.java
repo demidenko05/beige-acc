@@ -31,6 +31,7 @@ package org.beigesoft.acc.mdlp;
 import java.util.List;
 import java.math.BigDecimal;
 
+import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdlb.AEntrSrc;
 
 /**
@@ -62,6 +63,15 @@ public class InEntr extends AEntrSrc {
   @Override
   public final Integer cnsTy() {
     return 1;
+  }
+
+  /**
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
+   **/
+  @Override
+  public final EDocTy getDocTy() {
+    return EDocTy.ACC;
   }
 
   //Simple getters and setters:

@@ -26,87 +26,67 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
+package org.beigesoft.acc.mdlp;
 
-import java.math.BigDecimal;
+import java.util.List;
 
-import org.beigesoft.mdlp.AOrId;
-import org.beigesoft.acc.mdlp.Tax;
+import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.acc.mdlb.ADoc;
+import org.beigesoft.acc.mdlb.IDcDri;
 
 /**
- * <p>Abstract model of document tax line. It holds grouped total tax amount
- * for whole document for any method - invoice/item basis,
- * price included/excluded. It used for making resulting accounting tax
- * entries, e.g. sales invoice:
- * Debit AccReceivable.Customer Credit SalesTaxPayable.Tax for total amount.</p>
+ * <p>Model of item use, stole, broke, loss.</p>
  *
  * @author Yury Demidenko
  */
-public abstract class ADcTxLn extends AOrId implements IRvId {
+public class ItmUlb extends ADoc implements IDcDri<CogsEnr> {
 
   /**
-   * <p>ID of reversed/reversing document tax line.</p>
+   * <p>Lines.</p>
    **/
-  private Long rvId;
+ private List<ItUbLn> lns;
 
   /**
-   * <p>Tax.</p>
-   **/
-  private Tax tax;
-
-  /**
-   * <p>Total.</p>
-   **/
-  private BigDecimal tot = BigDecimal.ZERO;
-
-  /**
-   * <p>Getter for rvId.</p>
-   * @return Long
+   * <p>Constant of code type.</p>
+   * @return 11
    **/
   @Override
-  public final Long getRvId() {
-    return this.rvId;
+  public final Integer cnsTy() {
+    return 11;
   }
 
   /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
    **/
   @Override
-  public final void setRvId(final Long pRvId) {
-    this.rvId = pRvId;
+  public final EDocTy getDocTy() {
+    return EDocTy.DRAWLN;
+  }
+
+  /**
+   * <p>Getter for draw item entry class.</p>
+   * @return draw item entry class
+   **/
+  @Override
+  public final Class<CogsEnr> getEnrCls() {
+    return CogsEnr.class;
   }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for tax.</p>
-   * @return Tax
+   * <p>Getter for lns.</p>
+   * @return List<ItUbLn>
    **/
-  public final Tax getTax() {
-    return this.tax;
+  public final List<ItUbLn> getLns() {
+    return this.lns;
   }
 
   /**
-   * <p>Setter for tax.</p>
-   * @param pTax reference
+   * <p>Setter for lns.</p>
+   * @param pLns reference
    **/
-  public final void setTax(final Tax pTax) {
-    this.tax = pTax;
-  }
-
-  /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getTot() {
-    return this.tot;
-  }
-
-  /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
-   **/
-  public final void setTot(final BigDecimal pTot) {
-    this.tot = pTot;
+  public final void setLns(final List<ItUbLn> pLns) {
+    this.lns = pLns;
   }
 }

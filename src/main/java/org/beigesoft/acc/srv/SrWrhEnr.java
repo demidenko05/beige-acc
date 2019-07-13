@@ -47,7 +47,7 @@ import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.SrvClVl;
 import org.beigesoft.srv.II18n;
 import org.beigesoft.acc.mdl.EDocTy;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDocb;
 import org.beigesoft.acc.mdlb.IMkWsEnr;
 import org.beigesoft.acc.mdlp.WrhEnr;
 import org.beigesoft.acc.mdlp.WrhPl;
@@ -230,7 +230,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
    **/
   @Override
   public final List<WrhEnr> retEntrs(final Map<String, Object> pRvs,
-    final IDoc pDoc) throws Exception {
+    final IDocb pDoc) throws Exception {
     if (pDoc.getDocTy() == EDocTy.ACC) {
     throw new ExcCode(ExcCode.WR, "Document should not has warehouse entries!");
     }

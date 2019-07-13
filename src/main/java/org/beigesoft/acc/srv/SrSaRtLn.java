@@ -121,6 +121,7 @@ public class SrSaRtLn implements ISrInItLn<SalRet, SaRtLn> {
     } else {
       pEnt.setDscr(pEnt.getDscr() + " " + src);
     }
+    pEnt.setItLf(pEnt.getQuan());
   }
 
   /**

@@ -31,7 +31,7 @@ package org.beigesoft.acc.srv;
 import java.util.List;
 import java.util.Map;
 
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDocb;
 import org.beigesoft.acc.mdlb.IMkWsEnr;
 import org.beigesoft.acc.mdlp.WrhEnr;
 import org.beigesoft.acc.mdlp.WrhPl;
@@ -106,5 +106,5 @@ public interface ISrWrhEnr {
    * @return entries
    * @throws Exception - an exception
    **/
-  List<WrhEnr> retEntrs(Map<String, Object> pRvs, IDoc pDoc) throws Exception;
+  List<WrhEnr> retEntrs(Map<String, Object> pRvs, IDocb pDoc) throws Exception;
 }

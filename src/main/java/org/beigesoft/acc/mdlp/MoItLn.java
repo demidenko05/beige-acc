@@ -28,44 +28,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
+import java.util.Date;
 import java.math.BigDecimal;
 
+import org.beigesoft.mdl.IOwned;
 import org.beigesoft.mdlp.AOrId;
-import org.beigesoft.acc.mdlb.IRvId;
+import org.beigesoft.acc.mdlb.IMkWsEnr;
 
 /**
- * <p>Model of warehouse entry. It loads/draws/transfer item in warehouse.</p>
+ * <p>Model of move item line.</p>
  *
  * @author Yury Demidenko
  */
-public class WrhEnr extends AOrId implements IRvId {
+public class MoItLn extends AOrId implements IOwned<MovItm, Long>, IMkWsEnr {
 
   /**
-   * <p>Reversed/reversing ID.</p>
+   * <p>Owner.</p>
+   **/
+  private MovItm ownr;
+
+  /**
+   * <p>Reversed ID.</p>
    **/
   private Long rvId;
-
-  /**
-   * <p>Integer, Not Null Source Type e.g. 2000 - PrInGdLn.
-   * This is constant [document/line].cnsTy().</p>
-   **/
-  private Integer srTy;
-
-  /**
-   * <p>Source document/line ID, Not Null.</p>
-   **/
-  private Long srId;
-
-  /**
-   * <p>Integer, if exist, Source Owner Type e.g. 4 - PruInv.
-   * This is constant [document/line].cnsTy().</p>
-   **/
-  private Integer sowTy;
-
-  /**
-   * <p>Source owner ID, if exist.</p>
-   **/
-  private Long sowId;
 
   /**
    * <p>Item to draw.</p>
@@ -98,6 +83,60 @@ public class WrhEnr extends AOrId implements IRvId {
   private String dscr;
 
   /**
+   * <p>Constant of code type.</p>
+   * @return 2004
+   **/
+  @Override
+  public final Integer cnsTy() {
+    return 2004;
+  }
+
+  /**
+   * <p>Getter for ownr.</p>
+   * @return MovItm
+   **/
+  @Override
+  public final MovItm getOwnr() {
+    return this.ownr;
+  }
+
+  /**
+   * <p>Setter for ownr.</p>
+   * @param pOwnr reference
+   **/
+  @Override
+  public final void setOwnr(final MovItm pOwnr) {
+    this.ownr = pOwnr;
+  }
+
+  /**
+   * <p>Getter for document date (own or owner's).</p>
+   * @return Date
+   **/
+  @Override
+  public final Date getDocDt() {
+    return this.ownr.getDat();
+  }
+
+  /**
+   * <p>Getter for owner ID if exist.</p>
+   * @return ID
+   **/
+  @Override
+  public final Long getOwnrId() {
+    return this.ownr.getIid();
+  }
+
+  /**
+   * <p>Getter for owner type.</p>
+   * @return type code 10
+   **/
+  @Override
+  public final Integer getOwnrTy() {
+    return 10;
+  }
+
+  /**
    * <p>Getter for rvId.</p>
    * @return Long
    **/
@@ -115,75 +154,11 @@ public class WrhEnr extends AOrId implements IRvId {
     this.rvId = pRvId;
   }
 
-  //Simple getters and setters:
-  /**
-   * <p>Getter for srTy.</p>
-   * @return Integer
-   **/
-  public final Integer getSrTy() {
-    return this.srTy;
-  }
-
-  /**
-   * <p>Setter for srTy.</p>
-   * @param pSrTy reference
-   **/
-  public final void setSrTy(final Integer pSrTy) {
-    this.srTy = pSrTy;
-  }
-
-  /**
-   * <p>Getter for srId.</p>
-   * @return Long
-   **/
-  public final Long getSrId() {
-    return this.srId;
-  }
-
-  /**
-   * <p>Setter for srId.</p>
-   * @param pSrId reference
-   **/
-  public final void setSrId(final Long pSrId) {
-    this.srId = pSrId;
-  }
-
-  /**
-   * <p>Getter for sowTy.</p>
-   * @return Integer
-   **/
-  public final Integer getSowTy() {
-    return this.sowTy;
-  }
-
-  /**
-   * <p>Setter for sowTy.</p>
-   * @param pSowTy reference
-   **/
-  public final void setSowTy(final Integer pSowTy) {
-    this.sowTy = pSowTy;
-  }
-
-  /**
-   * <p>Getter for sowId.</p>
-   * @return Long
-   **/
-  public final Long getSowId() {
-    return this.sowId;
-  }
-
-  /**
-   * <p>Setter for sowId.</p>
-   * @param pSowId reference
-   **/
-  public final void setSowId(final Long pSowId) {
-    this.sowId = pSowId;
-  }
-
   /**
    * <p>Getter for itm.</p>
    * @return Itm
    **/
+  @Override
   public final Itm getItm() {
     return this.itm;
   }
@@ -192,6 +167,7 @@ public class WrhEnr extends AOrId implements IRvId {
    * <p>Setter for itm.</p>
    * @param pItm reference
    **/
+  @Override
   public final void setItm(final Itm pItm) {
     this.itm = pItm;
   }
@@ -200,6 +176,7 @@ public class WrhEnr extends AOrId implements IRvId {
    * <p>Getter for uom.</p>
    * @return Uom
    **/
+  @Override
   public final Uom getUom() {
     return this.uom;
   }
@@ -208,6 +185,7 @@ public class WrhEnr extends AOrId implements IRvId {
    * <p>Setter for uom.</p>
    * @param pUom reference
    **/
+  @Override
   public final void setUom(final Uom pUom) {
     this.uom = pUom;
   }
@@ -216,6 +194,7 @@ public class WrhEnr extends AOrId implements IRvId {
    * <p>Getter for quan.</p>
    * @return BigDecimal
    **/
+  @Override
   public final BigDecimal getQuan() {
     return this.quan;
   }
@@ -224,11 +203,30 @@ public class WrhEnr extends AOrId implements IRvId {
    * <p>Setter for quan.</p>
    * @param pQuan reference
    **/
+  @Override
   public final void setQuan(final BigDecimal pQuan) {
     this.quan = pQuan;
   }
 
+  /**
+   * <p>Getter for dscr.</p>
+   * @return String
+   **/
+  @Override
+  public final String getDscr() {
+    return this.dscr;
+  }
 
+  /**
+   * <p>Setter for dscr.</p>
+   * @param pDscr reference
+   **/
+  @Override
+  public final void setDscr(final String pDscr) {
+    this.dscr = pDscr;
+  }
+
+  //SGS:
   /**
    * <p>Getter for wpFr.</p>
    * @return WrhPl
@@ -259,21 +257,5 @@ public class WrhEnr extends AOrId implements IRvId {
    **/
   public final void setWpTo(final WrhPl pWpTo) {
     this.wpTo = pWpTo;
-  }
-
-  /**
-   * <p>Getter for dscr.</p>
-   * @return String
-   **/
-  public final String getDscr() {
-    return this.dscr;
-  }
-
-  /**
-   * <p>Setter for dscr.</p>
-   * @param pDscr reference
-   **/
-  public final void setDscr(final String pDscr) {
-    this.dscr = pDscr;
   }
 }

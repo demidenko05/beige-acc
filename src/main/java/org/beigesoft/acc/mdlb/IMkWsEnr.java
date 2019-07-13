@@ -43,19 +43,7 @@ import org.beigesoft.acc.mdlp.Itm;
  *
  * @author Yury Demidenko
  */
-public interface IMkWsEnr extends IOrId, ITyp {
-
-  /**
-   * <p>Getter for rvId.</p>
-   * @return Long
-   **/
-  Long getRvId();
-
-  /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
-   **/
-  void setRvId(Long pRvId);
+public interface IMkWsEnr extends IOrId, ITyp, IRvId {
 
   /**
    * <p>Getter for itm.</p>

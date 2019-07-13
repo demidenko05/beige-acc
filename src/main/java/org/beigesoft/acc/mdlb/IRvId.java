@@ -28,85 +28,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
-import java.math.BigDecimal;
-
-import org.beigesoft.mdlp.AOrId;
-import org.beigesoft.acc.mdlp.Tax;
-
 /**
- * <p>Abstract model of document tax line. It holds grouped total tax amount
- * for whole document for any method - invoice/item basis,
- * price included/excluded. It used for making resulting accounting tax
- * entries, e.g. sales invoice:
- * Debit AccReceivable.Customer Credit SalesTaxPayable.Tax for total amount.</p>
+ * <p>Abstract model of a reverseable entity that makes entries
+ * or it's entry.</p>
  *
  * @author Yury Demidenko
  */
-public abstract class ADcTxLn extends AOrId implements IRvId {
-
-  /**
-   * <p>ID of reversed/reversing document tax line.</p>
-   **/
-  private Long rvId;
-
-  /**
-   * <p>Tax.</p>
-   **/
-  private Tax tax;
-
-  /**
-   * <p>Total.</p>
-   **/
-  private BigDecimal tot = BigDecimal.ZERO;
+public interface IRvId {
 
   /**
    * <p>Getter for rvId.</p>
    * @return Long
    **/
-  @Override
-  public final Long getRvId() {
-    return this.rvId;
-  }
+  Long getRvId();
 
   /**
    * <p>Setter for rvId.</p>
    * @param pRvId reference
    **/
-  @Override
-  public final void setRvId(final Long pRvId) {
-    this.rvId = pRvId;
-  }
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for tax.</p>
-   * @return Tax
-   **/
-  public final Tax getTax() {
-    return this.tax;
-  }
-
-  /**
-   * <p>Setter for tax.</p>
-   * @param pTax reference
-   **/
-  public final void setTax(final Tax pTax) {
-    this.tax = pTax;
-  }
-
-  /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
-   **/
-  public final BigDecimal getTot() {
-    return this.tot;
-  }
-
-  /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
-   **/
-  public final void setTot(final BigDecimal pTot) {
-    this.tot = pTot;
-  }
+  void setRvId(Long pRvId);
 }

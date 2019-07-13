@@ -33,7 +33,7 @@ import java.util.HashMap;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.hld.IHlIntCls;
-import org.beigesoft.acc.mdlb.IEntrSrc;
+import org.beigesoft.acc.mdlb.IDocb;
 import org.beigesoft.acc.mdlp.InEntr;
 import org.beigesoft.acc.mdlp.PrepFr;
 import org.beigesoft.acc.mdlp.PrepTo;
@@ -43,9 +43,11 @@ import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.PaymFr;
 import org.beigesoft.acc.mdlp.PurRet;
 import org.beigesoft.acc.mdlp.SalRet;
+import org.beigesoft.acc.mdlp.MovItm;
+import org.beigesoft.acc.mdlp.ItmUlb;
 
 /**
- * <p>Holder entries sources classes by type.</p>
+ * <p>Holder head entries sources classes by type.</p>
  *
  * @author Yury Demidenko
  */
@@ -54,13 +56,13 @@ public class HlTyEnSr implements IHlIntCls {
   /**
    * <p>Data.</p>
    **/
-  private final Map<Integer, Class<? extends IEntrSrc>> clsMp;
+  private final Map<Integer, Class<? extends IDocb>> clsMp;
 
   /**
    * <p>Only constructor.</p>
    **/
   public HlTyEnSr() {
-    this.clsMp = new HashMap<Integer, Class<? extends IEntrSrc>>();
+    this.clsMp = new HashMap<Integer, Class<? extends IDocb>>();
     this.clsMp.put(new InEntr().cnsTy(), InEntr.class); //1
     this.clsMp.put(new PrepFr().cnsTy(), PrepFr.class); //2
     this.clsMp.put(new PrepTo().cnsTy(), PrepTo.class); //3
@@ -70,6 +72,8 @@ public class HlTyEnSr implements IHlIntCls {
     this.clsMp.put(new PaymFr().cnsTy(), PaymFr.class); //7
     this.clsMp.put(new PurRet().cnsTy(), PurRet.class); //8
     this.clsMp.put(new SalRet().cnsTy(), SalRet.class); //9
+    this.clsMp.put(new MovItm().cnsTy(), MovItm.class); //10
+    this.clsMp.put(new ItmUlb().cnsTy(), ItmUlb.class); //11
   }
 
   /**
@@ -79,12 +83,12 @@ public class HlTyEnSr implements IHlIntCls {
    * @throws Exception if not found or null parameter
    **/
   @Override
-  public final Class<? extends IEntrSrc> get(
+  public final Class<? extends IDocb> get(
     final Integer pSaTy) throws Exception {
     if (pSaTy == null) {
       throw new ExcCode(ExcCode.WR, "null_subacc_type");
     }
-    Class<? extends IEntrSrc> rz = this.clsMp.get(pSaTy);
+    Class<? extends IDocb> rz = this.clsMp.get(pSaTy);
     if (rz == null) {
       throw new ExcCode(ExcCode.WR, "Subacc type not found for " + pSaTy);
     }
@@ -96,7 +100,7 @@ public class HlTyEnSr implements IHlIntCls {
    * <p>Getter for clsMp.</p>
    * @return Map<Integer, Class<?>>
    **/
-  public final Map<Integer, Class<? extends IEntrSrc>> getClsMp() {
+  public final Map<Integer, Class<? extends IDocb>> getClsMp() {
     return this.clsMp;
   }
 }

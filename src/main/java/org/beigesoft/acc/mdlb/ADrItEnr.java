@@ -40,7 +40,7 @@ import org.beigesoft.acc.mdlp.Itm;
  *
  * @author Yury Demidenko
  */
-public abstract class ADrItEnr extends AOrId {
+public abstract class ADrItEnr extends AOrId implements IRvId {
 
   /**
    * <p>Reversed/reversing ID.</p>
@@ -116,11 +116,11 @@ public abstract class ADrItEnr extends AOrId {
    **/
   private String dscr;
 
-  //Simple getters and setters:
   /**
    * <p>Getter for rvId.</p>
    * @return Long
    **/
+  @Override
   public final Long getRvId() {
     return this.rvId;
   }
@@ -129,10 +129,12 @@ public abstract class ADrItEnr extends AOrId {
    * <p>Setter for rvId.</p>
    * @param pRvId reference
    **/
+  @Override
   public final void setRvId(final Long pRvId) {
     this.rvId = pRvId;
   }
 
+  //Simple getters and setters:
   /**
    * <p>Getter for srTy.</p>
    * @return Integer

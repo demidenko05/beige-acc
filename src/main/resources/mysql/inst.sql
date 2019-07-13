@@ -67,3 +67,4 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (16,9,'SaRtItCtDb
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (17,9,'SaRtSaTaxDbPaybCr',1462867931627,1,'SALRET.IID','Debit Sales tax receivable from returns per Tax, Credit Returns Payable per Customer for tax amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (18,9,'SaRtInvCtDbCogsCr',1462867931627,1,'SALRET.IID','Debit Inventory per good category, Credit COGS per good category for (quantity*COGS price) amount.');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (1,2000,'puGdLn',1462867931627,1,'CogsEnr','Purchase invoice good line for FIFO/LIFO');
+insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (2,2003,'saRtLn',1462867931627,1,'CogsEnr','Sales return line for FIFO/LIFO');

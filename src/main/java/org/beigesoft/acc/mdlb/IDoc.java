@@ -31,21 +31,13 @@ package org.beigesoft.acc.mdlb;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.acc.mdl.EDocTy;
-
 /**
  * <p>Abstract model of document that makes accounting entries,
  * e.g. Purchase Invoice.</p>
  *
  * @author Yury Demidenko
  */
-public interface IDoc extends IEntrSrc {
-
-  /**
-   * <p>Getter of EDocTy.</p>
-   * @return EDocTy
-   **/
-  EDocTy getDocTy();
+public interface IDoc extends IEntrSrc, IRvId, IDocb {
 
   /**
    * <p>Getter of has made entries.</p>
@@ -60,19 +52,7 @@ public interface IDoc extends IEntrSrc {
   void setMdEnr(Boolean pMdEnr);
 
   /**
-   * <p>Getter for rvId.</p>
-   * @return Long
-   **/
-  Long getRvId();
-
-  /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
-   **/
-  void setRvId(Long pRvId);
-
-  /**
-   * <p>Getter for rvDbOr.</p>
+   * <p>Getter for rvDbOr.</p> //TODO useless?
    * @return Integer
    **/
   Integer getRvDbOr();

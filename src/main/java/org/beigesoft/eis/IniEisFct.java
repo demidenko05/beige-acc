@@ -77,6 +77,8 @@ import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.SaInGdLn;
 import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.SalInv;
+import org.beigesoft.acc.mdlp.MoItLn;
+import org.beigesoft.acc.mdlp.MovItm;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -181,6 +183,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(PuInGdLn.class, "acrv");
     hlClSt.getStgClss().put(SaInGdLn.class, "acrv");
     hlClSt.getStgClss().put(PuRtLn.class, "acrv");
+    hlClSt.getStgClss().put(MoItLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
@@ -191,6 +194,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(InEntr.class, "pria");
+    hlClSt.getStgClss().put(MovItm.class, "prmi");
     hlClSt.setStgSclss(new LinkedHashMap<Class<?>, String>());
     hlClSt.getStgSclss().put(IDoc.class, "prdc");
     stgNm = "de"; //delete

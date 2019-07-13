@@ -66,6 +66,7 @@ import org.beigesoft.acc.mdlp.Srv;
 import org.beigesoft.acc.mdlp.SrTxDl;
 import org.beigesoft.acc.mdlp.PaymFr;
 import org.beigesoft.acc.mdlp.PaymTo;
+import org.beigesoft.acc.mdlp.MovItm;
 import org.beigesoft.acc.prc.SacntSv;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.EntrCr;
@@ -87,6 +88,8 @@ import org.beigesoft.acc.prc.AcStgRt;
 import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
 import org.beigesoft.acc.prc.DocPr;
+import org.beigesoft.acc.prc.MoItLnSv;
+import org.beigesoft.acc.prc.MovItmPr;
 import org.beigesoft.acc.prc.DcDriPr;
 import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.PaymSv;
@@ -95,6 +98,7 @@ import org.beigesoft.acc.prc.InvLnSv;
 import org.beigesoft.acc.prc.RetSv;
 import org.beigesoft.acc.prc.RetLnSv;
 import org.beigesoft.acc.prc.InvSv;
+import org.beigesoft.acc.prc.MoItLnRv;
 import org.beigesoft.acc.prc.RetLnRv;
 import org.beigesoft.acc.prc.InvLnCpr;
 import org.beigesoft.acc.prc.DocCpr;
@@ -258,6 +262,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuTxCtLnDl(pRvs);
           } else if (TxCtLnSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuTxCtLnSv(pRvs);
+          } else if (MoItLnRv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMoItLnRv(pRvs);
           } else if (RetLnRv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuRetLnRv(pRvs);
           } else if (InvLnCpr.class.getSimpleName().equals(pPrNm)) {
@@ -266,6 +272,10 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuDocCpr(pRvs);
           } else if (PrepCpr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrepCpr(pRvs);
+          } else if (MovItmPr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMovItmPr(pRvs);
+          } else if (MoItLnSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMoItLnSv(pRvs);
           } else if (DcDriPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDcDriPr(pRvs);
           } else if (DocWhPr.class.getSimpleName().equals(pPrNm)) {
@@ -512,6 +522,22 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map MoItLnRv.</p>
+   * @param pRvs request scoped vars
+   * @return MoItLnRv
+   * @throws Exception - an exception
+   */
+  private MoItLnRv crPuMoItLnRv(
+    final Map<String, Object> pRvs) throws Exception {
+    MoItLnRv rz = new MoItLnRv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(MoItLnRv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MoItLnRv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map RetLnRv.</p>
    * @param pRvs request scoped vars
    * @return RetLnRv
@@ -571,6 +597,51 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(PrepCpr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), PrepCpr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map MoItLnSv.</p>
+   * @param pRvs request scoped vars
+   * @return MoItLnSv
+   * @throws Exception - an exception
+   */
+  private MoItLnSv crPuMoItLnSv(
+    final Map<String, Object> pRvs) throws Exception {
+    MoItLnSv rz = new MoItLnSv();
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    this.procs.put(MoItLnSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MoItLnSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map MovItmPr.</p>
+   * @param pRvs request scoped vars
+   * @return MovItmPr
+   * @throws Exception - an exception
+   */
+  private MovItmPr crPuMovItmPr(
+    final Map<String, Object> pRvs) throws Exception {
+    MovItmPr rz = new MovItmPr();
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
+      .laz(pRvs, FctEnPrc.class.getSimpleName());
+    @SuppressWarnings("unchecked")
+    PrcEntRt<MovItm, Long> rtr = (PrcEntRt<MovItm, Long>) fctEnPrc
+      .lazPart(pRvs, PrcEntRt.class.getSimpleName());
+    rz.setRetrv(rtr);
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    this.procs.put(MovItmPr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MovItmPr.class
       .getSimpleName() + " has been created.");
     return rz;
   }
