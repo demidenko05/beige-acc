@@ -30,21 +30,21 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.acc.mdlb.AEnrSrc;
-import org.beigesoft.acc.srv.ISrEntr;
-import org.beigesoft.acc.srv.ISrDrItEnr;
+import org.beigesoft.acc.mdlp.ItAdLn;
 
 /**
- * <p>Service that updates only entries source using in DB.</p>
+ * <p>Service that makes copy of use/broke/stole item line to reverse.</p>
  *
  * @author Yury Demidenko
  */
-public class EnrSrcChu implements IPrcEnt<AEnrSrc, Long> {
+public class ItAdLnRv implements IPrcEnt<ItAdLn, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -52,17 +52,7 @@ public class EnrSrcChu implements IPrcEnt<AEnrSrc, Long> {
   private IOrm orm;
 
   /**
-   * <p>Entries service.</p>
-   **/
-  private ISrEntr srEntr;
-
-  /**
-   * <p>Draw item entries service.</p>
-   **/
-  private ISrDrItEnr srDrItEnr;
-
-  /**
-   * <p>Process that saves entity.</p>
+   * <p>Process that creates copy entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
@@ -70,19 +60,29 @@ public class EnrSrcChu implements IPrcEnt<AEnrSrc, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final AEnrSrc process(final Map<String, Object> pRvs,
-    final AEnrSrc pEnt, final IReqDt pRqDt) throws Exception {
-    if (pEnt.getIsNew()) {
-      throw new ExcCode(ExcCode.SPAM, "New not allowed!");
-    }
+  public final ItAdLn process(final Map<String, Object> pRvs,
+    final ItAdLn pEnt, final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    String[] ndFds = new String[] {"used", "ver"};
-    vs.put("ndFds", ndFds);
-    getOrm().update(pRvs, vs, pEnt);
-    this.srEntr.hndStgCng(pRvs);
-    this.srDrItEnr.hndStgCng(pRvs);
-    pRvs.put("msgSuc", "update_ok");
-    return pEnt;
+    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
+    }
+    Long rvId = pEnt.getRvId();
+    this.orm.refrEnt(pRvs, vs, pEnt);
+    if (rvId == null) {
+      throw new ExcCode(ExcCode.SPAM, "Copy not allowed!");
+    } else {
+      pEnt.setRvId(rvId);
+      pEnt.setQuan(pEnt.getQuan().negate());
+      pEnt.setTot(pEnt.getTot().negate());
+      pEnt.setItLf(BigDecimal.ZERO);
+      pEnt.setToLf(BigDecimal.ZERO);
+      pEnt.setDscr(null);
+      pEnt.setIid(null);
+      pEnt.setIsNew(true);
+      UvdVar uvs = (UvdVar) pRvs.get("uvs");
+      uvs.setEnt(pEnt);
+      return pEnt;
+    }
   }
 
   //Simple getters and setters:
@@ -100,37 +100,5 @@ public class EnrSrcChu implements IPrcEnt<AEnrSrc, Long> {
    **/
   public final void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
-  }
-
-  /**
-   * <p>Getter for srEntr.</p>
-   * @return ISrEntr
-   **/
-  public final ISrEntr getSrEntr() {
-    return this.srEntr;
-  }
-
-  /**
-   * <p>Setter for srEntr.</p>
-   * @param pSrEntr reference
-   **/
-  public final void setSrEntr(final ISrEntr pSrEntr) {
-    this.srEntr = pSrEntr;
-  }
-
-  /**
-   * <p>Getter for srDrItEnr.</p>
-   * @return ISrDrItEnr
-   **/
-  public final ISrDrItEnr getSrDrItEnr() {
-    return this.srDrItEnr;
-  }
-
-  /**
-   * <p>Setter for srDrItEnr.</p>
-   * @param pSrDrItEnr reference
-   **/
-  public final void setSrDrItEnr(final ISrDrItEnr pSrDrItEnr) {
-    this.srDrItEnr = pSrDrItEnr;
   }
 }

@@ -80,6 +80,8 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.MoItLn,
   org.beigesoft.acc.mdlp.ItmUlb,
   org.beigesoft.acc.mdlp.ItUbLn,
+  org.beigesoft.acc.mdlp.ItmAdd,
+  org.beigesoft.acc.mdlp.ItAdLn,
   org.beigesoft.acc.mdlp.I18Acc,
   org.beigesoft.acc.mdlp.I18Curr,
   org.beigesoft.acc.mdlp.WrhItm,

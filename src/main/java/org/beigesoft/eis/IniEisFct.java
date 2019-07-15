@@ -79,6 +79,10 @@ import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.MoItLn;
 import org.beigesoft.acc.mdlp.MovItm;
+import org.beigesoft.acc.mdlp.ItmAdd;
+import org.beigesoft.acc.mdlp.ItAdLn;
+import org.beigesoft.acc.mdlp.ItmUlb;
+import org.beigesoft.acc.mdlp.ItUbLn;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -184,10 +188,14 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(SaInGdLn.class, "acrv");
     hlClSt.getStgClss().put(PuRtLn.class, "acrv");
     hlClSt.getStgClss().put(MoItLn.class, "acrv");
+    hlClSt.getStgClss().put(ItAdLn.class, "acrv");
+    hlClSt.getStgClss().put(ItUbLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
+    hlClSt.getStgSclss().put(ItmAdd.class, "adcl");
+    hlClSt.getStgSclss().put(ItmUlb.class, "adcl");
     hlClSt.getStgSclss().put(IInvb.class, "adcl");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "prn"; //print
@@ -286,6 +294,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
-    hlFdSt.getStgFdNm().put("itLf", "iwpg"); //unique filed name in PuInGdLn!
+    //unique filed name in PuInGdLn,SaRtLn,ItAdLn!:
+    hlFdSt.getStgFdNm().put("itLf", "iwis");
   }
 }

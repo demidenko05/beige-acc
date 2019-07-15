@@ -49,11 +49,6 @@ public abstract class ADoc extends AEntrSrc implements IDoc {
   private Long rvId;
 
   /**
-   * <p>ID database birth of reversed/reversing doc.</p>
-   **/
-  private Integer rvDbOr;
-
-  /**
    * <p>Total.</p>
    **/
   private BigDecimal tot = BigDecimal.ZERO;
@@ -97,24 +92,6 @@ public abstract class ADoc extends AEntrSrc implements IDoc {
   @Override
   public final void setRvId(final Long pRvId) {
     this.rvId = pRvId;
-  }
-
-  /**
-   * <p>Getter for rvDbOr.</p>
-   * @return Integer
-   **/
-  @Override
-  public final Integer getRvDbOr() {
-    return this.rvDbOr;
-  }
-
-  /**
-   * <p>Setter for rvDbOr.</p>
-   * @param pRvDbOr reference
-   **/
-  @Override
-  public final void setRvDbOr(final Integer pRvDbOr) {
-    this.rvDbOr = pRvDbOr;
   }
 
   /**

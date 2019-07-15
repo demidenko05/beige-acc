@@ -119,7 +119,6 @@ public class SrInvSv {
       pEnt.setTot(revd.getTot().negate());
       pEnt.setToFc(revd.getToFc().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
-      pRvs.put("msgSuc", "reverse_ok");
       //for purchase goods lines it also checks for withdrawals:
       List<G> gdLns = pRvGdLn.retChkLns(pRvs, vs, revd);
       for (G rvdLn : gdLns) {
@@ -170,6 +169,7 @@ public class SrInvSv {
         //it also sets service line specific fields - acc...
         pRvSrLn.revLns(pRvs, vs, pEnt, rvgLn, rvdLn);
       }
+      pRvs.put("msgSuc", "reverse_ok");
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
       String[] prUpFds = new String[] {"invId", "ver"};

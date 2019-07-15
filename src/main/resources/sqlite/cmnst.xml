@@ -9,7 +9,7 @@ See LICENSE in base folder
 <comment>Beigesoft Accounting</comment>
 <entry key="appInf">Beige-ACC ver1.0</entry>
 <entry key="jdbcCls">org.sqlite.JDBC</entry>
-<entry key="dbUrl">jdbc:sqlite:#currentDir#bseif.sqlite</entry>
+<entry key="dbUrl">jdbc:sqlite:#currentDir#bseis.sqlite</entry>
 <entry key="checkTbl">select * from SQLITE_MASTER where TBL_NAME=':tblNm';</entry>
 <entry key="lastId">select last_insert_rowid() as LASTID;</entry>
 </properties>

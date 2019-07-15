@@ -26,52 +26,68 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlb;
+package org.beigesoft.acc.mdlp;
 
+import java.util.List;
 
-import java.math.BigDecimal;
+import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.acc.mdlb.ADoc;
+import org.beigesoft.acc.mdlb.IDcDri;
 
 /**
- * <p>Abstract model of document that makes accounting entries,
- * e.g. Purchase Invoice.</p>
+ * <p>Model of document that adds items into inventory, e.g. for start not from
+ * scratch or adjusting inventory for any reason.</p>
  *
  * @author Yury Demidenko
  */
-public interface IDoc extends IEntrSrc, IRvId, IDocb {
+public class ItmAdd extends ADoc implements IDcDri<CogsEnr> {
 
   /**
-   * <p>Getter of has made entries.</p>
-   * @return Boolean
+   * <p>Lines.</p>
    **/
-  Boolean getMdEnr();
+ private List<ItAdLn> lns;
 
   /**
-   * <p>Setter for has made entries.</p>
-   * @param pMdEnr reference
+   * <p>Constant of code type.</p>
+   * @return 12
    **/
-  void setMdEnr(Boolean pMdEnr);
+  @Override
+  public final Integer cnsTy() {
+    return 12;
+  }
 
   /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
+   * <p>Getter of EDocTy.</p>
+   * @return EDocTy
    **/
-  BigDecimal getTot();
+  @Override
+  public final EDocTy getDocTy() {
+    return EDocTy.ITSRLN;
+  }
 
   /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
+   * <p>Getter for draw item entry class.</p>
+   * @return draw item entry class
    **/
-  void setTot(BigDecimal pTot);
+  @Override
+  public final Class<CogsEnr> getEnrCls() {
+    return CogsEnr.class;
+  }
+
+  //Simple getters and setters:
+  /**
+   * <p>Getter for lns.</p>
+   * @return List<ItAdLn>
+   **/
+  public final List<ItAdLn> getLns() {
+    return this.lns;
+  }
 
   /**
-   * <p>Getter for toFc.</p>
-   * @return BigDecimal
+   * <p>Setter for lns.</p>
+   * @param pLns reference
    **/
-  BigDecimal getToFc();
-
-  /**
-   * <p>Setter for toFc.</p>
-   * @param pToFc reference
-   **/
-  void setToFc(BigDecimal pToFc);
+  public final void setLns(final List<ItAdLn> pLns) {
+    this.lns = pLns;
+  }
 }

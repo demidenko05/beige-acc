@@ -9,7 +9,7 @@ See LICENSE in base folder
 <comment>Beigesoft ORM common settings</comment>
 <entry key="appInf">Beige-BLC ver1.0</entry>
 <entry key="dsCls">org.postgresql.ds.PGSimpleDataSource</entry>
-<entry key="dbUrl">bseif</entry>
+<entry key="dbUrl">bseis</entry>
 <entry key="dbUsr">beigeaccounting</entry>
 <entry key="dbPsw">beigeaccounting</entry>
 <entry key="checkTbl">select * from information_schema.tables where table_schema='public' and table_name=':tblNm';</entry>

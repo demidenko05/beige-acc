@@ -63,7 +63,7 @@ public class Entr extends AOrId implements IRvId {
   private Long srId;
 
   /**
-   * <p>Account debt.</p>
+   * <p>Account debt, not null.</p>
    **/
   private Acnt acDb;
 
@@ -86,7 +86,7 @@ public class Entr extends AOrId implements IRvId {
   /**
    * <p>Debt.</p>
    **/
-  private BigDecimal debt;
+  private BigDecimal debt = BigDecimal.ZERO;
 
   /**
    * <p>Account cred.</p>
@@ -110,9 +110,9 @@ public class Entr extends AOrId implements IRvId {
   private String sacNm;
 
   /**
-   * <p>Cred.</p>
+   * <p>Cred, not null.</p>
    **/
-  private BigDecimal cred;
+  private BigDecimal cred = BigDecimal.ZERO;
 
   /**
    * <p>Dscr.</p>

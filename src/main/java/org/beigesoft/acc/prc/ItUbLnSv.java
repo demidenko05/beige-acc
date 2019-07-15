@@ -30,14 +30,18 @@ package org.beigesoft.acc.prc;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
+import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.mdl.CmnPrf;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.prc.IPrcEnt;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.srv.II18n;
+import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.ItUbLn;
 import org.beigesoft.acc.srv.ISrWrhEnr;
 import org.beigesoft.acc.srv.ISrDrItEnr;
@@ -45,9 +49,10 @@ import org.beigesoft.acc.srv.ISrDrItEnr;
 /**
  * <p>Service that saves move item line into DB.</p>
  *
+ * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class ItUbLnSv implements IPrcEnt<ItUbLn, Long> {
+public class ItUbLnSv<RS> implements IPrcEnt<ItUbLn, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -68,6 +73,11 @@ public class ItUbLnSv implements IPrcEnt<ItUbLn, Long> {
    * <p>I18N service.</p>
    */
   private II18n i18n;
+
+  /**
+   * <p>Database service.</p>
+   **/
+  private IRdb<RS> rdb;
 
   /**
    * <p>Process that pertieves entity.</p>
@@ -93,6 +103,7 @@ public class ItUbLnSv implements IPrcEnt<ItUbLn, Long> {
         this.orm.refrEnt(pRvs, vs, revd);
         pEnt.setDbOr(this.orm.getDbId());
         pEnt.setItm(revd.getItm());
+        pEnt.setAcc(revd.getAcc());
         pEnt.setUom(revd.getUom());
         pEnt.setWhpo(revd.getWhpo());
         pEnt.setQuan(revd.getQuan().negate());
@@ -112,9 +123,11 @@ public class ItUbLnSv implements IPrcEnt<ItUbLn, Long> {
         sb.append(getI18n().getMsg("reversing", cpf.getLngDef().getIid()));
         sb.append(" #" + pEnt.getDbOr() + "-" + pEnt.getIid());
         revd.setDscr(sb.toString());
-        revd.setOwnr(pEnt.getOwnr());
         revd.setRvId(pEnt.getIid());
-        this.orm.update(pRvs, vs, revd);
+        String[] upFds = new String[] {"rvId", "dscr", "ver"};
+        Arrays.sort(upFds);
+        vs.put("upFds", upFds);
+        this.orm.update(pRvs, vs, revd); vs.clear();
         this.srDrItEnr.rvDraw(pRvs, pEnt);
         this.srWrhEnr.revDraw(pRvs, pEnt);
         pRvs.put("msgSuc", "reverse_ok");
@@ -124,6 +137,19 @@ public class ItUbLnSv implements IPrcEnt<ItUbLn, Long> {
         this.srWrhEnr.draw(pRvs, pEnt, pEnt.getWhpo());
         pRvs.put("msgSuc", "insert_ok");
       }
+String qu = "select sum(TOT) as TOT from COGSENR where RVID is null and DOWID="
+  + pEnt.getOwnr().getIid() + " and DOWTY=" + pEnt.getOwnr().cnsTy() + ";";
+      Double tot = this.rdb.evDouble(qu, "TOT");
+      if (tot == null) {
+        tot = 0.0;
+      }
+      AcStg as = (AcStg) pRvs.get("astg");
+      pEnt.getOwnr().setTot(BigDecimal.valueOf(tot)
+        .setScale(as.getPrDp(), as.getRndm()));
+      String[] upFds = new String[] {"tot", "ver"};
+      Arrays.sort(upFds);
+      vs.put("upFds", upFds);
+      getOrm().update(pRvs, vs, pEnt.getOwnr()); vs.clear();
       UvdVar uvs = (UvdVar) pRvs.get("uvs");
       uvs.setOwnr(pEnt.getOwnr());
       return null;
@@ -195,5 +221,21 @@ public class ItUbLnSv implements IPrcEnt<ItUbLn, Long> {
    **/
   public final void setSrDrItEnr(final ISrDrItEnr pSrDrItEnr) {
     this.srDrItEnr = pSrDrItEnr;
+  }
+
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb<RS>
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
   }
 }

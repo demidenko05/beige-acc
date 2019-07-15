@@ -45,6 +45,7 @@ import org.beigesoft.acc.mdlp.PurRet;
 import org.beigesoft.acc.mdlp.SalRet;
 import org.beigesoft.acc.mdlp.MovItm;
 import org.beigesoft.acc.mdlp.ItmUlb;
+import org.beigesoft.acc.mdlp.ItmAdd;
 
 /**
  * <p>Holder head entries sources classes by type.</p>
@@ -74,6 +75,7 @@ public class HlTyEnSr implements IHlIntCls {
     this.clsMp.put(new SalRet().cnsTy(), SalRet.class); //9
     this.clsMp.put(new MovItm().cnsTy(), MovItm.class); //10
     this.clsMp.put(new ItmUlb().cnsTy(), ItmUlb.class); //11
+    this.clsMp.put(new ItmAdd().cnsTy(), ItmAdd.class); //12
   }
 
   /**

@@ -41,11 +41,10 @@ import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.srv.II18n;
-import org.beigesoft.acc.mdlp.ItmUlb;
-import org.beigesoft.acc.mdlp.ItUbLn;
+import org.beigesoft.acc.mdlp.ItmAdd;
+import org.beigesoft.acc.mdlp.ItAdLn;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.ISrWrhEnr;
-import org.beigesoft.acc.srv.ISrDrItEnr;
 import org.beigesoft.acc.srv.UtlBas;
 
 /**
@@ -53,7 +52,7 @@ import org.beigesoft.acc.srv.UtlBas;
  *
  * @author Yury Demidenko
  */
-public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
+public class ItmAddSv implements IPrcEnt<ItmAdd, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -76,11 +75,6 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
   private ISrWrhEnr srWrhEnr;
 
   /**
-   * <p>Draw item entries service.</p>
-   **/
-  private ISrDrItEnr srDrItEnr;
-
-  /**
    * <p>I18N service.</p>
    */
   private II18n i18n;
@@ -94,11 +88,11 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final ItmUlb process(final Map<String, Object> pRvs, final ItmUlb pEnt,
+  public final ItmAdd process(final Map<String, Object> pRvs, final ItmAdd pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     if (pEnt.getRvId() != null) {
-      ItmUlb revd = new ItmUlb();
+      ItmAdd revd = new ItmAdd();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
@@ -106,19 +100,20 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
       pEnt.setTot(revd.getTot().negate());
       pEnt.setToFc(revd.getToFc().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
-      vs.put("ItUbLndpLv", 1);
-      List<ItUbLn> rdls = this.orm.retLstCnd(pRvs, vs, ItUbLn.class,
+      vs.put("ItAdLndpLv", 1);
+      List<ItAdLn> rdls = this.orm.retLstCnd(pRvs, vs, ItAdLn.class,
         "where OWNR=" + revd.getIid()); vs.clear();
-      for (ItUbLn rdl : rdls) {
-        ItUbLn rgl = new ItUbLn();
+      for (ItAdLn rdl : rdls) {
+        ItAdLn rgl = new ItAdLn();
         rgl.setDbOr(this.orm.getDbId());
         rgl.setOwnr(pEnt);
         rgl.setRvId(rdl.getIid());
-        rgl.setAcc(rdl.getAcc());
         rgl.setItm(rdl.getItm());
         rgl.setUom(rdl.getUom());
-        rgl.setWhpo(rdl.getWhpo());
+        rgl.setWrhp(rdl.getWrhp());
         rgl.setQuan(rdl.getQuan().negate());
+        rgl.setTot(rdl.getTot().negate());
+        rgl.setPri(rdl.getPri());
         CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {
@@ -136,12 +131,13 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
         sb.append(" #" + rgl.getDbOr() + "-" + rgl.getIid());
         rdl.setDscr(sb.toString());
         rdl.setRvId(rgl.getIid());
-        String[] upFds = new String[] {"rvId", "dscr", "ver"};
+        rdl.setItLf(BigDecimal.ZERO);
+        rdl.setToLf(BigDecimal.ZERO);
+        String[] upFds = new String[] {"rvId", "dscr", "ver", "itLf", "toLf"};
         Arrays.sort(upFds);
         vs.put("upFds", upFds);
         this.orm.update(pRvs, vs, rdl); vs.clear();
-        this.srDrItEnr.rvDraw(pRvs, rgl);
-        this.srWrhEnr.revDraw(pRvs, rgl);
+        this.srWrhEnr.revLoad(pRvs, rgl);
       }
       pRvs.put("msgSuc", "reverse_ok");
     } else {
@@ -152,8 +148,8 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
       } else {
         String[] slFds = new String[] {"tot", "mdEnr"};
         Arrays.sort(slFds);
-        vs.put("ItmUlbndFds", slFds);
-        ItmUlb old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
+        vs.put("ItmAddndFds", slFds);
+        ItmAdd old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
         pEnt.setMdEnr(old.getMdEnr());
         if (pEnt.getMdEnr()) {
           throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
@@ -261,21 +257,5 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
    **/
   public final void setI18n(final II18n pI18n) {
     this.i18n = pI18n;
-  }
-
-  /**
-   * <p>Getter for srDrItEnr.</p>
-   * @return ISrDrItEnr
-   **/
-  public final ISrDrItEnr getSrDrItEnr() {
-    return this.srDrItEnr;
-  }
-
-  /**
-   * <p>Setter for srDrItEnr.</p>
-   * @param pSrDrItEnr reference
-   **/
-  public final void setSrDrItEnr(final ISrDrItEnr pSrDrItEnr) {
-    this.srDrItEnr = pSrDrItEnr;
   }
 }

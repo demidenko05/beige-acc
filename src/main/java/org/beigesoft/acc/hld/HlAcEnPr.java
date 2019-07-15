@@ -71,6 +71,10 @@ import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.PuInSrLn;
 import org.beigesoft.acc.mdlp.MovItm;
 import org.beigesoft.acc.mdlp.MoItLn;
+import org.beigesoft.acc.mdlp.ItAdLn;
+import org.beigesoft.acc.mdlp.ItmAdd;
+import org.beigesoft.acc.mdlp.ItUbLn;
+import org.beigesoft.acc.mdlp.ItmUlb;
 import org.beigesoft.acc.fct.FcEnPrAc;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.SacntSv;
@@ -103,6 +107,12 @@ import org.beigesoft.acc.prc.InvLnCpr;
 import org.beigesoft.acc.prc.MovItmPr;
 import org.beigesoft.acc.prc.MoItLnSv;
 import org.beigesoft.acc.prc.MoItLnRv;
+import org.beigesoft.acc.prc.ItmAddSv;
+import org.beigesoft.acc.prc.ItAdLnSv;
+import org.beigesoft.acc.prc.ItAdLnRv;
+import org.beigesoft.acc.prc.ItmUlbSv;
+import org.beigesoft.acc.prc.ItUbLnSv;
+import org.beigesoft.acc.prc.ItUbLnRv;
 
 /**
  * <p>Additional holder of names of ACC entities processors.</p>
@@ -153,6 +163,10 @@ public class HlAcEnPr implements IHlNmClSt {
       } else if ("entRv".equals(pAct)) { //Create copy for reversing
         if (Entr.class == pCls) {
           return EntrCpr.class.getSimpleName();
+        } else if (ItAdLn.class == pCls) {
+          return ItAdLnRv.class.getSimpleName();
+        } else if (ItUbLn.class == pCls) {
+          return ItUbLnRv.class.getSimpleName();
         } else if (MoItLn.class == pCls) {
           return MoItLnRv.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
@@ -229,6 +243,14 @@ public class HlAcEnPr implements IHlNmClSt {
           return SacntSv.class.getSimpleName();
         } else if (MovItm.class == pCls) {
           return PrcEntSv.class.getSimpleName();
+        } else if (ItmAdd.class == pCls) {
+          return ItmAddSv.class.getSimpleName();
+        } else if (ItAdLn.class == pCls) {
+          return ItAdLnSv.class.getSimpleName();
+        } else if (ItmUlb.class == pCls) {
+          return ItmUlbSv.class.getSimpleName();
+        } else if (ItUbLn.class == pCls) {
+          return ItUbLnSv.class.getSimpleName();
         } else if (MoItLn.class == pCls) {
           return MoItLnSv.class.getSimpleName();
         } else if (PaymFr.class.isAssignableFrom(pCls)) {
