@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.srv;
 
 import java.util.Map;
+import java.util.Arrays;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -85,6 +86,15 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
   public final void prepLn(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final PuInSrLn pEnt,
       final TxDst pTxRules) throws Exception {
+    String[] ndfAc = new String[] {"iid", "saTy"};
+    Arrays.sort(ndfAc);
+    pVs.put("AcntndFds", ndfAc);
+    this.orm.refrEnt(pRvs, pVs, pEnt.getAcc()); pVs.clear();
+    if (pEnt.getAcc().getSaTy() == null || pEnt.getAcc().getSaTy() != 1000
+      || pEnt.getSaId() == null) {
+        throw new ExcCode(ExcCode.WRPR, "select_subaccount");
+    }
+    pEnt.setSaTy(1000);
     if (pEnt.getOwnr().getCuFr() != null) { //user passed values:
       BigDecimal exchRt = pEnt.getOwnr().getExRt();
       if (exchRt.compareTo(BigDecimal.ZERO) == -1) {

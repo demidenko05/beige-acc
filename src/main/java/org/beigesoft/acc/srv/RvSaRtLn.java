@@ -93,9 +93,9 @@ public class RvSaRtLn<RS> implements IRvInvLn<SalRet, SaRtLn> {
     String[] ndFds = Arrays.copyOf(lstFds, lstFds.length);
     Arrays.sort(ndFds);
     pVs.put("SaRtLnndFds", ndFds);
-    pVs.put("SaRtLndpLv", 1);
     List<SaRtLn> lst = this.orm.retLstCnd(pRvs, pVs, SaRtLn.class,
-      "where SARTLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
+      "where SARTLN.RVID is null and SARTLN.OWNR=" + pEnt.getIid());
+    pVs.clear();
     for (SaRtLn gl : lst) {
       if (gl.getQuan().compareTo(gl.getItLf()) == 1) {
         throw new ExcCode(ExcCode.WRPR, "where_is_withdraw");

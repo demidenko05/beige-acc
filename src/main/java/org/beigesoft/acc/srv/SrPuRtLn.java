@@ -145,7 +145,6 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
   @Override
   public final PuRtLn retChkRv(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final PuRtLn pEnt) throws Exception {
-    pVs.put("PrRtLndpLv", 1);
     PuRtLn rz = new PuRtLn();
     rz.setIid(pEnt.getRvId());
     this.orm.refrEnt(pRvs, pVs, rz); pVs.clear();

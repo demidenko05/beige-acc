@@ -100,7 +100,8 @@ public class RvSaGdLn<RS> implements IRvInvLn<SalInv, SaInGdLn> {
     pVs.put("SaInGdLnndFds", ndFds);
     pVs.put("SaInGdLndpLv", 1);
     List<SaInGdLn> lst = this.orm.retLstCnd(pRvs, pVs, SaInGdLn.class,
-      "where SAINGDLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
+      "where SAINGDLN.RVID is null and SAINGDLN.OWNR=" + pEnt.getIid());
+    pVs.clear();
     return lst;
   }
 

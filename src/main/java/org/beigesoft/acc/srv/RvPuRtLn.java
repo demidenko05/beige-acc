@@ -96,9 +96,9 @@ public class RvPuRtLn<RS> implements IRvInvLn<PurRet, PuRtLn> {
     String[] ndFds = Arrays.copyOf(lstFds, lstFds.length);
     Arrays.sort(ndFds);
     pVs.put("PuRtLnndFds", ndFds);
-    pVs.put("PuRtLndpLv", 1);
     List<PuRtLn> lst = this.orm.retLstCnd(pRvs, pVs, PuRtLn.class,
-      "where PURTLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
+      "where PURTLN.RVID is null and PURTLN.OWNR=" + pEnt.getIid());
+    pVs.clear();
     return lst;
   }
 

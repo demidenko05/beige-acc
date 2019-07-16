@@ -66,6 +66,11 @@ public abstract class APrep extends ADoc {
   private Long saId;
 
   /**
+   * <p>Sub-account cash type if exist.</p>
+   **/
+  private Integer saTy;
+
+  /**
    * <p>Getter of EDocTy.</p>
    * @return EDocTy
    **/
@@ -152,5 +157,21 @@ public abstract class APrep extends ADoc {
    **/
   public final void setSaId(final Long pSaId) {
     this.saId = pSaId;
+  }
+
+  /**
+   * <p>Getter for saTy.</p>
+   * @return Integer
+   **/
+  public final Integer getSaTy() {
+    return this.saTy;
+  }
+
+  /**
+   * <p>Setter for saTy.</p>
+   * @param pSaTy reference
+   **/
+  public final void setSaTy(final Integer pSaTy) {
+    this.saTy = pSaTy;
   }
 }

@@ -97,7 +97,8 @@ public class RvPuGdLn<RS> implements IRvInvLn<PurInv, PuInGdLn> {
     pVs.put("PuInGdLnndFds", ndFds);
     pVs.put("PuInGdLndpLv", 1);
     List<PuInGdLn> lst = this.orm.retLstCnd(pRvs, pVs, PuInGdLn.class,
-      "where PUINGDLN.RVID is null and OWNR=" + pEnt.getIid()); pVs.clear();
+      "where PUINGDLN.RVID is null and PUINGDLN.OWNR=" + pEnt.getIid());
+    pVs.clear();
     for (PuInGdLn gl : lst) {
       if (gl.getQuan().compareTo(gl.getItLf()) == 1) {
         throw new ExcCode(ExcCode.WRPR, "where_is_withdraw");

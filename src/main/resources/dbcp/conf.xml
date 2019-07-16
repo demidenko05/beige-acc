@@ -45,8 +45,11 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.SrTxDl,
   org.beigesoft.acc.mdlp.Curr,
   org.beigesoft.acc.mdlp.AcStg,
+  org.beigesoft.acc.mdlp.EnrSrc,
   org.beigesoft.acc.mdlp.PrepFr,
   org.beigesoft.acc.mdlp.PrepTo,
+  org.beigesoft.acc.mdlp.Wrh,
+  org.beigesoft.acc.mdlp.WrhPl,
   org.beigesoft.acc.mdlp.PurInv,
   org.beigesoft.acc.mdlp.PuInGdLn,
   org.beigesoft.acc.mdlp.PuInGdTxLn,
@@ -75,8 +78,8 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.ItUbLn,
   org.beigesoft.acc.mdlp.ItmAdd,
   org.beigesoft.acc.mdlp.ItAdLn,
-  org.beigesoft.acc.mdlp.EnrSrc,
   org.beigesoft.acc.mdlp.I18Acc,
+  org.beigesoft.acc.mdlp.I18Curr,
   org.beigesoft.acc.mdlp.WrhItm,
   org.beigesoft.acc.mdlp.WrhEnr,
   org.beigesoft.acc.mdlp.DrItEnr,
@@ -85,8 +88,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.I18Uom,
   org.beigesoft.acc.mdlp.I18Srv,
   org.beigesoft.acc.mdlp.I18Itm,
-  org.beigesoft.acc.mdlp.I18Buyr,
-  org.beigesoft.acc.mdlp.I18Curr</entry>
+  org.beigesoft.acc.mdlp.I18Buyr</entry>
 <entry key="stgClsNms">exlFlds,idFlds</entry>
 <entry key="stgFldNms"></entry>
 <entry key="exlFlds">isNew</entry>

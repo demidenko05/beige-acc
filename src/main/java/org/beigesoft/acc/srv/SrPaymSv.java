@@ -95,6 +95,7 @@ public class SrPaymSv {
       pEnt.setInv(revd.getInv());
       pEnt.setAcc(revd.getAcc());
       pEnt.setSaId(revd.getSaId());
+      pEnt.setSaTy(revd.getSaTy());
       pEnt.setSaNm(revd.getSaNm());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       pRvs.put("msgSuc", "reverse_ok");
@@ -123,6 +124,7 @@ public class SrPaymSv {
           pEnt.setSaNm(sa.getSaNm());
         }
       }
+      pEnt.setSaTy(pEnt.getAcc().getSaTy());
       String[] ndfMe = new String[] {"mdEnr", "ver", "prep"};
       Arrays.sort(ndfMe);
       vs.put(pEnt.getInv().getClass().getSimpleName() + "ndFds", ndfMe);

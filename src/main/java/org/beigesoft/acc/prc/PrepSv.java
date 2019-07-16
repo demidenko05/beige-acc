@@ -118,6 +118,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
           pEnt.setSaNm(sa.getSaNm());
         }
       }
+      pEnt.setSaTy(pEnt.getAcc().getSaTy());
       AcStg astg = (AcStg) pRvs.get("astg");
       pEnt.setTot(pEnt.getTot().setScale(astg.getPrDp(), astg.getRndm()));
       pEnt.setToFc(pEnt.getToFc().setScale(astg.getPrDp(), astg.getRndm()));

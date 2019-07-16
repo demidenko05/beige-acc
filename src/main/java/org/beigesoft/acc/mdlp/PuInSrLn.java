@@ -65,6 +65,11 @@ public class PuInSrLn extends AInvLn<PurInv, Srv> {
   private Long saId;
 
   /**
+   * <p>Sub-account type, not null,  always 1000 - expense.</p>
+   **/
+  private Integer saTy = 1000;
+
+  /**
    * <p>Item basis tax lines.</p>
    **/
   private List<PuInSrTxLn> txLns;
@@ -168,5 +173,21 @@ public class PuInSrLn extends AInvLn<PurInv, Srv> {
    **/
   public final void setSaId(final Long pSaId) {
     this.saId = pSaId;
+  }
+
+  /**
+   * <p>Getter for saTy.</p>
+   * @return Integer
+   **/
+  public final Integer getSaTy() {
+    return this.saTy;
+  }
+
+  /**
+   * <p>Setter for saTy.</p>
+   * @param pSaTy reference
+   **/
+  public final void setSaTy(final Integer pSaTy) {
+    this.saTy = pSaTy;
   }
 }

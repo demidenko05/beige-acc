@@ -312,70 +312,72 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
   public final <T extends ADrItEnr> void rvDraw(final Map<String, Object> pRvs,
     final IMkDriEnr<T> pDrer) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    T revd = this.orm.retEntCnd(pRvs, vs, pDrer.getEnrCls(), "DRTY="
-      + pDrer.cnsTy() + " and DRID=" + pDrer.getRvId());
-    if (revd == null) {
+    List<T> revds = this.orm.retLstCnd(pRvs, vs, pDrer.getEnrCls(),
+      "where DRTY=" + pDrer.cnsTy() + " and DRID=" + pDrer.getRvId());
+    if (revds.size() == 0) {
       throw new ExcCode(ExcCode.WR, "Can't reverse for CLS/RVID/ID/TY: "
         + pDrer.getClass() + "/" + pDrer.getRvId() + "/" + pDrer.getIid()
           + "/" + pDrer.cnsTy());
     }
-    if (revd.getRvId() != null) {
-      throw new ExcCode(ExcCode.WR, "Reverse reversed for CLS/RVID/ID/TY: "
-        + pDrer.getClass() + "/" + pDrer.getRvId() + "/" + pDrer.getIid()
-          + "/" + pDrer.cnsTy());
-    }
-    T revg = pDrer.getEnrCls().newInstance();
-    revg.setDbOr(this.orm.getDbId());
-    revg.setDrTy(pDrer.cnsTy());
-    revg.setDrId(pDrer.getIid());
-    revg.setDowTy(pDrer.getOwnrTy());
-    revg.setDowId(pDrer.getOwnrId());
-    revg.setSrTy(revd.getSrTy());
-    revg.setSrId(revd.getSrId());
-    revg.setSowTy(revd.getSowTy());
-    revg.setSowId(revd.getSowId());
-    revg.setRvId(revd.getIid());
-    revg.setItm(revd.getItm());
-    revg.setUom(revd.getUom());
-    revg.setQuan(revd.getQuan().negate());
-    revg.setTot(revd.getTot().negate());
-    CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-    DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
-      .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
-    StringBuffer sb = mkDscr(pRvs, pDrer, dtFr);
-    sb.append(" ," + getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
-    sb.append(" #" + revd.getDbOr() + "-" + revd.getIid());
-    revg.setDscr(sb.toString() + "!");
-    this.orm.insIdLn(pRvs, vs, revg);
-    revd.setRvId(revg.getIid());
-    revd.setDscr(revd.getDscr() + ", !" + getI18n()
-      .getMsg("reversing", cpf.getLngDef().getIid()) + " #" + revg.getDbOr()
-        + "-" + revg.getIid() + "!");
-    String[] ndFds = new String[] {"dscr", "rvId", "ver"};
-    Arrays.sort(ndFds);
-    vs.put("ndFds", ndFds);
-    this.orm.update(pRvs, vs, revd); vs.clear();
-    @SuppressWarnings("unchecked")
-    IItmSrc sr = (IItmSrc) this.hlTyItSr.get(revd.getSrTy()).newInstance();
-    sr.setIid(revd.getSrId());
-    if (this.isAndr) {
-      String[] ndf = new String[] {"itLf", "toLf", "ver"};
-      Arrays.sort(ndf);
-      vs.put(sr.getClass().getSimpleName() + "ndFds", ndf);
-      this.orm.refrEnt(pRvs, vs, sr); vs.clear();
-      sr.setItLf(sr.getItLf().add(revd.getQuan()));
-      sr.setToLf(sr.getToLf().add(revd.getTot()));
-      vs.put("ndFds", ndf);
-      this.orm.update(pRvs, vs, sr); vs.clear();
-    } else { //use fastest locking:
-      ColVals cv = new ColVals();
-      this.srvClVl.put(cv, "itLf", "ITLF+" + revd.getQuan());
-      this.srvClVl.put(cv, "toLf", "TOLF+" + revd.getTot());
-      this.srvClVl.putExpr(cv, "itLf");
-      this.srvClVl.putExpr(cv, "toLf");
-      this.srvClVl.put(cv, "ver", "VER+1");
-      this.srvClVl.putExpr(cv, "ver");
-      this.rdb.update(sr.getClass(), cv, "IID=" + sr.getIid());
+    for (T revd : revds) {
+      if (revd.getRvId() != null) {
+        throw new ExcCode(ExcCode.WR, "Reverse reversed for CLS/RVID/ID/TY: "
+          + pDrer.getClass() + "/" + pDrer.getRvId() + "/" + pDrer.getIid()
+            + "/" + pDrer.cnsTy());
+      }
+      T revg = pDrer.getEnrCls().newInstance();
+      revg.setDbOr(this.orm.getDbId());
+      revg.setDrTy(pDrer.cnsTy());
+      revg.setDrId(pDrer.getIid());
+      revg.setDowTy(pDrer.getOwnrTy());
+      revg.setDowId(pDrer.getOwnrId());
+      revg.setSrTy(revd.getSrTy());
+      revg.setSrId(revd.getSrId());
+      revg.setSowTy(revd.getSowTy());
+      revg.setSowId(revd.getSowId());
+      revg.setRvId(revd.getIid());
+      revg.setItm(revd.getItm());
+      revg.setUom(revd.getUom());
+      revg.setQuan(revd.getQuan().negate());
+      revg.setTot(revd.getTot().negate());
+      CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+      DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
+        .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
+      StringBuffer sb = mkDscr(pRvs, pDrer, dtFr);
+      sb.append(" ," + getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
+      sb.append(" #" + revd.getDbOr() + "-" + revd.getIid());
+      revg.setDscr(sb.toString() + "!");
+      this.orm.insIdLn(pRvs, vs, revg);
+      revd.setRvId(revg.getIid());
+      revd.setDscr(revd.getDscr() + ", !" + getI18n()
+        .getMsg("reversing", cpf.getLngDef().getIid()) + " #" + revg.getDbOr()
+          + "-" + revg.getIid() + "!");
+      String[] ndFds = new String[] {"dscr", "rvId", "ver"};
+      Arrays.sort(ndFds);
+      vs.put("ndFds", ndFds);
+      this.orm.update(pRvs, vs, revd); vs.clear();
+      @SuppressWarnings("unchecked")
+      IItmSrc sr = (IItmSrc) this.hlTyItSr.get(revd.getSrTy()).newInstance();
+      sr.setIid(revd.getSrId());
+      if (this.isAndr) {
+        String[] ndf = new String[] {"itLf", "toLf", "ver"};
+        Arrays.sort(ndf);
+        vs.put(sr.getClass().getSimpleName() + "ndFds", ndf);
+        this.orm.refrEnt(pRvs, vs, sr); vs.clear();
+        sr.setItLf(sr.getItLf().add(revd.getQuan()));
+        sr.setToLf(sr.getToLf().add(revd.getTot()));
+        vs.put("ndFds", ndf);
+        this.orm.update(pRvs, vs, sr); vs.clear();
+      } else { //use fastest locking:
+        ColVals cv = new ColVals();
+        this.srvClVl.put(cv, "itLf", "ITLF+" + revd.getQuan());
+        this.srvClVl.put(cv, "toLf", "TOLF+" + revd.getTot());
+        this.srvClVl.putExpr(cv, "itLf");
+        this.srvClVl.putExpr(cv, "toLf");
+        this.srvClVl.put(cv, "ver", "VER+1");
+        this.srvClVl.putExpr(cv, "ver");
+        this.rdb.update(sr.getClass(), cv, "IID=" + sr.getIid());
+      }
     }
   }
 

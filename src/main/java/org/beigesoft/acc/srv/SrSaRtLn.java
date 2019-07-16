@@ -136,7 +136,6 @@ public class SrSaRtLn implements ISrInItLn<SalRet, SaRtLn> {
   @Override
   public final SaRtLn retChkRv(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final SaRtLn pEnt) throws Exception {
-    pVs.put("PrRtLndpLv", 1);
     SaRtLn rz = new SaRtLn();
     rz.setIid(pEnt.getRvId());
     this.orm.refrEnt(pRvs, pVs, rz); pVs.clear();

@@ -244,6 +244,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgSclss().put(IDoc.class, "doc");
     stgNm = "ord"; //order
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("rvId", null);
     hlFdSt.getStgFdNm().put("dscr", null);
@@ -258,6 +259,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("saId", null);
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
     hlFdSt.getStgFdNm().put("rvId", "empt");
@@ -275,6 +277,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("invl", "cdinl");
     stgNm = "ceHe"; //to cell header
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
     hlFdSt.getStgFdNm().put("rvId", "empt");
@@ -292,6 +295,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("invl", "chinl");
     stgNm = "inWr"; //input wrapper
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);
     hlFdSt.getStgFdNm().put("ownr", null);
     //unique filed name in PuInGdLn,SaRtLn,ItAdLn!:

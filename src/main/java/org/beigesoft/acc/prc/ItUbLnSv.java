@@ -41,6 +41,8 @@ import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.srv.II18n;
+import org.beigesoft.acc.mdl.EAccTy;
+import org.beigesoft.acc.mdl.ENrBlTy;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.ItUbLn;
 import org.beigesoft.acc.srv.ISrWrhEnr;
@@ -132,6 +134,14 @@ public class ItUbLnSv<RS> implements IPrcEnt<ItUbLn, Long> {
         this.srWrhEnr.revDraw(pRvs, pEnt);
         pRvs.put("msgSuc", "reverse_ok");
       } else {
+        String[] ndfAc = new String[] {"saTy", "typ", "blTy"};
+        Arrays.sort(ndfAc);
+        vs.put("AcntndFds", ndfAc);
+        this.orm.refrEnt(pRvs, vs, pEnt.getAcc()); vs.clear();
+        if (pEnt.getAcc().getSaTy() != 1004 || pEnt.getAcc().getTyp()
+          != EAccTy.INC_EXPENSE || pEnt.getAcc().getBlTy() != ENrBlTy.DEBIT) {
+          throw new ExcCode(ExcCode.WRPR, "account_must_be_cogs_itct");
+        }
         this.orm.insIdLn(pRvs, vs, pEnt);
         this.srDrItEnr.draw(pRvs, pEnt);
         this.srWrhEnr.draw(pRvs, pEnt, pEnt.getWhpo());

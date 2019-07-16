@@ -8,4 +8,5 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="txCtnul">true</entry>
+<entry key="whponul">true</entry>
 </properties>
