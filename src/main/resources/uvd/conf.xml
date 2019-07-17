@@ -6,7 +6,7 @@ See LICENSE in base folder
  -->
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>Beigesoft UVD configuration</comment>
+<comment>Beigesoft EIS UVD configuration</comment>
 <entry key="clss">org.beigesoft.mdlp.UsTmc,
   org.beigesoft.mdlp.UsRlTmc,
   org.beigesoft.mdlp.Lng,
@@ -84,6 +84,6 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.I18Buyr,
   org.beigesoft.acc.mdlp.I18Acc</entry>
 <entry key="stgClsNms">exlFlds,idFlds,owdEnts,frmFds,lstFds,pickFds,selFds,selDpl</entry>
-<entry key="stgFldNms">cnToSt,cnFrSt,inp,flt,str,wde</entry>
+<entry key="stgFldNms">cnToSt,cnFrSt,inp,str,wde</entry>
 <entry key="exlFlds"></entry>
 </properties>

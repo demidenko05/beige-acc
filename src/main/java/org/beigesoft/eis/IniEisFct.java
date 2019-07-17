@@ -244,19 +244,25 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgSclss().put(IDoc.class, "doc");
     stgNm = "ord"; //order
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
-    hlFdSt.getStgFdNm().put("saTy", null);
-    hlFdSt.getStgFdNm().put("saId", null);
-    hlFdSt.getStgFdNm().put("rvId", null);
-    hlFdSt.getStgFdNm().put("dscr", null);
-    hlFdSt.getStgFdNm().put("cuFr", null);
-    hlFdSt.getStgFdNm().put("omTx", null);
-    hlFdSt.getStgFdNm().put("inTx", null);
-    hlFdSt.getStgFdNm().put("payb", null);
     hlFdSt.getStgFdNm().put("knCs", "ord");
     hlFdSt.getStgFdNm().put("tot", "ord");
     stgNm = "flt"; //filter
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
-    hlFdSt.getStgFdNm().put("saId", null);
+    hlFdSt.getStgFdNm().put("knCs", "pri");
+    hlFdSt.getStgFdNm().put("tot", "pri");
+    hlFdSt.getStgFdNm().put("toPa", "explToPa");
+    hlFdSt.getStgFdNm().put("dbcr", "ent");
+    hlFdSt.getStgFdNm().put("acc", "ent");
+    hlFdSt.getStgFdNm().put("lng", "ent");
+    stgNm = "flth"; //filter hidden
+    hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.setStgFdNm(new HashMap<String, String>());
+    hlFdSt.getStgFdNm().put("invId", "int");
+    hlFdSt.getStgFdNm().put("rvId", "int");
+    hlFdSt.getStgFdNm().put("saTy", "int");
+    hlFdSt.getStgFdNm().put("used", "bln");
+    hlFdSt.getStgFdNm().put("inTx", "bln");
+    hlFdSt.getStgFdNm().put("mdEnr", "bln");
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("saTy", null);

@@ -6,7 +6,7 @@ See LICENSE in base folder
  -->
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>Beigesoft DBCP configuration</comment>
+<comment>Beigesoft EIS DBCP configuration</comment>
 <entry key="clss">org.beigesoft.mdlp.DbInf,
   org.beigesoft.mdlp.Lng,
   org.beigesoft.mdlp.Cntr,
