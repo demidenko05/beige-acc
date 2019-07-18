@@ -47,7 +47,7 @@ public class ItmUlb extends ADoc implements IDcDri<CogsEnr> {
  private List<ItUbLn> lns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 11.</p>
    * @return 11
    **/
   @Override

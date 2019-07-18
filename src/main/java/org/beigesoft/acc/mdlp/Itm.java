@@ -108,7 +108,7 @@ public class Itm extends AItm<Itm, ItTxDl> implements ISacnt, IOrId {
   }
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
+   * <p>OOP friendly Constant of code type 1005.</p>
    * @return 1005
    **/
   @Override

@@ -115,7 +115,7 @@ public class PuRtLn extends AOrId
   private List<PuRtLtl> txLns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 2002.</p>
    * @return 2002
    **/
   @Override

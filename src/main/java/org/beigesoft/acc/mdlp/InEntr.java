@@ -57,7 +57,7 @@ public class InEntr extends AEntrSrc {
   private List<Entr> entrs;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 1.</p>
    * @return 1
    **/
   @Override

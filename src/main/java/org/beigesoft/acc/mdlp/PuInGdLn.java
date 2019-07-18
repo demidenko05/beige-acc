@@ -90,7 +90,7 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
   private Date docDt;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 2000.</p>
    * @return 2000
    **/
   @Override

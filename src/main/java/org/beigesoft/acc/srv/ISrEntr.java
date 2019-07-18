@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.beigesoft.acc.mdlb.IEntrSrc;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlp.Entr;
 
 /**
@@ -60,7 +60,7 @@ public interface ISrEntr {
    * @param pDoc source document
    * @throws Exception - an exception
    **/
-  void mkEntrs(Map<String, Object> pRvs, IDoc pDoc) throws Exception;
+  void mkEntrs(Map<String, Object> pRvs, IDoci pDoc) throws Exception;
 
   /**
    * <p>Reverses entries for given document.</p>
@@ -69,8 +69,8 @@ public interface ISrEntr {
    * @param pRved reversed document
    * @throws Exception - an exception
    **/
-  void revEntrs(Map<String, Object> pRvs, IDoc pRvng,
-    IDoc pRved) throws Exception;
+  void revEntrs(Map<String, Object> pRvs, IDoci pRvng,
+    IDoci pRved) throws Exception;
 
   /**
    * <p>Retrieves entries for given document.</p>

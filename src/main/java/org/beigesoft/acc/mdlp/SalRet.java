@@ -79,7 +79,7 @@ public class SalRet extends ADoc implements IRet<SalInv>, IDcDri<DrItEnr> {
   private List<SaRtLn> gdLns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 9.</p>
    * @return 9
    **/
   @Override

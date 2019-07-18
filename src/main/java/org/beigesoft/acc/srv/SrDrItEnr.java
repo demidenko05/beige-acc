@@ -394,23 +394,24 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     final Map<String, Object> pRvs, final IDcDri<T> pDoc) throws Exception {
     String whe;
     //resource friendly implementation:
-    if (pDoc.getDocTy() == EDocTy.DRAWLN || pDoc.getDocTy() == EDocTy.DRAWBTH) {
+    if (pDoc.getDocTy() == EDocTy.DRAWLN) {
       whe = "where DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid();
-      if (pDoc.getDocTy() == EDocTy.DRAWBTH) {
-        whe = "(" + whe + ") or (DRTY=" + pDoc.cnsTy() + " and DRID="
-          + pDoc.getIid() + ")";
-      }
+    if (pDoc.getDocTy() == EDocTy.DRAWBTH) {
+      whe = "where (DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid()
+        + ") or (DRTY=" + pDoc.cnsTy() + " and DRID=" + pDoc.getIid() + ")";
     } else if (pDoc.getDocTy() == EDocTy.DRAW) {
       whe = "where DRTY=" + pDoc.cnsTy() + " and DRID=" + pDoc.getIid();
-    } else if (pDoc.getDocTy() == EDocTy.ITSRLN
-      || pDoc.getDocTy() == EDocTy.ITSRBTH) {
+    } else if (pDoc.getDocTy() == EDocTy.ITSRLN) {
       whe = "where SOWTY=" + pDoc.cnsTy() + " and SOWID=" + pDoc.getIid();
-      if (pDoc.getDocTy() == EDocTy.ITSRBTH) {
-        whe = "(" + whe + ") or (SRTY=" + pDoc.cnsTy() + " and SRID="
-          + pDoc.getIid() + ")";
+    } else if (pDoc.getDocTy() == EDocTy.ITSRBTH) {
+      whe = "where (SOWTY=" + pDoc.cnsTy() + " and SOWID=" + pDoc.getIid()
+        + ") or (SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid() + ")";
       }
     } else if (pDoc.getDocTy() == EDocTy.ITSR) {
       whe = "where SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid();
+    } else if (pDoc.getDocTy() == EDocTy.ITSRDRAWLN) {
+      whe = "where (SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid()
+        + ") or (DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid() + ")";
     } else {
       throw new Exception("Not allowed!");
     }

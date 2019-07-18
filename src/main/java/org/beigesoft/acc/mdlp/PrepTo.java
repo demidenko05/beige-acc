@@ -38,7 +38,7 @@ import org.beigesoft.acc.mdlb.APrep;
 public class PrepTo extends APrep {
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 3.</p>
    * @return 3
    **/
   @Override

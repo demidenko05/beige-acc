@@ -92,6 +92,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
       pEnt.setAcc(revd.getAcc());
       pEnt.setSaId(revd.getSaId());
       pEnt.setSaNm(revd.getSaNm());
+      pEnt.setToFc(revd.getToFc().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       pRvs.put("msgSuc", "reverse_ok");
     } else {

@@ -73,6 +73,9 @@ import org.beigesoft.acc.mdlp.MovItm;
 import org.beigesoft.acc.mdlp.MoItLn;
 import org.beigesoft.acc.mdlp.ItAdLn;
 import org.beigesoft.acc.mdlp.ItmAdd;
+import org.beigesoft.acc.mdlp.MnpAcs;
+import org.beigesoft.acc.mdlp.MnpMcs;
+import org.beigesoft.acc.mdlp.MnfPrc;
 import org.beigesoft.acc.mdlp.ItUbLn;
 import org.beigesoft.acc.mdlp.ItmUlb;
 import org.beigesoft.acc.fct.FcEnPrAc;
@@ -113,6 +116,10 @@ import org.beigesoft.acc.prc.ItAdLnRv;
 import org.beigesoft.acc.prc.ItmUlbSv;
 import org.beigesoft.acc.prc.ItUbLnSv;
 import org.beigesoft.acc.prc.ItUbLnRv;
+import org.beigesoft.acc.prc.MnfPrcSv;
+import org.beigesoft.acc.prc.MnpAcsSv;
+import org.beigesoft.acc.prc.MnpMcsSv;
+import org.beigesoft.acc.prc.MnpMcsRv;
 
 /**
  * <p>Additional holder of names of ACC entities processors.</p>
@@ -165,6 +172,8 @@ public class HlAcEnPr implements IHlNmClSt {
           return EntrCpr.class.getSimpleName();
         } else if (ItAdLn.class == pCls) {
           return ItAdLnRv.class.getSimpleName();
+        } else if (MnpMcs.class == pCls) {
+          return MnpMcsRv.class.getSimpleName();
         } else if (ItUbLn.class == pCls) {
           return ItUbLnRv.class.getSimpleName();
         } else if (MoItLn.class == pCls) {
@@ -247,6 +256,12 @@ public class HlAcEnPr implements IHlNmClSt {
           return ItmAddSv.class.getSimpleName();
         } else if (ItAdLn.class == pCls) {
           return ItAdLnSv.class.getSimpleName();
+        } else if (MnfPrc.class == pCls) {
+          return MnfPrcSv.class.getSimpleName();
+        } else if (MnpAcs.class == pCls) {
+          return MnpAcsSv.class.getSimpleName();
+        } else if (MnpMcs.class == pCls) {
+          return MnpMcsSv.class.getSimpleName();
         } else if (ItmUlb.class == pCls) {
           return ItmUlbSv.class.getSimpleName();
         } else if (ItUbLn.class == pCls) {

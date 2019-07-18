@@ -48,7 +48,7 @@ public class ItmAdd extends ADoc implements IDcDri<CogsEnr> {
  private List<ItAdLn> lns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 12.</p>
    * @return 12
    **/
   @Override

@@ -79,7 +79,7 @@ public class PurRet extends ADoc implements IRet<PurInv>, IDcDri<DrItEnr> {
   private List<PuRtLn> gdLns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 8.</p>
    * @return 8
    **/
   @Override

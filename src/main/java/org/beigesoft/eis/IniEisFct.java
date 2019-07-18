@@ -81,6 +81,8 @@ import org.beigesoft.acc.mdlp.MoItLn;
 import org.beigesoft.acc.mdlp.MovItm;
 import org.beigesoft.acc.mdlp.ItmAdd;
 import org.beigesoft.acc.mdlp.ItAdLn;
+import org.beigesoft.acc.mdlp.MnfPrc;
+import org.beigesoft.acc.mdlp.MnpMcs;
 import org.beigesoft.acc.mdlp.ItmUlb;
 import org.beigesoft.acc.mdlp.ItUbLn;
 
@@ -189,12 +191,14 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(PuRtLn.class, "acrv");
     hlClSt.getStgClss().put(MoItLn.class, "acrv");
     hlClSt.getStgClss().put(ItAdLn.class, "acrv");
+    hlClSt.getStgClss().put(MnpMcs.class, "acrv");
     hlClSt.getStgClss().put(ItUbLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgSclss().put(ItmAdd.class, "adcl");
+    hlClSt.getStgSclss().put(MnfPrc.class, "adcl");
     hlClSt.getStgSclss().put(ItmUlb.class, "adcl");
     hlClSt.getStgSclss().put(IInvb.class, "adcl");
     hlClSt.getStgSclss().put(IDoc.class, "adoc");
@@ -301,10 +305,12 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("invl", "chinl");
     stgNm = "inWr"; //input wrapper
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("rvId", null);
     hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);
+    hlFdSt.getStgFdNm().put("saNm", null);
     hlFdSt.getStgFdNm().put("ownr", null);
-    //unique filed name in PuInGdLn,SaRtLn,ItAdLn!:
+    //unique filed name in PuInGdLn,SaRtLn,ItAdLn,MnfPrc!:
     hlFdSt.getStgFdNm().put("itLf", "iwis");
   }
 }

@@ -37,6 +37,7 @@ import org.beigesoft.acc.mdlb.IItmSrc;
 import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.ItAdLn;
 import org.beigesoft.acc.mdlp.SaRtLn;
+import org.beigesoft.acc.mdlp.MnfPrc;
 
 /**
  * <p>Holder item to draw sources classes by type.</p>
@@ -58,6 +59,7 @@ public class HlTyItSr implements IHlIntCls {
     this.clsMp.put(new PuInGdLn().cnsTy(), PuInGdLn.class); //2000
     this.clsMp.put(new SaRtLn().cnsTy(), SaRtLn.class); //2003
     this.clsMp.put(new ItAdLn().cnsTy(), ItAdLn.class); //2006
+    this.clsMp.put(new MnfPrc().cnsTy(), MnfPrc.class); //13
   }
 
   /**

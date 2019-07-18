@@ -63,7 +63,7 @@ public class SaInGdLn extends AInvLn<SalInv, Itm>
   private List<SaInGdTxLn> txLns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 2001.</p>
    * @return 2001
    **/
   @Override
@@ -126,7 +126,7 @@ public class SaInGdLn extends AInvLn<SalInv, Itm>
   }
 
   /**
-   * <p>Getter for owner type.</p>
+   * <p>Getter for owner type 6.</p>
    * @return type code 6
    **/
   @Override

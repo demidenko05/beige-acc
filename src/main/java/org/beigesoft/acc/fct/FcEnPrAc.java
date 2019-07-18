@@ -91,6 +91,10 @@ import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.ItAdLnRv;
 import org.beigesoft.acc.prc.ItAdLnSv;
 import org.beigesoft.acc.prc.ItmAddSv;
+import org.beigesoft.acc.prc.MnpMcsRv;
+import org.beigesoft.acc.prc.MnpAcsSv;
+import org.beigesoft.acc.prc.MnpMcsSv;
+import org.beigesoft.acc.prc.MnfPrcSv;
 import org.beigesoft.acc.prc.ItUbLnRv;
 import org.beigesoft.acc.prc.ItUbLnSv;
 import org.beigesoft.acc.prc.ItmUlbSv;
@@ -270,6 +274,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuTxCtLnSv(pRvs);
           } else if (ItAdLnRv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItAdLnRv(pRvs);
+          } else if (MnpMcsRv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMnpMcsRv(pRvs);
           } else if (ItUbLnRv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItUbLnRv(pRvs);
           } else if (MoItLnRv.class.getSimpleName().equals(pPrNm)) {
@@ -288,8 +294,14 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuItmAddSv(pRvs);
           } else if (ItAdLnSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItAdLnSv(pRvs);
+          } else if (MnfPrcSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMnfPrcSv(pRvs);
           } else if (ItmUlbSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItmUlbSv(pRvs);
+          } else if (MnpAcsSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMnpAcsSv(pRvs);
+          } else if (MnpMcsSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMnpMcsSv(pRvs);
           } else if (ItUbLnSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItUbLnSv(pRvs);
           } else if (MoItLnSv.class.getSimpleName().equals(pPrNm)) {
@@ -556,6 +568,22 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map MnpMcsRv.</p>
+   * @param pRvs request scoped vars
+   * @return MnpMcsRv
+   * @throws Exception - an exception
+   */
+  private MnpMcsRv crPuMnpMcsRv(
+    final Map<String, Object> pRvs) throws Exception {
+    MnpMcsRv rz = new MnpMcsRv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(MnpMcsRv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MnpMcsRv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map ItUbLnRv.</p>
    * @param pRvs request scoped vars
    * @return ItUbLnRv
@@ -701,6 +729,35 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map MnfPrcSv.</p>
+   * @param pRvs request scoped vars
+   * @return MnfPrcSv
+   * @throws Exception - an exception
+   */
+  private MnfPrcSv crPuMnfPrcSv(
+    final Map<String, Object> pRvs) throws Exception {
+    MnfPrcSv rz = new MnfPrcSv();
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrDrItEnr srDrItEnr = (ISrDrItEnr) this.fctBlc
+      .laz(pRvs, ISrDrItEnr.class.getSimpleName());
+    rz.setSrDrItEnr(srDrItEnr);
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    UtlBas utlBas = (UtlBas) this.fctBlc
+      .laz(pRvs, UtlBas.class.getSimpleName());
+    rz.setUtlBas(utlBas);
+    this.procs.put(MnfPrcSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MnfPrcSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map ItmUlbSv.</p>
    * @param pRvs request scoped vars
    * @return ItmUlbSv
@@ -725,6 +782,52 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setUtlBas(utlBas);
     this.procs.put(ItmUlbSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), ItmUlbSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map MnpAcsSv.</p>
+   * @param pRvs request scoped vars
+   * @return MnpAcsSv
+   * @throws Exception - an exception
+   */
+  private MnpAcsSv<RS> crPuMnpAcsSv(
+    final Map<String, Object> pRvs) throws Exception {
+    MnpAcsSv<RS> rz = new MnpAcsSv<RS>();
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    this.procs.put(MnpAcsSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MnpAcsSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map MnpMcsSv.</p>
+   * @param pRvs request scoped vars
+   * @return MnpMcsSv
+   * @throws Exception - an exception
+   */
+  private MnpMcsSv<RS> crPuMnpMcsSv(
+    final Map<String, Object> pRvs) throws Exception {
+    MnpMcsSv<RS> rz = new MnpMcsSv<RS>();
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    ISrDrItEnr srDrItEnr = (ISrDrItEnr) this.fctBlc
+      .laz(pRvs, ISrDrItEnr.class.getSimpleName());
+    rz.setSrDrItEnr(srDrItEnr);
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    this.procs.put(MnpMcsSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MnpMcsSv.class
       .getSimpleName() + " has been created.");
     return rz;
   }

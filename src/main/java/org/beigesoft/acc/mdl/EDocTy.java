@@ -84,5 +84,10 @@ public enum EDocTy {
   /**
    * <p>9 document and lines make draw item entries.</p>
    **/
-  DRAWBTH;
+  DRAWBTH,
+
+  /**
+   * <p>10 document is source and lines make draw item entries.</p>
+   **/
+  ITSRDRAWLN;
 }

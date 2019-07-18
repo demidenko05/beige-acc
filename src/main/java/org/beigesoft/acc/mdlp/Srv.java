@@ -51,7 +51,7 @@ public class Srv extends AItm<Srv, SrTxDl> implements ISacnt {
   private List<SrTxDl> tdls;
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
+   * <p>OOP friendly Constant of code type 1007.</p>
    * @return 1007
    **/
   @Override

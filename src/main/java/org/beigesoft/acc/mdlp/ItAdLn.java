@@ -115,7 +115,7 @@ public class ItAdLn extends AOrId implements IOwned<ItmAdd, Long>, IItmSrc {
   private Date docDt;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 2006.</p>
    * @return 2006
    **/
   @Override

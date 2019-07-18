@@ -14,6 +14,7 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'BANK','1030'
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RECEIVABLE','1105','Accounts receivable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RETRECV','1110','Returns receivable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVENTORY','1200','Inventory',1462867931627,1,1004);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVDRCST','1205','Inventory direct cost (temporary)',1462867931627,1,1004);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECV','1310','Sales taxes receivable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECVRT','1315','Sales taxes receivable from returns',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PREPTO','1400','Prepayments to',1462867931627,1,1002);

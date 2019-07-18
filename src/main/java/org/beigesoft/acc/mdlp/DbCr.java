@@ -94,7 +94,7 @@ public class DbCr extends AIdLnNm implements ISacnt {
   private String tin;
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
+   * <p>OOP friendly Constant of code type 1002.</p>
    * @return 1002
    **/
   @Override

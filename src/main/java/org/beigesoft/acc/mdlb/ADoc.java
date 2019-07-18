@@ -36,81 +36,12 @@ import java.math.BigDecimal;
  *
  * @author Yury Demidenko
  */
-public abstract class ADoc extends AEntrSrc implements IDoc {
-
-  /**
-   * <p>If has made entries.</p>
-   **/
-  private Boolean mdEnr;
-
-  /**
-   * <p>ID of reversed/reversing doc.</p>
-   **/
-  private Long rvId;
-
-  /**
-   * <p>Total.</p>
-   **/
-  private BigDecimal tot = BigDecimal.ZERO;
+public abstract class ADoc extends ADoci implements IDoc {
 
   /**
    * <p>Total in foreign currency.</p>
    **/
   private BigDecimal toFc = BigDecimal.ZERO;
-
-  /**
-   * <p>Getter for mdEnr.</p>
-   * @return Boolean
-   **/
-  @Override
-  public final Boolean getMdEnr() {
-    return this.mdEnr;
-  }
-
-  /**
-   * <p>Setter for mdEnr.</p>
-   * @param pMdEnr reference
-   **/
-  @Override
-  public final void setMdEnr(final Boolean pMdEnr) {
-    this.mdEnr = pMdEnr;
-  }
-
-  /**
-   * <p>Getter for rvId.</p>
-   * @return Long
-   **/
-  @Override
-  public final Long getRvId() {
-    return this.rvId;
-  }
-
-  /**
-   * <p>Setter for rvId.</p>
-   * @param pRvId reference
-   **/
-  @Override
-  public final void setRvId(final Long pRvId) {
-    this.rvId = pRvId;
-  }
-
-  /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
-   **/
-  @Override
-  public final BigDecimal getTot() {
-    return this.tot;
-  }
-
-  /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
-   **/
-  @Override
-  public final void setTot(final BigDecimal pTot) {
-    this.tot = pTot;
-  }
 
   /**
    * <p>Getter for toFc.</p>

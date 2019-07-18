@@ -97,6 +97,7 @@ public class SrPaymSv {
       pEnt.setSaId(revd.getSaId());
       pEnt.setSaTy(revd.getSaTy());
       pEnt.setSaNm(revd.getSaNm());
+      pEnt.setToFc(revd.getToFc().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       pRvs.put("msgSuc", "reverse_ok");
       ndToPa = true;

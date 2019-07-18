@@ -45,7 +45,7 @@ public class Tax extends AIdLnNm implements ISacnt {
   private ETxTy typ;
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
+   * <p>OOP friendly Constant of code type 1008.</p>
    * @return 1008
    **/
   @Override

@@ -43,7 +43,7 @@ public class PaymFr extends APaym<SalInv> {
   private SalInv inv;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 7.</p>
    * @return 7
    **/
   @Override

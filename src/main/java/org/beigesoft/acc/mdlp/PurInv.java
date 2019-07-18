@@ -62,7 +62,7 @@ public class PurInv extends AInv implements IDcDri<CogsEnr> {
   private List<PuInSrLn> srLns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 4.</p>
    * @return 4
    **/
   @Override

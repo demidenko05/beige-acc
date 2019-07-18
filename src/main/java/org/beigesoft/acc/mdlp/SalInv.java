@@ -42,11 +42,6 @@ import org.beigesoft.acc.mdlb.IDcDri;
 public class SalInv extends AInv implements IDcDri<CogsEnr> {
 
   /**
-   * <p>Memory friendly static constant entity type.</p>
-   **/
-  static final Integer TYP = 6;
-
-  /**
    * <p>Prepayments.</p>
    **/
   private PrepFr prep;
@@ -67,7 +62,7 @@ public class SalInv extends AInv implements IDcDri<CogsEnr> {
   private List<SaInSrLn> srLns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 6.</p>
    * @return 6
    **/
   @Override

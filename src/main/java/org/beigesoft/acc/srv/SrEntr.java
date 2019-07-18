@@ -49,7 +49,7 @@ import org.beigesoft.srv.II18n;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.mdlb.IEntrSrc;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.EnrSrc;
 import org.beigesoft.acc.mdlp.AcStg;
@@ -116,7 +116,7 @@ public class SrEntr<RS> implements ISrEntr {
    **/
   @Override
   public final void mkEntrs(final Map<String, Object> pRvs,
-    final IDoc pDoc) throws Exception {
+    final IDoci pDoc) throws Exception {
     if (pDoc.getMdEnr()) {
       throw new ExcCode(ExcCode.SPAM, "Trying to account accounted!");
     }
@@ -230,8 +230,8 @@ public class SrEntr<RS> implements ISrEntr {
    * @throws Exception - an exception
    **/
   @Override
-  public final void revEntrs(final Map<String, Object> pRvs, final IDoc pRvng,
-    final IDoc pRved) throws Exception {
+  public final void revEntrs(final Map<String, Object> pRvs, final IDoci pRvng,
+    final IDoci pRved) throws Exception {
     if (pRved.getRvId() != null) {
       throw new ExcCode(ExcCode.SPAM, "Attempt to reverse reversed!");
     }
@@ -250,7 +250,6 @@ public class SrEntr<RS> implements ISrEntr {
     hnsTrRlBk.add(this.srBlnc);
     pRvng.setDat(pRved.getDat());
     pRvng.setTot(pRved.getTot().negate());
-    pRvng.setToFc(pRved.getToFc().negate());
     pRvng.setMdEnr(true);
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat

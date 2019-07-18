@@ -142,7 +142,7 @@ public class SaRtLn extends AOrId
   private Date docDt;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 2003.</p>
    * @return 2003
    **/
   @Override

@@ -32,36 +32,12 @@ package org.beigesoft.acc.mdlb;
 import java.math.BigDecimal;
 
 /**
- * <p>Abstract model of document that makes accounting entries,
+ * <p>Abstract model of external document that makes accounting entries,
  * e.g. Purchase Invoice.</p>
  *
  * @author Yury Demidenko
  */
-public interface IDoc extends IEntrSrc, IRvId, IDocb {
-
-  /**
-   * <p>Getter of has made entries.</p>
-   * @return Boolean
-   **/
-  Boolean getMdEnr();
-
-  /**
-   * <p>Setter for has made entries.</p>
-   * @param pMdEnr reference
-   **/
-  void setMdEnr(Boolean pMdEnr);
-
-  /**
-   * <p>Getter for tot.</p>
-   * @return BigDecimal
-   **/
-  BigDecimal getTot();
-
-  /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
-   **/
-  void setTot(BigDecimal pTot);
+public interface IDoc extends IDoci {
 
   /**
    * <p>Getter for toFc.</p>

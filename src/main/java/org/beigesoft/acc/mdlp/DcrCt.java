@@ -39,7 +39,7 @@ import org.beigesoft.acc.mdlb.ISacnt;
 public class DcrCt extends AIdLnNm implements ISacnt {
 
   /**
-   * <p>OOP friendly Constant of code type.</p>
+   * <p>OOP friendly Constant of code type 1001.</p>
    * @return 1001
    **/
   @Override

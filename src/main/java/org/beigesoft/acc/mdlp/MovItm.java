@@ -58,7 +58,7 @@ public class MovItm extends AOrId implements IDocb {
   private List<MoItLn> lns;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 10.</p>
    * @return 10
    **/
   @Override

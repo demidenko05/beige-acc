@@ -35,7 +35,7 @@ package org.beigesoft.acc.mdlb;
  * @param <T> draw entry type
  * @author Yury Demidenko
  */
-public interface IDcDri<T extends ADrItEnr> extends IDoc {
+public interface IDcDri<T extends ADrItEnr> extends IDoci {
 
   /**
    * <p>Getter for draw item entry class.</p>

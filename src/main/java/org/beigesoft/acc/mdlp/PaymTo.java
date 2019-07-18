@@ -43,7 +43,7 @@ public class PaymTo extends APaym<PurInv> {
   private PurInv inv;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 5.</p>
    * @return 5
    **/
   @Override

@@ -83,7 +83,7 @@ public class MoItLn extends AOrId implements IOwned<MovItm, Long>, IMkWsEnr {
   private String dscr;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 2004.</p>
    * @return 2004
    **/
   @Override

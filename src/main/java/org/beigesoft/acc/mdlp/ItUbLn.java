@@ -84,7 +84,7 @@ public class ItUbLn extends AOrId implements IOwned<ItmUlb, Long>,
   private Acnt acc;
 
   /**
-   * <p>Constant of code type.</p>
+   * <p>Constant of code type 2005.</p>
    * @return 2005
    **/
   @Override
