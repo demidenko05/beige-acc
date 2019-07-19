@@ -28,18 +28,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
+import org.beigesoft.acc.mdl.EDocDriTy;
+
 /**
  * <p>Model of entity that makes warehouse entries and draw item entries
  * or it's draw item source.</p>
  *
- * @param <T> draw entry type
  * @author Yury Demidenko
  */
-public interface IDcDri<T extends ADrItEnr> extends IDoci {
+public interface IDcDri extends IDoci {
 
   /**
-   * <p>Getter for draw item entry class.</p>
-   * @return draw item entry class
+   * <p>Getter for has draw items document type.</p>
+   * @return has draw items document type
    **/
-  Class<T> getEnrCls();
+  EDocDriTy getDocDriTy();
 }

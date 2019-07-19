@@ -98,7 +98,6 @@ public class ItmAddSv implements IPrcEnt<ItmAdd, Long> {
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
       pEnt.setDbOr(this.orm.getDbId());
       pEnt.setTot(revd.getTot().negate());
-      pEnt.setToFc(revd.getToFc().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       vs.put("ItAdLndpLv", 1);
       List<ItAdLn> rdls = this.orm.retLstCnd(pRvs, vs, ItAdLn.class,
@@ -135,7 +134,7 @@ public class ItmAddSv implements IPrcEnt<ItmAdd, Long> {
         rdl.setToLf(BigDecimal.ZERO);
         String[] upFds = new String[] {"rvId", "dscr", "ver", "itLf", "toLf"};
         Arrays.sort(upFds);
-        vs.put("upFds", upFds);
+        vs.put("ndFds", upFds);
         this.orm.update(pRvs, vs, rdl); vs.clear();
         this.srWrhEnr.revLoad(pRvs, rgl);
       }
@@ -167,7 +166,7 @@ public class ItmAddSv implements IPrcEnt<ItmAdd, Long> {
         } else {
           String[] upFds = new String[] {"dat", "dscr", "ver"};
           Arrays.sort(upFds);
-          vs.put("upFds", upFds);
+          vs.put("ndFds", upFds);
           getOrm().update(pRvs, vs, pEnt); vs.clear();
           pRvs.put("msgSuc", "update_ok");
         }

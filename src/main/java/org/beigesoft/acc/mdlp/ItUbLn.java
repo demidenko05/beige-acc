@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 
 import org.beigesoft.mdl.IOwned;
 import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.acc.mdl.EItSrTy;
 import org.beigesoft.acc.mdlb.IMkDriEnr;
 
 /**
@@ -82,6 +83,15 @@ public class ItUbLn extends AOrId implements IOwned<ItmUlb, Long>,
    * <p>COGS account, not null.</p>
    **/
   private Acnt acc;
+
+  /**
+   * <p>Getter for srsTy.</p>
+   * @return EItSrTy
+   **/
+  @Override
+  public final EItSrTy getSrsTy() {
+    return EItSrTy.BASIC;
+  }
 
   /**
    * <p>Constant of code type 2005.</p>

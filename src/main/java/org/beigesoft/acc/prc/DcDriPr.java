@@ -33,9 +33,12 @@ import java.util.Map;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEntRt;
+import org.beigesoft.acc.mdl.EDocDriTy;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.WrhEnr;
+import org.beigesoft.acc.mdlp.CogsEnr;
+import org.beigesoft.acc.mdlp.DrItEnr;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.ISrWrhEnr;
 import org.beigesoft.acc.srv.ISrDrItEnr;
@@ -46,12 +49,12 @@ import org.beigesoft.acc.srv.ISrDrItEnr;
  *
  * @author Yury Demidenko
  */
-public class DcDriPr implements IPrcEnt<IDcDri<?>, Long> {
+public class DcDriPr implements IPrcEnt<IDcDri, Long> {
 
   /**
    * <p>Base retriever.</p>
    **/
-  private PrcEntRt<IDcDri<?>, Long> retrv;
+  private PrcEntRt<IDcDri, Long> retrv;
 
   /**
    * <p>Entries service.</p>
@@ -77,8 +80,8 @@ public class DcDriPr implements IPrcEnt<IDcDri<?>, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final IDcDri<?> process(final Map<String, Object> pRvs,
-    final IDcDri<?> pEnt, final IReqDt pRqDt) throws Exception {
+  public final IDcDri process(final Map<String, Object> pRvs,
+    final IDcDri pEnt, final IReqDt pRqDt) throws Exception {
     this.retrv.process(pRvs, pEnt, pRqDt);
     if (pEnt.getMdEnr()) {
       pRvs.put("entrCls", Entr.class);
@@ -86,8 +89,16 @@ public class DcDriPr implements IPrcEnt<IDcDri<?>, Long> {
     }
     pRvs.put("whEnrCls", WrhEnr.class);
     pRvs.put("whEnrs", this.srWrhEnr.retEntrs(pRvs, pEnt));
-    pRvs.put("driEnrCls", pEnt.getEnrCls());
-    pRvs.put("driEnrs", this.srDrItEnr.retEntrs(pRvs, pEnt));
+    if (pEnt.getDocDriTy() == EDocDriTy.DRIT
+      || pEnt.getDocDriTy() == EDocDriTy.COGSDRIT) {
+      pRvs.put("drItEnrCls", DrItEnr.class);
+      pRvs.put("drItEnrs", this.srDrItEnr.retEntrs(pRvs, pEnt, DrItEnr.class));
+    }
+    if (pEnt.getDocDriTy() == EDocDriTy.COGS
+      || pEnt.getDocDriTy() == EDocDriTy.COGSDRIT) {
+      pRvs.put("cogsEnrCls", CogsEnr.class);
+      pRvs.put("cogsEnrs", this.srDrItEnr.retEntrs(pRvs, pEnt, CogsEnr.class));
+    }
     return pEnt;
   }
 
@@ -96,7 +107,7 @@ public class DcDriPr implements IPrcEnt<IDcDri<?>, Long> {
    * <p>Getter for retrv.</p>
    * @return PrcEntRt<IDcDri<?>, Long>
    **/
-  public final PrcEntRt<IDcDri<?>, Long> getRetrv() {
+  public final PrcEntRt<IDcDri, Long> getRetrv() {
     return this.retrv;
   }
 
@@ -104,7 +115,7 @@ public class DcDriPr implements IPrcEnt<IDcDri<?>, Long> {
    * <p>Setter for retrv.</p>
    * @param pRetrv reference
    **/
-  public final void setRetrv(final PrcEntRt<IDcDri<?>, Long> pRetrv) {
+  public final void setRetrv(final PrcEntRt<IDcDri, Long> pRetrv) {
     this.retrv = pRetrv;
   }
 

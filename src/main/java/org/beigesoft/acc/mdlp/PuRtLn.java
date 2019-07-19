@@ -33,6 +33,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.acc.mdl.EItSrTy;
 import org.beigesoft.acc.mdlb.IRetLn;
 import org.beigesoft.acc.mdlb.IMkDriEnr;
 
@@ -113,6 +114,15 @@ public class PuRtLn extends AOrId
    * <p>Item basis tax lines.</p>
    **/
   private List<PuRtLtl> txLns;
+
+  /**
+   * <p>Getter for srsTy.</p>
+   * @return EItSrTy
+   **/
+  @Override
+  public final EItSrTy getSrsTy() {
+    return EItSrTy.BASIC;
+  }
 
   /**
    * <p>Constant of code type 2002.</p>

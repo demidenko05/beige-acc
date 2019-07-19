@@ -31,6 +31,7 @@ package org.beigesoft.acc.mdlp;
 import java.util.List;
 import java.util.Date;
 
+import org.beigesoft.acc.mdl.EItSrTy;
 import org.beigesoft.acc.mdlb.AInvLn;
 import org.beigesoft.acc.mdlb.IMkDriEnr;
 
@@ -61,6 +62,15 @@ public class SaInGdLn extends AInvLn<SalInv, Itm>
    * <p>Item basis tax lines.</p>
    **/
   private List<SaInGdTxLn> txLns;
+
+  /**
+   * <p>Getter for srsTy.</p>
+   * @return EItSrTy
+   **/
+  @Override
+  public final EItSrTy getSrsTy() {
+    return EItSrTy.BASIC;
+  }
 
   /**
    * <p>Constant of code type 2001.</p>

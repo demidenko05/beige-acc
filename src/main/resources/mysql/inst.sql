@@ -14,7 +14,7 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'BANK','1030'
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RECEIVABLE','1105','Accounts receivable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RETRECV','1110','Returns receivable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVENTORY','1200','Inventory',1462867931627,1,1004);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVDRCST','1205','Inventory direct cost (temporary)',1462867931627,1,1004);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVDRCST','1205','Inventory direct cost (temporary)',1462867931627,1,1000);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECV','1310','Sales taxes receivable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECVRT','1315','Sales taxes receivable from returns',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PREPTO','1400','Prepayments to',1462867931627,1,1002);
@@ -69,6 +69,9 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (17,9,'SaRtSaTaxD
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (18,9,'SaRtInvCtDbCogsCr',1462867931627,1,'SALRET.IID','Debit Inventory per good category, Credit COGS per good category for (quantity*COGS price) amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (19,11,'ItUbCogsDbInvCrItc',1462867931627,1,'ITMULB.IID','Debit COGS per good category, Credit Inventory per good category for COGS total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (20,12,'ItAdInvCtDb',1462867931627,1,'ITMADD.IID','Debit Inventory per good category for total amount.');
-insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (1,2000,'puGdLn',1462867931627,1,'CogsEnr','Purchase invoice good line for FIFO/LIFO');
-insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (2,2003,'saRtLn',1462867931627,1,'CogsEnr','Sales return line for FIFO/LIFO');
-insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,ENCLNM,DSCR) values (3,2006,'itAdLn',1462867931627,1,'CogsEnr','Add item line for FIFO/LIFO');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (21,13,'MnPrInvIctDbExpCr',1462867931627,1,'MNFPRC.IID','Debit Inventory per good category, Credit Expenses for additional total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (22,13,'MnPrInvCtDbCr',1462867931627,1,'MNFPRC.IID','Debit/Credit Inventory per good category for used material total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (23,14,'MnfInvCtDbCr',1462867931627,1,'MNFCT.IID','Debit/Credit Inventory per good category for total amount.');
+insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (1,2000,'puGdLn',1462867931627,1,0,'Purchase invoice good line for FIFO/LIFO');
+insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (2,2003,'saRtLn',1462867931627,1,0,'Sales return line for FIFO/LIFO');
+insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (3,2006,'itAdLn',1462867931627,1,0,'Add item line for FIFO/LIFO');

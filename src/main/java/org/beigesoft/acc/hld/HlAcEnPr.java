@@ -38,7 +38,7 @@ import org.beigesoft.prc.PrcEntCr;
 import org.beigesoft.prc.PrcEnoDl;
 import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.ITyp;
@@ -75,6 +75,7 @@ import org.beigesoft.acc.mdlp.ItAdLn;
 import org.beigesoft.acc.mdlp.ItmAdd;
 import org.beigesoft.acc.mdlp.MnpAcs;
 import org.beigesoft.acc.mdlp.MnpMcs;
+import org.beigesoft.acc.mdlp.Mnfct;
 import org.beigesoft.acc.mdlp.MnfPrc;
 import org.beigesoft.acc.mdlp.ItUbLn;
 import org.beigesoft.acc.mdlp.ItmUlb;
@@ -116,6 +117,7 @@ import org.beigesoft.acc.prc.ItAdLnRv;
 import org.beigesoft.acc.prc.ItmUlbSv;
 import org.beigesoft.acc.prc.ItUbLnSv;
 import org.beigesoft.acc.prc.ItUbLnRv;
+import org.beigesoft.acc.prc.MnfctSv;
 import org.beigesoft.acc.prc.MnfPrcSv;
 import org.beigesoft.acc.prc.MnpAcsSv;
 import org.beigesoft.acc.prc.MnpMcsSv;
@@ -164,7 +166,7 @@ public class HlAcEnPr implements IHlNmClSt {
           return EntrCpr.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepCpr.class.getSimpleName();
-        } else if (IDoc.class.isAssignableFrom(pCls)) {
+        } else if (IDoci.class.isAssignableFrom(pCls)) {
           return DocCpr.class.getSimpleName();
         }
       } else if ("entRv".equals(pAct)) { //Create copy for reversing
@@ -180,7 +182,7 @@ public class HlAcEnPr implements IHlNmClSt {
           return MoItLnRv.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepCpr.class.getSimpleName();
-        } else if (IDoc.class.isAssignableFrom(pCls)) {
+        } else if (IDoci.class.isAssignableFrom(pCls)) {
           return DocCpr.class.getSimpleName();
         } else if (AInvLn.class.isAssignableFrom(pCls)) {
           return InvLnCpr.class.getSimpleName();
@@ -205,7 +207,7 @@ public class HlAcEnPr implements IHlNmClSt {
          return MovItmPr.class.getSimpleName();
        } else if ("entPr".equals(pAct) && IDcDri.class.isAssignableFrom(pCls)) {
           return DcDriPr.class.getSimpleName();
-        } else if ("entPr".equals(pAct) && IDoc.class.isAssignableFrom(pCls)) {
+        } else if ("entPr".equals(pAct) && IDoci.class.isAssignableFrom(pCls)) {
           if (AInv.class.isAssignableFrom(pCls)) {
             return DocWhPr.class.getSimpleName();
           }
@@ -256,6 +258,8 @@ public class HlAcEnPr implements IHlNmClSt {
           return ItmAddSv.class.getSimpleName();
         } else if (ItAdLn.class == pCls) {
           return ItAdLnSv.class.getSimpleName();
+        } else if (Mnfct.class == pCls) {
+          return MnfctSv.class.getSimpleName();
         } else if (MnfPrc.class == pCls) {
           return MnfPrcSv.class.getSimpleName();
         } else if (MnpAcs.class == pCls) {

@@ -111,7 +111,7 @@ public class MoItLnSv implements IPrcEnt<MoItLn, Long> {
         revd.setRvId(pEnt.getIid());
         String[] upFds = new String[] {"rvId", "dscr", "ver"};
         Arrays.sort(upFds);
-        vs.put("upFds", upFds);
+        vs.put("ndFds", upFds);
         this.orm.update(pRvs, vs, revd); vs.clear();
         this.srWrhEnr.revMove(pRvs, pEnt);
         pRvs.put("msgSuc", "reverse_ok");

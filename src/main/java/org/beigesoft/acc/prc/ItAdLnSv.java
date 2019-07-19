@@ -122,7 +122,7 @@ public class ItAdLnSv<RS> implements IPrcEnt<ItAdLn, Long> {
         revd.setToLf(BigDecimal.ZERO);
         String[] upFds = new String[] {"rvId", "dscr", "ver", "itLf", "toLf"};
         Arrays.sort(upFds);
-        vs.put("upFds", upFds);
+        vs.put("ndFds", upFds);
         this.orm.update(pRvs, vs, revd); vs.clear();
         this.srWrhEnr.revLoad(pRvs, pEnt);
         pRvs.put("msgSuc", "reverse_ok");
@@ -144,7 +144,8 @@ String qu = "select sum(TOT) as TOT from ITADLN where RVID is null and OWNR="
         .setScale(as.getCsDp(), as.getRndm()));
       String[] upFds = new String[] {"tot", "ver"};
       Arrays.sort(upFds);
-      vs.put("upFds", upFds);
+      vs.put("ndFds", upFds);
+      vs.put("ndFds", upFds);
       getOrm().update(pRvs, vs, pEnt.getOwnr()); vs.clear();
       UvdVar uvs = (UvdVar) pRvs.get("uvs");
       uvs.setOwnr(pEnt.getOwnr());

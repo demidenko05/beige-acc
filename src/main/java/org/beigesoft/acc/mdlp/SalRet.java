@@ -32,6 +32,7 @@ import java.util.List;
 import java.math.BigDecimal;
 
 import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.acc.mdl.EDocDriTy;
 import org.beigesoft.acc.mdlb.ADoc;
 import org.beigesoft.acc.mdlb.IRet;
 import org.beigesoft.acc.mdlb.IDcDri;
@@ -41,7 +42,7 @@ import org.beigesoft.acc.mdlb.IDcDri;
  *
  * @author Yury Demidenko
  */
-public class SalRet extends ADoc implements IRet<SalInv>, IDcDri<DrItEnr> {
+public class SalRet extends ADoc implements IRet<SalInv>, IDcDri {
 
   /**
    * <p>Invoice.</p>
@@ -97,12 +98,12 @@ public class SalRet extends ADoc implements IRet<SalInv>, IDcDri<DrItEnr> {
   }
 
   /**
-   * <p>Getter for draw item entry class.</p>
-   * @return draw item entry class
+   * <p>Getter for has draw items document type.</p>
+   * @return has draw items document type
    **/
   @Override
-  public final Class<DrItEnr> getEnrCls() {
-    return DrItEnr.class;
+  public final EDocDriTy getDocDriTy() {
+    return EDocDriTy.COGSDRIT;
   }
 
   /**

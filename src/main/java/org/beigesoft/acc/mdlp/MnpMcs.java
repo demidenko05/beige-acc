@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 
 import org.beigesoft.mdl.IOwned;
 import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.acc.mdl.EItSrTy;
 import org.beigesoft.acc.mdlb.IMkDriEnr;
 
 /**
@@ -220,6 +221,15 @@ public class MnpMcs extends AOrId implements IOwned<MnfPrc, Long>,
   @Override
   public final Integer getOwnrTy() {
     return 13;
+  }
+
+  /**
+   * <p>Getter for srsTy.</p>
+   * @return EItSrTy
+   **/
+  @Override
+  public final EItSrTy getSrsTy() {
+    return EItSrTy.BASIC;
   }
 
   /**

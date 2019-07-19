@@ -31,6 +31,7 @@ package org.beigesoft.acc.mdlp;
 import java.util.List;
 
 import org.beigesoft.acc.mdl.EDocTy;
+import org.beigesoft.acc.mdl.EDocDriTy;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.IDcDri;
 
@@ -39,7 +40,7 @@ import org.beigesoft.acc.mdlb.IDcDri;
  *
  * @author Yury Demidenko
  */
-public class PurInv extends AInv implements IDcDri<CogsEnr> {
+public class PurInv extends AInv implements IDcDri {
 
   /**
    * <p>Prepayments.</p>
@@ -89,14 +90,13 @@ public class PurInv extends AInv implements IDcDri<CogsEnr> {
   }
 
   /**
-   * <p>Getter for draw item entry class.</p>
-   * @return draw item entry class
+   * <p>Getter for has draw items document type.</p>
+   * @return has draw items document type
    **/
   @Override
-  public final Class<CogsEnr> getEnrCls() {
-    return CogsEnr.class;
+  public final EDocDriTy getDocDriTy() {
+    return EDocDriTy.COGSDRIT;
   }
-
   //Simple getters and setters:
   /**
    * <p>Setter for prep.</p>

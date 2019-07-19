@@ -28,23 +28,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
-import java.util.List;
 import java.util.Date;
 import java.math.BigDecimal;
 
+import org.beigesoft.acc.mdl.EItSrTy;
 import org.beigesoft.acc.mdl.EDocTy;
 import org.beigesoft.acc.mdl.EDocDriTy;
 import org.beigesoft.acc.mdlb.ADoci;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlb.IItmSrc;
+import org.beigesoft.acc.mdlb.IMkDriEnr;
 
 /**
- * <p>Model of manufacturing process that makes product in progress from
- * used materials and additional costs (expenses).</p>
+ * <p>Model of manufacturing that makes product from product in progress.</p>
  *
  * @author Yury Demidenko
  */
-public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
+public class Mnfct extends ADoci implements IDcDri, IItmSrc,
+  IMkDriEnr<DrItEnr> {
 
   /**
    * <p>Item.</p>
@@ -62,11 +63,6 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
   private BigDecimal quan = BigDecimal.ZERO;
 
   /**
-   * <p>Price.</p>
-   **/
-  private BigDecimal pri = BigDecimal.ZERO;
-
-  /**
    * <p>Items left (the rest) to draw, loads by the quantity,
    * draws by sales, losses etc.</p>
    **/
@@ -81,42 +77,32 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
   private BigDecimal toLf = BigDecimal.ZERO;
 
   /**
+   * <p>Item source, not null.</p>
+   **/
+  private MnfPrc mnp;
+
+  /**
+   * <p>Price.</p>
+   **/
+  private BigDecimal pri = BigDecimal.ZERO;
+
+  /**
    * <p>Warehouse place.</p>
    **/
   private WrhPl wrhp;
 
   /**
-   * <p>Material cost.</p>
+   * <p>Warehouse place from (optional).</p>
    **/
-  private BigDecimal maCs = BigDecimal.ZERO;
+  private WrhPl whpo;
 
   /**
-   * <p>Additional (services) cost.</p>
-   **/
-  private BigDecimal adCs = BigDecimal.ZERO;
-
-  /**
-   * <p>If completed.</p>
-   **/
-  private Boolean cmpl;
-
-  /**
-   * <p>Material lines.</p>
-   **/
-  private List<MnpMcs> maLns;
-
-  /**
-   * <p>Additional cost lines.</p>
-   **/
-  private List<MnpAcs> acLns;
-
-  /**
-   * <p>Constant of code type 13.</p>
-   * @return 13
+   * <p>Constant of code type 14.</p>
+   * @return 14
    **/
   @Override
   public final Integer cnsTy() {
-    return 13;
+    return 14;
   }
 
   /**
@@ -125,7 +111,7 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
    **/
   @Override
   public final EDocTy getDocTy() {
-    return EDocTy.ITSRDRAWLN;
+    return EDocTy.ITSRDRAW;
   }
 
   /**
@@ -134,7 +120,7 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
    **/
   @Override
   public final EDocDriTy getDocDriTy() {
-    return EDocDriTy.COGSDRIT;
+    return EDocDriTy.DRIT;
   }
   /**
    * <p>Getter for itm.</p>
@@ -235,7 +221,7 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
    **/
   @Override
   public final BigDecimal getIniTo() {
-    return getMaCs();
+    return getTot();
   }
 
   /**
@@ -285,21 +271,39 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
     return null;
   }
 
-  //Simple getters and setters:
   /**
-   * <p>Getter for wrhp.</p>
-   * @return WrhPl
+   * <p>Getter for srsTy.</p>
+   * @return EItSrTy
    **/
-  public final WrhPl getWrhp() {
-    return this.wrhp;
+  @Override
+  public final EItSrTy getSrsTy() {
+    return EItSrTy.INNER;
   }
 
   /**
-   * <p>Setter for wrhp.</p>
-   * @param pWrhp reference
+   * <p>Getter for draw item entry class.</p>
+   * @return draw item entry class
    **/
-  public final void setWrhp(final WrhPl pWrhp) {
-    this.wrhp = pWrhp;
+  @Override
+  public final Class<DrItEnr> getEnrCls() {
+    return DrItEnr.class;
+  }
+
+  //Simple getters and setters:
+  /**
+   * <p>Getter for mnp.</p>
+   * @return MnfPrc
+   **/
+  public final MnfPrc getMnp() {
+    return this.mnp;
+  }
+
+  /**
+   * <p>Setter for mnp.</p>
+   * @param pMnp reference
+   **/
+  public final void setMnp(final MnfPrc pMnp) {
+    this.mnp = pMnp;
   }
 
   /**
@@ -319,82 +323,34 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
   }
 
   /**
-   * <p>Getter for maCs.</p>
-   * @return BigDecimal
+   * <p>Getter for wrhp.</p>
+   * @return WrhPl
    **/
-  public final BigDecimal getMaCs() {
-    return this.maCs;
+  public final WrhPl getWrhp() {
+    return this.wrhp;
   }
 
   /**
-   * <p>Setter for maCs.</p>
-   * @param pMaCs reference
+   * <p>Setter for wrhp.</p>
+   * @param pWrhp reference
    **/
-  public final void setMaCs(final BigDecimal pMaCs) {
-    this.maCs = pMaCs;
+  public final void setWrhp(final WrhPl pWrhp) {
+    this.wrhp = pWrhp;
   }
 
   /**
-   * <p>Getter for adCs.</p>
-   * @return BigDecimal
+   * <p>Getter for whpo.</p>
+   * @return WrhPl
    **/
-  public final BigDecimal getAdCs() {
-    return this.adCs;
+  public final WrhPl getWhpo() {
+    return this.whpo;
   }
 
   /**
-   * <p>Setter for adCs.</p>
-   * @param pAdCs reference
+   * <p>Setter for whpo.</p>
+   * @param pWhpo reference
    **/
-  public final void setAdCs(final BigDecimal pAdCs) {
-    this.adCs = pAdCs;
-  }
-
-  /**
-   * <p>Getter for maLns.</p>
-   * @return List<MnpMcs>
-   **/
-  public final List<MnpMcs> getMaLns() {
-    return this.maLns;
-  }
-
-  /**
-   * <p>Setter for maLns.</p>
-   * @param pMaLns reference
-   **/
-  public final void setMaLns(final List<MnpMcs> pMaLns) {
-    this.maLns = pMaLns;
-  }
-
-  /**
-   * <p>Getter for acLns.</p>
-   * @return List<MnpAcs>
-   **/
-  public final List<MnpAcs> getAcLns() {
-    return this.acLns;
-  }
-
-  /**
-   * <p>Setter for acLns.</p>
-   * @param pAcLns reference
-   **/
-  public final void setAcLns(final List<MnpAcs> pAcLns) {
-    this.acLns = pAcLns;
-  }
-
-  /**
-   * <p>Getter for cmpl.</p>
-   * @return Boolean
-   **/
-  public final Boolean getCmpl() {
-    return this.cmpl;
-  }
-
-  /**
-   * <p>Setter for cmpl.</p>
-   * @param pCmpl reference
-   **/
-  public final void setCmpl(final Boolean pCmpl) {
-    this.cmpl = pCmpl;
+  public final void setWhpo(final WrhPl pWhpo) {
+    this.whpo = pWhpo;
   }
 }

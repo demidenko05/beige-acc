@@ -8,9 +8,6 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="totcnToSt">CnvCostStr</entry>
-<entry key="toFccnToSt">CnvCostStr</entry>
 <entry key="datstr">dtTm</entry>
 <entry key="totinp">reo</entry>
-<entry key="mdEnrinp"></entry>
-<entry key="rvIdinp"></entry>
 </properties>

@@ -94,6 +94,7 @@ import org.beigesoft.acc.prc.ItmAddSv;
 import org.beigesoft.acc.prc.MnpMcsRv;
 import org.beigesoft.acc.prc.MnpAcsSv;
 import org.beigesoft.acc.prc.MnpMcsSv;
+import org.beigesoft.acc.prc.MnfctSv;
 import org.beigesoft.acc.prc.MnfPrcSv;
 import org.beigesoft.acc.prc.ItUbLnRv;
 import org.beigesoft.acc.prc.ItUbLnSv;
@@ -294,6 +295,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuItmAddSv(pRvs);
           } else if (ItAdLnSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItAdLnSv(pRvs);
+          } else if (MnfctSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuMnfctSv(pRvs);
           } else if (MnfPrcSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuMnfPrcSv(pRvs);
           } else if (ItmUlbSv.class.getSimpleName().equals(pPrNm)) {
@@ -729,6 +732,34 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map MnfctSv.</p>
+   * @param pRvs request scoped vars
+   * @return MnfctSv
+   * @throws Exception - an exception
+   */
+  private MnfctSv crPuMnfctSv(
+    final Map<String, Object> pRvs) throws Exception {
+    MnfctSv rz = new MnfctSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrDrItEnr srDrItEnr = (ISrDrItEnr) this.fctBlc
+      .laz(pRvs, ISrDrItEnr.class.getSimpleName());
+    rz.setSrDrItEnr(srDrItEnr);
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
+    UtlBas utlBas = (UtlBas) this.fctBlc
+      .laz(pRvs, UtlBas.class.getSimpleName());
+    rz.setUtlBas(utlBas);
+    this.procs.put(MnfctSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MnfctSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map MnfPrcSv.</p>
    * @param pRvs request scoped vars
    * @return MnfPrcSv
@@ -915,7 +946,7 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
       .laz(pRvs, FctEnPrc.class.getSimpleName());
     @SuppressWarnings("unchecked")
-    PrcEntRt<IDcDri<?>, Long> rtr = (PrcEntRt<IDcDri<?>, Long>) fctEnPrc
+    PrcEntRt<IDcDri, Long> rtr = (PrcEntRt<IDcDri, Long>) fctEnPrc
       .lazPart(pRvs, PrcEntRt.class.getSimpleName());
     rz.setRetrv(rtr);
     ISrEntr srEntr = (ISrEntr) this.fctBlc

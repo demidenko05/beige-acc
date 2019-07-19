@@ -154,8 +154,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
       new StringBuffer("select SRTY, DAT, IID, OWID, TOLF, ITLF from(\n");
     boolean isFst = true;
     for (DriEnrSr ensr : this.entrSrcs) {
-      if (ensr.getUsed() && ensr.getEnClNm()
-        .equals(pDrer.getEnrCls().getSimpleName())) {
+      if (ensr.getUsed() && ensr.getSrsTy() == pDrer.getSrsTy()) {
         String qu = lazEntrQu(ensr.getQuFl());
         qu = qu.replace(":DBOR", this.orm.getDbId().toString());
         qu = qu.replace(":ITM", pDrer.getItm().getIid().toString());
@@ -386,17 +385,19 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
    * @param <T> draw entry type
    * @param pRvs Request scoped variables
    * @param pDoc document
+   * @param pEnrCls entries class
    * @return entries
    * @throws Exception - an exception
    **/
   @Override
   public final <T extends ADrItEnr> List<T> retEntrs(
-    final Map<String, Object> pRvs, final IDcDri<T> pDoc) throws Exception {
+    final Map<String, Object> pRvs, final IDcDri pDoc,
+      final Class<T> pEnrCls) throws Exception {
     String whe;
     //resource friendly implementation:
     if (pDoc.getDocTy() == EDocTy.DRAWLN) {
       whe = "where DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid();
-    if (pDoc.getDocTy() == EDocTy.DRAWBTH) {
+    } else if (pDoc.getDocTy() == EDocTy.DRAWBTH) {
       whe = "where (DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid()
         + ") or (DRTY=" + pDoc.cnsTy() + " and DRID=" + pDoc.getIid() + ")";
     } else if (pDoc.getDocTy() == EDocTy.DRAW) {
@@ -406,17 +407,19 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     } else if (pDoc.getDocTy() == EDocTy.ITSRBTH) {
       whe = "where (SOWTY=" + pDoc.cnsTy() + " and SOWID=" + pDoc.getIid()
         + ") or (SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid() + ")";
-      }
     } else if (pDoc.getDocTy() == EDocTy.ITSR) {
       whe = "where SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid();
     } else if (pDoc.getDocTy() == EDocTy.ITSRDRAWLN) {
       whe = "where (SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid()
         + ") or (DOWTY=" + pDoc.cnsTy() + " and DOWID=" + pDoc.getIid() + ")";
+    } else if (pDoc.getDocTy() == EDocTy.ITSRDRAW) {
+      whe = "where (SRTY=" + pDoc.cnsTy() + " and SRID=" + pDoc.getIid()
+        + ") or (DRTY=" + pDoc.cnsTy() + " and DRID=" + pDoc.getIid() + ")";
     } else {
       throw new Exception("Not allowed!");
     }
     Map<String, Object> vs = new HashMap<String, Object>();
-    List<T> rz = this.orm.retLstCnd(pRvs, vs, pDoc.getEnrCls(), whe);
+    List<T> rz = this.orm.retLstCnd(pRvs, vs, pEnrCls, whe);
     return rz;
   }
 

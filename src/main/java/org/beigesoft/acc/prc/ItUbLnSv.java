@@ -128,7 +128,7 @@ public class ItUbLnSv<RS> implements IPrcEnt<ItUbLn, Long> {
         revd.setRvId(pEnt.getIid());
         String[] upFds = new String[] {"rvId", "dscr", "ver"};
         Arrays.sort(upFds);
-        vs.put("upFds", upFds);
+        vs.put("ndFds", upFds);
         this.orm.update(pRvs, vs, revd); vs.clear();
         this.srDrItEnr.rvDraw(pRvs, pEnt);
         this.srWrhEnr.revDraw(pRvs, pEnt);
@@ -158,7 +158,7 @@ String qu = "select sum(TOT) as TOT from COGSENR where RVID is null and DOWID="
         .setScale(as.getPrDp(), as.getRndm()));
       String[] upFds = new String[] {"tot", "ver"};
       Arrays.sort(upFds);
-      vs.put("upFds", upFds);
+      vs.put("ndFds", upFds);
       getOrm().update(pRvs, vs, pEnt.getOwnr()); vs.clear();
       UvdVar uvs = (UvdVar) pRvs.get("uvs");
       uvs.setOwnr(pEnt.getOwnr());

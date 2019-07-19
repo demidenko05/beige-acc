@@ -76,6 +76,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.MnfPrc,
   org.beigesoft.acc.mdlp.MnpMcs,
   org.beigesoft.acc.mdlp.MnpAcs,
+  org.beigesoft.acc.mdlp.Mnfct,
   org.beigesoft.acc.mdlp.I18Curr,
   org.beigesoft.acc.mdlp.DriEnrSr,
   org.beigesoft.acc.mdlp.CogsEnr,

@@ -125,7 +125,7 @@ public class MnpMcsSv<RS> implements IPrcEnt<MnpMcs, Long> {
         revd.setRvId(pEnt.getIid());
         String[] upFds = new String[] {"rvId", "dscr", "ver"};
         Arrays.sort(upFds);
-        vs.put("upFds", upFds);
+        vs.put("ndFds", upFds);
         this.orm.update(pRvs, vs, revd); vs.clear();
         this.srDrItEnr.rvDraw(pRvs, pEnt);
         this.srWrhEnr.revDraw(pRvs, pEnt);
@@ -148,9 +148,11 @@ String qu = "select sum(TOT) as TOT from DRITENR where RVID is null and DOWID="
       pEnt.getOwnr().setTot(pEnt.getOwnr().getMaCs().add(pEnt.getOwnr()
         .getAdCs()).setScale(as.getCsDp(), as.getRndm()));
       pEnt.getOwnr().setToLf(pEnt.getOwnr().getTot());
-      String[] upFds = new String[] {"maCs", "tot", "toLf", "ver"};
+      pEnt.getOwnr().setPri(pEnt.getOwnr().getTot()
+        .divide(pEnt.getOwnr().getQuan(), as.getCsDp(), as.getRndm()));
+      String[] upFds = new String[] {"maCs", "tot", "pri", "toLf", "ver"};
       Arrays.sort(upFds);
-      vs.put("upFds", upFds);
+      vs.put("ndFds", upFds);
       getOrm().update(pRvs, vs, pEnt.getOwnr()); vs.clear();
       UvdVar uvs = (UvdVar) pRvs.get("uvs");
       uvs.setOwnr(pEnt.getOwnr());

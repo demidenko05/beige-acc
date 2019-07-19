@@ -9,4 +9,6 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="totcnToSt">CnvCostStr</entry>
 <entry key="accinp">aexp</entry>
+<entry key="totinp">cost</entry>
+<entry key="saTyinp"></entry>
 </properties>

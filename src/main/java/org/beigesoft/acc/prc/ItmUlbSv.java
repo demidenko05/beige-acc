@@ -104,7 +104,6 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
       pEnt.setDbOr(this.orm.getDbId());
       pEnt.setTot(revd.getTot().negate());
-      pEnt.setToFc(revd.getToFc().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       vs.put("ItUbLndpLv", 1);
       List<ItUbLn> rdls = this.orm.retLstCnd(pRvs, vs, ItUbLn.class,
@@ -138,7 +137,7 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
         rdl.setRvId(rgl.getIid());
         String[] upFds = new String[] {"rvId", "dscr", "ver"};
         Arrays.sort(upFds);
-        vs.put("upFds", upFds);
+        vs.put("ndFds", upFds);
         this.orm.update(pRvs, vs, rdl); vs.clear();
         this.srDrItEnr.rvDraw(pRvs, rgl);
         this.srWrhEnr.revDraw(pRvs, rgl);
@@ -171,7 +170,7 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
         } else {
           String[] upFds = new String[] {"dat", "dscr", "ver"};
           Arrays.sort(upFds);
-          vs.put("upFds", upFds);
+          vs.put("ndFds", upFds);
           getOrm().update(pRvs, vs, pEnt); vs.clear();
           pRvs.put("msgSuc", "update_ok");
         }

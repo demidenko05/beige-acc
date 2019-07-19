@@ -8,7 +8,6 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="quancnToSt">CnvQuanStr</entry>
-<entry key="itminp">itub</entry>
-<entry key="uominp"></entry>
-<entry key="rvIdinp"></entry>
+<entry key="accinp">aict</entry>
+<entry key="quaninp">quan</entry>
 </properties>

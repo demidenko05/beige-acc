@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
+import org.beigesoft.acc.mdl.EItSrTy;
 import org.beigesoft.acc.mdlb.AEnrSrc;
 
 /**
@@ -38,24 +39,25 @@ import org.beigesoft.acc.mdlb.AEnrSrc;
 public class DriEnrSr extends AEnrSrc {
 
   /**
-   * <p>Draw item entry class simple name, e.g. CogsEnr,  not null.</p>
+   * <p>Item sources type,  not null.</p>
    **/
-  private String enClNm;
+  private EItSrTy srsTy;
 
   //Simple getters and setters:
+
   /**
-   * <p>Getter for enClNm.</p>
-   * @return String
+   * <p>Getter for srsTy.</p>
+   * @return EItSrTy
    **/
-  public final String getEnClNm() {
-    return this.enClNm;
+  public final EItSrTy getSrsTy() {
+    return this.srsTy;
   }
 
   /**
-   * <p>Setter for enClNm.</p>
-   * @param pEnClNm reference
+   * <p>Setter for srsTy.</p>
+   * @param pSrsTy reference
    **/
-  public final void setEnClNm(final String pEnClNm) {
-    this.enClNm = pEnClNm;
+  public final void setSrsTy(final EItSrTy pSrsTy) {
+    this.srsTy = pSrsTy;
   }
 }

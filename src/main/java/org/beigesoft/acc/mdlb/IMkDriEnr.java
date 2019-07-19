@@ -28,6 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
+import org.beigesoft.acc.mdl.EItSrTy;
+
 /**
  * <p>Model of entity that makes warehouse entries and draw item entries.</p>
  *
@@ -41,4 +43,10 @@ public interface IMkDriEnr<T extends ADrItEnr> extends IMkWsEnr {
    * @return draw item entry class
    **/
   Class<T> getEnrCls();
+
+  /**
+   * <p>Getter for srsTy.</p>
+   * @return EItSrTy
+   **/
+  EItSrTy getSrsTy();
 }

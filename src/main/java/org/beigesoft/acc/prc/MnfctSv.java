@@ -31,19 +31,14 @@ package org.beigesoft.acc.prc;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
-import java.util.List;
 import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
-import org.beigesoft.mdl.CmnPrf;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.srv.II18n;
-import org.beigesoft.acc.mdlp.MnfPrc;
-import org.beigesoft.acc.mdlp.MnpMcs;
-import org.beigesoft.acc.mdlp.MnpAcs;
+import org.beigesoft.acc.mdlp.Mnfct;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.ISrWrhEnr;
@@ -51,11 +46,11 @@ import org.beigesoft.acc.srv.ISrDrItEnr;
 import org.beigesoft.acc.srv.UtlBas;
 
 /**
- * <p>Service that saves manufacturing process into DB.</p>
+ * <p>Service that saves manufacturing into DB.</p>
  *
  * @author Yury Demidenko
  */
-public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
+public class MnfctSv implements IPrcEnt<Mnfct, Long> {
 
   /**
    * <p>ORM service.</p>
@@ -83,11 +78,6 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
   private ISrDrItEnr srDrItEnr;
 
   /**
-   * <p>I18N service.</p>
-   */
-  private II18n i18n;
-
-  /**
    * <p>Process that saves entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -96,131 +86,67 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final MnfPrc process(final Map<String, Object> pRvs, final MnfPrc pEnt,
+  public final Mnfct process(final Map<String, Object> pRvs, final Mnfct pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
+    this.orm.refrEnt(pRvs, vs, pEnt.getMnp());
     if (pEnt.getRvId() != null) {
-      MnfPrc revd = new MnfPrc();
+      Mnfct revd = new Mnfct();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
       pEnt.setDbOr(this.orm.getDbId());
       pEnt.setTot(revd.getTot().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
-      vs.put("MnpMcsdpLv", 1);
-      List<MnpMcs> rdmls = this.orm.retLstCnd(pRvs, vs, MnpMcs.class,
-        "where OWNR=" + revd.getIid()); vs.clear();
-      for (MnpMcs rdml : rdmls) {
-        MnpMcs rgl = new MnpMcs();
-        rgl.setDbOr(this.orm.getDbId());
-        rgl.setOwnr(pEnt);
-        rgl.setRvId(rdml.getIid());
-        rgl.setItm(rdml.getItm());
-        rgl.setUom(rdml.getUom());
-        rgl.setWhpo(rdml.getWhpo());
-        rgl.setQuan(rdml.getQuan().negate());
-        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-        StringBuffer sb = new StringBuffer();
-        if (rgl.getDscr() != null) {
-          sb.append(rgl.getDscr() + " !");
-        }
-        sb.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
-        sb.append(" #" + rdml.getDbOr() + "-" + rdml.getIid());
-        rgl.setDscr(sb.toString());
-        this.orm.insIdLn(pRvs, vs, rgl);
-        sb.delete(0, sb.length());
-        if (rdml.getDscr() != null) {
-          sb.append(rdml.getDscr() + " !");
-        }
-        sb.append(getI18n().getMsg("reversing", cpf.getLngDef().getIid()));
-        sb.append(" #" + rgl.getDbOr() + "-" + rgl.getIid());
-        rdml.setDscr(sb.toString());
-        rdml.setRvId(rgl.getIid());
-        String[] upFds = new String[] {"rvId", "dscr", "ver"};
-        Arrays.sort(upFds);
-        vs.put("ndFds", upFds);
-        this.orm.update(pRvs, vs, rdml); vs.clear();
-        this.srDrItEnr.rvDraw(pRvs, rgl);
-        this.srWrhEnr.revDraw(pRvs, rgl);
-      }
-      vs.put("MnpAcsdpLv", 1);
-      List<MnpAcs> rdals = this.orm.retLstCnd(pRvs, vs, MnpAcs.class,
-        "where OWNR=" + revd.getIid()); vs.clear();
-      for (MnpAcs rdal : rdals) {
-        MnpAcs rgl = new MnpAcs();
-        rgl.setDbOr(this.orm.getDbId());
-        rgl.setOwnr(pEnt);
-        rgl.setRvId(rdal.getIid());
-        rgl.setAcc(rdal.getAcc());
-        rgl.setSaId(rdal.getSaId());
-        rgl.setSaNm(rdal.getSaNm());
-        rgl.setSaTy(rdal.getSaTy());
-        rgl.setTot(rdal.getTot().negate());
-        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-        StringBuffer sb = new StringBuffer();
-        if (rgl.getDscr() != null) {
-          sb.append(rgl.getDscr() + " !");
-        }
-        sb.append(getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
-        sb.append(" #" + rdal.getDbOr() + "-" + rdal.getIid());
-        rgl.setDscr(sb.toString());
-        this.orm.insIdLn(pRvs, vs, rgl);
-        sb.delete(0, sb.length());
-        if (rdal.getDscr() != null) {
-          sb.append(rdal.getDscr() + " !");
-        }
-        sb.append(getI18n().getMsg("reversing", cpf.getLngDef().getIid()));
-        sb.append(" #" + rgl.getDbOr() + "-" + rgl.getIid());
-        rdal.setDscr(sb.toString());
-        rdal.setRvId(rgl.getIid());
-        String[] upFds = new String[] {"rvId", "dscr", "ver"};
-        Arrays.sort(upFds);
-        vs.put("ndFds", upFds);
-        this.orm.update(pRvs, vs, rdal); vs.clear();
-      }
+      this.srDrItEnr.rvDraw(pRvs, pEnt);
+      this.srWrhEnr.revDraw(pRvs, pEnt.getMnp());
+      this.srWrhEnr.revLoad(pRvs, pEnt);
       pRvs.put("msgSuc", "reverse_ok");
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
+      if (pEnt.getQuan().compareTo(pEnt.getMnp().getItLf()) < 0) {
+        throw new ExcCode(ExcCode.WRPR, "LINE_HAS_NO_GOODS");
+      }
       if (pEnt.getQuan().compareTo(BigDecimal.ZERO) <= 0) {
         throw new ExcCode(ExcCode.WRPR, "quantity_less_or_equal_zero");
       }
+      pEnt.setItLf(pEnt.getQuan());
+      AcStg as = (AcStg) pRvs.get("astg");
+      if (pEnt.getMnp().getQuan().compareTo(pEnt.getQuan()) == 0) {
+        pEnt.setTot(pEnt.getMnp().getTot());
+        pEnt.setPri(pEnt.getMnp().getPri());
+      } else {
+        BigDecimal pri = pEnt.getMnp().getTot()
+          .divide(pEnt.getMnp().getQuan(), 7, as.getRndm());
+        pEnt.setTot(pEnt.getQuan().multiply(pri)
+          .setScale(as.getCsDp(), as.getRndm()));
+        pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
+          as.getCsDp(), as.getRndm()));
+      }
+      pEnt.setToLf(pEnt.getTot());
       if (pEnt.getIsNew()) {
         this.orm.insIdLn(pRvs, vs, pEnt);
         pRvs.put("msgSuc", "insert_ok");
       } else {
         String[] slFds = new String[] {"tot", "mdEnr"};
         Arrays.sort(slFds);
-        vs.put("MnfPrcndFds", slFds);
-        MnfPrc old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
+        vs.put("MnfctndFds", slFds);
+        Mnfct old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
         pEnt.setMdEnr(old.getMdEnr());
         if (pEnt.getMdEnr()) {
           throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
         }
-        pEnt.setItLf(pEnt.getQuan());
-        AcStg as = (AcStg) pRvs.get("astg");
-        pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
-          as.getCsDp(), as.getRndm()));
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
-          if (!pEnt.getCmpl()) {
-            throw new ExcCode(ExcCode.WRPR, "complite_first");
-          }
+          this.srDrItEnr.drawFr(pRvs, pEnt, pEnt.getMnp(), pEnt.getQuan());
+          this.srWrhEnr.draw(pRvs, pEnt.getMnp(), pEnt.getWhpo());
           this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
-          String[] upFds = new String[] {"dat", "dscr", "ver", "cmpl", "quan",
-            "pri", "itm", "uom", "wrhp", "mdEnr", "itLf"};
-          Arrays.sort(upFds);
-          pRvs.put(ISrEntr.DOCFDSUPD, upFds);
           this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.remove(ISrEntr.DOCFDSUPD);
           pRvs.put("msgSuc", "account_ok");
         } else {
-          String[] upFds = new String[] {"dat", "dscr", "ver", "cmpl", "quan",
-            "pri", "itm", "uom", "wrhp", "itLf"};
-          Arrays.sort(upFds);
-          vs.put("ndFds", upFds);
-          getOrm().update(pRvs, vs, pEnt); vs.clear();
+          getOrm().update(pRvs, vs, pEnt);
           pRvs.put("msgSuc", "update_ok");
         }
       }
@@ -293,22 +219,6 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
    **/
   public final void setSrWrhEnr(final ISrWrhEnr pSrWrhEnr) {
     this.srWrhEnr = pSrWrhEnr;
-  }
-
-  /**
-   * <p>Getter for i18n.</p>
-   * @return II18n
-   **/
-  public final II18n getI18n() {
-    return this.i18n;
-  }
-
-  /**
-   * <p>Setter for i18n.</p>
-   * @param pI18n reference
-   **/
-  public final void setI18n(final II18n pI18n) {
-    this.i18n = pI18n;
   }
 
   /**

@@ -26,69 +26,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.mdlp;
-
-import java.util.List;
-
-import org.beigesoft.acc.mdl.EDocTy;
-import org.beigesoft.acc.mdl.EDocDriTy;
-import org.beigesoft.acc.mdlb.ADoci;
-import org.beigesoft.acc.mdlb.IDcDri;
+package org.beigesoft.acc.mdl;
 
 /**
- * <p>Model of document that adds items into inventory, e.g. for start not from
- * scratch or adjusting inventory for any reason.</p>
+ * <p>Document with draw item entries type.</p>
  *
  * @author Yury Demidenko
  */
-public class ItmAdd extends ADoci implements IDcDri {
+public enum EDocDriTy {
 
   /**
-   * <p>Lines.</p>
+   * <p>0 has COGS entries.</p>
    **/
- private List<ItAdLn> lns;
+  COGS,
 
   /**
-   * <p>Constant of code type 12.</p>
-   * @return 12
+   * <p>1 has DRIT entries.</p>
    **/
-  @Override
-  public final Integer cnsTy() {
-    return 12;
-  }
+  DRIT,
 
   /**
-   * <p>Getter of EDocTy.</p>
-   * @return EDocTy
+   * <p>2 has COGS and DRIT entries.</p>
    **/
-  @Override
-  public final EDocTy getDocTy() {
-    return EDocTy.ITSRLN;
-  }
-
-  /**
-   * <p>Getter for has draw items document type.</p>
-   * @return has draw items document type
-   **/
-  @Override
-  public final EDocDriTy getDocDriTy() {
-    return EDocDriTy.COGSDRIT;
-  }
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for lns.</p>
-   * @return List<ItAdLn>
-   **/
-  public final List<ItAdLn> getLns() {
-    return this.lns;
-  }
-
-  /**
-   * <p>Setter for lns.</p>
-   * @param pLns reference
-   **/
-  public final void setLns(final List<ItAdLn> pLns) {
-    this.lns = pLns;
-  }
+  COGSDRIT;
 }

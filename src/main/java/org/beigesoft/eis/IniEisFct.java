@@ -44,7 +44,7 @@ import org.beigesoft.fct.IniBdFct;
 import org.beigesoft.hld.HldFldStg;
 import org.beigesoft.hld.HldClsStg;
 import org.beigesoft.hld.ICtx;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.IInvb;
 import org.beigesoft.acc.mdlb.ADcTxLn;
@@ -83,6 +83,7 @@ import org.beigesoft.acc.mdlp.ItmAdd;
 import org.beigesoft.acc.mdlp.ItAdLn;
 import org.beigesoft.acc.mdlp.MnfPrc;
 import org.beigesoft.acc.mdlp.MnpMcs;
+import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.ItmUlb;
 import org.beigesoft.acc.mdlp.ItUbLn;
 
@@ -194,21 +195,21 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(MnpMcs.class, "acrv");
     hlClSt.getStgClss().put(ItUbLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
-    hlClSt.getStgSclss().put(IDoc.class, "adoc");
+    hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgSclss().put(ItmAdd.class, "adcl");
     hlClSt.getStgSclss().put(MnfPrc.class, "adcl");
     hlClSt.getStgSclss().put(ItmUlb.class, "adcl");
     hlClSt.getStgSclss().put(IInvb.class, "adcl");
-    hlClSt.getStgSclss().put(IDoc.class, "adoc");
+    hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "prn"; //print
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(InEntr.class, "pria");
     hlClSt.getStgClss().put(MovItm.class, "prmi");
     hlClSt.setStgSclss(new LinkedHashMap<Class<?>, String>());
-    hlClSt.getStgSclss().put(IDoc.class, "prdc");
+    hlClSt.getStgSclss().put(IDoci.class, "prdc");
     stgNm = "de"; //delete
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
@@ -216,11 +217,12 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "pic"; //picker
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgSclss().put(AInv.class, "inv");
-    hlClSt.getStgSclss().put(IDoc.class, "doc");
+    hlClSt.getStgSclss().put(IDoci.class, "doc");
     hlClSt.getStgClss().put(Acnt.class, "acc");
     hlClSt.getStgClss().put(Sacnt.class, "sac");
     hlClSt.getStgClss().put(PuInGdLn.class, "pinl");
     hlClSt.getStgClss().put(SaInGdLn.class, "inl");
+    hlClSt.getStgClss().put(Itm.class, "iuom");
   }
 
   /**
@@ -242,10 +244,11 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getCustClss().add(BigDecimal.class); //inv.payment total vs others
     hlFdSt.getStgClss().put(PuInGdLn.class, "pinl");
     hlFdSt.getStgClss().put(SaInGdLn.class, "inl");
+    hlFdSt.getStgClss().put(MnfPrc.class, "dits");
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
     hlFdSt.getStgSclss().put(AInv.class, "inv");
-    hlFdSt.getStgSclss().put(IDoc.class, "doc");
+    hlFdSt.getStgSclss().put(IDoci.class, "doc");
     stgNm = "ord"; //order
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("knCs", "ord");
@@ -261,6 +264,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "flth"; //filter hidden
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.setStgFdNm(new HashMap<String, String>());
+    hlFdSt.getStgFdNm().put("inv", "ent");
+    hlFdSt.getStgFdNm().put("invl", "ent");
+    hlFdSt.getStgFdNm().put("ownr", "ent");
     hlFdSt.getStgFdNm().put("invId", "int");
     hlFdSt.getStgFdNm().put("rvId", "int");
     hlFdSt.getStgFdNm().put("saTy", "int");
@@ -306,10 +312,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "inWr"; //input wrapper
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("rvId", null);
-    hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);
-    hlFdSt.getStgFdNm().put("saNm", null);
     hlFdSt.getStgFdNm().put("ownr", null);
+    hlFdSt.getStgFdNm().put("mdEnr", null);
     //unique filed name in PuInGdLn,SaRtLn,ItAdLn,MnfPrc!:
     hlFdSt.getStgFdNm().put("itLf", "iwis");
   }

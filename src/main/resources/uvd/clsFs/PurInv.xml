@@ -21,11 +21,10 @@ See LICENSE in base folder
 <entry key="pdscinp">reo</entry>
 <entry key="totinp">dtot</entry>
 <entry key="prepinp">prep</entry>
-<entry key="mdEnrinp"></entry>
 <entry key="omTxinp">omTxi</entry>
-<entry key="inTxinp"></entry>
-<entry key="rvIdinp"></entry>
 <entry key="dbcrinp">invh</entry>
 <entry key="toPainp">reo</entry>
+<entry key="inTxinp"></entry>
+<entry key="cuFrinp"></entry>
 <entry key="toPastr">toPa</entry>
 </properties>

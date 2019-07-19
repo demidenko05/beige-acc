@@ -90,9 +90,10 @@ public interface ISrDrItEnr {
    * @param <T> draw entry type
    * @param pRvs Request scoped variables
    * @param pDoc document
+   * @param pEnrCls entries class
    * @return entries
    * @throws Exception - an exception
    **/
   <T extends ADrItEnr> List<T> retEntrs(Map<String, Object> pRvs,
-    IDcDri<T> pDoc) throws Exception;
+    IDcDri pDoc, Class<T> pEnrCls) throws Exception;
 }
