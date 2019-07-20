@@ -79,6 +79,7 @@ import org.beigesoft.acc.mdlp.Mnfct;
 import org.beigesoft.acc.mdlp.MnfPrc;
 import org.beigesoft.acc.mdlp.ItUbLn;
 import org.beigesoft.acc.mdlp.ItmUlb;
+import org.beigesoft.acc.mdlp.EmpWg;
 import org.beigesoft.acc.fct.FcEnPrAc;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.SacntSv;
@@ -144,7 +145,7 @@ public class HlAcEnPr implements IHlNmClSt {
     if (Blnc.class == pCls || BlnCh.class == pCls) {
       return NULL;
     }
-    if (Acnt.class == pCls || Sacnt.class == pCls
+    if (Acnt.class == pCls || Sacnt.class == pCls || EmpWg.class == pCls
           || AcStg.class == pCls || TxCtLn.class == pCls || AEnrSrc.class
             .isAssignableFrom(pCls) || ITyp.class.isAssignableFrom(pCls)
               || IRvId.class.isAssignableFrom(pCls)) {

@@ -157,6 +157,14 @@
      <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+     <Class name="org.beigesoft.acc.mdlp.Empl" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.acc.mdlp.Empl" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
      <Class name="org.beigesoft.acc.mdlp.ItAdLn" />
      <Bug pattern="EI_EXPOSE_REP2" />
   </Match>

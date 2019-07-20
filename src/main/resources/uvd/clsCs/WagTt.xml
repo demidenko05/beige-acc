@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--BSD 2-Clause License
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+See LICENSE in base folder
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Explicit final definition.</comment>
+<entry key="frmFds">iid,nme,tax,dscr</entry>
+<entry key="owdEnts">org.beigesoft.acc.mdlp.WttLn,org.beigesoft.acc.mdlp.WttEm,org.beigesoft.acc.mdlp.WttWg</entry>
+</properties>

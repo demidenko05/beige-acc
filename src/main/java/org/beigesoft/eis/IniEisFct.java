@@ -86,6 +86,9 @@ import org.beigesoft.acc.mdlp.MnpMcs;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.ItmUlb;
 import org.beigesoft.acc.mdlp.ItUbLn;
+import org.beigesoft.acc.mdlp.EmpWg;
+import org.beigesoft.acc.mdlp.WagTy;
+import org.beigesoft.acc.mdlp.EmpCt;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -150,6 +153,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(I18Curr.class);
     hlClSt.getNulClss().add(Expn.class);
     hlClSt.getNulClss().add(Bnka.class);
+    hlClSt.getNulClss().add(EmpWg.class);
+    hlClSt.getNulClss().add(WagTy.class);
+    hlClSt.getNulClss().add(EmpCt.class);
     stgNm = "ordDf"; //list order by field default
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgSclss().remove(IHasId.class);
@@ -179,6 +185,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(AcStg.class);
     hlClSt.getNulClss().add(EnrSrc.class);
     hlClSt.getNulClss().add(DriEnrSr.class);
+    hlClSt.getNulClss().add(EmpWg.class);
     stgNm = "liAc"; //list item actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgClss().put(Acnt.class, "acac");
@@ -195,6 +202,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(MnpMcs.class, "acrv");
     hlClSt.getStgClss().put(ItUbLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
+    hlClSt.getStgClss().put(EmpWg.class, null);
     hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
