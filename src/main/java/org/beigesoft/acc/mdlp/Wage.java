@@ -52,6 +52,21 @@ public class Wage extends ADoci {
   private Acnt acTx;
 
   /**
+   * <p>Sub-account, not null.</p>
+   **/
+  private String saNm;
+
+  /**
+   * <p>Sub-account, not null.</p>
+   **/
+  private Long saId;
+
+  /**
+   * <p>Sub-account type, not null,  always 1000 - expense.</p>
+   **/
+  private Integer saTy = 1000;
+
+  /**
    * <p>Taxes due to employer.</p>
    **/
   private BigDecimal txEr = BigDecimal.ZERO;
@@ -205,5 +220,53 @@ public class Wage extends ADoci {
    **/
   public final void setTxs(final List<WgTxl> pTxs) {
     this.txs = pTxs;
+  }
+
+  /**
+   * <p>Getter for saNm.</p>
+   * @return String
+   **/
+  public final String getSaNm() {
+    return this.saNm;
+  }
+
+  /**
+   * <p>Setter for saNm.</p>
+   * @param pSaNm reference
+   **/
+  public final void setSaNm(final String pSaNm) {
+    this.saNm = pSaNm;
+  }
+
+  /**
+   * <p>Getter for saId.</p>
+   * @return Long
+   **/
+  public final Long getSaId() {
+    return this.saId;
+  }
+
+  /**
+   * <p>Setter for saId.</p>
+   * @param pSaId reference
+   **/
+  public final void setSaId(final Long pSaId) {
+    this.saId = pSaId;
+  }
+
+  /**
+   * <p>Getter for saTy.</p>
+   * @return Integer
+   **/
+  public final Integer getSaTy() {
+    return this.saTy;
+  }
+
+  /**
+   * <p>Setter for saTy.</p>
+   * @param pSaTy reference
+   **/
+  public final void setSaTy(final Integer pSaTy) {
+    this.saTy = pSaTy;
   }
 }

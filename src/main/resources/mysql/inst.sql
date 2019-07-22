@@ -20,8 +20,12 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECVRT'
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PREPTO','1400','Prepayments to',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PAYABLE','2050','Accounts payable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'RETPAY','2055','Returns payable',1462867931627,1,1002);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'ACCRPAY','2110','Accrued payable',1462867931627,1,1000);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'WAGEPAY','2200','Wage payable',1462867931627,1,1009);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'WAGTXPAY','2210','Wage taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAY','2310','Sales taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAYRT','2315','Sales taxes payable from returns',1462867931627,1,1008);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'BUSTXPAY','2320','Business taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PREPFR','2400','Prepayments from',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'SCAPITAL','3010','Started capital',1462867931627,1);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'REARNINGS','3200','Retained earnings',1462867931627,1);
@@ -72,6 +76,8 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (20,12,'ItAdInvCt
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (21,13,'MnPrInvIctDbExpCr',1462867931627,1,'MNFPRC.IID','Debit Inventory per good category, Credit Expenses for additional total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (22,13,'MnPrInvCtDbCr',1462867931627,1,'MNFPRC.IID','Debit/Credit Inventory per good category for used material total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (23,14,'MnfInvCtDbCr',1462867931627,1,'MNFCT.IID','Debit/Credit Inventory per good category for total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (24,15,'WagExpDbWgEctCr',1462867931627,1,'WAGE.IID','Debit Expenses, Credit Wage payable per employee category for (gross wage - ee.taxes) amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (25,15,'WagExpDbWgTxpCr',1462867931627,1,'WAGE.IID','Debit Expenses, Credit Wage taxes payable per tax for total amount.');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (1,2000,'puGdLn',1462867931627,1,0,'Purchase invoice good line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (2,2003,'saRtLn',1462867931627,1,0,'Sales return line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (3,2006,'itAdLn',1462867931627,1,0,'Add item line for FIFO/LIFO');

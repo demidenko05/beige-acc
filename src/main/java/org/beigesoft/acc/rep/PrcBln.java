@@ -81,6 +81,9 @@ public class PrcBln<RS> implements IPrc {
       this.rdb.setAcmt(false);
       this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
+      if ("recalc".equals(pRqDt.getParam("actAdd"))) {
+        this.srBlnc.hndNewEntr(pRvs, new Date(157766400000L));
+      }
       Date dt = this.srvDt.from8601DateTime(pRqDt.getParam("dt"));
       List<TrBlLn> blnLns = this.srBlnc.retTrBlnc(pRvs, dt);
       pRvs.put("blnLns", blnLns);

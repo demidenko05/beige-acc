@@ -80,6 +80,9 @@ import org.beigesoft.acc.mdlp.MnfPrc;
 import org.beigesoft.acc.mdlp.ItUbLn;
 import org.beigesoft.acc.mdlp.ItmUlb;
 import org.beigesoft.acc.mdlp.EmpWg;
+import org.beigesoft.acc.mdlp.Wage;
+import org.beigesoft.acc.mdlp.WgLn;
+import org.beigesoft.acc.mdlp.WgTxl;
 import org.beigesoft.acc.fct.FcEnPrAc;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.SacntSv;
@@ -123,6 +126,11 @@ import org.beigesoft.acc.prc.MnfPrcSv;
 import org.beigesoft.acc.prc.MnpAcsSv;
 import org.beigesoft.acc.prc.MnpMcsSv;
 import org.beigesoft.acc.prc.MnpMcsRv;
+import org.beigesoft.acc.prc.WageSv;
+import org.beigesoft.acc.prc.WgLnSv;
+import org.beigesoft.acc.prc.WgLnDl;
+import org.beigesoft.acc.prc.WgTxlSv;
+import org.beigesoft.acc.prc.WgTxlDl;
 
 /**
  * <p>Additional holder of names of ACC entities processors.</p>
@@ -247,6 +255,12 @@ public class HlAcEnPr implements IHlNmClSt {
           return AcStgSv.class.getSimpleName();
         } else if (TxCtLn.class == pCls) {
           return TxCtLnSv.class.getSimpleName();
+        } else if (WgTxl.class == pCls) {
+          return WgTxlSv.class.getSimpleName();
+        } else if (WgLn.class == pCls) {
+          return WgLnSv.class.getSimpleName();
+        } else if (Wage.class == pCls) {
+          return WageSv.class.getSimpleName();
         } else if (Entr.class == pCls) {
           return EntrSv.class.getSimpleName();
         } else if (InEntr.class == pCls) {
@@ -290,8 +304,16 @@ public class HlAcEnPr implements IHlNmClSt {
       } else if ("entDl".equals(pAct)) { //Delete
         if (Acnt.class == pCls) {
           return AcntDl.class.getSimpleName();
+        } else if (PuInSrLn.class == pCls) {
+          return FcEnPrAc.PUINSRLNDL;
+        } else if (SaInSrLn.class == pCls) {
+          return FcEnPrAc.SAINSRLNDL;
         } else if (TxCtLn.class == pCls) {
           return TxCtLnDl.class.getSimpleName();
+        } else if (WgLn.class == pCls) {
+          return WgLnDl.class.getSimpleName();
+        } else if (WgTxl.class == pCls) {
+          return WgTxlDl.class.getSimpleName();
         } else if (InEntr.class == pCls) {
           return InEntrDl.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {

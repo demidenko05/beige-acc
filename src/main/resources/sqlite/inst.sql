@@ -18,8 +18,12 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECVRT'
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PREPTO','1400','Prepayments to',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PAYABLE','2050','Accounts payable',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'RETPAY','2055','Returns payable',1462867931627,1,1002);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'ACCRPAY','2110','Accrued payable',1462867931627,1,1000);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'WAGEPAY','2200','Wage payable',1462867931627,1,1009);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'WAGTXPAY','2210','Wage taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAY','2310','Sales taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAYRT','2315','Sales taxes payable from returns',1462867931627,1,1008);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'BUSTXPAY','2320','Business taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PREPFR','2400','Prepayments from',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'SCAPITAL','3010','Started capital',1462867931627,1);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'REARNINGS','3200','Retained earnings',1462867931627,1);

@@ -102,6 +102,7 @@ public class ItmAddSv implements IPrcEnt<ItmAdd, Long> {
       vs.put("ItAdLndpLv", 1);
       List<ItAdLn> rdls = this.orm.retLstCnd(pRvs, vs, ItAdLn.class,
         "where OWNR=" + revd.getIid()); vs.clear();
+      CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (ItAdLn rdl : rdls) {
         ItAdLn rgl = new ItAdLn();
         rgl.setDbOr(this.orm.getDbId());
@@ -113,7 +114,6 @@ public class ItmAddSv implements IPrcEnt<ItmAdd, Long> {
         rgl.setQuan(rdl.getQuan().negate());
         rgl.setTot(rdl.getTot().negate());
         rgl.setPri(rdl.getPri());
-        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {
           sb.append(rgl.getDscr() + " !");

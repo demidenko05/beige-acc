@@ -84,7 +84,6 @@ public class SrEntr<RS> implements ISrEntr {
   private ISrBlnc srBlnc;
 
   //Cached data:
-
   /**
    * <p>Entries queries.</p>
    */

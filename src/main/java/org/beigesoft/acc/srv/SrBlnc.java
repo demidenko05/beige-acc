@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Date;
 import java.util.Calendar;
-import java.util.Locale;
 import java.math.BigDecimal;
 import java.io.InputStream;
 import java.io.IOException;
@@ -218,7 +217,7 @@ public class SrBlnc<RS> implements ISrBlnc {
       return false;
     }
     Date dtSt = evDtStPer(pRvs, pDtFor);
-    Calendar calStBl = Calendar.getInstance(new Locale("en", "US"));
+    Calendar calStBl = Calendar.getInstance();
     calStBl.setTime(this.blnCh.getStDt());
     calStBl.set(Calendar.MONTH, 0);
     calStBl.set(Calendar.DAY_OF_MONTH, 1);
@@ -280,19 +279,17 @@ public class SrBlnc<RS> implements ISrBlnc {
     Map<String, Object> vs = new HashMap<String, Object>();
     lazBlnCh(pRvs, vs);
     EPeriod per = evBlStPer(pRvs, vs);
-    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY))) {
+    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.DAILY))) {
       throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_wm");
     }
-    Calendar cal = Calendar.getInstance(new Locale("en", "US"));
+    Calendar cal = Calendar.getInstance();
     cal.setTime(pDtFor);
     cal.set(Calendar.HOUR_OF_DAY, 0);
     cal.set(Calendar.MINUTE, 0);
     cal.set(Calendar.SECOND, 0);
-    cal.set(Calendar.MILLISECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0); //Daily is ready
     if (per.equals(EPeriod.MONTHLY)) {
       cal.set(Calendar.DAY_OF_MONTH, 1);
-    } else if (per.equals(EPeriod.WEEKLY)) {
-      cal.set(Calendar.DAY_OF_WEEK, 1);
     }
     return cal.getTime();
   }
@@ -404,10 +401,10 @@ public class SrBlnc<RS> implements ISrBlnc {
     final Map<String, Object> pVs, final Date pDtFor) throws Exception {
     lazBlnCh(pRvs, pVs);
     EPeriod per = evBlStPer(pRvs, pVs);
-    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY))) {
+    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.DAILY))) {
       throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_wm");
     }
-    Calendar cal = Calendar.getInstance(new Locale("en", "US"));
+    Calendar cal = Calendar.getInstance();
     cal.setTime(pDtFor);
     cal.set(Calendar.HOUR_OF_DAY, 0);
     cal.set(Calendar.MINUTE, 0);
@@ -416,9 +413,8 @@ public class SrBlnc<RS> implements ISrBlnc {
     if (per.equals(EPeriod.MONTHLY)) {
       cal.add(Calendar.MONTH, 1);
       cal.set(Calendar.DAY_OF_MONTH, 1);
-    } else if (per.equals(EPeriod.WEEKLY)) {
-      cal.add(Calendar.DAY_OF_YEAR, 7);
-      cal.set(Calendar.DAY_OF_WEEK, 1);
+    } else if (per.equals(EPeriod.DAILY)) {
+      cal.add(Calendar.DATE, 1);
     }
     return cal.getTime();
   }
@@ -437,10 +433,10 @@ public class SrBlnc<RS> implements ISrBlnc {
     final Map<String, Object> pVs, final Date pDtFor) throws Exception {
     lazBlnCh(pRvs, pVs);
     EPeriod per = evBlStPer(pRvs, pVs);
-    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.WEEKLY))) {
+    if (!(per.equals(EPeriod.MONTHLY) || per.equals(EPeriod.DAILY))) {
       throw new ExcCode(ExcCode.WRPR, "stored_balance_period_must_be_wm");
     }
-    Calendar cal = Calendar.getInstance(new Locale("en", "US"));
+    Calendar cal = Calendar.getInstance();
     cal.setTime(pDtFor);
     cal.set(Calendar.HOUR_OF_DAY, 0);
     cal.set(Calendar.MINUTE, 0);
@@ -449,9 +445,8 @@ public class SrBlnc<RS> implements ISrBlnc {
     if (per.equals(EPeriod.MONTHLY)) {
       cal.add(Calendar.MONTH, -1);
       cal.set(Calendar.DAY_OF_MONTH, 1);
-    } else if (per.equals(EPeriod.WEEKLY)) {
-      cal.add(Calendar.DAY_OF_YEAR, -7);
-      cal.set(Calendar.DAY_OF_WEEK, 1);
+    } else if (per.equals(EPeriod.DAILY)) {
+      cal.add(Calendar.DATE, -1);
     }
     return cal.getTime();
   }

@@ -12,6 +12,7 @@ See LICENSE in base folder
 <entry key="rpDpinp">int</entry>
 <entry key="quDpinp">int</entry>
 <entry key="txDpinp">int</entry>
+<entry key="blPrinp">reo</entry>
 <entry key="mnthinp">mnth</entry>
 <entry key="mnthstr">mnth</entry>
 <entry key="mnthcnToSt">CnvMnthStr</entry>

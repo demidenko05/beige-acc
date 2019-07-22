@@ -39,7 +39,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.util.Locale;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.EPeriod;
@@ -363,10 +362,10 @@ public class TstSrBlnc<RS> {
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
     assertEquals(Integer.valueOf(2), trows);
-    mkAccStg(EPeriod.WEEKLY);
+    mkAccStg(EPeriod.DAILY);
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
-    assertEquals(Integer.valueOf(12), trows); //10jan-21feb17 6 weeks * 2accounts
+    assertEquals(Integer.valueOf(84), trows); //10jan-21feb17 42days * 2accounts
     mkAccStg(EPeriod.MONTHLY);
     this.srBlnc.recalcIfNd(this.rvs, this.srvDt.from8601Date("2017-02-21"));
     trows = this.rdb.evInt("select count(*) as TROWS from BLNC;","TROWS");
@@ -386,7 +385,6 @@ public class TstSrBlnc<RS> {
     mkAccStg("2017-01"); //right year
   }
 
-  // 32 - write Bnk-Exp.Rent 11jan17
   //recalculating blnc on 21jan17 and 21feb17=3r
   //Subacc name changing
   public void inEn3Wright11Jan17() throws Exception {

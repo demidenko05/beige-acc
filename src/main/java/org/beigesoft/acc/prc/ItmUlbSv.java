@@ -108,6 +108,7 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
       vs.put("ItUbLndpLv", 1);
       List<ItUbLn> rdls = this.orm.retLstCnd(pRvs, vs, ItUbLn.class,
         "where OWNR=" + revd.getIid()); vs.clear();
+      CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (ItUbLn rdl : rdls) {
         ItUbLn rgl = new ItUbLn();
         rgl.setDbOr(this.orm.getDbId());
@@ -118,7 +119,6 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
         rgl.setUom(rdl.getUom());
         rgl.setWhpo(rdl.getWhpo());
         rgl.setQuan(rdl.getQuan().negate());
-        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {
           sb.append(rgl.getDscr() + " !");

@@ -110,6 +110,7 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
       vs.put("MnpMcsdpLv", 1);
       List<MnpMcs> rdmls = this.orm.retLstCnd(pRvs, vs, MnpMcs.class,
         "where OWNR=" + revd.getIid()); vs.clear();
+      CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (MnpMcs rdml : rdmls) {
         MnpMcs rgl = new MnpMcs();
         rgl.setDbOr(this.orm.getDbId());
@@ -119,7 +120,6 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
         rgl.setUom(rdml.getUom());
         rgl.setWhpo(rdml.getWhpo());
         rgl.setQuan(rdml.getQuan().negate());
-        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {
           sb.append(rgl.getDscr() + " !");
@@ -156,7 +156,6 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
         rgl.setSaNm(rdal.getSaNm());
         rgl.setSaTy(rdal.getSaTy());
         rgl.setTot(rdal.getTot().negate());
-        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {
           sb.append(rgl.getDscr() + " !");

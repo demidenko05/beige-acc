@@ -89,6 +89,8 @@ import org.beigesoft.acc.mdlp.ItUbLn;
 import org.beigesoft.acc.mdlp.EmpWg;
 import org.beigesoft.acc.mdlp.WagTy;
 import org.beigesoft.acc.mdlp.EmpCt;
+import org.beigesoft.acc.mdlp.WgTxl;
+import org.beigesoft.acc.mdlp.Wage;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -169,6 +171,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
     hlClSt.getStgClss().put(Sacnt.class, "owla");
+    hlClSt.getStgClss().put(WgTxl.class, "owl");
     hlClSt.setStgSclss(new LinkedHashMap<Class<?>, String>());
     hlClSt.getStgSclss().put(ADcTxLn.class, "intxs");
     stgNm = "liFo"; //list footer
@@ -177,6 +180,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(Acnt.class, "lfac");
     hlClSt.getStgClss().put(Entr.class, "lfna");
     hlClSt.getStgClss().put(InEntr.class, "lfia");
+    hlClSt.getStgClss().put(WgTxl.class, "olf");
     hlClSt.getStgClss().put(PuInGdLn.class, "pglf");
     hlClSt.getStgSclss().remove(IOwned.class);
     hlClSt.getStgSclss().put(ADcTxLn.class, null);
@@ -206,9 +210,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
-    hlClSt.getStgSclss().put(ItmAdd.class, "adcl");
-    hlClSt.getStgSclss().put(MnfPrc.class, "adcl");
-    hlClSt.getStgSclss().put(ItmUlb.class, "adcl");
+    hlClSt.getStgClss().put(ItmAdd.class, "adcl");
+    hlClSt.getStgClss().put(MnfPrc.class, "adcl");
+    hlClSt.getStgClss().put(ItmUlb.class, "adcl");
+    hlClSt.getStgClss().put(Wage.class, "awg");
     hlClSt.getStgSclss().put(IInvb.class, "adcl");
     hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "prn"; //print

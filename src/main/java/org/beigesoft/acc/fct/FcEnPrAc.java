@@ -38,7 +38,7 @@ import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.rdb.IRdb;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.SaInGdLn;
@@ -62,8 +62,6 @@ import org.beigesoft.acc.mdlp.PuInTxLn;
 import org.beigesoft.acc.mdlp.PuInGdTxLn;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.ItTxDl;
-import org.beigesoft.acc.mdlp.Srv;
-import org.beigesoft.acc.mdlp.SrTxDl;
 import org.beigesoft.acc.mdlp.PaymFr;
 import org.beigesoft.acc.mdlp.PaymTo;
 import org.beigesoft.acc.mdlp.MovItm;
@@ -106,6 +104,7 @@ import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.PaymSv;
 import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.InvLnSv;
+import org.beigesoft.acc.prc.InSrLnDl;
 import org.beigesoft.acc.prc.RetSv;
 import org.beigesoft.acc.prc.RetLnSv;
 import org.beigesoft.acc.prc.InvSv;
@@ -114,6 +113,11 @@ import org.beigesoft.acc.prc.RetLnRv;
 import org.beigesoft.acc.prc.InvLnCpr;
 import org.beigesoft.acc.prc.DocCpr;
 import org.beigesoft.acc.prc.PrepCpr;
+import org.beigesoft.acc.prc.WageSv;
+import org.beigesoft.acc.prc.WgLnSv;
+import org.beigesoft.acc.prc.WgLnDl;
+import org.beigesoft.acc.prc.WgTxlSv;
+import org.beigesoft.acc.prc.WgTxlDl;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.ISrEntr;
@@ -168,6 +172,16 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
    * <p>Purchase invoice good line service name.</p>
    **/
   public static final String PURINVGDLNSV = "PurInvGdLnSv";
+
+  /**
+   * <p>Purchase invoice service line delete name.</p>
+   **/
+  public static final String PUINSRLNDL = "PuInSrLnDl";
+
+  /**
+   * <p>Sales invoice service line delete name.</p>
+   **/
+  public static final String SAINSRLNDL = "SaInSrLnDl";
 
   /**
    * <p>Purchase invoice service line service name.</p>
@@ -251,6 +265,16 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuSacntCr(pRvs);
           } else if (EntrSrcCr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrSrcCr(pRvs);
+          } else if (WageSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuWageSv(pRvs);
+          } else if (WgLnDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuWgLnDl(pRvs);
+          } else if (WgLnSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuWgLnSv(pRvs);
+          } else if (WgTxlDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuWgTxlDl(pRvs);
+          } else if (WgTxlSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuWgTxlSv(pRvs);
           } else if (InEntrSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuInEntrSv(pRvs);
           } else if (AcStgRt.class.getSimpleName().equals(pPrNm)) {
@@ -325,6 +349,10 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuSalInvGdLnSv(pRvs);
           } else if (SALINVSV.equals(pPrNm)) {
             rz = crPuSalInvSv(pRvs);
+          } else if (SAINSRLNDL.equals(pPrNm)) {
+            rz = crPuSaInSrLnDl(pRvs);
+          } else if (PUINSRLNDL.equals(pPrNm)) {
+            rz = crPuPuInSrLnDl(pRvs);
           } else if (PURINVSRLNSV.equals(pPrNm)) {
             rz = crPuPurInvSrLnSv(pRvs);
           } else if (PURINVGDLNSV.equals(pPrNm)) {
@@ -398,6 +426,101 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(InEntrRt.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), InEntrRt.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map WageSv.</p>
+   * @param pRvs request scoped vars
+   * @return WageSv
+   * @throws Exception - an exception
+   */
+  private WageSv<RS> crPuWageSv(
+    final Map<String, Object> pRvs) throws Exception {
+    WageSv<RS> rz = new WageSv<RS>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    UtlBas utlBas = (UtlBas) this.fctBlc
+      .laz(pRvs, UtlBas.class.getSimpleName());
+    rz.setUtlBas(utlBas);    this.procs.put(WageSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), WageSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map WgLnDl.</p>
+   * @param pRvs request scoped vars
+   * @return WgLnDl
+   * @throws Exception - an exception
+   */
+  private WgLnDl<RS> crPuWgLnDl(
+    final Map<String, Object> pRvs) throws Exception {
+    WgLnDl<RS> rz = new WgLnDl<RS>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    this.procs.put(WgLnDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), WgLnDl.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map WgLnSv.</p>
+   * @param pRvs request scoped vars
+   * @return WgLnSv
+   * @throws Exception - an exception
+   */
+  private WgLnSv<RS> crPuWgLnSv(
+    final Map<String, Object> pRvs) throws Exception {
+    WgLnSv<RS> rz = new WgLnSv<RS>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    this.procs.put(WgLnSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), WgLnSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map WgTxlDl.</p>
+   * @param pRvs request scoped vars
+   * @return WgTxlDl
+   * @throws Exception - an exception
+   */
+  private WgTxlDl crPuWgTxlDl(
+    final Map<String, Object> pRvs) throws Exception {
+    WgTxlDl rz = new WgTxlDl();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(WgTxlDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), WgTxlDl.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map WgTxlSv.</p>
+   * @param pRvs request scoped vars
+   * @return WgTxlSv
+   * @throws Exception - an exception
+   */
+  private WgTxlSv crPuWgTxlSv(
+    final Map<String, Object> pRvs) throws Exception {
+    WgTxlSv rz = new WgTxlSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(WgTxlSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), WgTxlSv.class
       .getSimpleName() + " has been created.");
     return rz;
   }
@@ -976,7 +1099,7 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
       .laz(pRvs, FctEnPrc.class.getSimpleName());
     @SuppressWarnings("unchecked")
-    PrcEntRt<IDoc, Long> rtr = (PrcEntRt<IDoc, Long>) fctEnPrc
+    PrcEntRt<IDoci, Long> rtr = (PrcEntRt<IDoci, Long>) fctEnPrc
       .lazPart(pRvs, PrcEntRt.class.getSimpleName());
     rz.setRetrv(rtr);
     ISrEntr srEntr = (ISrEntr) this.fctBlc
@@ -1003,7 +1126,7 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
       .laz(pRvs, FctEnPrc.class.getSimpleName());
     @SuppressWarnings("unchecked")
-    PrcEntRt<IDoc, Long> rtr = (PrcEntRt<IDoc, Long>) fctEnPrc
+    PrcEntRt<IDoci, Long> rtr = (PrcEntRt<IDoci, Long>) fctEnPrc
       .lazPart(pRvs, PrcEntRt.class.getSimpleName());
     rz.setRetrv(rtr);
     ISrEntr srEntr = (ISrEntr) this.fctBlc
@@ -1140,28 +1263,11 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     RvSaSrLn<RS> rvgl = (RvSaSrLn<RS>)
       this.fctBlc.laz(pRvs, RvSaSrLn.class.getSimpleName());
     sritln.setRvInvLn(rvgl);
+    @SuppressWarnings("unchecked")
     UtInLnTxTo<RS, SalInv, SaInSrLn, SaInTxLn, SaInSrTxLn> utInTxTo =
-      new UtInLnTxTo<RS, SalInv, SaInSrLn, SaInTxLn, SaInSrTxLn>();
+      (UtInLnTxTo<RS, SalInv, SaInSrLn, SaInTxLn, SaInSrTxLn>) this.fctBlc
+        .laz(pRvs, FctAcc.UTSAINSRTX);
     rz.setUtInTxTo(utInTxTo);
-    @SuppressWarnings("unchecked")
-    UtInLnTxToBs<RS> utInTxToBs = (UtInLnTxToBs<RS>) this.fctBlc
-      .laz(pRvs, UtInLnTxToBs.class.getSimpleName());
-    utInTxTo.setUtlInv(utInTxToBs);
-    @SuppressWarnings("unchecked")
-    InvTxMeth<SalInv, SaInTxLn> invTxMeth = (InvTxMeth<SalInv, SaInTxLn>)
-      this.fctBlc.laz(pRvs, FctAcc.SALINVTXMETH);
-    utInTxTo.setInvTxMeth(invTxMeth);
-    FctOrId<SaInSrTxLn> fcpigtl = new FctOrId<SaInSrTxLn>();
-    utInTxTo.setFctLineTxLn(fcpigtl);
-    fcpigtl.setCls(SaInSrTxLn.class);
-    fcpigtl.setDbOr(sritln.getOrm().getDbId());
-    utInTxTo.setLtlCl(SaInSrTxLn.class);
-    utInTxTo.setDstTxItLnCl(SrTxDl.class);
-    utInTxTo.setInvLnCl(SaInSrLn.class);
-    utInTxTo.setItmCl(Srv.class);
-    utInTxTo.setIsMutable(true);
-    utInTxTo.setNeedMkTxCat(true);
-    utInTxTo.setIsPurch(true);
     this.procs.put(SALINVSRLNSV, rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       SALINVSRLNSV + " has been created.");
@@ -1250,6 +1356,56 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map PurSrInSrLnDl.</p>
+   * @param pRvs request scoped vars
+   * @return InSrLnDl purchase service
+   * @throws Exception - an exception
+   */
+  private InSrLnDl<RS, SalInv, SaInSrLn, SaInSrTxLn> crPuSaInSrLnDl(
+    final Map<String, Object> pRvs) throws Exception {
+    InSrLnDl<RS, SalInv, SaInSrLn, SaInSrTxLn> rz =
+      new InSrLnDl<RS, SalInv, SaInSrLn, SaInSrTxLn>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    UtInLnTxTo<RS, SalInv, SaInSrLn, SaInTxLn, SaInSrTxLn> utInTxTo =
+      (UtInLnTxTo<RS, SalInv, SaInSrLn, SaInTxLn, SaInSrTxLn>) this.fctBlc
+        .laz(pRvs, FctAcc.UTSAINSRTX);
+    rz.setUtInTxTo(utInTxTo);
+    this.procs.put(SAINSRLNDL, rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      SAINSRLNDL + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map PurSrInSrLnDl.</p>
+   * @param pRvs request scoped vars
+   * @return InSrLnDl purchase service
+   * @throws Exception - an exception
+   */
+  private InSrLnDl<RS, PurInv, PuInSrLn, PuInSrTxLn> crPuPuInSrLnDl(
+    final Map<String, Object> pRvs) throws Exception {
+    InSrLnDl<RS, PurInv, PuInSrLn, PuInSrTxLn> rz =
+      new InSrLnDl<RS, PurInv, PuInSrLn, PuInSrTxLn>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    UtInLnTxTo<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn> utInTxTo =
+      (UtInLnTxTo<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn>) this.fctBlc
+        .laz(pRvs, FctAcc.UTPUINSRTX);
+    rz.setUtInTxTo(utInTxTo);
+    this.procs.put(PUINSRLNDL, rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      PUINSRLNDL + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map PurSrInvLnSv.</p>
    * @param pRvs request scoped vars
    * @return InvLnSv purchase service
@@ -1269,28 +1425,11 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     RvPuSrLn<RS> rvgl = (RvPuSrLn<RS>)
       this.fctBlc.laz(pRvs, RvPuSrLn.class.getSimpleName());
     sritln.setRvInvLn(rvgl);
+    @SuppressWarnings("unchecked")
     UtInLnTxTo<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn> utInTxTo =
-      new UtInLnTxTo<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn>();
+      (UtInLnTxTo<RS, PurInv, PuInSrLn, PuInTxLn, PuInSrTxLn>) this.fctBlc
+        .laz(pRvs, FctAcc.UTPUINSRTX);
     rz.setUtInTxTo(utInTxTo);
-    @SuppressWarnings("unchecked")
-    UtInLnTxToBs<RS> utInTxToBs = (UtInLnTxToBs<RS>) this.fctBlc
-      .laz(pRvs, UtInLnTxToBs.class.getSimpleName());
-    utInTxTo.setUtlInv(utInTxToBs);
-    @SuppressWarnings("unchecked")
-    InvTxMeth<PurInv, PuInTxLn> invTxMeth = (InvTxMeth<PurInv, PuInTxLn>)
-      this.fctBlc.laz(pRvs, FctAcc.PURINVTXMETH);
-    utInTxTo.setInvTxMeth(invTxMeth);
-    FctOrId<PuInSrTxLn> fcpigtl = new FctOrId<PuInSrTxLn>();
-    utInTxTo.setFctLineTxLn(fcpigtl);
-    fcpigtl.setCls(PuInSrTxLn.class);
-    fcpigtl.setDbOr(sritln.getOrm().getDbId());
-    utInTxTo.setLtlCl(PuInSrTxLn.class);
-    utInTxTo.setDstTxItLnCl(SrTxDl.class);
-    utInTxTo.setInvLnCl(PuInSrLn.class);
-    utInTxTo.setItmCl(Srv.class);
-    utInTxTo.setIsMutable(true);
-    utInTxTo.setNeedMkTxCat(true);
-    utInTxTo.setIsPurch(true);
     this.procs.put(PURINVSRLNSV, rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       PURINVSRLNSV + " has been created.");

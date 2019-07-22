@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Arrays;
 import java.util.List;
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
@@ -43,6 +44,7 @@ import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.srv.II18n;
 import org.beigesoft.acc.mdl.ETxTy;
+import org.beigesoft.acc.mdlp.EmpWg;
 import org.beigesoft.acc.mdlp.Wage;
 import org.beigesoft.acc.mdlp.WgLn;
 import org.beigesoft.acc.mdlp.WgTxl;
@@ -111,6 +113,7 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
       vs.put("WgLndpLv", 1);
       List<WgLn> rdls = this.orm.retLstCnd(pRvs, vs, WgLn.class,
         "where OWNR=" + revd.getIid()); vs.clear();
+      CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (WgLn rdl : rdls) {
         WgLn rgl = new WgLn();
         rgl.setDbOr(this.orm.getDbId());
@@ -120,7 +123,6 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
         rgl.setAcWge(rdl.getAcWge());
         rgl.setTxEe(rdl.getTxEe().negate());
         rgl.setGrWg(rdl.getGrWg().negate());
-        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {
           sb.append(rgl.getDscr() + " !");
@@ -142,6 +144,19 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
         vs.put("ndFds", upFds);
         this.orm.update(pRvs, vs, rdl); vs.clear();
       }
+      Calendar cal = Calendar.getInstance();
+      int year = cal.get(Calendar.YEAR);
+      vs.put("WgLndpLv", 1);
+      revd.setWags(getOrm().retLstCnd(pRvs, vs, WgLn.class, "where OWNR="
+        + revd.getIid())); vs.clear();
+      for (WgLn wl : revd.getWags()) {
+        EmpWg empWg = this.orm.retEntCnd(pRvs, vs, EmpWg.class, "OWNR="
+          + revd.getEmpl().getIid() + " and YER=" + year
+            + " and WGTY=" + wl.getWgTy().getIid());
+        empWg.setTot(empWg.getTot().subtract(wl.getGrWg())
+          .add(wl.getTxEe()));
+        getOrm().update(pRvs, vs, empWg);
+      }
       pRvs.put("msgSuc", "reverse_ok");
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
@@ -149,31 +164,60 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
         this.orm.insIdLn(pRvs, vs, pEnt);
         pRvs.put("msgSuc", "insert_ok");
       } else {
-        String[] slFds = new String[] {"tot", "mdEnr"};
-        Arrays.sort(slFds);
-        vs.put("WagendFds", slFds);
-        Wage old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
-        pEnt.setMdEnr(old.getMdEnr());
-        if (pEnt.getMdEnr()) {
-          throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
-        }
-        if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
-         if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
-            throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
-          }
-          String[] upFds = new String[] {"dat", "dscr", "ver", "mdEnr",
-            "acTx", "empl"};
-          Arrays.sort(upFds);
-          pRvs.put(ISrEntr.DOCFDSUPD, upFds);
-          this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.remove(ISrEntr.DOCFDSUPD);
-          pRvs.put("msgSuc", "account_ok");
+        if ("mkTxs".equals(pRqDt.getParam("acAd"))) {
+          mkTxs(pRvs, pEnt);
         } else {
-          String[] upFds = new String[] {"dat", "dscr", "ver", "acTx", "empl"};
-          Arrays.sort(upFds);
-          vs.put("ndFds", upFds);
-          getOrm().update(pRvs, vs, pEnt); vs.clear();
-          pRvs.put("msgSuc", "update_ok");
+          String[] slFds = new String[] {"tot", "mdEnr"};
+          Arrays.sort(slFds);
+          vs.put("WagendFds", slFds);
+          Wage old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
+          pEnt.setMdEnr(old.getMdEnr());
+          if (pEnt.getMdEnr()) {
+            throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
+          }
+          if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
+              throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
+            }
+            String[] upFds = new String[] {"dat", "dscr", "ver", "mdEnr",
+              "acTx", "empl"};
+            Arrays.sort(upFds);
+            pRvs.put(ISrEntr.DOCFDSUPD, upFds);
+            this.srEntr.mkEntrs(pRvs, pEnt);
+            pRvs.remove(ISrEntr.DOCFDSUPD);
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            vs.put("WgLndpLv", 1);
+            pEnt.setWags(getOrm().retLstCnd(pRvs, vs, WgLn.class, "where OWNR="
+              + pEnt.getIid())); vs.clear();
+            for (WgLn wl : pEnt.getWags()) {
+              EmpWg empWg = this.orm.retEntCnd(pRvs, vs, EmpWg.class, "OWNR="
+                + pEnt.getEmpl().getIid() + " and YER=" + year
+                  + " and WGTY=" + wl.getWgTy().getIid());
+              if (empWg == null) {
+                empWg = new EmpWg();
+                empWg.setIsNew(true);
+                empWg.setDbOr(this.orm.getDbId());
+                empWg.setOwnr(pEnt.getEmpl());
+                empWg.setWgTy(wl.getWgTy());
+                empWg.setYer(year);
+              }
+              empWg.setTot(empWg.getTot().add(wl.getGrWg())
+                .subtract(wl.getTxEe()));
+              if (empWg.getIsNew()) {
+                getOrm().insIdLn(pRvs, vs, empWg);
+              } else {
+                getOrm().update(pRvs, vs, empWg);
+              }
+            }
+            pRvs.put("msgSuc", "account_ok");
+          } else {
+            String[] uFds = new String[] {"dat", "dscr", "ver", "acTx", "empl"};
+            Arrays.sort(uFds);
+            vs.put("ndFds", uFds);
+            getOrm().update(pRvs, vs, pEnt); vs.clear();
+            pRvs.put("msgSuc", "update_ok");
+          }
         }
       }
     }
@@ -184,18 +228,21 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
 
   //Utils:
   /**
-   * <p>Fill wage tax lines according Table Percentage method.</p>
+   * <p>It fills wage tax lines according Table Percentage method,
+   * recalculates and updates whole document and its wages lines.</p>
    * @param pRvs additional params
    * @param pWage Wage document
    * @throws Exception - an exception
    **/
-  public final void fillWgLns(final Map<String, Object> pRvs,
+  public final void mkTxs(final Map<String, Object> pRvs,
     final Wage pWage) throws Exception {
     AcStg as = (AcStg) pRvs.get("astg");
     Map<String, Object> vs = new HashMap<String, Object>();
+    vs.put("WttEmdpLv", 1);
     List<WttEm> wttEms = getOrm().retLstCnd(pRvs, vs, WttEm.class, "where EMPL="
-      + pWage.getEmpl().getIid());
-    if (wttEms != null && wttEms.size() > 0) {
+      + pWage.getEmpl().getIid()); vs.clear();
+    if (wttEms.size() > 0) {
+      CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       String quYerWg = "select sum(TOT) as TOT from EMPWG where OWNR=" + pWage
         .getEmpl().getIid();
       Double yearWgDbl = getRdb().evDouble(quYerWg, "TOT");
@@ -207,18 +254,23 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
       BigDecimal bgd100 = new BigDecimal("100.00");
       BigDecimal txEe = BigDecimal.ZERO;
       BigDecimal txEr = BigDecimal.ZERO;
+      vs.put("WgLndpLv", 1);
       pWage.setWags(getOrm().retLstCnd(pRvs, vs, WgLn.class, "where OWNR="
-        + pWage.getIid()));
-      Map<WagTy, BigDecimal> empTotTxMp = new  HashMap<WagTy, BigDecimal>();
+        + pWage.getIid())); vs.clear();
+      Map<WagTy, BigDecimal> empTotTxMp = new HashMap<WagTy, BigDecimal>();
       for (WgLn wl : pWage.getWags()) {
         empTotTxMp.put(wl.getWgTy(), BigDecimal.ZERO);
       }
       for (WttEm wttEm : wttEms) {
-        getOrm().refrEnt(pRvs, vs, wttEm.getOwnr().getTax());
-        wttEm.getOwnr().setLns(getOrm().retLstCnd(pRvs, vs, WttLn.class,
-          "where OWNR=" + wttEm.getOwnr().getIid()));
-        wttEm.getOwnr().setWags(getOrm().retLstCnd(pRvs, vs, WttWg.class,
-          "where OWNR=" + wttEm.getOwnr().getIid()));
+        if (wttEm.getOwnr().getTax() == null) {
+          getOrm().refrEnt(pRvs, vs, wttEm.getOwnr());
+          vs.put("WttLndpLv", 1);
+          wttEm.getOwnr().setLns(getOrm().retLstCnd(pRvs, vs, WttLn.class,
+            "where OWNR=" + wttEm.getOwnr().getIid())); vs.clear();
+          vs.put("WttWgdpLv", 1);
+          wttEm.getOwnr().setWags(getOrm().retLstCnd(pRvs, vs, WttWg.class,
+            "where OWNR=" + wttEm.getOwnr().getIid())); vs.clear();
+        }
         BigDecimal totTxb = BigDecimal.ZERO;
         for (WgLn wl : pWage.getWags()) {
           if (isWageApplied(wl.getWgTy(), wttEm.getOwnr())) {
@@ -242,8 +294,9 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
               wtl.setRate(wttLn.getRate());
               wtl.setTot(wgMnsAlw.subtract(wttLn.getAlw()).multiply(wttLn
   .getRate()).divide(bgd100, as.getPrDp(), as.getRndm()).add(wttLn.getPlAm()));
-              wtl.setDscr("TableID/Name/taxable: " + wttEm.getOwnr()
-                .getIid() + "/" + wttEm.getOwnr().getNme() + "/" + totTxb);
+              wtl.setDscr(getI18n().getMsg("TIDNametaxb", cpf.getLngDef()
+                .getIid()) + ": " + wttEm.getOwnr().getIid() + "/"
+                  + wttEm.getOwnr().getNme() + "/" + totTxb);
               getOrm().insIdLn(pRvs, vs, wtl);
               if (wtl.getTax().getTyp().equals(ETxTy.TEMPLOYEE)) {
                 txEe = txEe.add(wtl.getTot());
@@ -262,17 +315,24 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
           }
           if (!isFilled) {
             throw new ExcCode(ExcCode.WRPR,
-              "where_is_no_suitable_tax_percent_entry");
+              "there_is_no_suitable_tax_percent_entry");
           }
         }
       }
+      String[] upFds = new String[] {"txEe", "ver"};
+      Arrays.sort(upFds);
+      vs.put("ndFds", upFds);
       for (WgLn wl : pWage.getWags()) {
         wl.setTxEe(empTotTxMp.get(wl.getWgTy()));
         getOrm().update(pRvs, vs, wl);
       }
+      vs.clear();
       pWage.setTxEe(txEe);
       pWage.setTxEr(txEr);
       pWage.setNtWg(pWage.getTot().subtract(pWage.getTxEe()));
+      upFds = new String[] {"ntWg", "txEe", "txEr", "ver"};
+      Arrays.sort(upFds);
+      vs.put("ndFds", upFds);
       getOrm().update(pRvs, vs, pWage);
     }
   }
@@ -285,8 +345,8 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
    **/
   public final boolean isWageApplied(final WagTy pWgTy,
     final WagTt pWagTt) {
-    for (WttWg wttt : pWagTt.getWags()) {
-      if (wttt.getWgTy().getIid().equals(pWgTy.getIid())) {
+    for (WttWg wttWg : pWagTt.getWags()) {
+      if (wttWg.getWgTy().getIid().equals(pWgTy.getIid())) {
         return true;
       }
     }

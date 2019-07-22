@@ -33,7 +33,7 @@ import java.util.Map;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEntRt;
-import org.beigesoft.acc.mdlb.IDoc;
+import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.WrhEnr;
 import org.beigesoft.acc.srv.ISrEntr;
@@ -45,12 +45,12 @@ import org.beigesoft.acc.srv.ISrWrhEnr;
  *
  * @author Yury Demidenko
  */
-public class DocWhPr implements IPrcEnt<IDoc, Long> {
+public class DocWhPr implements IPrcEnt<IDoci, Long> {
 
   /**
    * <p>Base retriever.</p>
    **/
-  private PrcEntRt<IDoc, Long> retrv;
+  private PrcEntRt<IDoci, Long> retrv;
 
   /**
    * <p>Entries service.</p>
@@ -71,7 +71,7 @@ public class DocWhPr implements IPrcEnt<IDoc, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final IDoc process(final Map<String, Object> pRvs, final IDoc pEnt,
+  public final IDoci process(final Map<String, Object> pRvs, final IDoci pEnt,
     final IReqDt pRqDt) throws Exception {
     this.retrv.process(pRvs, pEnt, pRqDt);
     if (pEnt.getMdEnr()) {
@@ -86,9 +86,9 @@ public class DocWhPr implements IPrcEnt<IDoc, Long> {
   //Simple getters and setters:
   /**
    * <p>Getter for retrv.</p>
-   * @return PrcEntRt<IDoc, Long>
+   * @return PrcEntRt<IDoci, Long>
    **/
-  public final PrcEntRt<IDoc, Long> getRetrv() {
+  public final PrcEntRt<IDoci, Long> getRetrv() {
     return this.retrv;
   }
 
@@ -96,7 +96,7 @@ public class DocWhPr implements IPrcEnt<IDoc, Long> {
    * <p>Setter for retrv.</p>
    * @param pRetrv reference
    **/
-  public final void setRetrv(final PrcEntRt<IDoc, Long> pRetrv) {
+  public final void setRetrv(final PrcEntRt<IDoci, Long> pRetrv) {
     this.retrv = pRetrv;
   }
 

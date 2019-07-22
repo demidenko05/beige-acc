@@ -31,7 +31,6 @@ package org.beigesoft.acc.srv;
 import java.util.Map;
 import java.util.Date;
 import java.util.Calendar;
-import java.util.Locale;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdlp.IOrId;
@@ -63,14 +62,14 @@ public class UtlBas {
       throw new ExcCode(ExcCode.SPAM, "Can not change foreign source!");
     }
     AcStg astg = (AcStg) pRvs.get("astg");
-    Calendar calCuMh = Calendar.getInstance(new Locale("en", "US"));
+    Calendar calCuMh = Calendar.getInstance();
     calCuMh.setTime(astg.getMnth());
     calCuMh.set(Calendar.DAY_OF_MONTH, 1);
     calCuMh.set(Calendar.HOUR_OF_DAY, 0);
     calCuMh.set(Calendar.MINUTE, 0);
     calCuMh.set(Calendar.SECOND, 0);
     calCuMh.set(Calendar.MILLISECOND, 0);
-    Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
+    Calendar calDoc = Calendar.getInstance();
     calDoc.setTime(pDat);
     calDoc.set(Calendar.DAY_OF_MONTH, 1);
     calDoc.set(Calendar.HOUR_OF_DAY, 0);

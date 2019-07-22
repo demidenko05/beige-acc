@@ -33,7 +33,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Calendar;
-import java.util.Locale;
 import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
@@ -136,14 +135,14 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       if (pEnt.getDebt().compareTo(BigDecimal.ZERO) == 0) {
         throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
       }
-      Calendar calCuMh = Calendar.getInstance(new Locale("en", "US"));
+      Calendar calCuMh = Calendar.getInstance();
       calCuMh.setTime(astg.getMnth());
       calCuMh.set(Calendar.DAY_OF_MONTH, 1);
       calCuMh.set(Calendar.HOUR_OF_DAY, 0);
       calCuMh.set(Calendar.MINUTE, 0);
       calCuMh.set(Calendar.SECOND, 0);
       calCuMh.set(Calendar.MILLISECOND, 0);
-      Calendar calDoc = Calendar.getInstance(new Locale("en", "US"));
+      Calendar calDoc = Calendar.getInstance();
       calDoc.setTime(pEnt.getDat());
       calDoc.set(Calendar.DAY_OF_MONTH, 1);
       calDoc.set(Calendar.HOUR_OF_DAY, 0);

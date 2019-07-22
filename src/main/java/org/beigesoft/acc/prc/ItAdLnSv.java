@@ -145,7 +145,6 @@ String qu = "select sum(TOT) as TOT from ITADLN where RVID is null and OWNR="
       String[] upFds = new String[] {"tot", "ver"};
       Arrays.sort(upFds);
       vs.put("ndFds", upFds);
-      vs.put("ndFds", upFds);
       getOrm().update(pRvs, vs, pEnt.getOwnr()); vs.clear();
       UvdVar uvs = (UvdVar) pRvs.get("uvs");
       uvs.setOwnr(pEnt.getOwnr());
