@@ -91,6 +91,7 @@ import org.beigesoft.acc.mdlp.WagTy;
 import org.beigesoft.acc.mdlp.EmpCt;
 import org.beigesoft.acc.mdlp.WgTxl;
 import org.beigesoft.acc.mdlp.Wage;
+import org.beigesoft.acc.mdlp.BnkStm;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -177,6 +178,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "liFo"; //list footer
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.setStgClss(new HashMap<Class<? extends IHasId<?>>, String>());
+    hlClSt.getStgClss().put(BnkStm.class, "lffl");
     hlClSt.getStgClss().put(Acnt.class, "lfac");
     hlClSt.getStgClss().put(Entr.class, "lfna");
     hlClSt.getStgClss().put(InEntr.class, "lfia");
