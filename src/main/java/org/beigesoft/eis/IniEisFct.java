@@ -92,6 +92,7 @@ import org.beigesoft.acc.mdlp.EmpCt;
 import org.beigesoft.acc.mdlp.WgTxl;
 import org.beigesoft.acc.mdlp.Wage;
 import org.beigesoft.acc.mdlp.BnkStm;
+import org.beigesoft.acc.mdlp.BnStLn;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -195,6 +196,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "liAc"; //list item actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgClss().put(Acnt.class, "acac");
+    hlClSt.getStgClss().put(BnStLn.class, "absl");
     hlClSt.getStgClss().put(Entr.class, "acae");
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");

@@ -45,6 +45,7 @@ import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.srv.II18n;
 import org.beigesoft.srv.ICsvRdr;
+import org.beigesoft.mdlp.CsvCl;
 import org.beigesoft.acc.mdl.EBnEnrSt;
 import org.beigesoft.acc.mdlp.BnkStm;
 import org.beigesoft.acc.mdlp.BnStLn;
@@ -92,6 +93,9 @@ public class BnkStmSv implements IPrcEnt<BnkStm, Long> {
     this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
     if (pEnt.getIsNew()) { //must be file!
       this.orm.refrEnt(pRvs, vs, pEnt.getMth());
+      vs.put("CsvMthdpLv", 0);
+      pEnt.getMth().getMth().setClns(this.orm.retLstCnd(pRvs, vs, CsvCl.class,
+        "where OWNR=" + pEnt.getMth().getMth().getIid())); vs.clear();
       SimpleDateFormat sdf = null;
       try {
         sdf = new SimpleDateFormat(pEnt.getMth().getDtCl().getFrmt());

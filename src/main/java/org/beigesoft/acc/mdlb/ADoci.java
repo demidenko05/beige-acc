@@ -42,7 +42,7 @@ public abstract class ADoci extends AEntrSrc implements IDoci {
   /**
    * <p>If has made entries.</p>
    **/
-  private Boolean mdEnr;
+  private Boolean mdEnr = Boolean.FALSE;
 
   /**
    * <p>ID of reversed/reversing doc.</p>

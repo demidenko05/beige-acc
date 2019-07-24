@@ -38,6 +38,8 @@ import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.rdb.IRdb;
+import org.beigesoft.srv.ICsvRdr;
+import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlp.SalInv;
@@ -71,6 +73,7 @@ import org.beigesoft.acc.prc.EntrCr;
 import org.beigesoft.acc.prc.EnrSrcChu;
 import org.beigesoft.acc.prc.EntrChd;
 import org.beigesoft.acc.prc.EntrCpr;
+import org.beigesoft.acc.prc.BnStLnGfe;
 import org.beigesoft.acc.prc.EntrRt;
 import org.beigesoft.acc.prc.EntrSrcCr;
 import org.beigesoft.acc.prc.IsacntSv;
@@ -94,7 +97,9 @@ import org.beigesoft.acc.prc.MnpAcsSv;
 import org.beigesoft.acc.prc.MnpMcsSv;
 import org.beigesoft.acc.prc.MnfctSv;
 import org.beigesoft.acc.prc.MnfPrcSv;
+import org.beigesoft.acc.prc.BnkStmSv;
 import org.beigesoft.acc.prc.ItUbLnRv;
+import org.beigesoft.acc.prc.BnStLnSv;
 import org.beigesoft.acc.prc.ItUbLnSv;
 import org.beigesoft.acc.prc.ItmUlbSv;
 import org.beigesoft.acc.prc.MoItLnSv;
@@ -120,6 +125,7 @@ import org.beigesoft.acc.prc.WgTxlSv;
 import org.beigesoft.acc.prc.WgTxlDl;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
+import org.beigesoft.acc.srv.ISrToPa;
 import org.beigesoft.acc.srv.ISrEntr;
 import org.beigesoft.acc.srv.ISrWrhEnr;
 import org.beigesoft.acc.srv.ISrDrItEnr;
@@ -251,6 +257,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
         if (rz == null) {
           if (EntrCr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrCr(pRvs);
+          } else if (BnStLnGfe.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuBnStLnGfe(pRvs);
           } else if (EntrRt.class.getSimpleName().equals(pPrNm)) {
             rz = crPuEntrRt(pRvs);
           } else if (EnrSrcChu.class.getSimpleName().equals(pPrNm)) {
@@ -321,6 +329,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuItAdLnSv(pRvs);
           } else if (MnfctSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuMnfctSv(pRvs);
+          } else if (BnkStmSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuBnkStmSv(pRvs);
           } else if (MnfPrcSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuMnfPrcSv(pRvs);
           } else if (ItmUlbSv.class.getSimpleName().equals(pPrNm)) {
@@ -329,6 +339,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuMnpAcsSv(pRvs);
           } else if (MnpMcsSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuMnpMcsSv(pRvs);
+          } else if (BnStLnSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuBnStLnSv(pRvs);
           } else if (ItUbLnSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItUbLnSv(pRvs);
           } else if (MoItLnSv.class.getSimpleName().equals(pPrNm)) {
@@ -883,6 +895,29 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map BnkStmSv.</p>
+   * @param pRvs request scoped vars
+   * @return BnkStmSv
+   * @throws Exception - an exception
+   */
+  private BnkStmSv crPuBnkStmSv(
+    final Map<String, Object> pRvs) throws Exception {
+    BnkStmSv rz = new BnkStmSv();
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ICsvRdr csvRdr = (ICsvRdr) this.fctBlc
+      .laz(pRvs, ICsvRdr.class.getSimpleName());
+    rz.setCsvRdr(csvRdr);
+    UtlBas utlBas = (UtlBas) this.fctBlc
+      .laz(pRvs, UtlBas.class.getSimpleName());
+    rz.setUtlBas(utlBas);
+    this.procs.put(BnkStmSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), BnkStmSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map MnfPrcSv.</p>
    * @param pRvs request scoped vars
    * @return MnfPrcSv
@@ -982,6 +1017,32 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setSrWrhEnr(srWrhEnr);
     this.procs.put(MnpMcsSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), MnpMcsSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map BnStLnSv.</p>
+   * @param pRvs request scoped vars
+   * @return BnStLnSv
+   * @throws Exception - an exception
+   */
+  private BnStLnSv crPuBnStLnSv(
+    final Map<String, Object> pRvs) throws Exception {
+    BnStLnSv rz = new BnStLnSv();
+    rz.setI18n(this.fctBlc.lazI18n(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrToPa srToPa = (ISrToPa) this.fctBlc
+      .laz(pRvs, ISrToPa.class.getSimpleName());
+    rz.setSrToPa(srToPa);
+    ISrvDt srvDt = (ISrvDt) this.fctBlc
+      .laz(pRvs, ISrvDt.class.getSimpleName());
+    rz.setSrvDt(srvDt);
+    ISrEntr srEntr = (ISrEntr) this.fctBlc
+      .laz(pRvs, ISrEntr.class.getSimpleName());
+    rz.setSrEntr(srEntr);
+    this.procs.put(BnStLnSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), BnStLnSv.class
       .getSimpleName() + " has been created.");
     return rz;
   }
@@ -1692,6 +1753,22 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(SacntCr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), SacntCr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map BnStLnGfe.</p>
+   * @param pRvs request scoped vars
+   * @return BnStLnGfe
+   * @throws Exception - an exception
+   */
+  private BnStLnGfe crPuBnStLnGfe(
+    final Map<String, Object> pRvs) throws Exception {
+    BnStLnGfe rz = new BnStLnGfe();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(BnStLnGfe.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), BnStLnGfe.class
       .getSimpleName() + " has been created.");
     return rz;
   }

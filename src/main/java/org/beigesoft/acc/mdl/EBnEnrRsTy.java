@@ -48,7 +48,7 @@ public enum EBnEnrRsTy {
   /**
    * <p>2 PREPAYMENT FROM.</p>
    **/
-  PREPROM,
+  PREPFR,
 
   /**
    * <p>3 PAYMENT TO.</p>
