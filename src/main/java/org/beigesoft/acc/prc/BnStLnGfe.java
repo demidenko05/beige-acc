@@ -96,20 +96,20 @@ public class BnStLnGfe implements IPrcEnt<BnStLn, Long> {
       List<PrepFr> prepsFr = getOrm().retLstCnd(pRvs, vs, PrepFr.class, dWhere);
       vs.clear();
       if (prepsFr.size() > 0) {
-        pRqDt.setAttr("preps", prepsFr);
+        pRvs.put("preps", prepsFr);
       }
       vs.put("PaymFrndFds", ndFlDoc);
       List<PaymFr> paymsFr = getOrm().retLstCnd(pRvs, vs, PaymFr.class, dWhere);
       vs.clear();
       if (paymsFr.size() > 0) {
-        pRqDt.setAttr("payms", paymsFr);
+        pRvs.put("payms", paymsFr);
       }
       String eWhereD = "where RVID is null and SRTY in (1,2008) and SADTY=1003"
     + " and SADID=" + pEnt.getOwnr().getBnka().getIid() + " and DEBT=" + amStr
   + " and DAT>=" + startEnd[0] + " and DAT<=" + startEnd[1];
       List<Entr> entriesFr = getOrm().retLstCnd(pRvs, vs, Entr.class, eWhereD);
       if (entriesFr.size() > 0) {
-        pRqDt.setAttr("entrs", entriesFr);
+        pRvs.put("entrs", entriesFr);
       }
     } else {
       //bank account credit
@@ -117,20 +117,20 @@ public class BnStLnGfe implements IPrcEnt<BnStLn, Long> {
       List<PrepTo> prepsTo = getOrm().retLstCnd(pRvs, vs, PrepTo.class, dWhere);
       vs.clear();
       if (prepsTo.size() > 0) {
-        pRqDt.setAttr("preps", prepsTo);
+        pRvs.put("preps", prepsTo);
       }
       vs.put("PaymTondFds", ndFlDoc);
       List<PaymTo> paymsTo = getOrm().retLstCnd(pRvs, vs, PaymTo.class, dWhere);
       vs.clear();
       if (paymsTo.size() > 0) {
-        pRqDt.setAttr("payms", paymsTo);
+        pRvs.put("payms", paymsTo);
       }
       String eWhereC = "where RVID is null and SRTY in (1,2008) and SACTY=1003"
     + " and SACID=" + pEnt.getOwnr().getBnka().getIid() + " and CRED=" + amStr
   + " and DAT>=" + startEnd[0] + " and DAT<= " + startEnd[1];
       List<Entr> entriesTo = getOrm().retLstCnd(pRvs, vs, Entr.class, eWhereC);
       if (entriesTo.size() > 0) {
-        pRqDt.setAttr("entrs", entriesTo);
+        pRvs.put("entrs", entriesTo);
       }
     }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");

@@ -48,7 +48,6 @@ import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.acc.mdl.EBnEnrSt;
 import org.beigesoft.acc.mdl.EBnEnrRsTy;
 import org.beigesoft.acc.mdl.EBnEnrRsAc;
-import org.beigesoft.acc.mdlb.ADoc;
 import org.beigesoft.acc.mdlp.Entr;
 import org.beigesoft.acc.mdlp.BnStLn;
 import org.beigesoft.acc.mdlp.SalInv;
@@ -117,8 +116,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
   public final BnStLn process(final Map<String, Object> pRvs, final BnStLn pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    vs.put("BnkStmdpLv", 3);
-    getOrm().refrEnt(pRvs, vs, pEnt);
+    getOrm().refrEnt(pRvs, vs, pEnt.getOwnr());
     long owVrWs = Long.parseLong(pRqDt.getParam("owVr"));
     if (owVrWs != pEnt.getOwnr().getVer()) {
       throw new ExcCode(IOrm.DRTREAD, "dirty_read");
@@ -127,10 +125,15 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
     if (!pEnt.getDbOr().equals(getOrm().getDbId())) {
       throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
     }
-    if (pEnt.getRsAc() != null) {
+    BnStLn old = getOrm().retEnt(pRvs, vs, pEnt);
+    if (old.getRsAc() != null) {
       throw new ExcCode(ExcCode.SPAM,
         "Attempt to edit completed bank statement line!");
     }
+    pEnt.setStas(old.getStas());
+    pEnt.setAmnt(old.getAmnt());
+    pEnt.setDat(old.getDat());
+    pEnt.setDsSt(old.getDsSt());
     if (pEnt.getAmnt().compareTo(BigDecimal.ZERO) == 0) {
       throw new ExcCode(ExcCode.WRPR, "amount_is_zero");
     }
@@ -494,6 +497,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
       rsAc = EBnEnrRsAc.CREATE;
       Entr revd = entr;
       entr = new Entr();
+      entr.setIsNew(true);
       entr.setSrTy(pBsl.cnsTy());
       entr.setSrId(pBsl.getIid());
       entr.setDbOr(revd.getDbOr());
@@ -565,16 +569,16 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
         rsAc = EBnEnrRsAc.CREATE;
         PaymFr revd = pay;
         pay = new PaymFr();
+        pay.setDbOr(this.orm.getDbId());
+        pay.setIsNew(true);
         pay.setAcc(revd.getAcc());
         pay.setSaNm(revd.getSaNm());
         pay.setSaId(revd.getSaId());
         pay.setSaTy(1003);
         pay.setInv(revd.getInv());
         pay.setToFc(revd.getToFc().negate());
-        pay.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf)
-          + " " + getI18n().getMsg("revd_n", pCpf.getLngDef().getIid()) + revd
-            .getDbOr() + "-" + revd.getIid());
-        makeDocReversed(pRvs, pVs, pay, revd, pCpf);
+        pay.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+        this.srEntr.revEntrs(pRvs, pay, revd);
       } else {
         rsAc = EBnEnrRsAc.MATCH;
       }
@@ -594,16 +598,16 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
         rsAc = EBnEnrRsAc.CREATE;
         PaymTo revd = pay;
         pay = new PaymTo();
+        pay.setDbOr(this.orm.getDbId());
+        pay.setIsNew(true);
         pay.setAcc(revd.getAcc());
         pay.setSaNm(revd.getSaNm());
         pay.setSaId(revd.getSaId());
         pay.setSaTy(1003);
         pay.setInv(revd.getInv());
         pay.setToFc(revd.getToFc().negate());
-        pay.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf)
-          + " " + getI18n().getMsg("revd_n", pCpf.getLngDef().getIid()) + revd
-            .getDbOr() + "-" + revd.getIid());
-        makeDocReversed(pRvs, pVs, pay, revd, pCpf);
+        pay.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+        this.srEntr.revEntrs(pRvs, pay, revd);
       } else {
         rsAc = EBnEnrRsAc.MATCH;
       }
@@ -648,16 +652,16 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
         rsAc = EBnEnrRsAc.CREATE;
         PrepFr revd = prep;
         prep = new PrepFr();
+        prep.setDbOr(this.orm.getDbId());
+        prep.setIsNew(true);
         prep.setAcc(revd.getAcc());
         prep.setSaNm(revd.getSaNm());
         prep.setSaId(revd.getSaId());
         prep.setSaTy(1003);
         prep.setDbcr(revd.getDbcr());
         prep.setToFc(revd.getToFc().negate());
-        prep.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf)
-          + " " + getI18n().getMsg("revd_n", pCpf.getLngDef().getIid()) + revd
-            .getDbOr() + "-" + revd.getIid());
-        makeDocReversed(pRvs, pVs, prep, revd, pCpf);
+        prep.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+        this.srEntr.revEntrs(pRvs, prep, revd);
       } else {
         rsAc = EBnEnrRsAc.MATCH;
       }
@@ -677,16 +681,16 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
         rsAc = EBnEnrRsAc.CREATE;
         PrepTo revd = prep;
         prep = new PrepTo();
+        prep.setDbOr(this.orm.getDbId());
+        prep.setIsNew(true);
         prep.setAcc(revd.getAcc());
         prep.setSaNm(revd.getSaNm());
         prep.setSaId(revd.getSaId());
         prep.setSaTy(1003);
         prep.setDbcr(revd.getDbcr());
         prep.setToFc(revd.getToFc().negate());
-        prep.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf)
-          + " " + getI18n().getMsg("revd_n", pCpf.getLngDef().getIid()) + revd
-            .getDbOr() + "-" + revd.getIid());
-        makeDocReversed(pRvs, pVs, prep, revd, pCpf);
+        prep.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+        this.srEntr.revEntrs(pRvs, prep, revd);
       } else {
         rsAc = EBnEnrRsAc.MATCH;
       }
@@ -697,36 +701,6 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
     pBsl.setRsRcTy(rsRcTy);
     pBsl.setRsRcId(rsRcId);
     pBsl.setRsDs(rsDs);
-  }
-
-  /**
-   * <p>Makes document reversed.</p>
-   * @param pRvs request scoped vars
-   * @param pVs invoker scoped vars
-   * @param pRvng Reversing
-   * @param pRved Reversed
-   * @param pCpf language
-   * @throws Exception - an exception
-   **/
-  public final void makeDocReversed(final Map<String, Object> pRvs,
-    final Map<String, Object> pVs, final ADoc pRvng, final ADoc pRved,
-      final CmnPrf pCpf) throws Exception {
-    pRvng.setDbOr(pRved.getDbOr());
-    pRvng.setRvId(pRved.getIid());
-    pRvng.setDat(new Date(pRved.getDat().getTime() + 1));
-    pRvng.setTot(pRved.getTot().negate());
-    pRvng.setMdEnr(false);
-    getOrm().insIdLn(pRvs, pVs, pRvng);
-    String oldDesr = "";
-    if (pRved.getDscr() != null) {
-      oldDesr = pRved.getDscr();
-    }
-    pRved.setDscr(oldDesr + " " + getI18n()
-      .getMsg("reversing_n", pCpf.getLngDef().getIid()) + pRvng.getDbOr() + "-"
-        + pRvng.getIid());
-    pRved.setRvId(pRvng.getIid());
-    getOrm().update(pRvs, pVs, pRved);
-    this.srEntr.revEntrs(pRvs, pRvng, pRved);
   }
 
   /**
@@ -748,7 +722,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
       sb.append(getI18n().getMsg("Created", pCpf.getLngDef().getIid()));
     }
     sb.append(" " + getI18n().getMsg(pRecord.getClass().getSimpleName()
-      + "short", pCpf.getLngDef().getIid()));
+      + "sht", pCpf.getLngDef().getIid()));
     sb.append("#" + pRecord.getDbOr() + "-" + pRecord.getIid()
       + ", " + pDtFrm.format(pDate));
     return sb.toString();
@@ -767,7 +741,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
     sb.append(getI18n().getMsg("Created", pCpf.getLngDef().getIid())
       + " " + getI18n().getMsg("by", pCpf.getLngDef().getIid()));
     sb.append(" " + getI18n().getMsg(pBsl.getClass().getSimpleName()
-      + "short", pCpf.getLngDef().getIid()));
+      + "sht", pCpf.getLngDef().getIid()));
     sb.append("#" + pBsl.getDbOr() + "-" + pBsl.getIid()
       + ", " + pDtFrm.format(pBsl.getDat()));
     sb.append(" (" + pBsl.getDsSt() + ")");

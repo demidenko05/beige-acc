@@ -36,6 +36,7 @@ import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.prc.PrcEntSv;
 import org.beigesoft.prc.PrcEntCr;
 import org.beigesoft.prc.PrcEnoDl;
+import org.beigesoft.prc.PrcEntDl;
 import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoci;
@@ -108,6 +109,7 @@ import org.beigesoft.acc.prc.TxCtLnSv;
 import org.beigesoft.acc.prc.TxCtLnDl;
 import org.beigesoft.acc.prc.PrepSv;
 import org.beigesoft.acc.prc.PrepCpr;
+import org.beigesoft.acc.prc.DocDl;
 import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.DcDriPr;
 import org.beigesoft.acc.prc.DocWhPr;
@@ -336,8 +338,12 @@ public class HlAcEnPr implements IHlNmClSt {
           return NULL;
         } else if (ADcTxLn.class.isAssignableFrom(pCls)) {
           return NULL;
+        } else if (IDoci.class.isAssignableFrom(pCls)) {
+          return DocDl.class.getSimpleName();
         } else if (IOwned.class.isAssignableFrom(pCls)) {
-          return PrcEnoDl.class.getSimpleName();
+          return PrcEnoDl.class.getSimpleName(); //TODO check! below too!
+        } else {
+          return PrcEntDl.class.getSimpleName();
         }
       }
       //Forbidden:

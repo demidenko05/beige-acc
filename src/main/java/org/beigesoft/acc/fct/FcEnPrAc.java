@@ -88,6 +88,7 @@ import org.beigesoft.acc.prc.InEntrDl;
 import org.beigesoft.acc.prc.AcStgRt;
 import org.beigesoft.acc.prc.AcStgSv;
 import org.beigesoft.acc.prc.InEntrRt;
+import org.beigesoft.acc.prc.DocDl;
 import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.ItAdLnRv;
 import org.beigesoft.acc.prc.ItAdLnSv;
@@ -349,6 +350,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuDcDriPr(pRvs);
           } else if (DocWhPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocWhPr(pRvs);
+          } else if (DocDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuDocDl(pRvs);
           } else if (DocPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocPr(pRvs);
           } else if (SALINVSRLNSV.equals(pPrNm)) {
@@ -1041,6 +1044,14 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     ISrEntr srEntr = (ISrEntr) this.fctBlc
       .laz(pRvs, ISrEntr.class.getSimpleName());
     rz.setSrEntr(srEntr);
+    @SuppressWarnings("unchecked")
+    RvPuGdLn<RS> rvpl = (RvPuGdLn<RS>)
+      this.fctBlc.laz(pRvs, RvPuGdLn.class.getSimpleName());
+    rz.setRvPuLn(rvpl);
+    @SuppressWarnings("unchecked")
+    RvSaGdLn<RS> rvsl = (RvSaGdLn<RS>)
+      this.fctBlc.laz(pRvs, RvSaGdLn.class.getSimpleName());
+    rz.setRvSaLn(rvsl);
     this.procs.put(BnStLnSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), BnStLnSv.class
       .getSimpleName() + " has been created.");
@@ -1171,6 +1182,21 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setSrWrhEnr(srWrhEnr);
     this.procs.put(DocWhPr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DocWhPr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map DocDl.</p>
+   * @param pRvs request scoped vars
+   * @return DocDl
+   * @throws Exception - an exception
+   */
+  private DocDl crPuDocDl(final Map<String, Object> pRvs) throws Exception {
+    DocDl rz = new DocDl();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(DocDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DocDl.class
       .getSimpleName() + " has been created.");
     return rz;
   }
