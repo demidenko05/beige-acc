@@ -93,6 +93,9 @@ import org.beigesoft.acc.mdlp.WgTxl;
 import org.beigesoft.acc.mdlp.Wage;
 import org.beigesoft.acc.mdlp.BnkStm;
 import org.beigesoft.acc.mdlp.BnStLn;
+import org.beigesoft.acc.rpl.RplAcc;
+import org.beigesoft.acc.rpl.RpExDbl;
+import org.beigesoft.acc.rpl.RpExCrl;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -117,6 +120,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
   @Override
   public final void iniBd(final Map<String, Object> pRvs,
     final IFctAsm<RS> pFct, final ICtx pCtx) throws Exception {
+    this.iniBdFct.lazAdmEnts().add(RplAcc.class);
+    this.iniBdFct.lazAdmEnts().add(RpExDbl.class);
+    this.iniBdFct.lazAdmEnts().add(RpExCrl.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);

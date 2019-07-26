@@ -28,7 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.rpl;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -60,11 +59,10 @@ public class RpEntrSy implements IRpEntSync<Entr> {
    * <p>Synchronizes given Entr.</p>
    * @param pRvs request scoped vars
    * @param pEnt object
-   * @return if entity exists in database (needs to update)
    * @throws Exception - an exception
    **/
   @Override
-  public final boolean sync(final Map<String, Object> pRvs,
+  public final void sync(final Map<String, Object> pRvs,
     final Entr pEnt) throws Exception {
     if (getOrm().getDbId().equals(pEnt.getDbOr())) {
       throw new ExcCode(ExcCode.WR,
@@ -84,14 +82,12 @@ public class RpEntrSy implements IRpEntSync<Entr> {
       pEnt.setSrId(inEntr.getIid());
     }
     String whe = "IDOR=" + pEnt.getIid() + " and DBOR=" + pEnt.getDbOr();
-    String[] ndFds = new String[] {"dbor", "idor", "iid", "ver"};
-    Arrays.sort(ndFds);
+    String[] ndFds = new String[] {"ver"};
     vs.put(pEnt.getClass().getSimpleName() + "ndFds", ndFds);
     Entr entDb = getOrm().retEntCnd(pRvs, vs, pEnt.getClass(), whe);
     vs.clear();
     pEnt.setIdOr(pEnt.getIid());
     if (entDb != null) {
-      pEnt.setVer(entDb.getVer());
       pEnt.setIid(entDb.getIid());
       pEnt.setIsNew(false);
     } else {
@@ -99,7 +95,6 @@ public class RpEntrSy implements IRpEntSync<Entr> {
       pEnt.setIsNew(true);
     }
     this.srBlnc.hndNewEntr(pRvs, pEnt.getDat());
-    return pEnt.getIsNew();
   }
 
   //Simple getters and setters:

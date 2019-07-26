@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.rpl;
 
 import java.util.Map;
-import java.util.HashMap;
 
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.rpl.IFltEnts;
@@ -52,7 +51,7 @@ public class FlAvDbCr implements IFltEnts {
    * <p>Makes SQL WHERE filter for given entity.</p>
    * @param pCls Entity Class
    * @param pRvs request scoped vars mast has rqDbId - requested database ID
-   * and rpAcMtId - replication accounting method ID (both strings)
+   * and rplAcc - replication accounting method
    * @return filter, e.g. "DBOR=1 and (ACDB is null or ACDB in list ('PAYB'))"
    * @throws Exception - an exception
    **/
@@ -67,24 +66,11 @@ public class FlAvDbCr implements IFltEnts {
       throw new Exception("Wrong DB ID! this DB ID/requested: "
         + this.orm.getDbId() + "/" + rqDbId);
     }
-    Long rpAcMtId = Long.parseLong((String) pRvs.get("rpAcMtId"));
-    RplAcc rplAcc = new RplAcc();
-    rplAcc.setIid(rpAcMtId);
-    Map<String, Object> vs = new HashMap<String, Object>();
-    this.orm.refrEnt(pRvs, vs, rplAcc);
-    if (rplAcc.getIid() == null) {
-      throw new Exception("There is no replication method with ID " + rpAcMtId);
-    }
-    String[] ndfAc = new String[] {"acnt"};
-    vs.put("RpExDblndFds", ndfAc);
-    vs.put("AcntdpLv", 0);
-    rplAcc.setExDbls(this.orm.retLstCnd(pRvs, vs, RpExDbl.class,
-      "where OWNR=" + rpAcMtId)); vs.clear();
-    vs.put("RpExCrlndFds", ndfAc);
-    vs.put("AcntdpLv", 0);
-    rplAcc.setExCrds(this.orm.retLstCnd(pRvs, vs, RpExCrl.class,
-      "where OWNR=" + rpAcMtId)); vs.clear();
+    RplAcc rplAcc = (RplAcc) pRvs.get("rplAcc");
     StringBuffer sb = new StringBuffer("DBOR=" + rqDbId);
+    if (rplAcc.getLstDt() != null) {
+      sb.append(" and VER>" + rplAcc.getLstDt().getTime());
+    }
     if (rplAcc.getExDbls().size() > 0) {
       sb.append(" and (ACDB is null or ACDB not in (");
       boolean isFst = true;

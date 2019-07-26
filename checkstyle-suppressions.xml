@@ -15,4 +15,6 @@
     files="Mnfct|MnfPrc|WagTy|EmpCt|Empl|Wage|PrcBln|BnStLn|BnStLnSv"/>
   <suppress checks="MethodLength"
     files="BlnPdf|UtInLnTxToBs|SrInvSv|InvPdf|HlAcEnPr"/>
+  <suppress checks="LineLength"
+    files="AccImp"/>
 </suppressions>

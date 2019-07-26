@@ -37,6 +37,7 @@ import org.beigesoft.pdf.service.IPdfFactory;
 import org.beigesoft.fct.IFctAux;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.FctOrId;
+import org.beigesoft.prp.Setng;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.acc.mdlp.SalRet;
@@ -134,6 +135,11 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public static final String UTSAINSRTX = "utSaInSrTx";
 
   /**
+   * <p>Import accounting data name.</p>
+   **/
+  public static final String STGACIMP = "stgAcImp";
+
+  /**
    * <p>Creates requested bean and put into given main factory.
    * The main factory is already synchronized when invokes this.</p>
    * @param pRvs request scoped vars
@@ -212,6 +218,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuSrBlnc(pRvs, pFctApp);
     } else if (ISrAcStg.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrAcStg(pRvs, pFctApp);
+    } else if (STGACIMP.equals(pBnNm)) {
+      rz = crPuStgAcIm(pRvs, pFctApp);
     }
     return rz;
   }
@@ -226,6 +234,27 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public final void release(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     //nothing
+  }
+
+  /**
+   * <p>Creates and puts into MF ACIMP Setting.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return ACIMP Setting
+   * @throws Exception - an exception
+   */
+  private Setng crPuStgAcIm(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    Setng rz = new Setng();
+    rz.setDir("acimp");
+    rz.setReflect(pFctApp.lazReflect(pRvs));
+    rz.setUtlPrp(pFctApp.lazUtlPrp(pRvs));
+    rz.setHldFdCls(pFctApp.lazHldFldCls(pRvs));
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    pFctApp.put(pRvs, STGACIMP, rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(), STGACIMP
+      + " has been created.");
+    return rz;
   }
 
   /**

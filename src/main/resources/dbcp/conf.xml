@@ -106,6 +106,9 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.I18Uom,
   org.beigesoft.acc.mdlp.I18Srv,
   org.beigesoft.acc.mdlp.I18Itm,
+  org.beigesoft.acc.rpl.RplAcc,
+  org.beigesoft.acc.rpl.RpExDbl,
+  org.beigesoft.acc.rpl.RpExCrl,
   org.beigesoft.acc.mdlp.I18Buyr</entry>
 <entry key="stgClsNms">exlFlds,idFlds</entry>
 <entry key="stgFldNms"></entry>
