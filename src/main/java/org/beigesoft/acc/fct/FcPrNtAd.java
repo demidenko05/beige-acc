@@ -135,6 +135,7 @@ public class FcPrNtAd<RS> implements IFctPrc {
   private AccImp crPuAccImp(final Map<String, Object> pRvs) throws Exception {
     AccImp rz = new AccImp();
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
     RplXmlHttps<RS> repl = new RplXmlHttps<RS>();
     repl.setSetng((ISetng) this.fctBlc.laz(pRvs, FctAcc.STGACIMP));
     @SuppressWarnings("unchecked")

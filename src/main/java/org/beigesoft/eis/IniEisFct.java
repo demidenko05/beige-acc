@@ -28,10 +28,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.eis;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.HashSet;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdl.IHasId;
@@ -43,6 +44,8 @@ import org.beigesoft.fct.IIniBdFct;
 import org.beigesoft.fct.IniBdFct;
 import org.beigesoft.hld.HldFldStg;
 import org.beigesoft.hld.HldClsStg;
+import org.beigesoft.hld.HldEnts;
+import org.beigesoft.hld.EntShr;
 import org.beigesoft.hld.ICtx;
 import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlb.AInv;
@@ -120,12 +123,19 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
   @Override
   public final void iniBd(final Map<String, Object> pRvs,
     final IFctAsm<RS> pFct, final ICtx pCtx) throws Exception {
-    this.iniBdFct.lazAdmEnts().add(RplAcc.class);
-    this.iniBdFct.lazAdmEnts().add(RpExDbl.class);
-    this.iniBdFct.lazAdmEnts().add(RpExCrl.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(RplAcc.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(RpExDbl.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(RpExCrl.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);
+    HldEnts acEnts = new HldEnts();
+    acEnts.setIid(HldEnts.ID_BASE);
+    acEnts.setShrEnts(new HashSet<EntShr>());
+    Set<Integer> rdrs = new HashSet<Integer>();
+    rdrs.add(HldEnts.ID_ADMIN);
+    acEnts.getShrEnts().add(new EntShr(Acnt.class, rdrs));
+    pFct.getFctBlc().getFctDt().getHldsEnts().add(acEnts);
   }
 
   /**

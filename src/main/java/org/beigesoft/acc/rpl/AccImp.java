@@ -74,7 +74,7 @@ public class AccImp implements IPrc {
     String usr = pRqDt.getParam("usr");
     pRvs.put("urlSrc", pRqDt.getParam("urlSrc"));
     pRvs.put("maxRecs", pRqDt.getParam("maxRecs"));
-    pRvs.put("prc", AccImp.class.getSimpleName());
+    pRvs.put("prc", AccExp.class.getSimpleName());
     Long rpAcMtId = Long.parseLong(pRqDt.getParam("rpAcMtId"));
     RplAcc rplAcc = new RplAcc();
     rplAcc.setIid(rpAcMtId);
@@ -92,7 +92,7 @@ public class AccImp implements IPrc {
     vs.put("AcntdpLv", 0);
     rplAcc.setExCrds(this.orm.retLstCnd(pRvs, vs, RpExCrl.class,
       "where OWNR=" + rpAcMtId)); vs.clear();
-    pRvs.put("srDbId", rplAcc.getRqDbId());
+    pRvs.put("srDbId", rplAcc.getRqDbId().toString());
     pRvs.put("rplAcc", rplAcc);
     if (usr != null) {
       pRvs.put("pwd", pRqDt.getParam("pwd"));

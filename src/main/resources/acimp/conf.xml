@@ -25,7 +25,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.WagTy,
   org.beigesoft.acc.mdlp.EmpCt,
   org.beigesoft.acc.mdlp.Empl</entry>
-<entry key="stgClsNms">entSy,fltEnt</entry>
+<entry key="stgClsNms">entSy,fltEnt,exlFlds,idFlds</entry>
 <entry key="stgFldNms"></entry>
 <entry key="exlFlds">isNew</entry>
 </properties>
