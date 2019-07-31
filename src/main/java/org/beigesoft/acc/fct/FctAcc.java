@@ -37,6 +37,8 @@ import org.beigesoft.pdf.service.IPdfFactory;
 import org.beigesoft.fct.IFctAux;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.FctOrId;
+import org.beigesoft.hld.HldNmFilFdSt;
+import org.beigesoft.prp.ISetng;
 import org.beigesoft.prp.Setng;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
@@ -135,9 +137,14 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public static final String UTSAINSRTX = "utSaInSrTx";
 
   /**
-   * <p>Import accounting data name.</p>
+   * <p>Import accounting data setting name.</p>
    **/
   public static final String STGACIMP = "stgAcImp";
+
+  /**
+   * <p>Import accounting data holder fillers fields name.</p>
+   **/
+  public static final String HLFILFDNMACIM = "HlFiFdAcImp";
 
   /**
    * <p>Creates requested bean and put into given main factory.
@@ -220,6 +227,8 @@ public class FctAcc<RS> implements IFctAux<RS> {
       rz = crPuSrAcStg(pRvs, pFctApp);
     } else if (STGACIMP.equals(pBnNm)) {
       rz = crPuStgAcIm(pRvs, pFctApp);
+    } else if (HLFILFDNMACIM.equals(pBnNm)) {
+      rz = crPuHldNmFilFdStAcIm(pRvs, pFctApp);
     }
     return rz;
   }
@@ -234,6 +243,26 @@ public class FctAcc<RS> implements IFctAux<RS> {
   public final void release(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     //nothing
+  }
+
+  /**
+   * <p>Creates and puts into MF HldNmFilFdStAcIm.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HldNmFilFdStAcIm
+   * @throws Exception - an exception
+   */
+  private HldNmFilFdSt crPuHldNmFilFdStAcIm(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HldNmFilFdSt rz = new HldNmFilFdSt();
+    rz.setHldFdCls(pFctApp.lazHldFldCls(pRvs));
+    rz.setFilHasIdNm(FcFlFdAi.FILHSIDSTDACIM);
+    rz.setFilSmpNm(FcFlFdAi.FILSMPSTDACIM);
+    rz.setSetng((ISetng) pFctApp.laz(pRvs, STGACIMP));
+    pFctApp.put(pRvs, HLFILFDNMACIM, rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(), HLFILFDNMACIM
+      + " has been created.");
+    return rz;
   }
 
   /**

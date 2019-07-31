@@ -50,8 +50,7 @@ public class FlAvDbCr implements IFltEnts {
   /**
    * <p>Makes SQL WHERE filter for given entity.</p>
    * @param pCls Entity Class
-   * @param pRvs request scoped vars mast has rqDbId - requested database ID
-   * and rplAcc - replication accounting method
+   * @param pRvs request scoped vars mast has ARplMth - replication method
    * @return filter, e.g. "DBOR=1 and (ACDB is null or ACDB in list ('PAYB'))"
    * @throws Exception - an exception
    **/
@@ -61,20 +60,19 @@ public class FlAvDbCr implements IFltEnts {
     if (Entr.class != pCls) {
   throw new Exception("Wrong configuration! This filter for accounting entry!");
     }
-    Integer rqDbId = Integer.parseInt((String) pRvs.get("rqDbId"));
-    if (!this.orm.getDbId().equals(rqDbId)) {
+    RplAcc rplMth = (RplAcc) pRvs.get("ARplMth");
+    if (this.orm.getDbId().equals(rplMth.getRqDbId())) {
       throw new Exception("Wrong DB ID! this DB ID/requested: "
-        + this.orm.getDbId() + "/" + rqDbId);
+        + this.orm.getDbId() + "/" + rplMth.getRqDbId());
     }
-    RplAcc rplAcc = (RplAcc) pRvs.get("rplAcc");
-    StringBuffer sb = new StringBuffer("DBOR=" + rqDbId);
-    if (rplAcc.getLstDt() != null) {
-      sb.append(" and VER>" + rplAcc.getLstDt().getTime());
+    StringBuffer sb = new StringBuffer("ENTR.DBOR=" + rplMth.getRqDbId());
+    if (rplMth.getLstDt() != null) {
+      sb.append(" and ENTR.VER>" + rplMth.getLstDt().getTime());
     }
-    if (rplAcc.getExDbls().size() > 0) {
+    if (rplMth.getExDbls().size() > 0) {
       sb.append(" and (ACDB is null or ACDB not in (");
       boolean isFst = true;
-      for (RpExDbl ln : rplAcc.getExDbls()) {
+      for (RpExDbl ln : rplMth.getExDbls()) {
         if (isFst) {
           isFst = false;
         } else {
@@ -84,10 +82,10 @@ public class FlAvDbCr implements IFltEnts {
       }
       sb.append("))");
     }
-    if (rplAcc.getExCrds().size() > 0) {
+    if (rplMth.getExCrds().size() > 0) {
       sb.append(" and (ACCR is null or ACCR not in (");
       boolean isFst = true;
-      for (RpExCrl ln : rplAcc.getExCrds()) {
+      for (RpExCrl ln : rplMth.getExCrds()) {
         if (isFst) {
           isFst = false;
         } else {

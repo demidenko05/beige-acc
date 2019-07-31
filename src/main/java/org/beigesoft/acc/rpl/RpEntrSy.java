@@ -88,6 +88,7 @@ public class RpEntrSy implements IRpEntSync<Entr> {
     vs.clear();
     pEnt.setIdOr(pEnt.getIid());
     if (entDb != null) {
+      pEnt.setVer(entDb.getVer());
       pEnt.setIid(entDb.getIid());
       pEnt.setIsNew(false);
     } else {

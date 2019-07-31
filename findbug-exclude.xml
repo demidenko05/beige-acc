@@ -184,12 +184,4 @@
      <Class name="org.beigesoft.acc.mdlp.BnStLn" />
      <Bug pattern="EI_EXPOSE_REP" />
   </Match>
-  <Match>
-     <Class name="org.beigesoft.acc.rpl.RplAcc" />
-     <Bug pattern="EI_EXPOSE_REP2" />
-  </Match>
-  <Match>
-     <Class name="org.beigesoft.acc.rpl.RplAcc" />
-     <Bug pattern="EI_EXPOSE_REP" />
-  </Match>
 </FindBugsFilter>

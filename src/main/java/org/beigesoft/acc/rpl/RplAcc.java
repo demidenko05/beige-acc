@@ -29,26 +29,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.rpl;
 
 import java.util.List;
-import java.util.Date;
 
-import org.beigesoft.mdlp.AOrIdNm;
+import org.beigesoft.rpl.ARplMth;
 
 /**
  * <p>Model of replication of accounting data method.</p>
  *
  * @author Yury Demidenko
  */
-public class RplAcc extends AOrIdNm {
-
-  /**
-   * <p>Last date replication, nullable.</p>
-   **/
-  private Date lstDt;
-
-  /**
-   * <p>Requested database ID, not null.</p>
-   **/
-  private Integer rqDbId;
+public class RplAcc extends ARplMth {
 
   /**
    * <p>Exclude debits.</p>
@@ -61,38 +50,6 @@ public class RplAcc extends AOrIdNm {
   private List<RpExCrl> exCrds;
 
   //Simple getters and setters:
-  /**
-   * <p>Getter for lstDt.</p>
-   * @return Date
-   **/
-  public final Date getLstDt() {
-    return this.lstDt;
-  }
-
-  /**
-   * <p>Setter for lstDt.</p>
-   * @param pLstDt reference
-   **/
-  public final void setLstDt(final Date pLstDt) {
-    this.lstDt = pLstDt;
-  }
-
-  /**
-   * <p>Getter for rqDbId.</p>
-   * @return Integer
-   **/
-  public final Integer getRqDbId() {
-    return this.rqDbId;
-  }
-
-  /**
-   * <p>Setter for rqDbId.</p>
-   * @param pRqDbId reference
-   **/
-  public final void setRqDbId(final Integer pRqDbId) {
-    this.rqDbId = pRqDbId;
-  }
-
   /**
    * <p>Getter for exDbls.</p>
    * @return List<RpExDbl>

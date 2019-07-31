@@ -30,6 +30,8 @@ package org.beigesoft.acc.rpl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Date;
+import java.util.Arrays;
 import java.io.PrintWriter;
 
 import org.beigesoft.mdl.IReqDt;
@@ -93,7 +95,7 @@ public class AccImp implements IPrc {
     rplAcc.setExCrds(this.orm.retLstCnd(pRvs, vs, RpExCrl.class,
       "where OWNR=" + rpAcMtId)); vs.clear();
     pRvs.put("srDbId", rplAcc.getRqDbId().toString());
-    pRvs.put("rplAcc", rplAcc);
+    pRvs.put("ARplMth", rplAcc);
     if (usr != null) {
       pRvs.put("pwd", pRqDt.getParam("pwd"));
       pRvs.put("usr", usr);
@@ -123,6 +125,11 @@ public class AccImp implements IPrc {
     htmWri.println("</div>");
     htmWri.println("</body>");
     htmWri.println("</html>");
+    rplAcc.setLstDt(new Date());
+    String[] upFds = new String[] {"lstDt", "ver"};
+    Arrays.sort(upFds);
+    vs.put("ndFds", upFds);
+    this.orm.update(pRvs, vs, rplAcc);
   }
 
   //Simple getters and setters:

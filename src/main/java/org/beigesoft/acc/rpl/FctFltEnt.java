@@ -31,9 +31,12 @@ package org.beigesoft.acc.rpl;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.rpl.IFctFltEnt;
 import org.beigesoft.rpl.IFltEnts;
+import org.beigesoft.rpl.FltDbOrVt;
+import org.beigesoft.rpl.FltVt;
 
 /**
  * <p>Filters entity factory.</p>
@@ -68,16 +71,27 @@ public class FctFltEnt<RS> implements IFctFltEnt {
     if (rz == null) {
       synchronized (this) {
        rz = this.flts.get(pNm);
-        if (rz == null && FlAvDbCr.class.getSimpleName().equals(pNm)) {
-          FlAvDbCr flt = new FlAvDbCr();
-          flt.setOrm(this.fctBlc.lazOrm(pRvs));
-          rz = flt;
-          this.flts.put(pNm, rz);
+        if (rz == null) {
+          if (FlAvDbCr.class.getSimpleName().equals(pNm)) {
+            FlAvDbCr flt = new FlAvDbCr();
+            flt.setOrm(this.fctBlc.lazOrm(pRvs));
+            rz = flt;
+            this.flts.put(pNm, rz);
+          } else if (FltDbOrVt.class.getSimpleName().equals(pNm)) {
+            FltDbOrVt flt = new FltDbOrVt();
+            flt.setOrm(this.fctBlc.lazOrm(pRvs));
+            rz = flt;
+            this.flts.put(pNm, rz);
+          } else if (FltVt.class.getSimpleName().equals(pNm)) {
+            FltVt flt = new FltVt();
+            rz = flt;
+            this.flts.put(pNm, rz);
+          }
         }
       }
     }
     if (rz == null) {
-      throw new Exception("There is no filter with name " + pNm);
+      throw new ExcCode(ExcCode.WRCN, "There is no filter : " + pNm);
     }
     return rz;
   }

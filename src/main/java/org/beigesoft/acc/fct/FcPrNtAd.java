@@ -42,6 +42,7 @@ import org.beigesoft.rpl.RpStorDbXmlSy;
 import org.beigesoft.rpl.RplXmlHttps;
 import org.beigesoft.rpl.RpEntWriXml;
 import org.beigesoft.rpl.RpEntReadXml;
+import org.beigesoft.rpl.PsgAft;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.rpl.AccImp;
 import org.beigesoft.acc.rpl.AccExp;
@@ -146,18 +147,20 @@ public class FcPrNtAd<RS> implements IFctPrc {
     FctFltEnt<RS> ffle = new FctFltEnt<RS>();
     ffle.setFctBlc(this.fctBlc);
     repl.setFctFltEnts(ffle);
+    ISetng setng = (ISetng) this.fctBlc.laz(pRvs, FctAcc.STGACIMP);
     RpStorDbXmlSy<RS> rpStor = new RpStorDbXmlSy<RS>();
     rpStor.setLog(this.fctBlc.lazLogStd(pRvs));
     rpStor.setOrm(this.fctBlc.lazOrm(pRvs));
     rpStor.setUtlXml(this.fctBlc.lazUtlXml(pRvs));
     rpStor.setRdb(rdb);
+    rpStor.setSetng(setng);
     rpStor.setWriteTi(this.fctBlc.getFctDt().getWriteTi());
     FcRpEnSy<RS> fesy = new FcRpEnSy<RS>();
     fesy.setFctBlc(this.fctBlc);
     rpStor.setFctEntSy(fesy);
     RpEntReadXml erd = new RpEntReadXml();
     erd.setLog(this.fctBlc.lazLogStd(pRvs));
-    erd.setSetng((ISetng) this.fctBlc.laz(pRvs, FctAcc.STGACIMP));
+    erd.setSetng(setng);
     HldNmFilFdSt hldFilFdSt = new HldNmFilFdSt();
     hldFilFdSt.setHldFdCls(this.fctBlc.lazHldFldCls(pRvs));
     hldFilFdSt.setFilHasIdNm(FcFlFdAi.FILHSIDSTDACIM);
@@ -168,6 +171,13 @@ public class FcPrNtAd<RS> implements IFctPrc {
     erd.setFctFilFld(this.fctBlc.lazFctNmFilFd(pRvs));
     rpStor.setRpEntRead(erd);
     repl.setRpStor(rpStor);
+    if (this.fctBlc.getFctDt().getIsPstg()) {
+      PsgAft<RS> dbAf = new PsgAft<RS>();
+      dbAf.setRdb(rdb);
+      dbAf.setLog(repl.getLog());
+      dbAf.setSetng(repl.getSetng());
+      repl.setDbAfter(dbAf);
+    }
     rz.setRepl(repl);
     this.procs.put(AccImp.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),

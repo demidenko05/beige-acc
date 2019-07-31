@@ -33,7 +33,7 @@ import java.util.HashMap;
 
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.IFcFlFdSt;
-import org.beigesoft.hld.IHlNmClSt;
+import org.beigesoft.hld.HldNmFilFdSt;
 import org.beigesoft.prp.ISetng;
 import org.beigesoft.cnv.IFilFldStr;
 import org.beigesoft.cnv.FilFldHsIdStr;
@@ -57,16 +57,6 @@ public class FcFlFdAi<RS> implements IFcFlFdSt {
    * <p>DB-Copy filler simple from string name.</p>
    **/
   public static final String FILSMPSTDACIM = "flSmpStAcIm";
-
-  /**
-   * <p>Holder of fillers fields names.</p>
-   **/
-  private IHlNmClSt hldFilFdNmsAcIm;
-
-  /**
-   * <p>Fields converters names holder.</p>
-   **/
-  private IHlNmClSt hldNmFdCnAcIm;
 
   /**
    * <p>Main factory.</p>
@@ -115,7 +105,8 @@ public class FcFlFdAi<RS> implements IFcFlFdSt {
     final Map<String, Object> pRvs) throws Exception {
     FilFldHsIdStr rz = new FilFldHsIdStr();
     rz.setHldSets(this.fctBlc.lazHldSets(pRvs));
-    rz.setHldFilFdNms(getHldFilFdNmsAcIm());
+    rz.setHldFilFdNms((HldNmFilFdSt) this.fctBlc
+      .laz(pRvs, FctAcc.HLFILFDNMACIM));
     rz.setSetng((ISetng) this.fctBlc.laz(pRvs, FctAcc.STGACIMP));
     rz.setHldFdCls(this.fctBlc.lazHldFldCls(pRvs));
     rz.setFctFilFld(this.fctBlc.lazFctNmFilFd(pRvs));
@@ -135,7 +126,7 @@ public class FcFlFdAi<RS> implements IFcFlFdSt {
     final Map<String, Object> pRvs) throws Exception {
     FilFldSmpStr rz = new FilFldSmpStr();
     rz.setHldSets(this.fctBlc.lazHldSets(pRvs));
-    rz.setHldNmFdCn(getHldNmFdCnAcIm());
+    rz.setHldNmFdCn(this.fctBlc.lazHldNmCnFrStXml(pRvs));
     rz.setFctCnvFld(this.fctBlc.lazFctNmCnFrSt(pRvs));
     this.fillers.put(FILSMPSTDACIM, rz);
     this.fctBlc.lazLogStd(pRvs)
@@ -158,37 +149,5 @@ public class FcFlFdAi<RS> implements IFcFlFdSt {
    **/
   public final synchronized void setFctBlc(final FctBlc<RS> pFctBlc) {
     this.fctBlc = pFctBlc;
-  }
-
-  /**
-   * <p>Getter for hldFilFdNmsAcIm.</p>
-   * @return IHlNmClSt
-   **/
-  public final IHlNmClSt getHldFilFdNmsAcIm() {
-    return this.hldFilFdNmsAcIm;
-  }
-
-  /**
-   * <p>Setter for hldFilFdNmsAcIm.</p>
-   * @param pHldFilFdNmsAcIm reference
-   **/
-  public final void setHldFilFdNmsAcIm(final IHlNmClSt pHldFilFdNmsAcIm) {
-    this.hldFilFdNmsAcIm = pHldFilFdNmsAcIm;
-  }
-
-  /**
-   * <p>Getter for hldNmFdCnAcIm.</p>
-   * @return IHlNmClSt
-   **/
-  public final IHlNmClSt getHldNmFdCnAcIm() {
-    return this.hldNmFdCnAcIm;
-  }
-
-  /**
-   * <p>Setter for hldNmFdCnAcIm.</p>
-   * @param pHldNmFdCnAcIm reference
-   **/
-  public final void setHldNmFdCnAcIm(final IHlNmClSt pHldNmFdCnAcIm) {
-    this.hldNmFdCnAcIm = pHldNmFdCnAcIm;
   }
 }
