@@ -86,7 +86,7 @@ public class SrRtLnSv {
     Arrays.sort(fds);
     vs.put(pEnt.getOwnr().getClass().getSimpleName() + "ndFds", fds);
     String[] ifds = new String[] {"dat", "dbcr", "inTx", "mdEnr", "omTx",
-      "exRt", "cuFr"};
+      "exRt", "cuFr", "dbOr"};
     Arrays.sort(ifds);
     vs.put(pSrInItLn.getBinvCls().getSimpleName() + "ndFds", ifds);
     vs.put(pSrInItLn.getBinvCls().getSimpleName() + "dpLv", 3);

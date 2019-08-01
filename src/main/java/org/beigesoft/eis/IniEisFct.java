@@ -269,6 +269,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     //fields settings:
     String stgNm = "inp"; //input
     HldFldStg hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.setEnumVal(null); //reconfiguration!
+    hlFdSt.getCustSclss().add(Enum.class);
     //saTy, srTy
     hlFdSt.getStgClss().remove(Integer.class); //reconfiguration!
     hlFdSt.getCustClss().add(Integer.class);

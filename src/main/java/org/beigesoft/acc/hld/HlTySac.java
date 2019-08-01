@@ -46,6 +46,7 @@ import org.beigesoft.acc.mdlp.Tax;
 import org.beigesoft.acc.mdlp.EmpCt;
 import org.beigesoft.acc.mdlp.Empl;
 import org.beigesoft.acc.mdlp.WagTy;
+import org.beigesoft.acc.mdlp.Prop;
 
 /**
  * <p>Holder subacc classes by type.</p>
@@ -76,6 +77,7 @@ public class HlTySac implements IHlIntCls {
     this.clsMp.put(new EmpCt().cnsTy(), EmpCt.class); //1009
     this.clsMp.put(new Empl().cnsTy(), Empl.class); //1010
     this.clsMp.put(new WagTy().cnsTy(), WagTy.class); //1011
+    this.clsMp.put(new Prop().cnsTy(), Prop.class); //1012
   }
 
   /**

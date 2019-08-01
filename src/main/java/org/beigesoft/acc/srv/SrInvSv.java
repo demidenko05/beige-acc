@@ -29,6 +29,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.srv;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
@@ -42,6 +44,8 @@ import org.beigesoft.acc.mdlb.AInv;
 import org.beigesoft.acc.mdlb.AInvLn;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Srv;
+import org.beigesoft.acc.mdlp.AcStg;
+import org.beigesoft.acc.mdlp.PurInv;
 
 /**
  * <p>Service that saves invoice into DB.
@@ -198,7 +202,18 @@ public class SrInvSv {
         throw new ExcCode(ExcCode.WRPR, "wrong_debtor_creditor_for_prepayment");
           }
         }
-        String[] fdDcUpd;
+        AcStg as = (AcStg) pRvs.get("astg");
+        boolean extTx;
+        if (pEnt.getClass() == PurInv.class) {
+          extTx = as.getStExp();
+        } else {
+          extTx = as.getStExs();
+        }
+        boolean txbl = extTx && !pEnt.getOmTx();
+        Set<String> updFds = new HashSet<String>();
+        updFds.add("dat"); updFds.add("dscr"); updFds.add("payb");
+        updFds.add("ver"); updFds.add("prep"); updFds.add("toPa");
+        updFds.add("paFc"); updFds.add("pdsc"); updFds.add("dbcr");
         if (old.getTot().compareTo(BigDecimal.ZERO) == 1) {
           if (!old.getExRt().equals(pEnt.getExRt())) {
             throw new ExcCode(ExcCode.SPAM, "Attempt to change exchange rate!");
@@ -209,13 +224,13 @@ public class SrInvSv {
                 && !old.getCuFr().getIid().equals(pEnt.getCuFr().getIid())) {
             throw new ExcCode(ExcCode.SPAM, "Attempt to change currency!");
           }
-          if (!old.getOmTx().equals(pEnt.getOmTx())
-            || !old.getInTx().equals(pEnt.getInTx())) {
+          if (extTx && (!old.getOmTx().equals(pEnt
+            .getOmTx()) || !old.getInTx().equals(pEnt.getInTx()))) {
             throw new ExcCode(ExcCode.SPAM, "Attempt to change tax method!");
           }
           vs.put("DbCrndFds", new String[] {"iid", "txDs"});
           this.orm.refrEnt(pRvs, vs, pEnt.getDbcr()); vs.clear();
-          if (!old.getDbcr().getIid().equals(pEnt.getDbcr().getIid())
+          if (txbl && !old.getDbcr().getIid().equals(pEnt.getDbcr().getIid())
         && (pEnt.getDbcr().getTxDs() == null && old.getDbcr().getTxDs() != null
       || pEnt.getDbcr().getTxDs() != null && old.getDbcr().getTxDs() == null
     || pEnt.getDbcr().getTxDs().getIid().equals(old.getDbcr()
@@ -223,16 +238,11 @@ public class SrInvSv {
             throw new ExcCode(ExcCode.WRPR,
               "can_not_cange_customer_with_another_tax_destination");
           }
-          if (pEnt.getDbcr().getTxDs() == null) {
-            fdDcUpd = new String[] {"dat", "dscr", "dbcr", "mdEnr", "payb",
-              "pdsc", "prep", "toPa", "paFc", "ver"};
-          } else {
-            fdDcUpd = new String[] {"dat", "dscr", "mdEnr", "payb", "pdsc",
-              "prep", "toPa", "paFc", "ver"};
-          }
         } else {
-          fdDcUpd = new String[] {"cuFr", "exRt", "dat", "dbcr", "dscr", "inTx",
-            "mdEnr", "omTx", "payb", "pdsc", "prep", "toPa", "paFc", "ver"};
+          updFds.add("cuFr"); updFds.add("exRt");
+          if (extTx) {
+            updFds.add("inTx"); updFds.add("omTx");
+          }
         }
         boolean ndUpToPa = false;
         if (old.getPrep() != null && (pEnt.getPrep() == null
@@ -252,16 +262,20 @@ public class SrInvSv {
         if (ndUpToPa) {
           this.srToPa.mkToPa(pRvs, pEnt, pRvGdLn);
         }
-        Arrays.sort(fdDcUpd);
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
+          updFds.add("mdEnr");
+          String[] fdDcUpd = updFds.toArray(new String[0]);
+          Arrays.sort(fdDcUpd);
           pRvs.put(ISrEntr.DOCFDSUPD, fdDcUpd);
           this.srEntr.mkEntrs(pRvs, pEnt);
           pRvs.remove(ISrEntr.DOCFDSUPD);
           pRvs.put("msgSuc", "account_ok");
         } else {
+          String[] fdDcUpd = updFds.toArray(new String[0]);
+          Arrays.sort(fdDcUpd);
           vs.put("ndFds", fdDcUpd);
           this.orm.update(pRvs, vs, pEnt); vs.clear();
           pRvs.put("msgSuc", "update_ok");

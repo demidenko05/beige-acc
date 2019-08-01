@@ -93,6 +93,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.Wage,
   org.beigesoft.acc.mdlp.WgLn,
   org.beigesoft.acc.mdlp.WgTxl,
+  org.beigesoft.acc.mdlp.Prop,
   org.beigesoft.acc.mdlp.BnkCsv,
   org.beigesoft.acc.mdlp.BnkStm,
   org.beigesoft.acc.mdlp.BnStLn,

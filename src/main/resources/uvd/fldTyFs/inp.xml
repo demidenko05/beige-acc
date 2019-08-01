@@ -13,4 +13,5 @@ See LICENSE in base folder
 <entry key="java.lang.Long">int</entry>
 <entry key="java.lang.Integer">int</entry>
 <entry key="java.lang.Boolean">bln</entry>
+<entry key="java.lang.Enum">enm</entry>
 </properties>

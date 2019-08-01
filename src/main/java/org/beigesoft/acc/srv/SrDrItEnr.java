@@ -259,7 +259,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     } else { //use fastest locking:
       ColVals cv = new ColVals();
       this.srvClVl.put(cv, "itLf", "ITLF-" + pQuan);
-      this.srvClVl.put(cv, "toLf", pSrc.getToLf().toString());
+      this.srvClVl.put(cv, "toLf", pSrc.getToLf().doubleValue());
       this.srvClVl.putExpr(cv, "itLf");
       this.srvClVl.put(cv, "ver", "VER+1");
       this.srvClVl.putExpr(cv, "ver");

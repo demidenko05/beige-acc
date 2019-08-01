@@ -81,7 +81,7 @@ public class PrChrAc<RS> implements IPrc {
       List<ChrtAcc> accs = new ArrayList<ChrtAcc>();
       Map<String, Object> vs = new HashMap<String, Object>();
       List<Acnt> acnts = this.orm.retLstCnd(pRvs, vs, Acnt.class,
-        "order by NMBR");
+        "where USED=1 order by NMBR");
       for (Acnt acnt : acnts) {
         ChrtAcc acc = new ChrtAcc();
         accs.add(acc);
@@ -93,7 +93,7 @@ public class PrChrAc<RS> implements IPrc {
         acc.setDscr(acnt.getDscr());
         if (acnt.getSaTy() != null) {
           List<Sacnt> sacnts = this.orm.retLstCnd(pRvs, vs, Sacnt.class,
-            "where OWNR='" + acnt.getIid() + "'order by NME");
+            "where OWNR='" + acnt.getIid() + "'order by IID");
           for (Sacnt sacnt : sacnts) {
             if (acc == null) {
               acc = new ChrtAcc();

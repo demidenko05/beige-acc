@@ -111,7 +111,8 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
           .setScale(as.getPrDp(), as.getRndm()));
       }
     }
-    String[] fds = new String[] {"itm", "uom", "pri", "prFc", "txCt", "itLf"};
+    String[] fds = new String[] {"itm", "uom", "pri", "prFc", "txCt", "itLf",
+      "toLf", "dbOr", "subt"};
     Arrays.sort(fds);
     pVs.put(pEnt.getInvl().getClass().getSimpleName() + "ndFds", fds);
     pVs.put(pEnt.getInvl().getClass().getSimpleName() + "dpLv", 1);
@@ -123,6 +124,9 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
     pEnt.getInvl().setOwnr(pEnt.getOwnr().getInv());
     if (pEnt.getInvl().getItLf().compareTo(pEnt.getQuan()) == -1) {
       throw new ExcCode(ExcCode.WRPR, "LINE_HAS_NO_GOODS");
+    }
+    if (pEnt.getInvl().getToLf().compareTo(BigDecimal.ZERO) == 0) {
+      pEnt.getInvl().setToLf(pEnt.getInvl().getIniTo());
     }
     String src = "*" + pEnt.getInvl().getPri() + ", "
       + pEnt.getInvl().getItLf() + "*";
