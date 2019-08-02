@@ -126,11 +126,7 @@ public class SrSaGdLn implements ISrInItLn<SalInv, SaInGdLn> {
   @Override
   public final SaInGdLn retChkRv(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final SaInGdLn pEnt) throws Exception {
-    pVs.put("SalInvdpLv", 0);
-    pVs.put("ItmdpLv", 0);
-    pVs.put("TxCtdpLv", 0);
-    pVs.put("WrhPldpLv", 0);
-    pVs.put("UomdpLv", 0);
+    pVs.put("SaInGdLndpLv", 1);
     SaInGdLn rz = new SaInGdLn();
     rz.setIid(pEnt.getRvId());
     this.orm.refrEnt(pRvs, pVs, rz); pVs.clear();

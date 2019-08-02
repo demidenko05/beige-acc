@@ -33,7 +33,6 @@ import java.util.HashMap;
 
 import org.beigesoft.fct.IFctPrcFl;
 import org.beigesoft.fct.FctBlc;
-import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcFl;
 import org.beigesoft.acc.rep.PrcBlnSht;
 import org.beigesoft.acc.rep.PrInvPdf;
@@ -90,13 +89,9 @@ public class FcPrFlAc<RS> implements IFctPrcFl {
    * @return PrInvPdf
    * @throws Exception - an exception
    */
-  private PrInvPdf<RS> crPuPrInvPdf(
+  private PrInvPdf crPuPrInvPdf(
     final Map<String, Object> pRvs) throws Exception {
-    PrInvPdf<RS> rz = new PrInvPdf<RS>();
-    @SuppressWarnings("unchecked")
-    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
-    rz.setRdb(rdb);
-    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
+    PrInvPdf rz = new PrInvPdf();
     IInvPdf invPdf = (IInvPdf) this.fctBlc
       .laz(pRvs, IInvPdf.class.getSimpleName());
     rz.setInvPdf(invPdf);
@@ -112,13 +107,9 @@ public class FcPrFlAc<RS> implements IFctPrcFl {
    * @return PrcBlnSht
    * @throws Exception - an exception
    */
-  private PrcBlnSht<RS> crPuPrcBlnSht(
+  private PrcBlnSht crPuPrcBlnSht(
     final Map<String, Object> pRvs) throws Exception {
-    PrcBlnSht<RS> rz = new PrcBlnSht<RS>();
-    @SuppressWarnings("unchecked")
-    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
-    rz.setRdb(rdb);
-    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
+    PrcBlnSht rz = new PrcBlnSht();
     ISrBlnc srBlnc = (ISrBlnc) this.fctBlc
       .laz(pRvs, ISrBlnc.class.getSimpleName());
     rz.setSrBlnc(srBlnc);

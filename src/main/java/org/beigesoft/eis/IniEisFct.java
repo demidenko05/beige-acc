@@ -78,6 +78,7 @@ import org.beigesoft.acc.mdlp.Expn;
 import org.beigesoft.acc.mdlp.Bnka;
 import org.beigesoft.acc.mdlp.PuInGdLn;
 import org.beigesoft.acc.mdlp.SaInGdLn;
+import org.beigesoft.acc.mdlp.SaRtLn;
 import org.beigesoft.acc.mdlp.PuRtLn;
 import org.beigesoft.acc.mdlp.SalInv;
 import org.beigesoft.acc.mdlp.MoItLn;
@@ -220,6 +221,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(DriEnrSr.class, "ace");
     hlClSt.getStgClss().put(PuInGdLn.class, "acrv");
     hlClSt.getStgClss().put(SaInGdLn.class, "acrv");
+    hlClSt.getStgClss().put(Sacnt.class, "acd");
+    hlClSt.getStgClss().put(SaRtLn.class, "acrv");
     hlClSt.getStgClss().put(PuRtLn.class, "acrv");
     hlClSt.getStgClss().put(MoItLn.class, "acrv");
     hlClSt.getStgClss().put(ItAdLn.class, "acrv");

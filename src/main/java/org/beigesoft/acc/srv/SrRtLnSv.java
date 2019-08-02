@@ -78,7 +78,7 @@ public class SrRtLnSv {
       final Map<String, Object> pRvs, final L pEnt, final IReqDt pRqDt,
         final UtInLnTxTo<RS, T, L, TL, LTL> pUtTxTo,
           final ISrInItLn<T, L> pSrInItLn) throws Exception {
-    if (!pEnt.getIsNew() && !pUtTxTo.getIsMutable()) {
+    if (!pEnt.getIsNew()) {
       throw new ExcCode(ExcCode.SPAM, "Attempt to update immutable line");
     }
     Map<String, Object> vs = new HashMap<String, Object>();

@@ -825,7 +825,7 @@ public class FctAcc<RS> implements IFctAux<RS> {
     rz.setItmCl(Srv.class);
     rz.setIsMutable(true);
     rz.setNeedMkTxCat(true);
-    rz.setIsPurch(true);
+    rz.setIsPurch(false);
     pFctApp.put(pRvs, UTSAINSRTX, rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       UTSAINSRTX + " has been created");

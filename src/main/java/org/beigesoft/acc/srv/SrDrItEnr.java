@@ -178,7 +178,11 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     } else {
       throw new ExcCode(ExcCode.WRPR, "cogs_av_not_imp");
     }
-    sb.append(" limit " + pDrer.getQuan().longValue() + ";");
+    long lim = pDrer.getQuan().longValue();
+    if (lim == 0L) {
+      lim = 1L;
+    }
+    sb.append(" limit " + lim + ";");
     String qu = sb.toString();
     IRecSet<RS> rs = null;
     BigDecimal itq = BigDecimal.ZERO;

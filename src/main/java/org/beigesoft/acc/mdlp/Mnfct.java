@@ -120,7 +120,7 @@ public class Mnfct extends ADoci implements IDcDri, IItmSrc,
    **/
   @Override
   public final EDocDriTy getDocDriTy() {
-    return EDocDriTy.DRIT;
+    return EDocDriTy.COGSDRIT;
   }
   /**
    * <p>Getter for itm.</p>

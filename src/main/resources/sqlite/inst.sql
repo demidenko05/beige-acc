@@ -77,7 +77,10 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (19,11,'ItUbCogsD
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (20,12,'ItAdInvCtDb',1462867931627,1,'ITMADD.IID','Debit Inventory per good category for total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (21,13,'MnPrInvIctDbExpCr',1462867931627,1,'MNFPRC.IID','Debit Inventory per good category, Credit Expenses for additional total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (22,13,'MnPrInvCtDbCr',1462867931627,1,'MNFPRC.IID','Debit/Credit Inventory per good category for used material total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (24,15,'WagExpDbWgEctCr',1462867931627,1,'WAGE.IID','Debit Expenses, Credit Wage payable per employee category for (gross wage - ee.taxes) amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (25,15,'WagExpDbWgTxpCr',1462867931627,1,'WAGE.IID','Debit Expenses, Credit Wage taxes payable per tax for total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (23,14,'MnfInvCtDbCr',1462867931627,1,'MNFCT.IID','Debit/Credit Inventory per good category for total amount.');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (1,2000,'puGdLn',1462867931627,1,0,'Purchase invoice good line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (2,2003,'saRtLn',1462867931627,1,0,'Sales return line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (3,2006,'itAdLn',1462867931627,1,0,'Add item line for FIFO/LIFO');
+insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (4,14,'mnfct',1462867931627,1,0,'Manufacturing for FIFO/LIFO');

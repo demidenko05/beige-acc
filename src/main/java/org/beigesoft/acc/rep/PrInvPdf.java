@@ -32,32 +32,20 @@ import java.util.Map;
 import java.io.OutputStream;
 
 import org.beigesoft.mdl.IReqDt;
-import org.beigesoft.rdb.IRdb;
 import org.beigesoft.prc.IPrcFl;
 import org.beigesoft.acc.mdlp.SalInv;
 
 /**
  * <p>Processor that makes invoice PDF report.</p>
  *
- * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class PrInvPdf<RS> implements IPrcFl {
-
-  /**
-   * <p>RDB service.</p>
-   **/
-  private IRdb<RS> rdb;
+public class PrInvPdf implements IPrcFl {
 
   /**
    * <p>Invoice reporter to PDF.</p>
    **/
   private IInvPdf invPdf;
-
-  /**
-   * <p>Transaction isolation.</p>
-   **/
-  private Integer trIsl;
 
   /**
    * <p>Processes given request.</p>
@@ -72,39 +60,10 @@ public class PrInvPdf<RS> implements IPrcFl {
     Long inId = Long.valueOf(pRqDt.getParam("inId"));
     SalInv si = new SalInv();
     si.setIid(inId);
-    try {
-      this.rdb.setAcmt(false);
-      this.rdb.setTrIsl(this.trIsl);
-      this.rdb.begin();
-      this.invPdf.mkRep(pRvs, si, pRqDt, pSous);
-      this.rdb.commit();
-    } catch (Exception ex) {
-      if (!this.rdb.getAcmt()) {
-        this.rdb.rollBack();
-      }
-      throw ex;
-    } finally {
-      this.rdb.release();
-    }
+    this.invPdf.mkRep(pRvs, si, pRqDt, pSous);
   }
 
   //Simple getters and setters:
-  /**
-   * <p>Getter for rdb.</p>
-   * @return IRdb
-   **/
-  public final IRdb<RS> getRdb() {
-    return this.rdb;
-  }
-
-  /**
-   * <p>Setter for rdb.</p>
-   * @param pRdb reference
-   **/
-  public final void setRdb(final IRdb<RS> pRdb) {
-    this.rdb = pRdb;
-  }
-
   /**
    * <p>Getter for srBlnSht.</p>
    * @return IInvPdf
@@ -119,21 +78,5 @@ public class PrInvPdf<RS> implements IPrcFl {
    **/
   public final void setInvPdf(final IInvPdf pInvPdf) {
     this.invPdf = pInvPdf;
-  }
-
-  /**
-   * <p>Getter for trIsl.</p>
-   * @return Integer
-   **/
-  public final Integer getTrIsl() {
-    return this.trIsl;
-  }
-
-  /**
-   * <p>Setter for trIsl.</p>
-   * @param pTrIsl reference
-   **/
-  public final void setTrIsl(final Integer pTrIsl) {
-    this.trIsl = pTrIsl;
   }
 }

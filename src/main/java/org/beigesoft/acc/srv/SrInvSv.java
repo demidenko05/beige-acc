@@ -215,19 +215,6 @@ public class SrInvSv {
         updFds.add("ver"); updFds.add("prep"); updFds.add("toPa");
         updFds.add("paFc"); updFds.add("pdsc"); updFds.add("dbcr");
         if (old.getTot().compareTo(BigDecimal.ZERO) == 1) {
-          if (!old.getExRt().equals(pEnt.getExRt())) {
-            throw new ExcCode(ExcCode.SPAM, "Attempt to change exchange rate!");
-          }
-          if (old.getCuFr() == null && pEnt.getCuFr() != null
-            || old.getCuFr() != null && pEnt.getCuFr() == null
-              || old.getCuFr() != null && pEnt.getCuFr() != null
-                && !old.getCuFr().getIid().equals(pEnt.getCuFr().getIid())) {
-            throw new ExcCode(ExcCode.SPAM, "Attempt to change currency!");
-          }
-          if (extTx && (!old.getOmTx().equals(pEnt
-            .getOmTx()) || !old.getInTx().equals(pEnt.getInTx()))) {
-            throw new ExcCode(ExcCode.SPAM, "Attempt to change tax method!");
-          }
           vs.put("DbCrndFds", new String[] {"iid", "txDs"});
           this.orm.refrEnt(pRvs, vs, pEnt.getDbcr()); vs.clear();
           if (txbl && !old.getDbcr().getIid().equals(pEnt.getDbcr().getIid())

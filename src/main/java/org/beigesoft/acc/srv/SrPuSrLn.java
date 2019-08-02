@@ -126,11 +126,7 @@ public class SrPuSrLn implements ISrInItLn<PurInv, PuInSrLn> {
   @Override
   public final PuInSrLn retChkRv(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final PuInSrLn pEnt) throws Exception {
-    pVs.put("PurInvdpLv", 0);
-    pVs.put("SrvdpLv", 0);
-    pVs.put("TxCtdpLv", 0);
-    pVs.put("UomdpLv", 0);
-    pVs.put("AcntdpLv", 0);
+    pVs.put("PuInSrLndpLv", 1);
     PuInSrLn rz = new PuInSrLn();
     rz.setIid(pEnt.getRvId());
     this.orm.refrEnt(pRvs, pVs, rz); pVs.clear();

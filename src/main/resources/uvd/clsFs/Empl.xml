@@ -9,4 +9,6 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="daHiinp">dt</entry>
 <entry key="daHistr">dt</entry>
+<entry key="daHicnToSt">CnvDtStr</entry>
+<entry key="daHicnFrSt">CnvStrDt</entry>
 </properties>

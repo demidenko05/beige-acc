@@ -237,14 +237,16 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     Map<String, Object> vs = new HashMap<String, Object>();
     List<WrhEnr> rz = null;
     if (pDoc.getDocTy() == EDocTy.DRAW || pDoc.getDocTy() == EDocTy.DRAWBTH
-      || pDoc.getDocTy() == EDocTy.ITSR || pDoc.getDocTy() == EDocTy.ITSRBTH
-        || pDoc.getDocTy() == EDocTy.WRH || pDoc.getDocTy() == EDocTy.WRHBTH) {
+    || pDoc.getDocTy() == EDocTy.ITSR || pDoc.getDocTy() == EDocTy.ITSRBTH
+  || pDoc.getDocTy() == EDocTy.WRH || pDoc.getDocTy() == EDocTy.WRHBTH
+|| pDoc.getDocTy() == EDocTy.ITSRDRAWLN || pDoc.getDocTy() == EDocTy.ITSRDRAW) {
       rz = this.orm.retLstCnd(pRvs, vs, WrhEnr.class, "where SRTY="
         + pDoc.cnsTy() + " and SRID=" + pDoc.getIid() + ";");
     }
     if (pDoc.getDocTy() == EDocTy.DRAWLN || pDoc.getDocTy() == EDocTy.DRAWBTH
       || pDoc.getDocTy() == EDocTy.ITSRLN || pDoc.getDocTy() == EDocTy.ITSRBTH
-       || pDoc.getDocTy() == EDocTy.WRHLN || pDoc.getDocTy() == EDocTy.WRHBTH) {
+       || pDoc.getDocTy() == EDocTy.WRHLN || pDoc.getDocTy() == EDocTy.WRHBTH
+        || pDoc.getDocTy() == EDocTy.ITSRDRAWLN) {
       List<WrhEnr> rzt = this.orm.retLstCnd(pRvs, vs, WrhEnr.class,
         "where SOWTY=" + pDoc.cnsTy() + " and SOWID=" + pDoc.getIid() + ";");
       if (rz == null) {

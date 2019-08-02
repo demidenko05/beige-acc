@@ -183,6 +183,7 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
       if (pEnt.getQuan().compareTo(BigDecimal.ZERO) <= 0) {
         throw new ExcCode(ExcCode.WRPR, "quantity_less_or_equal_zero");
       }
+      pEnt.setItLf(pEnt.getQuan());
       if (pEnt.getIsNew()) {
         this.orm.insIdLn(pRvs, vs, pEnt);
         pRvs.put("msgSuc", "insert_ok");
@@ -195,7 +196,6 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
         if (pEnt.getMdEnr()) {
           throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
         }
-        pEnt.setItLf(pEnt.getQuan());
         AcStg as = (AcStg) pRvs.get("astg");
         pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
           as.getCsDp(), as.getRndm()));

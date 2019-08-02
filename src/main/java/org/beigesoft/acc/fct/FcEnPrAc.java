@@ -1269,7 +1269,7 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     utInTxTo.setItmCl(Itm.class);
     utInTxTo.setIsMutable(false);
     utInTxTo.setNeedMkTxCat(false);
-    utInTxTo.setIsPurch(true);
+    utInTxTo.setIsPurch(false);
     this.procs.put(SARTLNSV, rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       SARTLNSV + " has been created.");
