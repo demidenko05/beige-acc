@@ -126,7 +126,7 @@ public class SrPaymSv {
         }
       }
       pEnt.setSaTy(pEnt.getAcc().getSaTy());
-      String[] ndfMe = new String[] {"mdEnr", "ver", "prep"};
+      String[] ndfMe = new String[] {"mdEnr", "ver", "prep", "cuFr"};
       Arrays.sort(ndfMe);
       vs.put(pEnt.getInv().getClass().getSimpleName() + "ndFds", ndfMe);
       this.orm.refrEnt(pRvs, vs, pEnt.getInv()); vs.clear();

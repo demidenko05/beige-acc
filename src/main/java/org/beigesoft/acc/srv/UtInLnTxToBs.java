@@ -598,8 +598,15 @@ public class UtInLnTxToBs<RS> {
       txdLn.setTxCt(tc);
       txdLns.add(txdLn);
       for (TaxEx tx : ent.getValue()) {
-        txdLn.setToTx(txdLn.getToTx().add(tx.getTot()));
-        txdLn.setTxFc(txdLn.getTxFc().add(tx.getToFc()));
+        txdLn.setTot(txdLn.getToTx().add(tx.getTot()));
+        txdLn.setToFc(txdLn.getTxFc().add(tx.getToFc()));
+      }
+      for (TaxEx tx : txs) {
+        if (tx.getIid().equals(ent.getKey())) { //TODO
+          txdLn.setToTx(tx.getTot());
+          txdLn.setTxFc(tx.getToFc());
+          break;
+        }
       }
     }
     return txdLns;
@@ -629,6 +636,7 @@ public class UtInLnTxToBs<RS> {
             final IInvLnTxMeth<T, L, LTL> pInvLnTxMeth) throws Exception {
     if (pInvLnTxMeth.getNeedMkTxCat()) {
       if (pTxRules != null) {
+        boolean isSetOver = false;
         if (pLine.getOwnr().getDbcr().getTxDs() != null) {
           //override tax method:
           pVs.put(pInvLnTxMeth.getItmCl().getSimpleName() + "dpLv", 0);
@@ -639,11 +647,13 @@ public class UtInLnTxToBs<RS> {
           for (ATxDsLn<?> dtl : dtls) {
             if (dtl.getTxDs().getIid().equals(pLine.getOwnr()
               .getDbcr().getTxDs().getIid())) {
+              isSetOver = true;
               pLine.setTxCt(dtl.getTxCt()); //it may be null
               break;
             }
           }
-        } else {
+        }
+        if (!isSetOver) { //there is no overriding destination - set origin:
           String[] fdit = new String[] {"nme", "txCt"};
           Arrays.sort(fdit);
           String[] fdtc = new String[] {"nme", "agRt"};
@@ -702,7 +712,8 @@ public class UtInLnTxToBs<RS> {
       pLine.setToFc(BigDecimal.ZERO);
       pLine.setSuFc(BigDecimal.ZERO);
     }
-    if (pTxRules == null || !pTxRules.getStIb()) {
+    if (pLine.getTxCt() == null || pTxRules == null || !pTxRules.getStIb()) {
+      //non-taxable or taxable item basis:
       if (pTxRules == null || pLine.getOwnr().getInTx()) {
         pLine.setSubt(pLine.getTot().subtract(pLine.getToTx()));
         if (pLine.getOwnr().getCuFr() != null) {
@@ -714,7 +725,7 @@ public class UtInLnTxToBs<RS> {
           pLine.setToFc(pLine.getSuFc().add(pLine.getTxFc()));
         }
       }
-    } //invoice basis - lines tax, subt, tot will be adjusted later!
+    } //invoice basis - taxable lines tax, subt, tot will be adjusted later!
     if (pLine.getIsNew()) {
       getOrm().insIdLn(pRvs, pVs, pLine);
     } else {

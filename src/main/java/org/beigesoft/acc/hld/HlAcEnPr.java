@@ -86,6 +86,7 @@ import org.beigesoft.acc.mdlp.WgLn;
 import org.beigesoft.acc.mdlp.WgTxl;
 import org.beigesoft.acc.mdlp.BnkStm;
 import org.beigesoft.acc.mdlp.BnStLn;
+import org.beigesoft.acc.mdlp.SaInTxLn;
 import org.beigesoft.acc.fct.FcEnPrAc;
 import org.beigesoft.acc.prc.SacntCr;
 import org.beigesoft.acc.prc.SacntSv;
@@ -259,6 +260,8 @@ public class HlAcEnPr implements IHlNmClSt {
           return FcEnPrAc.SALINVGDLNSV;
         } else if (SaInSrLn.class == pCls) {
           return FcEnPrAc.SALINVSRLNSV;
+        } else if (SaInTxLn.class == pCls) {
+          return FcEnPrAc.SAINTXLNSV;
         } else if (PuInGdLn.class == pCls) {
           return FcEnPrAc.PURINVGDLNSV;
         } else if (PuInSrLn.class == pCls) {

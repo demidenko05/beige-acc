@@ -56,6 +56,11 @@ public abstract class AInTxLn<T extends IInvb> extends ADcTxLn
    **/
   private BigDecimal txbFc = BigDecimal.ZERO;
 
+  /**
+   * <p>Description for invoice basis history changing.</p>
+   **/
+  private String dscr;
+
   //Simple getters and setters:
   /**
    * <p>Getter for toFc.</p>
@@ -103,5 +108,21 @@ public abstract class AInTxLn<T extends IInvb> extends ADcTxLn
    **/
   public final void setTxbFc(final BigDecimal pTxbFc) {
     this.txbFc = pTxbFc;
+  }
+
+  /**
+   * <p>Getter for dscr.</p>
+   * @return String
+   **/
+  public final String getDscr() {
+    return this.dscr;
+  }
+
+  /**
+   * <p>Setter for dscr.</p>
+   * @param pDscr reference
+   **/
+  public final void setDscr(final String pDscr) {
+    this.dscr = pDscr;
   }
 }

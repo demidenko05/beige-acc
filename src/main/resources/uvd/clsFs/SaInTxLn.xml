@@ -12,5 +12,6 @@ See LICENSE in base folder
 <entry key="txbcnToSt">CnvPriStr</entry>
 <entry key="txbFccnToSt">CnvPriStr</entry>
 <entry key="taxinp">reo</entry>
+<entry key="dscrinp">reo</entry>
 <entry key="totinp">pri</entry>
 </properties>

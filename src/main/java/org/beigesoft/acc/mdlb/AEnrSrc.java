@@ -54,7 +54,7 @@ public abstract class AEnrSrc extends AIdLn {
   private Boolean used;
 
   /**
-   * <p>Dscr.</p>
+   * <p>Description.</p>
    **/
   private String dscr;
 

@@ -313,6 +313,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("mdEnr", "bln");
     stgNm = "ceDe"; //to cell detail
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("paFc", null);
     hlFdSt.getStgFdNm().put("rsRcId", null);
     hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);
@@ -332,6 +333,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("invl", "cdinl");
     stgNm = "ceHe"; //to cell header
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("paFc", null);
     hlFdSt.getStgFdNm().put("rsRcId", null);
     hlFdSt.getStgFdNm().put("saTy", null);
     hlFdSt.getStgFdNm().put("saId", null);

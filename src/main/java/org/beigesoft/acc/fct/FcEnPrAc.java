@@ -124,6 +124,7 @@ import org.beigesoft.acc.prc.WgLnSv;
 import org.beigesoft.acc.prc.WgLnDl;
 import org.beigesoft.acc.prc.WgTxlSv;
 import org.beigesoft.acc.prc.WgTxlDl;
+import org.beigesoft.acc.prc.InTxLnSv;
 import org.beigesoft.acc.srv.ISrAcStg;
 import org.beigesoft.acc.srv.ISrBlnc;
 import org.beigesoft.acc.srv.ISrToPa;
@@ -229,6 +230,11 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
    * <p>Sales return line saving service name.</p>
    **/
   public static final String SARTLNSV = "SaRtLnSv";
+
+  /**
+   * <p>Sales invoice tax line saving service name.</p>
+   **/
+  public static final String SAINTXLNSV = "SaInTxLnSv";
 
   /**
    * <p>Main factory.</p>
@@ -354,6 +360,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuDocDl(pRvs);
           } else if (DocPr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocPr(pRvs);
+          } else if (SAINTXLNSV.equals(pPrNm)) {
+            rz = crPuSaInTxLnSv(pRvs);
           } else if (SALINVSRLNSV.equals(pPrNm)) {
             rz = crPuSalInvSrLnSv(pRvs);
           } else if (SARTLNSV.equals(pPrNm)) {
@@ -1327,6 +1335,28 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     this.procs.put(PURTLNSV, rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       PURTLNSV + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map SalSrInTxLnSv.</p>
+   * @param pRvs request scoped vars
+   * @return InTxLnSv purchase service
+   * @throws Exception - an exception
+   */
+  private InTxLnSv<RS, SalInv, SaInTxLn> crPuSaInTxLnSv(
+    final Map<String, Object> pRvs) throws Exception {
+    InTxLnSv<RS, SalInv, SaInTxLn> rz =
+      new InTxLnSv<RS, SalInv, SaInTxLn>();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    UtInLnTxTo<RS, SalInv, ?, SaInTxLn, ?> utInTxTo =
+      (UtInLnTxTo<RS, SalInv, ?, SaInTxLn, ?>) this.fctBlc
+        .laz(pRvs, FctAcc.UTSAINSRTX);
+    rz.setUtInTxTo(utInTxTo);
+    this.procs.put(SAINTXLNSV, rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      SAINTXLNSV + " has been created.");
     return rz;
   }
 
