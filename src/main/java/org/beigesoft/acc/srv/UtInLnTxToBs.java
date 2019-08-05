@@ -229,7 +229,7 @@ public class UtInLnTxToBs<RS> {
                 taxAggegatedFc = txdLn.getTxFc();
               }
             }
-            //here total taxes mean total for current tax:
+            //here total taxes means total for current tax:
             if (ti < txdLn.getTxCt().getTxs().size()) {
               txdLn.setToTx(taxAggegated.multiply(itcl.getRate())
                 .divide(txdLn.getTxCt().getAgRt(),
@@ -257,7 +257,7 @@ public class UtInLnTxToBs<RS> {
               if (ti == txdLn.getTxCt().getTxs().size()) {
                 //total line taxes for farther invoice adjusting:
                 txdLn.setToTx(taxAggegated);
-                txdLn.setToTx(taxAggegatedFc);
+                txdLn.setTxFc(taxAggegatedFc);
               }
               if (!pLine.getOwnr().getInTx()) {
                 tl.setTxb(tl.getTxb().add(txdLn.getSubt()));
@@ -274,6 +274,7 @@ public class UtInLnTxToBs<RS> {
             if (tl.getIsNew()) {
               getOrm().insIdLn(pRvs, pVs, tl);
             } else {
+              tl.setDscr(null); //clears hands made changing history Inv.Basis
               getOrm().update(pRvs, pVs, tl);
             }
           }
@@ -374,6 +375,14 @@ public class UtInLnTxToBs<RS> {
     TL extends AInTxLn<T>> void adjustInvoiceLns(final Map<String, Object> pRvs,
       final Map<String, Object> pVs, final T pInv, final List<TxDtLn> pTxdLns,
         final AcStg pAs, final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
+    boolean isDbgSh = getLog().getDbgSh(this.getClass())
+      && getLog().getDbgFl() < 11102 && getLog().getDbgCl() > 11100;
+    if (isDbgSh) {
+      getLog().debug(pRvs, UtInLnTxToBs.class,
+        "Starting adjusting invoice basis lines...");
+      getLog().debug(pRvs, UtInLnTxToBs.class,
+      "txdLns [tax cat.ID/subt/suFc/tot/toFc/toTx/txFc]: " + pTxdLns);
+    }
     String[] fdsSel =
       new String[] {"iid", "subt", "suFc", "toFc", "tot", "txCt", "ver"};
     Arrays.sort(fdsSel);
@@ -395,7 +404,8 @@ public class UtInLnTxToBs<RS> {
     List<IInvLn<T, ?>> ilsm = new ArrayList<IInvLn<T, ?>>();
     Comparator<IInvLn<?, ?>> cmpr = Collections
       .reverseOrder(new CmprInvLnTot());
-    String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot", "ver"};
+    String[] fdsUpd =  new String[] {"subt", "suFc", "toFc", "tot", "toTx",
+      "txFc", "ver"};
     Arrays.sort(fdsUpd);
     pVs.put("ndFds", fdsUpd);
     for (TxDtLn txdLn : pTxdLns) {
@@ -486,13 +496,14 @@ public class UtInLnTxToBs<RS> {
           final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
     //totals by tax category for farther adjusting invoice:
     ArrayList<TxDtLn> txdLns = new ArrayList<TxDtLn>();
-    //totals by "tax category, tax", map key is ID of tax category
-    //TaxEx holds total and total FC
+    //taxable/tax totals by "tax category, tax", map key is ID of tax category
+    //from all  invoice lines
+    //TaxEx holds total taxable/tax and total taxable/tax FC by tax
     //e.g. item A "tax18%, tax3%", item B "tax18%, tax1%"
     //there tax18% is used in two tax categories
     Map<Long, List<TaxEx>> tcTxs = new HashMap<Long,  List<TaxEx>>();
-    //totals by tax for farther adjusting by "tax category, tax",
-    //TaxEx holds total and total FC
+    //tax totals by tax from invoice tax lines for farther adjusting
+    //by "tax category, tax", TaxEx holds total tax and total tax FC by tax
     ArrayList<TaxEx> txs = new ArrayList<TaxEx>();
     String query = pInvTxMeth.lazyGetQuTxInvAdj();
     if (pInvTxMeth.getTblNmsTot().length == 5) { //sales/purchase:
@@ -511,14 +522,16 @@ public class UtInLnTxToBs<RS> {
       if (rs.first()) {
         do {
           Long txId = rs.getLong("TAXID");
+          String txNm = rs.getStr("TAXNME");
           int li = txs.size() - 1;
           if (!(li >= 0 && txs.get(li).getIid().equals(txId))) {
             TaxEx tax = new TaxEx();
             tax.setIid(txId);
+            tax.setNme(txNm);
             Double totx = rs.getDouble("TOTX");
             Double txfc = rs.getDouble("TXFC");
-            tax.setTot(BigDecimal.valueOf(totx));
-            tax.setToFc(BigDecimal.valueOf(txfc));
+            tax.setToTx(BigDecimal.valueOf(totx));
+            tax.setTxFc(BigDecimal.valueOf(txfc));
             txs.add(tax);
           }
           Double pr = rs.getDouble("RATE");
@@ -536,6 +549,7 @@ public class UtInLnTxToBs<RS> {
           }
           TaxEx tctx = new TaxEx();
           tctx.setIid(txId);
+          tctx.setNme(txNm);
           tctxs.add(tctx);
           BigDecimal prbd = BigDecimal.valueOf(pr);
           BigDecimal txv;
@@ -543,10 +557,14 @@ public class UtInLnTxToBs<RS> {
           if (!pInv.getInTx()) {
             Double su = rs.getDouble("SUBT");
             Double suf = rs.getDouble("SUFC");
-            txv = BigDecimal.valueOf(su).multiply(prbd).divide(bd100,
+            BigDecimal subd = BigDecimal.valueOf(su);
+            BigDecimal subdf = BigDecimal.valueOf(suf);
+            txv = subd.multiply(prbd).divide(bd100,
               pAs.getPrDp(), pTxRules.getStRm());
-            txvf = BigDecimal.valueOf(suf).multiply(prbd).divide(bd100,
+            txvf = subdf.multiply(prbd).divide(bd100,
               pAs.getPrDp(), pTxRules.getStRm());
+            tctx.setTxb(subd);
+            tctx.setTxbFc(subdf);
           } else {
             Double tot = rs.getDouble("TOT");
             Double totf = rs.getDouble("TOFC");
@@ -556,9 +574,11 @@ public class UtInLnTxToBs<RS> {
               .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
             txvf = totbdf.subtract(totbdf.divide(BigDecimal.ONE.add(prbd
               .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
+            tctx.setTxb(totbd);
+            tctx.setTxbFc(totbdf);
           }
-          tctx.setToFc(txvf);
-          tctx.setTot(txv);
+          tctx.setTxFc(txvf);
+          tctx.setToTx(txv);
         } while (rs.next());
       }
     } finally {
@@ -566,7 +586,18 @@ public class UtInLnTxToBs<RS> {
         rs.close();
       }
     }
-    //adjusting "total by [tax] -> total by [tax category, tax]":
+    boolean isDbgSh = getLog().getDbgSh(this.getClass())
+      && getLog().getDbgFl() < 11102 && getLog().getDbgCl() > 11100;
+    if (isDbgSh) {
+      getLog().debug(pRvs, UtInLnTxToBs.class,
+      "Tax totals by tax category: Tax category ID -"
+        + "[ Tax ID/Name/taxable/taxable FC/total tax/total tax FC]: "
+          + tcTxs.toString());
+      getLog().debug(pRvs, UtInLnTxToBs.class,
+      "Tax totals by tax [ Tax ID/Name/-/-/total tax/total tax FC]: "
+          + txs.toString());
+    }
+    //adjusting "total tax by [tax] -> total tax by [tax category, tax]":
     Comparator<TaxEx> cmpr = new CmprTaxTot();
     for (TaxEx tx : txs) {
       List<TaxEx> tlns = new ArrayList<TaxEx>();
@@ -578,17 +609,23 @@ public class UtInLnTxToBs<RS> {
         }
       }
       Collections.sort(tlns, cmpr);
-      BigDecimal txRest = tx.getTot();
-      BigDecimal txRestFc = tx.getToFc();
+      BigDecimal txRest = tx.getToTx();
+      BigDecimal txRestFc = tx.getTxFc();
       for (int i = 0; i < tlns.size(); i++) {
         if (i + 1 == tlns.size()) { //the biggest last gives the rest:
-          tlns.get(i).setTot(txRest);
-          tlns.get(i).setToFc(txRestFc);
+          tlns.get(i).setToTx(txRest);
+          tlns.get(i).setTxFc(txRestFc);
         } else { //the first lines are kept unchanged:
-          txRest = txRest.subtract(tlns.get(i).getTot());
-          txRestFc = txRestFc.subtract(tlns.get(i).getToFc());
+          txRest = txRest.subtract(tlns.get(i).getToTx());
+          txRestFc = txRestFc.subtract(tlns.get(i).getTxFc());
         }
       }
+    }
+    if (isDbgSh) {
+      getLog().debug(pRvs, UtInLnTxToBs.class,
+      "After adjusting tax totals by tax category: Tax category ID -"
+        + "[Tax ID/Name/taxable/taxable FC/total tax/total tax FC]: "
+          + tcTxs.toString());
     }
     for (Map.Entry<Long, List<TaxEx>> ent : tcTxs.entrySet()) {
       TxDtLn txdLn = new TxDtLn();
@@ -598,14 +635,14 @@ public class UtInLnTxToBs<RS> {
       txdLn.setTxCt(tc);
       txdLns.add(txdLn);
       for (TaxEx tx : ent.getValue()) {
-        txdLn.setTot(txdLn.getToTx().add(tx.getTot()));
-        txdLn.setToFc(txdLn.getTxFc().add(tx.getToFc()));
-      }
-      for (TaxEx tx : txs) {
-        if (tx.getIid().equals(ent.getKey())) { //TODO
-          txdLn.setToTx(tx.getTot());
-          txdLn.setTxFc(tx.getToFc());
-          break;
+        txdLn.setToTx(txdLn.getToTx().add(tx.getToTx()));
+        txdLn.setTxFc(txdLn.getTxFc().add(tx.getTxFc()));
+        if (!pInv.getInTx()) {
+          txdLn.setSubt(txdLn.getSubt().add(tx.getTxb()));
+          txdLn.setSuFc(txdLn.getSuFc().add(tx.getTxbFc()));
+        } else {
+          txdLn.setTot(txdLn.getTot().add(tx.getTxb()));
+          txdLn.setToFc(txdLn.getToFc().add(tx.getTxbFc()));
         }
       }
     }
@@ -919,6 +956,10 @@ public class UtInLnTxToBs<RS> {
       if (rs != null) {
         rs.close();
       }
+    }
+    if (isDbgSh) {
+      getLog().debug(pRvs, UtInLnTxToBs.class,
+        "Data tax: " + dtTx);
     }
     return dtTx;
   }

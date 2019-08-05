@@ -45,6 +45,6 @@ public class CmprTaxTot implements Comparator<TaxEx>, Serializable {
 
   @Override
   public final int compare(final TaxEx o1, final TaxEx o2) {
-    return o1.getTot().compareTo(o2.getTot());
+    return o1.getToTx().compareTo(o2.getToTx());
   }
 }

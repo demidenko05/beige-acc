@@ -32,6 +32,7 @@ import java.math.BigDecimal;
 
 import org.beigesoft.mdlp.AOrId;
 import org.beigesoft.acc.mdlp.TxCt;
+import org.beigesoft.acc.mdlp.TxCtLn;
 
 /**
  * <p>Model of tax data line for intermediate calculation
@@ -75,6 +76,29 @@ public class TxDtLn extends AOrId {
    * <p>Total in foreign currency.</p>
    **/
   private BigDecimal toFc = BigDecimal.ZERO;
+
+  /**
+   * <p>Explanation.</p>
+   **/
+  @Override
+  public final String toString() {
+    StringBuffer tc;
+    if (this.txCt == null) {
+      tc = new StringBuffer("NULL!!!");
+    } else {
+      tc = new StringBuffer("TC ID/[tax/rate]: " + this.txCt.getIid() + "/[");
+      if (this.txCt.getTxs() != null) {
+        for (TxCtLn txl : this.txCt.getTxs())  {
+          tc.append(txl.getTax().getNme() + "/" + txl.getRate() + "/");
+        }
+      } else {
+        tc.append("NULL!!!");
+      }
+      tc.append("]/");
+    }
+    return tc.toString() + this.subt + "/" + this.suFc + "/"
+      + this.tot + "/" + this.toFc + "/" + this.toTx + "/" + this.txFc;
+  }
 
   //Simple getters and setters:
   /**

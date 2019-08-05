@@ -1,4 +1,4 @@
-select TXCT as TXCTID, TXCTLN.TAX as TAXID, RATE, sum(SUBT) as SUBT, sum(SUFC) as SUFC, sum(TOTX) as TOTX, sum(TXFC) as TXFC, sum(TOT) as TOT, sum(TOFC) as TOFC
+select TXCT as TXCTID, TXCTLN.TAX as TAXID, RATE, sum(SUBT) as SUBT, sum(SUFC) as SUFC, min(TOTX) as TOTX, min(TXFC) as TXFC, sum(TOT) as TOT, sum(TOFC) as TOFC
 from
 ( select TXCT, SUBT, SUFC, TOT, TOFC from :TGDLN
   where TXCT is not null and RVID is null and OWNR=:INVID

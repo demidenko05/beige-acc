@@ -132,13 +132,14 @@ public class RvTxCt<RS> implements IPrc {
     try {
       rs = getRdb().retRs(qu);
       if (rs.first()) {
-        Double agRt;
         Integer stRm = rs.getInt("STRM");
-        String tcNm = rs.getStr("TCDNME");
-        if (tcNm  == null) {
+        Double agRt;
+        String tcNm;
+        if (stRm  == null) { //origin:
           tcNm = rs.getStr("TCONME");
           agRt = rs.getDouble("TCOAGRT");
-        } else {
+        } else { //destination:
+          tcNm = rs.getStr("TCDNME");
           agRt = rs.getDouble("TCDAGRT");
         }
         if (rs.next()) {

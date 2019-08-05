@@ -40,45 +40,96 @@ import org.beigesoft.acc.mdlp.Tax;
 public class TaxEx extends Tax {
 
   /**
-   * <p>Total.</p>
+   * <p>Total tax.</p>
    **/
-  private BigDecimal tot;
+  private BigDecimal toTx;
 
   /**
-   * <p>Total FC.</p>
+   * <p>Total tax FC.</p>
    **/
-  private BigDecimal toFc;
+  private BigDecimal txFc;
+
+  /**
+   * <p>Total taxable.</p>
+   **/
+  private BigDecimal txb;
+
+  /**
+   * <p>Total taxable FC.</p>
+   **/
+  private BigDecimal txbFc;
+
+  /**
+   * <p>Explanation.</p>
+   **/
+  @Override
+  public final String toString() {
+    return this.getIid() + "/" + this.getNme() + "/" + this.txb + "/"
+      + this.txbFc + "/" + this.toTx + "/" + this.txFc;
+  }
 
   //Simple getters and setters:
   /**
-   * <p>Getter for tot.</p>
+   * <p>Getter for toTx.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getTot() {
-    return this.tot;
+  public final BigDecimal getToTx() {
+    return this.toTx;
   }
 
   /**
-   * <p>Setter for tot.</p>
-   * @param pTot reference
+   * <p>Setter for toTx.</p>
+   * @param pToTx reference
    **/
-  public final void setTot(final BigDecimal pTot) {
-    this.tot = pTot;
+  public final void setToTx(final BigDecimal pToTx) {
+    this.toTx = pToTx;
   }
 
   /**
-   * <p>Getter for toFc.</p>
+   * <p>Getter for txFc.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getToFc() {
-    return this.toFc;
+  public final BigDecimal getTxFc() {
+    return this.txFc;
   }
 
   /**
-   * <p>Setter for toFc.</p>
-   * @param pToFc reference
+   * <p>Setter for txFc.</p>
+   * @param pTxFc reference
    **/
-  public final void setToFc(final BigDecimal pToFc) {
-    this.toFc = pToFc;
+  public final void setTxFc(final BigDecimal pTxFc) {
+    this.txFc = pTxFc;
+  }
+
+  /**
+   * <p>Getter for txb.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getTxb() {
+    return this.txb;
+  }
+
+  /**
+   * <p>Setter for txb.</p>
+   * @param pTxb reference
+   **/
+  public final void setTxb(final BigDecimal pTxb) {
+    this.txb = pTxb;
+  }
+
+  /**
+   * <p>Getter for txbFc.</p>
+   * @return BigDecimal
+   **/
+  public final BigDecimal getTxbFc() {
+    return this.txbFc;
+  }
+
+  /**
+   * <p>Setter for txbFc.</p>
+   * @param pTxbFc reference
+   **/
+  public final void setTxbFc(final BigDecimal pTxbFc) {
+    this.txbFc = pTxbFc;
   }
 }

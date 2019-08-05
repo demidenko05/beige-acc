@@ -74,6 +74,18 @@ public class DataTx {
    **/
   private List<Double> txPerc;
 
+  /**
+   * <p>Explanation.</p>
+   **/
+  @Override
+  public final String toString() {
+    return "List<TxDtLn> txdLns [tax cat.ID/subt/suFc/tot/toFc/toTx/txFc]: "
+      + this.txdLns
++ "\nList<TaxEx> txs [Tax ID/Name/taxable/taxable FC/total tax/total tax FC]: "
+        + this.txs + "\nList<Double> txTotTaxb: " + this.txTotTaxb
+          + "\nList<Double> txTotTaxbFc: " + this.txTotTaxbFc
+            + "\nList<Double> txPerc: " + this.txPerc;
+  }
   //Simple getters and setters:
 
   /**
