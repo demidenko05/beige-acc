@@ -69,7 +69,7 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (11,6,'SaInRecvDb
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (12,6,'SaInCogsDbInvCrItc',1462867931627,1,'SALINV.IID','Debit COGS per good category, Credit Inventory per good category for total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (13,7,'PayFrCashDbRecvCr',1462867931627,1,'PAYMFR.IID','Debit Cash, Credit Receivable per customer for total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (14,8,'PuRtRecvDbInvCtCr',1462867931627,1,'PURRET.IID','Debit Returns Receivable per vendor, Credit Inventory per good category for subtotal amount.');
-insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (15,8,'PuRtRecvDbSaTxCr',1462867931627,1,'PURRET.IID','Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (15,8,'PuRtRecvDbSaTxCr',1462867931627,0,'PURRET.IID','Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (16,9,'SaRtItCtDbPaybCr',1462867931627,1,'SALRET.IID','Debit Goods sales returns per good category, Credit Returns Payable per Customer for subtotal amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (17,9,'SaRtSaTaxDbPaybCr',1462867931627,1,'SALRET.IID','Debit Sales tax receivable from returns per Tax, Credit Returns Payable per Customer for tax amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (18,9,'SaRtInvCtDbCogsCr',1462867931627,1,'SALRET.IID','Debit Inventory per good category, Credit COGS per good category for (quantity*COGS price) amount.');
@@ -80,6 +80,12 @@ insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (22,13,'MnPrInvCt
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (23,14,'MnfInvCtDbCr',1462867931627,1,'MNFCT.IID','Debit/Credit Inventory per good category for total amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (24,15,'WagExpDbWgEctCr',1462867931627,1,'WAGE.IID','Debit Expenses, Credit Wage payable per employee category for (gross wage - ee.taxes) amount.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (25,15,'WagExpDbWgTxpCr',1462867931627,1,'WAGE.IID','Debit Expenses, Credit Wage taxes payable per tax for total amount.');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (26,6,'SaInRecvDbSaTxCrCsh',1462867931627,0,'SALINV.IID','Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount, when Payments>=Sales, CASH!!!');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (27,7,'PayFrRecvDbSaTxCrCsh',1462867931627,0,'PAYMFR.IID','Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount, when Payments>=Sales, CASH!!!');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (28,4,'PuInSaTxDbPaybCrCsh',1462867931627,0,'PURINV.IID','Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount, when Payments>=Purchases, CASH!!!');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (29,5,'PayToSaTxDbPaybCrCsh',1462867931627,0,'PAYMTO.IID','Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount, when Payments>=Purchases, CASH!!!');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (30,9,'SaRtSaTaxDbPaybCrCsh',1462867931627,0,'SALRET.IID','Debit Sales tax receivable from returns per Tax, Credit Returns Payable per Customer for tax amount, when Payments+Returns>=Sales, CASH!!!');
+insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (31,8,'PuRtRecvDbSaTxCrCsh',1462867931627,0,'PURRET.IID','Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount, when Payments+Returns>=Purchases, CASH!!!');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (1,2000,'puGdLn',1462867931627,1,0,'Purchase invoice good line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (2,2003,'saRtLn',1462867931627,1,0,'Sales return line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (3,2006,'itAdLn',1462867931627,1,0,'Add item line for FIFO/LIFO');
