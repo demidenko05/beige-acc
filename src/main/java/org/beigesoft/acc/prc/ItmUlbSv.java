@@ -161,11 +161,12 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
          if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
+          pEnt.setMdEnr(true);
           String[] upFds = new String[] {"dat", "dscr", "ver", "mdEnr"};
           Arrays.sort(upFds);
-          pRvs.put(ISrEntr.DOCFDSUPD, upFds);
+          vs.put("ndFds", upFds);
+          getOrm().update(pRvs, vs, pEnt); vs.clear();
           this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.remove(ISrEntr.DOCFDSUPD);
           pRvs.put("msgSuc", "account_ok");
         } else {
           String[] upFds = new String[] {"dat", "dscr", "ver"};

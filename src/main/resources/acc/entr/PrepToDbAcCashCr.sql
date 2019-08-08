@@ -2,4 +2,4 @@ select 3 as SRTY, DAT, 'PREPTO' as ACDB, DBCR.NME as SADNM, DBCR.IID as SADID, 1
 ACC as ACCR, SANM as SACNM, SAID as SACID, SATY as SACTY, TOT as CRED
 from PREPTO
 join DBCR on DBCR.IID=PREPTO.DBCR
-where RVID is null and MDENR=0 :WHEAD
+where RVID is null :WHEAD

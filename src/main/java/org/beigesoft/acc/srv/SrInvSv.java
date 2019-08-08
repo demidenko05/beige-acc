@@ -106,7 +106,8 @@ public class SrInvSv {
         this.orm.refrEnt(pRvs, vs, revd.getPrep()); vs.clear();
       }
       if (revd.getPrep() == null && revd.getToPa().compareTo(BigDecimal
-        .ZERO) == 1 || revd.getToPa().compareTo(revd.getPrep().getTot()) == 1) {
+        .ZERO) == 1 || revd.getPrep() != null && revd.getToPa()
+          .compareTo(revd.getPrep().getTot()) == 1) {
         throw new ExcCode(ExcCode.WRPR, "reverse_pay_first");
       }
       if (revd.getPrep() != null) {
@@ -253,12 +254,13 @@ public class SrInvSv {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
+          pEnt.setMdEnr(true);
           updFds.add("mdEnr");
           String[] fdDcUpd = updFds.toArray(new String[0]);
           Arrays.sort(fdDcUpd);
-          pRvs.put(ISrEntr.DOCFDSUPD, fdDcUpd);
+          vs.put("ndFds", fdDcUpd);
+          this.orm.update(pRvs, vs, pEnt); vs.clear();
           this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.remove(ISrEntr.DOCFDSUPD);
           pRvs.put("msgSuc", "account_ok");
         } else {
           String[] fdDcUpd = updFds.toArray(new String[0]);

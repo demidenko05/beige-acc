@@ -241,6 +241,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
       pay.setTot(pBsl.getAmnt().abs());
       pay.setToFc(toFc);
       pay.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+      pay.setMdEnr(true);
       getOrm().insIdLn(pRvs, pVs, pay);
       this.srEntr.mkEntrs(pRvs, pay);
       this.srToPa.mkToPa(pRvs, pay.getInv(), this.rvSaLn);
@@ -271,6 +272,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
       pay.setTot(pBsl.getAmnt().abs());
       pay.setToFc(toFc);
       pay.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+      pay.setMdEnr(true);
       getOrm().insIdLn(pRvs, pVs, pay);
       this.srEntr.mkEntrs(pRvs, pay);
       this.srToPa.mkToPa(pRvs, pay.getInv(), this.rvPuLn);
@@ -347,6 +349,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
       prep.setTot(pBsl.getAmnt().abs());
       prep.setToFc(toFc);
       prep.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+      prep.setMdEnr(true);
       getOrm().insIdLn(pRvs, pVs, prep);
       this.srEntr.mkEntrs(pRvs, prep);
       rsRcId = prep.getIid();
@@ -364,6 +367,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
       prep.setTot(pBsl.getAmnt().abs());
       prep.setToFc(toFc);
       prep.setDscr(makeDescrForCreated(pBsl, pDtFrm, pCpf));
+      prep.setMdEnr(true);
       getOrm().insIdLn(pRvs, pVs, prep);
       this.srEntr.mkEntrs(pRvs, prep);
       rsRcId = prep.getIid();

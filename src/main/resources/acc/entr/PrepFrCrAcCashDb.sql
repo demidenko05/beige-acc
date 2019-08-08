@@ -2,4 +2,4 @@ select 2 as SRTY, DAT, ACC as ACDB, SANM as SADNM, SAID as SADID, SATY as SADTY,
 'PREPFR' as ACCR, DBCR.NME as SACNM, DBCR.IID as SACID, 1002 as SACTY, TOT as CRED
 from PREPFR
 join DBCR on DBCR.IID=PREPFR.DBCR
-where RVID is null and MDENR=0 :WHEAD
+where RVID is null :WHEAD

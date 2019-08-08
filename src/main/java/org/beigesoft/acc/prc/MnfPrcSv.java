@@ -207,12 +207,13 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
             throw new ExcCode(ExcCode.WRPR, "complite_first");
           }
           this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
+          pEnt.setMdEnr(true);
           String[] upFds = new String[] {"dat", "dscr", "ver", "cmpl", "quan",
             "pri", "itm", "uom", "wrhp", "mdEnr", "itLf"};
           Arrays.sort(upFds);
-          pRvs.put(ISrEntr.DOCFDSUPD, upFds);
+          vs.put("ndFds", upFds);
+          getOrm().update(pRvs, vs, pEnt); vs.clear();
           this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.remove(ISrEntr.DOCFDSUPD);
           pRvs.put("msgSuc", "account_ok");
         } else {
           String[] upFds = new String[] {"dat", "dscr", "ver", "cmpl", "quan",

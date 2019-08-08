@@ -4,4 +4,4 @@ from SAINTXLN
 join TAX on TAX.IID=SAINTXLN.TAX
 join SALINV on SALINV.IID=SAINTXLN.OWNR
 join DBCR on DBCR.IID=SALINV.DBCR
-where SALINV.RVID is null and MDENR=0 and round(TOPA,2)>=round(SALINV.TOT,2) :WHEAD
+where SAINTXLN.RVID is null and round(TOPA,2)>=round(SALINV.TOT,2) :WHEAD

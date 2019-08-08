@@ -140,9 +140,11 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
+          pEnt.setMdEnr(true);
           this.srDrItEnr.drawFr(pRvs, pEnt, pEnt.getMnp(), pEnt.getQuan());
           this.srWrhEnr.draw(pRvs, pEnt.getMnp(), pEnt.getWhpo());
           this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
+          getOrm().update(pRvs, vs, pEnt);
           this.srEntr.mkEntrs(pRvs, pEnt);
           pRvs.put("msgSuc", "account_ok");
         } else {

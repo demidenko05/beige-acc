@@ -171,20 +171,20 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
           Arrays.sort(slFds);
           vs.put("WagendFds", slFds);
           Wage old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
-          pEnt.setMdEnr(old.getMdEnr());
-          if (pEnt.getMdEnr()) {
+          if (old.getMdEnr()) {
             throw new ExcCode(ExcCode.SPAM, "Trying to change accounted!");
           }
           if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
-           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
+            if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
               throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
             }
+            pEnt.setMdEnr(true);
             String[] upFds = new String[] {"dat", "dscr", "ver", "mdEnr",
               "acTx", "empl"};
             Arrays.sort(upFds);
-            pRvs.put(ISrEntr.DOCFDSUPD, upFds);
+            vs.put("ndFds", upFds);
+            getOrm().update(pRvs, vs, pEnt); vs.clear();
             this.srEntr.mkEntrs(pRvs, pEnt);
-            pRvs.remove(ISrEntr.DOCFDSUPD);
             Calendar cal = Calendar.getInstance();
             int year = cal.get(Calendar.YEAR);
             vs.put("WgLndpLv", 1);

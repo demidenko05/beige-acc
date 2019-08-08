@@ -254,9 +254,8 @@ public class SrBlnc<RS> implements ISrBlnc {
     final Date pDtAt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     if (lazBlnCh(pRvs, vs).getLeDt().getTime() > pDtAt.getTime()) {
-      boolean isDbgSh = getLog().getDbgSh(this.getClass())
-        && getLog().getDbgFl() < 11001 && getLog().getDbgCl() > 10999;
-      if (isDbgSh) {
+      boolean dbgSh = getLog().getDbgSh(this.getClass(), 11100);
+      if (dbgSh) {
         getLog().debug(pRvs, SrBlnc.class, "change least last entry date from "
           + this.blnCh.getLeDt() + " to " + pDtAt);
       }

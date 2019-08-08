@@ -107,18 +107,14 @@ public class SrEntr<RS> implements ISrEntr {
 
   /**
    * <p>Makes entries for given document and updates its status (mdEnr).
-   * Document must be inserted.</p>
-   * @param pRvs Request scoped variables, may has DOCFDSUPD - list document
-   *  fields to update
+   * Document must be inserted/updated.</p>
+   * @param pRvs Request scoped variables
    * @param pDoc source document
    * @throws Exception - an exception
    **/
   @Override
   public final void mkEntrs(final Map<String, Object> pRvs,
     final IDoci pDoc) throws Exception {
-    if (pDoc.getMdEnr()) {
-      throw new ExcCode(ExcCode.SPAM, "Trying to account accounted!");
-    }
     AcStg as = (AcStg) pRvs.get("astg");
     Map<String, Object> vs = new HashMap<String, Object>();
     if (this.entrSrcs == null) {
@@ -214,11 +210,6 @@ public class SrEntr<RS> implements ISrEntr {
         rs.close();
       }
     }
-    pDoc.setMdEnr(true);
-    if (pRvs.get(DOCFDSUPD) != null) {
-      vs.put("ndFds", pRvs.get(DOCFDSUPD));
-    }
-    getOrm().update(pRvs, vs, pDoc);
   }
 
   /**

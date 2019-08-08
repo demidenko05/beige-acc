@@ -375,9 +375,8 @@ public class UtInLnTxToBs<RS> {
     TL extends AInTxLn<T>> void adjustInvoiceLns(final Map<String, Object> pRvs,
       final Map<String, Object> pVs, final T pInv, final List<TxDtLn> pTxdLns,
         final AcStg pAs, final IInvTxMeth<T, TL> pInvTxMeth) throws Exception {
-    boolean isDbgSh = getLog().getDbgSh(this.getClass())
-      && getLog().getDbgFl() < 11102 && getLog().getDbgCl() > 11100;
-    if (isDbgSh) {
+    boolean dbgSh = getLog().getDbgSh(this.getClass(), 11000);
+    if (dbgSh) {
       getLog().debug(pRvs, UtInLnTxToBs.class,
         "Starting adjusting invoice basis lines...");
       getLog().debug(pRvs, UtInLnTxToBs.class,
@@ -586,9 +585,8 @@ public class UtInLnTxToBs<RS> {
         rs.close();
       }
     }
-    boolean isDbgSh = getLog().getDbgSh(this.getClass())
-      && getLog().getDbgFl() < 11102 && getLog().getDbgCl() > 11100;
-    if (isDbgSh) {
+    boolean dbgSh = getLog().getDbgSh(this.getClass(), 11001);
+    if (dbgSh) {
       getLog().debug(pRvs, UtInLnTxToBs.class,
       "Tax totals by tax category: Tax category ID -"
         + "[ Tax ID/Name/taxable/taxable FC/total tax/total tax FC]: "
@@ -621,7 +619,7 @@ public class UtInLnTxToBs<RS> {
         }
       }
     }
-    if (isDbgSh) {
+    if (dbgSh) {
       getLog().debug(pRvs, UtInLnTxToBs.class,
       "After adjusting tax totals by tax category: Tax category ID -"
         + "[Tax ID/Name/taxable/taxable FC/total tax/total tax FC]: "
@@ -849,9 +847,8 @@ public class UtInLnTxToBs<RS> {
         query = pInvTxMeth.lazyGetQuTxInvBasAggr();
       }
     }
-    boolean isDbgSh = getLog().getDbgSh(this.getClass())
-      && getLog().getDbgFl() < 11101 && getLog().getDbgCl() > 11099;
-    if (isDbgSh) {
+    boolean dbgSh = getLog().getDbgSh(this.getClass(), 11002);
+    if (dbgSh) {
       getLog().debug(pRvs, UtInLnTxToBs.class,
     "Tax rules: aggregate/invoice basis/zip/RM = " + pTxRules.getStAg() + "/"
   + pTxRules.getStIb() + "/" + pTxRules.getZip() + "/" + pTxRules.getStRm());
@@ -957,7 +954,7 @@ public class UtInLnTxToBs<RS> {
         rs.close();
       }
     }
-    if (isDbgSh) {
+    if (dbgSh) {
       getLog().debug(pRvs, UtInLnTxToBs.class,
         "Data tax: " + dtTx);
     }

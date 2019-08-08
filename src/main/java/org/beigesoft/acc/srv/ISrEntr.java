@@ -44,18 +44,13 @@ public interface ISrEntr {
 
   /**
    * <p>Handles settings changed, i.e. clears cached data.</p>
-   **/
-  String DOCFDSUPD = "docFdsUpd";
-
-  /**
-   * <p>Handles settings changed, i.e. clears cached data.</p>
    * @param pRvs Request scoped variables
    * @throws Exception - an exception
    **/
   void hndStgCng(Map<String, Object> pRvs) throws Exception;
 
   /**
-   * <p>Makes entries for given document. Document must be inserted.</p>
+   * <p>Makes entries for given document. Document must be inserted/updated.</p>
    * @param pRvs Request scoped variables
    * @param pDoc source document
    * @throws Exception - an exception

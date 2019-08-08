@@ -124,6 +124,7 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
       pEnt.setTot(pEnt.getTot().setScale(astg.getPrDp(), astg.getRndm()));
       pEnt.setToFc(pEnt.getToFc().setScale(astg.getPrDp(), astg.getRndm()));
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+        pEnt.setMdEnr(true);
         if (!pEnt.getIsNew()) {
           String[] fdsMe = new String[] {"mdEnr"};
           vs.put(pEnt.getClass().getSimpleName() + "ndFds", fdsMe);
@@ -131,12 +132,11 @@ public class PrepSv implements IPrcEnt<APrep, Long> {
           if (old.getMdEnr()) {
             throw new ExcCode(ExcCode.SPAM, "Attempt account accounted!");
           }
+          this.orm.update(pRvs, vs, pEnt);
         } else {
           this.orm.insIdLn(pRvs, vs, pEnt);
-          pRvs.put(ISrEntr.DOCFDSUPD, new String[] {"mdEnr", "ver"});
         }
         this.srEntr.mkEntrs(pRvs, pEnt);
-        pRvs.remove(ISrEntr.DOCFDSUPD);
         pRvs.put("msgSuc", "account_ok");
       } else {
         if (pEnt.getIsNew()) {

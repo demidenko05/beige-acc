@@ -4,4 +4,4 @@ from PUINTXLN
 join TAX on TAX.IID=PUINTXLN.TAX
 join PURINV on PURINV.IID=PUINTXLN.OWNR
 join DBCR on DBCR.IID=PURINV.DBCR
-where PURINV.RVID is null and MDENR=0 and round(TOPA,2)>=round(PURINV.TOT,2) :WHEAD
+where PUINTXLN.RVID is null and round(TOPA,2)>=round(PURINV.TOT,2) :WHEAD
