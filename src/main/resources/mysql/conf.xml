@@ -115,6 +115,8 @@ See LICENSE in base folder
   org.beigesoft.acc.rpl.RplAcc,
   org.beigesoft.acc.rpl.RpExDbl,
   org.beigesoft.acc.rpl.RpExCrl,
+  org.beigesoft.ws.mdlp.PriCt,
+  org.beigesoft.ws.mdlp.PriItm,
   org.beigesoft.acc.mdlp.BlnCh</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
 <entry key="stgFldNms">def,nul</entry>

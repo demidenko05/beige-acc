@@ -100,6 +100,7 @@ import org.beigesoft.acc.mdlp.BnStLn;
 import org.beigesoft.acc.rpl.RplAcc;
 import org.beigesoft.acc.rpl.RpExDbl;
 import org.beigesoft.acc.rpl.RpExCrl;
+import org.beigesoft.ws.mdlp.PriCt;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -153,6 +154,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Uom.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Itm.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Buyr.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(PriCt.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
