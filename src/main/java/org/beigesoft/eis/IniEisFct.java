@@ -39,6 +39,7 @@ import org.beigesoft.mdl.IHasId;
 import org.beigesoft.mdl.IHasNm;
 import org.beigesoft.mdl.IOwned;
 import org.beigesoft.mdlp.AI18nNm;
+import org.beigesoft.mdlp.CsvMth;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.IIniBdFct;
 import org.beigesoft.fct.IniBdFct;
@@ -101,6 +102,7 @@ import org.beigesoft.acc.rpl.RplAcc;
 import org.beigesoft.acc.rpl.RpExDbl;
 import org.beigesoft.acc.rpl.RpExCrl;
 import org.beigesoft.ws.mdlp.PriCt;
+import org.beigesoft.ws.mdlp.PriItm;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -128,6 +130,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(RplAcc.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(RpExDbl.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(RpExCrl.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(PriItm.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(PriCt.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);
@@ -137,7 +141,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     Set<Integer> rdrs = new HashSet<Integer>();
     rdrs.add(HldEnts.ID_ADMIN);
     acEnts.getShrEnts().add(new EntShr(Acnt.class, rdrs));
+    acEnts.getShrEnts().add(new EntShr(Itm.class, rdrs));
+    acEnts.getShrEnts().add(new EntShr(CsvMth.class, rdrs));
     pFct.getFctBlc().getFctDt().getHldsEnts().add(acEnts);
+    pFct.getFctBlc().getFctDt().getMaFrClss().add(ItmCt.class);
   }
 
   /**
@@ -154,7 +161,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Uom.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Itm.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Buyr.class);
-    pFct.getFctBlc().getFctDt().getCustIdClss().add(PriCt.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(PriItm.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
@@ -185,6 +192,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().remove(IHasNm.class);
     hlClSt.getStgClss().put(Acnt.class, "nmbr");
     hlClSt.getStgClss().put(I18Acc.class, "lng");
+    hlClSt.getStgClss().put(PriItm.class, "itm");
     hlClSt.getStgSclss().put(AI18nNm.class, "lng");
     hlClSt.getStgSclss().put(IHasNm.class, "nme");
     hlClSt.getStgSclss().put(IHasId.class, "iid");

@@ -98,6 +98,11 @@ public class HndAcc<RS> implements IHndRq {
    **/
   private ISrvDt srvDt;
 
+  /**
+   * <p>Retrievers names.</p>
+   **/
+  private final String[] retrNms = new String[] {"GdPriLstRet"};
+
   //Cached data:
   /**
    * <p>Cached I18N currency.</p>
@@ -225,6 +230,7 @@ public class HndAcc<RS> implements IHndRq {
     pRqDt.setAttr("hlTySac", this.hlTySac);
     pRqDt.setAttr("hlTyItSr", this.hlTyItSr);
     pRqDt.setAttr("hlTyEnSr", this.hlTyEnSr);
+    pRvs.put("retrNms", this.retrNms);
   }
 
   //Simple getters and setters:

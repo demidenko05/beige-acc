@@ -59,10 +59,9 @@ import org.beigesoft.ws.mdlp.PriItm;
 /**
  * <p>Goods Price List Retriever.</p>
  *
- * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class GdPriLstRet<RS> implements ICsvDtRet {
+public class GdPriLstRet implements ICsvDtRet {
 
   /**
    * <p>I18N service.</p>
@@ -78,7 +77,7 @@ public class GdPriLstRet<RS> implements ICsvDtRet {
    * <p>Retrieves CSV data.
    * Request data must has:
    * <pre>
-   *  priCtId - price category ID
+   *  priCt - price category ID
    * </pre>
    * also might has:
    * <pre>
@@ -87,24 +86,24 @@ public class GdPriLstRet<RS> implements ICsvDtRet {
    * </pre>
    * </p>
    * @param pRvs request parameters,
+   * @param pRqDt Request Data
    * @return data table
    * @throws Exception an Exception
    **/
   @Override
-  public final List<List<Object>> retData(
-    final Map<String, Object> pRvs) throws Exception {
+  public final List<List<Object>> retData(final Map<String, Object> pRvs,
+    final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     AcStg as = (AcStg) pRvs.get("astg");
     List<List<Object>> result = new ArrayList<List<Object>>();
-    IReqDt rqDt = (IReqDt) pRvs.get("rqDt");
-    Long priCtId = Long.parseLong(rqDt.getParam("priCtId"));
+    Long priCtId = Long.parseLong(pRqDt.getParam("priCt"));
     BigDecimal unAvPri = null;
-    String unAvPris = rqDt.getParam("unAvPri");
+    String unAvPris = pRqDt.getParam("unAvPri");
     if (unAvPris != null) {
       unAvPri = new BigDecimal(unAvPris);
     }
     BigDecimal optmQuan = null;
-    String optmQuans = rqDt.getParam("optmQuan");
+    String optmQuans = pRqDt.getParam("optmQuan");
     if (optmQuans != null) {
       optmQuan = new BigDecimal(optmQuans);
     }
@@ -117,6 +116,8 @@ public class GdPriLstRet<RS> implements ICsvDtRet {
     vs.put("UomndFds", ndFdNm);
     List<PriItm> gpl = getOrm().retLstCnd(pRvs, vs, PriItm.class,
       "where PRICT=" + priCtId); vs.clear();
+    vs.put("WrhPldpLv", 1);
+    List<WrhPl> wrhps = getOrm().retLst(pRvs, vs, WrhPl.class); vs.clear();
     String[] ndFdr = new String[] {"rate"};
     pRvs.put("TxCtLnndFds", ndFdr);
     pRvs.put("TaxndFds", ndFdNm);
@@ -161,12 +162,11 @@ public class GdPriLstRet<RS> implements ICsvDtRet {
     }
     String[] fdsItLf = new String[] {"itm", "itLf", "wrhp"};
     Arrays.sort(fdsItLf);
-    vs.put("WrhItmndFds", fdsItLf);
-    vs.put("ItmndFds", ndFdNm);
-    vs.put("WrhPlndFds", ndFdNm);
+    vs.put("WrhItmdpLv", 1);
     String qur =
     "select ITM, sum(ITLF) as ITLF, min(WRHP) as WRHP from WRHITM group by ITM";
-    List<WrhItm> whRests = getOrm().retLstQu(pRvs, vs, WrhItm.class, qur);
+    //List<WrhItm> whRests = getOrm().retLstQu(pRvs, vs, WrhItm.class, qur);
+    List<WrhItm> whRests = getOrm().retLst(pRvs, vs, WrhItm.class);
     vs.clear();
     BigDecimal bd1d2 = new BigDecimal("1.2");
     BigDecimal bd100 = new BigDecimal("100");
@@ -188,7 +188,7 @@ public class GdPriLstRet<RS> implements ICsvDtRet {
         if (wr != null) {
           quantity = wr.getItLf();
           avlb = Boolean.TRUE;
-          ws = wr.getWrhp();
+          ws = findWphp(wr.getWrhp().getIid(), wrhps);
         } else {
           if (optmQuan == null) {
             quantity = BigDecimal.ZERO;
@@ -533,6 +533,22 @@ public class GdPriLstRet<RS> implements ICsvDtRet {
       }
     }
     return null;
+  }
+
+  /**
+   * <p>Finds wrh place by ID.</p>
+   * @param pId ID
+   * @param pWrhpls List
+   * @return WrhPl, not null
+   **/
+  public final WrhPl findWphp(final Long pId,
+    final List<WrhPl> pWrhpls) {
+    for (WrhPl wp : pWrhpls) {
+      if (wp.getIid().equals(pId)) {
+        return wp;
+      }
+    }
+    throw new RuntimeException("Place not found - " + pId);
   }
 
   //Simple getters and setters:
