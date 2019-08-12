@@ -112,6 +112,16 @@ See LICENSE in base folder
   org.beigesoft.acc.rpl.RpExCrl,
   org.beigesoft.ws.mdlp.PriCt,
   org.beigesoft.ws.mdlp.PriItm,
+  org.beigesoft.ws.mdlp.CurrRt,
+  org.beigesoft.ws.mdlp.ChoSpTy,
+  org.beigesoft.ws.mdlp.ChoSp,
+  org.beigesoft.ws.mdlp.Htmlt,
+  org.beigesoft.ws.mdlp.ItmSpGr,
+  org.beigesoft.ws.mdlp.ItmSp,
+  org.beigesoft.ws.mdlp.PicPlc,
+  org.beigesoft.ws.mdlp.CatGs,
+  org.beigesoft.ws.mdlp.CatSp,
+  org.beigesoft.ws.mdlp.SubCat,
   org.beigesoft.acc.mdlp.I18Buyr</entry>
 <entry key="stgClsNms">exlFlds,idFlds</entry>
 <entry key="stgFldNms"></entry>

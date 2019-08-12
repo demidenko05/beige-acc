@@ -160,13 +160,14 @@ public class GdPriLstRet implements ICsvDtRet {
         break;
       }
     }
-    String[] fdsItLf = new String[] {"itm", "itLf", "wrhp"};
-    Arrays.sort(fdsItLf);
+    String[] fdsItLf = new String[] {"itLf"};
+    vs.put("WrhItmndFds", fdsItLf);
     vs.put("WrhItmdpLv", 1);
-    String qur =
-    "select ITM, sum(ITLF) as ITLF, min(WRHP) as WRHP from WRHITM group by ITM";
-    //List<WrhItm> whRests = getOrm().retLstQu(pRvs, vs, WrhItm.class, qur);
-    List<WrhItm> whRests = getOrm().retLst(pRvs, vs, WrhItm.class);
+    //Beige ORM always retrieves ID fields, here UOM is fake
+    //warehouse place is useful when same items exist in only place!
+    String qur = "select 1 as UOM, ITM , sum(ITLF) as ITLF,"
+      + " min(WRHP) as WRHP from WRHITM group by UOM, ITM";
+    List<WrhItm> whRests = getOrm().retLstQu(pRvs, vs, WrhItm.class, qur);
     vs.clear();
     BigDecimal bd1d2 = new BigDecimal("1.2");
     BigDecimal bd100 = new BigDecimal("100");

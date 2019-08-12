@@ -39,6 +39,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.fct.IFctPrcEnt;
 import org.beigesoft.fct.IFctAsm;
 import org.beigesoft.fct.FctBlc;
+import org.beigesoft.fct.FctDbCp;
 import org.beigesoft.hld.IAttrs;
 import org.beigesoft.log.ILog;
 import org.beigesoft.log.LogFile;
@@ -80,6 +81,7 @@ public class FctTstPsg implements IFctAsm<ResultSet> {
     this.fctBlc.getFctDt().setDbgFl(8002);
     this.fctBlc.getFctDt().setDbgCl(8002);
     this.fctBlc.getFctsAux().add(new FctPostgr());
+    this.fctBlc.getFctsAux().add(new FctDbCp<ResultSet>());
     this.fctBlc.getFctsAux().add(new FctAcc<ResultSet>());
     Set<IFctPrcEnt> fctsPrcEnt = new HashSet<IFctPrcEnt>();
     FcEnPrAc<ResultSet> fcep = new FcEnPrAc<ResultSet>();

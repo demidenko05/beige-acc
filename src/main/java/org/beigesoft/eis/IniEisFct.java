@@ -103,6 +103,16 @@ import org.beigesoft.acc.rpl.RpExDbl;
 import org.beigesoft.acc.rpl.RpExCrl;
 import org.beigesoft.ws.mdlp.PriCt;
 import org.beigesoft.ws.mdlp.PriItm;
+import org.beigesoft.ws.mdlp.CatGs;
+import org.beigesoft.ws.mdlp.CatSp;
+import org.beigesoft.ws.mdlp.ChoSp;
+import org.beigesoft.ws.mdlp.ChoSpTy;
+import org.beigesoft.ws.mdlp.CurrRt;
+import org.beigesoft.ws.mdlp.Htmlt;
+import org.beigesoft.ws.mdlp.ItmSp;
+import org.beigesoft.ws.mdlp.ItmSpGr;
+import org.beigesoft.ws.mdlp.PicPlc;
+import org.beigesoft.ws.mdlp.SubCat;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -132,6 +142,16 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(RpExCrl.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(PriItm.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(PriCt.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(CatGs.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(CatSp.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(ChoSp.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(ChoSpTy.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(CurrRt.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(Htmlt.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(ItmSp.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(ItmSpGr.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(PicPlc.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(SubCat.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);
@@ -162,6 +182,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Itm.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Buyr.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(PriItm.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SubCat.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(CurrRt.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
@@ -193,6 +215,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(Acnt.class, "nmbr");
     hlClSt.getStgClss().put(I18Acc.class, "lng");
     hlClSt.getStgClss().put(PriItm.class, "itm");
+    hlClSt.getStgClss().put(CurrRt.class, "curr");
+    hlClSt.getStgClss().put(SubCat.class, "catl");
     hlClSt.getStgSclss().put(AI18nNm.class, "lng");
     hlClSt.getStgSclss().put(IHasNm.class, "nme");
     hlClSt.getStgSclss().put(IHasId.class, "iid");
