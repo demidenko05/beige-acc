@@ -44,7 +44,7 @@ public class PriItm extends AItmPri<Itm, PriItmId> {
   private PriItmId iid;
 
   /**
-   * <p>Goods, not null.</p>
+   * <p>Good, not null.</p>
    **/
   private Itm itm;
 
@@ -111,11 +111,11 @@ public class PriItm extends AItmPri<Itm, PriItmId> {
 
   /**
    * <p>Setter for itm.</p>
-   * @param pGoods reference
+   * @param pItm reference
    **/
   @Override
-  public final void setItm(final Itm pGoods) {
-    this.itm = pGoods;
+  public final void setItm(final Itm pItm) {
+    this.itm = pItm;
     if (this.iid == null) {
       this.iid = new PriItmId();
     }

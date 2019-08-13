@@ -78,8 +78,8 @@ public class FctTstPsg implements IFctAsm<ResultSet> {
     this.fctBlc.getFctDt().setLngCntr("en,US,ru,RU");
     this.fctBlc.getFctDt().setLogPth(tstDir);
     this.fctBlc.getFctDt().setDbgSh(false);
-    this.fctBlc.getFctDt().setDbgFl(8002);
-    this.fctBlc.getFctDt().setDbgCl(8002);
+    this.fctBlc.getFctDt().setDbgFl(8000);
+    this.fctBlc.getFctDt().setDbgCl(8010);
     this.fctBlc.getFctsAux().add(new FctPostgr());
     this.fctBlc.getFctsAux().add(new FctDbCp<ResultSet>());
     this.fctBlc.getFctsAux().add(new FctAcc<ResultSet>());

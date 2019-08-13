@@ -32,9 +32,7 @@ import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.ws.mdlb.AItmPriId;
 
 /**
- * <p>
- * Model of ID of PriItm.
- * </p>
+ * <p>Model of ID of good price.</p>
  *
  * @author Yury Demidenko
  */

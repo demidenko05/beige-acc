@@ -112,6 +112,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.I18Srv,
   org.beigesoft.acc.mdlp.I18Itm,
   org.beigesoft.acc.mdlp.I18Buyr,
+  org.beigesoft.acc.mdlp.BlnCh,
   org.beigesoft.acc.rpl.RplAcc,
   org.beigesoft.acc.rpl.RpExDbl,
   org.beigesoft.acc.rpl.RpExCrl,
@@ -127,7 +128,17 @@ See LICENSE in base folder
   org.beigesoft.ws.mdlp.CatGs,
   org.beigesoft.ws.mdlp.CatSp,
   org.beigesoft.ws.mdlp.SubCat,
-  org.beigesoft.acc.mdlp.BlnCh</entry>
+  org.beigesoft.ws.mdlp.PriSrv,
+  org.beigesoft.ws.mdlp.Buyer,
+  org.beigesoft.ws.mdlp.BurPric,
+  org.beigesoft.ws.mdlp.ItmCtl,
+  org.beigesoft.ws.mdlp.ItmPlc,
+  org.beigesoft.ws.mdlp.ItmSpf,
+  org.beigesoft.ws.mdlp.SrvCtl,
+  org.beigesoft.ws.mdlp.SrvPlc,
+  org.beigesoft.ws.mdlp.SrvSpf,
+  org.beigesoft.ws.mdlp.TrdStg,
+  org.beigesoft.ws.mdlp.Itlist</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
 <entry key="stgFldNms">def,nul</entry>
 <entry key="exlFlds">isNew</entry>

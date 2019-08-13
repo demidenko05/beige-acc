@@ -12,7 +12,7 @@
   <suppress checks="MagicNumber"
     files="PurRet|PuRtLn|SrRtLnSv|SalRet|SaRtLn|MoItLn|MovItm|ItmUlb|ItUbLn|ItAdLn|ItmAdd|PuInSrLn|MnpMcs|MnpAcs"/>
   <suppress checks="MagicNumber"
-    files="Mnfct|MnfPrc|WagTy|EmpCt|Empl|Wage|PrcBln|BnStLn|BnStLnSv|Prop|GdPriLstRet"/>
+    files="Mnfct|MnfPrc|WagTy|EmpCt|Empl|Wage|PrcBln|BnStLn|BnStLnSv|Prop|GdPriLstRet|TrdStg"/>
   <suppress checks="MethodLength"
     files="BlnPdf|UtInLnTxToBs|SrInvSv|InvPdf|HlAcEnPr|GdPriLstRet"/>
   <suppress checks="LineLength"

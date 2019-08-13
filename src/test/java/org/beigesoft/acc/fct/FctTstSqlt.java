@@ -78,8 +78,8 @@ public class FctTstSqlt implements IFctAsm<ResultSet> {
     this.fctBlc.getFctDt().setLngCntr("en,US,ru,RU");
     this.fctBlc.getFctDt().setLogPth(tstDir);
     this.fctBlc.getFctDt().setDbgSh(true);
-    this.fctBlc.getFctDt().setDbgFl(8002);
-    this.fctBlc.getFctDt().setDbgCl(8002);
+    this.fctBlc.getFctDt().setDbgFl(8000);
+    this.fctBlc.getFctDt().setDbgCl(8010);
     this.fctBlc.getFctsAux().add(new FctSqlite());
     this.fctBlc.getFctsAux().add(new FctDbCp<ResultSet>());
     this.fctBlc.getFctsAux().add(new FctAcc<ResultSet>());

@@ -113,6 +113,16 @@ import org.beigesoft.ws.mdlp.ItmSp;
 import org.beigesoft.ws.mdlp.ItmSpGr;
 import org.beigesoft.ws.mdlp.PicPlc;
 import org.beigesoft.ws.mdlp.SubCat;
+import org.beigesoft.ws.mdlp.SrvSpf;
+import org.beigesoft.ws.mdlp.SrvPlc;
+import org.beigesoft.ws.mdlp.SrvCtl;
+import org.beigesoft.ws.mdlp.PriSrv;
+import org.beigesoft.ws.mdlp.ItmSpf;
+import org.beigesoft.ws.mdlp.ItmPlc;
+import org.beigesoft.ws.mdlp.ItmCtl;
+import org.beigesoft.ws.mdlp.TrdStg;
+import org.beigesoft.ws.mdlp.Buyer;
+import org.beigesoft.ws.mdlp.BurPric;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -152,6 +162,16 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(ItmSpGr.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(PicPlc.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(SubCat.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(BurPric.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(Buyer.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(TrdStg.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(ItmCtl.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(ItmPlc.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(ItmSpf.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(PriSrv.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(SrvCtl.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(SrvPlc.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(SrvSpf.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);
@@ -184,6 +204,14 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(PriItm.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(SubCat.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(CurrRt.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(PriSrv.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(BurPric.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(ItmCtl.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(ItmPlc.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(ItmSpf.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvCtl.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvPlc.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvSpf.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
@@ -214,6 +242,14 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().remove(IHasNm.class);
     hlClSt.getStgClss().put(Acnt.class, "nmbr");
     hlClSt.getStgClss().put(I18Acc.class, "lng");
+    hlClSt.getStgClss().put(BurPric.class, "buyr");
+    hlClSt.getStgClss().put(SrvSpf.class, "itm");
+    hlClSt.getStgClss().put(SrvPlc.class, "itm");
+    hlClSt.getStgClss().put(SrvCtl.class, "itm");
+    hlClSt.getStgClss().put(ItmPlc.class, "itm");
+    hlClSt.getStgClss().put(ItmCtl.class, "itm");
+    hlClSt.getStgClss().put(ItmSpf.class, "itm");
+    hlClSt.getStgClss().put(PriSrv.class, "itm");
     hlClSt.getStgClss().put(PriItm.class, "itm");
     hlClSt.getStgClss().put(CurrRt.class, "curr");
     hlClSt.getStgClss().put(SubCat.class, "catl");

@@ -67,7 +67,7 @@ public abstract class AItmPri<T extends IIdLnNm, ID extends AItmPriId<T>>
   /**
    * <p>Quantity step, 1 default,
    * e.g. 12USD per 0.5ft, UOM ft, ST=0.5, so
-   * buyer can order 0.5/1.0/1.5/2.0/etc. units of itm.</p>
+   * buyer can order 0.5/1.0/1.5/2.0/etc. units of item.</p>
    **/
   private BigDecimal unSt = BigDecimal.ONE;
 
