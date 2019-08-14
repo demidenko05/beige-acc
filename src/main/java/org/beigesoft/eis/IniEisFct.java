@@ -215,6 +215,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
+    hlClSt.getNulClss().add(TrdStg.class);
     hlClSt.getNulClss().add(Acnt.class);
     hlClSt.getNulClss().add(Sacnt.class);
     hlClSt.getNulClss().add(EnrSrc.class);
@@ -277,6 +278,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().put(IOwned.class, "olf");
     hlClSt.setNulClss(new HashSet<Class<? extends IHasId<?>>>());
     hlClSt.getNulClss().add(AcStg.class);
+    hlClSt.getNulClss().add(TrdStg.class);
     hlClSt.getNulClss().add(EnrSrc.class);
     hlClSt.getNulClss().add(DriEnrSr.class);
     hlClSt.getNulClss().add(EmpWg.class);
@@ -287,6 +289,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(Entr.class, "acae");
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");
+    hlClSt.getStgClss().put(TrdStg.class, "ace");
     hlClSt.getStgClss().put(EnrSrc.class, "ace");
     hlClSt.getStgClss().put(DriEnrSr.class, "ace");
     hlClSt.getStgClss().put(PuInGdLn.class, "acrv");

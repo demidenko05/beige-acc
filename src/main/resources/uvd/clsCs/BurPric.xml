@@ -9,4 +9,5 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="exlFlds">iid</entry>
 <entry key="idFlds">buyr,priCt</entry>
+<entry key="frmFds">buyr,priCt</entry>
 </properties>

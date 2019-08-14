@@ -9,4 +9,5 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="exlFlds">iid</entry>
 <entry key="idFlds">catl,sucat</entry>
+<entry key="frmFds">catl,sucat</entry>
 </properties>

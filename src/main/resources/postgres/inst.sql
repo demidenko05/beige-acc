@@ -90,3 +90,4 @@ insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (1,2000,'puGdLn'
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (2,2003,'saRtLn',1462867931627,1,0,'Sales return line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (3,2006,'itAdLn',1462867931627,1,0,'Add item line for FIFO/LIFO');
 insert into DRIENRSR (IID,SRTY,QUFL,VER,USED,SRSTY,DSCR) values (4,14,'mnfct',1462867931627,1,0,'Manufacturing for FIFO/LIFO');
+insert into TRDSTG (IID,VER,NME,COLCNT,MQTC,PAYM) values (1,1462867931627,'Bob''s store',2,5,2);

@@ -33,6 +33,11 @@ import java.util.Map;
 import org.beigesoft.fct.IFcCsvDrt;
 import org.beigesoft.fct.IFctAux;
 import org.beigesoft.fct.FctBlc;
+import org.beigesoft.rdb.IRdb;
+import org.beigesoft.rdb.IOrm;
+import org.beigesoft.ws.hnd.HndTrd;
+import org.beigesoft.ws.srv.ISrTrStg;
+import org.beigesoft.ws.srv.SrTrStg;
 
 /**
  * <p>Auxiliary factory for web-store additional services.</p>
@@ -55,8 +60,12 @@ public class FctWs<RS> implements IFctAux<RS> {
   public final Object crePut(final Map<String, Object> pRvs,
     final String pBnNm, final FctBlc<RS> pFctApp) throws Exception {
     Object rz = null;
-    if (IFcCsvDrt.class.getSimpleName().equals(pBnNm)) {
+    if (HndTrd.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuHndTrd(pRvs, pFctApp);
+    } else if (IFcCsvDrt.class.getSimpleName().equals(pBnNm)) {
       rz = crPuFcCsvDrt(pRvs, pFctApp);
+    } else if (ISrTrStg.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrTrStg(pRvs, pFctApp);
     }
     return rz;
   }
@@ -71,6 +80,48 @@ public class FctWs<RS> implements IFctAux<RS> {
   public final void release(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     //nothing
+  }
+
+  /**
+   * <p>Creates and puts into MF HndTrd.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HndTrd
+   * @throws Exception - an exception
+   */
+  private HndTrd<RS> crPuHndTrd(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HndTrd<RS> rz = new HndTrd<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    ISrTrStg srTrStg = (ISrTrStg) pFctApp
+      .laz(pRvs, ISrTrStg.class.getSimpleName());
+    rz.setSrTrStg(srTrStg);
+    pFctApp.put(pRvs, HndTrd.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      HndTrd.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF SrTrStg.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrTrStg
+   * @throws Exception - an exception
+   */
+  private SrTrStg crPuSrTrStg(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrTrStg rz = new SrTrStg();
+    IOrm orm = (IOrm) pFctApp.laz(pRvs, IOrm.class.getSimpleName());
+    rz.setOrm(orm);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    pFctApp.put(pRvs, ISrTrStg.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrTrStg.class.getSimpleName() + " has been created");
+    return rz;
   }
 
   /**

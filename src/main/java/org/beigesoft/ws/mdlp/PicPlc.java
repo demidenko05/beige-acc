@@ -28,8 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.mdlp;
 
-import java.math.BigDecimal;
-
 import org.beigesoft.mdlp.AIdLnNm;
 
 /**
@@ -51,12 +49,12 @@ public class PicPlc extends AIdLnNm {
   /**
    * <p>Latitude if used.</p>
    **/
-  private BigDecimal latid;
+  private String latid;
 
   /**
    * <p>Longitude if used.</p>
    **/
-  private BigDecimal lonud;
+  private String lonud;
 
   /**
    * <p>Time zone GMT+ minutes if used.</p>
@@ -67,9 +65,9 @@ public class PicPlc extends AIdLnNm {
 
   /**
    * <p>Getter for latid.</p>
-   * @return BigDecimal
+   * @return String
    **/
-  public final BigDecimal getLatid() {
+  public final String getLatid() {
     return this.latid;
   }
 
@@ -77,15 +75,15 @@ public class PicPlc extends AIdLnNm {
    * <p>Setter for latid.</p>
    * @param pLatid reference
    **/
-  public final void setLatid(final BigDecimal pLatid) {
+  public final void setLatid(final String pLatid) {
     this.latid = pLatid;
   }
 
   /**
    * <p>Getter for lonud.</p>
-   * @return BigDecimal
+   * @return String
    **/
-  public final BigDecimal getLonud() {
+  public final String getLonud() {
     return this.lonud;
   }
 
@@ -93,7 +91,7 @@ public class PicPlc extends AIdLnNm {
    * <p>Setter for lonud.</p>
    * @param pLonud reference
    **/
-  public final void setLonud(final BigDecimal pLonud) {
+  public final void setLonud(final String pLonud) {
     this.lonud = pLonud;
   }
 

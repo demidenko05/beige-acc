@@ -50,9 +50,9 @@ public class CatGs extends AIdLnNm {
   private String dscr;
 
   /**
-   * <p>Ordering.</p>
+   * <p>Ordering, not null.</p>
    **/
-  private Integer idx;
+  private Integer idx = 1;
 
   /**
    * <p>Is it in the menu, default true, to quick switch on/off from menu
