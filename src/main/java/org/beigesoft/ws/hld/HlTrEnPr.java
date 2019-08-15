@@ -30,7 +30,9 @@ package org.beigesoft.ws.hld;
 
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.hld.IHlNmClSt;
+import org.beigesoft.ws.mdlb.AItmSpf;
 import org.beigesoft.ws.mdlp.TrdStg;
+import org.beigesoft.ws.prc.ItmSpSv;
 import org.beigesoft.ws.prc.TrStgSv;
 import org.beigesoft.ws.prc.TrStgRt;
 
@@ -52,7 +54,9 @@ public class HlTrEnPr implements IHlNmClSt {
   @Override
   public final <T extends IHasId<?>> String get(final Class<T> pCls,
     final String pAct) throws Exception {
-    if (TrdStg.class == pCls) {
+    if (AItmSpf.class.isAssignableFrom(pCls) && "entSv".equals(pAct)) {
+      return ItmSpSv.class.getSimpleName();
+    } else if (TrdStg.class == pCls) {
       if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
         return TrStgRt.class.getSimpleName();
       } else if ("entSv".equals(pAct)) {

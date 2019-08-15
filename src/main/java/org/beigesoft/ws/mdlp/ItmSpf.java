@@ -116,9 +116,9 @@ public class ItmSpf extends AItmSpf<Itm, ItmSpfId> {
   @Override
   public final void setItm(final Itm pItem) {
     this.itm = pItem;
-    if (getIid() == null) {
-      setIid(new ItmSpfId());
+    if (this.iid == null) {
+      this.iid = new ItmSpfId();
     }
-    getIid().setItm(this.itm);
+    this.iid.setItm(this.itm);
   }
 }

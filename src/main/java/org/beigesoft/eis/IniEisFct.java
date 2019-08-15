@@ -88,6 +88,7 @@ import org.beigesoft.acc.mdlp.ItmAdd;
 import org.beigesoft.acc.mdlp.ItAdLn;
 import org.beigesoft.acc.mdlp.MnfPrc;
 import org.beigesoft.acc.mdlp.MnpMcs;
+import org.beigesoft.acc.mdlp.Srv;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.ItmUlb;
 import org.beigesoft.acc.mdlp.ItUbLn;
@@ -181,7 +182,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     Set<Integer> rdrs = new HashSet<Integer>();
     rdrs.add(HldEnts.ID_ADMIN);
     acEnts.getShrEnts().add(new EntShr(Acnt.class, rdrs));
+    acEnts.getShrEnts().add(new EntShr(Uom.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Itm.class, rdrs));
+    acEnts.getShrEnts().add(new EntShr(Srv.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(CsvMth.class, rdrs));
     pFct.getFctBlc().getFctDt().getHldsEnts().add(acEnts);
     pFct.getFctBlc().getFctDt().getMaFrClss().add(ItmCt.class);
@@ -302,6 +305,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(MnpMcs.class, "acrv");
     hlClSt.getStgClss().put(ItUbLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
+    hlClSt.getStgClss().put(ItmSpf.class, "speAc");
+    hlClSt.getStgClss().put(SrvSpf.class, "speAc");
     hlClSt.getStgClss().put(EmpWg.class, null);
     hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "fmAc"; //form actions
@@ -310,6 +315,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(MnfPrc.class, "adcl");
     hlClSt.getStgClss().put(ItmUlb.class, "adcl");
     hlClSt.getStgClss().put(Wage.class, "awg");
+    hlClSt.getStgClss().put(ItmSpf.class, "speAc");
+    hlClSt.getStgClss().put(SrvSpf.class, "speAc");
     hlClSt.getStgSclss().put(IInvb.class, "adcl");
     hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "prn"; //print
@@ -432,5 +439,6 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("mdEnr", null);
     //unique filed name in PuInGdLn,SaRtLn,ItAdLn,MnfPrc!:
     hlFdSt.getStgFdNm().put("itLf", "iwis");
+    hlFdSt.getStgFdNm().put("str4", "ispec");
   }
 }

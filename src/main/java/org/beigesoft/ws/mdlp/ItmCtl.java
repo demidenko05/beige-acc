@@ -116,9 +116,9 @@ public class ItmCtl extends AItmCtl<Itm, ItmCtlId> {
   @Override
   public final void setItm(final Itm pItm) {
     this.itm = pItm;
-    if (getIid() == null) {
-      setIid(new ItmCtlId());
+    if (this.iid == null) {
+      this.iid = new ItmCtlId();
     }
-    getIid().setItm(this.itm);
+    this.iid.setItm(this.itm);
   }
 }

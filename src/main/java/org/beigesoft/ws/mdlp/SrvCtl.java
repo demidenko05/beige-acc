@@ -116,9 +116,9 @@ public class SrvCtl extends AItmCtl<Srv, SrvCtlId> {
   @Override
   public final void setItm(final Srv pItm) {
     this.itm = pItm;
-    if (getIid() == null) {
-      setIid(new SrvCtlId());
+    if (this.iid == null) {
+      this.iid = new SrvCtlId();
     }
-    getIid().setItm(this.itm);
+    this.iid.setItm(this.itm);
   }
 }

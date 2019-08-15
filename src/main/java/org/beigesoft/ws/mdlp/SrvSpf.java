@@ -88,7 +88,7 @@ public class SrvSpf extends AItmSpf<Srv, SrvSpfId> {
     if (this.iid == null) {
       this.iid = new SrvSpfId();
     }
-    this.iid.setSpec(this.spec);
+    this.iid.setSpec(pSpec);
   }
 
   /**
@@ -116,9 +116,9 @@ public class SrvSpf extends AItmSpf<Srv, SrvSpfId> {
   @Override
   public final void setItm(final Srv pItem) {
     this.itm = pItem;
-    if (getIid() == null) {
+    if (this.iid == null) {
       setIid(new SrvSpfId());
     }
-    getIid().setItm(this.itm);
+    this.iid.setItm(this.itm);
   }
 }

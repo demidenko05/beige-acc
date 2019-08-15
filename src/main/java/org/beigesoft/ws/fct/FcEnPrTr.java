@@ -33,9 +33,12 @@ import java.util.HashMap;
 
 import org.beigesoft.fct.IFctPrcEnt;
 import org.beigesoft.fct.FctBlc;
+import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrcEnt;
+import org.beigesoft.prc.PrcEnfSv;
 import org.beigesoft.ws.prc.TrStgRt;
 import org.beigesoft.ws.prc.TrStgSv;
+import org.beigesoft.ws.prc.ItmSpSv;
 import org.beigesoft.ws.srv.ISrTrStg;
 
 /**
@@ -74,12 +77,36 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
         if (rz == null) {
           if (TrStgRt.class.getSimpleName().equals(pPrNm)) {
             rz = crPuTrStgRt(pRvs);
+          } else if (ItmSpSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuItmSpSv(pRvs);
           } else if (TrStgSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuTrStgSv(pRvs);
           }
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map ItmSpSv.</p>
+   * @param pRvs request scoped vars
+   * @return ItmSpSv
+   * @throws Exception - an exception
+   */
+  private ItmSpSv crPuItmSpSv(
+    final Map<String, Object> pRvs) throws Exception {
+    ItmSpSv rz = new ItmSpSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
+      .laz(pRvs, FctEnPrc.class.getSimpleName());
+    PrcEnfSv dlg = (PrcEnfSv) fctEnPrc
+      .lazPart(pRvs, PrcEnfSv.class.getSimpleName());
+    rz.setPrcEnfSv(dlg);
+    this.procs.put(ItmSpSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), ItmSpSv.class
+      .getSimpleName() + " has been created.");
     return rz;
   }
 

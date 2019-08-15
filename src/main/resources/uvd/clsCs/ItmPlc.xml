@@ -9,5 +9,5 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="exlFlds">iid</entry>
 <entry key="idFlds">itm,pipl</entry>
-<entry key="frmFds">itm,pipl,sinc</entry>
+<entry key="frmFds">itm,pipl,quan,sinc,alway</entry>
 </properties>
