@@ -36,10 +36,14 @@ import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEnfSv;
+import org.beigesoft.ws.prc.AdStgRt;
+import org.beigesoft.ws.prc.AdStgSv;
 import org.beigesoft.ws.prc.TrStgRt;
 import org.beigesoft.ws.prc.TrStgSv;
 import org.beigesoft.ws.prc.ItmSpSv;
+import org.beigesoft.ws.prc.ItmSpDl;
 import org.beigesoft.ws.srv.ISrTrStg;
+import org.beigesoft.ws.srv.ISrAdStg;
 
 /**
  * <p>Trade additional factory of entity processors.</p>
@@ -77,8 +81,14 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
         if (rz == null) {
           if (TrStgRt.class.getSimpleName().equals(pPrNm)) {
             rz = crPuTrStgRt(pRvs);
+          } else if (AdStgRt.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuAdStgRt(pRvs);
+          } else if (ItmSpDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuItmSpDl(pRvs);
           } else if (ItmSpSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItmSpSv(pRvs);
+          } else if (AdStgSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuAdStgSv(pRvs);
           } else if (TrStgSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuTrStgSv(pRvs);
           }
@@ -89,13 +99,28 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map ItmSpDl.</p>
+   * @param pRvs request scoped vars
+   * @return ItmSpDl
+   * @throws Exception - an exception
+   */
+  private ItmSpDl crPuItmSpDl(final Map<String, Object> pRvs) throws Exception {
+    ItmSpDl rz = new ItmSpDl();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    rz.setAppPth(this.fctBlc.getFctDt().getAppPth());
+    this.procs.put(ItmSpDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), ItmSpDl.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map ItmSpSv.</p>
    * @param pRvs request scoped vars
    * @return ItmSpSv
    * @throws Exception - an exception
    */
-  private ItmSpSv crPuItmSpSv(
-    final Map<String, Object> pRvs) throws Exception {
+  private ItmSpSv crPuItmSpSv(final Map<String, Object> pRvs) throws Exception {
     ItmSpSv rz = new ItmSpSv();
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     @SuppressWarnings("unchecked")
@@ -104,8 +129,27 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
     PrcEnfSv dlg = (PrcEnfSv) fctEnPrc
       .lazPart(pRvs, PrcEnfSv.class.getSimpleName());
     rz.setPrcEnfSv(dlg);
+    rz.setAppPth(this.fctBlc.getFctDt().getAppPth());
+    rz.setUplDir(this.fctBlc.getFctDt().getUplDir());
     this.procs.put(ItmSpSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), ItmSpSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map AdStgSv.</p>
+   * @param pRvs request scoped vars
+   * @return AdStgSv
+   * @throws Exception - an exception
+   */
+  private AdStgSv crPuAdStgSv(final Map<String, Object> pRvs) throws Exception {
+    AdStgSv rz = new AdStgSv();
+    ISrAdStg srAdStg = (ISrAdStg) this.fctBlc
+      .laz(pRvs, ISrAdStg.class.getSimpleName());
+    rz.setSrAdStg(srAdStg);
+    this.procs.put(AdStgSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), AdStgSv.class
       .getSimpleName() + " has been created.");
     return rz;
   }
@@ -116,8 +160,7 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
    * @return TrStgSv
    * @throws Exception - an exception
    */
-  private TrStgSv crPuTrStgSv(
-    final Map<String, Object> pRvs) throws Exception {
+  private TrStgSv crPuTrStgSv(final Map<String, Object> pRvs) throws Exception {
     TrStgSv rz = new TrStgSv();
     ISrTrStg srTrStg = (ISrTrStg) this.fctBlc
       .laz(pRvs, ISrTrStg.class.getSimpleName());
@@ -129,13 +172,29 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
   }
 
   /**
+   * <p>Create and put into the Map AdStgRt.</p>
+   * @param pRvs request scoped vars
+   * @return AdStgRt
+   * @throws Exception - an exception
+   */
+  private AdStgRt crPuAdStgRt(final Map<String, Object> pRvs) throws Exception {
+    AdStgRt rz = new AdStgRt();
+    ISrAdStg srAdStg = (ISrAdStg) this.fctBlc
+      .laz(pRvs, ISrAdStg.class.getSimpleName());
+    rz.setSrAdStg(srAdStg);
+    this.procs.put(AdStgRt.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), AdStgRt.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map TrStgRt.</p>
    * @param pRvs request scoped vars
    * @return TrStgRt
    * @throws Exception - an exception
    */
-  private TrStgRt crPuTrStgRt(
-    final Map<String, Object> pRvs) throws Exception {
+  private TrStgRt crPuTrStgRt(final Map<String, Object> pRvs) throws Exception {
     TrStgRt rz = new TrStgRt();
     ISrTrStg srTrStg = (ISrTrStg) this.fctBlc
       .laz(pRvs, ISrTrStg.class.getSimpleName());

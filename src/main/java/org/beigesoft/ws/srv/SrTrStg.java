@@ -31,7 +31,6 @@ package org.beigesoft.ws.srv;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.beigesoft.exc.ExcCode;
 import org.beigesoft.log.ILog;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.ws.mdlp.TrdStg;
@@ -69,13 +68,14 @@ public class SrTrStg implements ISrTrStg {
     final Map<String, Object> pRvs) throws Exception {
     if (this.trStg == null) {
       Map<String, Object> vs = new HashMap<String, Object>();
-      TrdStg astg = new TrdStg();
-      astg.setIid(1L);
-      this.orm.refrEnt(pRvs, vs, astg);
-      if (astg.getIid() == null) {
-        throw new ExcCode(ExcCode.WRCN, "There_is_no_trade_settings");
+      TrdStg tstg = new TrdStg();
+      tstg.setIid(1L);
+      this.orm.refrEnt(pRvs, vs, tstg);
+      if (tstg.getIid() == null) {
+        tstg.setIid(1L);
+        this.orm.insIdLn(pRvs, vs, tstg);
       }
-      this.trStg = astg;
+      this.trStg = tstg;
       pRvs.put("tstg", this.trStg);
     } else if (pRvs.get("tstg") == null) {
       pRvs.put("tstg", this.trStg);
@@ -96,7 +96,7 @@ public class SrTrStg implements ISrTrStg {
     this.orm.update(pRvs, vs, pTrStg);
     this.orm.refrEnt(pRvs, vs, pTrStg);
     this.trStg = pTrStg;
-    pRvs.put("astg", this.trStg);
+    pRvs.put("tstg", this.trStg);
   }
 
   /**
@@ -118,7 +118,7 @@ public class SrTrStg implements ISrTrStg {
     final Map<String, Object> pRvs) throws Exception {
     getLog().warn(pRvs, getClass(), "Clear cache cause transaction rollback!");
     this.trStg = null;
-    pRvs.remove("astg");
+    pRvs.remove("tstg");
   }
 
   //Simple getters and setters:

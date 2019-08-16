@@ -31,8 +31,12 @@ package org.beigesoft.ws.hld;
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.hld.IHlNmClSt;
 import org.beigesoft.ws.mdlb.AItmSpf;
+import org.beigesoft.ws.mdlp.AddStg;
 import org.beigesoft.ws.mdlp.TrdStg;
 import org.beigesoft.ws.prc.ItmSpSv;
+import org.beigesoft.ws.prc.ItmSpDl;
+import org.beigesoft.ws.prc.AdStgSv;
+import org.beigesoft.ws.prc.AdStgRt;
 import org.beigesoft.ws.prc.TrStgSv;
 import org.beigesoft.ws.prc.TrStgRt;
 
@@ -54,8 +58,20 @@ public class HlTrEnPr implements IHlNmClSt {
   @Override
   public final <T extends IHasId<?>> String get(final Class<T> pCls,
     final String pAct) throws Exception {
-    if (AItmSpf.class.isAssignableFrom(pCls) && "entSv".equals(pAct)) {
-      return ItmSpSv.class.getSimpleName();
+    if (AItmSpf.class.isAssignableFrom(pCls)) {
+      if ("entSv".equals(pAct)) {
+        return ItmSpSv.class.getSimpleName();
+      } else if ("entDl".equals(pAct)) {
+        return ItmSpDl.class.getSimpleName();
+      }
+      return null; //default
+    } else if (AddStg.class == pCls) {
+      if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
+        return AdStgRt.class.getSimpleName();
+      } else if ("entSv".equals(pAct)) {
+        return AdStgSv.class.getSimpleName();
+      }
+      return NULL; //forbidden
     } else if (TrdStg.class == pCls) {
       if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
         return TrStgRt.class.getSimpleName();

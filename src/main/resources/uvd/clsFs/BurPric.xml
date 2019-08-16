@@ -7,6 +7,8 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
+<entry key="buyrwde">ide</entry>
+<entry key="priCtwde">idec</entry>
 <entry key="buyrinp">ide</entry>
 <entry key="priCtinp">idec</entry>
 </properties>

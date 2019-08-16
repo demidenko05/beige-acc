@@ -36,6 +36,8 @@ import org.beigesoft.fct.FctBlc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.ws.hnd.HndTrd;
+import org.beigesoft.ws.srv.ISrAdStg;
+import org.beigesoft.ws.srv.SrAdStg;
 import org.beigesoft.ws.srv.ISrTrStg;
 import org.beigesoft.ws.srv.SrTrStg;
 
@@ -64,6 +66,8 @@ public class FctWs<RS> implements IFctAux<RS> {
       rz = crPuHndTrd(pRvs, pFctApp);
     } else if (IFcCsvDrt.class.getSimpleName().equals(pBnNm)) {
       rz = crPuFcCsvDrt(pRvs, pFctApp);
+    } else if (ISrAdStg.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuSrAdStg(pRvs, pFctApp);
     } else if (ISrTrStg.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrTrStg(pRvs, pFctApp);
     }
@@ -96,12 +100,34 @@ public class FctWs<RS> implements IFctAux<RS> {
     IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);
     rz.setLog(pFctApp.lazLogStd(pRvs));
+    ISrAdStg srAdStg = (ISrAdStg) pFctApp
+      .laz(pRvs, ISrAdStg.class.getSimpleName());
+    rz.setSrAdStg(srAdStg);
     ISrTrStg srTrStg = (ISrTrStg) pFctApp
       .laz(pRvs, ISrTrStg.class.getSimpleName());
     rz.setSrTrStg(srTrStg);
     pFctApp.put(pRvs, HndTrd.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       HndTrd.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF SrAdStg.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return SrAdStg
+   * @throws Exception - an exception
+   */
+  private SrAdStg crPuSrAdStg(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    SrAdStg rz = new SrAdStg();
+    IOrm orm = (IOrm) pFctApp.laz(pRvs, IOrm.class.getSimpleName());
+    rz.setOrm(orm);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    pFctApp.put(pRvs, ISrAdStg.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      SrAdStg.class.getSimpleName() + " has been created");
     return rz;
   }
 

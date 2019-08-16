@@ -35,6 +35,7 @@ import org.beigesoft.log.ILog;
 import org.beigesoft.hnd.IHndRq;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.ws.srv.ISrTrStg;
+import org.beigesoft.ws.srv.ISrAdStg;
 
 /**
  * <p>Handler of any web-store request.</p>
@@ -55,7 +56,12 @@ public class HndTrd<RS> implements IHndRq {
   private IRdb<RS> rdb;
 
   /**
-   * <p>Trade-settings service.</p>
+   * <p>Trade additional settings service.</p>
+   **/
+  private ISrAdStg srAdStg;
+
+  /**
+   * <p>Trade settings service.</p>
    **/
   private ISrTrStg srTrStg;
 
@@ -68,14 +74,17 @@ public class HndTrd<RS> implements IHndRq {
   @Override
   public final void handle(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
-    if (this.srTrStg.getTrStg() == null) {
+    if (this.srTrStg.getTrStg() == null
+      || this.srAdStg.getAdStg() == null) {
       synchronized (this) {
-        if (this.srTrStg.getTrStg() == null) {
+        if (this.srTrStg.getTrStg() == null
+          || this.srAdStg.getAdStg() == null) {
           try {
             this.rdb.setAcmt(false);
             this.rdb.setTrIsl(IRdb.TRRUC);
             this.rdb.begin();
             this.srTrStg.lazTrStg(pRvs);
+            this.srAdStg.lazAdStg(pRvs);
             this.rdb.commit();
           } catch (Exception ex) {
             this.srTrStg.hndRlBk(pRvs);
@@ -89,7 +98,8 @@ public class HndTrd<RS> implements IHndRq {
         }
       }
     } else { //lazTrStg and saveTrStg will put tstg into pRvs!
-      this.srTrStg.lazTrStg(pRvs);
+      this.srTrStg.lazTrStg(pRvs); // rvs.tstg
+      this.srAdStg.lazAdStg(pRvs); // rvs.tastg
     }
   }
 
@@ -124,6 +134,22 @@ public class HndTrd<RS> implements IHndRq {
    **/
   public final void setLog(final ILog pLog) {
     this.log = pLog;
+  }
+
+  /**
+   * <p>Getter for srAdStg.</p>
+   * @return ISrAdStg
+   **/
+  public final ISrAdStg getSrAdStg() {
+    return this.srAdStg;
+  }
+
+  /**
+   * <p>Setter for srAdStg.</p>
+   * @param pSrAdStg reference
+   **/
+  public final void setSrAdStg(final ISrAdStg pSrAdStg) {
+    this.srAdStg = pSrAdStg;
   }
 
   /**

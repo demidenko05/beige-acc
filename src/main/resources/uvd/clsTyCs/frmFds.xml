@@ -8,6 +8,7 @@ See LICENSE in base folder
 <properties>
 <comment>Correspondence of class types to its fields names in list. ORDER is essential, the FIRST value will be used.</comment>
 <entry key="org.beigesoft.acc.mdlb.ATxDsLn">iid,txDs,txCt</entry>
+<entry key="org.beigesoft.mdlp.AI18nNm">lng,hasNm,nme</entry>
 <entry key="org.beigesoft.mdlp.AOrIdNm">iid,idOr,dbOr,nme</entry>
 <entry key="org.beigesoft.mdl.IHasNm">iid,nme</entry>
 </properties>

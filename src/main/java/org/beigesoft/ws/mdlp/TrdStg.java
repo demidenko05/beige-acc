@@ -42,7 +42,7 @@ public class TrdStg extends AIdLnNm {
    * <p>Not Null, default false,
    * if use <b>Price for customer</b> method.</p>
    **/
-  private Boolean priCus;
+  private Boolean priCus = Boolean.FALSE;
 
   /**
    * <p>not null, default 5, maximum quantity

@@ -38,6 +38,7 @@ import java.math.BigDecimal;
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.mdl.IHasNm;
 import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdlp.Lng;
 import org.beigesoft.mdlp.AI18nNm;
 import org.beigesoft.mdlp.CsvMth;
 import org.beigesoft.fct.IFctAsm;
@@ -121,9 +122,16 @@ import org.beigesoft.ws.mdlp.PriSrv;
 import org.beigesoft.ws.mdlp.ItmSpf;
 import org.beigesoft.ws.mdlp.ItmPlc;
 import org.beigesoft.ws.mdlp.ItmCtl;
+import org.beigesoft.ws.mdlp.AddStg;
 import org.beigesoft.ws.mdlp.TrdStg;
 import org.beigesoft.ws.mdlp.Buyer;
 import org.beigesoft.ws.mdlp.BurPric;
+import org.beigesoft.ws.mdlp.I18CatGs;
+import org.beigesoft.ws.mdlp.I18ChoSp;
+import org.beigesoft.ws.mdlp.I18ItmSp;
+import org.beigesoft.ws.mdlp.I18ItmSpGr;
+import org.beigesoft.ws.mdlp.I18SpeLi;
+import org.beigesoft.ws.mdlp.I18Trd;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -165,6 +173,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(SubCat.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(BurPric.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(Buyer.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(AddStg.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(TrdStg.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(ItmCtl.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(ItmPlc.class);
@@ -173,6 +182,11 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(SrvCtl.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(SrvPlc.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(SrvSpf.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(I18CatGs.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(I18ChoSp.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(I18ItmSp.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(I18ItmSpGr.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(I18Trd.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);
@@ -181,6 +195,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     acEnts.setShrEnts(new HashSet<EntShr>());
     Set<Integer> rdrs = new HashSet<Integer>();
     rdrs.add(HldEnts.ID_ADMIN);
+    acEnts.getShrEnts().add(new EntShr(Lng.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Acnt.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Uom.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Itm.class, rdrs));
@@ -215,9 +230,17 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvCtl.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvPlc.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvSpf.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvSpf.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18CatGs.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18ChoSp.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18ItmSp.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18ItmSpGr.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18SpeLi.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Trd.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
+    hlClSt.getNulClss().add(AddStg.class);
     hlClSt.getNulClss().add(TrdStg.class);
     hlClSt.getNulClss().add(Acnt.class);
     hlClSt.getNulClss().add(Sacnt.class);
@@ -247,6 +270,11 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(Acnt.class, "nmbr");
     hlClSt.getStgClss().put(I18Acc.class, "lng");
     hlClSt.getStgClss().put(BurPric.class, "buyr");
+    hlClSt.getStgClss().put(I18CatGs.class, "lng");
+    hlClSt.getStgClss().put(I18ChoSp.class, "lng");
+    hlClSt.getStgClss().put(I18ItmSp.class, "lng");
+    hlClSt.getStgClss().put(I18ItmSpGr.class, "lng");
+    hlClSt.getStgClss().put(I18Trd.class, "lng");
     hlClSt.getStgClss().put(SrvSpf.class, "itm");
     hlClSt.getStgClss().put(SrvPlc.class, "itm");
     hlClSt.getStgClss().put(SrvCtl.class, "itm");
@@ -281,6 +309,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgSclss().put(IOwned.class, "olf");
     hlClSt.setNulClss(new HashSet<Class<? extends IHasId<?>>>());
     hlClSt.getNulClss().add(AcStg.class);
+    hlClSt.getNulClss().add(AddStg.class);
     hlClSt.getNulClss().add(TrdStg.class);
     hlClSt.getNulClss().add(EnrSrc.class);
     hlClSt.getNulClss().add(DriEnrSr.class);
@@ -292,6 +321,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(Entr.class, "acae");
     hlClSt.getStgClss().put(InEntr.class, "acia");
     hlClSt.getStgClss().put(AcStg.class, "ace");
+    hlClSt.getStgClss().put(AddStg.class, "ace");
     hlClSt.getStgClss().put(TrdStg.class, "ace");
     hlClSt.getStgClss().put(EnrSrc.class, "ace");
     hlClSt.getStgClss().put(DriEnrSr.class, "ace");
