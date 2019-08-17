@@ -33,12 +33,15 @@ import org.beigesoft.hld.IHlNmClSt;
 import org.beigesoft.ws.mdlb.AItmSpf;
 import org.beigesoft.ws.mdlp.AddStg;
 import org.beigesoft.ws.mdlp.TrdStg;
+import org.beigesoft.ws.mdlp.SeSel;
 import org.beigesoft.ws.prc.ItmSpSv;
 import org.beigesoft.ws.prc.ItmSpDl;
 import org.beigesoft.ws.prc.AdStgSv;
 import org.beigesoft.ws.prc.AdStgRt;
 import org.beigesoft.ws.prc.TrStgSv;
 import org.beigesoft.ws.prc.TrStgRt;
+import org.beigesoft.ws.prc.SeSelSv;
+import org.beigesoft.ws.prc.SeSelDl;
 
 /**
  * <p>Additional holder of names of admin/trade entities processors.</p>
@@ -63,6 +66,13 @@ public class HlTrEnPr implements IHlNmClSt {
         return ItmSpSv.class.getSimpleName();
       } else if ("entDl".equals(pAct)) {
         return ItmSpDl.class.getSimpleName();
+      }
+      return null; //default
+    } else if (SeSel.class.isAssignableFrom(pCls)) {
+      if ("entSv".equals(pAct)) {
+        return SeSelSv.class.getSimpleName();
+      } else if ("entDl".equals(pAct)) {
+        return SeSelDl.class.getSimpleName();
       }
       return null; //default
     } else if (AddStg.class == pCls) {

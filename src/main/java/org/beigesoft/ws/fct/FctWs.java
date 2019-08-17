@@ -29,13 +29,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.ws.fct;
 
 import java.util.Map;
+import java.util.HashMap;
 
+import org.beigesoft.mdl.IHasId;
 import org.beigesoft.fct.IFcCsvDrt;
 import org.beigesoft.fct.IFctAux;
 import org.beigesoft.fct.FctBlc;
+import org.beigesoft.hnd.HndEntRq;
+import org.beigesoft.prp.Setng;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.eis.IniEisFct;
 import org.beigesoft.ws.hnd.HndTrd;
+import org.beigesoft.ws.hld.HlSeEnPr;
+import org.beigesoft.ws.hld.HlPrFeSe;
+import org.beigesoft.ws.srv.IFiSeSel;
+import org.beigesoft.ws.srv.FiSeSel;
 import org.beigesoft.ws.srv.ISrAdStg;
 import org.beigesoft.ws.srv.SrAdStg;
 import org.beigesoft.ws.srv.ISrTrStg;
@@ -48,6 +57,16 @@ import org.beigesoft.ws.srv.SrTrStg;
  * @author Yury Demidenko
  */
 public class FctWs<RS> implements IFctAux<RS> {
+
+  /**
+   * <p>Handler S.E. entities request name.</p>
+   **/
+  public static final String HNSEENRQ = "hnSeEnRq";
+
+  /**
+   * <p>Processor S.E. entities page name.</p>
+   **/
+  public static final String PRSEENTPG = "prSeEnPg";
 
   /**
    * <p>Creates requested bean and put into given main factory.
@@ -66,10 +85,14 @@ public class FctWs<RS> implements IFctAux<RS> {
       rz = crPuHndTrd(pRvs, pFctApp);
     } else if (IFcCsvDrt.class.getSimpleName().equals(pBnNm)) {
       rz = crPuFcCsvDrt(pRvs, pFctApp);
+    } else if (IFiSeSel.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuFiSeSel(pRvs, pFctApp);
     } else if (ISrAdStg.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrAdStg(pRvs, pFctApp);
     } else if (ISrTrStg.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrTrStg(pRvs, pFctApp);
+    } else if (HNSEENRQ.equals(pBnNm)) {
+      rz = crPuHnSeEnRq(pRvs, pFctApp);
     }
     return rz;
   }
@@ -84,6 +107,48 @@ public class FctWs<RS> implements IFctAux<RS> {
   public final void release(final Map<String, Object> pRvs,
     final FctBlc<RS> pFctApp) throws Exception {
     //nothing
+  }
+
+  /**
+   * <p>Lazy getter handler S.E. entities.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HndEntRq
+   * @throws Exception - an exception
+   */
+  private HndEntRq<RS> crPuHnSeEnRq(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HndEntRq<RS> rz = new HndEntRq<RS>();
+    rz.setWriteTi(pFctApp.getFctDt().getWriteTi());
+    rz.setReadTi(pFctApp.getFctDt().getReadTi());
+    rz.setWriteReTi(pFctApp.getFctDt().getWriteReTi());
+    rz.setWrReSpTr(pFctApp.getFctDt().getWrReSpTr());
+    rz.setLogStd(pFctApp.lazLogStd(pRvs));
+    rz.setLogSec(pFctApp.lazLogSec(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setFilEntRq(pFctApp.lazFilEntRq(pRvs));
+    rz.setFctFctEnt(pFctApp.lazFctFctEnt(pRvs));
+    rz.setHldPrcFenNm(new HlPrFeSe());
+    FcPrFeSe<RS> fen = new FcPrFeSe<RS>();
+    fen.setFctBlc(pFctApp);
+    rz.setFctPrcFen(fen);
+    HlSeEnPr hlSeEnPr = new HlSeEnPr();
+    hlSeEnPr.setShrEnts(pFctApp.getFctDt().evShrEnts(IniEisFct.ID_SESEL));
+    rz.setHldEntPrcNm(hlSeEnPr);
+    rz.setFctEntPrc(pFctApp.lazFctEnPrc(pRvs));
+    rz.setEntMap(new HashMap<String, Class<? extends IHasId<?>>>());
+    Setng setng = pFctApp.lazStgUvd(pRvs);
+    for (Class<? extends IHasId<?>> cls  : setng.lazClss()) {
+      if (pFctApp.getFctDt().isEntAlwd(cls, IniEisFct.ID_SESEL)) {
+        rz.getEntMap().put(cls.getSimpleName(), cls);
+      }
+    }
+    pFctApp.put(pRvs, HNSEENRQ, rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(), HNSEENRQ
+      + " has been created.");
+    return rz;
   }
 
   /**
@@ -109,6 +174,25 @@ public class FctWs<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, HndTrd.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       HndTrd.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF FiSeSel.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return FiSeSel
+   * @throws Exception - an exception
+   */
+  private FiSeSel crPuFiSeSel(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    FiSeSel rz = new FiSeSel();
+    IOrm orm = (IOrm) pFctApp.laz(pRvs, IOrm.class.getSimpleName());
+    rz.setOrm(orm);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    pFctApp.put(pRvs, IFiSeSel.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      FiSeSel.class.getSimpleName() + " has been created");
     return rz;
   }
 

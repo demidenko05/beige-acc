@@ -36,13 +36,20 @@ import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEnfSv;
+import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.ws.prc.AdStgRt;
 import org.beigesoft.ws.prc.AdStgSv;
 import org.beigesoft.ws.prc.TrStgRt;
 import org.beigesoft.ws.prc.TrStgSv;
+import org.beigesoft.ws.prc.HsSeSelSv;
+import org.beigesoft.ws.prc.HsSeSelDl;
+import org.beigesoft.ws.prc.HsSeSelRt;
+import org.beigesoft.ws.prc.SeSelSv;
+import org.beigesoft.ws.prc.SeSelDl;
 import org.beigesoft.ws.prc.ItmSpSv;
 import org.beigesoft.ws.prc.ItmSpDl;
 import org.beigesoft.ws.srv.ISrTrStg;
+import org.beigesoft.ws.srv.IFiSeSel;
 import org.beigesoft.ws.srv.ISrAdStg;
 
 /**
@@ -83,6 +90,16 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
             rz = crPuTrStgRt(pRvs);
           } else if (AdStgRt.class.getSimpleName().equals(pPrNm)) {
             rz = crPuAdStgRt(pRvs);
+          } else if (HsSeSelRt.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuHsSeSelRt(pRvs);
+          } else if (HsSeSelDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuHsSeSelDl(pRvs);
+          } else if (HsSeSelSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuHsSeSelSv(pRvs);
+          } else if (SeSelDl.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuSeSelDl(pRvs);
+          } else if (SeSelSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuSeSelSv(pRvs);
           } else if (ItmSpDl.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItmSpDl(pRvs);
           } else if (ItmSpSv.class.getSimpleName().equals(pPrNm)) {
@@ -95,6 +112,104 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map HsSeSelRt.</p>
+   * @param pRvs request scoped vars
+   * @return HsSeSelRt
+   * @throws Exception - an exception
+   */
+  private HsSeSelRt crPuHsSeSelRt(
+    final Map<String, Object> pRvs) throws Exception {
+    HsSeSelRt rz = new HsSeSelRt();
+    IFiSeSel fiHsSeSel = (IFiSeSel) this.fctBlc
+      .laz(pRvs, IFiSeSel.class.getSimpleName());
+    rz.setFiSeSel(fiHsSeSel);
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
+      .laz(pRvs, FctEnPrc.class.getSimpleName());
+    PrcEntRt dlg = (PrcEntRt) fctEnPrc
+      .lazPart(pRvs, PrcEntRt.class.getSimpleName());
+    rz.setRetrv(dlg);
+    this.procs.put(HsSeSelRt.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), HsSeSelRt.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map HsSeSelDl.</p>
+   * @param pRvs request scoped vars
+   * @return HsSeSelDl
+   * @throws Exception - an exception
+   */
+  private HsSeSelDl crPuHsSeSelDl(
+    final Map<String, Object> pRvs) throws Exception {
+    HsSeSelDl rz = new HsSeSelDl();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    IFiSeSel fiHsSeSel = (IFiSeSel) this.fctBlc
+      .laz(pRvs, IFiSeSel.class.getSimpleName());
+    rz.setFiSeSel(fiHsSeSel);
+    this.procs.put(HsSeSelDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), HsSeSelDl.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map HsSeSelSv.</p>
+   * @param pRvs request scoped vars
+   * @return HsSeSelSv
+   * @throws Exception - an exception
+   */
+  private HsSeSelSv crPuHsSeSelSv(
+    final Map<String, Object> pRvs) throws Exception {
+    HsSeSelSv rz = new HsSeSelSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    IFiSeSel fiHsSeSel = (IFiSeSel) this.fctBlc
+      .laz(pRvs, IFiSeSel.class.getSimpleName());
+    rz.setFiSeSel(fiHsSeSel);
+    this.procs.put(HsSeSelSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), HsSeSelSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map SeSelDl.</p>
+   * @param pRvs request scoped vars
+   * @return SeSelDl
+   * @throws Exception - an exception
+   */
+  private SeSelDl crPuSeSelDl(final Map<String, Object> pRvs) throws Exception {
+    SeSelDl rz = new SeSelDl();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    IFiSeSel fiSeSel = (IFiSeSel) this.fctBlc
+      .laz(pRvs, IFiSeSel.class.getSimpleName());
+    rz.setFiSeSel(fiSeSel);
+    this.procs.put(SeSelDl.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), SeSelDl.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map SeSelSv.</p>
+   * @param pRvs request scoped vars
+   * @return SeSelSv
+   * @throws Exception - an exception
+   */
+  private SeSelSv crPuSeSelSv(final Map<String, Object> pRvs) throws Exception {
+    SeSelSv rz = new SeSelSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    IFiSeSel fiSeSel = (IFiSeSel) this.fctBlc
+      .laz(pRvs, IFiSeSel.class.getSimpleName());
+    rz.setFiSeSel(fiSeSel);
+    this.procs.put(SeSelSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), SeSelSv.class
+      .getSimpleName() + " has been created.");
     return rz;
   }
 

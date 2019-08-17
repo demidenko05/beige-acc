@@ -30,25 +30,20 @@ package org.beigesoft.ws.prc;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.io.File;
 
-import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.ws.mdl.EItmSpTy;
-import org.beigesoft.ws.mdlb.AItmSpf;
-import org.beigesoft.ws.mdlb.AItmSpfId;
+import org.beigesoft.acc.mdlp.DbCr;
+import org.beigesoft.ws.mdlp.SeSel;
+import org.beigesoft.ws.srv.IFiSeSel;
 
 /**
- * <p>Service that deletes item specifics from DB.</p>
+ * <p>Service that deletes S.E.seller from DB.</p>
  *
- * @param <T> entity type
- * @param <ID> entity ID type
  * @author Yury Demidenko
  */
-public class ItmSpDl<T extends AItmSpf<?, ID>, ID extends AItmSpfId<?>>
-  implements IPrcEnt<T, ID> {
+public class SeSelDl implements IPrcEnt<SeSel, DbCr> {
 
   /**
    * <p>ORM service.</p>
@@ -56,54 +51,25 @@ public class ItmSpDl<T extends AItmSpf<?, ID>, ID extends AItmSpfId<?>>
   private IOrm orm;
 
   /**
-   * <p>Full WEB-APP path without end separator,
-   * revealed from servlet context and used for upload files.</p>
+   * <p>S.E.Seller service.</p>
    **/
-  private String appPth;
+  private IFiSeSel fiSeSel;
 
   /**
-   * <p>Process that saves entity.</p>
-   * @param pRvs request scoped vars, e.g. return this line's
-   * owner(document) in "nextEntity" for farther processing
+   * <p>Process that deletes entity.</p>
+   * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
    * @return Entity processed for farther process or null
    * @throws Exception - an exception
    **/
   @Override
-  public final T process(final Map<String, Object> pRvs, final T pEnt,
+  public final SeSel process(final Map<String, Object> pRvs, final SeSel pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    this.orm.refrEnt(pRvs, vs, pEnt);
-    if (pEnt.getSpec().getTyp() == EItmSpTy.FILE_EMBEDDED
-      || pEnt.getSpec().getTyp() == EItmSpTy.FILE
-        || pEnt.getSpec().getTyp() == EItmSpTy.IMAGE
-          || pEnt.getSpec().getTyp() == EItmSpTy.IMAGE_IN_SET) {
-      File fileToDel;
-      if (pEnt.getStr2() != null) {
-        fileToDel = new File(pEnt.getStr2());
-        if (fileToDel.exists() && !fileToDel.delete()) {
-          throw new ExcCode(ExcCode.WR,
-            "Can not delete file: " + fileToDel);
-        }
-      }
-      if (pEnt.getSpec().getTyp() == EItmSpTy.FILE_EMBEDDED
-        && pEnt.getStr3() != null) {
-        int idhHtml = pEnt.getStr1().indexOf(".html");
-        String urlWithoutHtml = pEnt.getStr1().substring(0, idhHtml);
-        for (String lang : pEnt.getStr3().split(",")) {
-          String filePath = this.appPth + File.separator
-            + urlWithoutHtml + "_" + lang + ".html";
-          fileToDel = new File(filePath);
-          if (fileToDel.exists() && !fileToDel.delete()) {
-            throw new ExcCode(ExcCode.WR,
-              "Can not delete file: " + fileToDel);
-          }
-        }
-      }
-    }
     this.orm.del(pRvs, vs, pEnt);
-    pRvs.put("msgSuc", "delete_ok");
+    pRvs.put("msgSuc", "update_ok");
+    this.fiSeSel.hndSelChg(pRvs, pEnt.getUsr().getUsr());
     return null;
   }
 
@@ -125,18 +91,18 @@ public class ItmSpDl<T extends AItmSpf<?, ID>, ID extends AItmSpfId<?>>
   }
 
   /**
-   * <p>Getter for appPth.</p>
-   * @return String
+   * <p>Getter for fiSeSel.</p>
+   * @return IFiSeSel
    **/
-  public final String getAppPth() {
-    return this.appPth;
+  public final IFiSeSel getFiSeSel() {
+    return this.fiSeSel;
   }
 
   /**
-   * <p>Setter for appPth.</p>
-   * @param pAppPth reference
+   * <p>Setter for fiSeSel.</p>
+   * @param pFiSeSel reference
    **/
-  public final void setAppPth(final String pAppPth) {
-    this.appPth = pAppPth;
+  public final void setFiSeSel(final IFiSeSel pFiSeSel) {
+    this.fiSeSel = pFiSeSel;
   }
 }

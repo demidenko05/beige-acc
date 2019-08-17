@@ -132,6 +132,9 @@ import org.beigesoft.ws.mdlp.I18ItmSp;
 import org.beigesoft.ws.mdlp.I18ItmSpGr;
 import org.beigesoft.ws.mdlp.I18SpeLi;
 import org.beigesoft.ws.mdlp.I18Trd;
+import org.beigesoft.ws.mdlp.SeSel;
+import org.beigesoft.ws.mdlp.SeItm;
+import org.beigesoft.ws.mdlp.SeSrv;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -143,9 +146,20 @@ import org.beigesoft.ws.mdlp.I18Trd;
 public class IniEisFct<RS> implements IIniBdFct<RS> {
 
   /**
+   * <p>S.E.Seller entities ID.</p>
+   **/
+  public static final Integer ID_SESEL = 3;
+
+  /**
    * <p>Base initializer.</p>
    **/
   private final IniBdFct<RS> iniBdFct = new IniBdFct<RS>();
+
+  /**
+   * <p>S.E.Seller entities.</p>
+   **/
+  private HldEnts seEnts;
+
   /**
    * <p>Initializes factory.</p>
    * @param pRvs request scoped vars
@@ -187,6 +201,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(I18ItmSp.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(I18ItmSpGr.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(I18Trd.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(SeSel.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);
@@ -195,14 +210,40 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     acEnts.setShrEnts(new HashSet<EntShr>());
     Set<Integer> rdrs = new HashSet<Integer>();
     rdrs.add(HldEnts.ID_ADMIN);
+    Set<Integer> rdrse = new HashSet<Integer>();
+    rdrse.add(HldEnts.ID_ADMIN);
+    rdrse.add(ID_SESEL);
     acEnts.getShrEnts().add(new EntShr(Lng.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Acnt.class, rdrs));
-    acEnts.getShrEnts().add(new EntShr(Uom.class, rdrs));
+    acEnts.getShrEnts().add(new EntShr(Tax.class, rdrse));
+    acEnts.getShrEnts().add(new EntShr(TxCt.class, rdrse));
+    acEnts.getShrEnts().add(new EntShr(Uom.class, rdrse));
     acEnts.getShrEnts().add(new EntShr(Itm.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Srv.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(CsvMth.class, rdrs));
     pFct.getFctBlc().getFctDt().getHldsEnts().add(acEnts);
     pFct.getFctBlc().getFctDt().getMaFrClss().add(ItmCt.class);
+    pFct.getFctBlc().getFctDt().getHldsEnts().add(lazSeEnts());
+  }
+
+  /**
+   * <p>Getter for S.E.Seller's entities.</p>
+   * @return HldEnts
+   **/
+  public final HldEnts lazSeEnts() {
+    if (this.seEnts == null) {
+      this.seEnts = new HldEnts();
+      this.seEnts.setIid(ID_SESEL);
+      this.seEnts.setShrEnts(new HashSet<EntShr>());
+      Set<Integer> rdrs = new HashSet<Integer>();
+      rdrs.add(HldEnts.ID_ADMIN);
+      this.seEnts.getShrEnts().add(new EntShr(SeSrv.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SeItm.class, rdrs));
+      this.seEnts.setEnts(new HashSet<Class<? extends IHasId<?>>>());
+      this.seEnts.getEnts().add(SeItm.class);
+      this.seEnts.getEnts().add(SeSrv.class);
+    }
+    return this.seEnts;
   }
 
   /**
@@ -237,6 +278,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18ItmSpGr.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18SpeLi.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Trd.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeSel.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
@@ -272,6 +314,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(BurPric.class, "buyr");
     hlClSt.getStgClss().put(I18CatGs.class, "lng");
     hlClSt.getStgClss().put(I18ChoSp.class, "lng");
+    hlClSt.getStgClss().put(SeSel.class, "dbcr");
     hlClSt.getStgClss().put(I18ItmSp.class, "lng");
     hlClSt.getStgClss().put(I18ItmSpGr.class, "lng");
     hlClSt.getStgClss().put(I18Trd.class, "lng");

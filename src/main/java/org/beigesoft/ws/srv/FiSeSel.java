@@ -30,17 +30,21 @@ package org.beigesoft.ws.srv;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 import org.beigesoft.log.ILog;
 import org.beigesoft.rdb.IOrm;
-import org.beigesoft.ws.mdlp.TrdStg;
+import org.beigesoft.ws.mdlp.SeSel;
 
 /**
- * <p>Trade settings service.</p>
+ * <p>S.E.Seller finder service. Standard implementation
+ * for small number of S.E. Sellers. It requires opened transaction.
+ * Methods are synchronized.</p>
  *
+ * @param  platform dependent record set type
  * @author Yury Demidenko
  */
-public class SrTrStg implements ISrTrStg {
+public class FiSeSel implements IFiSeSel {
 
   /**
    * <p>Log.</p>
@@ -53,60 +57,43 @@ public class SrTrStg implements ISrTrStg {
   private IOrm orm;
 
   /**
-   * <p>Cached settings.</p>
+   * <p>Cache of all S.E.Sellers.</p>
    **/
-  private TrdStg trStg;
+  private List<SeSel> sellers;
 
   /**
-   * <p>Retrieves/gets Trade settings.</p>
-   * @param pRvs Request scoped variables
-   * @return Trade settings
+   * <p>Finds by name.</p>
+   * @param pRvs additional request scoped parameters
+   * @param pName seller's
+   * @return S.E. Seller or null
    * @throws Exception - an exception
    **/
   @Override
-  public final synchronized TrdStg lazTrStg(
-    final Map<String, Object> pRvs) throws Exception {
-    if (this.trStg == null) {
+  public final synchronized SeSel find(final Map<String, Object> pRvs,
+    final String pName) throws Exception {
+    if (this.sellers == null) {
       Map<String, Object> vs = new HashMap<String, Object>();
-      TrdStg tstg = new TrdStg();
-      tstg.setIid(1L);
-      this.orm.refrEnt(pRvs, vs, tstg);
-      if (tstg.getIid() == null) {
-        tstg.setIid(1L);
-        tstg.setNme("Bob's store");
-        this.orm.insIdLn(pRvs, vs, tstg);
-      }
-      this.trStg = tstg;
-      pRvs.put("tstg", this.trStg);
-    } else if (pRvs.get("tstg") == null) {
-      pRvs.put("tstg", this.trStg);
+      this.sellers = this.orm.retLst(pRvs, vs, SeSel.class);
     }
-    return this.trStg;
+    for (SeSel ses : this.sellers) {
+      if (ses.getUsr().getUsr().equals(pName)) {
+        return ses;
+      }
+    }
+    return null;
   }
 
   /**
-   * <p>Saves trade-settings into DB.</p>
-   * @param pRvs Request scoped variables
-   * @param pTrStg entity
+   * <p>Handle S.E. seller changed.
+   * Any change leads to refreshing whole list.</p>
+   * @param pRvs additional param
+   * @param pName seller's, null means "refresh all"
    * @throws Exception - an exception
    **/
   @Override
-  public final synchronized void saveTrStg(final Map<String, Object> pRvs,
-    final TrdStg pTrStg) throws Exception {
-    Map<String, Object> vs = new HashMap<String, Object>();
-    this.orm.update(pRvs, vs, pTrStg);
-    this.orm.refrEnt(pRvs, vs, pTrStg);
-    this.trStg = pTrStg;
-    pRvs.put("tstg", this.trStg);
-  }
-
-  /**
-   * <p>Getter for trdStg for avoiding starting new transaction.</p>
-   * @return TrdStg
-   **/
-  @Override
-  public final synchronized TrdStg getTrStg() {
-    return this.trStg;
+  public final synchronized void hndSelChg(final Map<String, Object> pRvs,
+    final String pName) throws Exception {
+    this.sellers = null;
   }
 
   /**
@@ -118,8 +105,7 @@ public class SrTrStg implements ISrTrStg {
   public final synchronized void hndRlBk(
     final Map<String, Object> pRvs) throws Exception {
     getLog().warn(pRvs, getClass(), "Clear cache cause transaction rollback!");
-    this.trStg = null;
-    pRvs.remove("tstg");
+    this.sellers = null;
   }
 
   //Simple getters and setters:
