@@ -85,7 +85,7 @@ public class FlSeSel implements IEvalFr<IReqDt, String> {
       } else { //good/service/paymd
         wheSe = nmEnt.toUpperCase() + ".SELR=";
       }
-      return wheSe + sel.getUsr().getUsr();
+      return wheSe + sel.getDbcr().getIid();
     } else { //picked foreign, e.g. Uom:
       return null;
     }

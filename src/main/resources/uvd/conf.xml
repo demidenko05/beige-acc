@@ -132,6 +132,11 @@ See LICENSE in base folder
   org.beigesoft.ws.mdlp.I18ItmSp,
   org.beigesoft.ws.mdlp.I18ItmSpGr,
   org.beigesoft.ws.mdlp.I18Trd,
+  org.beigesoft.ws.mdlp.SeSel,
+  org.beigesoft.ws.mdlp.SeSrv,
+  org.beigesoft.ws.mdlp.SerTxDl,
+  org.beigesoft.ws.mdlp.SeItm,
+  org.beigesoft.ws.mdlp.SitTxDl,
   org.beigesoft.ws.mdlp.TrdStg</entry>
 <entry key="stgClsNms">exlFlds,idFlds,owdEnts,frmFds,lstFds,pickFds,selFds,selDpl</entry>
 <entry key="stgFldNms">cnToSt,cnFrSt,inp,str,wde</entry>

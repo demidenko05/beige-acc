@@ -7,5 +7,6 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
-<entry key="idFlds">curr</entry>
+<entry key="frmFds">iid,selr,nme,duom,txCt</entry>
+<entry key="owdEnts">org.beigesoft.ws.mdlp.SitTxDl</entry>
 </properties>

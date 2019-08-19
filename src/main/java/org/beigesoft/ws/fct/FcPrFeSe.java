@@ -30,6 +30,7 @@ package org.beigesoft.ws.fct;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.HashSet;
 
 import org.beigesoft.exc.ExcCode;
@@ -41,6 +42,7 @@ import org.beigesoft.prc.PrcEntPg;
 import org.beigesoft.srv.EntPg;
 import org.beigesoft.eis.IniEisFct;
 import org.beigesoft.ws.srv.FlSeSel;
+import org.beigesoft.ws.srv.IFiSeSel;
 
 /**
  * <p>Factory of processors for S.E. entity request like list.</p>
@@ -100,13 +102,20 @@ public class FcPrFeSe<RS> implements IFctPrc {
     entPg.setHlpEntPg(this.fctBlc.lazHlpEntPg(pRvs));
     entPg.setEntMp(new HashMap<String, Class<? extends IHasId<?>>>());
     FlSeSel flSeSel = new FlSeSel();
+    IFiSeSel fiSeSel = (IFiSeSel) this.fctBlc
+      .laz(pRvs, IFiSeSel.class.getSimpleName());
+    flSeSel.setFiSeSel(fiSeSel);
     entPg.setMkrFlt(flSeSel);
     flSeSel.setEnts(new HashSet<Class<? extends IHasId<?>>>());
+    Set<Class<? extends IHasId<?>>> shrd = this.fctBlc.getFctDt()
+      .evShrEnts(IniEisFct.ID_SESEL);
     for (Class<? extends IHasId<?>> cls : this.fctBlc
       .lazStgUvd(pRvs).lazClss()) {
       if (this.fctBlc.getFctDt().isEntAlwd(cls, IniEisFct.ID_SESEL)) {
         entPg.getEntMp().put(cls.getSimpleName(), cls);
-        flSeSel.getEnts().add(cls);
+        if (!shrd.contains(cls)) {
+          flSeSel.getEnts().add(cls);
+        }
       }
     }
     rz.setEntPg(entPg);

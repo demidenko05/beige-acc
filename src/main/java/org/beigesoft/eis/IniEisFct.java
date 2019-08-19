@@ -100,6 +100,7 @@ import org.beigesoft.acc.mdlp.WgTxl;
 import org.beigesoft.acc.mdlp.Wage;
 import org.beigesoft.acc.mdlp.BnkStm;
 import org.beigesoft.acc.mdlp.BnStLn;
+import org.beigesoft.acc.mdlp.DbCr;
 import org.beigesoft.acc.rpl.RplAcc;
 import org.beigesoft.acc.rpl.RpExDbl;
 import org.beigesoft.acc.rpl.RpExCrl;
@@ -135,6 +136,8 @@ import org.beigesoft.ws.mdlp.I18Trd;
 import org.beigesoft.ws.mdlp.SeSel;
 import org.beigesoft.ws.mdlp.SeItm;
 import org.beigesoft.ws.mdlp.SeSrv;
+import org.beigesoft.ws.mdlp.SitTxDl;
+import org.beigesoft.ws.mdlp.SerTxDl;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -213,9 +216,12 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     Set<Integer> rdrse = new HashSet<Integer>();
     rdrse.add(HldEnts.ID_ADMIN);
     rdrse.add(ID_SESEL);
+    acEnts.getShrEnts().add(new EntShr(Curr.class, rdrs));
+    acEnts.getShrEnts().add(new EntShr(DbCr.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Lng.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Acnt.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Tax.class, rdrse));
+    acEnts.getShrEnts().add(new EntShr(TxDst.class, rdrse));
     acEnts.getShrEnts().add(new EntShr(TxCt.class, rdrse));
     acEnts.getShrEnts().add(new EntShr(Uom.class, rdrse));
     acEnts.getShrEnts().add(new EntShr(Itm.class, rdrs));
@@ -241,7 +247,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
       this.seEnts.getShrEnts().add(new EntShr(SeItm.class, rdrs));
       this.seEnts.setEnts(new HashSet<Class<? extends IHasId<?>>>());
       this.seEnts.getEnts().add(SeItm.class);
+      this.seEnts.getEnts().add(SitTxDl.class);
       this.seEnts.getEnts().add(SeSrv.class);
+      this.seEnts.getEnts().add(SerTxDl.class);
     }
     return this.seEnts;
   }
@@ -436,6 +444,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgClss().put(PuInGdLn.class, "pinl");
     hlFdSt.getStgClss().put(SaInGdLn.class, "inl");
     hlFdSt.getStgClss().put(MnfPrc.class, "dits");
+    hlFdSt.getStgClss().put(SeSel.class, "selr");
     //Acnt.saTy
     hlFdSt.getCustClss().add(Integer.class);
     hlFdSt.getStgSclss().put(AInv.class, "inv");

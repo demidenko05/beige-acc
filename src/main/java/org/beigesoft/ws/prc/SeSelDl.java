@@ -28,10 +28,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.prc;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.hnd.IHnTrRlBk;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.acc.mdlp.DbCr;
@@ -67,6 +70,13 @@ public class SeSelDl implements IPrcEnt<SeSel, DbCr> {
   public final SeSel process(final Map<String, Object> pRvs, final SeSel pEnt,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
+    @SuppressWarnings("unchecked")
+    Set<IHnTrRlBk> hnsTrRlBk = (Set<IHnTrRlBk>) pRvs.get(IHnTrRlBk.HNSTRRLBK);
+    if (hnsTrRlBk == null) {
+      hnsTrRlBk = new HashSet<IHnTrRlBk>();
+      pRvs.put(IHnTrRlBk.HNSTRRLBK, hnsTrRlBk);
+    }
+    hnsTrRlBk.add(this.fiSeSel);
     this.orm.del(pRvs, vs, pEnt);
     pRvs.put("msgSuc", "update_ok");
     this.fiSeSel.hndSelChg(pRvs, pEnt.getUsr().getUsr());
