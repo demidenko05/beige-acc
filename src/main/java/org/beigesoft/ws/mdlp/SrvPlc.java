@@ -28,8 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.mdlp;
 
-import java.util.Date;
-
 import org.beigesoft.acc.mdlp.Srv;
 import org.beigesoft.ws.mdlb.AItmPlc;
 
@@ -56,9 +54,9 @@ public class SrvPlc extends AItmPlc<Srv, SrvPlcId> {
   private Srv itm;
 
   /**
-   * <p>Since date, not null.</p>
+   * <p>Distance if present in hundred meters, i.e. 1 means 100meters.</p>
    **/
-  private Date sinc;
+  private Long dist;
 
   /**
    * <p>Usually it's simple getter that return model ID.</p>
@@ -131,18 +129,18 @@ public class SrvPlc extends AItmPlc<Srv, SrvPlcId> {
 
   //Simple getters and setters:
   /**
-   * <p>Getter for sinc.</p>
-   * @return Date
+   * <p>Getter for dist.</p>
+   * @return Long
    **/
-  public final Date getSinc() {
-    return this.sinc;
+  public final Long getDist() {
+    return this.dist;
   }
 
   /**
-   * <p>Setter for sinc.</p>
-   * @param pSinc reference
+   * <p>Setter for dist.</p>
+   * @param pDist reference
    **/
-  public final void setSinc(final Date pSinc) {
-    this.sinc = pSinc;
+  public final void setDist(final Long pDist) {
+    this.dist = pDist;
   }
 }

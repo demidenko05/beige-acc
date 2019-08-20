@@ -36,6 +36,7 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.ws.mdlb.IHsSeSel;
+import org.beigesoft.ws.mdlb.AItmSpf;
 import org.beigesoft.ws.mdlp.SeSel;
 import org.beigesoft.ws.srv.IFiSeSel;
 
@@ -59,6 +60,11 @@ public class HsSeSelSv<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
   private IFiSeSel fiSeSel;
 
   /**
+   * <p>Delegate.</p>
+   **/
+  private ItmSpSv<AItmSpf<?, ?>, ?> itmSpSv;
+
+  /**
    * <p>Process that saves entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -73,10 +79,17 @@ public class HsSeSelSv<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
     pEnt.setSelr(sel);
     Map<String, Object> vs = new HashMap<String, Object>();
     if (pEnt.getIsNew()) {
-      this.orm.insert(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "insert_ok");
+      if (AItmSpf.class.isAssignableFrom(pEnt.getClass())) {
+        AItmSpf<?, ?> itsp = (AItmSpf<?, ?>) pEnt;
+        this.itmSpSv.process(pRvs, itsp, pRqDt);
+      } else {
+        this.orm.insert(pRvs, vs, pEnt);
+        pRvs.put("msgSuc", "insert_ok");
+      }
     } else {
-      T old = this.orm.retEnt(pRvs, vs, pEnt);
+      vs.put("SeSeldpLv", 1);
+      vs.put("SeSelndFds", new String[] {"usr"});
+      T old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
       if (!pEnt.getSelr().getUsr().getUsr()
         .equals(old.getSelr().getUsr().getUsr())) {
         throw new ExcCode(ExcCode.SPAM,
@@ -84,8 +97,13 @@ public class HsSeSelSv<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
             + pRqDt.getUsrNm() + "/" + pEnt.getClass() + "/" + pEnt.getIid()
               + "/" + old.getSelr().getUsr().getUsr());
       }
-      this.orm.update(pRvs, vs, pEnt);
-      pRvs.put("msgSuc", "update_ok");
+      if (AItmSpf.class.isAssignableFrom(pEnt.getClass())) {
+        AItmSpf<?, ?> itsp = (AItmSpf<?, ?>) pEnt;
+        this.itmSpSv.process(pRvs, itsp, pRqDt);
+      } else {
+        this.orm.update(pRvs, vs, pEnt);
+        pRvs.put("msgSuc", "update_ok");
+      }
     }
     return pEnt;
   }
@@ -121,5 +139,21 @@ public class HsSeSelSv<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
    **/
   public final void setFiSeSel(final IFiSeSel pFiSeSel) {
     this.fiSeSel = pFiSeSel;
+  }
+
+  /**
+   * <p>Getter for itmSpSv.</p>
+   * @return ItmSpSv<AItmSpf<?, ?>, ?>
+   **/
+  public final ItmSpSv<AItmSpf<?, ?>, ?> getItmSpSv() {
+    return this.itmSpSv;
+  }
+
+  /**
+   * <p>Setter for itmSpSv.</p>
+   * @param pItmSpSv reference
+   **/
+  public final void setItmSpSv(final ItmSpSv<AItmSpf<?, ?>, ?> pItmSpSv) {
+    this.itmSpSv = pItmSpSv;
   }
 }

@@ -73,19 +73,7 @@ public class FlSeSel implements IEvalFr<IReqDt, String> {
     }
     if (isSe) {
       SeSel sel = this.fiSeSel.find(pRvs, pRqDt.getUsrNm());
-      //simple-hummer implementation:
-      String wheSe;
-      if (nmEnt.startsWith("I18")) {
-        wheSe = "HASNM.SELR=";
-      } else if (nmEnt.startsWith("Pri") || nmEnt.endsWith("Plc")
-        || nmEnt.endsWith("Spf")) {
-        wheSe = "ITM.SELR=";
-      } else if (nmEnt.equals("SeCuOr")) {
-        wheSe = "SECUOR.SELR=";
-      } else { //good/service/paymd
-        wheSe = nmEnt.toUpperCase() + ".SELR=";
-      }
-      return wheSe + sel.getDbcr().getIid();
+      return "SELR=" + sel.getDbcr().getIid();
     } else { //picked foreign, e.g. Uom:
       return null;
     }

@@ -138,6 +138,14 @@ import org.beigesoft.ws.mdlp.SeItm;
 import org.beigesoft.ws.mdlp.SeSrv;
 import org.beigesoft.ws.mdlp.SitTxDl;
 import org.beigesoft.ws.mdlp.SerTxDl;
+import org.beigesoft.ws.mdlp.SeSrvPlc;
+import org.beigesoft.ws.mdlp.I18SeSrv;
+import org.beigesoft.ws.mdlp.SeItmPlc;
+import org.beigesoft.ws.mdlp.I18SeItm;
+import org.beigesoft.ws.mdlp.SeItmPri;
+import org.beigesoft.ws.mdlp.SeItmSpf;
+import org.beigesoft.ws.mdlp.SeSrvPri;
+import org.beigesoft.ws.mdlp.SeSrvSpf;
 
 /**
  * <p>Business-logic dependent sub-initializer main
@@ -206,6 +214,11 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(I18Trd.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(SeSel.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
+    Set<Integer> rdre = new HashSet<Integer>();
+    rdre.add(ID_SESEL);
+    this.iniBdFct.lazAdmEnts().getShrEnts().add(new EntShr(PicPlc.class, rdre));
+    this.iniBdFct.lazAdmEnts().getShrEnts().add(new EntShr(ItmSp.class, rdre));
+    this.iniBdFct.lazAdmEnts().getShrEnts().add(new EntShr(PriCt.class, rdre));
     makeUvdCls(pRvs, pFct);
     makeUvdFds(pRvs, pFct);
     HldEnts acEnts = new HldEnts();
@@ -218,7 +231,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     rdrse.add(ID_SESEL);
     acEnts.getShrEnts().add(new EntShr(Curr.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(DbCr.class, rdrs));
-    acEnts.getShrEnts().add(new EntShr(Lng.class, rdrs));
+    acEnts.getShrEnts().add(new EntShr(Lng.class, rdrse));
     acEnts.getShrEnts().add(new EntShr(Acnt.class, rdrs));
     acEnts.getShrEnts().add(new EntShr(Tax.class, rdrse));
     acEnts.getShrEnts().add(new EntShr(TxDst.class, rdrse));
@@ -250,6 +263,14 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
       this.seEnts.getEnts().add(SitTxDl.class);
       this.seEnts.getEnts().add(SeSrv.class);
       this.seEnts.getEnts().add(SerTxDl.class);
+      this.seEnts.getEnts().add(SeSrvPlc.class);
+      this.seEnts.getEnts().add(I18SeSrv.class);
+      this.seEnts.getEnts().add(SeItmPlc.class);
+      this.seEnts.getEnts().add(I18SeItm.class);
+      this.seEnts.getEnts().add(SeItmSpf.class);
+      this.seEnts.getEnts().add(SeItmPri.class);
+      this.seEnts.getEnts().add(SeSrvSpf.class);
+      this.seEnts.getEnts().add(SeSrvPri.class);
     }
     return this.seEnts;
   }
@@ -274,6 +295,12 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(PriSrv.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(BurPric.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(ItmCtl.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeSrvPlc.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeItmPlc.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeItmPri.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeItmSpf.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeSrvPri.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeSrvSpf.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(ItmPlc.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(ItmSpf.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvCtl.class);
@@ -282,6 +309,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(SrvSpf.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18CatGs.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18ChoSp.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18SeSrv.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(I18SeItm.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18ItmSp.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18ItmSpGr.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18SpeLi.class);
@@ -323,12 +352,20 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(I18CatGs.class, "lng");
     hlClSt.getStgClss().put(I18ChoSp.class, "lng");
     hlClSt.getStgClss().put(SeSel.class, "dbcr");
+    hlClSt.getStgClss().put(I18SeSrv.class, "lng");
+    hlClSt.getStgClss().put(I18SeItm.class, "lng");
     hlClSt.getStgClss().put(I18ItmSp.class, "lng");
     hlClSt.getStgClss().put(I18ItmSpGr.class, "lng");
     hlClSt.getStgClss().put(I18Trd.class, "lng");
     hlClSt.getStgClss().put(SrvSpf.class, "itm");
     hlClSt.getStgClss().put(SrvPlc.class, "itm");
     hlClSt.getStgClss().put(SrvCtl.class, "itm");
+    hlClSt.getStgClss().put(SeItmPri.class, "itm");
+    hlClSt.getStgClss().put(SeItmSpf.class, "itm");
+    hlClSt.getStgClss().put(SeSrvPri.class, "itm");
+    hlClSt.getStgClss().put(SeSrvSpf.class, "itm");
+    hlClSt.getStgClss().put(SeSrvPlc.class, "itm");
+    hlClSt.getStgClss().put(SeItmPlc.class, "itm");
     hlClSt.getStgClss().put(ItmPlc.class, "itm");
     hlClSt.getStgClss().put(ItmCtl.class, "itm");
     hlClSt.getStgClss().put(ItmSpf.class, "itm");
@@ -386,6 +423,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(MnpMcs.class, "acrv");
     hlClSt.getStgClss().put(ItUbLn.class, "acrv");
     hlClSt.getStgClss().put(SalInv.class, "asiv");
+    hlClSt.getStgClss().put(SeItmSpf.class, "speAc");
+    hlClSt.getStgClss().put(SeSrvSpf.class, "speAc");
     hlClSt.getStgClss().put(ItmSpf.class, "speAc");
     hlClSt.getStgClss().put(SrvSpf.class, "speAc");
     hlClSt.getStgClss().put(EmpWg.class, null);
@@ -396,6 +435,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(MnfPrc.class, "adcl");
     hlClSt.getStgClss().put(ItmUlb.class, "adcl");
     hlClSt.getStgClss().put(Wage.class, "awg");
+    hlClSt.getStgClss().put(SeItmSpf.class, "speAc");
+    hlClSt.getStgClss().put(SeSrvSpf.class, "speAc");
     hlClSt.getStgClss().put(ItmSpf.class, "speAc");
     hlClSt.getStgClss().put(SrvSpf.class, "speAc");
     hlClSt.getStgSclss().put(IInvb.class, "adcl");

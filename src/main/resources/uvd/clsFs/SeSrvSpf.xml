@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--BSD 2-Clause License
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+See LICENSE in base folder
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Explicit final definition.</comment>
+<entry key="itmwde">ide</entry>
+<entry key="specwde">idec</entry>
+<entry key="itminp">ide</entry>
+<entry key="specinp">idec</entry>
+<entry key="num1cnToSt">CnvMaxStr</entry>
+<entry key="num2cnToSt">CnvMaxStr</entry>
+<entry key="num1inp"></entry>
+<entry key="num2inp"></entry>
+<entry key="lng1inp"></entry>
+<entry key="lng2inp"></entry>
+<entry key="str1inp"></entry>
+<entry key="str2inp"></entry>
+<entry key="str3inp"></entry>
+</properties>

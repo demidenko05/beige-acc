@@ -36,6 +36,7 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.ws.mdlb.IHsSeSel;
+import org.beigesoft.ws.mdlb.AItmSpf;
 import org.beigesoft.ws.mdlp.SeSel;
 import org.beigesoft.ws.srv.IFiSeSel;
 
@@ -59,6 +60,11 @@ public class HsSeSelDl<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
   private IFiSeSel fiSeSel;
 
   /**
+   * <p>Delegate.</p>
+   **/
+  private ItmSpDl<AItmSpf<?, ?>, ?> itmSpDl;
+
+  /**
    * <p>Process that deletes entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -72,7 +78,9 @@ public class HsSeSelDl<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
     SeSel sel = this.fiSeSel.find(pRvs, pRqDt.getUsrNm());
     pEnt.setSelr(sel);
     Map<String, Object> vs = new HashMap<String, Object>();
-    T old = this.orm.retEnt(pRvs, vs, pEnt);
+    vs.put("SeSeldpLv", 1);
+    vs.put("SeSelndFds", new String[] {"usr"});
+    T old = this.orm.retEnt(pRvs, vs, pEnt); vs.clear();
     if (!pEnt.getSelr().getUsr().getUsr()
       .equals(old.getSelr().getUsr().getUsr())) {
       throw new ExcCode(ExcCode.SPAM,
@@ -80,8 +88,13 @@ public class HsSeSelDl<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
           + pRqDt.getUsrNm() + "/" + pEnt.getClass() + "/" + pEnt.getIid()
             + "/" + old.getSelr().getUsr().getUsr());
     }
-    this.orm.del(pRvs, vs, pEnt);
-    pRvs.put("msgSuc", "delete_ok");
+    if (AItmSpf.class.isAssignableFrom(pEnt.getClass())) {
+      AItmSpf<?, ?> itsp = (AItmSpf<?, ?>) pEnt;
+      this.itmSpDl.process(pRvs, itsp, pRqDt);
+    } else {
+      this.orm.del(pRvs, vs, pEnt);
+      pRvs.put("msgSuc", "delete_ok");
+    }
     return null;
   }
 
@@ -116,5 +129,21 @@ public class HsSeSelDl<T extends IHsSeSel<ID>, ID> implements IPrcEnt<T, ID> {
    **/
   public final void setFiSeSel(final IFiSeSel pFiSeSel) {
     this.fiSeSel = pFiSeSel;
+  }
+
+  /**
+   * <p>Getter for itmSpDl.</p>
+   * @return ItmSpDl<AItmSpf<?, ?>, ?>
+   **/
+  public final ItmSpDl<AItmSpf<?, ?>, ?> getItmSpDl() {
+    return this.itmSpDl;
+  }
+
+  /**
+   * <p>Setter for itmSpDl.</p>
+   * @param pItmSpDl reference
+   **/
+  public final void setItmSpDl(final ItmSpDl<AItmSpf<?, ?>, ?> pItmSpDl) {
+    this.itmSpDl = pItmSpDl;
   }
 }

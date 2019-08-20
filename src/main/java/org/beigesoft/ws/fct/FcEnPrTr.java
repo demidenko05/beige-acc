@@ -37,6 +37,7 @@ import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrcEnt;
 import org.beigesoft.prc.PrcEnfSv;
 import org.beigesoft.prc.PrcEntRt;
+import org.beigesoft.ws.mdlb.AItmSpf;
 import org.beigesoft.ws.prc.AdStgRt;
 import org.beigesoft.ws.prc.AdStgSv;
 import org.beigesoft.ws.prc.TrStgRt;
@@ -152,6 +153,10 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
     IFiSeSel fiHsSeSel = (IFiSeSel) this.fctBlc
       .laz(pRvs, IFiSeSel.class.getSimpleName());
     rz.setFiSeSel(fiHsSeSel);
+    @SuppressWarnings("unchecked")
+    ItmSpDl<AItmSpf<?, ?>, ?> dlg = (ItmSpDl<AItmSpf<?, ?>, ?>)
+      this.laz(pRvs, ItmSpDl.class.getSimpleName());
+    rz.setItmSpDl(dlg);
     this.procs.put(HsSeSelDl.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), HsSeSelDl.class
       .getSimpleName() + " has been created.");
@@ -171,6 +176,10 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
     IFiSeSel fiHsSeSel = (IFiSeSel) this.fctBlc
       .laz(pRvs, IFiSeSel.class.getSimpleName());
     rz.setFiSeSel(fiHsSeSel);
+    @SuppressWarnings("unchecked")
+    ItmSpSv<AItmSpf<?, ?>, ?> dlg = (ItmSpSv<AItmSpf<?, ?>, ?>)
+      this.laz(pRvs, ItmSpSv.class.getSimpleName());
+    rz.setItmSpSv(dlg);
     this.procs.put(HsSeSelSv.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), HsSeSelSv.class
       .getSimpleName() + " has been created.");
