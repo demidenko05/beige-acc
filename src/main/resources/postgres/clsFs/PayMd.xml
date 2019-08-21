@@ -7,7 +7,7 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Explicit final definition.</comment>
-<entry key="iiddef">bigserial not null primary key</entry>
-<entry key="selrdef">bigint not null</entry>
-<entry key="txCtnul">true</entry>
+<entry key="mdenul">false</entry>
+<entry key="sec1nul">false</entry>
+<entry key="sec2nul">false</entry>
 </properties>

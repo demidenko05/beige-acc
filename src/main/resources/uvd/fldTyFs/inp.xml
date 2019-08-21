@@ -8,6 +8,7 @@ See LICENSE in base folder
 <properties>
 <comment>Correspondence of Java types to HTML input. ORDER is essential, the FIRST value will be used.</comment>
 <entry key="org.beigesoft.mdl.IHasNm">nme</entry>
+<entry key="org.beigesoft.mdl.IHasId">hsid</entry>
 <entry key="java.util.Date">dtTm</entry>
 <entry key="java.lang.String">str</entry>
 <entry key="java.lang.Long">int</entry>

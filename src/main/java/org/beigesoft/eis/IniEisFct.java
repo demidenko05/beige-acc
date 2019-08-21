@@ -134,6 +134,11 @@ import org.beigesoft.ws.mdlp.I18ItmSpGr;
 import org.beigesoft.ws.mdlp.I18SpeLi;
 import org.beigesoft.ws.mdlp.I18Trd;
 import org.beigesoft.ws.mdlp.SeSel;
+import org.beigesoft.ws.mdlp.Deliv;
+import org.beigesoft.ws.mdlp.PayMd;
+import org.beigesoft.ws.mdlp.SePayMd;
+import org.beigesoft.ws.mdlp.SeItmCtl;
+import org.beigesoft.ws.mdlp.SeSrvCtl;
 import org.beigesoft.ws.mdlp.SeItm;
 import org.beigesoft.ws.mdlp.SeSrv;
 import org.beigesoft.ws.mdlp.SitTxDl;
@@ -213,6 +218,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(I18ItmSpGr.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(I18Trd.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(SeSel.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(SeItmCtl.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(SeSrvCtl.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(Deliv.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(PayMd.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     Set<Integer> rdre = new HashSet<Integer>();
     rdre.add(ID_SESEL);
@@ -258,6 +267,16 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
       rdrs.add(HldEnts.ID_ADMIN);
       this.seEnts.getShrEnts().add(new EntShr(SeSrv.class, rdrs));
       this.seEnts.getShrEnts().add(new EntShr(SeItm.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SitTxDl.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SerTxDl.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SeSrvPlc.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(I18SeSrv.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SeItmPlc.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(I18SeItm.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SeItmSpf.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SeSrvSpf.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SeItmPri.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(SeSrvPri.class, rdrs));
       this.seEnts.setEnts(new HashSet<Class<? extends IHasId<?>>>());
       this.seEnts.getEnts().add(SeItm.class);
       this.seEnts.getEnts().add(SitTxDl.class);
@@ -271,6 +290,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
       this.seEnts.getEnts().add(SeItmPri.class);
       this.seEnts.getEnts().add(SeSrvSpf.class);
       this.seEnts.getEnts().add(SeSrvPri.class);
+      this.seEnts.getEnts().add(SePayMd.class);
     }
     return this.seEnts;
   }
@@ -316,6 +336,9 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18SpeLi.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(I18Trd.class);
     pFct.getFctBlc().getFctDt().getCustIdClss().add(SeSel.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeSrvCtl.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(SeItmCtl.class);
+    pFct.getFctBlc().getFctDt().getCustIdClss().add(Deliv.class);
     String stgNm = "flOr"; //list filter order
     HldClsStg hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getNulClss().add(AcStg.class);
@@ -367,6 +390,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(SeSrvPlc.class, "itm");
     hlClSt.getStgClss().put(SeItmPlc.class, "itm");
     hlClSt.getStgClss().put(ItmPlc.class, "itm");
+    hlClSt.getStgClss().put(SeSrvCtl.class, "itm");
+    hlClSt.getStgClss().put(SeItmCtl.class, "itm");
     hlClSt.getStgClss().put(ItmCtl.class, "itm");
     hlClSt.getStgClss().put(ItmSpf.class, "itm");
     hlClSt.getStgClss().put(PriSrv.class, "itm");
@@ -481,6 +506,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getCustClss().add(Integer.class);
     stgNm = "str"; //to string
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
+    hlFdSt.getStgFdNm().put("sec1", "pwd");
+    hlFdSt.getStgFdNm().put("sec2", "pwd");
     hlFdSt.getCustClss().add(BigDecimal.class); //inv.payment total vs others
     hlFdSt.getStgClss().put(PuInGdLn.class, "pinl");
     hlFdSt.getStgClss().put(SaInGdLn.class, "inl");

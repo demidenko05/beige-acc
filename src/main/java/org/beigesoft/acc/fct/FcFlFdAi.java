@@ -104,6 +104,7 @@ public class FcFlFdAi<RS> implements IFcFlFdSt {
   protected final FilFldHsIdStr crPuFilFldHsIdStrAcIm(
     final Map<String, Object> pRvs) throws Exception {
     FilFldHsIdStr rz = new FilFldHsIdStr();
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
     rz.setHldSets(this.fctBlc.lazHldSets(pRvs));
     rz.setHldFilFdNms((HldNmFilFdSt) this.fctBlc
       .laz(pRvs, FctAcc.HLFILFDNMACIM));

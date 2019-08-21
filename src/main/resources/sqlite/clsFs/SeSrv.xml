@@ -9,4 +9,5 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="iiddef">integer not null primary key autoincrement</entry>
 <entry key="selrdef">integer not null</entry>
+<entry key="txCtnul">true</entry>
 </properties>

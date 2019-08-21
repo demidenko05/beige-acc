@@ -9,4 +9,5 @@ See LICENSE in base folder
 <comment>Explicit final definition.</comment>
 <entry key="iiddef">serial not null primary key</entry>
 <entry key="selrdef">bigint unsigned not null</entry>
+<entry key="txCtnul">true</entry>
 </properties>

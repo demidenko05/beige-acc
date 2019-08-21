@@ -34,7 +34,6 @@ import java.util.HashMap;
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.fct.IFctCnToSt;
 import org.beigesoft.fct.FctBlc;
-import org.beigesoft.hld.HldNmCnToStXml;
 import org.beigesoft.prp.ISetng;
 import org.beigesoft.cnv.ICnToSt;
 import org.beigesoft.cnv.CnvHsIdStr;
@@ -95,11 +94,7 @@ public class FcCnToStAi<RS> implements IFctCnToSt {
   protected final CnvHsIdStr<IHasId<?>> crPuCnvHsIdStrAcIm(
     final Map<String, Object> pRvs) throws Exception {
     CnvHsIdStr<IHasId<?>> rz = new CnvHsIdStr<IHasId<?>>();
-    rz.setFctCnvFld(this.fctBlc.lazFctNmCnToSt(pRvs));
-    HldNmCnToStXml hlFdCn = new HldNmCnToStXml();
-    hlFdCn.setHldFdCls(this.fctBlc.lazHldFldCls(pRvs));
-    hlFdCn.setCnHsIdToStNm(CNHSIDSTACIM);
-    rz.setHldNmFdCn(hlFdCn);
+    rz.setHldGets(this.fctBlc.lazHldGets(pRvs));
     rz.setSetng((ISetng) this.fctBlc.laz(pRvs, FctAcc.STGACIMP));
     this.convrts.put(CNHSIDSTACIM, rz);
     this.fctBlc.lazLogStd(pRvs)
