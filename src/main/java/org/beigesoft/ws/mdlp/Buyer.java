@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.mdlp;
 
+import org.beigesoft.mdl.IIdLna;
 import org.beigesoft.mdlp.AIdLnNm;
 import org.beigesoft.acc.mdlp.DbCr;
 import org.beigesoft.acc.mdlp.TxDst;
@@ -37,7 +38,7 @@ import org.beigesoft.acc.mdlp.TxDst;
  *
  * @author Yury Demidenko
  */
-public class Buyer extends AIdLnNm {
+public class Buyer extends AIdLnNm implements IIdLna {
 
   /**
    * <p>Customer, null for unregistered buyer.</p>

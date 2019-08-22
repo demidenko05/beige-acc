@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.mdlp;
 
+import org.beigesoft.mdl.IOwneda;
 import org.beigesoft.acc.mdlb.ATxDsLn;
 
 /**
@@ -35,7 +36,7 @@ import org.beigesoft.acc.mdlb.ATxDsLn;
  *
  * @author Yury Demidenko
  */
-public class SerTxDl extends ATxDsLn<SeSrv> {
+public class SerTxDl extends ATxDsLn<SeSrv> implements IOwneda<SeSrv> {
 
   /**
    * <p>Item tax category.</p>

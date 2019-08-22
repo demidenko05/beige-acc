@@ -163,6 +163,21 @@ See LICENSE in base folder
   org.beigesoft.ws.mdlp.Deliv,
   org.beigesoft.ws.mdlp.PayMd,
   org.beigesoft.ws.mdlp.SePayMd,
+  org.beigesoft.ws.mdlp.Cart,
+  org.beigesoft.ws.mdlp.CartLn,
+  org.beigesoft.ws.mdlp.CartTxLn,
+  org.beigesoft.ws.mdlp.CartItTxLn,
+  org.beigesoft.ws.mdlp.CartTot,
+  org.beigesoft.ws.mdlp.SerBus,
+  org.beigesoft.ws.mdlp.SeSerBus,
+  org.beigesoft.ws.mdlp.CuOr,
+  org.beigesoft.ws.mdlp.CuOrGdLn,
+  org.beigesoft.ws.mdlp.CuOrSrLn,
+  org.beigesoft.ws.mdlp.CuOrTxLn,
+  org.beigesoft.ws.mdlp.CuOrSe,
+  org.beigesoft.ws.mdlp.CuOrSeGdLn,
+  org.beigesoft.ws.mdlp.CuOrSeSrLn,
+  org.beigesoft.ws.mdlp.CuOrSeTxLn,
   org.beigesoft.ws.mdlp.Itlist</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
 <entry key="stgFldNms">def,nul</entry>

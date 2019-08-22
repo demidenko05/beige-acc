@@ -31,7 +31,7 @@ package org.beigesoft.acc.mdlp;
 import java.util.Date;
 import java.math.BigDecimal;
 
-import org.beigesoft.mdlp.AIdLn;
+import org.beigesoft.mdlp.AIdLna;
 
 /**
  * <p>Model that store balance of a account and
@@ -40,7 +40,7 @@ import org.beigesoft.mdlp.AIdLn;
  *
  * @author Yury Demidenko
  */
-public class Blnc extends AIdLn {
+public class Blnc extends AIdLna {
 
   /**
    * <p>Date, Not Null, usually start of month.</p>

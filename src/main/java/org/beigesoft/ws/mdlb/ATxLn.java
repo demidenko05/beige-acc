@@ -30,18 +30,15 @@ package org.beigesoft.ws.mdlb;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdlp.AIdLn;
+import org.beigesoft.mdlp.AIdLna;
 import org.beigesoft.acc.mdlp.Tax;
 
 /**
- * <p>
- * Abstraction of cart/order tax Line.
- * Version, reliable autoincrement algorithm.
- * </p>
+ * <p>Abstraction of cart/order tax Line.</p>
  *
  * @author Yury Demidenko
  */
-public abstract class ATxLn extends AIdLn {
+public abstract class ATxLn extends AIdLna {
 
   /**
    * <p>Tax.</p>

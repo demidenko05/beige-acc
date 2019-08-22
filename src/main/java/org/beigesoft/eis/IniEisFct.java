@@ -136,6 +136,14 @@ import org.beigesoft.ws.mdlp.I18Trd;
 import org.beigesoft.ws.mdlp.SeSel;
 import org.beigesoft.ws.mdlp.Deliv;
 import org.beigesoft.ws.mdlp.PayMd;
+import org.beigesoft.ws.mdlp.CuOr;
+import org.beigesoft.ws.mdlp.CuOrGdLn;
+import org.beigesoft.ws.mdlp.CuOrSrLn;
+import org.beigesoft.ws.mdlp.CuOrTxLn;
+import org.beigesoft.ws.mdlp.CuOrSe;
+import org.beigesoft.ws.mdlp.CuOrSeGdLn;
+import org.beigesoft.ws.mdlp.CuOrSeSrLn;
+import org.beigesoft.ws.mdlp.CuOrSeTxLn;
 import org.beigesoft.ws.mdlp.SePayMd;
 import org.beigesoft.ws.mdlp.SeItmCtl;
 import org.beigesoft.ws.mdlp.SeSrvCtl;
@@ -222,6 +230,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     this.iniBdFct.lazAdmEnts().getEnts().add(SeSrvCtl.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(Deliv.class);
     this.iniBdFct.lazAdmEnts().getEnts().add(PayMd.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(CuOr.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(CuOrGdLn.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(CuOrSrLn.class);
+    this.iniBdFct.lazAdmEnts().getEnts().add(CuOrTxLn.class);
     this.iniBdFct.iniBd(pRvs, pFct, pCtx);
     Set<Integer> rdre = new HashSet<Integer>();
     rdre.add(ID_SESEL);
@@ -277,6 +289,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
       this.seEnts.getShrEnts().add(new EntShr(SeSrvSpf.class, rdrs));
       this.seEnts.getShrEnts().add(new EntShr(SeItmPri.class, rdrs));
       this.seEnts.getShrEnts().add(new EntShr(SeSrvPri.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(CuOrSe.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(CuOrSeGdLn.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(CuOrSeSrLn.class, rdrs));
+      this.seEnts.getShrEnts().add(new EntShr(CuOrSeTxLn.class, rdrs));
       this.seEnts.setEnts(new HashSet<Class<? extends IHasId<?>>>());
       this.seEnts.getEnts().add(SeItm.class);
       this.seEnts.getEnts().add(SitTxDl.class);
@@ -291,6 +307,10 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
       this.seEnts.getEnts().add(SeSrvSpf.class);
       this.seEnts.getEnts().add(SeSrvPri.class);
       this.seEnts.getEnts().add(SePayMd.class);
+      this.seEnts.getEnts().add(CuOrSe.class);
+      this.seEnts.getEnts().add(CuOrSeGdLn.class);
+      this.seEnts.getEnts().add(CuOrSeSrLn.class);
+      this.seEnts.getEnts().add(CuOrSeTxLn.class);
     }
     return this.seEnts;
   }

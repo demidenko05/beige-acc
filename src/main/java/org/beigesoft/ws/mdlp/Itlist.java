@@ -30,6 +30,7 @@ package org.beigesoft.ws.mdlp;
 
 import java.math.BigDecimal;
 
+import org.beigesoft.mdl.IIdLna;
 import org.beigesoft.mdlp.AIdLnNm;
 import org.beigesoft.ws.mdl.EItmTy;
 import org.beigesoft.acc.mdlp.Uom;
@@ -42,7 +43,7 @@ import org.beigesoft.acc.mdlp.Uom;
  *
  * @author Yury Demidenko
  */
-public class Itlist extends AIdLnNm {
+public class Itlist extends AIdLnNm implements IIdLna {
 
   /**
    * <p>Goods/Service/SEGoods/SEService ID, not null.</p>

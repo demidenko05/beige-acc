@@ -28,14 +28,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.mdlp;
 
-import org.beigesoft.mdlp.AIdLn;
+import org.beigesoft.mdlp.AIdLna;
 
 /**
  * <p>Holds payment method data.</p>
  *
  * @author Yury Demidenko
  */
-public class PayMd extends AIdLn {
+public class PayMd extends AIdLna {
 
   /**
    * <p>Mode, e.g. PayPal "sandbox".</p>

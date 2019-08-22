@@ -30,6 +30,7 @@ package org.beigesoft.ws.mdlp;
 
 import java.util.List;
 
+import org.beigesoft.mdl.IIdLna;
 import org.beigesoft.acc.mdlb.AItm;
 import org.beigesoft.ws.mdlb.IHsSeSel;
 
@@ -38,7 +39,8 @@ import org.beigesoft.ws.mdlb.IHsSeSel;
  *
  * @author Yury Demidenko
  */
-public class SeItm extends AItm<SeItm, SitTxDl> implements IHsSeSel<Long> {
+public class SeItm extends AItm<SeItm, SitTxDl>
+  implements IHsSeSel<Long>, IIdLna {
 
   /**
    * <p>S.E.Seller, not null.</p>

@@ -7,7 +7,12 @@ See LICENSE in base folder
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Correspondence of Java types to services that explain about property. ORDER is essential, the FIRST value will be used.</comment>
+<entry key="org.beigesoft.mdl.IOwneda">ido1</entry>
 <entry key="org.beigesoft.acc.mdlb.ATxDsLn">idoi</entry>
 <entry key="org.beigesoft.acc.mdlb.ISacnt">idsa</entry>
 <entry key="org.beigesoft.mdl.IOwned">ido</entry>
+<entry key="org.beigesoft.mdl.IIdLna">id</entry>
+<entry key="org.beigesoft.mdlp.IOrId">ida</entry>
+<entry key="org.beigesoft.mdl.IIdLn">idi</entry>
+<entry key="org.beigesoft.mdl.IIdStr">ids</entry>
 </properties>

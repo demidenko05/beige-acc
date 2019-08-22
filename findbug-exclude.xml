@@ -201,11 +201,59 @@
      <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+     <Class name="org.beigesoft.ws.mdlp.CartLn" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.CartLn" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.SeSerBus" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.SeSerBus" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.SerBus" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.SerBus" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.CuOrSrLn" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.CuOrSrLn" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.CuOrSeSrLn" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlp.CuOrSeSrLn" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
      <Class name="org.beigesoft.ws.mdlp.SeItmPlc" />
      <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
      <Class name="org.beigesoft.ws.mdlp.SeItmPlc" />
+     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlb.ACuOr" />
+     <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.mdlb.ACuOr" />
      <Bug pattern="EI_EXPOSE_REP" />
   </Match>
 </FindBugsFilter>
