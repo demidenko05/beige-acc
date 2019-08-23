@@ -26,60 +26,58 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.mdlp;
+package org.beigesoft.ws.mdl;
 
-import java.util.List;
-
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.ws.mdlb.ACuOrLn;
+import org.beigesoft.flt.AFlt;
+import org.beigesoft.ws.mdlp.CatSp;
 
 /**
- * <p>Model of Customer Order Goods line.</p>
+ * <p>Bundle of specifics and flt.</p>
  *
  * @author Yury Demidenko
  */
-public class CuOrGdLn extends ACuOrLn {
+public class FltSpf  {
 
   /**
-   * <p>Good, not null.</p>
+   * <p>Catalog-Specifics.</p>
    **/
-  private Itm good;
+  private CatSp catSpf;
 
   /**
-   * <p>Item taxes for item basis non-aggregate method.</p>
+   * <p>Filter.</p>
    **/
-  private List<CuOrGdTxLn> itTxs;
+  private AFlt flt;
 
   //Simple getters and setters:
   /**
-   * <p>Getter for goods.</p>
-   * @return Itm
+   * <p>Getter for catSpf.</p>
+   * @return CatSp
    **/
-  public final Itm getGood() {
-    return this.good;
+  public final CatSp getCatSpf() {
+    return this.catSpf;
   }
 
   /**
-   * <p>Setter for goods.</p>
-   * @param pGood reference
+   * <p>Setter for catSpf.</p>
+   * @param pCatSpf reference
    **/
-  public final void setGood(final Itm pGood) {
-    this.good = pGood;
+  public final void setCatSpf(final CatSp pCatSpf) {
+    this.catSpf = pCatSpf;
   }
 
   /**
-   * <p>Getter for itTxs.</p>
-   * @return List<CuOrGdTxLn>
+   * <p>Getter for flt.</p>
+   * @return AFlt
    **/
-  public final List<CuOrGdTxLn> getItTxs() {
-    return this.itTxs;
+  public final AFlt getFlt() {
+    return this.flt;
   }
 
   /**
-   * <p>Setter for itTxs.</p>
-   * @param pItTxs reference
+   * <p>Setter for flt.</p>
+   * @param pFilter reference
    **/
-  public final void setItTxs(final List<CuOrGdTxLn> pItTxs) {
-    this.itTxs = pItTxs;
+  public final void setFlt(final AFlt pFilter) {
+    this.flt = pFilter;
   }
 }

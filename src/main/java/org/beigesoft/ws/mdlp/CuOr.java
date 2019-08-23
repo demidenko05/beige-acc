@@ -63,7 +63,7 @@ public class CuOr extends ACuOr<CuOrGdLn, CuOrSrLn> {
   /**
    * <p>Invoice ID (if it was derived).</p>
    **/
-  private Long inId;
+  private Long invId;
 
   /**
    * <p>Getter for goods.</p>
@@ -119,18 +119,18 @@ public class CuOr extends ACuOr<CuOrGdLn, CuOrSrLn> {
   }
 
   /**
-   * <p>Getter for inId.</p>
+   * <p>Getter for invId.</p>
    * @return Long
    **/
-  public final Long getInId() {
-    return this.inId;
+  public final Long getInvId() {
+    return this.invId;
   }
 
   /**
-   * <p>Setter for inId.</p>
-   * @param pInId reference
+   * <p>Setter for invId.</p>
+   * @param pInvId reference
    **/
-  public final void setInId(final Long pInId) {
-    this.inId = pInId;
+  public final void setInvId(final Long pInvId) {
+    this.invId = pInvId;
   }
 }

@@ -26,60 +26,35 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.mdlp;
+package org.beigesoft.ws.srv;
 
-import java.util.List;
+import java.util.Map;
 
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.ws.mdlb.ACuOrLn;
+import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.ws.mdl.Purch;
+import org.beigesoft.ws.mdlp.Buyer;
 
 /**
- * <p>Model of Customer Order Goods line.</p>
+ * <p>It accepts all buyer's orders.
+ * It changes item's availability and orders status to PENDING.
+ * If any item is unavailable, then it throws exception.
+ * And so does if there are several payees for online payment.</p>
  *
  * @author Yury Demidenko
  */
-public class CuOrGdLn extends ACuOrLn {
+public interface IAcpOrd {
 
   /**
-   * <p>Good, not null.</p>
+   * <p>It accepts all buyer's orders.
+   * It changes item's availability and orders status to PENDING.
+   * If any item is unavailable, then it throws exception.
+   * And so does if there are several payees for online payment.</p>
+   * @param pReqVars additional request scoped parameters
+   * @param pReqDt Request Data
+   * @param pBur Buyer
+   * @return list of accepted orders
+   * @throws Exception - an exception
    **/
-  private Itm good;
-
-  /**
-   * <p>Item taxes for item basis non-aggregate method.</p>
-   **/
-  private List<CuOrGdTxLn> itTxs;
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for goods.</p>
-   * @return Itm
-   **/
-  public final Itm getGood() {
-    return this.good;
-  }
-
-  /**
-   * <p>Setter for goods.</p>
-   * @param pGood reference
-   **/
-  public final void setGood(final Itm pGood) {
-    this.good = pGood;
-  }
-
-  /**
-   * <p>Getter for itTxs.</p>
-   * @return List<CuOrGdTxLn>
-   **/
-  public final List<CuOrGdTxLn> getItTxs() {
-    return this.itTxs;
-  }
-
-  /**
-   * <p>Setter for itTxs.</p>
-   * @param pItTxs reference
-   **/
-  public final void setItTxs(final List<CuOrGdTxLn> pItTxs) {
-    this.itTxs = pItTxs;
-  }
+  Purch accept(Map<String, Object> pReqVars,
+    IReqDt pReqDt, Buyer pBur) throws Exception;
 }

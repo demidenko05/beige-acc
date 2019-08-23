@@ -26,60 +26,60 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.mdlp;
+package org.beigesoft.ws.mdl;
 
 import java.util.List;
 
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.ws.mdlb.ACuOrLn;
+import org.beigesoft.ws.mdlp.CuOr;
+import org.beigesoft.ws.mdlp.CuOrSe;
 
 /**
- * <p>Model of Customer Order Goods line.</p>
+ * <p>Purchase bundle - just booked customer's orders and SE orders.</p>
  *
  * @author Yury Demidenko
  */
-public class CuOrGdLn extends ACuOrLn {
+public class Purch  {
 
   /**
-   * <p>Good, not null.</p>
+   * <p>Customer orders.</p>
    **/
-  private Itm good;
+  private List<CuOr> ords;
 
   /**
-   * <p>Item taxes for item basis non-aggregate method.</p>
+   * <p>Customer S.E. orders.</p>
    **/
-  private List<CuOrGdTxLn> itTxs;
+  private List<CuOrSe> sords;
 
   //Simple getters and setters:
   /**
-   * <p>Getter for goods.</p>
-   * @return Itm
+   * <p>Getter for ords.</p>
+   * @return List<CuOr>
    **/
-  public final Itm getGood() {
-    return this.good;
+  public final List<CuOr> getOrds() {
+    return this.ords;
   }
 
   /**
-   * <p>Setter for goods.</p>
-   * @param pGood reference
+   * <p>Setter for ords.</p>
+   * @param pOrds reference
    **/
-  public final void setGood(final Itm pGood) {
-    this.good = pGood;
+  public final void setOrds(final List<CuOr> pOrds) {
+    this.ords = pOrds;
   }
 
   /**
-   * <p>Getter for itTxs.</p>
-   * @return List<CuOrGdTxLn>
+   * <p>Getter for sords.</p>
+   * @return List<CuOrSe>
    **/
-  public final List<CuOrGdTxLn> getItTxs() {
-    return this.itTxs;
+  public final List<CuOrSe> getSords() {
+    return this.sords;
   }
 
   /**
-   * <p>Setter for itTxs.</p>
-   * @param pItTxs reference
+   * <p>Setter for sords.</p>
+   * @param pSords reference
    **/
-  public final void setItTxs(final List<CuOrGdTxLn> pItTxs) {
-    this.itTxs = pItTxs;
+  public final void setSords(final List<CuOrSe> pSords) {
+    this.sords = pSords;
   }
 }

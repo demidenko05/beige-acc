@@ -26,60 +26,25 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.mdlp;
+package org.beigesoft.ws.mdl;
 
-import java.util.List;
-
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.ws.mdlb.ACuOrLn;
+import java.util.Comparator;
+import java.io.Serializable;
 
 /**
- * <p>Model of Customer Order Goods line.</p>
+ * <p>Comparator of TrCatl by Index.</p>
  *
  * @author Yury Demidenko
  */
-public class CuOrGdLn extends ACuOrLn {
+public class CmpTrCatl implements Comparator<TrCatl>, Serializable {
 
   /**
-   * <p>Good, not null.</p>
+   * <p>serialVersionUID.</p>
    **/
-  private Itm good;
+  static final long serialVersionUID = 49831247829112L;
 
-  /**
-   * <p>Item taxes for item basis non-aggregate method.</p>
-   **/
-  private List<CuOrGdTxLn> itTxs;
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for goods.</p>
-   * @return Itm
-   **/
-  public final Itm getGood() {
-    return this.good;
-  }
-
-  /**
-   * <p>Setter for goods.</p>
-   * @param pGood reference
-   **/
-  public final void setGood(final Itm pGood) {
-    this.good = pGood;
-  }
-
-  /**
-   * <p>Getter for itTxs.</p>
-   * @return List<CuOrGdTxLn>
-   **/
-  public final List<CuOrGdTxLn> getItTxs() {
-    return this.itTxs;
-  }
-
-  /**
-   * <p>Setter for itTxs.</p>
-   * @param pItTxs reference
-   **/
-  public final void setItTxs(final List<CuOrGdTxLn> pItTxs) {
-    this.itTxs = pItTxs;
+  @Override
+  public final int compare(final TrCatl o1, final TrCatl o2) {
+    return o1.getCatl().getIdx().compareTo(o2.getCatl().getIdx());
   }
 }

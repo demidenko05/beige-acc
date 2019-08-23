@@ -26,60 +26,61 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.mdlp;
-
-import java.util.List;
-
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.ws.mdlb.ACuOrLn;
+package org.beigesoft.ws.mdl;
 
 /**
- * <p>Model of Customer Order Goods line.</p>
+ * <p>
+ * Bundle of specifics filter where clause and count of conditions.
+ * </p>
  *
  * @author Yury Demidenko
  */
-public class CuOrGdLn extends ACuOrLn {
+public class FltsSpfWhe  {
 
   /**
-   * <p>Good, not null.</p>
+   * <p>Where clouse e.g.:
+   * "(SPECIFICS=3 and LONGVALUE1 in (3, 14))
+   * or (SPECIFICS=4 and NUMERICVALUE1&lt;2.33)".</p>
    **/
-  private Itm good;
+  private String where;
 
   /**
-   * <p>Item taxes for item basis non-aggregate method.</p>
+   * <p>Count of where conditions e.g. 2 for:
+   * (SPECIFICS=3 and LONGVALUE1 in (3, 14))
+   * or (SPECIFICS=4 and NUMERICVALUE1&lt;2.33).</p>
    **/
-  private List<CuOrGdTxLn> itTxs;
+  private Integer whereCount = 0;
 
   //Simple getters and setters:
   /**
-   * <p>Getter for goods.</p>
-   * @return Itm
+   * <p>Getter for where.</p>
+   * @return String
    **/
-  public final Itm getGood() {
-    return this.good;
+  public final String getWhere() {
+    return this.where;
   }
 
   /**
-   * <p>Setter for goods.</p>
-   * @param pGood reference
+   * <p>Setter for where.</p>
+   * @param pWhere reference
    **/
-  public final void setGood(final Itm pGood) {
-    this.good = pGood;
+  public final void setWhere(final String pWhere) {
+    this.where = pWhere;
   }
 
   /**
-   * <p>Getter for itTxs.</p>
-   * @return List<CuOrGdTxLn>
+   * <p>Getter for whereCount.</p>
+   * @return Integer
    **/
-  public final List<CuOrGdTxLn> getItTxs() {
-    return this.itTxs;
+  public final Integer getWhereCount() {
+    return this.whereCount;
   }
 
   /**
-   * <p>Setter for itTxs.</p>
-   * @param pItTxs reference
+   * <p>Setter for whereCount.</p>
+   * @param pWhereCount reference
    **/
-  public final void setItTxs(final List<CuOrGdTxLn> pItTxs) {
-    this.itTxs = pItTxs;
+  public final void setWhereCount(final Integer pWhereCount) {
+    this.whereCount = pWhereCount;
   }
 }

@@ -26,60 +26,47 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.mdlp;
+package org.beigesoft.ws.srv;
 
-import java.util.List;
+import java.util.Map;
 
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.ws.mdlb.ACuOrLn;
+import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.ws.mdlp.Buyer;
 
 /**
- * <p>Model of Customer Order Goods line.</p>
+ * <p>Buyer's service.</p>
  *
  * @author Yury Demidenko
  */
-public class CuOrGdLn extends ACuOrLn {
+public interface IBuySr {
 
   /**
-   * <p>Good, not null.</p>
+   * <p>Get authorized buyer.</p>
+   * @param pRqVs request scoped vars
+   * @param pRqDt Request Data
+   * @return authorized buyer or null
+   * @throws Exception - an exception
    **/
-  private Itm good;
+  Buyer getAuthBuyr(Map<String, Object> pRqVs,
+    IReqDt pRqDt) throws Exception;
 
   /**
-   * <p>Item taxes for item basis non-aggregate method.</p>
+   * <p>Get authorized or not buyer by cookie.</p>
+   * @param pRqVs request scoped vars
+   * @param pRqDt Request Data
+   * @return buyer or null
+   * @throws Exception - an exception
    **/
-  private List<CuOrGdTxLn> itTxs;
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for goods.</p>
-   * @return Itm
-   **/
-  public final Itm getGood() {
-    return this.good;
-  }
+  Buyer getBuyr(Map<String, Object> pRqVs,
+    IReqDt pRqDt) throws Exception;
 
   /**
-   * <p>Setter for goods.</p>
-   * @param pGood reference
+   * <p>Creates buyer.</p>
+   * @param pRqVs request scoped vars
+   * @param pRqDt Request Data
+   * @return created buyer will be unsaved into DB!
+   * @throws Exception - an exception
    **/
-  public final void setGood(final Itm pGood) {
-    this.good = pGood;
-  }
-
-  /**
-   * <p>Getter for itTxs.</p>
-   * @return List<CuOrGdTxLn>
-   **/
-  public final List<CuOrGdTxLn> getItTxs() {
-    return this.itTxs;
-  }
-
-  /**
-   * <p>Setter for itTxs.</p>
-   * @param pItTxs reference
-   **/
-  public final void setItTxs(final List<CuOrGdTxLn> pItTxs) {
-    this.itTxs = pItTxs;
-  }
+  Buyer createBuyr(Map<String, Object> pRqVs,
+    IReqDt pRqDt) throws Exception;
 }

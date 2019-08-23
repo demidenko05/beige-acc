@@ -26,60 +26,60 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.mdlp;
+package org.beigesoft.ws.mdl;
 
 import java.util.List;
+import java.util.ArrayList;
 
-import org.beigesoft.acc.mdlp.Itm;
-import org.beigesoft.ws.mdlb.ACuOrLn;
+import org.beigesoft.ws.mdlp.CatGs;
 
 /**
- * <p>Model of Customer Order Goods line.</p>
+ * <p>Model of Catalog Of Goods/services to print on page.</p>
  *
  * @author Yury Demidenko
  */
-public class CuOrGdLn extends ACuOrLn {
+public class TrCatl  {
 
   /**
-   * <p>Good, not null.</p>
+   * <p>Persistable catalog.</p>
    **/
-  private Itm good;
+  private CatGs catl;
 
   /**
-   * <p>Item taxes for item basis non-aggregate method.</p>
+   * <p>Subcatalogs.</p>
    **/
-  private List<CuOrGdTxLn> itTxs;
+  private List<TrCatl> subcatls = new ArrayList<TrCatl>();
 
   //Simple getters and setters:
   /**
-   * <p>Getter for goods.</p>
-   * @return Itm
+   * <p>Getter for catalog.</p>
+   * @return CatGs
    **/
-  public final Itm getGood() {
-    return this.good;
+  public final CatGs getCatl() {
+    return this.catl;
   }
 
   /**
-   * <p>Setter for goods.</p>
-   * @param pGood reference
+   * <p>Setter for catalog.</p>
+   * @param pCatalog reference
    **/
-  public final void setGood(final Itm pGood) {
-    this.good = pGood;
+  public final void setCatl(final CatGs pCatalog) {
+    this.catl = pCatalog;
   }
 
   /**
-   * <p>Getter for itTxs.</p>
-   * @return List<CuOrGdTxLn>
+   * <p>Getter for subcatalogs.</p>
+   * @return List<TrCatl>
    **/
-  public final List<CuOrGdTxLn> getItTxs() {
-    return this.itTxs;
+  public final List<TrCatl> getSubcatls() {
+    return this.subcatls;
   }
 
   /**
-   * <p>Setter for itTxs.</p>
-   * @param pItTxs reference
+   * <p>Setter for subcatalogs.</p>
+   * @param pSubcatls reference
    **/
-  public final void setItTxs(final List<CuOrGdTxLn> pItTxs) {
-    this.itTxs = pItTxs;
+  public final void setSubcatls(final List<TrCatl> pSubcatls) {
+    this.subcatls = pSubcatls;
   }
 }
