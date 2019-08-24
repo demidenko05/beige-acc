@@ -105,6 +105,11 @@ public class Buyer extends AIdLnNm implements IIdLna {
   private Boolean fre = Boolean.FALSE;
 
   /**
+   * <p>If foreigner (omit sales taxes).</p>
+   **/
+  private Boolean frgn = Boolean.FALSE;
+
+  /**
    * <p>Buyer's last/current session ID.</p>
    **/
   private String buSeId;
@@ -359,5 +364,21 @@ public class Buyer extends AIdLnNm implements IIdLna {
    **/
   public final void setTxDs(final TxDst pTxDs) {
     this.txDs = pTxDs;
+  }
+
+  /**
+   * <p>Getter for frgn.</p>
+   * @return Boolean
+   **/
+  public final Boolean getFrgn() {
+    return this.frgn;
+  }
+
+  /**
+   * <p>Setter for frgn.</p>
+   * @param pFrgn reference
+   **/
+  public final void setFrgn(final Boolean pFrgn) {
+    this.frgn = pFrgn;
   }
 }

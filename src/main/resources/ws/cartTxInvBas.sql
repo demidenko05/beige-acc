@@ -1,0 +1,9 @@
+select TAX as TAXID, TAX.NME as TAXNAME, RATE as RATE, sum(SUBT) as SUBT
+from
+( select TXCT, SUBT from CARTLN
+  where TXCT is not null and DISAB=0 and SEL:CONDSEL and OWNR=:CARTID
+) as ALL_LINES
+join TXCT on TXCT.IID=TXCT
+join TXCTLN on TXCTLN.OWNR=TXCT.IID
+join TAX on TXCTLN.TAX=TAX.IID
+group by TAXID, TAXNAME, RATE;

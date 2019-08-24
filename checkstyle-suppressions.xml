@@ -12,9 +12,9 @@
   <suppress checks="MagicNumber"
     files="PurRet|PuRtLn|SrRtLnSv|SalRet|SaRtLn|MoItLn|MovItm|ItmUlb|ItUbLn|ItAdLn|ItmAdd|PuInSrLn|MnpMcs|MnpAcs"/>
   <suppress checks="MagicNumber"
-    files="Mnfct|MnfPrc|WagTy|EmpCt|Empl|Wage|PrcBln|BnStLn|BnStLnSv|Prop|GdPriLstRet|TrdStg|BuySr"/>
+    files="Mnfct|MnfPrc|WagTy|EmpCt|Empl|Wage|PrcBln|BnStLn|BnStLnSv|Prop|GdPriLstRet|TrdStg|BuySr|SrCart|PrLog"/>
   <suppress checks="MethodLength"
-    files="BlnPdf|UtInLnTxToBs|SrInvSv|InvPdf|HlAcEnPr|GdPriLstRet|IniEisFct"/>
+    files="BlnPdf|UtInLnTxToBs|SrInvSv|InvPdf|HlAcEnPr|GdPriLstRet|IniEisFct|SrCart"/>
   <suppress checks="LineLength"
     files="AccImp"/>
 </suppressions>

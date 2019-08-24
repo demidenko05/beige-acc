@@ -131,9 +131,11 @@ public class BuySr implements IBuySr {
       buyer = new Buyer();
       buyer.setIid(buyerId);
       getOrm().refrEnt(pRvs, vs, buyer);
+      if (buyer.getIid() == null) {
+        buyer = null;
+      }
     }
-    if (buyer != null && buyer.getEml() != null
-      && buyer.getBuSeId() != null) {
+    if (buyer != null && buyer.getEml() != null && buyer.getBuSeId() != null) {
       String buSeId = pRqDt.getCookVl("buSeId");
       if (!buyer.getBuSeId().equals(buSeId)) {
         this.spamHnd.handle(pRvs, pRqDt, 100,

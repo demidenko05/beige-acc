@@ -1,0 +1,6 @@
+select :TORLN.IID as IID, :TORLN.NME as NME, GOOD, OWNR, PRI, TOT, TOTX, UOM.NME as UOMNME, UOM.IID as UOMIID,
+case when AVQUAN is null or QUANT>AVQUAN then 0 else QUANT end as QUANT
+from :TORLN
+left join UOM on :TORLN.UOM=UOM.IID
+left join (select ITM, sum(QUAN) as AVQUAN from :TITPL group by ITM) as ITPL on ITPL.ITM=GOOD
+where OWNR in (:ORIDS);
