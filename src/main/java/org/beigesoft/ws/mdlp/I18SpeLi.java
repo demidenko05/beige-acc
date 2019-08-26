@@ -61,7 +61,7 @@ public class I18SpeLi extends AHasVr<I18SpeLiId> implements IHasNm {
   private Lng lng;
 
   /**
-   * <p>HTML string that briefly describes item in the lnguage.</p>
+   * <p>HTML string that briefly describes item in the language.</p>
    **/
   private String val;
 

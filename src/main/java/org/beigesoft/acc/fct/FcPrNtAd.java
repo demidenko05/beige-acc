@@ -48,6 +48,8 @@ import org.beigesoft.acc.rpl.AccImp;
 import org.beigesoft.acc.rpl.AccExp;
 import org.beigesoft.acc.rpl.FcRpEnSy;
 import org.beigesoft.acc.rpl.FctFltEnt;
+import org.beigesoft.ws.prc.RefrLst;
+import org.beigesoft.ws.prc.RefrCat;
 
 /**
  * <p>Additional factory to FctPrcNtrAd of processors for admin,
@@ -87,10 +89,48 @@ public class FcPrNtAd<RS> implements IFctPrc {
             rz = crPuAccImp(pRvs);
           } else if (AccExp.class.getSimpleName().equals(pPrNm)) {
             rz = crPuAccExp(pRvs);
+          } else if (RefrCat.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuRefrCat(pRvs);
+          } else if (RefrLst.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuRefrLst(pRvs);
           }
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF RefrCat.</p>
+   * @param pRvs request scoped vars
+   * @return RefrCat
+   * @throws Exception - an exception
+   */
+  private RefrCat crPuRefrCat(final Map<String, Object> pRvs) throws Exception {
+    RefrCat rz = new RefrCat();
+    this.procs.put(RefrCat.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      RefrCat.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF RefrLst.</p>
+   * @param pRvs request scoped vars
+   * @return RefrLst
+   * @throws Exception - an exception
+   */
+  private RefrLst crPuRefrLst(final Map<String, Object> pRvs) throws Exception {
+    RefrLst rz = new RefrLst();
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    rz.setNumStr(this.fctBlc.lazNumStr(pRvs));
+    this.procs.put(RefrLst.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      RefrLst.class.getSimpleName() + " has been created");
     return rz;
   }
 

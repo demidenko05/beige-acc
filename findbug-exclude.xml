@@ -19,6 +19,10 @@
      <Class name="org.beigesoft.acc.srv.SrDrItEnr" />
      <Bug pattern="DC_DOUBLECHECK" />
   </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.prc.WsPg" />
+     <Bug pattern="DC_DOUBLECHECK" />
+  </Match>
   <!--It's not true, any change is synchronized, reading not, but concurrent thread will be waiting for emptying shared data.-->
   <Match>
      <Class name="org.beigesoft.acc.srv.SrEntr" />
@@ -37,11 +41,14 @@
      <Class name="org.beigesoft.acc.rep.InfPdf" />
      <Bug pattern="IS2_INCONSISTENT_SYNC" />
   </Match>
-  <!--It's for best performance, it allows to use outdated (last version) data but it never causes
-    serious problems for this task.-->
+  <!--It's not true-->
   <Match>
      <Class name="org.beigesoft.acc.hnd.HndAcc" />
-     <Bug pattern="IS2_INCONSISTENT_SYNC" />
+     <Bug pattern="NP_NULL_ON_SOME_PATH" />
+  </Match>
+  <Match>
+     <Class name="org.beigesoft.ws.hnd.HndTrd" />
+     <Bug pattern="NP_NULL_ON_SOME_PATH" />
   </Match>
   <!--EI_EXPOSE_REP/2 is resource unfriendly approach to avoid object's unexpected changes.
   In real program the most of objects (not only Date and arrays) is mutable.

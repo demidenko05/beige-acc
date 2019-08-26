@@ -71,6 +71,11 @@ public class AddStg extends AIdLn {
    **/
   private String spGrSp;
 
+  /**
+   * <p>Records per transaction, 100 default.</p>
+   **/
+  private Integer rcsTr = 100;
+
   //Simple getters and setters:
   /**
    * <p>Getter for shtms.</p>
@@ -166,5 +171,21 @@ public class AddStg extends AIdLn {
    **/
   public final void setSpGrSp(final String pSpGrSp) {
     this.spGrSp = pSpGrSp;
+  }
+
+  /**
+   * <p>Getter for rcsTr.</p>
+   * @return Integer
+   **/
+  public final Integer getRcsTr() {
+    return this.rcsTr;
+  }
+
+  /**
+   * <p>Setter for rcsTr.</p>
+   * @param pRcsTr reference
+   **/
+  public final void setRcsTr(final Integer pRcsTr) {
+    this.rcsTr = pRcsTr;
   }
 }

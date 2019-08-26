@@ -126,63 +126,32 @@ public class HndAcc<RS> implements IHndRq {
     Map<String, Object> vs = new HashMap<String, Object>();
     List<I18Acc> i18AccsTmp = null;
     List<I18Curr> i18CurrsTmp = null;
-    boolean tmpReady = false;
-    if (this.srAcStg.getAcStg() == null) {
-      synchronized (this) {
-        if (this.srAcStg.getAcStg() == null) {
-          try {
-            this.rdb.setAcmt(false);
-            this.rdb.setTrIsl(IRdb.TRRUC);
-            this.rdb.begin();
-            this.srAcStg.lazAcStg(pRvs);
-            if (this.i18Currs == null) {
-              i18AccsTmp = this.orm.retLst(pRvs, vs, I18Acc.class);
-              i18CurrsTmp = this.orm.retLst(pRvs, vs, I18Curr.class);
-              tmpReady = true;
-              this.i18Currs = i18CurrsTmp;
-              this.i18Accs = i18AccsTmp;
-            }
-            this.rdb.commit();
-          } catch (Exception ex) {
-            this.srAcStg.hndRlBk(pRvs);
-            if (!this.rdb.getAcmt()) {
-              this.rdb.rollBack();
-            }
-            throw ex;
-          } finally {
-            this.rdb.release();
-          }
-        }
-      }
-    } else { //lazAcStg and saveAcStg will put astg into pRvs!
-      this.srAcStg.lazAcStg(pRvs);
-    }
-    if (!tmpReady) {
-      if (this.i18Currs == null) {
-        synchronized (this) {
+    AcStg as = null;
+    synchronized (this) {
+      if (this.srAcStg.getAcStg() == null || this.i18Currs == null) {
+        try {
+          this.rdb.setAcmt(false);
+          this.rdb.setTrIsl(IRdb.TRRUC);
+          this.rdb.begin();
+          as = this.srAcStg.lazAcStg(pRvs);
           if (this.i18Currs == null) {
-            try {
-              this.rdb.setAcmt(false);
-              this.rdb.setTrIsl(IRdb.TRRUC);
-              this.rdb.begin();
-              i18AccsTmp = this.orm.retLst(pRvs, vs, I18Acc.class);
-              i18CurrsTmp = this.orm.retLst(pRvs, vs, I18Curr.class);
-              tmpReady = true;
-              this.i18Currs = i18CurrsTmp;
-              this.i18Accs = i18AccsTmp;
-              this.rdb.commit();
-            } catch (Exception ex) {
-              if (!this.rdb.getAcmt()) {
-                this.rdb.rollBack();
-              }
-              throw ex;
-            } finally {
-              this.rdb.release();
-            }
+            i18AccsTmp = this.orm.retLst(pRvs, vs, I18Acc.class);
+            i18CurrsTmp = this.orm.retLst(pRvs, vs, I18Curr.class);
+            this.i18Currs = i18CurrsTmp;
+            this.i18Accs = i18AccsTmp;
           }
+          this.rdb.commit();
+        } catch (Exception ex) {
+          this.srAcStg.hndRlBk(pRvs);
+          if (!this.rdb.getAcmt()) {
+            this.rdb.rollBack();
+          }
+          throw ex;
+        } finally {
+          this.rdb.release();
         }
-      }
-      if (!tmpReady) {
+      } else { //lazAcStg and saveAcStg will put astg into pRvs!
+        as = this.srAcStg.lazAcStg(pRvs);
         i18CurrsTmp = this.i18Currs;
         i18AccsTmp = this.i18Accs;
       }
@@ -222,7 +191,6 @@ public class HndAcc<RS> implements IHndRq {
     }
     pRvs.put("aupf", aupf);
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-    AcStg as = this.srAcStg.lazAcStg(pRvs);
     cpf.setCostDp(as.getCsDp());
     cpf.setPriDp(as.getPrDp());
     cpf.setQuanDp(as.getQuDp());
@@ -264,6 +232,22 @@ public class HndAcc<RS> implements IHndRq {
    **/
   public final synchronized void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
+  }
+
+  /**
+   * <p>Getter for srAcStg.</p>
+   * @return ISrAcStg
+   **/
+  public final synchronized ISrAcStg getSrAcStg() {
+    return this.srAcStg;
+  }
+
+  /**
+   * <p>Setter for srAcStg.</p>
+   * @param pSrAcStg reference
+   **/
+  public final synchronized void setSrAcStg(final ISrAcStg pSrAcStg) {
+    this.srAcStg = pSrAcStg;
   }
 
   /**
@@ -328,22 +312,6 @@ public class HndAcc<RS> implements IHndRq {
    **/
   public final void setHlTyEnSr(final HlTyEnSr pHlTyEnSr) {
     this.hlTyEnSr = pHlTyEnSr;
-  }
-
-  /**
-   * <p>Getter for srAcStg.</p>
-   * @return ISrAcStg
-   **/
-  public final ISrAcStg getSrAcStg() {
-    return this.srAcStg;
-  }
-
-  /**
-   * <p>Setter for srAcStg.</p>
-   * @param pSrAcStg reference
-   **/
-  public final void setSrAcStg(final ISrAcStg pSrAcStg) {
-    this.srAcStg = pSrAcStg;
   }
 
   /**
