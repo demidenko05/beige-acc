@@ -155,7 +155,7 @@ public class UtlTrJsp {
    * @param pLang language
    * @return catalog name
    **/
-  public final String catalogToStr(final CatGs pCatalog,
+  public final String catlToStr(final CatGs pCatalog,
     final List<I18CatGs> pI18Catalogs, final String pLang) {
     if (pI18Catalogs != null) {
       for (I18CatGs icat : pI18Catalogs) {

@@ -1,9 +1,9 @@
-select ITMID, PRI
+select IID, ITID, PRI
 from (
-  select ITMID, PRI
+  select IID, ITID, PRI
   from ITLIST
   where QUAN>0 and TYP=:ITTYP :WHEREADD
  ) as ITALL
 join (
-  select distinct ITM as ITINCAT from :TITCAT where ITSCATALOG:CATALOGFILTER
- ) as ITINCATALL on ITINCATALL.ITINCAT=ITALL.ITMID
+  select distinct ITM as ITINCAT from :TITCAT where CATL:FLTCAT
+ ) as ITINCATALL on ITINCATALL.ITINCAT=ITALL.ITID

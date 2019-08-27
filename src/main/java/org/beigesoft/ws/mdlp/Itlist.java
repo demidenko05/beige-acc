@@ -72,7 +72,7 @@ public class Itlist extends AIdLnNm implements IIdLna {
    * otherwise it should be retrieved by additional
    * SQL query according BurPric when customer is requesting.</p>
    **/
-  private BigDecimal pri;
+  private BigDecimal pri = BigDecimal.ZERO;
 
   /**
    * <p>Null if auctioned, if TrdStg.priCus=false
@@ -80,7 +80,7 @@ public class Itlist extends AIdLnNm implements IIdLna {
    * otherwise it should be retrieved by additional
    * SQL query according BurPric when customer is requesting.</p>
    **/
-  private BigDecimal priPr;
+  private BigDecimal priPr = BigDecimal.ZERO;
 
   /**
    * <p>It's more or equals 0, it's amount of all ItmPlc,
@@ -89,7 +89,7 @@ public class Itlist extends AIdLnNm implements IIdLna {
    * "pickup place", then it's used inner join - additional SQL query
    * of ItmPlc with place filter.</p>
    **/
-  private BigDecimal quan;
+  private BigDecimal quan = BigDecimal.ZERO;
 
   /**
    * <p>Method to render details (page), NULL - no detail page.</p>

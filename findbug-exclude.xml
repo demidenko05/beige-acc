@@ -47,7 +47,7 @@
      <Bug pattern="NP_NULL_ON_SOME_PATH" />
   </Match>
   <Match>
-     <Class name="org.beigesoft.ws.hnd.HndTrd" />
+     <Class name="org.beigesoft.ws.hnd.HnTrVs" />
      <Bug pattern="NP_NULL_ON_SOME_PATH" />
   </Match>
   <!--EI_EXPOSE_REP/2 is resource unfriendly approach to avoid object's unexpected changes.

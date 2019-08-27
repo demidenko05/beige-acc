@@ -183,9 +183,9 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
     }
     AcStg as = (AcStg) pRvs.get("astg");
     Curr curr = (Curr) pRvs.get("wscurr");
-    List<CurrRt> currRates = (List<CurrRt>) pRvs.get("currRates");
+    List<CurrRt> currRts = (List<CurrRt>) pRvs.get("currRts");
     BigDecimal cuRt = BigDecimal.ONE;
-    for (CurrRt cr: currRates) {
+    for (CurrRt cr: currRts) {
       if (cr.getCurr().getIid().equals(curr.getIid())) {
         cuRt = cr.getRate();
         break;
@@ -256,68 +256,68 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
           if (!lang.equals(langDef)) {
             if (tcat.getCatl().getHsGds()) {
               queryg = lazyGetQuItInLstCaIn().replace(":ITTYP", "0")
-    .replace(":TITCAT", "ITMCATALOG").replace(":CATALOGFILTER", whereCatl)
+    .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
   .replace(":WHEREADD", whereAdd).replace(":LANG", lang);
             }
             if (tcat.getCatl().getHsSrv()) {
               querys = lazyGetQuItInLstCaIn().replace(":ITTYP", "1")
-  .replace(":TITCAT", "SRVCATALOG").replace(":CATALOGFILTER", whereCatl)
+  .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
 .replace(":WHEREADD", whereAdd).replace(":LANG", lang);
             }
             if (tcat.getCatl().getHsSgo()) {
               queryseg = lazyGetQuItInLstCaIn().replace(":ITTYP", "2")
-   .replace(":TITCAT", "SEGOODCATALOG").replace(":CATALOGFILTER", whereCatl)
+   .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
  .replace(":WHEREADD", whereAdd).replace(":LANG", lang);
             }
             if (tcat.getCatl().getHsSse()) {
               queryses = lazyGetQuItInLstCaIn().replace(":ITTYP", "3")
-          .replace(":TITCAT", "SESRCA").replace(":CATALOGFILTER", whereCatl)
+          .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
         .replace(":WHEREADD", whereAdd).replace(":LANG", lang);
             }
           }
         }
         if (tcat.getCatl().getHsGds() && queryg == null) {
           queryg = lazyGetQuItInLstCa().replace(":ITTYP", "0")
-    .replace(":TITCAT", "ITMCATALOG").replace(":CATALOGFILTER", whereCatl)
+    .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
   .replace(":WHEREADD", whereAdd);
         }
         if (tcat.getCatl().getHsSrv() && querys == null) {
           querys = lazyGetQuItInLstCa().replace(":ITTYP", "1")
-  .replace(":TITCAT", "SRVCATALOG").replace(":CATALOGFILTER", whereCatl)
+  .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
 .replace(":WHEREADD", whereAdd);
         }
         if (tcat.getCatl().getHsSgo() && queryseg == null) {
           queryseg = lazyGetQuItInLstCa().replace(":ITTYP", "2")
-   .replace(":TITCAT", "SEGOODCATALOG").replace(":CATALOGFILTER", whereCatl)
+   .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
  .replace(":WHEREADD", whereAdd);
         }
         if (tcat.getCatl().getHsSse() && queryses == null) {
           queryses = lazyGetQuItInLstCa().replace(":ITTYP", "3")
-       .replace(":TITCAT", "SESRCA").replace(":CATALOGFILTER", whereCatl)
+       .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
      .replace(":WHEREADD", whereAdd);
         }
         String querygRc = null;
         if (tcat.getCatl().getHsGds()) {
           querygRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "0")
-    .replace(":TITCAT", "ITMCATALOG").replace(":CATALOGFILTER", whereCatl)
+    .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
   .replace(":WHEREADD", whereAdd);
         }
         String querysRc = null;
         if (tcat.getCatl().getHsSrv()) {
           querysRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "1")
-  .replace(":TITCAT", "SRVCATALOG").replace(":CATALOGFILTER", whereCatl)
+  .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
 .replace(":WHEREADD", whereAdd);
         }
         String querysegRc = null;
         if (tcat.getCatl().getHsSgo()) {
           querysegRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "2")
-   .replace(":TITCAT", "SEGOODCATALOG").replace(":CATALOGFILTER", whereCatl)
+   .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
   .replace(":WHEREADD", whereAdd);
         }
         String querysesRc = null;
         if (tcat.getCatl().getHsSse()) {
           querysesRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "3")
-           .replace(":TITCAT", "SESRCA").replace(":CATALOGFILTER", whereCatl)
+           .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
             .replace(":WHEREADD", whereAdd);
         }
         boolean dbgSh = getLog().getDbgSh(this.getClass(), 13100);
@@ -393,8 +393,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
               queryRc += "\n union all \n" + querysesRc;
             }
           }
-          queryRc = "select count(*) as TROWS from (" + queryRc
-            + ") as ALLTOT";
+          queryRc = "select count(*) as TROWS from (" + queryRc + ") as ALLTOT";
           if (orderBy != null) {
             query += orderBy;
             queryRc += orderBy;
@@ -404,7 +403,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
           String[] ndFds = new String[] {"typ", "itId", "nme", "img", "specs",
             "pri", "priPr", "quan", "detMt"};
           Arrays.sort(ndFds);
-          pRvs.put("ItlistndFds", ndFds);
+          vs.put("ItlistndFds", ndFds);
           String pageStr = pRqDt.getParam("page");
           Integer page;
           if (pageStr != null) {
@@ -428,7 +427,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
               this.log.error(pRvs, WsPg.class,
                 "Several price category for same buyer! buyer ID="
                   + cart.getBuyr().getIid());
-            throw new ExcCode(ExcCode.WRCN,
+              throw new ExcCode(ExcCode.WRCN,
                 "several_price_category_for_same_buyer");
             }
             if (burPrics.size() == 1) {
@@ -505,8 +504,8 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
                 String[] ndFlPr = new String[] {"itm", "pri",
                   "ver"}; //actually item type!
                 Arrays.sort(ndFlPr);
-                pRvs.put("PriItmndFds", ndFlPr);
-                pRvs.put("ItmdpLv", 0);
+                vs.put("PriItmndFds", ndFlPr);
+                vs.put("ItmdpLv", 0);
                 List<PriItm> prcs = this.orm.retLstQu(pRvs, vs, PriItm.class,
                   sbq.toString());
                 vs.clear();
@@ -541,6 +540,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
         pRvs.put("catl", tcat.getCatl());
       }
     }
+    pRqDt.setAttr("rnd", "webstore");
   }
 
   /**
@@ -620,7 +620,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
   public final void refrCatlsFlts(final Map<String, Object> pRvs,
     final List<TrCatl> pCurLst) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
-    pRvs.put("CatGsdpLv", 0); //only ID
+    vs.put("CatGsdpLv", 0); //only ID
     for (TrCatl tc : pCurLst) {
       if (tc.getCatl().getFlAvl() || tc.getCatl().getFlSpe()
         || tc.getCatl().getFlSub() || tc.getCatl().getFlPi()) {

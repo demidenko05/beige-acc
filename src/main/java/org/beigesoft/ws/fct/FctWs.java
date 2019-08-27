@@ -39,6 +39,7 @@ import org.beigesoft.hnd.HndEntRq;
 import org.beigesoft.prp.Setng;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.eis.IniEisFct;
+import org.beigesoft.ws.hnd.HnTrVs;
 import org.beigesoft.ws.hnd.HndTrd;
 import org.beigesoft.ws.hld.HlSeEnPr;
 import org.beigesoft.ws.hld.HlPrFeSe;
@@ -52,6 +53,7 @@ import org.beigesoft.ws.srv.IBuySr;
 import org.beigesoft.ws.srv.BuySr;
 import org.beigesoft.ws.srv.ISrCart;
 import org.beigesoft.ws.srv.SrCart;
+import org.beigesoft.ws.srv.UtlTrJsp;
 
 /**
  * <p>Auxiliary factory for web-store additional services.</p>
@@ -86,6 +88,8 @@ public class FctWs<RS> implements IFctAux<RS> {
     Object rz = null;
     if (HndTrd.class.getSimpleName().equals(pBnNm)) {
       rz = crPuHndTrd(pRvs, pFctApp);
+    } else if (HnTrVs.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuHnTrVs(pRvs, pFctApp);
     } else if (FcPrWs.class.getSimpleName().equals(pBnNm)) {
       rz = crPuFcPrWs(pRvs, pFctApp);
     } else if (IFcCsvDrt.class.getSimpleName().equals(pBnNm)) {
@@ -94,6 +98,8 @@ public class FctWs<RS> implements IFctAux<RS> {
       rz = crPuFiSeSel(pRvs, pFctApp);
     } else if (ISrAdStg.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrAdStg(pRvs, pFctApp);
+    } else if (UtlTrJsp.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuUtlTrJsp(pRvs, pFctApp);
     } else if (ISrCart.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrCart(pRvs, pFctApp);
     } else if (IBuySr.class.getSimpleName().equals(pBnNm)) {
@@ -178,6 +184,36 @@ public class FctWs<RS> implements IFctAux<RS> {
   }
 
   /**
+   * <p>Creates and puts into MF HnTrVs.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return HnTrVs
+   * @throws Exception - an exception
+   */
+  private HnTrVs<RS> crPuHnTrVs(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    HnTrVs<RS> rz = new HnTrVs<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    ISrAdStg srAdStg = (ISrAdStg) pFctApp
+      .laz(pRvs, ISrAdStg.class.getSimpleName());
+    rz.setSrAdStg(srAdStg);
+    UtlTrJsp utTrJsp = (UtlTrJsp) pFctApp
+      .laz(pRvs, UtlTrJsp.class.getSimpleName());
+    rz.setUtlTrJsp(utTrJsp);
+    ISrTrStg srTrStg = (ISrTrStg) pFctApp
+      .laz(pRvs, ISrTrStg.class.getSimpleName());
+    rz.setSrTrStg(srTrStg);
+    pFctApp.put(pRvs, HnTrVs.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      HnTrVs.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
    * <p>Creates and puts into MF HndTrd.</p>
    * @param pRvs request scoped vars
    * @param pFctApp main factory
@@ -188,20 +224,10 @@ public class FctWs<RS> implements IFctAux<RS> {
     final FctBlc<RS> pFctApp) throws Exception {
     HndTrd<RS> rz = new HndTrd<RS>();
     @SuppressWarnings("unchecked")
-    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
-    rz.setRdb(rdb);
-    @SuppressWarnings("unchecked")
     FcPrWs<RS> fcPrWs = (FcPrWs<RS>) pFctApp
       .laz(pRvs, FcPrWs.class.getSimpleName());
     rz.setFcPrWs(fcPrWs);
     rz.setLog(pFctApp.lazLogStd(pRvs));
-    rz.setOrm(pFctApp.lazOrm(pRvs));
-    ISrAdStg srAdStg = (ISrAdStg) pFctApp
-      .laz(pRvs, ISrAdStg.class.getSimpleName());
-    rz.setSrAdStg(srAdStg);
-    ISrTrStg srTrStg = (ISrTrStg) pFctApp
-      .laz(pRvs, ISrTrStg.class.getSimpleName());
-    rz.setSrTrStg(srTrStg);
     pFctApp.put(pRvs, HndTrd.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       HndTrd.class.getSimpleName() + " has been created");
@@ -241,6 +267,23 @@ public class FctWs<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, ISrAdStg.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrAdStg.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF UtlTrJsp.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return UtlTrJsp
+   * @throws Exception - an exception
+   */
+  private UtlTrJsp crPuUtlTrJsp(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    UtlTrJsp rz = new UtlTrJsp();
+    rz.setNumStr(pFctApp.lazNumStr(pRvs));
+    pFctApp.put(pRvs, UtlTrJsp.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      UtlTrJsp.class.getSimpleName() + " has been created");
     return rz;
   }
 

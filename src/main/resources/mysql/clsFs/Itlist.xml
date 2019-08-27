@@ -8,4 +8,5 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="itIdnul">false</entry>
+<entry key="uomnul">true</entry>
 </properties>

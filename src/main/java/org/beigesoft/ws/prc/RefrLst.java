@@ -133,11 +133,10 @@ public class RefrLst<RS> implements IPrc {
     final IReqDt pRqd) throws Exception {
     retStData(pRvs);
     Map<String, Object> vs = new HashMap<String, Object>();
-    List<PriCt> defPcs = this.orm.retLstCnd(pRvs, vs, PriCt.class,
-      "where DFOL=1");
-    if (defPcs.size() != 1) {
-      throw new ExcCode(ExcCode.WRCN,
-        "where_is_no_only_default_online_price_category");
+    String prCtId = pRqd.getParam("priCt");
+    PriCt defPc = this.orm.retEntCnd(pRvs, vs, PriCt.class, "IID=" + prCtId);
+    if (defPc == null) {
+      throw new ExcCode(ExcCode.SPAM, "Can't find price category #" + prCtId);
     }
     AddStg tastg = (AddStg) pRvs.get("tastg");
     TrdStg tstg = (TrdStg) pRvs.get("tstg");
@@ -145,7 +144,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.remove("itlLuv");
     String refrAll = pRqd.getParam("refrAll");
     List<ItmSpf> itmSpecLst;
-    if (refrAll != null) {
+    if ("true".equals(refrAll)) {
       itmSpecLst = retItmSpfLs(pRvs, null, ItmSpf.class);
     } else {
       itmSpecLst = retItmSpfLs(pRvs, itlLuv.getGdSpv(), ItmSpf.class);
@@ -156,10 +155,10 @@ public class RefrLst<RS> implements IPrc {
     itmSpecLst = null;
     List<PriItm> itmPriLst;
     if (refrAll != null) {
-      itmPriLst = retItmPriLs(pRvs, null, PriItm.class, defPcs.get(0).getIid());
+      itmPriLst = retItmPriLs(pRvs, null, PriItm.class, defPc.getIid());
     } else {
       itmPriLst = retItmPriLs(pRvs, itlLuv.getGdPrv(), PriItm.class,
-        defPcs.get(0).getIid());
+        defPc.getIid());
     }
     updFoItPriLs(pRvs, itmPriLst, tastg, itlLuv, EItmTy.GOODS);
     pRvs.put("totUpdGdPr", itmPriLst.size());
@@ -185,10 +184,10 @@ public class RefrLst<RS> implements IPrc {
     srvSpecLst = null;
     List<PriSrv> srvPriLst;
     if (refrAll != null) {
-      srvPriLst = retItmPriLs(pRvs, null, PriSrv.class, defPcs.get(0).getIid());
+      srvPriLst = retItmPriLs(pRvs, null, PriSrv.class, defPc.getIid());
     } else {
       srvPriLst = retItmPriLs(pRvs, itlLuv.getSrPrv(), PriSrv.class,
-        defPcs.get(0).getIid());
+        defPc.getIid());
     }
     updFoItPriLs(pRvs, srvPriLst, tastg, itlLuv, EItmTy.SERVICE);
     pRvs.put("totUpdServPr", srvPriLst.size());
@@ -215,10 +214,10 @@ public class RefrLst<RS> implements IPrc {
     List<SeItmPri> seGoodPriLst;
     if (refrAll != null) {
       seGoodPriLst = retItmPriLs(pRvs, null, SeItmPri.class,
-        defPcs.get(0).getIid());
+        defPc.getIid());
     } else {
       seGoodPriLst = retItmPriLs(pRvs, itlLuv.getSgdPrv(), SeItmPri.class,
-        defPcs.get(0).getIid());
+        defPc.getIid());
     }
     updFoItPriLs(pRvs, seGoodPriLst, tastg, itlLuv, EItmTy.SEGOODS);
     pRvs.put("totUpdSeGoodPr", seGoodPriLst.size());
@@ -245,10 +244,10 @@ public class RefrLst<RS> implements IPrc {
     List<SeSrvPri> sePriSrvLst;
     if (refrAll != null) {
       sePriSrvLst = retItmPriLs(pRvs, null, SeSrvPri.class,
-        defPcs.get(0).getIid());
+        defPc.getIid());
     } else {
       sePriSrvLst = retItmPriLs(pRvs, itlLuv.getSsrPrv(), SeSrvPri.class,
-        defPcs.get(0).getIid());
+        defPc.getIid());
     }
     updFoItPriLs(pRvs, sePriSrvLst, tastg, itlLuv, EItmTy.SESERVICE);
     pRvs.put("totUpdSeSrvPr", sePriSrvLst.size());
@@ -321,7 +320,7 @@ public class RefrLst<RS> implements IPrc {
         verCond = "";
       }
       result = getOrm().retLstCnd(pRvs, vs, pItmPlcCl,
-        verCond + " order by " + tblNm + ".VER");
+        verCond + " order by " + tblNm + ".VER asc");
       this.rdb.commit();
     } catch (Exception ex) {
       if (!this.rdb.getAcmt()) {
@@ -346,7 +345,7 @@ public class RefrLst<RS> implements IPrc {
   public final <T extends AItmPlc<I, ?>, I extends IIdLnNm> void updFoItmPlc(
     final Map<String, Object> pRvs, final T pItmPlc,
       final EItmTy pItTy) throws Exception {
-    String whereStr = "where TYP=" + pItTy.ordinal() + " and ITID="
+    String whereStr = "TYP=" + pItTy.ordinal() + " and ITID="
       + pItmPlc.getItm().getIid();
     Map<String, Object> vs = new HashMap<String, Object>();
     Itlist itlst = getOrm().retEntCnd(pRvs, vs, Itlist.class, whereStr);
@@ -445,7 +444,7 @@ public class RefrLst<RS> implements IPrc {
         verCond += " and " + tblNm + ".VER>" + pLuv.toString();
       }
       result = getOrm().retLstCnd(pRvs, vs, pItmPriCl,
-        verCond + " order by " + tblNm + ".VER");
+        verCond + " order by " + tblNm + ".VER asc");
       this.rdb.commit();
     } catch (Exception ex) {
       if (!this.rdb.getAcmt()) {
@@ -470,7 +469,7 @@ public class RefrLst<RS> implements IPrc {
   public final <T extends AItmPri<I, ?>, I extends IIdLnNm> void updFoItmPri(
     final Map<String, Object> pRvs, final T pItmPri,
       final EItmTy pItTy) throws Exception {
-    String whereStr = "where TYP=" + pItTy.ordinal() + " and ITID="
+    String whereStr = "TYP=" + pItTy.ordinal() + " and ITID="
       + pItmPri.getItm().getIid();
     Map<String, Object> vs = new HashMap<String, Object>();
     Itlist itlst = getOrm().retEntCnd(pRvs, vs, Itlist.class, whereStr);
@@ -584,7 +583,7 @@ public class RefrLst<RS> implements IPrc {
       Arrays.sort(soigFldNms);
       vs.put("ItmSpGrndFds", soigFldNms);
       result = getOrm().retLstCnd(pRvs, vs, pItSpCls, verCond
-        + " order by ITM.IID, SPEC.IDX"); vs.clear();
+        + " order by ITM10.IID, SPEC11.IDX asc"); vs.clear();
       this.rdb.commit();
     } catch (Exception ex) {
       if (!this.rdb.getAcmt()) {
@@ -763,7 +762,9 @@ public class RefrLst<RS> implements IPrc {
         spdet = tmpld.replace(":SPECNM", fndSpecNm(pI18SpecLst,
           pOutdGdSp.getSpec(), i18spl.getLng()));
         spdet = spdet.replace(":VAL1", val1);
-        spdet = spdet.replace(":VAL2", val2);
+        if (val2 != null) { //UOM optional
+          spdet = spdet.replace(":VAL2", val2);
+        }
         if (pOutdGdSp.getSpec().getGrp() != null && pItmSpGrsWas != null
       && pOutdGdSp.getSpec().getGrp().getIid().equals(pItmSpGrsWas.getIid())) {
           i18spl.setVal(i18spl.getVal() + pAddStg.getSpeSp() + spdet);
