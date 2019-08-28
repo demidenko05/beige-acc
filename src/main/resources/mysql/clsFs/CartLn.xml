@@ -8,8 +8,10 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="ownrdef">bigint unsigned not null</entry>
-<entry key="selrdef">bigint unsigned not null</entry>
-<entry key="txCtnul">true</entry>
+<entry key="selrdef">bigint unsigned</entry>
 <entry key="selrnul">true</entry>
+<entry key="txCtnul">true</entry>
+<entry key="dt1nul">true</entry>
+<entry key="dt2nul">true</entry>
 <entry key="itIdnul">false</entry>
 </properties>

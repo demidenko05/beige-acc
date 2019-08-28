@@ -8,6 +8,6 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="ownrdef">integer not null</entry>
-<entry key="selrdef">integer not null</entry>
+<entry key="selrdef">integer</entry>
 <entry key="selrnul">true</entry>
 </properties>

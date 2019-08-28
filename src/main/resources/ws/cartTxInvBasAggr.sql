@@ -1,7 +1,7 @@
-select TXCT as TAXCATID, TAX as TAXID, TAX.NME as TAXNAME, RATE as RATE, sum(SUBT) as SUBT, sum(TOT) as TOT
+select TXCT as TAXCATID, TAX as TAXID, TAX.NME as TAXNAME, RATE, sum(SUBT) as SUBT, sum(TOT) as TOT
 from
 ( select TXCT, SUBT, TOT from CARTLN
-  where TXCT is not null and DISAB=0 and SEL:CONDSEL and OWNR=:CARTID
+  where TXCT is not null and DISAB=0 and SELR:CONDSEL and OWNR=:CARTID
 ) as ALL_LINES
 join TXCT on TXCT.IID=TXCT
 join TXCTLN on TXCTLN.OWNR=TXCT.IID

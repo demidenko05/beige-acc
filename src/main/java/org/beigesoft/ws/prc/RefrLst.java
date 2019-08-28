@@ -762,9 +762,10 @@ public class RefrLst<RS> implements IPrc {
         spdet = tmpld.replace(":SPECNM", fndSpecNm(pI18SpecLst,
           pOutdGdSp.getSpec(), i18spl.getLng()));
         spdet = spdet.replace(":VAL1", val1);
-        if (val2 != null) { //UOM optional
-          spdet = spdet.replace(":VAL2", val2);
+        if (val2 == null) { //UOM optional
+          val2 = "";
         }
+        spdet = spdet.replace(":VAL2", val2);
         if (pOutdGdSp.getSpec().getGrp() != null && pItmSpGrsWas != null
       && pOutdGdSp.getSpec().getGrp().getIid().equals(pItmSpGrsWas.getIid())) {
           i18spl.setVal(i18spl.getVal() + pAddStg.getSpeSp() + spdet);

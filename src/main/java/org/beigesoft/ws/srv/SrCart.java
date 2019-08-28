@@ -756,8 +756,8 @@ public class SrCart<RS> implements ISrCart {
         pCaLn.setQuan(pCaLn.getQuan().subtract(qosr));
       }
       @SuppressWarnings("unchecked")
-      List<CurrRt> currRates = (List<CurrRt>) pRvs.get("currRates");
-      for (CurrRt cr: currRates) {
+      List<CurrRt> currRts = (List<CurrRt>) pRvs.get("currRts");
+      for (CurrRt cr: currRts) {
         if (cr.getCurr().getIid().equals(pCaLn.getOwnr()
           .getCurr().getIid())) {
           BigDecimal exchRate = cr.getRate();
@@ -887,7 +887,7 @@ public class SrCart<RS> implements ISrCart {
       getOrm().update(pRvs, vs, pCaLn);
     }
     if (itls != null) {
-      vs.put("CartLndpLv", 1);
+      vs.put("CartLndpLv", 0);
       List<CartItTxLn> itlsr = getOrm().retLstCnd(pRvs, vs, CartItTxLn.class,
         "where CARTID=" + pCaLn.getOwnr().getBuyr().getIid()); vs.clear();
       for (CartItTxLn itlrt : itlsr) {
@@ -977,10 +977,10 @@ public class SrCart<RS> implements ISrCart {
       itemPriceCl = SeItmPri.class;
     }
     Map<String, Object> vs = new HashMap<String, Object>();
-    String[] ndFlItPr = new String[] {"itm", "priCt", "pri", "unSt"};
+    String[] ndFlItPr = new String[] {"pri", "unSt"};
     Arrays.sort(ndFlItPr);
     vs.put(itemPriceCl.getSimpleName() + "ndFds", ndFlItPr);
-    vs.put("PriCtdpLv", 1);
+    vs.put("PriCtdpLv", 0);
     String[] ndFlIt;
     if (pItType.equals(EItmTy.SEGOODS) || pItType.equals(EItmTy.SESERVICE)) {
       ndFlIt = new String[] {"nme", "txCt", "selr"};
@@ -999,7 +999,7 @@ public class SrCart<RS> implements ISrCart {
     if (pTs.getPriCus() && pBuyr != null) {
       //try to reveal price dedicated to customer:
       List<BurPric> buyerPrCats = getOrm()
-        .retLstCnd(pRvs, vs, BurPric.class, "where BUYER=" + pBuyr.getIid());
+        .retLstCnd(pRvs, vs, BurPric.class, "where BUYR=" + pBuyr.getIid());
       if (buyerPrCats.size() > 1) {
         this.log.error(pRvs, SrCart.class,
           "Several price category for same buyer! buyer ID=" + pBuyr.getIid());
@@ -1012,12 +1012,12 @@ public class SrCart<RS> implements ISrCart {
         } else {
           query = lazQuItemSePriceCat();
         }
-        query = query.replace(":ITEMID", pItId.toString());
-        query = query.replace(":LANG", lang);
-        query = query.replace(":TITEMPRICE", itemPriceCl.getSimpleName()
+        query = query.replace(":ITMID", pItId.toString());
+        query = query.replace(":LNG", lang);
+        query = query.replace(":TITMPRI", itemPriceCl.getSimpleName()
           .toUpperCase());
-        query = query.replace(":TITEM", itemCl.getSimpleName().toUpperCase());
-        query = query.replace(":TI18NITEM", itemI18Cl.getSimpleName()
+        query = query.replace(":TITM", itemCl.getSimpleName().toUpperCase());
+        query = query.replace(":TI18ITM", itemI18Cl.getSimpleName()
           .toUpperCase());
         StringBuffer pccnd = new StringBuffer("");
         pccnd.append("=" + buyerPrCats.get(0).getPriCt().getIid());
@@ -1032,12 +1032,12 @@ public class SrCart<RS> implements ISrCart {
       } else {
         query = lazQuItemSePrice();
       }
-      query = query.replace(":ITEMID", pItId.toString());
-      query = query.replace(":LANG", lang);
-      query = query.replace(":TITEMPRICE", itemPriceCl.getSimpleName()
+      query = query.replace(":ITMID", pItId.toString());
+      query = query.replace(":LNG", lang);
+      query = query.replace(":TITMPRI", itemPriceCl.getSimpleName()
         .toUpperCase());
-      query = query.replace(":TITEM", itemCl.getSimpleName().toUpperCase());
-      query = query.replace(":TI18NITEM", itemI18Cl.getSimpleName()
+      query = query.replace(":TITM", itemCl.getSimpleName().toUpperCase());
+      query = query.replace(":TI18ITM", itemI18Cl.getSimpleName()
         .toUpperCase());
       @SuppressWarnings("unchecked")
       List<AItmPri<?, ?>> itPris = (List<AItmPri<?, ?>>)

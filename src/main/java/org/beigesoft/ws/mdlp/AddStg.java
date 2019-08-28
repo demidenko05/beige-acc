@@ -44,7 +44,7 @@ public class AddStg extends AIdLn {
   private String shtms;
 
   /**
-   * <p>null default, HTML template for whole specifics start,
+   * <p>null default, HTML template for whole specifics end,
    * e.g. "&lt;/ul&gt;".</p>
    **/
   private String shtme;
@@ -56,7 +56,7 @@ public class AddStg extends AIdLn {
   private String sghtms;
 
   /**
-   * <p>null default, HTML template for group specifics start,
+   * <p>null default, HTML template for group specifics end,
    * e.g. "&lt;/li&gt;".</p>
    **/
   private String sghtme;

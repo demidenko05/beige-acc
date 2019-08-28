@@ -105,24 +105,24 @@ public class PrLog<RS> implements IPrc {
       buyer = this.buySr.createBuyr(pRvs, pRqDt);
     }
     String nm = pRqDt.getParam("nm");
-    String em = pRqDt.getParam("em");
+    String eml = pRqDt.getParam("eml");
     String pw = pRqDt.getParam("pw");
     String pwc = pRqDt.getParam("pwc");
     long now = new Date().getTime();
     pRvs.put("buyr", buyer);
     Map<String, Object> vs = new HashMap<String, Object>();
     if (buyer.getEml() == null) { //unregistered:
-      if (nm != null && pw != null && pwc != null && em != null) {
+      if (nm != null && pw != null && pwc != null && eml != null) {
         //creating:
         if (nm.length() > 2 && pw.length() > 7 && pw.equals(pwc)
-          && em.length() > 5) {
+          && eml.length() > 5) {
           pRvs.put("BuyerdpLv", 0);
           List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
-            "where EML='" + em + "'"); vs.clear();
+            "where EML='" + eml + "'"); vs.clear();
           if (brs.size() == 0) {
             buyer.setNme(nm);
             buyer.setPwd(pw);
-            buyer.setEml(em);
+            buyer.setEml(eml);
             buyer.setLsTm(now);
             UUID buseid = UUID.randomUUID();
             buyer.setBuSeId(buseid.toString());
@@ -137,16 +137,16 @@ public class PrLog<RS> implements IPrc {
             pRvs.put("errMsg", "emBusy");
           } else {
             getLog().error(pRvs, PrLog.class,
-              "Several users with same email!: " + em);
+              "Several users with same email!: " + eml);
           }
         } else {
           pRvs.put("errMsg", "buyCrRul");
         }
-      } else if (pw != null && em != null) {
+      } else if (pw != null && eml != null) {
         //login from new browser
         vs.put("BuyerdpLv", 1);
         List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
-          "where PWD='" + pw + "' and EML='" + em + "'"); vs.clear();
+          "where PWD='" + pw + "' and EML='" + eml + "'"); vs.clear();
         if (brs.size() == 1) {
           //free buyer and moving its cart by fast updates:
           mkFreBuyr(pRvs,  pRqDt, buyer, brs.get(0));
@@ -154,7 +154,7 @@ public class PrLog<RS> implements IPrc {
           pRvs.put("errMsg", "wrong_em_password");
         } else {
           getLog().error(pRvs, PrLog.class,
-            "Several users with same password and email!: " + em);
+            "Several users with same password and email!: " + eml);
         }
       } else {
         spam(pRvs, pRqDt);

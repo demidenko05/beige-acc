@@ -37,6 +37,7 @@ import org.beigesoft.fct.IFctPrc;
 import org.beigesoft.prc.IPrc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.ws.prc.WsPg;
+import org.beigesoft.ws.prc.ItmCart;
 import org.beigesoft.ws.prc.PrLog;
 import org.beigesoft.ws.srv.ISrCart;
 import org.beigesoft.ws.srv.IBuySr;
@@ -76,6 +77,8 @@ public class FcPrWs<RS> implements IFctPrc {
         if (rz == null) {
           if (WsPg.class.getSimpleName().equals(pPrNm)) {
             rz = crPuWsPg(pRvs);
+          } else if (ItmCart.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuItmCart(pRvs);
           } else if (PrLog.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrLog(pRvs);
           } else {
@@ -84,6 +87,27 @@ public class FcPrWs<RS> implements IFctPrc {
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map ItmCart.</p>
+   * @param pRvs request scoped vars
+   * @return ItmCart
+   * @throws Exception - an exception
+   */
+  private ItmCart<RS> crPuItmCart(
+    final Map<String, Object> pRvs) throws Exception {
+    ItmCart<RS> rz = new ItmCart<RS>();
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrCart srCart = (ISrCart) this.fctBlc
+      .laz(pRvs, ISrCart.class.getSimpleName());
+    rz.setSrCart(srCart);
+    rz.setFcPrWs(this);
+    this.procs.put(ItmCart.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      ItmCart.class.getSimpleName() + " has been created.");
     return rz;
   }
 

@@ -417,7 +417,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
             page = totalPages;
           }
           int firstResult = (page - 1) * cpf.getPgSz(); //0-20,20-40
-          List<Itlist> itemsList = getOrm().retPgQu(pRvs, vs, Itlist.class,
+          List<Itlist> itList = getOrm().retPgQu(pRvs, vs, Itlist.class,
             query, firstResult, cpf.getPgSz()); vs.clear();
           if (ts.getPriCus() && cart != null
             && cart.getBuyr().getEml() != null) {
@@ -435,7 +435,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
               StringBuffer sbs = null;
               StringBuffer sbsg = null;
               StringBuffer sbss = null;
-              for (Itlist iil : itemsList) {
+              for (Itlist iil : itList) {
                 if (iil.getTyp().equals(EItmTy.GOODS)) {
                   if (sbg == null) {
                     sbg = new StringBuffer();
@@ -510,7 +510,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
                   sbq.toString());
                 vs.clear();
                 for (PriItm pri : prcs) {
-                  for (Itlist iil : itemsList) {
+                  for (Itlist iil : itList) {
                     long itTyp = iil.getTyp().ordinal();
                     if (iil.getItId().equals(pri.getItm().getIid())
                       && itTyp == pri.getVer()) {
@@ -525,7 +525,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
           List<Page> pages = this.srvPg.evPgs(page, totalPages,
             cpf.getPgTl());
           pRvs.put("pages", pages);
-          pRvs.put("itemsList", itemsList);
+          pRvs.put("itList", itList);
           pRvs.put("totalItems", rowCount);
         }
         if (fltPri != null) {

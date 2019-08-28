@@ -120,8 +120,9 @@ public class FcPrNtAd<RS> implements IFctPrc {
    * @return RefrLst
    * @throws Exception - an exception
    */
-  private RefrLst crPuRefrLst(final Map<String, Object> pRvs) throws Exception {
-    RefrLst rz = new RefrLst();
+  private RefrLst<RS> crPuRefrLst(
+    final Map<String, Object> pRvs) throws Exception {
+    RefrLst<RS> rz = new RefrLst<RS>();
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
