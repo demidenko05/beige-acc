@@ -58,7 +58,7 @@ public class CatGs extends AIdLnNm {
    * <p>Is it in the menu, default true, to quick switch on/off from menu
    * or for catalog that shows only on start.</p>
    **/
-  private Boolean used = true;
+  private Boolean inMn = true;
 
   /**
    * <p>Use filter specifics for this catalog/sub-catalogs.</p>
@@ -81,15 +81,15 @@ public class CatGs extends AIdLnNm {
   private Boolean flAvl = false;
 
   /**
-   * <p>List of filterable/orderable specifics that are used for items
+   * <p>List of filterable/orderable specifics that are inMn for items
    * in that catalog and its sub-catalogs.
-   * It's used to make filter/order for item's list.</p>
+   * It's inMn to make filter/order for item's list.</p>
    **/
   private List<CatSp> usedSpecs;
 
   /**
-   * <p>If used, means ID of customized filter, e.g. "231" means
-   * using custom filterPrice231.jsp for used car (set of price ranges)
+   * <p>If inMn, means ID of customized filter, e.g. "231" means
+   * using custom filterPrice231.jsp for inMn car (set of price ranges)
    * instead of regular(usual/default) filter
    * integer (less, greater, from-to value1/2).</p>
    **/
@@ -165,19 +165,19 @@ public class CatGs extends AIdLnNm {
   }
 
   /**
-   * <p>Getter for used.</p>
+   * <p>Getter for inMn.</p>
    * @return Boolean
    **/
-  public final Boolean getUsed() {
-    return this.used;
+  public final Boolean getInMn() {
+    return this.inMn;
   }
 
   /**
-   * <p>Setter for used.</p>
-   * @param pUsed reference
+   * <p>Setter for inMn.</p>
+   * @param pInMn reference
    **/
-  public final void setUsed(final Boolean pUsed) {
-    this.used = pUsed;
+  public final void setInMn(final Boolean pInMn) {
+    this.inMn = pInMn;
   }
 
   /**

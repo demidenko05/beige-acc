@@ -35,7 +35,6 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.log.ILog;
 import org.beigesoft.prc.IPrc;
-import org.beigesoft.rdb.IOrm;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.acc.mdlp.TxDst;
@@ -59,11 +58,6 @@ public class ItmCart<RS> implements IPrc {
    * <p>Logger.</p>
    **/
   private ILog log;
-
-  /**
-   * <p>ORM service.</p>
-   **/
-  private IOrm orm;
 
   /**
    * <p>Shopping Cart service.</p>
@@ -204,6 +198,9 @@ public class ItmCart<RS> implements IPrc {
   public final void redir(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
     String procNm = pRqDt.getParam("prcRed");
+    if (getClass().getSimpleName().equals(procNm)) {
+      throw new ExcCode(ExcCode.SPAM, "Danger stupid scam!!!!");
+    }
     IPrc proc = this.fcPrWs.laz(pRvs, procNm);
     proc.process(pRvs, pRqDt);
   }
@@ -263,22 +260,6 @@ public class ItmCart<RS> implements IPrc {
    **/
   public final void setLog(final ILog pLog) {
     this.log = pLog;
-  }
-
-  /**
-   * <p>Getter for orm.</p>
-   * @return Orm
-   **/
-  public final IOrm getOrm() {
-    return this.orm;
-  }
-
-  /**
-   * <p>Setter for orm.</p>
-   * @param pOrm reference
-   **/
-  public final void setOrm(final IOrm pOrm) {
-    this.orm = pOrm;
   }
 
   /**

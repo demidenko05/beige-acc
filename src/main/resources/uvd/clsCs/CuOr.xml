@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--BSD 2-Clause License
+Copyright (c) 2019, Beigesoft™
+All rights reserved.
+See LICENSE in base folder
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Explicit final definition.</comment>
+<entry key="lstFds">iid,dat,pr,buyr,subt,toTx,tot,curr,rate,delv,pipl,paym,stas,dscr</entry>
+<entry key="owdEnts">org.beigesoft.ws.mdlp.CuOrGdLn,org.beigesoft.ws.mdlp.CuOrSrLn,org.beigesoft.ws.mdlp.CuOrTxLn</entry>
+<entry key="selDpl">TxDst,1</entry>
+<entry key="selFds">DbCr,iid,nme,txDs,#Curr,iid,nme,#TxDst,iid,nme,stRm,stIb,stAg</entry>
+</properties>

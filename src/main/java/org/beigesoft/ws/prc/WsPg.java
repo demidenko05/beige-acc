@@ -257,22 +257,22 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
             if (tcat.getCatl().getHsGds()) {
               queryg = lazyGetQuItInLstCaIn().replace(":ITTYP", "0")
     .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
-  .replace(":WHEREADD", whereAdd).replace(":LANG", lang);
+  .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
             }
             if (tcat.getCatl().getHsSrv()) {
               querys = lazyGetQuItInLstCaIn().replace(":ITTYP", "1")
   .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
-.replace(":WHEREADD", whereAdd).replace(":LANG", lang);
+.replace(":WHEREADD", whereAdd).replace(":LNG", lang);
             }
             if (tcat.getCatl().getHsSgo()) {
               queryseg = lazyGetQuItInLstCaIn().replace(":ITTYP", "2")
    .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
- .replace(":WHEREADD", whereAdd).replace(":LANG", lang);
+ .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
             }
             if (tcat.getCatl().getHsSse()) {
               queryses = lazyGetQuItInLstCaIn().replace(":ITTYP", "3")
           .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
-        .replace(":WHEREADD", whereAdd).replace(":LANG", lang);
+        .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
             }
           }
         }

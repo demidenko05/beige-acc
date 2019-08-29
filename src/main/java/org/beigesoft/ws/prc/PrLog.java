@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.math.BigDecimal;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.mdl.ColVals;
 import org.beigesoft.log.ILog;
@@ -104,24 +105,24 @@ public class PrLog<RS> implements IPrc {
     if (buyer == null) {
       buyer = this.buySr.createBuyr(pRvs, pRqDt);
     }
-    String nm = pRqDt.getParam("nm");
+    String nme = pRqDt.getParam("nme");
     String eml = pRqDt.getParam("eml");
-    String pw = pRqDt.getParam("pw");
-    String pwc = pRqDt.getParam("pwc");
+    String pwd = pRqDt.getParam("pwd");
+    String pwdc = pRqDt.getParam("pwdc");
     long now = new Date().getTime();
     pRvs.put("buyr", buyer);
     Map<String, Object> vs = new HashMap<String, Object>();
     if (buyer.getEml() == null) { //unregistered:
-      if (nm != null && pw != null && pwc != null && eml != null) {
+      if (nme != null && pwd != null && pwdc != null && eml != null) {
         //creating:
-        if (nm.length() > 2 && pw.length() > 7 && pw.equals(pwc)
+        if (nme.length() > 2 && pwd.length() > 7 && pwd.equals(pwdc)
           && eml.length() > 5) {
-          pRvs.put("BuyerdpLv", 0);
+          vs.put("BuyerdpLv", 0);
           List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
-            "where EML='" + eml + "'"); vs.clear();
+            "where BUYER.EML='" + eml + "'"); vs.clear();
           if (brs.size() == 0) {
-            buyer.setNme(nm);
-            buyer.setPwd(pw);
+            buyer.setNme(nme);
+            buyer.setPwd(pwd);
             buyer.setEml(eml);
             buyer.setLsTm(now);
             UUID buseid = UUID.randomUUID();
@@ -133,6 +134,8 @@ public class PrLog<RS> implements IPrc {
             }
             pRqDt.setCookVl("cBuyerId", buyer.getIid().toString());
             pRqDt.setCookVl("buSeId", buyer.getBuSeId());
+            getLog().info(pRvs, PrLog.class, "Buyer registered: " + nme + "/"
+              + eml);
           } else if (brs.size() == 1) {
             pRvs.put("errMsg", "emBusy");
           } else {
@@ -142,11 +145,11 @@ public class PrLog<RS> implements IPrc {
         } else {
           pRvs.put("errMsg", "buyCrRul");
         }
-      } else if (pw != null && eml != null) {
+      } else if (pwd != null && eml != null) {
         //login from new browser
         vs.put("BuyerdpLv", 1);
         List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
-          "where PWD='" + pw + "' and EML='" + eml + "'"); vs.clear();
+          "where PWD='" + pwd + "' and EML='" + eml + "'"); vs.clear();
         if (brs.size() == 1) {
           //free buyer and moving its cart by fast updates:
           mkFreBuyr(pRvs,  pRqDt, buyer, brs.get(0));
@@ -166,32 +169,37 @@ public class PrLog<RS> implements IPrc {
         if (buyer.getBuSeId().equals(buSeId)) {
           //authorized requests:
           String zip = pRqDt.getParam("zip");
-          String adr1 = pRqDt.getParam("adr1");
-          if (nm != null && zip != null  && adr1 != null) {
+          String addr1 = pRqDt.getParam("addr1");
+          if (nme != null && zip != null  && addr1 != null) {
             //change name, shipping address:
-            String cnt = pRqDt.getParam("cnt");
-            String cit = pRqDt.getParam("cit");
-            String adr2 = pRqDt.getParam("adr2");
-            String phn = pRqDt.getParam("phn");
-            if (nm.length() > 2 && zip.length() > 2 && adr1.length() > 2) {
-              buyer.setNme(nm);
+            String cntr = pRqDt.getParam("cntr");
+            String city = pRqDt.getParam("city");
+            String addr2 = pRqDt.getParam("addr2");
+            String phon = pRqDt.getParam("phon");
+            if (nme.length() > 2 && zip.length() > 2 && addr1.length() > 2) {
+              buyer.setNme(nme);
               buyer.setZip(zip);
-              buyer.setAddr1(adr1);
-              buyer.setAddr2(adr2);
-              buyer.setCntr(cnt);
-              buyer.setCity(cit);
-              buyer.setPhon(phn);
+              buyer.setAddr1(addr1);
+              buyer.setAddr2(addr2);
+              buyer.setCntr(cntr);
+              buyer.setCity(city);
+              buyer.setPhon(phon);
               buyer.setLsTm(now);
               this.orm.update(pRvs, vs, buyer);
+              getLog().info(pRvs, PrLog.class, "Buyer's info changed : " + nme
+                + "/" + eml + "/" + zip + "/" + city + "/" + cntr + "/"
+                  + phon + "/" + addr1 + "/" + addr2);
             } else {
               pRvs.put("errMsg", "buyEmRul");
             }
-          } else if (pw != null && pwc != null) {
+          } else if (pwd != null && pwdc != null) {
             //change password:
-            if (pw.length() > 7 && pw.equals(pwc)) {
-              buyer.setPwd(pw);
+            if (pwd.length() > 7 && pwd.equals(pwdc)) {
+              buyer.setPwd(pwd);
               buyer.setLsTm(now);
               this.orm.update(pRvs, vs, buyer);
+              getLog().info(pRvs, PrLog.class, "Buyer's password changed : "
+                + nme + "/" + eml);
             } else {
               pRvs.put("errMsg", "buyPwdRul");
             }
@@ -205,9 +213,9 @@ public class PrLog<RS> implements IPrc {
         }
       } else {
         //unauthorized requests:
-        if (pw != null) {
+        if (pwd != null) {
           //login action:
-          if (pw.equals(buyer.getPwd())) {
+          if (pwd.equals(buyer.getPwd())) {
             buyer.setLsTm(now);
             UUID buseid = UUID.randomUUID();
             buyer.setBuSeId(buseid.toString());
@@ -222,6 +230,9 @@ public class PrLog<RS> implements IPrc {
       }
     }
     String procNm = pRqDt.getParam("prcRed");
+    if (getClass().getSimpleName().equals(procNm)) {
+      throw new ExcCode(ExcCode.SPAM, "Danger stupid scam!!!!");
+    }
     IPrc proc = this.procFac.laz(pRvs, procNm);
     proc.process(pRvs, pRqDt);
   }
