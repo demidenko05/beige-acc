@@ -76,6 +76,18 @@ public class AddStg extends AIdLn {
    **/
   private Integer rcsTr = 100;
 
+  /**
+   * <p>Booking transaction isolation mode ISrvDatabase:
+   * <ul>
+   * <li>1 read uncommited.</li>
+   * <li>2 read commited, default.</li>
+   * <li>3 repeatable read.</li>
+   * <li>4 serializable.</li>
+   * </ul>
+   * </p>
+   **/
+  private Integer bkTr = 2;
+
   //Simple getters and setters:
   /**
    * <p>Getter for shtms.</p>
@@ -187,5 +199,21 @@ public class AddStg extends AIdLn {
    **/
   public final void setRcsTr(final Integer pRcsTr) {
     this.rcsTr = pRcsTr;
+  }
+
+  /**
+   * <p>Getter for bkTr.</p>
+   * @return Integer
+   **/
+  public final Integer getBkTr() {
+    return this.bkTr;
+  }
+
+  /**
+   * <p>Setter for bkTr.</p>
+   * @param pBkTr reference
+   **/
+  public final void setBkTr(final Integer pBkTr) {
+    this.bkTr = pBkTr;
   }
 }

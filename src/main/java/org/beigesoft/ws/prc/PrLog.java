@@ -93,6 +93,11 @@ public class PrLog<RS> implements IPrc {
   private IBuySr buySr;
 
   /**
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
+  /**
    * <p>Process request.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -101,137 +106,150 @@ public class PrLog<RS> implements IPrc {
   @Override
   public final void process(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
-    Buyer buyer = this.buySr.getBuyr(pRvs, pRqDt);
-    if (buyer == null) {
-      buyer = this.buySr.createBuyr(pRvs, pRqDt);
-    }
-    String nme = pRqDt.getParam("nme");
-    String eml = pRqDt.getParam("eml");
-    String pwd = pRqDt.getParam("pwd");
-    String pwdc = pRqDt.getParam("pwdc");
-    long now = new Date().getTime();
-    pRvs.put("buyr", buyer);
-    Map<String, Object> vs = new HashMap<String, Object>();
-    if (buyer.getEml() == null) { //unregistered:
-      if (nme != null && pwd != null && pwdc != null && eml != null) {
-        //creating:
-        if (nme.length() > 2 && pwd.length() > 7 && pwd.equals(pwdc)
-          && eml.length() > 5) {
-          vs.put("BuyerdpLv", 0);
-          List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
-            "where BUYER.EML='" + eml + "'"); vs.clear();
-          if (brs.size() == 0) {
-            buyer.setNme(nme);
-            buyer.setPwd(pwd);
-            buyer.setEml(eml);
-            buyer.setLsTm(now);
-            UUID buseid = UUID.randomUUID();
-            buyer.setBuSeId(buseid.toString());
-            if (buyer.getIsNew()) {
-              this.orm.insIdLn(pRvs, vs, buyer);
+    try {
+      this.rdb.setAcmt(false);
+      this.rdb.setTrIsl(this.trIsl);
+      this.rdb.begin();
+      Buyer buyer = this.buySr.getBuyr(pRvs, pRqDt);
+      if (buyer == null) {
+        buyer = this.buySr.createBuyr(pRvs, pRqDt);
+      }
+      String nme = pRqDt.getParam("nme");
+      String eml = pRqDt.getParam("eml");
+      String pwd = pRqDt.getParam("pwd");
+      String pwdc = pRqDt.getParam("pwdc");
+      long now = new Date().getTime();
+      pRvs.put("buyr", buyer);
+      Map<String, Object> vs = new HashMap<String, Object>();
+      if (buyer.getEml() == null) { //unregistered:
+        if (nme != null && pwd != null && pwdc != null && eml != null) {
+          //creating:
+          if (nme.length() > 2 && pwd.length() > 7 && pwd.equals(pwdc)
+            && eml.length() > 5) {
+            vs.put("BuyerdpLv", 0);
+            List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
+              "where BUYER.EML='" + eml + "'"); vs.clear();
+            if (brs.size() == 0) {
+              buyer.setNme(nme);
+              buyer.setPwd(pwd);
+              buyer.setEml(eml);
+              buyer.setLsTm(now);
+              UUID buseid = UUID.randomUUID();
+              buyer.setBuSeId(buseid.toString());
+              if (buyer.getIsNew()) {
+                this.orm.insIdLn(pRvs, vs, buyer);
+              } else {
+                this.orm.update(pRvs, vs, buyer);
+              }
+              pRqDt.setCookVl("cBuyerId", buyer.getIid().toString());
+              pRqDt.setCookVl("buSeId", buyer.getBuSeId());
+              getLog().info(pRvs, PrLog.class, "Buyer registered: " + nme + "/"
+                + eml);
+            } else if (brs.size() == 1) {
+              pRvs.put("errMsg", "emBusy");
             } else {
-              this.orm.update(pRvs, vs, buyer);
+              getLog().error(pRvs, PrLog.class,
+                "Several users with same email!: " + eml);
             }
-            pRqDt.setCookVl("cBuyerId", buyer.getIid().toString());
-            pRqDt.setCookVl("buSeId", buyer.getBuSeId());
-            getLog().info(pRvs, PrLog.class, "Buyer registered: " + nme + "/"
-              + eml);
-          } else if (brs.size() == 1) {
-            pRvs.put("errMsg", "emBusy");
+          } else {
+            pRvs.put("errMsg", "buyCrRul");
+          }
+        } else if (pwd != null && eml != null) {
+          //login from new browser
+          vs.put("BuyerdpLv", 1);
+          List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
+            "where PWD='" + pwd + "' and EML='" + eml + "'"); vs.clear();
+          if (brs.size() == 1) {
+            //free buyer and moving its cart by fast updates:
+            mkFreBuyr(pRvs,  pRqDt, buyer, brs.get(0));
+          } else if (brs.size() == 0) {
+            pRvs.put("errMsg", "wrong_em_password");
           } else {
             getLog().error(pRvs, PrLog.class,
-              "Several users with same email!: " + eml);
-          }
-        } else {
-          pRvs.put("errMsg", "buyCrRul");
-        }
-      } else if (pwd != null && eml != null) {
-        //login from new browser
-        vs.put("BuyerdpLv", 1);
-        List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
-          "where PWD='" + pwd + "' and EML='" + eml + "'"); vs.clear();
-        if (brs.size() == 1) {
-          //free buyer and moving its cart by fast updates:
-          mkFreBuyr(pRvs,  pRqDt, buyer, brs.get(0));
-        } else if (brs.size() == 0) {
-          pRvs.put("errMsg", "wrong_em_password");
-        } else {
-          getLog().error(pRvs, PrLog.class,
-            "Several users with same password and email!: " + eml);
-        }
-      } else {
-        spam(pRvs, pRqDt);
-      }
-    } else { //registered:
-      if (now - buyer.getLsTm() < 1800000L && buyer.getBuSeId() != null) {
-        //there is opened session:
-        String buSeId = pRqDt.getCookVl("buSeId");
-        if (buyer.getBuSeId().equals(buSeId)) {
-          //authorized requests:
-          String zip = pRqDt.getParam("zip");
-          String addr1 = pRqDt.getParam("addr1");
-          if (nme != null && zip != null  && addr1 != null) {
-            //change name, shipping address:
-            String cntr = pRqDt.getParam("cntr");
-            String city = pRqDt.getParam("city");
-            String addr2 = pRqDt.getParam("addr2");
-            String phon = pRqDt.getParam("phon");
-            if (nme.length() > 2 && zip.length() > 2 && addr1.length() > 2) {
-              buyer.setNme(nme);
-              buyer.setZip(zip);
-              buyer.setAddr1(addr1);
-              buyer.setAddr2(addr2);
-              buyer.setCntr(cntr);
-              buyer.setCity(city);
-              buyer.setPhon(phon);
-              buyer.setLsTm(now);
-              this.orm.update(pRvs, vs, buyer);
-              getLog().info(pRvs, PrLog.class, "Buyer's info changed : " + nme
-                + "/" + eml + "/" + zip + "/" + city + "/" + cntr + "/"
-                  + phon + "/" + addr1 + "/" + addr2);
-            } else {
-              pRvs.put("errMsg", "buyEmRul");
-            }
-          } else if (pwd != null && pwdc != null) {
-            //change password:
-            if (pwd.length() > 7 && pwd.equals(pwdc)) {
-              buyer.setPwd(pwd);
-              buyer.setLsTm(now);
-              this.orm.update(pRvs, vs, buyer);
-              getLog().info(pRvs, PrLog.class, "Buyer's password changed : "
-                + nme + "/" + eml);
-            } else {
-              pRvs.put("errMsg", "buyPwdRul");
-            }
-          } else {
-            //logout action:
-            buyer.setLsTm(0L);
-            this.orm.update(pRvs, vs, buyer);
-          }
-        } else { //either spam or buyer login from other browser without logout
-          spam(pRvs, pRqDt);
-        }
-      } else {
-        //unauthorized requests:
-        if (pwd != null) {
-          //login action:
-          if (pwd.equals(buyer.getPwd())) {
-            buyer.setLsTm(now);
-            UUID buseid = UUID.randomUUID();
-            buyer.setBuSeId(buseid.toString());
-            pRqDt.setCookVl("buSeId", buyer.getBuSeId());
-            this.orm.update(pRvs, vs, buyer);
-          } else {
-            pRvs.put("errMsg", "wrong_password");
+              "Several users with same password and email!: " + eml);
           }
         } else {
           spam(pRvs, pRqDt);
         }
+      } else { //registered:
+        if (now - buyer.getLsTm() < 1800000L && buyer.getBuSeId() != null) {
+          //there is opened session:
+          String buSeId = pRqDt.getCookVl("buSeId");
+          if (buyer.getBuSeId().equals(buSeId)) {
+            //authorized requests:
+            String zip = pRqDt.getParam("zip");
+            String addr1 = pRqDt.getParam("addr1");
+            if (nme != null && zip != null  && addr1 != null) {
+              //change name, shipping address:
+              String cntr = pRqDt.getParam("cntr");
+              String city = pRqDt.getParam("city");
+              String addr2 = pRqDt.getParam("addr2");
+              String phon = pRqDt.getParam("phon");
+              if (nme.length() > 2 && zip.length() > 2 && addr1.length() > 2) {
+                buyer.setNme(nme);
+                buyer.setZip(zip);
+                buyer.setAddr1(addr1);
+                buyer.setAddr2(addr2);
+                buyer.setCntr(cntr);
+                buyer.setCity(city);
+                buyer.setPhon(phon);
+                buyer.setLsTm(now);
+                this.orm.update(pRvs, vs, buyer);
+                getLog().info(pRvs, PrLog.class, "Buyer's info changed : " + nme
+                  + "/" + eml + "/" + zip + "/" + city + "/" + cntr + "/"
+                    + phon + "/" + addr1 + "/" + addr2);
+              } else {
+                pRvs.put("errMsg", "buyEmRul");
+              }
+            } else if (pwd != null && pwdc != null) {
+              //change password:
+              if (pwd.length() > 7 && pwd.equals(pwdc)) {
+                buyer.setPwd(pwd);
+                buyer.setLsTm(now);
+                this.orm.update(pRvs, vs, buyer);
+                getLog().info(pRvs, PrLog.class, "Buyer's password changed : "
+                  + nme + "/" + eml);
+              } else {
+                pRvs.put("errMsg", "buyPwdRul");
+              }
+            } else {
+              //logout action:
+              buyer.setLsTm(0L);
+              this.orm.update(pRvs, vs, buyer);
+            }
+          } else { //either spam or buyr login from other browser without logout
+            spam(pRvs, pRqDt);
+          }
+        } else {
+          //unauthorized requests:
+          if (pwd != null) {
+            //login action:
+            if (pwd.equals(buyer.getPwd())) {
+              buyer.setLsTm(now);
+              UUID buseid = UUID.randomUUID();
+              buyer.setBuSeId(buseid.toString());
+              pRqDt.setCookVl("buSeId", buyer.getBuSeId());
+              this.orm.update(pRvs, vs, buyer);
+            } else {
+              pRvs.put("errMsg", "wrong_password");
+            }
+          } else {
+            spam(pRvs, pRqDt);
+          }
+        }
       }
+      this.rdb.commit();
+    } catch (Exception ex) {
+      if (!this.rdb.getAcmt()) {
+        this.rdb.rollBack();
+      }
+      throw ex;
+    } finally {
+      this.rdb.release();
     }
     String procNm = pRqDt.getParam("prcRed");
     if (getClass().getSimpleName().equals(procNm)) {
-      throw new ExcCode(ExcCode.SPAM, "Danger stupid scam!!!!");
+      throw new ExcCode(ExcCode.SPAM, "Danger! stupid scam!!!");
     }
     IPrc proc = this.procFac.laz(pRvs, procNm);
     proc.process(pRvs, pRqDt);
@@ -341,7 +359,7 @@ public class PrLog<RS> implements IPrc {
 
   /**
    * <p>Getter for rdb.</p>
-   * @return IRdb<RS>
+   * @return IRdb
    **/
   public final IRdb<RS> getRdb() {
     return this.rdb;
@@ -353,6 +371,22 @@ public class PrLog<RS> implements IPrc {
    **/
   public final void setRdb(final IRdb<RS> pRdb) {
     this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
   }
 
   /**

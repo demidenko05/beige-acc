@@ -36,6 +36,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.log.ILog;
 import org.beigesoft.prc.IPrc;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.TxDst;
@@ -74,6 +75,16 @@ public class PrCart<RS> implements IPrc {
   private FcPrWs<RS> fcPrWs;
 
   /**
+   * <p>RDB service.</p>
+   **/
+  private IRdb<RS> rdb;
+
+  /**
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
+  /**
    * <p>Process request.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -82,43 +93,88 @@ public class PrCart<RS> implements IPrc {
   @Override
   public final void process(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
-    Cart cart = this.srCart.getCart(pRvs, pRqDt, false, false);
-    if (cart != null) {
-      Map<String, Object> vs = new HashMap<String, Object>();
-      String dlvStr = pRqDt.getParam("delv");
-      String paymStr = pRqDt.getParam("paym");
-      EDeliv dlv = EDeliv.class.getEnumConstants()[Integer.parseInt(dlvStr)];
-      EPaymMth paym = EPaymMth.class.
-        getEnumConstants()[Integer.parseInt(paymStr)];
-      if (dlv != cart.getDelv() || paym != cart.getPaym()) {
-        EDeliv dlvOld = cart.getDelv();
-        cart.setDelv(dlv);
-        cart.setPaym(paym);
-        String[] ndFds = new String[] {"ver", "paym", "delv"};
-        Arrays.sort(ndFds);
-        vs.put("ndFds", ndFds);
-        this.orm.update(pRvs, vs, cart);
-        if (dlv != dlvOld) {
-          AcStg as = (AcStg) pRvs.get("astg");
-          TxDst txRules = this.srCart.revTxRules(pRvs, cart, as);
-          if (txRules != null) {
-            pRvs.put("txRules", txRules);
+    try {
+      this.rdb.setAcmt(false);
+      this.rdb.setTrIsl(this.trIsl);
+      this.rdb.begin();
+      Cart cart = this.srCart.getCart(pRvs, pRqDt, false, false);
+      if (cart != null) {
+        Map<String, Object> vs = new HashMap<String, Object>();
+        String dlvStr = pRqDt.getParam("delv");
+        String paymStr = pRqDt.getParam("paym");
+        EDeliv dlv = EDeliv.class.getEnumConstants()[Integer.parseInt(dlvStr)];
+        EPaymMth paym = EPaymMth.class.
+          getEnumConstants()[Integer.parseInt(paymStr)];
+        if (dlv != cart.getDelv() || paym != cart.getPaym()) {
+          EDeliv dlvOld = cart.getDelv();
+          cart.setDelv(dlv);
+          cart.setPaym(paym);
+          String[] ndFds = new String[] {"ver", "paym", "delv"};
+          Arrays.sort(ndFds);
+          vs.put("ndFds", ndFds);
+          this.orm.update(pRvs, vs, cart);
+          if (dlv != dlvOld) {
+            AcStg as = (AcStg) pRvs.get("astg");
+            TxDst txRules = this.srCart.revTxRules(pRvs, cart, as);
+            if (txRules != null) {
+              pRvs.put("txRules", txRules);
+            }
+            this.srCart.hndCartChg(pRvs, cart, txRules);
           }
-          this.srCart.hndCartChg(pRvs, cart, txRules);
         }
+      } else {
+        throw new ExcCode(ExcCode.SPAM, "There is no cart!");
       }
-    } else {
-      throw new ExcCode(ExcCode.SPAM, "There is no cart!");
+      this.rdb.commit();
+    } catch (Exception ex) {
+      if (!this.rdb.getAcmt()) {
+        this.rdb.rollBack();
+      }
+      throw ex;
+    } finally {
+      this.rdb.release();
     }
     String procNm = pRqDt.getParam("prcRed");
     if (getClass().getSimpleName().equals(procNm)) {
-      throw new ExcCode(ExcCode.SPAM, "Danger stupid scam!!!!");
+      throw new ExcCode(ExcCode.SPAM, "Danger! stupid scam!!!");
     }
     IPrc proc = this.fcPrWs.laz(pRvs, procNm);
     proc.process(pRvs, pRqDt);
   }
 
   //Simple getters and setters:
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
+  }
+
   /**
    * <p>Getter for log.</p>
    * @return ILog

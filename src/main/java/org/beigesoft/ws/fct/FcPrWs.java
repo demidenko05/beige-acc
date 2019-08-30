@@ -34,12 +34,17 @@ import java.util.HashMap;
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.fct.IFctPrc;
+import org.beigesoft.fct.FctEnPrc;
 import org.beigesoft.prc.IPrc;
+import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.ws.prc.ItmPg;
 import org.beigesoft.ws.prc.WsPg;
+import org.beigesoft.ws.prc.ChkOut;
 import org.beigesoft.ws.prc.PrCart;
 import org.beigesoft.ws.prc.ItmCart;
+import org.beigesoft.ws.prc.PrBuOr;
+import org.beigesoft.ws.prc.PrBur;
 import org.beigesoft.ws.prc.PrLog;
 import org.beigesoft.ws.srv.ISrCart;
 import org.beigesoft.ws.srv.IBuySr;
@@ -81,10 +86,16 @@ public class FcPrWs<RS> implements IFctPrc {
             rz = crPuWsPg(pRvs);
           } else if (ItmPg.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItmPg(pRvs);
+          } else if (ChkOut.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuChkOut(pRvs);
           } else if (PrCart.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrCart(pRvs);
           } else if (ItmCart.class.getSimpleName().equals(pPrNm)) {
             rz = crPuItmCart(pRvs);
+          } else if (PrBuOr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuPrBuOr(pRvs);
+          } else if (PrBur.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuPrBur(pRvs);
           } else if (PrLog.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrLog(pRvs);
           } else {
@@ -93,6 +104,31 @@ public class FcPrWs<RS> implements IFctPrc {
         }
       }
     }
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map ChkOut.</p>
+   * @param pRvs request scoped vars
+   * @return ChkOut
+   * @throws Exception - an exception
+   */
+  private ChkOut<RS> crPuChkOut(
+    final Map<String, Object> pRvs) throws Exception {
+    ChkOut<RS> rz = new ChkOut<RS>();
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
+    ISrCart srCart = (ISrCart) this.fctBlc
+      .laz(pRvs, ISrCart.class.getSimpleName());
+    rz.setSrCart(srCart);
+    rz.setFcPrWs(this);
+    this.procs.put(ChkOut.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      ChkOut.class.getSimpleName() + " has been created.");
     return rz;
   }
 
@@ -107,6 +143,10 @@ public class FcPrWs<RS> implements IFctPrc {
     PrCart<RS> rz = new PrCart<RS>();
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
     ISrCart srCart = (ISrCart) this.fctBlc
       .laz(pRvs, ISrCart.class.getSimpleName());
     rz.setSrCart(srCart);
@@ -127,6 +167,10 @@ public class FcPrWs<RS> implements IFctPrc {
     final Map<String, Object> pRvs) throws Exception {
     ItmCart<RS> rz = new ItmCart<RS>();
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
     ISrCart srCart = (ISrCart) this.fctBlc
       .laz(pRvs, ISrCart.class.getSimpleName());
     rz.setSrCart(srCart);
@@ -134,6 +178,60 @@ public class FcPrWs<RS> implements IFctPrc {
     this.procs.put(ItmCart.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       ItmCart.class.getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map PrBuOr.</p>
+   * @param pRvs request scoped vars
+   * @return PrBuOr
+   * @throws Exception - an exception
+   */
+  private PrBuOr<RS> crPuPrBuOr(
+    final Map<String, Object> pRvs) throws Exception {
+    PrBuOr<RS> rz = new PrBuOr<RS>();
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    rz.setSrvPg(this.fctBlc.lazSrvPg(pRvs));
+    IBuySr buySr = (IBuySr) this.fctBlc.laz(pRvs, IBuySr.class.getSimpleName());
+    rz.setBuySr(buySr);
+    rz.setFcPrWs(this);
+    @SuppressWarnings("unchecked")
+    FctEnPrc<RS> fctEnPrc = (FctEnPrc<RS>) this.fctBlc
+      .laz(pRvs, FctEnPrc.class.getSimpleName());
+    PrcEntRt dlg = (PrcEntRt) fctEnPrc
+      .lazPart(pRvs, PrcEntRt.class.getSimpleName());
+    rz.setRetrv(dlg);
+    this.procs.put(PrBuOr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      PrBuOr.class.getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map PrBur.</p>
+   * @param pRvs request scoped vars
+   * @return PrBur
+   * @throws Exception - an exception
+   */
+  private PrBur<RS> crPuPrBur(final Map<String, Object> pRvs) throws Exception {
+    PrBur<RS> rz = new PrBur<RS>();
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
+    rz.setRdb(rdb);
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    IBuySr buySr = (IBuySr) this.fctBlc.laz(pRvs, IBuySr.class.getSimpleName());
+    rz.setBuySr(buySr);
+    rz.setFcPrWs(this);
+    this.procs.put(PrBur.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      PrBur.class.getSimpleName() + " has been created.");
     return rz;
   }
 
@@ -149,6 +247,7 @@ public class FcPrWs<RS> implements IFctPrc {
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     ISrCart srCart = (ISrCart) this.fctBlc
       .laz(pRvs, ISrCart.class.getSimpleName());
@@ -168,13 +267,17 @@ public class FcPrWs<RS> implements IFctPrc {
    * @return ItmPg
    * @throws Exception - an exception
    */
-  private ItmPg crPuItmPg(final Map<String, Object> pRvs) throws Exception {
-    ItmPg rz = new ItmPg();
+  private ItmPg<RS> crPuItmPg(final Map<String, Object> pRvs) throws Exception {
+    ItmPg<RS> rz = new ItmPg<RS>();
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
     ISrCart srCart = (ISrCart) this.fctBlc
       .laz(pRvs, ISrCart.class.getSimpleName());
     rz.setSrCart(srCart);
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
     IBuySr buySr = (IBuySr) this.fctBlc.laz(pRvs, IBuySr.class.getSimpleName());
     rz.setBuySr(buySr);
     this.procs.put(ItmPg.class.getSimpleName(), rz);
@@ -195,6 +298,7 @@ public class FcPrWs<RS> implements IFctPrc {
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
     ISrCart srCart = (ISrCart) this.fctBlc
       .laz(pRvs, ISrCart.class.getSimpleName());
     rz.setSrCart(srCart);

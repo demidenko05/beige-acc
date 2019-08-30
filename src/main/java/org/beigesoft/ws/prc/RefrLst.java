@@ -123,6 +123,11 @@ public class RefrLst<RS> implements IPrc {
   private INumStr numStr;
 
   /**
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
+  /**
    * <p>Process entity request.</p>
    * @param pRvs additional param
    * @param pRqd Request Data
@@ -271,7 +276,7 @@ public class RefrLst<RS> implements IPrc {
   public final void retStData(final Map<String, Object> pRvs) throws Exception {
     try {
       this.rdb.setAcmt(false);
-      this.rdb.setTrIsl(IRdb.TRRUC);
+      this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
       Map<String, Object> vs = new HashMap<String, Object>();
       ItlLuv itlLuv = new ItlLuv();
@@ -310,7 +315,7 @@ public class RefrLst<RS> implements IPrc {
     Map<String, Object> vs = new HashMap<String, Object>();
     try {
       this.rdb.setAcmt(false);
-      this.rdb.setTrIsl(IRdb.TRRUC);
+      this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
       String tblNm = pItmPlcCl.getSimpleName().toUpperCase();
       String verCond;
@@ -387,7 +392,7 @@ public class RefrLst<RS> implements IPrc {
     do {
       try {
         this.rdb.setAcmt(false);
-        this.rdb.setTrIsl(IRdb.TRRUC);
+        this.rdb.setTrIsl(this.trIsl);
         this.rdb.begin();
         int stepLen = Math.min(pItmPlcLst.size(), curStp * pAddStg.getRcsTr());
         for (int i = (curStp - 1) * pAddStg.getRcsTr(); i < stepLen; i++) {
@@ -436,7 +441,7 @@ public class RefrLst<RS> implements IPrc {
     Map<String, Object> vs = new HashMap<String, Object>();
     try {
       this.rdb.setAcmt(false);
-      this.rdb.setTrIsl(IRdb.TRRUC);
+      this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
       String tblNm = pItmPriCl.getSimpleName().toUpperCase();
       String verCond = "where PRICT=" + pPrCatId;
@@ -513,7 +518,7 @@ public class RefrLst<RS> implements IPrc {
     do {
       try {
         this.rdb.setAcmt(false);
-        this.rdb.setTrIsl(IRdb.TRRUC);
+        this.rdb.setTrIsl(this.trIsl);
         this.rdb.begin();
         int stepLen = Math.min(pItPriLs.size(), curStp * pAddStg.getRcsTr());
         for (int i = (curStp - 1) * pAddStg.getRcsTr(); i < stepLen; i++) {
@@ -571,7 +576,7 @@ public class RefrLst<RS> implements IPrc {
     Map<String, Object> vs = new HashMap<String, Object>();
     try {
       this.rdb.setAcmt(false);
-      this.rdb.setTrIsl(IRdb.TRRUC);
+      this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
       vs.put("ItmSpdpLv", 1); //HTML templates only ID
       //vs.put("HtmltdpLv", 0); //HTML templates only ID
@@ -833,7 +838,7 @@ public class RefrLst<RS> implements IPrc {
     List<I18Uom> i18UomLst = null;
     try {
       this.rdb.setAcmt(false);
-      this.rdb.setTrIsl(IRdb.TRRUC);
+      this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
       StringBuffer itmsIdsIn = new StringBuffer("(");
       boolean isFirst = true;
@@ -959,7 +964,7 @@ public class RefrLst<RS> implements IPrc {
     do {
       try {
         this.rdb.setAcmt(false);
-        this.rdb.setTrIsl(IRdb.TRRUC);
+        this.rdb.setTrIsl(this.trIsl);
         this.rdb.begin();
         int stepLen = Math.min(itmsFoSpf.size(), curStp * pAddStg.getRcsTr());
         for (int i = (curStp - 1) * pAddStg.getRcsTr(); i < stepLen; i++) {
@@ -1312,7 +1317,7 @@ public class RefrLst<RS> implements IPrc {
   //Simple getters and setters:
   /**
    * <p>Getter for rdb.</p>
-   * @return IRdb<RS>
+   * @return IRdb
    **/
   public final IRdb<RS> getRdb() {
     return this.rdb;
@@ -1324,6 +1329,22 @@ public class RefrLst<RS> implements IPrc {
    **/
   public final void setRdb(final IRdb<RS> pRdb) {
     this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
   }
 
   /**

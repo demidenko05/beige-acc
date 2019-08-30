@@ -43,6 +43,7 @@ import org.beigesoft.mdlp.UsPrf;
 import org.beigesoft.log.ILog;
 import org.beigesoft.prc.IPrc;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.mdlp.Itm;
 import org.beigesoft.acc.mdlp.Srv;
 import org.beigesoft.acc.mdlp.Curr;
@@ -75,9 +76,10 @@ import org.beigesoft.ws.srv.IBuySr;
  * in case of outdated or inconsistent price data.
  * JSP should handle wrong price or availability data.</p>
  *
+ * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class ItmPg implements IPrc {
+public class ItmPg<RS> implements IPrc {
 
   /**
    * <p>Log.</p>
@@ -99,6 +101,16 @@ public class ItmPg implements IPrc {
    **/
   private IBuySr buySr;
 
+  /**
+   * <p>RDB service.</p>
+   **/
+  private IRdb<RS> rdb;
+
+  /**
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
   //Cached queries:
   /**
    * <p>I18 query item specifics.</p>
@@ -114,60 +126,73 @@ public class ItmPg implements IPrc {
   @Override
   public final void process(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
-    TrdStg ts = (TrdStg) pRvs.get("tstg");
-    String itTyStr = pRqDt.getParam("itTy");
-    Long itId = Long.valueOf(pRqDt.getParam("itId"));
-    Cart cart = this.srCart.getCart(pRvs, pRqDt, false, false);
-    Buyer buyr;
-    if (cart != null) {
-      buyr = cart.getBuyr();
-      if (cart.getTot().compareTo(BigDecimal.ZERO) == 0) {
-        pRvs.put("cart", null);
-      } else {
-        AcStg as = (AcStg) pRvs.get("astg");
-        Curr curr = (Curr) pRvs.get("wscurr");
-        if (!cart.getCurr().getIid().equals(curr.getIid())) {
-          cart.setCurr(curr);
-          List<CurrRt> currRts = (List<CurrRt>) pRvs.get("currRts");
-          for (CurrRt cr: currRts) {
-            if (cr.getCurr().getIid().equals(cart.getCurr().getIid())) {
-              cart.setRate(cr.getRate());
+    try {
+      this.rdb.setAcmt(false);
+      this.rdb.setTrIsl(this.trIsl);
+      this.rdb.begin();
+      TrdStg ts = (TrdStg) pRvs.get("tstg");
+      String itTyStr = pRqDt.getParam("itTy");
+      Long itId = Long.valueOf(pRqDt.getParam("itId"));
+      Cart cart = this.srCart.getCart(pRvs, pRqDt, false, false);
+      Buyer buyr;
+      if (cart != null) {
+        buyr = cart.getBuyr();
+        if (cart.getTot().compareTo(BigDecimal.ZERO) == 0) {
+          pRvs.put("cart", null);
+        } else {
+          AcStg as = (AcStg) pRvs.get("astg");
+          Curr curr = (Curr) pRvs.get("wscurr");
+          if (!cart.getCurr().getIid().equals(curr.getIid())) {
+            cart.setCurr(curr);
+            List<CurrRt> currRts = (List<CurrRt>) pRvs.get("currRts");
+            for (CurrRt cr: currRts) {
+              if (cr.getCurr().getIid().equals(cart.getCurr().getIid())) {
+                cart.setRate(cr.getRate());
+                break;
+              }
+            }
+            this.srCart.hndCurrChg(pRvs, cart, as, ts);
+          }
+          if (pRvs.get("txRules") == null) {
+            TxDst txRules = this.srCart.revTxRules(pRvs, cart, as);
+            pRvs.put("txRules", txRules);
+          }
+          for (CartLn ci : cart.getItems()) {
+            if (!ci.getDisab() && ci.getItId().equals(itId)
+              && ci.getItTyp().toString().equals(itTyStr)) {
+              pRvs.put("cartItm", ci);
               break;
             }
           }
-          this.srCart.hndCurrChg(pRvs, cart, as, ts);
         }
-        if (pRvs.get("txRules") == null) {
-          TxDst txRules = this.srCart.revTxRules(pRvs, cart, as);
-          pRvs.put("txRules", txRules);
-        }
-        for (CartLn ci : cart.getItems()) {
-          if (!ci.getDisab() && ci.getItId().equals(itId)
-            && ci.getItTyp().toString().equals(itTyStr)) {
-            pRvs.put("cartItm", ci);
-            break;
-          }
+      } else {
+        buyr = this.buySr.getBuyr(pRvs, pRqDt);
+        if (buyr == null) {
+          buyr = this.buySr.createBuyr(pRvs, pRqDt);
         }
       }
-    } else {
-      buyr = this.buySr.getBuyr(pRvs, pRqDt);
-      if (buyr == null) {
-        buyr = this.buySr.createBuyr(pRvs, pRqDt);
+      if (EItmTy.GOODS.toString().equals(itTyStr)) {
+        processGoods(pRvs, pRqDt, ts, buyr, itId);
+      } else if (EItmTy.SERVICE.toString().equals(itTyStr)) {
+        processService(pRvs, pRqDt, ts, buyr, itId);
+      } else if (EItmTy.SEGOODS.toString().equals(itTyStr)) {
+        processSeItm(pRvs, pRqDt, ts, buyr, itId);
+      } else if (EItmTy.SEGOODS.toString().equals(itTyStr)) {
+        processSeItm(pRvs, pRqDt, ts, buyr, itId);
+      } else if (EItmTy.SESERVICE.toString().equals(itTyStr)) {
+        procSeSrv(pRvs, pRqDt, ts, buyr, itId);
+      } else {
+        throw new Exception(
+          "Detail page not yet implemented for item type: " + itTyStr);
       }
-    }
-    if (EItmTy.GOODS.toString().equals(itTyStr)) {
-      processGoods(pRvs, pRqDt, ts, buyr, itId);
-    } else if (EItmTy.SERVICE.toString().equals(itTyStr)) {
-      processService(pRvs, pRqDt, ts, buyr, itId);
-    } else if (EItmTy.SEGOODS.toString().equals(itTyStr)) {
-      processSeItm(pRvs, pRqDt, ts, buyr, itId);
-    } else if (EItmTy.SEGOODS.toString().equals(itTyStr)) {
-      processSeItm(pRvs, pRqDt, ts, buyr, itId);
-    } else if (EItmTy.SESERVICE.toString().equals(itTyStr)) {
-      procSeSrv(pRvs, pRqDt, ts, buyr, itId);
-    } else {
-      throw new Exception(
-        "Detail page not yet implemented for item type: " + itTyStr);
+      this.rdb.commit();
+    } catch (Exception ex) {
+      if (!this.rdb.getAcmt()) {
+        this.rdb.rollBack();
+      }
+      throw ex;
+    } finally {
+      this.rdb.release();
     }
   }
 
@@ -483,5 +508,37 @@ public class ItmPg implements IPrc {
    **/
   public final void setBuySr(final IBuySr pBuySr) {
     this.buySr = pBuySr;
+  }
+
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
   }
 }

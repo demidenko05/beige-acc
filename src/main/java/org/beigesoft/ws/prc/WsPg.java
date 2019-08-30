@@ -118,6 +118,11 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
    **/
   private CmpTrCatl cmpCatls = new CmpTrCatl();
 
+  /**
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
   //Cached data:
   /**
    * <p>Cached catls.</p>
@@ -165,382 +170,396 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
   @Override
   public final void process(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
-    Map<String, Object> vs = new HashMap<String, Object>();
-    pRvs.put("catls", lazCatls(pRvs));
-    TrdStg ts = (TrdStg) pRvs.get("tstg");
-    String catlIdStr = pRqDt.getParam("catlId");
-    Long catId = null;
-    if (catlIdStr != null) {
-      catId = Long.valueOf(catlIdStr);
-    }
-    if (catId == null && ts.getCatl() != null) {
-      catId = ts.getCatl().getIid();
-    }
-    Cart cart = (Cart) pRvs.get("cart");
-    if (cart == null) {
-      cart = this.srCart
-        .getCart(pRvs, pRqDt, false, false);
-    }
-    AcStg as = (AcStg) pRvs.get("astg");
-    Curr curr = (Curr) pRvs.get("wscurr");
-    List<CurrRt> currRts = (List<CurrRt>) pRvs.get("currRts");
-    BigDecimal cuRt = BigDecimal.ONE;
-    for (CurrRt cr: currRts) {
-      if (cr.getCurr().getIid().equals(curr.getIid())) {
-        cuRt = cr.getRate();
-        break;
+    try {
+      this.rdb.setAcmt(false);
+      this.rdb.setTrIsl(this.trIsl);
+      this.rdb.begin();
+      Map<String, Object> vs = new HashMap<String, Object>();
+      pRvs.put("catls", lazCatls(pRvs));
+      TrdStg ts = (TrdStg) pRvs.get("tstg");
+      String catlIdStr = pRqDt.getParam("catlId");
+      Long catId = null;
+      if (catlIdStr != null) {
+        catId = Long.valueOf(catlIdStr);
       }
-    }
-    if (cart != null) {
-      if (cart.getTot().compareTo(BigDecimal.ZERO) == 0) {
-        pRvs.put("cart", null);
-      } else {
-        if (!cart.getCurr().getIid().equals(curr.getIid())) {
-          cart.setCurr(curr);
-          cart.setRate(cuRt);
-          this.srCart.hndCurrChg(pRvs, cart, as, ts);
+      if (catId == null && ts.getCatl() != null) {
+        catId = ts.getCatl().getIid();
+      }
+      Cart cart = (Cart) pRvs.get("cart");
+      if (cart == null) {
+        cart = this.srCart
+          .getCart(pRvs, pRqDt, false, false);
+      }
+      AcStg as = (AcStg) pRvs.get("astg");
+      Curr curr = (Curr) pRvs.get("wscurr");
+      List<CurrRt> currRts = (List<CurrRt>) pRvs.get("currRts");
+      BigDecimal cuRt = BigDecimal.ONE;
+      for (CurrRt cr: currRts) {
+        if (cr.getCurr().getIid().equals(curr.getIid())) {
+          cuRt = cr.getRate();
+          break;
         }
-        if (pRvs.get("txRules") == null) {
-          TxDst txRules = this.srCart.revTxRules(pRvs, cart, as);
-          pRvs.put("txRules", txRules);
-        }
-        Map<EItmTy, Map<Long, CartLn>> cartMap =
-          new HashMap<EItmTy, Map<Long, CartLn>>();
-        for (CartLn ci : cart.getItems()) {
-          if (!ci.getDisab()) {
-            Map<Long, CartLn> typedMap = cartMap.get(ci.getItTyp());
-            if (typedMap == null) {
-              typedMap = new HashMap<Long, CartLn>();
-              cartMap.put(ci.getItTyp(), typedMap);
+      }
+      if (cart != null) {
+        if (cart.getTot().compareTo(BigDecimal.ZERO) == 0) {
+          pRvs.put("cart", null);
+        } else {
+          if (!cart.getCurr().getIid().equals(curr.getIid())) {
+            cart.setCurr(curr);
+            cart.setRate(cuRt);
+            this.srCart.hndCurrChg(pRvs, cart, as, ts);
+          }
+          if (pRvs.get("txRules") == null) {
+            TxDst txRules = this.srCart.revTxRules(pRvs, cart, as);
+            pRvs.put("txRules", txRules);
+          }
+          Map<EItmTy, Map<Long, CartLn>> cartMap =
+            new HashMap<EItmTy, Map<Long, CartLn>>();
+          for (CartLn ci : cart.getItems()) {
+            if (!ci.getDisab()) {
+              Map<Long, CartLn> typedMap = cartMap.get(ci.getItTyp());
+              if (typedMap == null) {
+                typedMap = new HashMap<Long, CartLn>();
+                cartMap.put(ci.getItTyp(), typedMap);
+              }
+              typedMap.put(ci.getItId(), ci);
             }
-            typedMap.put(ci.getItId(), ci);
           }
+          pRvs.put("cartMap", cartMap);
         }
-        pRvs.put("cartMap", cartMap);
       }
-    }
-    if (catId != null) {
-      // either selected by user catl or "on start" must be
-      // if user additionally selected filters (include set of subcatls)
-      // then the main (root) catl ID still present in request
-      TrCatl tcat = findTrCatlById(this.catls, catId);
-      if (tcat == null) {
-        this.log.warn(pRvs, WsPg.class,
-          "Can't find catl #" + catId);
-      } else {
-        String ordb = pRqDt.getParam("ordb");
-        pRvs.put("ordb", ordb);
-        String orderBy = null;
-        if (ordb != null) {
-          if (ordb.equals("pa")) {
-            orderBy = " order by PRI asc";
-          } else if (ordb.equals("pd")) {
-            orderBy = " order by PRI desc";
+      if (catId != null) {
+        // either selected by user catl or "on start" must be
+        // if user additionally selected filters (include set of subcatls)
+        // then the main (root) catl ID still present in request
+        TrCatl tcat = findTrCatlById(this.catls, catId);
+        if (tcat == null) {
+          this.log.warn(pRvs, WsPg.class,
+            "Can't find catl #" + catId);
+        } else {
+          String ordb = pRqDt.getParam("ordb");
+          pRvs.put("ordb", ordb);
+          String orderBy = null;
+          if (ordb != null) {
+            if (ordb.equals("pa")) {
+              orderBy = " order by PRI asc";
+            } else if (ordb.equals("pd")) {
+              orderBy = " order by PRI desc";
+            }
           }
-        }
-        FltInt fltPri = revFltPri(tcat, pRvs, pRqDt);
-        FltItms<CatGs> fltCatl = revFltCatl(tcat, pRvs, pRqDt);
-        List<FltSpf> fltSpfs = revFltsSpec(tcat, pRvs, pRqDt);
-        String whereAdd = revWhePri(fltPri, cuRt);
-        String whereCatl = revealWhereCatl(tcat, fltCatl);
-        //TODO StringBuffer
-        String queryg = null;
-        String querys = null;
-        String queryseg = null;
-        String queryses = null;
-        if (ts.getAi18n()) {
-          UsPrf upf = (UsPrf) pRvs.get("upf");
-          CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-          String lang = upf.getLng().getIid();
-          String langDef = cpf.getLngDef().getIid();
-          if (!lang.equals(langDef)) {
-            if (tcat.getCatl().getHsGds()) {
-              queryg = lazyGetQuItInLstCaIn().replace(":ITTYP", "0")
-    .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
+          FltInt fltPri = revFltPri(tcat, pRvs, pRqDt);
+          FltItms<CatGs> fltCatl = revFltCatl(tcat, pRvs, pRqDt);
+          List<FltSpf> fltSpfs = revFltsSpec(tcat, pRvs, pRqDt);
+          String whereAdd = revWhePri(fltPri, cuRt);
+          String whereCatl = revealWhereCatl(tcat, fltCatl);
+          //TODO StringBuffer
+          String queryg = null;
+          String querys = null;
+          String queryseg = null;
+          String queryses = null;
+          if (ts.getAi18n()) {
+            UsPrf upf = (UsPrf) pRvs.get("upf");
+            CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+            String lang = upf.getLng().getIid();
+            String langDef = cpf.getLngDef().getIid();
+            if (!lang.equals(langDef)) {
+              if (tcat.getCatl().getHsGds()) {
+                queryg = lazyGetQuItInLstCaIn().replace(":ITTYP", "0")
+      .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
+    .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+              }
+              if (tcat.getCatl().getHsSrv()) {
+                querys = lazyGetQuItInLstCaIn().replace(":ITTYP", "1")
+    .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
   .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
-            }
-            if (tcat.getCatl().getHsSrv()) {
-              querys = lazyGetQuItInLstCaIn().replace(":ITTYP", "1")
-  .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
-.replace(":WHEREADD", whereAdd).replace(":LNG", lang);
-            }
-            if (tcat.getCatl().getHsSgo()) {
-              queryseg = lazyGetQuItInLstCaIn().replace(":ITTYP", "2")
-   .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
- .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
-            }
-            if (tcat.getCatl().getHsSse()) {
-              queryses = lazyGetQuItInLstCaIn().replace(":ITTYP", "3")
-          .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
-        .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+              }
+              if (tcat.getCatl().getHsSgo()) {
+                queryseg = lazyGetQuItInLstCaIn().replace(":ITTYP", "2")
+     .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
+   .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+              }
+              if (tcat.getCatl().getHsSse()) {
+                queryses = lazyGetQuItInLstCaIn().replace(":ITTYP", "3")
+            .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
+          .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+              }
             }
           }
-        }
-        if (tcat.getCatl().getHsGds() && queryg == null) {
-          queryg = lazyGetQuItInLstCa().replace(":ITTYP", "0")
-    .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
-  .replace(":WHEREADD", whereAdd);
-        }
-        if (tcat.getCatl().getHsSrv() && querys == null) {
-          querys = lazyGetQuItInLstCa().replace(":ITTYP", "1")
-  .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
-.replace(":WHEREADD", whereAdd);
-        }
-        if (tcat.getCatl().getHsSgo() && queryseg == null) {
-          queryseg = lazyGetQuItInLstCa().replace(":ITTYP", "2")
-   .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
- .replace(":WHEREADD", whereAdd);
-        }
-        if (tcat.getCatl().getHsSse() && queryses == null) {
-          queryses = lazyGetQuItInLstCa().replace(":ITTYP", "3")
-       .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
-     .replace(":WHEREADD", whereAdd);
-        }
-        String querygRc = null;
-        if (tcat.getCatl().getHsGds()) {
-          querygRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "0")
-    .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
-  .replace(":WHEREADD", whereAdd);
-        }
-        String querysRc = null;
-        if (tcat.getCatl().getHsSrv()) {
-          querysRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "1")
-  .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
-.replace(":WHEREADD", whereAdd);
-        }
-        String querysegRc = null;
-        if (tcat.getCatl().getHsSgo()) {
-          querysegRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "2")
-   .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
-  .replace(":WHEREADD", whereAdd);
-        }
-        String querysesRc = null;
-        if (tcat.getCatl().getHsSse()) {
-          querysesRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "3")
-           .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
-            .replace(":WHEREADD", whereAdd);
-        }
-        boolean dbgSh = getLog().getDbgSh(this.getClass(), 13100);
-        if (fltSpfs != null) {
-          if (dbgSh) {
-            getLog().debug(pRvs, WsPg.class,
-              "filters apecifics: size: " + fltSpfs.size());
+          if (tcat.getCatl().getHsGds() && queryg == null) {
+            queryg = lazyGetQuItInLstCa().replace(":ITTYP", "0")
+      .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
+    .replace(":WHEREADD", whereAdd);
           }
-          FltsSpfWhe whereSpec = revWheSpec(fltSpfs);
-          if (whereSpec != null) {
+          if (tcat.getCatl().getHsSrv() && querys == null) {
+            querys = lazyGetQuItInLstCa().replace(":ITTYP", "1")
+    .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
+  .replace(":WHEREADD", whereAdd);
+          }
+          if (tcat.getCatl().getHsSgo() && queryseg == null) {
+            queryseg = lazyGetQuItInLstCa().replace(":ITTYP", "2")
+     .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
+   .replace(":WHEREADD", whereAdd);
+          }
+          if (tcat.getCatl().getHsSse() && queryses == null) {
+            queryses = lazyGetQuItInLstCa().replace(":ITTYP", "3")
+         .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
+       .replace(":WHEREADD", whereAdd);
+          }
+          String querygRc = null;
+          if (tcat.getCatl().getHsGds()) {
+            querygRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "0")
+      .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
+    .replace(":WHEREADD", whereAdd);
+          }
+          String querysRc = null;
+          if (tcat.getCatl().getHsSrv()) {
+            querysRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "1")
+    .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
+  .replace(":WHEREADD", whereAdd);
+          }
+          String querysegRc = null;
+          if (tcat.getCatl().getHsSgo()) {
+            querysegRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "2")
+     .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
+    .replace(":WHEREADD", whereAdd);
+          }
+          String querysesRc = null;
+          if (tcat.getCatl().getHsSse()) {
+            querysesRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "3")
+             .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
+              .replace(":WHEREADD", whereAdd);
+          }
+          boolean dbgSh = getLog().getDbgSh(this.getClass(), 13100);
+          if (fltSpfs != null) {
+            if (dbgSh) {
+              getLog().debug(pRvs, WsPg.class,
+                "filters apecifics: size: " + fltSpfs.size());
+            }
+            FltsSpfWhe whereSpec = revWheSpec(fltSpfs);
+            if (whereSpec != null) {
+              if (queryg != null) {
+                String querySpec = lazyGetQuItSpFlt()
+      .replace(":TITSPEC", "ITMSPEC").replace(":WHESPITFLR", whereSpec
+    .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
+                queryg += querySpec;
+                querygRc += querySpec;
+              }
+              if (querys != null) {
+                String querySpec = lazyGetQuItSpFlt()
+      .replace(":TITSPEC", "SRVSPEC").replace(":WHESPITFLR", whereSpec
+    .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
+                querys += querySpec;
+                querysRc += querySpec;
+              }
+              if (queryseg != null) {
+                String querySpec = lazyGetQuItSpFlt()
+      .replace(":TITSPEC", "SEITMSPEC").replace(":WHESPITFLR", whereSpec
+    .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
+                queryseg += querySpec;
+                querysegRc += querySpec;
+              }
+              if (queryses != null) {
+                String querySpec = lazyGetQuItSpFlt()
+      .replace(":TITSPEC", "SESRVSPEC").replace(":WHESPITFLR", whereSpec
+    .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
+                queryses += querySpec;
+                querysesRc += querySpec;
+              }
+            }
+          }
+          if (queryg != null || querys != null || queryseg != null
+            || queryses != null) {
+            String query = null;
+            String queryRc = null;
             if (queryg != null) {
-              String querySpec = lazyGetQuItSpFlt()
-    .replace(":TITSPEC", "ITMSPEC").replace(":WHESPITFLR", whereSpec
-  .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-              queryg += querySpec;
-              querygRc += querySpec;
+              query = queryg;
+              queryRc = querygRc;
             }
             if (querys != null) {
-              String querySpec = lazyGetQuItSpFlt()
-    .replace(":TITSPEC", "SRVSPEC").replace(":WHESPITFLR", whereSpec
-  .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-              querys += querySpec;
-              querysRc += querySpec;
+              if (query == null) {
+                query = querys;
+                queryRc = querysRc;
+              } else {
+                query += "\n union all \n" + querys;
+                queryRc += "\n union all \n" + querysRc;
+              }
             }
             if (queryseg != null) {
-              String querySpec = lazyGetQuItSpFlt()
-    .replace(":TITSPEC", "SEITMSPEC").replace(":WHESPITFLR", whereSpec
-  .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-              queryseg += querySpec;
-              querysegRc += querySpec;
+              if (query == null) {
+                query = queryseg;
+                queryRc = querysegRc;
+              } else {
+                query += "\n union all \n" + queryseg;
+                queryRc += "\n union all \n" + querysegRc;
+              }
             }
             if (queryses != null) {
-              String querySpec = lazyGetQuItSpFlt()
-    .replace(":TITSPEC", "SESRVSPEC").replace(":WHESPITFLR", whereSpec
-  .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-              queryses += querySpec;
-              querysesRc += querySpec;
+              if (query == null) {
+                query = queryses;
+                queryRc = querysesRc;
+              } else {
+                query += "\n union all \n" + queryses;
+                queryRc += "\n union all \n" + querysesRc;
+              }
             }
-          }
-        }
-        if (queryg != null || querys != null || queryseg != null
-          || queryses != null) {
-          String query = null;
-          String queryRc = null;
-          if (queryg != null) {
-            query = queryg;
-            queryRc = querygRc;
-          }
-          if (querys != null) {
-            if (query == null) {
-              query = querys;
-              queryRc = querysRc;
+            queryRc = "select count(*) as TROWS from (" + queryRc
+              + ") as ALLTOT";
+            if (orderBy != null) {
+              query += orderBy;
+              queryRc += orderBy;
+            }
+            queryRc += ";";
+            Integer rowCount = this.rdb.evInt(queryRc, "TROWS");
+            String[] ndFds = new String[] {"typ", "itId", "nme", "img", "specs",
+              "pri", "priPr", "quan", "detMt"};
+            Arrays.sort(ndFds);
+            vs.put("ItlistndFds", ndFds);
+            String pageStr = pRqDt.getParam("page");
+            Integer page;
+            if (pageStr != null) {
+              page = Integer.valueOf(pageStr);
             } else {
-              query += "\n union all \n" + querys;
-              queryRc += "\n union all \n" + querysRc;
+              page = 1;
             }
-          }
-          if (queryseg != null) {
-            if (query == null) {
-              query = queryseg;
-              queryRc = querysegRc;
-            } else {
-              query += "\n union all \n" + queryseg;
-              queryRc += "\n union all \n" + querysegRc;
+            CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+            int totalPages = this.srvPg.evPgCnt(rowCount, cpf.getPgSz());
+            if (page > totalPages) {
+              page = totalPages;
             }
-          }
-          if (queryses != null) {
-            if (query == null) {
-              query = queryses;
-              queryRc = querysesRc;
-            } else {
-              query += "\n union all \n" + queryses;
-              queryRc += "\n union all \n" + querysesRc;
-            }
-          }
-          queryRc = "select count(*) as TROWS from (" + queryRc + ") as ALLTOT";
-          if (orderBy != null) {
-            query += orderBy;
-            queryRc += orderBy;
-          }
-          queryRc += ";";
-          Integer rowCount = this.rdb.evInt(queryRc, "TROWS");
-          String[] ndFds = new String[] {"typ", "itId", "nme", "img", "specs",
-            "pri", "priPr", "quan", "detMt"};
-          Arrays.sort(ndFds);
-          vs.put("ItlistndFds", ndFds);
-          String pageStr = pRqDt.getParam("page");
-          Integer page;
-          if (pageStr != null) {
-            page = Integer.valueOf(pageStr);
-          } else {
-            page = 1;
-          }
-          CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-          int totalPages = this.srvPg.evPgCnt(rowCount, cpf.getPgSz());
-          if (page > totalPages) {
-            page = totalPages;
-          }
-          int firstResult = (page - 1) * cpf.getPgSz(); //0-20,20-40
-          List<Itlist> itList = getOrm().retPgQu(pRvs, vs, Itlist.class,
-            query, firstResult, cpf.getPgSz()); vs.clear();
-          if (ts.getPriCus() && cart != null
-            && cart.getBuyr().getEml() != null) {
-            List<BurPric> burPrics = getOrm().retLstCnd(pRvs, vs, BurPric.class,
-              "where BUYR=" + cart.getBuyr().getIid());
-            if (burPrics.size() > 1) {
-              this.log.error(pRvs, WsPg.class,
-                "Several price category for same buyer! buyer ID="
-                  + cart.getBuyr().getIid());
-              throw new ExcCode(ExcCode.WRCN,
-                "several_price_category_for_same_buyer");
-            }
-            if (burPrics.size() == 1) {
-              StringBuffer sbg = null;
-              StringBuffer sbs = null;
-              StringBuffer sbsg = null;
-              StringBuffer sbss = null;
-              for (Itlist iil : itList) {
-                if (iil.getTyp().equals(EItmTy.GOODS)) {
-                  if (sbg == null) {
-                    sbg = new StringBuffer();
-                    sbg.append("(" + iil.getItId());
-                  } else {
-                    sbg.append("," + iil.getItId());
-                  }
-                } else if (iil.getTyp().equals(EItmTy.SERVICE)) {
-                  if (sbs == null) {
-                    sbs = new StringBuffer();
-                    sbs.append("(" + iil.getItId());
-                  } else {
-                    sbs.append("," + iil.getItId());
-                  }
-                } else if (iil.getTyp().equals(EItmTy.SEGOODS)) {
-                  if (sbsg == null) {
-                    sbsg = new StringBuffer();
-                    sbsg.append("(" + iil.getItId());
-                  } else {
-                    sbsg.append("," + iil.getItId());
-                  }
-                } else if (iil.getTyp().equals(EItmTy.SESERVICE)) {
-                  if (sbss == null) {
-                    sbss = new StringBuffer();
-                    sbss.append("(" + iil.getItId());
-                  } else {
-                    sbss.append("," + iil.getItId());
+            int firstResult = (page - 1) * cpf.getPgSz(); //0-20,20-40
+            List<Itlist> itList = getOrm().retPgQu(pRvs, vs, Itlist.class,
+              query, firstResult, cpf.getPgSz()); vs.clear();
+            if (ts.getPriCus() && cart != null
+              && cart.getBuyr().getEml() != null) {
+              List<BurPric> burPrics = getOrm().retLstCnd(pRvs, vs,
+                BurPric.class, "where BUYR=" + cart.getBuyr().getIid());
+              if (burPrics.size() > 1) {
+                this.log.error(pRvs, WsPg.class,
+                  "Several price category for same buyer! buyer ID="
+                    + cart.getBuyr().getIid());
+                throw new ExcCode(ExcCode.WRCN,
+                  "several_price_category_for_same_buyer");
+              }
+              if (burPrics.size() == 1) {
+                StringBuffer sbg = null;
+                StringBuffer sbs = null;
+                StringBuffer sbsg = null;
+                StringBuffer sbss = null;
+                for (Itlist iil : itList) {
+                  if (iil.getTyp().equals(EItmTy.GOODS)) {
+                    if (sbg == null) {
+                      sbg = new StringBuffer();
+                      sbg.append("(" + iil.getItId());
+                    } else {
+                      sbg.append("," + iil.getItId());
+                    }
+                  } else if (iil.getTyp().equals(EItmTy.SERVICE)) {
+                    if (sbs == null) {
+                      sbs = new StringBuffer();
+                      sbs.append("(" + iil.getItId());
+                    } else {
+                      sbs.append("," + iil.getItId());
+                    }
+                  } else if (iil.getTyp().equals(EItmTy.SEGOODS)) {
+                    if (sbsg == null) {
+                      sbsg = new StringBuffer();
+                      sbsg.append("(" + iil.getItId());
+                    } else {
+                      sbsg.append("," + iil.getItId());
+                    }
+                  } else if (iil.getTyp().equals(EItmTy.SESERVICE)) {
+                    if (sbss == null) {
+                      sbss = new StringBuffer();
+                      sbss.append("(" + iil.getItId());
+                    } else {
+                      sbss.append("," + iil.getItId());
+                    }
                   }
                 }
-              }
-              StringBuffer sbq = null;
-              if (sbg != null) {
-                sbq = new StringBuffer();
-                sbq.append(
+                StringBuffer sbq = null;
+                if (sbg != null) {
+                  sbq = new StringBuffer();
+                  sbq.append(
             "select 0 as VER, ITM, PRI from PRIITM where ITM in " + sbg + ")");
-              }
-              if (sbs != null) {
-                if (sbq == null) {
-                  sbq = new StringBuffer();
-                } else {
-                  sbq.append("\n union all \n");
                 }
-                sbq.append(
+                if (sbs != null) {
+                  if (sbq == null) {
+                    sbq = new StringBuffer();
+                  } else {
+                    sbq.append("\n union all \n");
+                  }
+                  sbq.append(
             "select 1 as VER, ITM, PRI from PRISRV where ITM in " + sbs + ")");
-              }
-              if (sbsg != null) {
-                if (sbq == null) {
-                  sbq = new StringBuffer();
-                } else {
-                  sbq.append("\n union all \n");
                 }
-                sbq.append(
+                if (sbsg != null) {
+                  if (sbq == null) {
+                    sbq = new StringBuffer();
+                  } else {
+                    sbq.append("\n union all \n");
+                  }
+                  sbq.append(
           "select 2 as VER, ITM, PRI from SEITMPRI where ITM in " + sbsg + ")");
-              }
-              if (sbss != null) {
-                if (sbq == null) {
-                  sbq = new StringBuffer();
-                } else {
-                  sbq.append("\n union all \n");
                 }
-                sbq.append(
+                if (sbss != null) {
+                  if (sbq == null) {
+                    sbq = new StringBuffer();
+                  } else {
+                    sbq.append("\n union all \n");
+                  }
+                  sbq.append(
           "select 3 as VER, ITM, PRI from SEPRISRV where ITM in " + sbss + ")");
-              }
-              if (sbq != null) {
-                sbq.append(";");
-                String[] ndFlPr = new String[] {"itm", "pri",
-                  "ver"}; //actually item type!
-                Arrays.sort(ndFlPr);
-                vs.put("PriItmndFds", ndFlPr);
-                vs.put("ItmdpLv", 0);
-                List<PriItm> prcs = this.orm.retLstQu(pRvs, vs, PriItm.class,
-                  sbq.toString());
-                vs.clear();
-                for (PriItm pri : prcs) {
-                  for (Itlist iil : itList) {
-                    long itTyp = iil.getTyp().ordinal();
-                    if (iil.getItId().equals(pri.getItm().getIid())
-                      && itTyp == pri.getVer()) {
-                      iil.setPri(pri.getPri());
-                      break;
+                }
+                if (sbq != null) {
+                  sbq.append(";");
+                  String[] ndFlPr = new String[] {"itm", "pri",
+                    "ver"}; //actually item type!
+                  Arrays.sort(ndFlPr);
+                  vs.put("PriItmndFds", ndFlPr);
+                  vs.put("ItmdpLv", 0);
+                  List<PriItm> prcs = this.orm.retLstQu(pRvs, vs, PriItm.class,
+                    sbq.toString());
+                  vs.clear();
+                  for (PriItm pri : prcs) {
+                    for (Itlist iil : itList) {
+                      long itTyp = iil.getTyp().ordinal();
+                      if (iil.getItId().equals(pri.getItm().getIid())
+                        && itTyp == pri.getVer()) {
+                        iil.setPri(pri.getPri());
+                        break;
+                      }
                     }
                   }
                 }
               }
             }
+            List<Page> pages = this.srvPg.evPgs(page, totalPages,
+              cpf.getPgTl());
+            pRvs.put("pages", pages);
+            pRvs.put("itList", itList);
+            pRvs.put("totalItems", rowCount);
           }
-          List<Page> pages = this.srvPg.evPgs(page, totalPages,
-            cpf.getPgTl());
-          pRvs.put("pages", pages);
-          pRvs.put("itList", itList);
-          pRvs.put("totalItems", rowCount);
+          if (fltPri != null) {
+            pRvs.put("fltPri", fltPri);
+          }
+          if (fltCatl != null) {
+            pRvs.put("fltCatl", fltCatl);
+          }
+          if (fltSpfs != null) {
+            pRvs.put("fltSpfs", fltSpfs);
+          }
+          pRvs.put("catl", tcat.getCatl());
         }
-        if (fltPri != null) {
-          pRvs.put("fltPri", fltPri);
-        }
-        if (fltCatl != null) {
-          pRvs.put("fltCatl", fltCatl);
-        }
-        if (fltSpfs != null) {
-          pRvs.put("fltSpfs", fltSpfs);
-        }
-        pRvs.put("catl", tcat.getCatl());
       }
+      pRqDt.setAttr("rnd", "webstore");
+      this.rdb.commit();
+    } catch (Exception ex) {
+      if (!this.rdb.getAcmt()) {
+        this.rdb.rollBack();
+      }
+      throw ex;
+    } finally {
+      this.rdb.release();
     }
-    pRqDt.setAttr("rnd", "webstore");
   }
 
   /**
@@ -1280,7 +1299,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
   //Simple getters and setters:
   /**
    * <p>Getter for rdb.</p>
-   * @return IRdb<RS>
+   * @return IRdb
    **/
   public final IRdb<RS> getRdb() {
     return this.rdb;
@@ -1292,6 +1311,22 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
    **/
   public final void setRdb(final IRdb<RS> pRdb) {
     this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
   }
 
   /**

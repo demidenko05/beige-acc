@@ -35,6 +35,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.log.ILog;
 import org.beigesoft.prc.IPrc;
+import org.beigesoft.rdb.IRdb;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.acc.mdlp.TxDst;
@@ -70,6 +71,16 @@ public class ItmCart<RS> implements IPrc {
   private FcPrWs<RS> fcPrWs;
 
   /**
+   * <p>RDB service.</p>
+   **/
+  private IRdb<RS> rdb;
+
+  /**
+   * <p>Transaction isolation.</p>
+   **/
+  private Integer trIsl;
+
+  /**
    * <p>Process entity request.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -78,113 +89,124 @@ public class ItmCart<RS> implements IPrc {
   @Override
   public final void process(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
-    TrdStg ts = (TrdStg) pRvs.get("tstg");
-    AcStg as = (AcStg) pRvs.get("astg");
-    TxDst txRules = null;
-    String act = pRqDt.getParam("act");
-    if ("del".equals(act)) {
-      Cart cart = this.srCart.getCart(pRvs, pRqDt, false, false);
-      if (cart == null) {
-        redir(pRvs, pRqDt);
-        return;
-      }
-      txRules = this.srCart.revTxRules(pRvs, cart, as);
-      String lnIdStr = pRqDt.getParam("lnId");
-      if (lnIdStr != null) {
-        Long lnId = Long.valueOf(lnIdStr);
-        CartLn cartLn = null;
-        for (CartLn ci : cart.getItems()) {
-          if (ci.getIid().equals(lnId)) {
-            if (ci.getDisab()) {
-              throw new ExcCode(ExcCode.SPAM, "requested item disabled!");
+    try {
+      this.rdb.setAcmt(false);
+      this.rdb.setTrIsl(this.trIsl);
+      this.rdb.begin();
+      TrdStg ts = (TrdStg) pRvs.get("tstg");
+      AcStg as = (AcStg) pRvs.get("astg");
+      TxDst txRules = null;
+      String act = pRqDt.getParam("act");
+      if ("del".equals(act)) {
+        Cart cart = this.srCart.getCart(pRvs, pRqDt, false, false);
+        if (cart != null) {
+          txRules = this.srCart.revTxRules(pRvs, cart, as);
+          String lnIdStr = pRqDt.getParam("lnId");
+          if (lnIdStr != null) {
+            Long lnId = Long.valueOf(lnIdStr);
+            CartLn cartLn = null;
+            for (CartLn ci : cart.getItems()) {
+              if (ci.getIid().equals(lnId)) {
+                if (ci.getDisab()) {
+                  throw new ExcCode(ExcCode.SPAM, "requested item disabled!");
+                }
+                cartLn = ci;
+                break;
+              }
             }
-            cartLn = ci;
-            break;
+            if (cartLn == null) {
+              throw new ExcCode(ExcCode.SPAM, "Requested item not found!");
+            }
+            if (cartLn.getForc()) {
+              throw new ExcCode(ExcCode.SPAM, "Requested item forced");
+            }
+            this.srCart.delLine(pRvs, cartLn, txRules);
+            this.srCart.hndCartChg(pRvs, cart, txRules);
           }
         }
-        if (cartLn == null) {
-          throw new ExcCode(ExcCode.SPAM, "Requested item not found!");
+      } else {
+        Cart cart = this.srCart.getCart(pRvs, pRqDt, true, false);
+        txRules = this.srCart.revTxRules(pRvs, cart, as);
+        CartLn cartLn = null;
+        String lnIdStr = pRqDt.getParam("lnId");
+        String quanStr = pRqDt.getParam("quan");
+        String avQuanStr = pRqDt.getParam("avQuan");
+        String unStStr = pRqDt.getParam("unSt");
+        BigDecimal quan = new BigDecimal(quanStr);
+        BigDecimal avQuan = new BigDecimal(avQuanStr);
+        if (quan.compareTo(avQuan) == 1) {
+          quan = avQuan;
         }
-        if (cartLn.getForc()) {
-          throw new ExcCode(ExcCode.SPAM, "Requested item forced");
-        }
-        this.srCart.delLine(pRvs, cartLn, txRules);
-        this.srCart.hndCartChg(pRvs, cart, txRules);
-      }
-    } else {
-      Cart cart = this.srCart.getCart(pRvs, pRqDt, true, false);
-      txRules = this.srCart.revTxRules(pRvs, cart, as);
-      CartLn cartLn = null;
-      String lnIdStr = pRqDt.getParam("lnId");
-      String quanStr = pRqDt.getParam("quan");
-      String avQuanStr = pRqDt.getParam("avQuan");
-      String unStStr = pRqDt.getParam("unSt");
-      BigDecimal quan = new BigDecimal(quanStr);
-      BigDecimal avQuan = new BigDecimal(avQuanStr);
-      if (quan.compareTo(avQuan) == 1) {
-        quan = avQuan;
-      }
-      BigDecimal unSt = new BigDecimal(unStStr);
-      String itIdStr = pRqDt.getParam("itId");
-      String itTypStr = pRqDt.getParam("itTyp");
-      Long itId = Long.valueOf(itIdStr);
-      EItmTy itTyp = EItmTy.class.
-        getEnumConstants()[Integer.parseInt(itTypStr)];
-      boolean redoPr = false;
-      if (lnIdStr != null) { //change quanity
-        Long lnId = Long.valueOf(lnIdStr);
-        cartLn = fndCartItmById(cart, lnId);
-      } else { //add
-        redoPr = true;
-        String uomIdStr = pRqDt.getParam("uomId");
-        Long uomId = Long.valueOf(uomIdStr);
-        for (CartLn ci : cart.getItems()) {
-          //check for duplicate cause "weird" but accepted request
-          if (!ci.getDisab() && ci.getItTyp().equals(itTyp)
-            && ci.getItId().equals(itId)) {
-            cartLn = ci;
-            break;
-          }
-        }
-        if (cartLn == null) {
+        BigDecimal unSt = new BigDecimal(unStStr);
+        String itIdStr = pRqDt.getParam("itId");
+        String itTypStr = pRqDt.getParam("itTyp");
+        Long itId = Long.valueOf(itIdStr);
+        EItmTy itTyp = EItmTy.class.
+          getEnumConstants()[Integer.parseInt(itTypStr)];
+        boolean redoPr = false;
+        if (lnIdStr != null) { //change quanity
+          Long lnId = Long.valueOf(lnIdStr);
+          cartLn = fndCartItmById(cart, lnId);
+        } else { //add
+          redoPr = true;
+          String uomIdStr = pRqDt.getParam("uomId");
+          Long uomId = Long.valueOf(uomIdStr);
           for (CartLn ci : cart.getItems()) {
-            if (ci.getDisab()) {
+            //check for duplicate cause "weird" but accepted request
+            if (!ci.getDisab() && ci.getItTyp().equals(itTyp)
+              && ci.getItId().equals(itId)) {
               cartLn = ci;
-              cartLn.setDisab(false);
-              cartLn.setForc(false);
-              cartLn.setSelr(null);
-              cartLn.setTxCt(null);
-              cartLn.setTdsc(null);
               break;
             }
           }
+          if (cartLn == null) {
+            for (CartLn ci : cart.getItems()) {
+              if (ci.getDisab()) {
+                cartLn = ci;
+                cartLn.setDisab(false);
+                cartLn.setForc(false);
+                cartLn.setSelr(null);
+                cartLn.setTxCt(null);
+                cartLn.setTdsc(null);
+                break;
+              }
+            }
+          }
+          if (cartLn == null) {
+            cartLn = creCartItm(cart);
+          }
+          Uom uom = new Uom();
+          uom.setIid(uomId);
+          cartLn.setUom(uom);
+          cartLn.setItId(itId);
+          cartLn.setItTyp(itTyp);
         }
-        if (cartLn == null) {
-          cartLn = creCartItm(cart);
+        if (!cartLn.getForc()) {
+          cartLn.setAvQuan(avQuan);
+          cartLn.setQuan(quan);
+          cartLn.setUnSt(unSt);
+          BigDecimal amount = cartLn.getPri().multiply(cartLn.getQuan()).
+            setScale(as.getPrDp(), as.getRndm());
+          if (ts.getTxExcl()) {
+            cartLn.setSubt(amount);
+          } else {
+            cartLn.setTot(amount);
+          }
+          this.srCart.mkLine(pRvs, cartLn, as, ts, txRules, redoPr, true);
+          this.srCart.hndCartChg(pRvs, cart, txRules);
         }
-        Uom uom = new Uom();
-        uom.setIid(uomId);
-        cartLn.setUom(uom);
-        cartLn.setItId(itId);
-        cartLn.setItTyp(itTyp);
       }
-      if (!cartLn.getForc()) {
-        cartLn.setAvQuan(avQuan);
-        cartLn.setQuan(quan);
-        cartLn.setUnSt(unSt);
-        BigDecimal amount = cartLn.getPri().multiply(cartLn.getQuan()).
-          setScale(as.getPrDp(), as.getRndm());
-        if (ts.getTxExcl()) {
-          cartLn.setSubt(amount);
-        } else {
-          cartLn.setTot(amount);
-        }
-        this.srCart.mkLine(pRvs, cartLn, as, ts, txRules, redoPr, true);
-        this.srCart.hndCartChg(pRvs, cart, txRules);
+      if (txRules != null) {
+        pRvs.put("txRules", txRules);
       }
-    }
-    if (txRules != null) {
-      pRvs.put("txRules", txRules);
+      this.rdb.commit();
+    } catch (Exception ex) {
+      if (!this.rdb.getAcmt()) {
+        this.rdb.rollBack();
+      }
+      throw ex;
+    } finally {
+      this.rdb.release();
     }
     redir(pRvs, pRqDt);
   }
@@ -199,7 +221,7 @@ public class ItmCart<RS> implements IPrc {
     final IReqDt pRqDt) throws Exception {
     String procNm = pRqDt.getParam("prcRed");
     if (getClass().getSimpleName().equals(procNm)) {
-      throw new ExcCode(ExcCode.SPAM, "Danger stupid scam!!!!");
+      throw new ExcCode(ExcCode.SPAM, "Danger! Stupid scam!!!");
     }
     IPrc proc = this.fcPrWs.laz(pRvs, procNm);
     proc.process(pRvs, pRqDt);
@@ -246,6 +268,38 @@ public class ItmCart<RS> implements IPrc {
   }
 
   //Simple getters and setters:
+  /**
+   * <p>Getter for rdb.</p>
+   * @return IRdb
+   **/
+  public final IRdb<RS> getRdb() {
+    return this.rdb;
+  }
+
+  /**
+   * <p>Setter for rdb.</p>
+   * @param pRdb reference
+   **/
+  public final void setRdb(final IRdb<RS> pRdb) {
+    this.rdb = pRdb;
+  }
+
+  /**
+   * <p>Getter for trIsl.</p>
+   * @return Integer
+   **/
+  public final Integer getTrIsl() {
+    return this.trIsl;
+  }
+
+  /**
+   * <p>Setter for trIsl.</p>
+   * @param pTrIsl reference
+   **/
+  public final void setTrIsl(final Integer pTrIsl) {
+    this.trIsl = pTrIsl;
+  }
+
   /**
    * <p>Getter for log.</p>
    * @return ILog

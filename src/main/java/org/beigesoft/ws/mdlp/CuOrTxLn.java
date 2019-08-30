@@ -31,7 +31,7 @@ package org.beigesoft.ws.mdlp;
 import java.math.BigDecimal;
 
 import org.beigesoft.mdl.IOwneda;
-import org.beigesoft.acc.mdlb.ATxLn;
+import org.beigesoft.ws.mdlb.ATxLn;
 
 /**
  * <p>
