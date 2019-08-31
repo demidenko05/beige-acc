@@ -45,9 +45,11 @@ import org.beigesoft.ws.prc.PrCart;
 import org.beigesoft.ws.prc.ItmCart;
 import org.beigesoft.ws.prc.PrBuOr;
 import org.beigesoft.ws.prc.PrBur;
+import org.beigesoft.ws.prc.PrPur;
 import org.beigesoft.ws.prc.PrLog;
 import org.beigesoft.ws.srv.ISrCart;
 import org.beigesoft.ws.srv.IBuySr;
+import org.beigesoft.ws.srv.IAcpOrd;
 
 /**
  * <p>Factory of web-store public processors.</p>
@@ -96,6 +98,8 @@ public class FcPrWs<RS> implements IFctPrc {
             rz = crPuPrBuOr(pRvs);
           } else if (PrBur.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrBur(pRvs);
+          } else if (PrPur.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuPrPur(pRvs);
           } else if (PrLog.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrLog(pRvs);
           } else {
@@ -236,6 +240,34 @@ public class FcPrWs<RS> implements IFctPrc {
   }
 
   /**
+   * <p>Create and put into the Map PrPur.</p>
+   * @param pRvs request scoped vars
+   * @return PrPur
+   * @throws Exception - an exception
+   */
+  private PrPur<RS> crPuPrPur(final Map<String, Object> pRvs) throws Exception {
+    PrPur<RS> rz = new PrPur<RS>();
+    rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ISrCart srCart = (ISrCart) this.fctBlc
+      .laz(pRvs, ISrCart.class.getSimpleName());
+    rz.setSrCart(srCart);
+    IAcpOrd acpOrd = (IAcpOrd) this.fctBlc
+      .laz(pRvs, IAcpOrd.class.getSimpleName());
+    rz.setAcpOrd(acpOrd);
+    IBuySr buySr = (IBuySr) this.fctBlc.laz(pRvs, IBuySr.class.getSimpleName());
+    rz.setBuySr(buySr);
+    rz.setFcPrWs(this);
+    this.procs.put(PrPur.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
+      PrPur.class.getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
    * <p>Create and put into the Map PrLog.</p>
    * @param pRvs request scoped vars
    * @return PrLog
@@ -254,7 +286,7 @@ public class FcPrWs<RS> implements IFctPrc {
     rz.setSrvCart(srCart);
     IBuySr buySr = (IBuySr) this.fctBlc.laz(pRvs, IBuySr.class.getSimpleName());
     rz.setBuySr(buySr);
-    rz.setProcFac(this);
+    rz.setFcPrWs(this);
     this.procs.put(PrLog.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       PrLog.class.getSimpleName() + " has been created.");

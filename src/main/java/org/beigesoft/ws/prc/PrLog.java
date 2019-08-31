@@ -39,7 +39,6 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.mdl.ColVals;
 import org.beigesoft.log.ILog;
-import org.beigesoft.fct.IFctPrc;
 import org.beigesoft.prc.IPrc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
@@ -51,6 +50,7 @@ import org.beigesoft.ws.mdlp.CartLn;
 import org.beigesoft.ws.mdlp.CartTxLn;
 import org.beigesoft.ws.mdlp.CartTot;
 import org.beigesoft.ws.mdlp.TrdStg;
+import org.beigesoft.ws.fct.FcPrWs;
 import org.beigesoft.ws.srv.ISrCart;
 import org.beigesoft.ws.srv.IBuySr;
 
@@ -80,7 +80,7 @@ public class PrLog<RS> implements IPrc {
   /**
    * <p>Processors factory.</p>
    **/
-  private IFctPrc procFac;
+  private FcPrWs<RS> fcPrWs;
 
   /**
    * <p>Shopping Cart service.</p>
@@ -251,7 +251,7 @@ public class PrLog<RS> implements IPrc {
     if (getClass().getSimpleName().equals(procNm)) {
       throw new ExcCode(ExcCode.SPAM, "Danger! stupid scam!!!");
     }
-    IPrc proc = this.procFac.laz(pRvs, procNm);
+    IPrc proc = this.fcPrWs.laz(pRvs, procNm);
     proc.process(pRvs, pRqDt);
   }
 
@@ -398,19 +398,19 @@ public class PrLog<RS> implements IPrc {
   }
 
   /**
-   * <p>Getter for procFac.</p>
-   * @return IFctPrc
+   * <p>Getter for fcPrWs.</p>
+   * @return FcPrWs<RS>
    **/
-  public final IFctPrc getProcFac() {
-    return this.procFac;
+  public final FcPrWs<RS> getFcPrWs() {
+    return this.fcPrWs;
   }
 
   /**
-   * <p>Setter for procFac.</p>
-   * @param pProcFac reference
+   * <p>Setter for fcPrWs.</p>
+   * @param pFcPrWs reference
    **/
-  public final void setProcFac(final IFctPrc pProcFac) {
-    this.procFac = pProcFac;
+  public final void setFcPrWs(final FcPrWs<RS> pFcPrWs) {
+    this.fcPrWs = pFcPrWs;
   }
 
   /**

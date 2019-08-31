@@ -45,6 +45,10 @@ import org.beigesoft.ws.hld.HlSeEnPr;
 import org.beigesoft.ws.hld.HlPrFeSe;
 import org.beigesoft.ws.srv.IFiSeSel;
 import org.beigesoft.ws.srv.FiSeSel;
+import org.beigesoft.ws.srv.ICncOrd;
+import org.beigesoft.ws.srv.CncOrd;
+import org.beigesoft.ws.srv.IAcpOrd;
+import org.beigesoft.ws.srv.AcpOrd;
 import org.beigesoft.ws.srv.ISrAdStg;
 import org.beigesoft.ws.srv.SrAdStg;
 import org.beigesoft.ws.srv.ISrTrStg;
@@ -96,6 +100,10 @@ public class FctWs<RS> implements IFctAux<RS> {
       rz = crPuFcCsvDrt(pRvs, pFctApp);
     } else if (IFiSeSel.class.getSimpleName().equals(pBnNm)) {
       rz = crPuFiSeSel(pRvs, pFctApp);
+    } else if (ICncOrd.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuCncOrd(pRvs, pFctApp);
+    } else if (IAcpOrd.class.getSimpleName().equals(pBnNm)) {
+      rz = crPuAcpOrd(pRvs, pFctApp);
     } else if (ISrAdStg.class.getSimpleName().equals(pBnNm)) {
       rz = crPuSrAdStg(pRvs, pFctApp);
     } else if (UtlTrJsp.class.getSimpleName().equals(pBnNm)) {
@@ -163,6 +171,52 @@ public class FctWs<RS> implements IFctAux<RS> {
     pFctApp.put(pRvs, HNSEENRQ, rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(), HNSEENRQ
       + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF CncOrd.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return CncOrd
+   * @throws Exception - an exception
+   */
+  private CncOrd<RS> crPuCncOrd(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    CncOrd<RS> rz = new CncOrd<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    rz.setSrvClVl(pFctApp.lazSrvClVl(pRvs));
+    rz.setIsAndr(pFctApp.getFctDt().getIsAndr());
+    pFctApp.put(pRvs, ICncOrd.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      CncOrd.class.getSimpleName() + " has been created");
+    return rz;
+  }
+
+  /**
+   * <p>Creates and puts into MF AcpOrd.</p>
+   * @param pRvs request scoped vars
+   * @param pFctApp main factory
+   * @return AcpOrd
+   * @throws Exception - an exception
+   */
+  private AcpOrd<RS> crPuAcpOrd(final Map<String, Object> pRvs,
+    final FctBlc<RS> pFctApp) throws Exception {
+    AcpOrd<RS> rz = new AcpOrd<RS>();
+    @SuppressWarnings("unchecked")
+    IRdb<RS> rdb = (IRdb<RS>) pFctApp.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setRdb(rdb);
+    rz.setOrm(pFctApp.lazOrm(pRvs));
+    rz.setLog(pFctApp.lazLogStd(pRvs));
+    rz.setSrvClVl(pFctApp.lazSrvClVl(pRvs));
+    rz.setIsAndr(pFctApp.getFctDt().getIsAndr());
+    pFctApp.put(pRvs, IAcpOrd.class.getSimpleName(), rz);
+    pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
+      AcpOrd.class.getSimpleName() + " has been created");
     return rz;
   }
 

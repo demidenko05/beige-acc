@@ -41,25 +41,25 @@ public class AddStg extends AIdLn {
    * <p>null default, HTML template for whole specifics start,
    * e.g. "&lt;ul&gt;".</p>
    **/
-  private String shtms;
+  private String shtms = "<ul>";
 
   /**
    * <p>null default, HTML template for whole specifics end,
    * e.g. "&lt;/ul&gt;".</p>
    **/
-  private String shtme;
+  private String shtme = "</ul>";
 
   /**
    * <p>null default, HTML template for group specifics start,
    * e.g. "&lt;li&gt;".</p>
    **/
-  private String sghtms;
+  private String sghtms = "<li>";
 
   /**
    * <p>null default, HTML template for group specifics end,
    * e.g. "&lt;/li&gt;".</p>
    **/
-  private String sghtme;
+  private String sghtme = "</li>";
 
   /**
    * <p>not null, specifics separator, default ",".</p>
@@ -87,6 +87,17 @@ public class AddStg extends AIdLn {
    * </p>
    **/
   private Integer bkTr = 2;
+
+  /**
+   * <p>Online payment mode:
+   * <ul>
+   * <li>0 any seller is payee.</li>
+   * <li>1 only owner is payee,
+   *   i.e. itself sent part of payment to S.E.Seller(s).</li>
+   * </ul>
+   * </p>
+   **/
+  private Integer onlMd = 0;
 
   //Simple getters and setters:
   /**
@@ -215,5 +226,21 @@ public class AddStg extends AIdLn {
    **/
   public final void setBkTr(final Integer pBkTr) {
     this.bkTr = pBkTr;
+  }
+
+  /**
+   * <p>Getter for onlMd.</p>
+   * @return Integer
+   **/
+  public final Integer getOnlMd() {
+    return this.onlMd;
+  }
+
+  /**
+   * <p>Setter for onlMd.</p>
+   * @param pOnlMd reference
+   **/
+  public final void setOnlMd(final Integer pOnlMd) {
+    this.onlMd = pOnlMd;
   }
 }
