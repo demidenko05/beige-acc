@@ -676,10 +676,10 @@ public class SrCart<RS> implements ISrCart {
     if (clFrc != null && clFrc.getTot().compareTo(BigDecimal.ZERO) == 1) {
       ct = ct.subtract(clFrc.getTot());
     }
-    if (pCart.getRate().compareTo(BigDecimal.ONE) == 0) {
+    if (pCart.getExRt().compareTo(BigDecimal.ONE) == 0) {
       cartTot = ct.intValue();
     } else {
-      cartTot = ct.divide(pCart.getRate(), as.getPrDp(),
+      cartTot = ct.divide(pCart.getExRt(), as.getPrDp(),
         as.getRndm()).intValue();
     }
     if (cartTot >= cdl.getApMt()) {
@@ -760,12 +760,12 @@ public class SrCart<RS> implements ISrCart {
       for (CurrRt cr: currRts) {
         if (cr.getCurr().getIid().equals(pCaLn.getOwnr()
           .getCurr().getIid())) {
-          BigDecimal exchRate = cr.getRate();
+          BigDecimal exchRate = cr.getExRt();
           if (exchRate.compareTo(BigDecimal.ZERO) == -1) {
             exchRate = BigDecimal.ONE.divide(exchRate.negate(), 15,
               RoundingMode.HALF_UP);
           }
-          pCaLn.getOwnr().setRate(exchRate);
+          pCaLn.getOwnr().setExRt(exchRate);
           pCaLn.setPri(pCaLn.getPri().multiply(exchRate)
             .setScale(pAs.getPrDp(), pAs.getRndm()));
           break;

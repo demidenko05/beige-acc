@@ -245,7 +245,7 @@ public class CncOrd<RS> implements ICncOrd {
         }
       }
     }
-    String[] ndFds = new String[] {"ver", "stas"};
+    String[] ndFds = new String[] {"ver", "stas", "dscr"};
     Arrays.sort(ndFds);
     vs.put("ndFds", ndFds);
     pCuOr.setStas(pStas);
@@ -365,7 +365,7 @@ public class CncOrd<RS> implements ICncOrd {
       }
     }
     pCuOr.setStas(pStas);
-    String[] ndFds = new String[] {"ver", "stas"};
+    String[] ndFds = new String[] {"ver", "stas", "dscr"};
     Arrays.sort(ndFds);
     vs.put("ndFds", ndFds);
     getOrm().update(pRvs, vs, pCuOr);

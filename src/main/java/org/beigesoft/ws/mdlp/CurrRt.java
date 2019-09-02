@@ -35,7 +35,7 @@ import org.beigesoft.acc.mdlp.Curr;
 
 /**
  * <p>
- * Holds accepted foreign currency rates.
+ * Holds accepted foreign currency exRts.
  * </p>
  *
  * @author Yury Demidenko
@@ -48,9 +48,9 @@ public class CurrRt extends AHasVr<Curr> {
   private Curr curr;
 
   /**
-   * <p>Rate, not null.</p>
+   * <p>ExRt, not null.</p>
    **/
-  private BigDecimal rate;
+  private BigDecimal exRt;
 
   /**
    * <p>Usually it's simple getter that return model ID.</p>
@@ -88,18 +88,18 @@ public class CurrRt extends AHasVr<Curr> {
   }
 
   /**
-   * <p>Getter for rate.</p>
+   * <p>Getter for exRt.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getRate() {
-    return this.rate;
+  public final BigDecimal getExRt() {
+    return this.exRt;
   }
 
   /**
-   * <p>Setter for rate.</p>
-   * @param pRate reference
+   * <p>Setter for exRt.</p>
+   * @param pExRt reference
    **/
-  public final void setRate(final BigDecimal pRate) {
-    this.rate = pRate;
+  public final void setExRt(final BigDecimal pExRt) {
+    this.exRt = pExRt;
   }
 }

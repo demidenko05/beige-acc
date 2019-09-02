@@ -782,24 +782,6 @@ public class RefrLst<RS> implements IPrc {
   }
 
   /**
-   * <p>Retrieve I18Item list.</p>
-   * @param <T> itm type
-   * @param pRvs additional param
-   * @param pI18ItCls I18Item Class
-   * @param pItIdsIn Item's IDs
-   * @return list
-   * @throws Exception - an exception
-   **/
-  public final <T extends AI18nNm<?, ?>> List<T> retI18Itm(
-    final Map<String, Object> pRvs, final Class<T> pI18ItCls,
-      final String pItIdsIn) throws Exception {
-    Map<String, Object> vs = new HashMap<String, Object>();
-    vs.put(pI18ItCls.getSimpleName() + "dpLv", 1);
-    return getOrm().retLstCnd(pRvs, vs, pI18ItCls,
-      "where HASNM in " + pItIdsIn);
-  }
-
-  /**
    * <p>Update Itlist with outdated itm specifics list.
    * It does it with [N]-records per transaction method.</p>
    * @param <I> itm type
@@ -868,7 +850,9 @@ public class RefrLst<RS> implements IPrc {
         htmlts = getOrm().retLstCnd(pRvs, vs, Htmlt.class, whereStr.toString());
       }
       if (pTrdStg.getAi18n()) {
-        i18ItemLst = retI18Itm(pRvs, pI18ItCls, itmsIdsIn.toString());
+        vs.put("LngdpLv", 0);
+        i18ItemLst = getOrm().retLstCnd(pRvs, vs, pI18ItCls,
+          "where HASNM in " + itmsIdsIn.toString()); vs.clear();
         if (i18ItemLst.size() > 0) {
           i18SpeLis = getOrm().retLstCnd(pRvs, vs, I18SpeLi.class, "where TYP="
             + pItTy.ordinal() + " and ITID in " + itmsIdsIn.toString());
@@ -980,11 +964,8 @@ public class RefrLst<RS> implements IPrc {
           itlst.setDetMt(null);
           itlst.setImg(null);
           //i18:
-          if (i18ItemLst != null) {
+          if (i18ItemLst != null && i18ItemLst.size() >  0) {
             for (I i18Item : i18ItemLst) {
-              if (i18SpeLis == null) {
-                i18SpeLis = new ArrayList<I18SpeLi>();
-              }
               if (i18Item.getHasNm().getIid().equals(itm.getIid())) {
                 I18SpeLi i18spInLs = fndI18SpeLi(i18SpeLis, itm, pItTy,
                   i18Item.getLng());
@@ -994,9 +975,9 @@ public class RefrLst<RS> implements IPrc {
                   i18spInLs.setTyp(pItTy);
                   i18spInLs.setItId(itm.getIid());
                   i18spInLs.setLng(i18Item.getLng());
+                  i18SpeLis.add(i18spInLs);
                 }
                 i18spInLs.setNme(i18Item.getNme());
-                i18SpeLis.add(i18spInLs);
               }
             }
           }
@@ -1029,8 +1010,26 @@ public class RefrLst<RS> implements IPrc {
                       && pAddStg.getSghtme() != null) {
                       itlst.setSpecs(itlst.getSpecs() + pAddStg.getSghtme()
                         + pAddStg.getSpGrSp());
+                      if (i18SpeLis != null) {
+                        for (I18SpeLi i18spInLs : i18SpeLis) {
+                          if (i18spInLs.getItId().equals(itm.getIid())
+                            && i18spInLs.getTyp().equals(pItTy)) {
+                            i18spInLs.setVal(i18spInLs.getVal()
+                              + pAddStg.getSghtme() + pAddStg.getSpGrSp());
+                          }
+                        }
+                      }
                     } else if (pAddStg.getSghtme() != null) {
                       itlst.setSpecs(itlst.getSpecs() + pAddStg.getSghtme());
+                      if (i18SpeLis != null) {
+                        for (I18SpeLi i18spInLs : i18SpeLis) {
+                          if (i18spInLs.getItId().equals(itm.getIid())
+                            && i18spInLs.getTyp().equals(pItTy)) {
+                            i18spInLs.setVal(i18spInLs.getVal()
+                              + pAddStg.getSghtme());
+                          }
+                        }
+                      }
                     } else if (pAddStg.getSpGrSp() != null) {
                       itlst.setSpecs(itlst.getSpecs() + pAddStg.getSpGrSp());
                     }
@@ -1040,8 +1039,11 @@ public class RefrLst<RS> implements IPrc {
                     itlst.setSpecs(itlst.getSpecs() + pAddStg.getSghtms());
                     if (i18SpeLis != null) {
                       for (I18SpeLi i18spInLs : i18SpeLis) {
-                        i18spInLs.setVal(i18spInLs.getVal()
-                          + pAddStg.getSghtms());
+                        if (i18spInLs.getItId().equals(itm.getIid())
+                          && i18spInLs.getTyp().equals(pItTy)) {
+                          i18spInLs.setVal(i18spInLs.getVal()
+                            + pAddStg.getSghtms());
+                        }
                       }
                     }
                   }
@@ -1053,11 +1055,14 @@ public class RefrLst<RS> implements IPrc {
                     itlst.setSpecs(itlst.getSpecs() + grst);
                     if (i18SpeLis != null) {
                       for (I18SpeLi i18spInLs : i18SpeLis) {
-                        String gn = fndItmSpGrNm(i18I18ItmSpGrs, pOudItSpfs
-                          .get(j).getSpec().getGrp(), i18spInLs.getLng());
-                        grst = pOudItSpfs.get(j).getSpec().getGrp().getTmpls()
-                          .getVal().replace(":SPECGRNM", gn);
-                        i18spInLs.setVal(i18spInLs.getVal() + grst);
+                        if (i18spInLs.getItId().equals(itm.getIid())
+                          && i18spInLs.getTyp().equals(pItTy)) {
+                          String gn = fndItmSpGrNm(i18I18ItmSpGrs, pOudItSpfs
+                            .get(j).getSpec().getGrp(), i18spInLs.getLng());
+                          grst = pOudItSpfs.get(j).getSpec().getGrp().getTmpls()
+                            .getVal().replace(":SPECGRNM", gn);
+                          i18spInLs.setVal(i18spInLs.getVal() + grst);
+                        }
                       }
                     }
                   }

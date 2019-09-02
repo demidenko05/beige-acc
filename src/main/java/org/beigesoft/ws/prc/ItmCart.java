@@ -121,6 +121,7 @@ public class ItmCart<RS> implements IPrc {
               throw new ExcCode(ExcCode.SPAM, "Requested item forced");
             }
             this.srCart.delLine(pRvs, cartLn, txRules);
+            this.srCart.mkCartTots(pRvs, ts, cartLn, as, txRules);
             this.srCart.hndCartChg(pRvs, cart, txRules);
           }
         }
@@ -193,6 +194,7 @@ public class ItmCart<RS> implements IPrc {
             cartLn.setTot(amount);
           }
           this.srCart.mkLine(pRvs, cartLn, as, ts, txRules, redoPr, true);
+          this.srCart.mkCartTots(pRvs, ts, cartLn, as, txRules);
           this.srCart.hndCartChg(pRvs, cart, txRules);
         }
       }

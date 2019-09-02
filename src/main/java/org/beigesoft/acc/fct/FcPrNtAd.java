@@ -126,6 +126,7 @@ public class FcPrNtAd<RS> implements IFctPrc {
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
+    rz.setTrIsl(this.fctBlc.getFctDt().getReadTi());
     rz.setRdb(rdb);
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     rz.setNumStr(this.fctBlc.lazNumStr(pRvs));

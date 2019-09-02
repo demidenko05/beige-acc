@@ -196,7 +196,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
       BigDecimal cuRt = BigDecimal.ONE;
       for (CurrRt cr: currRts) {
         if (cr.getCurr().getIid().equals(curr.getIid())) {
-          cuRt = cr.getRate();
+          cuRt = cr.getExRt();
           break;
         }
       }
@@ -206,7 +206,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
         } else {
           if (!cart.getCurr().getIid().equals(curr.getIid())) {
             cart.setCurr(curr);
-            cart.setRate(cuRt);
+            cart.setExRt(cuRt);
             this.srCart.hndCurrChg(pRvs, cart, as, ts);
           }
           if (pRvs.get("txRules") == null) {

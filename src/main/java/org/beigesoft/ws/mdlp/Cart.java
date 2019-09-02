@@ -54,9 +54,9 @@ public class Cart extends AHasVr<Buyer> {
   private Curr curr;
 
   /**
-   * <p>Exchange rate for foreign currency, not null, default 1.</p>
+   * <p>Exchange exRt for foreign currency, not null, default 1.</p>
    **/
-  private BigDecimal rate = BigDecimal.ONE;
+  private BigDecimal exRt = BigDecimal.ONE;
 
   /**
    * <p>Subtotal, not null.</p>
@@ -161,19 +161,19 @@ public class Cart extends AHasVr<Buyer> {
   }
 
   /**
-   * <p>Getter for rate.</p>
+   * <p>Getter for exRt.</p>
    * @return BigDecimal
    **/
-  public final BigDecimal getRate() {
-    return this.rate;
+  public final BigDecimal getExRt() {
+    return this.exRt;
   }
 
   /**
-   * <p>Setter for rate.</p>
-   * @param pRate reference
+   * <p>Setter for exRt.</p>
+   * @param pExRt reference
    **/
-  public final void setRate(final BigDecimal pRate) {
-    this.rate = pRate;
+  public final void setExRt(final BigDecimal pExRt) {
+    this.exRt = pExRt;
   }
 
   /**

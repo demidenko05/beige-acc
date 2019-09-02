@@ -49,9 +49,12 @@ import org.beigesoft.ws.prc.SeSelSv;
 import org.beigesoft.ws.prc.SeSelDl;
 import org.beigesoft.ws.prc.ItmSpSv;
 import org.beigesoft.ws.prc.ItmSpDl;
+import org.beigesoft.ws.prc.CuOrSv;
+import org.beigesoft.ws.prc.CuOrSeSv;
 import org.beigesoft.ws.srv.ISrTrStg;
 import org.beigesoft.ws.srv.IFiSeSel;
 import org.beigesoft.ws.srv.ISrAdStg;
+import org.beigesoft.ws.srv.ICncOrd;
 
 /**
  * <p>Trade additional factory of entity processors.</p>
@@ -95,6 +98,10 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
             rz = crPuHsSeSelRt(pRvs);
           } else if (HsSeSelDl.class.getSimpleName().equals(pPrNm)) {
             rz = crPuHsSeSelDl(pRvs);
+          } else if (CuOrSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuCuOrSv(pRvs);
+          } else if (CuOrSeSv.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuCuOrSeSv(pRvs);
           } else if (HsSeSelSv.class.getSimpleName().equals(pPrNm)) {
             rz = crPuHsSeSelSv(pRvs);
           } else if (SeSelDl.class.getSimpleName().equals(pPrNm)) {
@@ -159,6 +166,47 @@ public class FcEnPrTr<RS> implements IFctPrcEnt {
     rz.setItmSpDl(dlg);
     this.procs.put(HsSeSelDl.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), HsSeSelDl.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map CuOrSv.</p>
+   * @param pRvs request scoped vars
+   * @return CuOrSv
+   * @throws Exception - an exception
+   */
+  private CuOrSv crPuCuOrSv(
+    final Map<String, Object> pRvs) throws Exception {
+    CuOrSv rz = new CuOrSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ICncOrd cncOrd = (ICncOrd) this.fctBlc
+      .laz(pRvs, ICncOrd.class.getSimpleName());
+    rz.setCncOrd(cncOrd);
+    this.procs.put(CuOrSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), CuOrSv.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map CuOrSeSv.</p>
+   * @param pRvs request scoped vars
+   * @return CuOrSeSv
+   * @throws Exception - an exception
+   */
+  private CuOrSeSv crPuCuOrSeSv(
+    final Map<String, Object> pRvs) throws Exception {
+    CuOrSeSv rz = new CuOrSeSv();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    ICncOrd cncOrd = (ICncOrd) this.fctBlc
+      .laz(pRvs, ICncOrd.class.getSimpleName());
+    rz.setCncOrd(cncOrd);
+    IFiSeSel fiHsSeSel = (IFiSeSel) this.fctBlc
+      .laz(pRvs, IFiSeSel.class.getSimpleName());
+    rz.setFiSeSel(fiHsSeSel);
+    this.procs.put(CuOrSeSv.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), CuOrSeSv.class
       .getSimpleName() + " has been created.");
     return rz;
   }

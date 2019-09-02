@@ -135,14 +135,15 @@ public class PrLog<RS> implements IPrc {
               buyer.setEml(eml);
               buyer.setLsTm(now);
               UUID buseid = UUID.randomUUID();
-              buyer.setBuSeId(buseid.toString());
+              String buSeIdSt = buseid.toString().replace("-", "");
+              buyer.setBuSeId(buSeIdSt);
               if (buyer.getIsNew()) {
                 this.orm.insIdLn(pRvs, vs, buyer);
               } else {
                 this.orm.update(pRvs, vs, buyer);
               }
               pRqDt.setCookVl("cBuyerId", buyer.getIid().toString());
-              pRqDt.setCookVl("buSeId", buyer.getBuSeId());
+              pRqDt.setCookVl("buSeId", buSeIdSt);
               getLog().info(pRvs, PrLog.class, "Buyer registered: " + nme + "/"
                 + eml);
             } else if (brs.size() == 1) {
@@ -154,8 +155,7 @@ public class PrLog<RS> implements IPrc {
           } else {
             pRvs.put("errMsg", "buyCrRul");
           }
-        } else if (pwd != null && eml != null) {
-          //login from new browser
+        } else if (pwd != null && eml != null) { //login from new browser
           vs.put("BuyerdpLv", 1);
           List<Buyer> brs = getOrm().retLstCnd(pRvs, vs, Buyer.class,
             "where PWD='" + pwd + "' and EML='" + eml + "'"); vs.clear();
@@ -175,8 +175,7 @@ public class PrLog<RS> implements IPrc {
         if (now - buyer.getLsTm() < 1800000L && buyer.getBuSeId() != null) {
           //there is opened session:
           String buSeId = pRqDt.getCookVl("buSeId");
-          if (buyer.getBuSeId().equals(buSeId)) {
-            //authorized requests:
+          if (buyer.getBuSeId().equals(buSeId)) { //authorized requests:
             String zip = pRqDt.getParam("zip");
             String addr1 = pRqDt.getParam("addr1");
             if (nme != null && zip != null  && addr1 != null) {
@@ -201,8 +200,7 @@ public class PrLog<RS> implements IPrc {
               } else {
                 pRvs.put("errMsg", "buyEmRul");
               }
-            } else if (pwd != null && pwdc != null) {
-              //change password:
+            } else if (pwd != null && pwdc != null) { //change password:
               if (pwd.length() > 7 && pwd.equals(pwdc)) {
                 buyer.setPwd(pwd);
                 buyer.setLsTm(now);
@@ -212,23 +210,21 @@ public class PrLog<RS> implements IPrc {
               } else {
                 pRvs.put("errMsg", "buyPwdRul");
               }
-            } else {
-              //logout action:
+            } else { //logout action:
               buyer.setLsTm(0L);
               this.orm.update(pRvs, vs, buyer);
             }
           } else { //either spam or buyr login from other browser without logout
             spam(pRvs, pRqDt);
           }
-        } else {
-          //unauthorized requests:
-          if (pwd != null) {
-            //login action:
+        } else { //unauthorized requests:
+          if (pwd != null) { //login action:
             if (pwd.equals(buyer.getPwd())) {
               buyer.setLsTm(now);
               UUID buseid = UUID.randomUUID();
-              buyer.setBuSeId(buseid.toString());
-              pRqDt.setCookVl("buSeId", buyer.getBuSeId());
+              String buSeIdSt = buseid.toString().replace("-", "");
+              buyer.setBuSeId(buSeIdSt);
+              pRqDt.setCookVl("buSeId", buSeIdSt);
               this.orm.update(pRvs, vs, buyer);
             } else {
               pRvs.put("errMsg", "wrong_password");
@@ -288,9 +284,10 @@ public class PrLog<RS> implements IPrc {
     }
     pBuyr.setLsTm(now);
     UUID buseid = UUID.randomUUID();
-    pBuyr.setBuSeId(buseid.toString());
+    String buSeIdSt = buseid.toString().replace("-", "");
+    pBuyr.setBuSeId(buSeIdSt);
     this.orm.update(pRvs, vs, pBuyr);
-    pRqDt.setCookVl("buSeId", pBuyr.getBuSeId());
+    pRqDt.setCookVl("buSeId", buSeIdSt);
     pRqDt.setCookVl("cBuyerId", pBuyr.getIid().toString());
     pRvs.put("buyr", pBuyr);
     Cart oldCrt = new Cart();

@@ -147,7 +147,7 @@ public class ItmPg<RS> implements IPrc {
             List<CurrRt> currRts = (List<CurrRt>) pRvs.get("currRts");
             for (CurrRt cr: currRts) {
               if (cr.getCurr().getIid().equals(cart.getCurr().getIid())) {
-                cart.setRate(cr.getRate());
+                cart.setExRt(cr.getExRt());
                 break;
               }
             }

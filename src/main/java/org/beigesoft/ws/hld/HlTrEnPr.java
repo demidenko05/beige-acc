@@ -30,16 +30,19 @@ package org.beigesoft.ws.hld;
 
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.hld.IHlNmClSt;
+import org.beigesoft.prc.PrcEntRt;
 import org.beigesoft.ws.mdlb.AItmSpf;
 import org.beigesoft.ws.mdlp.AddStg;
 import org.beigesoft.ws.mdlp.TrdStg;
 import org.beigesoft.ws.mdlp.SeSel;
+import org.beigesoft.ws.mdlp.CuOr;
 import org.beigesoft.ws.prc.ItmSpSv;
 import org.beigesoft.ws.prc.ItmSpDl;
 import org.beigesoft.ws.prc.AdStgSv;
 import org.beigesoft.ws.prc.AdStgRt;
 import org.beigesoft.ws.prc.TrStgSv;
 import org.beigesoft.ws.prc.TrStgRt;
+import org.beigesoft.ws.prc.CuOrSv;
 import org.beigesoft.ws.prc.SeSelSv;
 import org.beigesoft.ws.prc.SeSelDl;
 
@@ -61,18 +64,25 @@ public class HlTrEnPr implements IHlNmClSt {
   @Override
   public final <T extends IHasId<?>> String get(final Class<T> pCls,
     final String pAct) throws Exception {
-    if (AItmSpf.class.isAssignableFrom(pCls)) {
+    if (CuOr.class == pCls) {
       if ("entSv".equals(pAct)) {
-        return ItmSpSv.class.getSimpleName();
-      } else if ("entDl".equals(pAct)) {
-        return ItmSpDl.class.getSimpleName();
+        return CuOrSv.class.getSimpleName();
+      } else if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
+        return PrcEntRt.class.getSimpleName();
       }
-      return null; //default
-    } else if (SeSel.class.isAssignableFrom(pCls)) {
+      return NULL; //forbidden
+    } else if (SeSel.class == pCls) {
       if ("entSv".equals(pAct)) {
         return SeSelSv.class.getSimpleName();
       } else if ("entDl".equals(pAct)) {
         return SeSelDl.class.getSimpleName();
+      }
+      return null; //default
+    } else if (AItmSpf.class.isAssignableFrom(pCls)) {
+      if ("entSv".equals(pAct)) {
+        return ItmSpSv.class.getSimpleName();
+      } else if ("entDl".equals(pAct)) {
+        return ItmSpDl.class.getSimpleName();
       }
       return null; //default
     } else if (AddStg.class == pCls) {

@@ -238,6 +238,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     Set<Integer> rdre = new HashSet<Integer>();
     rdre.add(ID_SESEL);
     this.iniBdFct.lazAdmEnts().getShrEnts().add(new EntShr(PicPlc.class, rdre));
+    this.iniBdFct.lazAdmEnts().getShrEnts().add(new EntShr(ChoSp.class, rdre));
     this.iniBdFct.lazAdmEnts().getShrEnts().add(new EntShr(ItmSp.class, rdre));
     this.iniBdFct.lazAdmEnts().getShrEnts().add(new EntShr(PriCt.class, rdre));
     makeUvdCls(pRvs, pFct);
@@ -447,6 +448,14 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getNulClss().add(EnrSrc.class);
     hlClSt.getNulClss().add(DriEnrSr.class);
     hlClSt.getNulClss().add(EmpWg.class);
+    hlClSt.getNulClss().add(CuOr.class);
+    hlClSt.getNulClss().add(CuOrSe.class);
+    hlClSt.getNulClss().add(CuOrTxLn.class);
+    hlClSt.getNulClss().add(CuOrSeTxLn.class);
+    hlClSt.getNulClss().add(CuOrSrLn.class);
+    hlClSt.getNulClss().add(CuOrSeSrLn.class);
+    hlClSt.getNulClss().add(CuOrGdLn.class);
+    hlClSt.getNulClss().add(CuOrSeGdLn.class);
     stgNm = "liAc"; //list item actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
     hlClSt.getStgClss().put(Acnt.class, "acac");
@@ -472,7 +481,15 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(SeSrvSpf.class, "speAc");
     hlClSt.getStgClss().put(ItmSpf.class, "speAc");
     hlClSt.getStgClss().put(SrvSpf.class, "speAc");
+    hlClSt.getStgClss().put(CuOr.class, "acCuOr");
+    hlClSt.getStgClss().put(CuOrSe.class, "acCuOr");
     hlClSt.getStgClss().put(EmpWg.class, null);
+    hlClSt.getStgClss().put(CuOrTxLn.class, null);
+    hlClSt.getStgClss().put(CuOrSeTxLn.class, null);
+    hlClSt.getStgClss().put(CuOrSrLn.class, null);
+    hlClSt.getStgClss().put(CuOrSeSrLn.class, null);
+    hlClSt.getStgClss().put(CuOrGdLn.class, null);
+    hlClSt.getStgClss().put(CuOrSeGdLn.class, null);
     hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "fmAc"; //form actions
     hlClSt = pFct.getFctBlc().getFctDt().getHlClStgMp().get(stgNm);
@@ -484,6 +501,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlClSt.getStgClss().put(SeSrvSpf.class, "speAc");
     hlClSt.getStgClss().put(ItmSpf.class, "speAc");
     hlClSt.getStgClss().put(SrvSpf.class, "speAc");
+    hlClSt.getStgClss().put(CuOr.class, "acCfl");
+    hlClSt.getStgClss().put(CuOrSe.class, "acCfl");
     hlClSt.getStgSclss().put(IInvb.class, "adcl");
     hlClSt.getStgSclss().put(IDoci.class, "adoc");
     stgNm = "prn"; //print

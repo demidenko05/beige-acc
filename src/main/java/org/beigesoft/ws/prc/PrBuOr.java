@@ -36,6 +36,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.mdl.CmnPrf;
 import org.beigesoft.mdl.Page;
+import org.beigesoft.hld.UvdVar;
 import org.beigesoft.log.ILog;
 import org.beigesoft.prc.IPrc;
 import org.beigesoft.prc.PrcEntRt;
@@ -115,6 +116,8 @@ public class PrBuOr<RS> implements IPrc {
         Map<String, Object> vs = new HashMap<String, Object>();
         String orIdSt = pRqDt.getParam("orId");
         String sorIdSt = pRqDt.getParam("sorId");
+        UvdVar uvs = new UvdVar();
+        pRvs.put("uvs", uvs);
         if (orIdSt != null || sorIdSt != null) { //print:
          if (orIdSt != null) { //order
             Long orId = Long.valueOf(orIdSt);

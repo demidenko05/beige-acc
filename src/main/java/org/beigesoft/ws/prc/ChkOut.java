@@ -755,7 +755,7 @@ public class ChkOut<RS> implements IPrc {
       //cuOr.setPlace(pItPl.getPipl());
       cuOr.setPur(pCartLn.getOwnr().getVer());
       cuOr.setCurr(pCartLn.getOwnr().getCurr());
-      cuOr.setRate(pCartLn.getOwnr().getRate());
+      cuOr.setExRt(pCartLn.getOwnr().getExRt());
       cuOr.setDscr(pCartLn.getOwnr().getDscr());
     }
     Map<String, Object> vs = new HashMap<String, Object>();
@@ -917,7 +917,7 @@ public class ChkOut<RS> implements IPrc {
       //cuOr.setPlace(pItPl.getPipl());
       cuOr.setPur(pCartLn.getOwnr().getVer());
       cuOr.setCurr(pCartLn.getOwnr().getCurr());
-      cuOr.setRate(pCartLn.getOwnr().getRate());
+      cuOr.setExRt(pCartLn.getOwnr().getExRt());
       cuOr.setDscr(pCartLn.getOwnr().getDscr());
     }
     Map<String, Object> vs = new HashMap<String, Object>();

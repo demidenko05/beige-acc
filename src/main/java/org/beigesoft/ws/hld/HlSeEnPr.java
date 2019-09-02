@@ -40,9 +40,11 @@ import org.beigesoft.prc.PrcEnoCr;
 import org.beigesoft.ws.mdlb.IHsSeSel;
 import org.beigesoft.ws.mdlp.SitTxDl;
 import org.beigesoft.ws.mdlp.SerTxDl;
+import org.beigesoft.ws.mdlp.CuOrSe;
 import org.beigesoft.ws.prc.HsSeSelSv;
 import org.beigesoft.ws.prc.HsSeSelDl;
 import org.beigesoft.ws.prc.HsSeSelRt;
+import org.beigesoft.ws.prc.CuOrSeSv;
 
 /**
  * <p>Holder of names of S.E. seller entities processors.</p>
@@ -68,6 +70,13 @@ public class HlSeEnPr implements IHlNmClSt {
   public final <T extends IHasId<?>> String get(final Class<T> pCls,
     final String pAct) throws Exception {
     if (this.shrEnts != null && this.shrEnts.contains(pCls)) {
+      return null; //forbidden
+    } else if (CuOrSe.class == pCls) {
+      if ("entSv".equals(pAct)) {
+        return CuOrSeSv.class.getSimpleName();
+      } else if ("entEd".equals(pAct) || "entPr".equals(pAct)) {
+        return PrcEntRt.class.getSimpleName();
+      }
       return null; //forbidden
     } else if (IHsSeSel.class.isAssignableFrom(pCls)) {
       if ("entSv".equals(pAct)) {
