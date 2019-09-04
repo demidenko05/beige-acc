@@ -48,8 +48,10 @@ import org.beigesoft.acc.rpl.AccImp;
 import org.beigesoft.acc.rpl.AccExp;
 import org.beigesoft.acc.rpl.FcRpEnSy;
 import org.beigesoft.acc.rpl.FctFltEnt;
+import org.beigesoft.ws.fct.FcPrWs;
 import org.beigesoft.ws.prc.RefrLst;
 import org.beigesoft.ws.prc.RefrCat;
+import org.beigesoft.ws.prc.WsPg;
 
 /**
  * <p>Additional factory to FctPrcNtrAd of processors for admin,
@@ -108,6 +110,12 @@ public class FcPrNtAd<RS> implements IFctPrc {
    */
   private RefrCat crPuRefrCat(final Map<String, Object> pRvs) throws Exception {
     RefrCat rz = new RefrCat();
+    @SuppressWarnings("unchecked")
+    FcPrWs<RS> fctPrWs = (FcPrWs<RS>) this.fctBlc
+      .laz(pRvs, FcPrWs.class.getSimpleName());
+    @SuppressWarnings("unchecked")
+    WsPg<RS> wsPg = (WsPg<RS>) fctPrWs.laz(pRvs, WsPg.class.getSimpleName());
+    rz.getLstns().add(wsPg);
     this.procs.put(RefrCat.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       RefrCat.class.getSimpleName() + " has been created");

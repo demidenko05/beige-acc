@@ -56,7 +56,7 @@ public abstract class AItmPri<T extends IIdLnNm, ID extends AItmPriId<T>>
    * used method "Price down",
    * i.e. previousPrice = 60 against itsPrice = 45, nullable.</p>
    **/
-  private BigDecimal priPr;
+  private BigDecimal priPr = BigDecimal.ZERO;
 
   /**
    * <p>Unit Of Measure, optional, e.g. per night or per hour,

@@ -8,6 +8,8 @@ See LICENSE in base folder
 <properties>
 <comment>Beigesoft EIS DBCP configuration</comment>
 <entry key="clss">org.beigesoft.mdlp.DbInf,
+  org.beigesoft.mdlp.UsTmc,
+  org.beigesoft.mdlp.UsRlTmc,
   org.beigesoft.mdlp.Lng,
   org.beigesoft.mdlp.Cntr,
   org.beigesoft.mdlp.DcSp,
@@ -43,6 +45,7 @@ See LICENSE in base folder
   org.beigesoft.acc.mdlp.SrvCt,
   org.beigesoft.acc.mdlp.Srv,
   org.beigesoft.acc.mdlp.SrTxDl,
+  org.beigesoft.acc.mdlp.Blnc,
   org.beigesoft.acc.mdlp.Curr,
   org.beigesoft.acc.mdlp.AcStg,
   org.beigesoft.acc.mdlp.EnrSrc,
@@ -138,6 +141,7 @@ See LICENSE in base folder
   org.beigesoft.ws.mdlp.I18ItmSp,
   org.beigesoft.ws.mdlp.I18ItmSpGr,
   org.beigesoft.ws.mdlp.I18Trd,
+  org.beigesoft.ws.mdlp.I18SpeLi,
   org.beigesoft.ws.mdlp.SeSel,
   org.beigesoft.ws.mdlp.SeSrv,
   org.beigesoft.ws.mdlp.SerTxDl,
@@ -154,6 +158,15 @@ See LICENSE in base folder
   org.beigesoft.ws.mdlp.SeItmCtl,
   org.beigesoft.ws.mdlp.SeSrvCtl,
   org.beigesoft.ws.mdlp.Deliv,
+  org.beigesoft.ws.mdlp.PayMd,
+  org.beigesoft.ws.mdlp.SePayMd,
+  org.beigesoft.ws.mdlp.Cart,
+  org.beigesoft.ws.mdlp.CartLn,
+  org.beigesoft.ws.mdlp.CartTxLn,
+  org.beigesoft.ws.mdlp.CartItTxLn,
+  org.beigesoft.ws.mdlp.CartTot,
+  org.beigesoft.ws.mdlp.SerBus,
+  org.beigesoft.ws.mdlp.SeSerBus,
   org.beigesoft.ws.mdlp.CuOr,
   org.beigesoft.ws.mdlp.CuOrGdLn,
   org.beigesoft.ws.mdlp.CuOrGdTxLn,
@@ -166,7 +179,8 @@ See LICENSE in base folder
   org.beigesoft.ws.mdlp.CuOrSeSrLn,
   org.beigesoft.ws.mdlp.CuOrSeSrTxLn,
   org.beigesoft.ws.mdlp.CuOrSeTxLn,
-  org.beigesoft.ws.mdlp.TrdStg</entry>
+  org.beigesoft.ws.mdlp.TrdStg,
+  org.beigesoft.ws.mdlp.Itlist</entry>
 <entry key="stgClsNms">exlFlds,idFlds</entry>
 <entry key="stgFldNms"></entry>
 <entry key="exlFlds">isNew</entry>

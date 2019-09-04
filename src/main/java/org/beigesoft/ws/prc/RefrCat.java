@@ -61,6 +61,7 @@ public class RefrCat implements IPrc {
     for (ILsCatlChg lstn : this.lstns) {
       lstn.hndCatlChg();
     }
+      pRqd.setAttr("rnd", "rfcat");
   }
 
   //Simple getters and setters:

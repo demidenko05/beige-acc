@@ -408,7 +408,7 @@ public class BnStLnSv implements IPrcEnt<BnStLn, Long> {
     corAcc = new Acnt();
     corAcc.setIid(corAccStr);
     getOrm().refrEnt(pRvs, pVs, corAcc);
-    if (corAcc == null) {
+    if (corAcc.getIid() == null) {
       throw new Exception("cant_find_account");
     }
     if (corAcc.getSaTy() != null) {

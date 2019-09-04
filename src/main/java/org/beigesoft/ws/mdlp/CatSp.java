@@ -28,8 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.mdlp;
 
-import org.beigesoft.mdl.IOwned;
-import org.beigesoft.mdlp.AIdLnNm;
+import org.beigesoft.mdl.IOwneda;
+import org.beigesoft.mdlp.AIdLna;
 
 /**
  * <p>
@@ -42,7 +42,7 @@ import org.beigesoft.mdlp.AIdLnNm;
  *
  * @author Yury Demidenko
  */
-public class CatSp extends AIdLnNm implements IOwned<CatGs, Long> {
+public class CatSp extends AIdLna implements IOwneda<CatGs> {
 
   /**
    * <p>Catalog.</p>
@@ -61,6 +61,11 @@ public class CatSp extends AIdLnNm implements IOwned<CatGs, Long> {
    * integer (less, greater, from-to value1/2).</p>
    **/
   private Integer fltId;
+
+  /**
+   * <p>Ordering, not null.</p>
+   **/
+  private Integer idx = 1;
 
   /**
    * <p>Getter for ownr.</p>
@@ -111,5 +116,21 @@ public class CatSp extends AIdLnNm implements IOwned<CatGs, Long> {
    **/
   public final void setFltId(final Integer pFltId) {
     this.fltId = pFltId;
+  }
+
+  /**
+   * <p>Getter for idx.</p>
+   * @return Integer
+   **/
+  public final Integer getIdx() {
+    return this.idx;
+  }
+
+  /**
+   * <p>Setter for idx.</p>
+   * @param pIdx reference
+   **/
+  public final void setIdx(final Integer pIdx) {
+    this.idx = pIdx;
   }
 }

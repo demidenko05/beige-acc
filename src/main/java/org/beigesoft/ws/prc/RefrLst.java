@@ -147,9 +147,9 @@ public class RefrLst<RS> implements IPrc {
     TrdStg tstg = (TrdStg) pRvs.get("tstg");
     ItlLuv itlLuv = (ItlLuv) pRvs.get("itlLuv");
     pRvs.remove("itlLuv");
-    String refrAll = pRqd.getParam("refrAll");
+    boolean refrAll = "true".equals(pRqd.getParam("refrAll"));
     List<ItmSpf> itmSpecLst;
-    if ("true".equals(refrAll)) {
+    if (refrAll) {
       itmSpecLst = retItmSpfLs(pRvs, null, ItmSpf.class);
     } else {
       itmSpecLst = retItmSpfLs(pRvs, itlLuv.getGdSpv(), ItmSpf.class);
@@ -159,7 +159,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdGdSp", itmSpecLst.size());
     itmSpecLst = null;
     List<PriItm> itmPriLst;
-    if (refrAll != null) {
+    if (refrAll) {
       itmPriLst = retItmPriLs(pRvs, null, PriItm.class, defPc.getIid());
     } else {
       itmPriLst = retItmPriLs(pRvs, itlLuv.getGdPrv(), PriItm.class,
@@ -169,7 +169,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdGdPr", itmPriLst.size());
     itmPriLst = null;
     List<ItmPlc> itmPlaceLst;
-    if (refrAll != null) {
+    if (refrAll) {
       itmPlaceLst = retItmPlcLst(pRvs, null, ItmPlc.class);
     } else {
       itmPlaceLst = retItmPlcLst(pRvs, itlLuv.getGdPlv(), ItmPlc.class);
@@ -178,7 +178,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdGdAv", itmPlaceLst.size());
     itmPlaceLst = null;
     List<SrvSpf> srvSpecLst;
-    if (refrAll != null) {
+    if (refrAll) {
       srvSpecLst = retItmSpfLs(pRvs, null, SrvSpf.class);
     } else {
       srvSpecLst = retItmSpfLs(pRvs, itlLuv.getSrSpv(), SrvSpf.class);
@@ -188,7 +188,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdServSp", srvSpecLst.size());
     srvSpecLst = null;
     List<PriSrv> srvPriLst;
-    if (refrAll != null) {
+    if (refrAll) {
       srvPriLst = retItmPriLs(pRvs, null, PriSrv.class, defPc.getIid());
     } else {
       srvPriLst = retItmPriLs(pRvs, itlLuv.getSrPrv(), PriSrv.class,
@@ -198,7 +198,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdServPr", srvPriLst.size());
     srvPriLst = null;
     List<SrvPlc> srvPlaceLst;
-    if (refrAll != null) {
+    if (refrAll) {
       srvPlaceLst = retItmPlcLst(pRvs, null, SrvPlc.class);
     } else {
       srvPlaceLst = retItmPlcLst(pRvs, itlLuv.getSrPlv(), SrvPlc.class);
@@ -207,7 +207,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdServAv", srvPlaceLst.size());
     srvPlaceLst = null;
     List<SeItmSpf> seGoodSpecLst;
-    if (refrAll != null) {
+    if (refrAll) {
       seGoodSpecLst = retItmSpfLs(pRvs, null, SeItmSpf.class);
     } else {
       seGoodSpecLst = retItmSpfLs(pRvs, itlLuv.getSgdSpv(), SeItmSpf.class);
@@ -217,7 +217,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdSeGoodSp", seGoodSpecLst.size());
     seGoodSpecLst = null;
     List<SeItmPri> seGoodPriLst;
-    if (refrAll != null) {
+    if (refrAll) {
       seGoodPriLst = retItmPriLs(pRvs, null, SeItmPri.class,
         defPc.getIid());
     } else {
@@ -228,7 +228,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdSeGoodPr", seGoodPriLst.size());
     seGoodPriLst = null;
     List<SeItmPlc> seGoodPlaceLst;
-    if (refrAll != null) {
+    if (refrAll) {
       seGoodPlaceLst = retItmPlcLst(pRvs, null, SeItmPlc.class);
     } else {
       seGoodPlaceLst = retItmPlcLst(pRvs, itlLuv.getSgdPlv(), SeItmPlc.class);
@@ -237,7 +237,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdSeGoodAv", seGoodPlaceLst.size());
     seGoodPlaceLst = null;
     List<SeSrvSpf> seSrvSpfLst;
-    if (refrAll != null) {
+    if (refrAll) {
       seSrvSpfLst = retItmSpfLs(pRvs, null, SeSrvSpf.class);
     } else {
       seSrvSpfLst = retItmSpfLs(pRvs, itlLuv.getSsrSpv(), SeSrvSpf.class);
@@ -247,7 +247,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdSeSrvSp", seSrvSpfLst.size());
     seSrvSpfLst = null;
     List<SeSrvPri> sePriSrvLst;
-    if (refrAll != null) {
+    if (refrAll) {
       sePriSrvLst = retItmPriLs(pRvs, null, SeSrvPri.class,
         defPc.getIid());
     } else {
@@ -258,7 +258,7 @@ public class RefrLst<RS> implements IPrc {
     pRvs.put("totUpdSeSrvPr", sePriSrvLst.size());
     sePriSrvLst = null;
     List<SeSrvPlc> seSrvPlcLst;
-    if (refrAll != null) {
+    if (refrAll) {
       seSrvPlcLst = retItmPlcLst(pRvs, null, SeSrvPlc.class);
     } else {
       seSrvPlcLst = retItmPlcLst(pRvs, itlLuv.getSsrPlv(), SeSrvPlc.class);
@@ -266,6 +266,7 @@ public class RefrLst<RS> implements IPrc {
     updFoItmPlcLs(pRvs, seSrvPlcLst, tastg, itlLuv, EItmTy.SESERVICE);
     pRvs.put("totUpdSeSrvAv", seSrvPlcLst.size());
     seSrvPlcLst = null;
+    pRqd.setAttr("rnd", "rflst");
   }
 
   /**
@@ -579,7 +580,6 @@ public class RefrLst<RS> implements IPrc {
       this.rdb.setTrIsl(this.trIsl);
       this.rdb.begin();
       vs.put("ItmSpdpLv", 1); //HTML templates only ID
-      //vs.put("HtmltdpLv", 0); //HTML templates only ID
       vs.put("ItmndFds", new String[] {"nme"});
       String[] soiFldNms = new String[] {"nme", "inLst", "typ", "grp", "htmt"};
       Arrays.sort(soiFldNms);
@@ -724,58 +724,61 @@ public class RefrLst<RS> implements IPrc {
     }
     if (pI18SpeLis != null) {
       for (I18SpeLi i18spl : pI18SpeLis) {
-        for (UsPrf lp : usPrfs) {
-          if (lp.getLng().getIid().equals(i18spl.getLng().getIid())) {
-            curLp = lp;
-            break;
+        if (i18spl.getItId().equals(pItlist.getItId())
+          && i18spl.getTyp().equals(pItlist.getTyp())) {
+          for (UsPrf lp : usPrfs) {
+            if (lp.getLng().getIid().equals(i18spl.getLng().getIid())) {
+              curLp = lp;
+              break;
+            }
           }
-        }
-        String dcSpv;
-        String dcGrSpv;
-        if (curLp.getDcSp().getIid().equals(DcSp.SPACEID)) {
-          dcSpv = DcSp.SPACEVL;
-        } else if (curLp.getDcSp().getIid().equals(DcSp.EMPTYID)) {
-          dcSpv = DcSp.EMPTYVL;
-        } else {
-          dcSpv = curLp.getDcSp().getIid();
-        }
-        if (curLp.getDcGrSp().getIid().equals(DcSp.SPACEID)) {
-          dcGrSpv = DcSp.SPACEVL;
-        } else if (curLp.getDcGrSp().getIid().equals(DcSp.EMPTYID)) {
-          dcGrSpv = DcSp.EMPTYVL;
-        } else {
-          dcGrSpv = curLp.getDcGrSp().getIid();
-        }
-        if (pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.BIGDECIMAL)) {
-          val1 = numStr.frmt(pOutdGdSp.getNum1().toString(), dcSpv, dcGrSpv,
-            Integer.valueOf(pOutdGdSp.getLng1().intValue()), curLp.getDgInGr());
-        }
-        if (pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.BIGDECIMAL)
-          || pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.INTEGER)
-            && pOutdGdSp.getLng2() != null) {
-          Uom uom = new Uom();
-          uom.setNme(pOutdGdSp.getStr1());
-          uom.setIid(pOutdGdSp.getLng2());
-          val2 = fndUomNm(pI18UomLst, uom, i18spl.getLng());
-        } else if (pOutdGdSp.getSpec().getTyp()
-          .equals(EItmSpTy.CHOOSEABLE_SPECIFICS)) {
-          ChoSp sp = new ChoSp();
-          sp.setNme(pOutdGdSp.getStr1());
-          sp.setIid(pOutdGdSp.getLng1());
-          val1 =  fndChoSpNm(pI18ChSpecLst, sp, i18spl.getLng());
-        }
-        spdet = tmpld.replace(":SPECNM", fndSpecNm(pI18SpecLst,
-          pOutdGdSp.getSpec(), i18spl.getLng()));
-        spdet = spdet.replace(":VAL1", val1);
-        if (val2 == null) { //UOM optional
-          val2 = "";
-        }
-        spdet = spdet.replace(":VAL2", val2);
-        if (pOutdGdSp.getSpec().getGrp() != null && pItmSpGrsWas != null
-      && pOutdGdSp.getSpec().getGrp().getIid().equals(pItmSpGrsWas.getIid())) {
-          i18spl.setVal(i18spl.getVal() + pAddStg.getSpeSp() + spdet);
-        } else {
-          i18spl.setVal(i18spl.getVal() + spdet);
+          String dcSpv;
+          String dcGrSpv;
+          if (curLp.getDcSp().getIid().equals(DcSp.SPACEID)) {
+            dcSpv = DcSp.SPACEVL;
+          } else if (curLp.getDcSp().getIid().equals(DcSp.EMPTYID)) {
+            dcSpv = DcSp.EMPTYVL;
+          } else {
+            dcSpv = curLp.getDcSp().getIid();
+          }
+          if (curLp.getDcGrSp().getIid().equals(DcSp.SPACEID)) {
+            dcGrSpv = DcSp.SPACEVL;
+          } else if (curLp.getDcGrSp().getIid().equals(DcSp.EMPTYID)) {
+            dcGrSpv = DcSp.EMPTYVL;
+          } else {
+            dcGrSpv = curLp.getDcGrSp().getIid();
+          }
+          if (pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.BIGDECIMAL)) {
+            val1 = numStr.frmt(pOutdGdSp.getNum1().toString(), dcSpv, dcGrSpv,
+              Integer.valueOf(pOutdGdSp.getLng1().intValue()), curLp.getDgInGr());
+          }
+          if (pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.BIGDECIMAL)
+            || pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.INTEGER)
+              && pOutdGdSp.getLng2() != null) {
+            Uom uom = new Uom();
+            uom.setNme(pOutdGdSp.getStr1());
+            uom.setIid(pOutdGdSp.getLng2());
+            val2 = fndUomNm(pI18UomLst, uom, i18spl.getLng());
+          } else if (pOutdGdSp.getSpec().getTyp()
+            .equals(EItmSpTy.CHOOSEABLE_SPECIFICS)) {
+            ChoSp sp = new ChoSp();
+            sp.setNme(pOutdGdSp.getStr1());
+            sp.setIid(pOutdGdSp.getLng1());
+            val1 =  fndChoSpNm(pI18ChSpecLst, sp, i18spl.getLng());
+          }
+          spdet = tmpld.replace(":SPECNM", fndSpecNm(pI18SpecLst,
+            pOutdGdSp.getSpec(), i18spl.getLng()));
+          spdet = spdet.replace(":VAL1", val1);
+          if (val2 == null) { //UOM optional
+            val2 = "";
+          }
+          spdet = spdet.replace(":VAL2", val2);
+          if (pOutdGdSp.getSpec().getGrp() != null && pItmSpGrsWas != null
+        && pOutdGdSp.getSpec().getGrp().getIid().equals(pItmSpGrsWas.getIid())) {
+            i18spl.setVal(i18spl.getVal() + pAddStg.getSpeSp() + spdet);
+          } else {
+            i18spl.setVal(i18spl.getVal() + spdet);
+          }
         }
       }
     }
@@ -920,6 +923,15 @@ public class RefrLst<RS> implements IPrc {
     } finally {
       this.rdb.release();
     }
+    if (i18SpeLis != null) {
+      for (I18SpeLi i18spInLs : i18SpeLis) {
+        if (pAddStg.getShtms() !=  null) {
+          i18spInLs.setVal(pAddStg.getShtms());
+        } else {
+          i18spInLs.setVal("");
+        }
+      }
+    }
     if (htmlts != null && htmlts.size() > 0) {
       for (AItmSpf<?, ?> gs : pOudItSpfs) {
         if (gs.getSpec().getHtmt() != null) {
@@ -976,6 +988,11 @@ public class RefrLst<RS> implements IPrc {
                   i18spInLs.setItId(itm.getIid());
                   i18spInLs.setLng(i18Item.getLng());
                   i18SpeLis.add(i18spInLs);
+                  if (pAddStg.getShtms() !=  null) {
+                    i18spInLs.setVal(pAddStg.getShtms());
+                  } else {
+                    i18spInLs.setVal("");
+                  }
                 }
                 i18spInLs.setNme(i18Item.getNme());
               }
@@ -983,18 +1000,8 @@ public class RefrLst<RS> implements IPrc {
           }
           if (pAddStg.getShtms() !=  null) {
             itlst.setSpecs(pAddStg.getShtms());
-            if (i18SpeLis != null) {
-              for (I18SpeLi i18spInLs : i18SpeLis) {
-                i18spInLs.setVal(pAddStg.getShtms());
-              }
-            }
           } else {
             itlst.setSpecs("");
-            if (i18SpeLis != null) {
-              for (I18SpeLi i18spInLs : i18SpeLis) {
-                i18spInLs.setVal("");
-              }
-            }
           }
           boolean wasGrStart = false;
           do {

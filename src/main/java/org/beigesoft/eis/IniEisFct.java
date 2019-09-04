@@ -560,6 +560,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("knCs", "ord");
     hlFdSt.getStgFdNm().put("tot", "ord");
+    hlFdSt.getStgFdNm().put("itm", "ord");
+    hlFdSt.getStgFdNm().put("spec", "ord");
     stgNm = "flt"; //filter
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.getStgFdNm().put("knCs", "pri");
@@ -568,6 +570,8 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     hlFdSt.getStgFdNm().put("dbcr", "ent");
     hlFdSt.getStgFdNm().put("acc", "ent");
     hlFdSt.getStgFdNm().put("lng", "ent");
+    hlFdSt.getStgFdNm().put("itm", "ent");
+    hlFdSt.getStgFdNm().put("spec", "ent");
     stgNm = "flth"; //filter hidden
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.setStgFdNm(new HashMap<String, String>());

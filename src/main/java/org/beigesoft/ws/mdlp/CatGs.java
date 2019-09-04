@@ -93,7 +93,7 @@ public class CatGs extends AIdLnNm {
    * instead of regular(usual/default) filter
    * integer (less, greater, from-to value1/2).</p>
    **/
-  private Integer flPrId;
+  private Integer flPrId = 0;
 
   /**
    * <p>Contains of goods.</p>

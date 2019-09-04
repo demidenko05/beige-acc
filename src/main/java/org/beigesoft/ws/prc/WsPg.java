@@ -339,28 +339,28 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
             if (whereSpec != null) {
               if (queryg != null) {
                 String querySpec = lazyGetQuItSpFlt()
-      .replace(":TITSPEC", "ITMSPEC").replace(":WHESPITFLR", whereSpec
+      .replace(":TITSPEC", "ITMSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
                 queryg += querySpec;
                 querygRc += querySpec;
               }
               if (querys != null) {
                 String querySpec = lazyGetQuItSpFlt()
-      .replace(":TITSPEC", "SRVSPEC").replace(":WHESPITFLR", whereSpec
+      .replace(":TITSPEC", "SRVSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
                 querys += querySpec;
                 querysRc += querySpec;
               }
               if (queryseg != null) {
                 String querySpec = lazyGetQuItSpFlt()
-      .replace(":TITSPEC", "SEITMSPEC").replace(":WHESPITFLR", whereSpec
+      .replace(":TITSPEC", "SEITMSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
                 queryseg += querySpec;
                 querysegRc += querySpec;
               }
               if (queryses != null) {
                 String querySpec = lazyGetQuItSpFlt()
-      .replace(":TITSPEC", "SESRVSPEC").replace(":WHESPITFLR", whereSpec
+      .replace(":TITSPEC", "SESRVSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
                 queryses += querySpec;
                 querysesRc += querySpec;
@@ -579,7 +579,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
           vs.put("CatGsdpLv", 0); //only ID
           for (CatGs cat : catlsGs) {
             cat.setUsedSpecs(getOrm().retLstCnd(pRvs, vs, CatSp.class,
-              "where OWNR=" + cat.getIid()));
+              "where OWNR=" + cat.getIid() + " order by IDX"));
           }
           vs.clear();
           //only ID:
@@ -645,7 +645,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
         || tc.getCatl().getFlSub() || tc.getCatl().getFlPi()) {
         if (tc.getCatl().getFlSpe()) {
           tc.getCatl().setUsedSpecs(getOrm().retLstCnd(pRvs, vs, CatSp.class,
-            "where OWNR=" + tc.getCatl().getIid()));
+            "where OWNR=" + tc.getCatl().getIid() + " order by IDX"));
         }
         prpgCatlStg(tc);
       } else if (tc.getSubcatls().size() > 0) {

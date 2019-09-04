@@ -54,12 +54,12 @@ public class ItmSp extends AIdLnNm {
   /**
    * <p>If used in filter, default false.</p>
    **/
-  private Boolean inFlt;
+  private Boolean inFlt = Boolean.FALSE;
 
   /**
    * <p>If show in list, default false - show only in goods page.</p>
    **/
-  private Boolean inLst;
+  private Boolean inLst = Boolean.FALSE;
 
   /**
    * <p>Index, not null, used for ordering when printing.</p>
@@ -79,7 +79,7 @@ public class ItmSp extends AIdLnNm {
   /**
    * <p>If used for ordering list, default false.</p>
    **/
-  private Boolean foOrd;
+  private Boolean foOrd = Boolean.FALSE;
 
   /**
    * <p>If assigned, e.g. ":SPECNM :SPECVAL",

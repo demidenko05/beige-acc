@@ -365,7 +365,7 @@ public class ItmPg<RS> implements IPrc {
     //HTML templates full
     vs.put("ItmSpdpLv", 3);
     vs.put(pItemSn + "ndFds", new String[] {"nme"});
-    String[] soiFldNms = new String[] {"nme", "inlst", "typ", "grp", "htmt"};
+    String[] soiFldNms = new String[] {"nme", "inLst", "typ", "grp", "htmt"};
     Arrays.sort(soiFldNms);
     vs.put("ItmSpndFds", soiFldNms);
     String[] soigFldNms = new String[] {"nme", "tmpls", "tmple", "tmpld"};
