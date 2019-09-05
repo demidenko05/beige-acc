@@ -88,9 +88,10 @@ public class BuySr implements IBuySr {
       return null;
     }
     String buSeId = pRqDt.getCookVl("buSeId");
-    if (!buyer.getBuSeId().equals(buSeId)) {
+    if (buSeId != null && !buyer.getBuSeId().equals(buSeId)) {
+      //either user used different browsers or invasion
       this.spamHnd.handle(pRvs, pRqDt, 1000,
-        "Buyer. Authorized invasion cBuyerId: " + buyerIdStr);
+        "Buyer. Authorized invasion? cBuyerId: " + buyerIdStr);
       return null;
     }
     long now = new Date().getTime();

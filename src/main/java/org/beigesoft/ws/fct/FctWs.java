@@ -36,6 +36,7 @@ import org.beigesoft.fct.IFcCsvDrt;
 import org.beigesoft.fct.IFctAux;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.hnd.HndEntRq;
+import org.beigesoft.hnd.HndSpam;
 import org.beigesoft.prp.Setng;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.eis.IniEisFct;
@@ -380,6 +381,9 @@ public class FctWs<RS> implements IFctAux<RS> {
     final FctBlc<RS> pFctApp) throws Exception {
     BuySr rz = new BuySr();
     rz.setOrm(pFctApp.lazOrm(pRvs));
+    HndSpam sph = (HndSpam) pFctApp
+      .laz(pRvs, HndSpam.class.getSimpleName());
+    rz.setSpamHnd(sph);
     pFctApp.put(pRvs, IBuySr.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       BuySr.class.getSimpleName() + " has been created");

@@ -575,6 +575,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
     stgNm = "flth"; //filter hidden
     hlFdSt = pFct.getFctBlc().getFctDt().getHlFdStgMp().get(stgNm);
     hlFdSt.setStgFdNm(new HashMap<String, String>());
+    hlFdSt.getStgFdNm().put("choTy", "ent");
     hlFdSt.getStgFdNm().put("inv", "ent");
     hlFdSt.getStgFdNm().put("invl", "ent");
     hlFdSt.getStgFdNm().put("ownr", "ent");

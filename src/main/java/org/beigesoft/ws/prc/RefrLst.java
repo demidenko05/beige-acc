@@ -422,7 +422,7 @@ public class RefrLst<RS> implements IPrc {
       } finally {
         this.rdb.release();
       }
-    } while (curStp++ < steps);
+    } while (curStp++ <= steps);
   }
 
   /**
@@ -548,7 +548,7 @@ public class RefrLst<RS> implements IPrc {
       } finally {
         this.rdb.release();
       }
-    } while (curStp++ < steps);
+    } while (curStp++ <= steps);
   }
 
   /**
@@ -581,12 +581,12 @@ public class RefrLst<RS> implements IPrc {
       this.rdb.begin();
       vs.put("ItmSpdpLv", 1); //HTML templates only ID
       vs.put("ItmndFds", new String[] {"nme"});
-      String[] soiFldNms = new String[] {"nme", "inLst", "typ", "grp", "htmt"};
-      Arrays.sort(soiFldNms);
-      vs.put("ItmSpndFds", soiFldNms);
-      String[] soigFldNms = new String[] {"nme", "tmpls", "tmple", "tmpld"};
-      Arrays.sort(soigFldNms);
-      vs.put("ItmSpGrndFds", soigFldNms);
+      String[] soiFds = new String[] {"nme", "inLst", "typ", "grp", "htmt"};
+      Arrays.sort(soiFds);
+      vs.put("ItmSpndFds", soiFds);
+      String[] soigFds = new String[] {"nme", "tmpls", "tmple", "tmpld"};
+      Arrays.sort(soigFds);
+      vs.put("ItmSpGrndFds", soigFds);
       result = getOrm().retLstCnd(pRvs, vs, pItSpCls, verCond
         + " order by ITM10.IID, SPEC11.IDX asc"); vs.clear();
       this.rdb.commit();
@@ -750,7 +750,7 @@ public class RefrLst<RS> implements IPrc {
           }
           if (pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.BIGDECIMAL)) {
             val1 = numStr.frmt(pOutdGdSp.getNum1().toString(), dcSpv, dcGrSpv,
-              Integer.valueOf(pOutdGdSp.getLng1().intValue()), curLp.getDgInGr());
+           Integer.valueOf(pOutdGdSp.getLng1().intValue()), curLp.getDgInGr());
           }
           if (pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.BIGDECIMAL)
             || pOutdGdSp.getSpec().getTyp().equals(EItmSpTy.INTEGER)
@@ -774,7 +774,7 @@ public class RefrLst<RS> implements IPrc {
           }
           spdet = spdet.replace(":VAL2", val2);
           if (pOutdGdSp.getSpec().getGrp() != null && pItmSpGrsWas != null
-        && pOutdGdSp.getSpec().getGrp().getIid().equals(pItmSpGrsWas.getIid())) {
+      && pOutdGdSp.getSpec().getGrp().getIid().equals(pItmSpGrsWas.getIid())) {
             i18spl.setVal(i18spl.getVal() + pAddStg.getSpeSp() + spdet);
           } else {
             i18spl.setVal(i18spl.getVal() + spdet);
@@ -821,6 +821,7 @@ public class RefrLst<RS> implements IPrc {
     List<I> i18ItemLst = null;
     List<I18SpeLi> i18SpeLis = null;
     List<I18Uom> i18UomLst = null;
+    boolean dbgSh = getLog().getDbgSh(getClass(), 13200);
     try {
       this.rdb.setAcmt(false);
       this.rdb.setTrIsl(this.trIsl);
@@ -836,6 +837,9 @@ public class RefrLst<RS> implements IPrc {
         itmsIdsIn.append(it.getIid().toString());
       }
       itmsIdsIn.append(")");
+      if (dbgSh) {
+        getLog().debug(pRvs, getClass(), "itmsIdsIn: " + itmsIdsIn);
+      }
       itmsInList = getOrm().retLstCnd(pRvs, vs, Itlist.class, "where TYP="
         + pItTy.ordinal() + " and ITID in " + itmsIdsIn.toString());
       if (htmltsIds.size() > 0) {
@@ -954,6 +958,10 @@ public class RefrLst<RS> implements IPrc {
         }
       }
     }
+    for (Itlist itlst : itmsInList) {
+      itlst.setDetMt(null);
+      itlst.setImg(null);
+    }
     int steps = itmsFoSpf.size() / pAddStg.getRcsTr();
     int curStp = 1;
     Long lstVer = null;
@@ -973,8 +981,6 @@ public class RefrLst<RS> implements IPrc {
           ItmSpGr itSpGrWas = null;
           //reset any way:
           itlst.setNme(itm.getNme());
-          itlst.setDetMt(null);
-          itlst.setImg(null);
           //i18:
           if (i18ItemLst != null && i18ItemLst.size() >  0) {
             for (I i18Item : i18ItemLst) {
@@ -995,6 +1001,7 @@ public class RefrLst<RS> implements IPrc {
                   }
                 }
                 i18spInLs.setNme(i18Item.getNme());
+                break;
               }
             }
           }
@@ -1088,7 +1095,10 @@ public class RefrLst<RS> implements IPrc {
             itlst.setSpecs(itlst.getSpecs() + pAddStg.getSghtme());
             if (i18SpeLis != null) {
               for (I18SpeLi i18spInLs : i18SpeLis) {
-                i18spInLs.setVal(i18spInLs.getVal() + pAddStg.getSghtme());
+                if (i18spInLs.getItId().equals(itm.getIid())
+                  && i18spInLs.getTyp().equals(pItTy)) {
+                  i18spInLs.setVal(i18spInLs.getVal() + pAddStg.getSghtme());
+                }
               }
             }
           }
@@ -1096,7 +1106,10 @@ public class RefrLst<RS> implements IPrc {
             itlst.setSpecs(itlst.getSpecs() + pAddStg.getShtme());
             if (i18SpeLis != null) {
               for (I18SpeLi i18spInLs : i18SpeLis) {
-                i18spInLs.setVal(i18spInLs.getVal() + pAddStg.getShtme());
+                if (i18spInLs.getItId().equals(itm.getIid())
+                  && i18spInLs.getTyp().equals(pItTy)) {
+                  i18spInLs.setVal(i18spInLs.getVal() + pAddStg.getShtme());
+                }
               }
             }
           }
@@ -1107,10 +1120,13 @@ public class RefrLst<RS> implements IPrc {
           }
           if (i18SpeLis != null) {
             for (I18SpeLi i18spInLs : i18SpeLis) {
-              if (i18spInLs.getIsNew()) {
-                getOrm().insIdNln(pRvs, vs, i18spInLs);
-              } else {
-                getOrm().update(pRvs, vs, i18spInLs);
+              if (i18spInLs.getItId().equals(itm.getIid())
+                && i18spInLs.getTyp().equals(pItTy)) {
+                if (i18spInLs.getIsNew()) {
+                  getOrm().insIdNln(pRvs, vs, i18spInLs);
+                } else {
+                  getOrm().update(pRvs, vs, i18spInLs);
+                }
               }
             }
           }
@@ -1138,7 +1154,7 @@ public class RefrLst<RS> implements IPrc {
       } finally {
         this.rdb.release();
       }
-    } while (curStp++ < steps);
+    } while (curStp++ <= steps);
   }
 
   /**

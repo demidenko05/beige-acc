@@ -406,7 +406,6 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
               + ") as ALLTOT";
             if (orderBy != null) {
               query += orderBy;
-              queryRc += orderBy;
             }
             queryRc += ";";
             Integer rowCount = this.rdb.evInt(queryRc, "TROWS");
@@ -830,7 +829,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
     Map<String, Object> vs = new HashMap<String, Object>();
     vs.put("ChoSpdpLv", 1);
     return getOrm().retLstCnd(pRvs, vs, ChoSp.class,
-      "where TYP=" + pChoSpTy.getIid());
+      "where CHOTY=" + pChoSpTy.getIid());
   }
 
   /**

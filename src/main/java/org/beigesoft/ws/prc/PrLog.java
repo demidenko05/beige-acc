@@ -290,41 +290,43 @@ public class PrLog<RS> implements IPrc {
     pRqDt.setCookVl("buSeId", buSeIdSt);
     pRqDt.setCookVl("cBuyerId", pBuyr.getIid().toString());
     pRvs.put("buyr", pBuyr);
-    Cart oldCrt = new Cart();
-    oldCrt.setIid(pBuTmp);
-    oldCrt = this.orm.retEnt(pRvs, vs, oldCrt);
-    if (oldCrt != null && oldCrt.getTot().compareTo(BigDecimal.ZERO) == 1) {
-      Long obid = pBuTmp.getIid();
-      ColVals cvs = new ColVals();
-      cvs.setLongs(new HashMap<String, Long>());
-      cvs.getLongs().put("ownr", pBuyr.getIid());
-      this.rdb.update(CartLn.class, cvs, "OWNR=" + obid);
-      this.rdb.update(CartTxLn.class, cvs, "OWNR=" + obid);
-      this.rdb.update(CartTot.class, cvs, "OWNR=" + obid);
-      Cart cart = this.srvCart.getCart(pRvs, pRqDt, true, false);
-      TrdStg ts = (TrdStg) pRvs.get("tstg");
-      AcStg as = (AcStg) pRvs.get("astg");
-      TxDst txRules = this.srvCart.revTxRules(pRvs, cart, as);
-      if (txRules != null) {
-        pRvs.put("txRules", txRules);
-      }
-      cart.setDelv(oldCrt.getDelv());
-      cart.setPaym(oldCrt.getPaym());
-      //redo prices and taxes:
-      CartLn frCl = null;
-      for (CartLn cl : cart.getItems()) {
-        if (!cl.getDisab()) {
-          if (cl.getForc()) {
-            frCl = cl;
-            this.srvCart.delLine(pRvs, cl, txRules);
-          } else {
-            this.srvCart.mkLine(pRvs, cl, as, ts, txRules, true, true);
-            this.srvCart.mkCartTots(pRvs, ts, cl, as, txRules);
+    if (!pBuTmp.getIsNew()) {
+      Cart oldCrt = new Cart();
+      oldCrt.setIid(pBuTmp);
+      oldCrt = this.orm.retEnt(pRvs, vs, oldCrt);
+      if (oldCrt != null && oldCrt.getTot().compareTo(BigDecimal.ZERO) == 1) {
+        Long obid = pBuTmp.getIid();
+        ColVals cvs = new ColVals();
+        cvs.setLongs(new HashMap<String, Long>());
+        cvs.getLongs().put("ownr", pBuyr.getIid());
+        this.rdb.update(CartLn.class, cvs, "OWNR=" + obid);
+        this.rdb.update(CartTxLn.class, cvs, "OWNR=" + obid);
+        this.rdb.update(CartTot.class, cvs, "OWNR=" + obid);
+        Cart cart = this.srvCart.getCart(pRvs, pRqDt, true, false);
+        TrdStg ts = (TrdStg) pRvs.get("tstg");
+        AcStg as = (AcStg) pRvs.get("astg");
+        TxDst txRules = this.srvCart.revTxRules(pRvs, cart, as);
+        if (txRules != null) {
+          pRvs.put("txRules", txRules);
+        }
+        cart.setDelv(oldCrt.getDelv());
+        cart.setPaym(oldCrt.getPaym());
+        //redo prices and taxes:
+        CartLn frCl = null;
+        for (CartLn cl : cart.getItems()) {
+          if (!cl.getDisab()) {
+            if (cl.getForc()) {
+              frCl = cl;
+              this.srvCart.delLine(pRvs, cl, txRules);
+            } else {
+              this.srvCart.mkLine(pRvs, cl, as, ts, txRules, true, true);
+              this.srvCart.mkCartTots(pRvs, ts, cl, as, txRules);
+            }
           }
         }
-      }
-      if (frCl != null) {
-         this.srvCart.hndCartChg(pRvs, cart, txRules);
+        if (frCl != null) {
+           this.srvCart.hndCartChg(pRvs, cart, txRules);
+        }
       }
     }
   }

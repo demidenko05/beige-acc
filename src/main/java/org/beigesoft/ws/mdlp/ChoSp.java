@@ -40,24 +40,24 @@ import org.beigesoft.mdlp.AIdLnNm;
 public class ChoSp extends AIdLnNm {
 
   /**
-   * <p>Its type, e.g. "Operation systems" for "Linux".</p>
+   * <p>Its choTye, e.g. "Operation systems" for "Linux".</p>
    **/
-  private ChoSpTy typ;
+  private ChoSpTy choTy;
 
   //Simple getters and setters:
   /**
-   * <p>Getter for typ.</p>
+   * <p>Getter for choTy.</p>
    * @return ChoSpTy
    **/
-  public final ChoSpTy getTyp() {
-    return this.typ;
+  public final ChoSpTy getChoTy() {
+    return this.choTy;
   }
 
   /**
-   * <p>Setter for typ.</p>
-   * @param pTyp reference
+   * <p>Setter for choTy.</p>
+   * @param pChoTy reference
    **/
-  public final void setTyp(final ChoSpTy pTyp) {
-    this.typ = pTyp;
+  public final void setChoTy(final ChoSpTy pChoTy) {
+    this.choTy = pChoTy;
   }
 }

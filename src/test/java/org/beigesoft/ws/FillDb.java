@@ -113,18 +113,12 @@ public class FillDb {
       "<records count>");
       System.exit(1);
     }
-    final int rc = rct;
-    Thread thread1 = new Thread() {
-      public void run() {
-        try {
-          FillDb fdb = new FillDb();
-          fdb.populate(rc);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    };
-    thread1.start();
+    try {
+      FillDb fdb = new FillDb();
+      fdb.populate(rct);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public void populate(int pRc) throws Exception {
@@ -221,43 +215,43 @@ public class FillDb {
     ChoSp chsFord = new ChoSp();
     chsFord.setIid(1L);
     chsFord.setNme("Ford");
-    chsFord.setTyp(manuf);
+    chsFord.setChoTy(manuf);
     ChoSp chsHonda = new ChoSp();
     chsHonda.setIid(2L);
     chsHonda.setNme("Honda");
-    chsHonda.setTyp(manuf);
+    chsHonda.setChoTy(manuf);
     ChoSp chsRed = new ChoSp();
     chsRed.setIid(3L);
     chsRed.setNme("Red");
-    chsRed.setTyp(color);
+    chsRed.setChoTy(color);
     ChoSp chsWhite = new ChoSp();
     chsWhite.setIid(4L);
     chsWhite.setNme("White");
-    chsWhite.setTyp(color);
+    chsWhite.setChoTy(color);
     ChoSp chsAT = new ChoSp();
     chsAT.setIid(5L);
     chsAT.setNme("AT");
-    chsAT.setTyp(trans);
+    chsAT.setChoTy(trans);
     ChoSp chsMT = new ChoSp();
     chsMT.setIid(6L);
     chsMT.setNme("MT");
-    chsMT.setTyp(trans);
+    chsMT.setChoTy(trans);
     ChoSp chsGasoline = new ChoSp();
     chsGasoline.setIid(7L);
     chsGasoline.setNme("Gasoline");
-    chsGasoline.setTyp(fuel);
+    chsGasoline.setChoTy(fuel);
     ChoSp chsDiesel = new ChoSp();
     chsDiesel.setIid(8L);
     chsDiesel.setNme("Diesel");
-    chsDiesel.setTyp(fuel);
+    chsDiesel.setChoTy(fuel);
     ChoSp chsSedan = new ChoSp();
     chsSedan.setIid(9L);
     chsSedan.setNme("Sedan");
-    chsSedan.setTyp(body);
+    chsSedan.setChoTy(body);
     ChoSp chsWagon = new ChoSp();
     chsWagon.setIid(10L);
     chsWagon.setNme("Wagon");
-    chsWagon.setTyp(body);
+    chsWagon.setChoTy(body);
     I18ChoSp i18chsHonda = new I18ChoSp();
     i18chsHonda.setHasNm(chsHonda);
     i18chsHonda.setLng(ru);
@@ -501,6 +495,14 @@ public class FillDb {
       if (chsFordd == null) {
         orm.insert(this.rvs, vs, chsFord);
       }
+      ChoSp chsSedand = orm.retEnt(this.rvs, vs, chsSedan);
+      if (chsSedand == null) {
+        orm.insert(this.rvs, vs, chsSedan);
+      }
+      I18ChoSp i18chsSedand = orm.retEnt(this.rvs, vs, i18chsSedan);
+      if (i18chsSedand == null) {
+        orm.insert(this.rvs, vs, i18chsSedan);
+      }
       I18ChoSp i18chsWagond = orm.retEnt(this.rvs, vs, i18chsWagon);
       if (i18chsWagond == null) {
         orm.insert(this.rvs, vs, i18chsWagon);
@@ -618,6 +620,7 @@ public class FillDb {
         orm.insert(this.rvs, vs, i18spClr);
       }
       rdb.commit();
+      log.info(this.rvs, getClass(), "Base models OK");
     } catch (Exception ex) {
       ex.printStackTrace();
       if (!rdb.getAcmt()) {
@@ -626,9 +629,11 @@ public class FillDb {
       this.fctApp.release(this.rvs);
       throw new Exception(ex);
     } finally {
+      log.info(this.rvs, getClass(), "Base models, RDB close");
       rdb.release();
     }
     try {
+      log.info(this.rvs, getClass(), "Generating data...");
       rdb.setAcmt(false);
       rdb.setTrIsl(IRdb.TRRUC);
       rdb.begin();
@@ -991,6 +996,7 @@ public class FillDb {
 
       }
       rdb.commit();
+      log.info(this.rvs, getClass(), "Populated records count: " + pRc);
     } catch (Exception ex) {
       ex.printStackTrace();
       if (!rdb.getAcmt()) {
@@ -999,8 +1005,11 @@ public class FillDb {
       this.fctApp.release(this.rvs);
       throw new Exception(ex);
     } finally {
+      log.info(this.rvs, getClass(), "Generating data. Close RDB...");
       rdb.release();
     }
+    log.info(this.rvs, getClass(), "Releasing factory ...");
     this.fctApp.release(this.rvs);
+    log.info(this.rvs, getClass(), "The end");
   }
 }
