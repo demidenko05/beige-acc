@@ -111,7 +111,7 @@ public class SrvCtl extends AItmCtl<Srv, SrvCtlId> {
 
   /**
    * <p>Setter for itm.</p>
-   * @param pSrv reference
+   * @param pItm reference
    **/
   @Override
   public final void setItm(final Srv pItm) {

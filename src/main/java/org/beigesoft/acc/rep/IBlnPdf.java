@@ -47,6 +47,6 @@ public interface IBlnPdf {
    * @param pOus servlet output stream
    * @throws Exception - an exception
    **/
-  void report(final Map<String, Object> pRvs,
+  void report(Map<String, Object> pRvs,
     BlnSht pBalance, OutputStream pOus) throws Exception;
 }

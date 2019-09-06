@@ -97,7 +97,7 @@ public abstract class AItmSpf<T extends IIdLnNm, ID extends AItmSpfId<T>>
    * <p>Setter for specifics.</p>
    * @param pSpecifics reference
    **/
-  public abstract void setSpec(final ItmSp pSpecifics);
+  public abstract void setSpec(ItmSp pSpecifics);
 
   /**
    * <p>Getter for item.</p>
@@ -109,7 +109,7 @@ public abstract class AItmSpf<T extends IIdLnNm, ID extends AItmSpfId<T>>
    * <p>Setter for item.</p>
    * @param pItm reference
    **/
-  public abstract void setItm(final T pItm);
+  public abstract void setItm(T pItm);
 
   //Simple getters and setters:
   /**

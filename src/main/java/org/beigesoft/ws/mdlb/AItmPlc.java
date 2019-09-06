@@ -81,7 +81,7 @@ public abstract class AItmPlc<T extends IIdLnNm, ID extends AItmPlcId<T>>
    * <p>Setter for item.</p>
    * @param pItm reference
    **/
-  public abstract void setItm(final T pItm);
+  public abstract void setItm(T pItm);
 
   //Simple getters and setters:
   /**

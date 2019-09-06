@@ -64,7 +64,7 @@ public abstract class AItm<T extends AItm<?, ?>, L extends ATxDsLn<T>>
    * <p>Setter for tdls.</p>
    * @param pTdls reference
    **/
-  public abstract void setTdls(final List<L> pTdls);
+  public abstract void setTdls(List<L> pTdls);
 
   //Simple getters and setters:
   /**

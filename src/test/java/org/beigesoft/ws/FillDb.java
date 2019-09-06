@@ -72,7 +72,10 @@ import org.beigesoft.ws.mdlp.Htmlt;
  * Database must has tax category, item category, catalogs as in sample database bobs-pizza-ws2!
  * Usage with Maven example, to fill database bsws.sqlite with 1000 sample records for each good:
  * <pre>
- * mvn exec:java -Dexec.mainClass="org.beigesoft.ws.FillDb" -Dexec.args="100" -Dexec.classpathScope=test
+ * mvn exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath org.beigesoft.ws.FillDb 100" -Dexec.classpathScope=test
+ * 
+ * or with debugging:
+ * mvn exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 org.beigesoft.ws.FillDb 100" -Dexec.classpathScope=test
  * </pre>
  * </p>
  *

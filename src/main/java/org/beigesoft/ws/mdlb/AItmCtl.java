@@ -67,5 +67,5 @@ public abstract class AItmCtl<T extends IIdLnNm, ID extends AItmCtlId<T>>
    * <p>Setter for item.</p>
    * @param pItm reference
    **/
-  public abstract void setItm(final T pItm);
+  public abstract void setItm(T pItm);
 }

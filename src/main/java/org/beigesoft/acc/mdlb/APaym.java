@@ -78,7 +78,7 @@ public abstract class APaym<T extends AInv> extends ADoc {
    * <p>Setter for inv.</p>
    * @param pInv reference
    **/
-  public abstract void setInv(final T pInv);
+  public abstract void setInv(T pInv);
 
   //Simple getters and setters:
   /**

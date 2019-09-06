@@ -55,7 +55,7 @@ public abstract class AItmPriId<T extends IIdLnNm> {
    * <p>Setter for itm.</p>
    * @param pItm reference
    **/
-  public abstract void setItm(final T pItm);
+  public abstract void setItm(T pItm);
 
   //SGS:
   /**

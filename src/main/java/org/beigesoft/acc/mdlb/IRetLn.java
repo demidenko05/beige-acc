@@ -52,5 +52,5 @@ public interface IRetLn<T extends IRet<I>, I extends AInv,
    * <p>Setter for invl.</p>
    * @param pInvl base invoice line reference
    **/
-  void setInvl(final L pInvl);
+  void setInvl(L pInvl);
 }

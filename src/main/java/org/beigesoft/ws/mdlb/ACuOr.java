@@ -127,7 +127,7 @@ public abstract class ACuOr<GL extends AOrdLn, SL extends AOrdLn>
    * <p>Setter for goods.</p>
    * @param pGoods reference
    **/
-  public abstract void setGoods(final List<GL> pGoods);
+  public abstract void setGoods(List<GL> pGoods);
 
   /**
    * <p>Getter for servs.</p>
@@ -139,7 +139,7 @@ public abstract class ACuOr<GL extends AOrdLn, SL extends AOrdLn>
    * <p>Setter for servs.</p>
    * @param pServs reference
    **/
-  public abstract void setServs(final List<SL> pServs);
+  public abstract void setServs(List<SL> pServs);
 
   //Simple getters and setters:
   /**

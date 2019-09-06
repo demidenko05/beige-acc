@@ -217,7 +217,7 @@ public class SrCart<RS> implements ISrCart {
     TrdStg ts = srTrStg.lazTrStg(pRvs);
     pRvs.put("buyr", buyer);
     Cart cart = (Cart) pRvs.get("cart");
-    if (cart == null && buyer !=  null) {
+    if (cart == null && buyer != null && !buyer.getIsNew()) {
       cart = retrCart(pRvs, buyer, false);
       if (cart == null && pIsNeedToCreate) {
         cart = new Cart();

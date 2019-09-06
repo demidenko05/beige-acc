@@ -48,5 +48,5 @@ public interface ISrBlnSht {
    * @return balance sheet
    * @throws Exception - an exception
    **/
-  BlnSht retBlnc(Map<String, Object> pRvs, final Date pDt) throws Exception;
+  BlnSht retBlnc(Map<String, Object> pRvs, Date pDt) throws Exception;
 }

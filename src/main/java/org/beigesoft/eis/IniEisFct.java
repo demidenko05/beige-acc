@@ -188,7 +188,7 @@ public class IniEisFct<RS> implements IIniBdFct<RS> {
    * <p>Initializes factory.</p>
    * @param pRvs request scoped vars
    * @param pFct factory
-   * @param pCtxAttr Context attributes
+   * @param pCtx Context attributes
    * @throws Exception - an exception
    **/
   @Override

@@ -41,7 +41,6 @@ import org.beigesoft.ws.mdlp.SeSel;
  * for small number of S.E. Sellers. It requires opened transaction.
  * Methods are synchronized.</p>
  *
- * @param  platform dependent record set type
  * @author Yury Demidenko
  */
 public class FiSeSel implements IFiSeSel {
