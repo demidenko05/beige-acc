@@ -173,13 +173,15 @@ public class ItmPg<RS> implements IPrc {
       }
       if (EItmTy.GOODS.toString().equals(itTyStr)) {
         processGoods(pRvs, pRqDt, ts, buyr, itId);
+        pRvs.put("itTy", EItmTy.GOODS);
       } else if (EItmTy.SERVICE.toString().equals(itTyStr)) {
         processService(pRvs, pRqDt, ts, buyr, itId);
+        pRvs.put("itTy", EItmTy.SERVICE);
       } else if (EItmTy.SEGOODS.toString().equals(itTyStr)) {
         processSeItm(pRvs, pRqDt, ts, buyr, itId);
-      } else if (EItmTy.SEGOODS.toString().equals(itTyStr)) {
-        processSeItm(pRvs, pRqDt, ts, buyr, itId);
+        pRvs.put("itTy", EItmTy.SEGOODS);
       } else if (EItmTy.SESERVICE.toString().equals(itTyStr)) {
+        pRvs.put("itTy", EItmTy.SESERVICE);
         procSeSrv(pRvs, pRqDt, ts, buyr, itId);
       } else {
         throw new Exception(

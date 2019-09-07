@@ -30,7 +30,7 @@ package org.beigesoft.ws.mdlb;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdlp.AIdLna;
+import org.beigesoft.mdlp.AIdLnaNm;
 import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.acc.mdlp.TxCt;
 
@@ -38,12 +38,12 @@ import org.beigesoft.acc.mdlp.TxCt;
  * <p>
  * Model of Customer Order Item line.
  * Item can be goods/service/S.E. goods/S.E.service.
- * Item has already I18N name same as in the cart.
+ * Item has already I18N name (in nme field) same as in the cart.
  * </p>
  *
  * @author Yury Demidenko
  */
-public class AOrdLn extends AIdLna {
+public class AOrdLn extends AIdLnaNm {
 
   /**
    * <p>Unit of measure, not null.</p>

@@ -32,7 +32,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.beigesoft.mdl.IOwneda;
-import org.beigesoft.mdlp.AIdLnNm;
+import org.beigesoft.mdlp.AIdLnaNm;
 import org.beigesoft.acc.mdlp.TxCt;
 import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.ws.mdl.EItmTy;
@@ -43,7 +43,7 @@ import org.beigesoft.ws.mdlb.IHsSeSel;
  *
  * @author Yury Demidenko
  */
-public class CartLn extends AIdLnNm implements IOwneda<Cart>, IHsSeSel<Long> {
+public class CartLn extends AIdLnaNm implements IOwneda<Cart>, IHsSeSel<Long> {
 
   /**
    * <p>Shopping Cart.</p>

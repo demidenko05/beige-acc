@@ -863,11 +863,8 @@ public class ChkOut<RS> implements IPrc {
       }
       ol = osl;
     }
-    if (pCartLn.getDscr() != null) {
-      ol.setDscr(pCartLn.getNme() + ". " + pCartLn.getDscr());
-    } else {
-      ol.setDscr(pCartLn.getNme());
-    }
+    ol.setDscr(pCartLn.getDscr());
+    ol.setNme(pCartLn.getNme());
     ol.setUom(pCartLn.getUom());
     ol.setPri(pCartLn.getPri());
     ol.setQuan(pCartLn.getQuan());
@@ -1023,11 +1020,8 @@ public class ChkOut<RS> implements IPrc {
       }
       ol = osl;
     }
-    if (pCartLn.getDscr() != null) {
-      ol.setDscr(pCartLn.getNme() + ". " + pCartLn.getDscr());
-    } else {
-      ol.setDscr(pCartLn.getNme());
-    }
+    ol.setDscr(pCartLn.getDscr());
+    ol.setNme(pCartLn.getNme());
     ol.setUom(pCartLn.getUom());
     ol.setPri(pCartLn.getPri());
     ol.setQuan(pCartLn.getQuan());

@@ -295,13 +295,20 @@ public class PrLog<RS> implements IPrc {
       oldCrt.setIid(pBuTmp);
       oldCrt = this.orm.retEnt(pRvs, vs, oldCrt);
       if (oldCrt != null && oldCrt.getTot().compareTo(BigDecimal.ZERO) == 1) {
-        Long obid = pBuTmp.getIid();
+        Cart newCrt = new Cart();
+        newCrt.setIid(pBuyr);
+        this.orm.refrEnt(pRvs, vs, newCrt);
+        if (newCrt.getIid() == null) {
+          newCrt = oldCrt;
+          newCrt.setIid(pBuyr);
+          this.orm.insIdNln(pRvs, vs, newCrt);
+        }
         ColVals cvs = new ColVals();
         cvs.setLongs(new HashMap<String, Long>());
         cvs.getLongs().put("ownr", pBuyr.getIid());
-        this.rdb.update(CartLn.class, cvs, "OWNR=" + obid);
-        this.rdb.update(CartTxLn.class, cvs, "OWNR=" + obid);
-        this.rdb.update(CartTot.class, cvs, "OWNR=" + obid);
+        this.rdb.update(CartLn.class, cvs, "OWNR=" + pBuTmp.getIid());
+        this.rdb.update(CartTxLn.class, cvs, "OWNR=" + pBuTmp.getIid());
+        this.rdb.update(CartTot.class, cvs, "OWNR=" + pBuTmp.getIid());
         Cart cart = this.srvCart.getCart(pRvs, pRqDt, true, false);
         TrdStg ts = (TrdStg) pRvs.get("tstg");
         AcStg as = (AcStg) pRvs.get("astg");

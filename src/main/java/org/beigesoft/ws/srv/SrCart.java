@@ -996,7 +996,7 @@ public class SrCart<RS> implements ISrCart {
     Arrays.sort(ndFlTc);
     vs.put("TxCtndFds", ndFlTc);
     vs.put(itemCl.getSimpleName() + "dpLv", 3);
-    if (pTs.getPriCus() && pBuyr != null) {
+    if (pTs.getPriCus() && pBuyr != null && !pBuyr.getIsNew()) {
       //try to reveal price dedicated to customer:
       List<BurPric> buyerPrCats = getOrm()
         .retLstCnd(pRvs, vs, BurPric.class, "where BUYR=" + pBuyr.getIid());

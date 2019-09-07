@@ -28,12 +28,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.fct;
 
+import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
 
 import org.beigesoft.mdl.IHasId;
 import org.beigesoft.fct.IFcCsvDrt;
 import org.beigesoft.fct.IFctAux;
+import org.beigesoft.fct.IFctPrc;
 import org.beigesoft.fct.FctBlc;
 import org.beigesoft.hnd.HndEntRq;
 import org.beigesoft.hnd.HndSpam;
@@ -77,6 +79,11 @@ public class FctWs<RS> implements IFctAux<RS> {
    * <p>Processor S.E. entities page name.</p>
    **/
   public static final String PRSEENTPG = "prSeEnPg";
+
+  /**
+   * <p>Outside WS processors factories, e.g. PPL.</p>
+   **/
+  private Set<IFctPrc> fctsPrc;
 
   /**
    * <p>Creates requested bean and put into given main factory.
@@ -232,6 +239,7 @@ public class FctWs<RS> implements IFctAux<RS> {
     final FctBlc<RS> pFctApp) throws Exception {
     FcPrWs<RS> rz = new FcPrWs<RS>();
     rz.setFctBlc(pFctApp);
+    rz.setFctsPrc(this.fctsPrc);
     pFctApp.put(pRvs, FcPrWs.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       FcPrWs.class.getSimpleName() + " has been created");
@@ -423,5 +431,21 @@ public class FctWs<RS> implements IFctAux<RS> {
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       IFcCsvDrt.class.getSimpleName() + " has been created.");
     return rz;
+  }
+
+  /**
+   * <p>Getter for fctsPrc.</p>
+   * @return Set<IFctPrc>
+   **/
+  public final Set<IFctPrc> getFctsPrc() {
+    return this.fctsPrc;
+  }
+
+  /**
+   * <p>Setter for fctsPrc.</p>
+   * @param pFctsPrc reference
+   **/
+  public final void setFctsPrc(final Set<IFctPrc> pFctsPrc) {
+    this.fctsPrc = pFctsPrc;
   }
 }

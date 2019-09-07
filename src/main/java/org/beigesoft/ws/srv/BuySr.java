@@ -159,7 +159,7 @@ public class BuySr implements IBuySr {
   @Override
   public final Buyer createBuyr(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
-      Map<String, Object> vs = new HashMap<String, Object>();
+    Map<String, Object> vs = new HashMap<String, Object>();
     Buyer buyer = null;
     vs.put("DbCrdpLv", 1);
     vs.put("TxDstdpLv", 1);

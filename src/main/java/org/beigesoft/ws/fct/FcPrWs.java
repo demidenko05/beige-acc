@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.ws.fct;
 
+import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -63,6 +64,11 @@ public class FcPrWs<RS> implements IFctPrc {
    * <p>Main factory.</p>
    **/
   private FctBlc<RS> fctBlc;
+
+  /**
+   * <p>Outside factories, e.g. PPL.</p>
+   **/
+  private Set<IFctPrc> fctsPrc;
 
   //requested data:
   /**
@@ -103,7 +109,17 @@ public class FcPrWs<RS> implements IFctPrc {
           } else if (PrLog.class.getSimpleName().equals(pPrNm)) {
             rz = crPuPrLog(pRvs);
           } else {
-            throw new ExcCode(ExcCode.WRCN, "There is no IProc: " + pPrNm);
+            if (this.fctsPrc != null) {
+              for (IFctPrc fp : this.fctsPrc) {
+                rz = fp.laz(pRvs, pPrNm);
+                if (rz != null) {
+                  break;
+                }
+              }
+            }
+            if (rz == null) {
+              throw new ExcCode(ExcCode.WRCN, "There is no IProc: " + pPrNm);
+            }
           }
         }
       }
@@ -357,5 +373,21 @@ public class FcPrWs<RS> implements IFctPrc {
    **/
   public final synchronized void setFctBlc(final FctBlc<RS> pFctBlc) {
     this.fctBlc = pFctBlc;
+  }
+
+  /**
+   * <p>Getter for fctsPrc.</p>
+   * @return Set<IFctPrc>
+   **/
+  public final synchronized Set<IFctPrc> getFctsPrc() {
+    return this.fctsPrc;
+  }
+
+  /**
+   * <p>Setter for fctsPrc.</p>
+   * @param pFctsPrc reference
+   **/
+  public final synchronized void setFctsPrc(final Set<IFctPrc> pFctsPrc) {
+    this.fctsPrc = pFctsPrc;
   }
 }
