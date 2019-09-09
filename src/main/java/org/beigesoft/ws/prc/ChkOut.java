@@ -251,7 +251,6 @@ public class ChkOut<RS> implements IPrc {
           }
         }
         pRvs.put("cart", cart);
-        pRqDt.setAttr("rnd", "wchou");
         if (txRules != null) {
           pRvs.put("txRules", txRules);
         }
@@ -260,6 +259,7 @@ public class ChkOut<RS> implements IPrc {
           saveSords(pRvs, pur, cart);
           pRvs.put("orders", pur.getOrds());
           pRvs.put("sorders", pur.getSords());
+          pRqDt.setAttr("rnd", "wchou");
         }
       }
       this.rdb.commit();

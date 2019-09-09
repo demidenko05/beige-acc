@@ -183,6 +183,7 @@ See LICENSE in base folder
   org.beigesoft.ws.mdlp.CuOrSeSrTxLn,
   org.beigesoft.ws.mdlp.CuOrSeTxLn,
   org.beigesoft.ws.mdlp.ItlLuv,
+  org.beigesoft.ws.mdlp.OnlPay,
   org.beigesoft.ws.mdlp.Itlist</entry>
 <entry key="stgClsNms">exlFlds,idFlds,vrAlg,cnstr</entry>
 <entry key="stgFldNms">def,nul</entry>

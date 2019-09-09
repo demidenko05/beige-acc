@@ -188,6 +188,7 @@ public class ItmPg<RS> implements IPrc {
           "Detail page not yet implemented for item type: " + itTyStr);
       }
       this.rdb.commit();
+      pRqDt.setAttr("rnd", itTyStr + pRqDt.getParam("detMt"));
     } catch (Exception ex) {
       if (!this.rdb.getAcmt()) {
         this.rdb.rollBack();

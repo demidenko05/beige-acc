@@ -143,6 +143,10 @@ public class AcpOrd<RS> implements IAcpOrd {
     vs.put("SeSeldpLv", 2);
     vs.put("buyerdpLv", 0);
     sords = this.orm.retLstCnd(pRvs, vs, CuOrSe.class, wheStBr); vs.clear();
+    if (ords.size() == 0 && sords.size() == 0) {
+      throw new ExcCode(ExcCode.SPAM, "There is no new orders for buyer ID: "
+        + pBur.getIid());
+    }
     if (setAdd.getOnlMd() == 0 && sords.size() > 0) {
       //checking for several online payees:
       boolean isOwnOnlPay = false;

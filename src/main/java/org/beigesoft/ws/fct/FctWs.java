@@ -372,6 +372,12 @@ public class FctWs<RS> implements IFctAux<RS> {
     rz.setSrTrStg(srTrStg);
     rz.setLog(pFctApp.lazLogStd(pRvs));
     rz.setNumStr(pFctApp.lazNumStr(pRvs));
+    try {
+      Class<?> pplCl = Class.forName("com.paypal.api.payments.Item");
+      rz.setPplCl(pplCl);
+    } catch (ClassNotFoundException e) { //NOPMD
+      //nothing
+    }
     pFctApp.put(pRvs, ISrCart.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrCart.class.getSimpleName() + " has been created");

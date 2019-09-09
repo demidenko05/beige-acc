@@ -242,14 +242,6 @@ public class SrCart<RS> implements ISrCart {
           || EPaymMth.ONLINE.equals(cart.getPaym())) {
         cart.setPaym(EPaymMth.PAY_CASH);
       }
-      if ((EPaymMth.PAYPAL.equals(cart.getPaym())
-        || EPaymMth.PAYPAL_ANY.equals(cart.getPaym())) && pplCl == null) {
-        try {
-          pplCl = Class.forName("com.paypal.api.payments.Item");
-        } catch (ClassNotFoundException e) {
-          cart.setPaym(EPaymMth.PAY_CASH);
-        }
-      }
       List<EPaymMth> payMts = new ArrayList<EPaymMth>();
       pRvs.put("payMts", payMts);
       payMts.add(EPaymMth.PAY_CASH);

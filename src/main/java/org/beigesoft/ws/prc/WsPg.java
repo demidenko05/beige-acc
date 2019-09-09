@@ -540,7 +540,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
           if (fltPri != null) {
             pRvs.put("fltPri", fltPri);
           }
-          if (fltCatl != null) {
+          if (fltCatl != null && fltCatl.getAll().size() > 0) {
             pRvs.put("fltCatl", fltCatl);
           }
           if (fltSpfs != null) {
