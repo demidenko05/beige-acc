@@ -37,8 +37,12 @@ import org.beigesoft.srv.INumStr;
 import org.beigesoft.ws.mdl.EItmSpTy;
 import org.beigesoft.ws.mdlb.AItmSpf;
 import org.beigesoft.ws.mdlp.CatGs;
+import org.beigesoft.ws.mdlp.ItmSp;
+import org.beigesoft.ws.mdlp.ChoSp;
 import org.beigesoft.ws.mdlp.I18CatGs;
 import org.beigesoft.ws.mdlp.I18Trd;
+import org.beigesoft.ws.mdlp.I18ChoSp;
+import org.beigesoft.ws.mdlp.I18ItmSp;
 import org.beigesoft.ws.mdlp.TrdStg;
 import org.beigesoft.ws.mdlp.AddStg;
 import org.beigesoft.ws.mdlp.ItmSpGr;
@@ -166,6 +170,46 @@ public class UtlTrJsp {
       }
     }
     return pCatalog.getNme();
+  }
+
+  /**
+   * <p>It makes chooseable specifics name.</p>
+   * @param pSpec Spec
+   * @param pI18Specs I18 Specs
+   * @param pLang language
+   * @return specifics name
+   **/
+  public final String choSpToStr(final ChoSp pSpec,
+    final List<I18ChoSp> pI18Specs, final String pLang) {
+    if (pI18Specs != null) {
+      for (I18ChoSp i18n : pI18Specs) {
+        if (i18n.getLng().getIid().equals(pLang) && pSpec.getIid()
+          .equals(i18n.getHasNm().getIid())) {
+          return i18n.getNme();
+        }
+      }
+    }
+    return pSpec.getNme();
+  }
+
+  /**
+   * <p>It makes specifics name.</p>
+   * @param pSpec Spec
+   * @param pI18Specs I18 Specs
+   * @param pLang language
+   * @return specifics name
+   **/
+  public final String specToStr(final ItmSp pSpec,
+    final List<I18ItmSp> pI18Specs, final String pLang) {
+    if (pI18Specs != null) {
+      for (I18ItmSp i18n : pI18Specs) {
+        if (i18n.getLng().getIid().equals(pLang) && pSpec.getIid()
+          .equals(i18n.getHasNm().getIid())) {
+          return i18n.getNme();
+        }
+      }
+    }
+    return pSpec.getNme();
   }
 
   /**

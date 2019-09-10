@@ -49,6 +49,7 @@ import org.beigesoft.acc.rpl.AccExp;
 import org.beigesoft.acc.rpl.FcRpEnSy;
 import org.beigesoft.acc.rpl.FctFltEnt;
 import org.beigesoft.ws.fct.FcPrWs;
+import org.beigesoft.ws.hnd.HnTrVs;
 import org.beigesoft.ws.prc.RefrLst;
 import org.beigesoft.ws.prc.RefrCat;
 import org.beigesoft.ws.prc.WsPg;
@@ -116,6 +117,10 @@ public class FcPrNtAd<RS> implements IFctPrc {
     @SuppressWarnings("unchecked")
     WsPg<RS> wsPg = (WsPg<RS>) fctPrWs.laz(pRvs, WsPg.class.getSimpleName());
     rz.getLstns().add(wsPg);
+    @SuppressWarnings("unchecked")
+    HnTrVs<RS> hnTrVs = (HnTrVs<RS>) this.fctBlc
+      .laz(pRvs, HnTrVs.class.getSimpleName());
+    rz.getLstns().add(hnTrVs);
     this.procs.put(RefrCat.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(),
       RefrCat.class.getSimpleName() + " has been created");

@@ -42,10 +42,13 @@ import org.beigesoft.acc.mdlp.Curr;
 import org.beigesoft.ws.mdlp.Deliv;
 import org.beigesoft.ws.mdlp.I18Trd;
 import org.beigesoft.ws.mdlp.I18CatGs;
+import org.beigesoft.ws.mdlp.I18ChoSp;
+import org.beigesoft.ws.mdlp.I18ItmSp;
 import org.beigesoft.ws.mdlp.CurrRt;
 import org.beigesoft.ws.srv.ISrTrStg;
 import org.beigesoft.ws.srv.ISrAdStg;
 import org.beigesoft.ws.srv.UtlTrJsp;
+import org.beigesoft.ws.srv.ILsCatlChg;
 
 /**
  * <p>It puts web-store variables into request data.</p>
@@ -53,7 +56,7 @@ import org.beigesoft.ws.srv.UtlTrJsp;
  * @param <RS> platform dependent record set type
  * @author Yury Demidenko
  */
-public class HnTrVs<RS> implements IHndRq {
+public class HnTrVs<RS> implements IHndRq, ILsCatlChg {
 
   /**
    * <p>Logger.</p>
@@ -107,6 +110,16 @@ public class HnTrVs<RS> implements IHndRq {
   private List<Deliv> dlvMts;
 
   /**
+   * <p>Cached I18N chooseable specifics.</p>
+   */
+  private List<I18ChoSp> i18ChoSpLs;
+
+  /**
+   * <p>Cached I18N specifics.</p>
+   */
+  private List<I18ItmSp> i18ItmSpLs;
+
+  /**
    * <p>Handle request.</p>
    * @param pRvs Request scoped variables
    * @param pRqDt Request Data
@@ -116,6 +129,8 @@ public class HnTrVs<RS> implements IHndRq {
   public final void handle(final Map<String, Object> pRvs,
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
+    List<I18ChoSp> i18ChoSpLst = null;
+    List<I18ItmSp> i18ItmSpLst = null;
     List<I18Trd> i18TrdLst = null;
     List<I18CatGs> i18CatGsLst = null;
     List<CurrRt> currRtLst = null;
@@ -132,9 +147,13 @@ public class HnTrVs<RS> implements IHndRq {
           if (this.i18TrdLs == null) {
             i18TrdLst = this.orm.retLst(pRvs, vs, I18Trd.class);
             i18CatGsLst = this.orm.retLst(pRvs, vs, I18CatGs.class);
+            i18ChoSpLst = this.orm.retLst(pRvs, vs, I18ChoSp.class);
+            i18ItmSpLst = this.orm.retLst(pRvs, vs, I18ItmSp.class);
             currRtLst = this.orm.retLst(pRvs, vs, CurrRt.class);
             dlvMtst = this.orm.retLst(pRvs, vs, Deliv.class);
             this.i18TrdLs = i18TrdLst;
+            this.i18ItmSpLs = i18ItmSpLst;
+            this.i18ChoSpLs = i18ChoSpLst;
             this.i18CatGsLs = i18CatGsLst;
             this.currRtLs = currRtLst;
             this.dlvMts = dlvMtst;
@@ -153,11 +172,15 @@ public class HnTrVs<RS> implements IHndRq {
         this.srTrStg.lazTrStg(pRvs); // rvs.tstg
         this.srAdStg.lazAdStg(pRvs); // rvs.tastg
         i18TrdLst = this.i18TrdLs;
+        i18ItmSpLst = this.i18ItmSpLs;
+        i18ChoSpLst = this.i18ChoSpLs;
         i18CatGsLst = this.i18CatGsLs;
         currRtLst = this.currRtLs;
         dlvMtst = this.dlvMts;
       }
     }
+    pRvs.put("i18ItmSps", i18ItmSpLst);
+    pRvs.put("i18ChoSps", i18ChoSpLst);
     pRvs.put("i18Trds", i18TrdLst);
     pRvs.put("i18Cats", i18CatGsLst);
     pRvs.put("currRts", currRtLst);
@@ -209,6 +232,20 @@ public class HnTrVs<RS> implements IHndRq {
     }
     pRvs.put("shTxDet", shTxDet);
     pRqDt.setAttr("utlTrJsp", this.utlTrJsp);
+  }
+
+  /**
+   * <p>Handle catl changed event.</p>
+   * @throws Exception an Exception
+   **/
+  @Override
+  public final synchronized void hndCatlChg() throws Exception {
+    this.i18TrdLs = null;
+    this.i18ItmSpLs = null;
+    this.i18ChoSpLs = null;
+    this.i18CatGsLs = null;
+    this.currRtLs = null;
+    this.dlvMts = null;
   }
 
   //Simple getters and setters:

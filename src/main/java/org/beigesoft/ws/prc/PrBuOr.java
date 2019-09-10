@@ -205,7 +205,7 @@ public class PrBuOr<RS> implements IPrc {
     pRvs.put("spgs", pages);
     vs.put("DbCrndFds", fnm);
     vs.put("SeSelndFds", new String[] {"dbcr"});
-    vs.put("SeseldpLv", 2);
+    vs.put("SeSeldpLv", 2);
     vs.put("BuyerdpLv", 0);
     List<CuOrSe> sorders = getOrm().retPgCnd(pRvs, vs, CuOrSe.class,
       "where " + wheBr, firstResult, cpf.getPgSz()); vs.clear();

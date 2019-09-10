@@ -10,6 +10,6 @@ See LICENSE in base folder
 <entry key="frmFds">iid,dat,selr,pur,buyr,subt,toTx,tot,curr,exRt,delv,pipl,paym,stas,dscr</entry>
 <entry key="lstFds">iid,dat,buyr,subt,toTx,tot,curr,exRt,delv,paym,stas,dscr</entry>
 <entry key="owdEnts">org.beigesoft.ws.mdlp.CuOrGdLn,org.beigesoft.ws.mdlp.CuOrSrLn,org.beigesoft.ws.mdlp.CuOrTxLn</entry>
-<entry key="selDpl">TxDst,1</entry>
+<entry key="selDpl">DbCr,2</entry>
 <entry key="selFds">DbCr,nme,txDs,#Curr,nme,#TxDst,nme,stRm,stIb,stAg</entry>
 </properties>
