@@ -919,6 +919,7 @@ public class RefrLst<RS> implements IPrc {
           }
         }
       }
+      this.rdb.commit();
     } catch (Exception ex) {
       if (!this.rdb.getAcmt()) {
         this.rdb.rollBack();

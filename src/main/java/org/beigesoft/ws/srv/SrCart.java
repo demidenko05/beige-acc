@@ -1017,6 +1017,7 @@ public class SrCart<RS> implements ISrCart {
         itPri = (AItmPri<?, ?>) getOrm().retEntQu(pRvs, vs, itemPriceCl, query);
       }
     }
+    vs.clear();
     if (itPri == null) {
       //retrieve price for all:
       if (pItType.equals(EItmTy.GOODS) || pItType.equals(EItmTy.SERVICE)) {

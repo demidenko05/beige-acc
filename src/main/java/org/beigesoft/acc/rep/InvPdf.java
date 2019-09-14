@@ -715,11 +715,11 @@ public class InvPdf<WI> implements IInvPdf {
       final boolean pIsOverseas) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     this.orm.refrEnt(pRvs, vs, pInv);
-    String[] ndFlSil = new String[] {"iid", "subt", "toTx", "tdsc", "itm",
+    String[] ndFlSil = new String[] {"subt", "toTx", "tdsc", "itm",
       "uom", "quan", "pri", "tot", "prFr", "suFr", "txFc", "toFc"};
     Arrays.sort(ndFlSil);
     vs.put("SaInGdLnndFds", ndFlSil);
-    String[] ndFlItUm = new String[] {"iid", "nme"};
+    String[] ndFlItUm = new String[] {"nme"};
     vs.put("ItmndFds", ndFlItUm);
     vs.put("UomndFds", ndFlItUm);
     if (pIsOverseas) {
