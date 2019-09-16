@@ -99,12 +99,25 @@ public class GdPriLstRet implements ICsvDtRet {
     Long priCtId = Long.parseLong(pRqDt.getParam("priCt"));
     BigDecimal unAvPri = null;
     String unAvPris = pRqDt.getParam("unAvPri");
+    CmnPrf cmnPrf = (CmnPrf) pRvs.get("cpf");
     if (unAvPris != null) {
+      if (!"".equals(cmnPrf.getDcGrSpv())) {
+        unAvPris = unAvPris.replace(cmnPrf.getDcGrSpv(), "");
+      }
+      if (!"".equals(cmnPrf.getDcSpv()) && !".".equals(cmnPrf.getDcSpv())) {
+        unAvPris = unAvPris.replace(cmnPrf.getDcSpv(), ".");
+      }
       unAvPri = new BigDecimal(unAvPris);
     }
     BigDecimal optmQuan = null;
     String optmQuans = pRqDt.getParam("optmQuan");
     if (optmQuans != null) {
+      if (!"".equals(cmnPrf.getDcGrSpv())) {
+        optmQuans = optmQuans.replace(cmnPrf.getDcGrSpv(), "");
+      }
+      if (!"".equals(cmnPrf.getDcSpv()) && !".".equals(cmnPrf.getDcSpv())) {
+        optmQuans = optmQuans.replace(cmnPrf.getDcSpv(), ".");
+      }
       optmQuan = new BigDecimal(optmQuans);
     }
     String[] ndFlPg = new String[] {"itm", "pri"};

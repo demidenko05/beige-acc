@@ -64,6 +64,7 @@ import org.beigesoft.ws.mdlp.CuOr;
 import org.beigesoft.ws.mdlp.CuOrGdLn;
 import org.beigesoft.ws.mdlp.CuOrSrLn;
 import org.beigesoft.ws.mdlp.AddStg;
+import org.beigesoft.ws.mdlp.TrdStg;
 import org.beigesoft.ws.mdlp.Itlist;
 
 /**
@@ -250,10 +251,17 @@ public class AcpOrd<RS> implements IAcpOrd {
     vs.put("CuOrSedpLv", 0);
     List<CuOrSeGdLn> allGoods = new ArrayList<CuOrSeGdLn>();
     List<CuOrSeSrLn> allServs = new ArrayList<CuOrSeSrLn>();
-    String quer = lazyGetQuOrGdChk().replace(":TORLN", "CUORSEGDLN")
-      .replace(":TITPL", "SEITMPLC").replace(":ORIDS", ordIds.toString());
-    List<CuOrSeGdLn> allGds = this.orm.retLstQu(pRvs, vs, CuOrSeGdLn.class,
-      quer); vs.clear();
+    TrdStg ts = (TrdStg) pRvs.get("tstg");
+    List<CuOrSeGdLn> allGds;
+    if (ts.getAi18n()) {
+      String quer = lazyGetQuOrGdChk().replace(":TORLN", "CUORSEGDLN")
+        .replace(":TITPL", "SEITMPLC").replace(":ORIDS", ordIds.toString());
+      allGds = this.orm.retLstQu(pRvs, vs, CuOrSeGdLn.class, quer);
+    } else {
+      allGds = this.orm.retLstCnd(pRvs, vs, CuOrSeGdLn.class,
+        "where OWNR in (:ORIDS)".replace(":ORIDS", ordIds.toString()));
+    }
+    vs.clear();
     for (CuOrSeGdLn gl : allGds) {
       if (gl.getQuan().compareTo(BigDecimal.ZERO) == 0) {
         this.log.error(pRvs, getClass(), "S.E.Good is not available #"
@@ -282,10 +290,16 @@ public class AcpOrd<RS> implements IAcpOrd {
     vs.put("UomndFds", ndFlNm);
     vs.put("CuOrSedpLv", 0);
     //non-bookable service checkout and bookable services half-checkout:
-    quer = lazyGetQuOrSrChk().replace(":TORLN", "CUORSESRLN")
-      .replace(":TITPL", "SESRVPLC").replace(":ORIDS", ordIds.toString());
-    List<CuOrSeSrLn> allSrvs = this.orm.retLstQu(pRvs, vs, CuOrSeSrLn.class,
-      quer); vs.clear();
+    List<CuOrSeSrLn> allSrvs;
+    if (ts.getAi18n()) {
+      String quer = lazyGetQuOrSrChk().replace(":TORLN", "CUORSESRLN")
+        .replace(":TITPL", "SESRVPLC").replace(":ORIDS", ordIds.toString());
+      allSrvs = this.orm.retLstQu(pRvs, vs, CuOrSeSrLn.class, quer);
+    } else {
+      allSrvs = this.orm.retLstCnd(pRvs, vs, CuOrSeSrLn.class,
+        "where OWNR in (:ORIDS)".replace(":ORIDS", ordIds.toString()));
+    }
+    vs.clear();
     for (CuOrSeSrLn sl : allSrvs) {
       if (sl.getQuan().compareTo(BigDecimal.ZERO) == 0) {
         this.log.error(pRvs, getClass(), "S.E.Service is not available #"
@@ -345,9 +359,16 @@ public class AcpOrd<RS> implements IAcpOrd {
     vs.put("UomndFds", ndFlNm);
     List<CuOrGdLn> allGoods = new ArrayList<CuOrGdLn>();
     List<CuOrSrLn> allServs = new ArrayList<CuOrSrLn>();
-    String quer = lazyGetQuOrGdChk().replace(":TORLN", "CUORGDLN")
-      .replace(":TITPL", "ITMPLC").replace(":ORIDS", ordIds.toString());
-    List<CuOrGdLn> allGds = this.orm.retLstQu(pRvs, vs, CuOrGdLn.class, quer);
+    TrdStg ts = (TrdStg) pRvs.get("tstg");
+    List<CuOrGdLn> allGds;
+    if (ts.getAi18n()) {
+      String quer = lazyGetQuOrGdChk().replace(":TORLN", "CUORGDLN")
+        .replace(":TITPL", "ITMPLC").replace(":ORIDS", ordIds.toString());
+      allGds = this.orm.retLstQu(pRvs, vs, CuOrGdLn.class, quer);
+    } else {
+      allGds = this.orm.retLstCnd(pRvs, vs, CuOrGdLn.class,
+        "where OWNR in (:ORIDS)".replace(":ORIDS", ordIds.toString()));
+    }
     vs.clear();
     for (CuOrGdLn gl : allGds) {
       if (gl.getQuan().compareTo(BigDecimal.ZERO) == 0) {
@@ -376,10 +397,16 @@ public class AcpOrd<RS> implements IAcpOrd {
     vs.put("UomndFds", ndFlNm);
     vs.put("SrvdpLv", 0);
     vs.put("CuOrdpLv", 0);
-    //non-bookable service checkout and bookable services half-checkout:
-    quer = lazyGetQuOrSrChk().replace(":TORLN", "CUORSRLN")
-      .replace(":TITPL", "SRVPLC").replace(":ORIDS", ordIds.toString());
-    List<CuOrSrLn> allSrvs = this.orm.retLstQu(pRvs, vs, CuOrSrLn.class, quer);
+    List<CuOrSrLn> allSrvs;
+    if (ts.getAi18n()) {
+      //non-bookable service checkout and bookable services half-checkout:
+      String quer = lazyGetQuOrSrChk().replace(":TORLN", "CUORSRLN")
+        .replace(":TITPL", "SRVPLC").replace(":ORIDS", ordIds.toString());
+      allSrvs = this.orm.retLstQu(pRvs, vs, CuOrSrLn.class, quer);
+    } else {
+      allSrvs = this.orm.retLstCnd(pRvs, vs, CuOrSrLn.class,
+        "where OWNR in (:ORIDS)".replace(":ORIDS", ordIds.toString()));
+    }
     vs.clear();
     for (CuOrSrLn sl : allSrvs) {
       if (sl.getQuan().compareTo(BigDecimal.ZERO) == 0) {

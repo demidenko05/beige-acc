@@ -80,13 +80,13 @@ public class AddStg extends AIdLn {
    * <p>Booking transaction isolation mode ISrvDatabase:
    * <ul>
    * <li>1 read uncommited.</li>
-   * <li>2 read commited, default.</li>
-   * <li>3 repeatable read.</li>
-   * <li>4 serializable.</li>
+   * <li>2 read commited.</li>
+   * <li>4 repeatable read.</li>
+   * <li>8 serializable, default.</li>
    * </ul>
    * </p>
    **/
-  private Integer bkTr = 2;
+  private Integer bkTr = 8;
 
   /**
    * <p>Online payment mode:

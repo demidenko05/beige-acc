@@ -950,28 +950,28 @@ public class SrCart<RS> implements ISrCart {
     String query;
     Class<?> itemI18Cl;
     Class<?> itemCl;
-    Class<? extends AItmPri<?, ?>> itemPriceCl;
+    Class<? extends AItmPri<?, ?>> itPriCl;
     if (pItType.equals(EItmTy.GOODS)) {
       itemCl = Itm.class;
       itemI18Cl = I18Itm.class;
-      itemPriceCl = PriItm.class;
+      itPriCl = PriItm.class;
     } else if (pItType.equals(EItmTy.SERVICE)) {
       itemCl = Srv.class;
       itemI18Cl = I18Srv.class;
-      itemPriceCl = PriSrv.class;
+      itPriCl = PriSrv.class;
     } else if (pItType.equals(EItmTy.SESERVICE)) {
       itemCl = SeSrv.class;
       itemI18Cl = I18SeSrv.class;
-      itemPriceCl = SeSrvPri.class;
+      itPriCl = SeSrvPri.class;
     } else {
       itemCl = SeItm.class;
       itemI18Cl = I18SeItm.class;
-      itemPriceCl = SeItmPri.class;
+      itPriCl = SeItmPri.class;
     }
     Map<String, Object> vs = new HashMap<String, Object>();
     String[] ndFlItPr = new String[] {"pri", "unSt"};
     Arrays.sort(ndFlItPr);
-    vs.put(itemPriceCl.getSimpleName() + "ndFds", ndFlItPr);
+    vs.put(itPriCl.getSimpleName() + "ndFds", ndFlItPr);
     vs.put("PriCtdpLv", 0);
     String[] ndFlIt;
     if (pItType.equals(EItmTy.SEGOODS) || pItType.equals(EItmTy.SESERVICE)) {
@@ -999,42 +999,61 @@ public class SrCart<RS> implements ISrCart {
           "several_price_category_for_same_buyer");
       }
       if (buyerPrCats.size() == 1) {
+        if (pTs.getAi18n()) {
+          if (pItType.equals(EItmTy.GOODS) || pItType.equals(EItmTy.SERVICE)) {
+            query = lazQuItemPriceCat();
+            if (pItType.equals(EItmTy.GOODS)) {
+              query = query.replace(":TXCTAL", "TXCT27");
+            } else {
+              query = query.replace(":TXCTAL", "TXCT24");
+            }
+          } else {
+            query = lazQuItemSePriceCat();
+          }
+          query = query.replace(":ITMID", pItId.toString());
+          query = query.replace(":LNG", lang);
+          query = query.replace(":TITMPRI", itPriCl.getSimpleName()
+            .toUpperCase());
+          query = query.replace(":TITM", itemCl.getSimpleName().toUpperCase());
+          query = query.replace(":TI18ITM", itemI18Cl.getSimpleName()
+            .toUpperCase());
+          StringBuffer pccnd = new StringBuffer("");
+          pccnd.append("=" + buyerPrCats.get(0).getPriCt().getIid());
+          query = query.replace(":PRCATIDCOND", pccnd);
+          itPri = (AItmPri<?, ?>) getOrm().retEntQu(pRvs, vs, itPriCl, query);
+        }
+        itPri = (AItmPri<?, ?>) getOrm().retEntCnd(pRvs, vs, itPriCl,
+          "PRICT=" + buyerPrCats.get(0).getPriCt().getIid()
+            + " and ITM=" + pItId);
+      }
+    }
+    if (itPri == null) {
+      List<AItmPri<?, ?>> itPris;
+      //retrieve price for all:
+      if (pTs.getAi18n()) {
         if (pItType.equals(EItmTy.GOODS) || pItType.equals(EItmTy.SERVICE)) {
-          query = lazQuItemPriceCat();
+          query = lazQuItemPrice();
+          if (pItType.equals(EItmTy.GOODS)) {
+            query = query.replace(":TXCTAL", "TXCT27");
+          } else {
+            query = query.replace(":TXCTAL", "TXCT24");
+          }
         } else {
-          query = lazQuItemSePriceCat();
+          query = lazQuItemSePrice();
         }
         query = query.replace(":ITMID", pItId.toString());
         query = query.replace(":LNG", lang);
-        query = query.replace(":TITMPRI", itemPriceCl.getSimpleName()
+        query = query.replace(":TITMPRI", itPriCl.getSimpleName()
           .toUpperCase());
         query = query.replace(":TITM", itemCl.getSimpleName().toUpperCase());
         query = query.replace(":TI18ITM", itemI18Cl.getSimpleName()
           .toUpperCase());
-        StringBuffer pccnd = new StringBuffer("");
-        pccnd.append("=" + buyerPrCats.get(0).getPriCt().getIid());
-        query = query.replace(":PRCATIDCOND", pccnd);
-        itPri = (AItmPri<?, ?>) getOrm().retEntQu(pRvs, vs, itemPriceCl, query);
-      }
-    }
-    vs.clear();
-    if (itPri == null) {
-      //retrieve price for all:
-      if (pItType.equals(EItmTy.GOODS) || pItType.equals(EItmTy.SERVICE)) {
-        query = lazQuItemPrice();
+        itPris = (List<AItmPri<?, ?>>)
+          getOrm().retLstQu(pRvs, vs, itPriCl, query);
       } else {
-        query = lazQuItemSePrice();
+        itPris = (List<AItmPri<?, ?>>) getOrm().retLstCnd(pRvs, vs, itPriCl,
+          "where ITM=" + pItId);
       }
-      query = query.replace(":ITMID", pItId.toString());
-      query = query.replace(":LNG", lang);
-      query = query.replace(":TITMPRI", itemPriceCl.getSimpleName()
-        .toUpperCase());
-      query = query.replace(":TITM", itemCl.getSimpleName().toUpperCase());
-      query = query.replace(":TI18ITM", itemI18Cl.getSimpleName()
-        .toUpperCase());
-      @SuppressWarnings("unchecked")
-      List<AItmPri<?, ?>> itPris = (List<AItmPri<?, ?>>)
-        getOrm().retLstQu(pRvs, vs, itemPriceCl, query);
       if (itPris.size() == 0) {
         throw new ExcCode(ExcCode.WR, "requested item has no price");
       }
