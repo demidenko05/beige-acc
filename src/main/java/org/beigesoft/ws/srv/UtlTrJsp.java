@@ -30,6 +30,8 @@ package org.beigesoft.ws.srv;
 
 import java.util.List;
 import java.util.Map;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.beigesoft.mdl.CmnPrf;
 import org.beigesoft.mdlp.UsPrf;
@@ -150,6 +152,19 @@ public class UtlTrJsp {
       sb.append(astg.getShtme());
     }
     return sb.toString();
+  }
+
+  /**
+   * <p>It makes rate. If it's low with huge decimal places, e.g. 1/62.44,
+   * then input value will be -62.44.</p>
+   * @param pRateIn input rate e.g. -62.44
+   * @return input unchanged one or dericed with 15 DP e.g. 0.01601537476
+   **/
+  public final BigDecimal mkRate(final BigDecimal pRateIn) {
+    if (pRateIn.compareTo(BigDecimal.ZERO) == -1) {
+      return BigDecimal.ONE.divide(pRateIn.negate(), 15, RoundingMode.HALF_UP);
+    }
+    return pRateIn;
   }
 
   /**

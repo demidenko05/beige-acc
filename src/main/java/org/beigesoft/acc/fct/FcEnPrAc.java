@@ -118,6 +118,7 @@ import org.beigesoft.acc.prc.MoItLnRv;
 import org.beigesoft.acc.prc.RetLnRv;
 import org.beigesoft.acc.prc.InvLnCpr;
 import org.beigesoft.acc.prc.DocCpr;
+import org.beigesoft.acc.prc.DociCpr;
 import org.beigesoft.acc.prc.PrepCpr;
 import org.beigesoft.acc.prc.WageSv;
 import org.beigesoft.acc.prc.WgLnSv;
@@ -324,6 +325,8 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
             rz = crPuRetLnRv(pRvs);
           } else if (InvLnCpr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuInvLnCpr(pRvs);
+          } else if (DociCpr.class.getSimpleName().equals(pPrNm)) {
+            rz = crPuDociCpr(pRvs);
           } else if (DocCpr.class.getSimpleName().equals(pPrNm)) {
             rz = crPuDocCpr(pRvs);
           } else if (PrepCpr.class.getSimpleName().equals(pPrNm)) {
@@ -792,6 +795,22 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     rz.setOrm(this.fctBlc.lazOrm(pRvs));
     this.procs.put(InvLnCpr.class.getSimpleName(), rz);
     this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), InvLnCpr.class
+      .getSimpleName() + " has been created.");
+    return rz;
+  }
+
+  /**
+   * <p>Create and put into the Map DociCpr.</p>
+   * @param pRvs request scoped vars
+   * @return DociCpr
+   * @throws Exception - an exception
+   */
+  private DociCpr crPuDociCpr(
+    final Map<String, Object> pRvs) throws Exception {
+    DociCpr rz = new DociCpr();
+    rz.setOrm(this.fctBlc.lazOrm(pRvs));
+    this.procs.put(DociCpr.class.getSimpleName(), rz);
+    this.fctBlc.lazLogStd(pRvs).info(pRvs, getClass(), DociCpr.class
       .getSimpleName() + " has been created.");
     return rz;
   }

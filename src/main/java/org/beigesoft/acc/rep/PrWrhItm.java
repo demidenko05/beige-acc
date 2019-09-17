@@ -78,7 +78,7 @@ public class PrWrhItm<RS> implements IPrc {
       Map<String, Object> vs = new HashMap<String, Object>();
       vs.put("WrhdpLv", 1);
       List<WrhItm> wrhItms = this.orm.retLstCnd(pRvs, vs, WrhItm.class,
-        "where  WRHITM.ITLF>0 order by WRH22.NME, WRHP10.NME, ITM11.NME");
+        "where  WRHITM.ITLF>0 order by WRH25.NME, WRHP12.NME, ITM10.NME");
       pRvs.put("wrhItms", wrhItms);
       pRqDt.setAttr("rnd", "wrhit");
       this.rdb.commit();

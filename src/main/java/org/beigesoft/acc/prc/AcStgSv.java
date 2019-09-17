@@ -70,6 +70,7 @@ public class AcStgSv implements IPrcEnt<AcStg, Long> {
     }
     hnsTrRlBk.add(this.srAcStg);
     getSrAcStg().saveAcStg(pRvs, pEnt);
+    pRvs.put("msgSuc", "update_ok");
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
     return pEnt;

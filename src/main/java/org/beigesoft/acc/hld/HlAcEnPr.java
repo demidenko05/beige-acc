@@ -39,6 +39,7 @@ import org.beigesoft.prc.PrcEnoDl;
 import org.beigesoft.prc.PrcEntDl;
 import org.beigesoft.acc.mdlb.ISacnt;
 import org.beigesoft.acc.mdlb.IEntrSrc;
+import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlb.IDcDri;
 import org.beigesoft.acc.mdlb.APrep;
@@ -115,6 +116,7 @@ import org.beigesoft.acc.prc.DocPr;
 import org.beigesoft.acc.prc.DcDriPr;
 import org.beigesoft.acc.prc.DocWhPr;
 import org.beigesoft.acc.prc.DocCpr;
+import org.beigesoft.acc.prc.DociCpr;
 import org.beigesoft.acc.prc.EnrSrcChu;
 import org.beigesoft.acc.prc.RetLnRv;
 import org.beigesoft.acc.prc.InvLnCpr;
@@ -183,8 +185,10 @@ public class HlAcEnPr implements IHlNmClSt {
           return EntrCpr.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepCpr.class.getSimpleName();
-        } else if (IDoci.class.isAssignableFrom(pCls)) {
+        } else if (IDoc.class.isAssignableFrom(pCls)) {
           return DocCpr.class.getSimpleName();
+        } else if (IDoci.class.isAssignableFrom(pCls)) {
+          return DociCpr.class.getSimpleName();
         }
       } else if ("entRv".equals(pAct)) { //Create copy for reversing
         if (Entr.class == pCls) {
@@ -199,8 +203,10 @@ public class HlAcEnPr implements IHlNmClSt {
           return MoItLnRv.class.getSimpleName();
         } else if (APrep.class.isAssignableFrom(pCls)) {
           return PrepCpr.class.getSimpleName();
-        } else if (IDoci.class.isAssignableFrom(pCls)) {
+        } else if (IDoc.class.isAssignableFrom(pCls)) {
           return DocCpr.class.getSimpleName();
+        } else if (IDoci.class.isAssignableFrom(pCls)) {
+          return DociCpr.class.getSimpleName();
         } else if (AInvLn.class.isAssignableFrom(pCls)) {
           return InvLnCpr.class.getSimpleName();
         } else if (IRetLn.class.isAssignableFrom(pCls)) {

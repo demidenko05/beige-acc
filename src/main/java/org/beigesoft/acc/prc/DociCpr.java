@@ -4,13 +4,13 @@ BSD 2-Clause License
 Copyright (c) 2019, Beigesoft™
 All rights reserved.
 
-Redistribution and use in source and binary fsrTrStgs, with or without
+Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 * Redistributions of source code must retain the above copyright notice, this
   list of conditions and the following disclaimer.
 
-* Redistributions in binary fsrTrStg must reproduce the above copyright notice,
+* Redistributions in binary form must reproduce the above copyright notice,
   this list of conditions and the following disclaimer in the documentation
   and/or other materials provided with the distribution.
 
@@ -26,33 +26,33 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws.prc;
+package org.beigesoft.acc.prc;
 
-import java.util.Set;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.HashMap;
+import java.math.BigDecimal;
 
+import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
-import org.beigesoft.hnd.IHnTrRlBk;
+import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
-import org.beigesoft.ws.mdlp.TrdStg;
-import org.beigesoft.ws.srv.ISrTrStg;
+import org.beigesoft.acc.mdlb.IDoci;
 
 /**
- * <p>Service that saves trade settings into DB.</p>
+ * <p>Service that makes copy of base document to copy or reverse.</p>
  *
  * @author Yury Demidenko
  */
-public class TrStgSv implements IPrcEnt<TrdStg, Long> {
+public class DociCpr implements IPrcEnt<IDoci, Long> {
 
   /**
    * <p>ORM service.</p>
    **/
-  private ISrTrStg srTrStg;
+  private IOrm orm;
 
   /**
-   * <p>Process that saves entity.</p>
+   * <p>Process that creates copy entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process
@@ -60,17 +60,24 @@ public class TrStgSv implements IPrcEnt<TrdStg, Long> {
    * @throws Exception - an exception
    **/
   @Override
-  public final TrdStg process(final Map<String, Object> pRvs, final TrdStg pEnt,
+  public final IDoci process(final Map<String, Object> pRvs, final IDoci pEnt,
     final IReqDt pRqDt) throws Exception {
-    @SuppressWarnings("unchecked")
-    Set<IHnTrRlBk> hnsTrRlBk = (Set<IHnTrRlBk>) pRvs.get(IHnTrRlBk.HNSTRRLBK);
-    if (hnsTrRlBk == null) {
-      hnsTrRlBk = new HashSet<IHnTrRlBk>();
-      pRvs.put(IHnTrRlBk.HNSTRRLBK, hnsTrRlBk);
+    Map<String, Object> vs = new HashMap<String, Object>();
+    if (!pEnt.getDbOr().equals(this.orm.getDbId())) {
+      throw new ExcCode(ExcCode.SPAM, "can_not_change_foreign_src");
     }
-    hnsTrRlBk.add(this.srTrStg);
-    getSrTrStg().saveTrStg(pRvs, pEnt);
-    pRvs.put("msgSuc", "update_ok");
+    Long rvId = pEnt.getRvId();
+    this.orm.refrEnt(pRvs, vs, pEnt);
+    if (rvId == null) {
+      pEnt.setTot(BigDecimal.ZERO);
+    } else {
+      pEnt.setRvId(rvId);
+      pEnt.setTot(pEnt.getTot().negate());
+    }
+    pEnt.setMdEnr(false);
+    pEnt.setIid(null);
+    pEnt.setDscr(null);
+    pEnt.setIsNew(true);
     UvdVar uvs = (UvdVar) pRvs.get("uvs");
     uvs.setEnt(pEnt);
     return pEnt;
@@ -78,18 +85,18 @@ public class TrStgSv implements IPrcEnt<TrdStg, Long> {
 
   //Simple getters and setters:
   /**
-   * <p>Getter for srTrStg.</p>
-   * @return ISrTrStg
+   * <p>Getter for orm.</p>
+   * @return IOrm
    **/
-  public final ISrTrStg getSrTrStg() {
-    return this.srTrStg;
+  public final IOrm getOrm() {
+    return this.orm;
   }
 
   /**
-   * <p>Setter for srTrStg.</p>
-   * @param pSrTrStg reference
+   * <p>Setter for orm.</p>
+   * @param pOrm reference
    **/
-  public final void setSrTrStg(final ISrTrStg pSrTrStg) {
-    this.srTrStg = pSrTrStg;
+  public final void setOrm(final IOrm pOrm) {
+    this.orm = pOrm;
   }
 }
