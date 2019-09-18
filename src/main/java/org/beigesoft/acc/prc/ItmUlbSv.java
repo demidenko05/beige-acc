@@ -107,7 +107,7 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       vs.put("ItUbLndpLv", 1);
       List<ItUbLn> rdls = this.orm.retLstCnd(pRvs, vs, ItUbLn.class,
-        "where OWNR=" + revd.getIid()); vs.clear();
+        "where RVID is null and OWNR=" + revd.getIid()); vs.clear();
       CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (ItUbLn rdl : rdls) {
         ItUbLn rgl = new ItUbLn();

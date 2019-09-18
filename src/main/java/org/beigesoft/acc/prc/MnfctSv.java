@@ -38,6 +38,8 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.hld.UvdVar;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.prc.IPrcEnt;
+import org.beigesoft.acc.mdl.MnfFdDe;
+import org.beigesoft.acc.mdl.MnfFdWe;
 import org.beigesoft.acc.mdlp.Mnfct;
 import org.beigesoft.acc.mdlp.AcStg;
 import org.beigesoft.acc.srv.ISrEntr;
@@ -90,29 +92,34 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
     final IReqDt pRqDt) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     this.orm.refrEnt(pRvs, vs, pEnt.getMnp());
+    MnfFdWe mnfFdWe = new MnfFdWe(pEnt);
+    MnfFdDe mnfFdDe = new MnfFdDe(pEnt);
     if (pEnt.getRvId() != null) {
       Mnfct revd = new Mnfct();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
+      if (revd.getQuan().compareTo(revd.getItLf()) == 1) {
+        throw new ExcCode(ExcCode.WRPR, "where_is_withdraw");
+      }
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
       pEnt.setDbOr(this.orm.getDbId());
       pEnt.setTot(revd.getTot().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
-      this.srDrItEnr.rvDraw(pRvs, pEnt);
-      this.srWrhEnr.revDraw(pRvs, pEnt.getMnp());
+      this.srDrItEnr.rvDraw(pRvs, mnfFdDe);
+      this.srWrhEnr.revDraw(pRvs, mnfFdWe);
       this.srWrhEnr.revLoad(pRvs, pEnt);
       pRvs.put("msgSuc", "reverse_ok");
     } else {
       this.utlBas.chDtForg(pRvs, pEnt, pEnt.getDat());
-      if (pEnt.getQuan().compareTo(pEnt.getMnp().getItLf()) < 0) {
-        throw new ExcCode(ExcCode.WRPR, "LINE_HAS_NO_GOODS");
-      }
       if (pEnt.getQuan().compareTo(BigDecimal.ZERO) <= 0) {
         throw new ExcCode(ExcCode.WRPR, "quantity_less_or_equal_zero");
       }
+      if (pEnt.getQuan().compareTo(pEnt.getMnp().getItLf()) == 1) {
+        throw new ExcCode(ExcCode.WRPR, "LINE_HAS_NO_GOODS");
+      }
       pEnt.setItLf(pEnt.getQuan());
       AcStg as = (AcStg) pRvs.get("astg");
-      if (pEnt.getMnp().getQuan().compareTo(pEnt.getQuan()) == 0) {
+      if (pEnt.getMnp().getItLf().compareTo(pEnt.getQuan()) == 0) {
         pEnt.setTot(pEnt.getMnp().getTot());
         pEnt.setPri(pEnt.getMnp().getPri());
       } else {
@@ -125,8 +132,11 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
       }
       pEnt.setToLf(pEnt.getTot());
       if (pEnt.getIsNew()) {
+        if (!"mkEnr".equals(pRqDt.getParam("acAd"))) {
+          pEnt.setMdEnr(true);
+          pRvs.put("msgSuc", "insert_ok");
+        }
         this.orm.insIdLn(pRvs, vs, pEnt);
-        pRvs.put("msgSuc", "insert_ok");
       } else {
         String[] slFds = new String[] {"tot", "mdEnr"};
         Arrays.sort(slFds);
@@ -140,17 +150,18 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
-          pEnt.setMdEnr(true);
-          this.srDrItEnr.drawFr(pRvs, pEnt, pEnt.getMnp(), pEnt.getQuan());
-          this.srWrhEnr.draw(pRvs, pEnt.getMnp(), pEnt.getWhpo());
-          this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
-          getOrm().update(pRvs, vs, pEnt);
-          this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.put("msgSuc", "account_ok");
         } else {
-          getOrm().update(pRvs, vs, pEnt);
           pRvs.put("msgSuc", "update_ok");
         }
+        getOrm().update(pRvs, vs, pEnt);
+      }
+      if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+        pEnt.setMdEnr(true);
+        this.srDrItEnr.drawFr(pRvs, mnfFdDe, pEnt.getMnp(), pEnt.getQuan());
+        this.srWrhEnr.draw(pRvs, mnfFdWe, pEnt.getWhpo());
+        this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
+        this.srEntr.mkEntrs(pRvs, pEnt);
+        pRvs.put("msgSuc", "account_ok");
       }
     }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");

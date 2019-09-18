@@ -112,7 +112,7 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       vs.put("WgLndpLv", 1);
       List<WgLn> rdls = this.orm.retLstCnd(pRvs, vs, WgLn.class,
-        "where OWNR=" + revd.getIid()); vs.clear();
+        "where RVID is null and OWNR=" + revd.getIid()); vs.clear();
       CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (WgLn rdl : rdls) {
         WgLn rgl = new WgLn();

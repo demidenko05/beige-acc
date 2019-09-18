@@ -103,13 +103,16 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
       MnfPrc revd = new MnfPrc();
       revd.setIid(pEnt.getRvId());
       this.orm.refrEnt(pRvs, vs, revd);
+      if (revd.getQuan().compareTo(revd.getItLf()) == 1) {
+        throw new ExcCode(ExcCode.WRPR, "where_is_withdraw");
+      }
       this.utlBas.chDtForg(pRvs, revd, revd.getDat());
       pEnt.setDbOr(this.orm.getDbId());
       pEnt.setTot(revd.getTot().negate());
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       vs.put("MnpMcsdpLv", 1);
       List<MnpMcs> rdmls = this.orm.retLstCnd(pRvs, vs, MnpMcs.class,
-        "where OWNR=" + revd.getIid()); vs.clear();
+        "where RVID is null and OWNR=" + revd.getIid()); vs.clear();
       CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (MnpMcs rdml : rdmls) {
         MnpMcs rgl = new MnpMcs();
@@ -145,7 +148,7 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
       }
       vs.put("MnpAcsdpLv", 1);
       List<MnpAcs> rdals = this.orm.retLstCnd(pRvs, vs, MnpAcs.class,
-        "where OWNR=" + revd.getIid()); vs.clear();
+        "where RVID is null and OWNR=" + revd.getIid()); vs.clear();
       for (MnpAcs rdal : rdals) {
         MnpAcs rgl = new MnpAcs();
         rgl.setDbOr(this.orm.getDbId());
@@ -185,8 +188,11 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
       }
       pEnt.setItLf(pEnt.getQuan());
       if (pEnt.getIsNew()) {
+        if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+          pRvs.put("msgSuc", "insert_ok");
+          pEnt.setMdEnr(true);
+        }
         this.orm.insIdLn(pRvs, vs, pEnt);
-        pRvs.put("msgSuc", "insert_ok");
       } else {
         String[] slFds = new String[] {"tot", "mdEnr"};
         Arrays.sort(slFds);
@@ -206,15 +212,12 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
           if (!pEnt.getCmpl()) {
             throw new ExcCode(ExcCode.WRPR, "complite_first");
           }
-          this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
           pEnt.setMdEnr(true);
           String[] upFds = new String[] {"dat", "dscr", "ver", "cmpl", "quan",
             "pri", "itm", "uom", "wrhp", "mdEnr", "itLf"};
           Arrays.sort(upFds);
           vs.put("ndFds", upFds);
           getOrm().update(pRvs, vs, pEnt); vs.clear();
-          this.srEntr.mkEntrs(pRvs, pEnt);
-          pRvs.put("msgSuc", "account_ok");
         } else {
           String[] upFds = new String[] {"dat", "dscr", "ver", "cmpl", "quan",
             "pri", "itm", "uom", "wrhp", "itLf"};
@@ -223,6 +226,11 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
           getOrm().update(pRvs, vs, pEnt); vs.clear();
           pRvs.put("msgSuc", "update_ok");
         }
+      }
+      if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+        this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
+        this.srEntr.mkEntrs(pRvs, pEnt);
+        pRvs.put("msgSuc", "account_ok");
       }
     }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");

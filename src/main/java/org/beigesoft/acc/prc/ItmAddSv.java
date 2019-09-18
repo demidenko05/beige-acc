@@ -101,9 +101,12 @@ public class ItmAddSv implements IPrcEnt<ItmAdd, Long> {
       this.srEntr.revEntrs(pRvs, pEnt, revd);
       vs.put("ItAdLndpLv", 1);
       List<ItAdLn> rdls = this.orm.retLstCnd(pRvs, vs, ItAdLn.class,
-        "where OWNR=" + revd.getIid()); vs.clear();
+        "where RVID is null and OWNR=" + revd.getIid()); vs.clear();
       CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       for (ItAdLn rdl : rdls) {
+        if (rdl.getQuan().compareTo(rdl.getItLf()) == 1) {
+          throw new ExcCode(ExcCode.WRPR, "where_is_withdraw");
+        }
         ItAdLn rgl = new ItAdLn();
         rgl.setDbOr(this.orm.getDbId());
         rgl.setOwnr(pEnt);

@@ -131,7 +131,7 @@ public class MnpMcsSv<RS> implements IPrcEnt<MnpMcs, Long> {
         this.srWrhEnr.revDraw(pRvs, pEnt);
         pRvs.put("msgSuc", "reverse_ok");
       } else {
-       this.orm.insIdLn(pRvs, vs, pEnt);
+        this.orm.insIdLn(pRvs, vs, pEnt);
         this.srDrItEnr.draw(pRvs, pEnt);
         this.srWrhEnr.draw(pRvs, pEnt, pEnt.getWhpo());
         pRvs.put("msgSuc", "insert_ok");

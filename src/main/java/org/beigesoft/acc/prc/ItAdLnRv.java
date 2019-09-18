@@ -71,6 +71,9 @@ public class ItAdLnRv implements IPrcEnt<ItAdLn, Long> {
     if (rvId == null) {
       throw new ExcCode(ExcCode.SPAM, "Copy not allowed!");
     } else {
+      if (pEnt.getQuan().compareTo(pEnt.getItLf()) == 1) {
+        throw new ExcCode(ExcCode.WRPR, "where_is_withdraw");
+      }
       pEnt.setRvId(rvId);
       pEnt.setQuan(pEnt.getQuan().negate());
       pEnt.setTot(pEnt.getTot().negate());
