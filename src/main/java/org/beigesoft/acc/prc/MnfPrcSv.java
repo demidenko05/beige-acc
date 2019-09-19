@@ -188,11 +188,8 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
       }
       pEnt.setItLf(pEnt.getQuan());
       if (pEnt.getIsNew()) {
-        if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
-          pRvs.put("msgSuc", "insert_ok");
-          pEnt.setMdEnr(true);
-        }
         this.orm.insIdLn(pRvs, vs, pEnt);
+        pRvs.put("msgSuc", "insert_ok");
       } else {
         String[] slFds = new String[] {"tot", "mdEnr"};
         Arrays.sort(slFds);
@@ -218,6 +215,9 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
           Arrays.sort(upFds);
           vs.put("ndFds", upFds);
           getOrm().update(pRvs, vs, pEnt); vs.clear();
+          this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
+          this.srEntr.mkEntrs(pRvs, pEnt);
+          pRvs.put("msgSuc", "account_ok");
         } else {
           String[] upFds = new String[] {"dat", "dscr", "ver", "cmpl", "quan",
             "pri", "itm", "uom", "wrhp", "itLf"};
@@ -226,11 +226,6 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
           getOrm().update(pRvs, vs, pEnt); vs.clear();
           pRvs.put("msgSuc", "update_ok");
         }
-      }
-      if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
-        this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
-        this.srEntr.mkEntrs(pRvs, pEnt);
-        pRvs.put("msgSuc", "account_ok");
       }
     }
     UvdVar uvs = (UvdVar) pRvs.get("uvs");

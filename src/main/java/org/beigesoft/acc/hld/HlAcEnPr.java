@@ -42,6 +42,7 @@ import org.beigesoft.acc.mdlb.IEntrSrc;
 import org.beigesoft.acc.mdlb.IDoc;
 import org.beigesoft.acc.mdlb.IDoci;
 import org.beigesoft.acc.mdlb.IDcDri;
+import org.beigesoft.acc.mdlb.IMkWsEnr;
 import org.beigesoft.acc.mdlb.APrep;
 import org.beigesoft.acc.mdlb.ITyp;
 import org.beigesoft.acc.mdlb.IRvId;
@@ -341,11 +342,15 @@ public class HlAcEnPr implements IHlNmClSt {
           return WgTxlDl.class.getSimpleName();
         } else if (InEntr.class == pCls) {
           return InEntrDl.class.getSimpleName();
+        } else if (Mnfct.class.isAssignableFrom(pCls)) {
+          return DocDl.class.getSimpleName();
         } else if (ISacnt.class.isAssignableFrom(pCls)) {
           return IsacntDl.class.getSimpleName();
         } else if (IInvLn.class.isAssignableFrom(pCls)) {
           return NULL;
         } else if (ADcTxLn.class.isAssignableFrom(pCls)) {
+          return NULL;
+        } else if (IMkWsEnr.class.isAssignableFrom(pCls)) {
           return NULL;
         } else if (IDoci.class.isAssignableFrom(pCls)) {
           return DocDl.class.getSimpleName();

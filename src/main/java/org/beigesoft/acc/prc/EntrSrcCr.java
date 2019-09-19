@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.beigesoft.acc.prc;
 
 import java.util.Map;
-import java.util.Date;
 import java.util.Calendar;
 
 import org.beigesoft.mdl.IReqDt;
@@ -60,9 +59,9 @@ public class EntrSrcCr implements IPrcEnt<IEntrSrc, Long> {
     pEnt.setIsNew(true);
     AcUpf aupf = (AcUpf) pRvs.get("aupf");
     Calendar nowc = Calendar.getInstance();
-    nowc.setTime(new Date());
     Calendar opDtc = Calendar.getInstance();
     opDtc.setTime(aupf.getOpDt());
+    opDtc.set(Calendar.HOUR, nowc.get(Calendar.HOUR));
     opDtc.set(Calendar.MINUTE, nowc.get(Calendar.MINUTE));
     opDtc.set(Calendar.SECOND, nowc.get(Calendar.SECOND));
     opDtc.set(Calendar.MILLISECOND, nowc.get(Calendar.MILLISECOND));

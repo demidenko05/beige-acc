@@ -120,20 +120,19 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
       pEnt.setItLf(pEnt.getQuan());
       AcStg as = (AcStg) pRvs.get("astg");
       if (pEnt.getMnp().getItLf().compareTo(pEnt.getQuan()) == 0) {
-        pEnt.setTot(pEnt.getMnp().getTot());
-        pEnt.setPri(pEnt.getMnp().getPri());
+        pEnt.setTot(pEnt.getMnp().getToLf());
       } else {
-        BigDecimal pri = pEnt.getMnp().getTot()
-          .divide(pEnt.getMnp().getQuan(), 7, as.getRndm());
-        pEnt.setTot(pEnt.getQuan().multiply(pri)
-          .setScale(as.getCsDp(), as.getRndm()));
-        pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
-          as.getCsDp(), as.getRndm()));
+        pEnt.setTot(pEnt.getMnp().getToLf().divide(pEnt.getMnp().getItLf(),
+          as.getCsDp(), as.getRndm()).multiply(pEnt.getQuan())
+            .setScale(as.getCsDp(), as.getRndm()));
       }
+      pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
+        as.getCsDp(), as.getRndm()));
       pEnt.setToLf(pEnt.getTot());
       if (pEnt.getIsNew()) {
-        if (!"mkEnr".equals(pRqDt.getParam("acAd"))) {
+        if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
           pEnt.setMdEnr(true);
+        } else {
           pRvs.put("msgSuc", "insert_ok");
         }
         this.orm.insIdLn(pRvs, vs, pEnt);
@@ -150,13 +149,13 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
           }
+          pEnt.setMdEnr(true);
         } else {
           pRvs.put("msgSuc", "update_ok");
         }
         getOrm().update(pRvs, vs, pEnt);
       }
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
-        pEnt.setMdEnr(true);
         this.srDrItEnr.drawFr(pRvs, mnfFdDe, pEnt.getMnp(), pEnt.getQuan());
         this.srWrhEnr.draw(pRvs, mnfFdWe, pEnt.getWhpo());
         this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());

@@ -358,7 +358,8 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     final Map<String, Object> pVs, final IMkWsEnr pEnt,
       final DateFormat pDtFrm) throws Exception {
     WrhEnr revd = this.orm.retEntCnd(pRvs, pVs, WrhEnr.class, "SRTY="
-      + pEnt.cnsTy() + " and SRID=" + pEnt.getRvId());
+      + pEnt.cnsTy() + " and SRID=" + pEnt.getRvId()
+        + " and ITM=" + pEnt.getItm().getIid());
     if (revd == null) {
       throw new ExcCode(ExcCode.WR, "Can't reverse for CLS/RVID/ID/TY: "
         + pEnt.getClass() + "/" + pEnt.getRvId() + "/" + pEnt.getIid()
@@ -394,7 +395,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     String[] ndFds = new String[] {"dscr", "rvId", "ver"};
     Arrays.sort(ndFds);
     pVs.put("ndFds", ndFds);
-    this.orm.update(pRvs, pVs, revd);
+    this.orm.update(pRvs, pVs, revd); pVs.clear();
     return new WrhEnr[] {revg, revd};
   }
 
