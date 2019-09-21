@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Beigesoft™ Enterprise Information System, Bob's pizza example.">
+      
+      <h4>Topics:</h4>      
+      
+      <h5>
+        <a href="eis-eis-settings.html">Software installation, accounting settings, chart of accounts, started capital.</a>
+      </h5>
+      
+      <h5>
+        <a href="eis-property.html">Accounting of property deprecation.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-rent.html">Accounting of rent, electricity, etc.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-purchase.html">Accounting of purchase, prepayments, payments tracking, bank reconciliation.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-purchase-return.html">Accounting of purchase returns.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-employment.html">Accounting of employment (payroll).</a>
+      </h5>
+
+      <h5>
+        <a href="eis-manufacturing.html">Accounting of manufacturing (producing).</a>
+      </h5>
+
+      <h5>
+        <a href="eis-selling.html">Accounting of sales, prepayments, payments tracking.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-sales-return.html">Accounting of sales returns.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-loss.html">Accounting of goods loss/broke/stole.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-bad-debts.html">Accounting of bad debts.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-bobs-taxes.html">Accounting of business owner's taxes, Bob's earnings.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-android.html">Beigesoft™ EIS for Android.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-import-db-web.html">Import an EIS database by using WEB-service.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-start-not-from-scratch.html">Beigesoft™ EIS start not from scratch.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-tax-market.html">Market (Mark To Market) accounting, importing data from tax accounting.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-sales-taxes-cash.html">Accounting of sales taxes cash method, cash method vs accrual method.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-overseas-sales.html">Overseas sales. Advanced internationalization.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-multicurrency.html">Multi currency. Exchange gain or loss. Exchange difference.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-satax-iteminv.html">Sales tax due on transactions on an item or invoice basis.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-satax-aggr.html">Multi sales taxes. Aggregate tax rate method.</a>
+      </h5>
+      <h5>
+        <a href="eis-bank-csv.html">Import bank statement from CSV file, semi-automatically bank reconciliation.</a>
+      </h5>
+      <h5>
+        <a href="eis-price-list.html">Export price list into CSV file.</a>
+      </h5>
+      <h5>
+        <a href="eis-satax-dest.html">Destination-based sales tax. Overriding vendor's tax calculation method.</a>
+      </h5>
+
+      <h5>
+        * Sample databases <b>bobs-pizza-tax6.sqlite (from scratch)</b>, <b>bobs-pizza-market6.sqlite</b>, <b>bobs-pizza-nfs6.sqlite (not from scratch)</b> and <b>bobs-pizza-ws6.sqlite (the rest of articles including webstore, use user/password: admin/admin)</b> you can download from <a href="https://sourceforge.net/projects/beige-accounting/">https://sourceforge.net/projects/beige-accounting/</a>
+      </h5>
+
+      <h5>
+        <a href="eis-bobs-webstore.html">Bob's pizza web-store example. Part 1, catalog.</a>
+      </h5>
+
+      <h5>
+        <a href="eis-bobs-ws-chou.html">Bob's pizza web-store example. Part 2, cart checkout, forced delivering (shipping).</a>
+      </h5>
+      <h5>
+        <a href="eis-bobs-ws-prc.html">Bob's pizza web-store example. Part 3, prices depend on buyer, prices in foreign currency.</a>
+      </h5>
+
+    </section>
+
+  </body>
+
+</document>
