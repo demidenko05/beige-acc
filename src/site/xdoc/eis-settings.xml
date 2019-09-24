@@ -70,11 +70,11 @@ Bob read <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a b
   </pre>
   then you should install Bouncy Castle crypto-provider in static way:
   <ol>
-    <li>download bcprov-jdk15on-1.59.jar from <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.59/">https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.59/</a>
-    and bcpkix-jdk15on-1.59.jar from <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.59/">https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.59/</a></li>
+    <li>download bcprov-jdk15on-1.61.jar from <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.61/">https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.61/</a>
+    and bcpkix-jdk15on-1.61.jar from <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.61/">https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.61/</a></li>
     <li>put them into [java-home]/lib/ext e.g. "C:\Program Files (x86)\Java\jre[version#8]\lib\ext" (change [version#8] to yours)</li>
   </ol>
-  Previous step usually is sufficient, otherwise you should also add Bouncy Castle into <b>java.security</b>.
+  Previous step is usually sufficient, otherwise you should also add Bouncy Castle into <b>java.security</b>.
   Add entry "security.provider.[next_number]=org.bouncycastle.jce.provider.BouncyCastleProvider" into [JAVA_HOME]/lib/security/java.security.
   On MS Windows copy java.security to your documents folder, edit it then copy back into "C:\Program Files (x86)\Java\jre[version#8]\lib\security".
   <br></br>
@@ -87,7 +87,6 @@ security.provider.10=sun.security.mscapi.SunMSCAPI
 security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
 ...
   </pre>
-  * the latest JRE usually doesn't require next step (starting problem resolving).
   b) If starter.log is saying:
   <pre style="white-space:pre-wrap">
 ...org.bouncycastle.operator.OperatorCreationException: unable to create OutputEncryptor: Illegal key size or default parameters...
@@ -95,7 +94,7 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
   then you should install "Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files for Java 8" into
   folder [JAVA_HOME]/lib/security. For MS Windows you can find these files in folder "C:\Program Files (x86)\Java\jre[version#8]\lib\security\policy\unlimited",
   otherwise download these from Oracle HTTPS web-site.
-  Encryption with strong keys (long size) protects you (your information) from swindlers, so any law must protects you too.
+  Encryption with strong keys (long size) protects you (your information) from swindlers, so any law must protect you too.
 </p>
 
 <p>
@@ -103,63 +102,82 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
   <p align="center"><img alt="Beigesoft™ EIS started" style="max-width: 100%" src="images/ajettystarted.png" /></p>
 </p>
 <p>
-  A-Jetty Certificate Authority certificate <b>ajetty-ca.pem</b> will be at the application folder. You can install it
+  A-Jetty Certificate Authority certificate <b>ajetty-ca[A-JETTY NUMBER].pem</b> will be at the application folder. You can install it
   as trusted Certificate Authority in the browser, otherwise your browser will scare you "your connection is not private ...".
   This is not true, your connection (https) is encrypted, and no application can read traffic (your data).
   The only true is A-Jetty HTTPS is signed by unknown certificate authority (CA). So after installing CA A-Jetty (ajetty-ca.pem), browsers stop show fearful messages.
-  But you can point browser to accept this site without installing CA certificate - just push "Advanced" then "Proceed to localhost (unsafe)", and browser will show only little scaring sign "red https".
-  In this case (without installing CA certificate) the red https sign will be only problem, connection will be encrypted well, so software, that can intercept traffic locally (intercept port) e.g. an anti-virus,
-  can't read your data (decrypt traffic).
+  But you can point browser to accept this site without installing CA certificate - just push "Advanced" then "Proceed to localhost (unsafe)".
+  In this case (without installing CA certificate) the red https sign will be only problem, connection will be encrypted well, so software, that can intercept your traffic locally (intercept port e.g. an anti-virus),
+  can't read your data (decrypt your traffic).
   <p align="center"><img alt="Beigesoft™ EIS without CA certificate" style="max-width: 100%" src="images/nocahttps.png" /></p>
-  Unencrypted HTTP is actually danger thing for you, and browsers never scare you about it.
-  It's not only about your data reading/changing/tracking, also, any HTML page comes to your browser by passing through several Internet servers, and if some server is affected by harmful software,
-  then it can inject harmful script (software) in the page.
+  Any unencrypted HTTP connection is actually danger thing for you, but browsers never scare you about it.
+  It's not only about your data reading/changing/tracking, also, any HTML page (or any downloaded file) comes to your browser by passing through several Internet servers, and if some server is affected by harmful software,
+  then it can inject harmful script (software) in the page or file.
 </p>
 <p>
   To install A-Jetty CA certificate on chrome push Menu -> Settings -> Advanced -> Manage certificates -> AUTHORITIES and push button <b>IMPORT</b>, here is Linux example:
   <p align="center"><img alt="Beigesoft™ EIS install CA certificate" style="max-width: 100%" src="images/installcaweb1.png" /></p>
   <p align="center"><img alt="Beigesoft™ EIS install CA certificate" style="max-width: 100%" src="images/installcaweb2.png" /></p>
-  <p>On MS Windows switch file extension to all "*.*" in order to select "*.pem" file, and you can not constraint CA usage to "Only for HTTPS verification".</p>
+  <p>On MS Windows switch file extension to all "*.*" in order to select "*.pem" file, then select "Place all certificates in the following store" and choose "Trusted Root Certificate Authorities", then press "finish".
+  After that select this certificate push additional to restrict its roles (trust settings).</p>
   Certificates that aren't signed by global trusted CA are often used to create private (non-public internet) intranets and for using digital signatures inside organization (business entity).
-  Here "home-made" A-Jetty CA is used to create HTTPS intranet inside only computer and for safe file exchange between your computers/tablets.
+  Here "home-made" A-Jetty CA is used to create HTTPS intranet inside only computer, and for safe files exchanging between your computers/tablets.
 </p>
 <p>
-  <b>Here are part of screenshots will be shown with installed A-Jetty CA certificate (the https sign is well), and part without it (https is red). </b>
+  <b>Here are part of screenshots are shown with installed A-Jetty CA certificate (the https sign is well), and part without it (https is red). </b>
 </p>
 <p>  
-  After installing certificate <b>ajetty-ca.pem</b> on web-browser, Bob pushed button <b>https://localhost:8443/bsa8443</b> - default browser will opened this address.
-  At first time empty database requires to add the first (only) user with strong password, so Bob added himself:
+  Then Bob pushed button <b>https://localhost:8443/bsa8443</b>, default browser will opened this address.
+  At first time, the empty database requires to add the first (only) user with strong password, so Bob added himself:
   <p align="center"><img alt="Beigesoft™ EIS adding first user" style="max-width: 100%" src="images/accadduser.png" /></p>
-  At first Bob changed organization name in accounting settings, he selected Menu -> Appearance - > Standard -> Accounting -> Accounting settings:
+  At first Bob set accounting settings, he selected Menu -> Appearance - > Standard -> Accounting -> Accounting settings:
   <p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings.png" /></p>
   <p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings1.png" /></p>
   Bob changed report page settings: page size to "Letter", in this case unit of measurement is INCH, font size 3.5mm=0.1378inch.
   For page size A2-5 use millimeters.
-  Bob agreed all other settings include cost precision 4 decimal places to reduce rounding error.
-  Setting <b>Current accounting year</b> used for restricting year in new document or accounting entry.
+  Bob set cost precision to 2 decimal places, new COGS algorithm handles this well without the rounding error, see the following articles.
+  Setting <b>Operation month</b> used for restricting the month of the date of any operated document.
 </p>
 
 <h4>Chart of accounts.</h4>
-<p>Bob changed names of two accounts "started capital" and "retained earnings" and "is used" for his needs.
-  Property "is used" means that whether account will presents in picker and in reports.
+<p>Bob changed names of two accounts "started capital" and "retained earnings" and "Enabled" for his needs.
   Using subaccounts is simple and efficient way to manage your chart of accounts. Bob added subaccounts taxes, properties, bank accounts, etc. Expenses screenshot:
-  <p align="center"><img alt="Beigesoft™ EIS accounting subaccounts expenses" style="max-width: 100%" src="images/subaccounts-expenses.png" /></p>
+  <p align="center"><img alt="Beigesoft™ EIS accounting subaccounts expenses" style="max-width: 100%" src="images/subaccexpence.png" /></p>
   Then add them into accounts, for example <b>Employment Taxes Payable</b> account:
-  <p align="center"><img alt="Beigesoft™ EIS accounting subaccounts for Employment Taxes Payable" style="max-width: 100%" src="images/subaccounts-employment-taxes.png" /></p>
+  <p align="center"><img alt="Beigesoft™ EIS accounting subaccounts for Employment Taxes Payable" style="max-width: 100%" src="images/subacctax.png" /></p>
+</p>
+
+<p>* The most types of entities like expense, tax, debtor, etc. requires to enter ID (non-automatic). For a debtor/creditor you can use its global ID, i.e. TIN or phone number.
+  This is need for replication of distributed databases, i.e. import data from office A to office B.
+  Non-automatic ID allows to insert (create) the same entity with the same ID in all databases at the same time and work with it, then replicate data with no problem.
+  If you got error when you are creating such entity, then probably ID is not unique, e.g. ID=6 for "Owner income tax" is already in use:
+  <p align="center"><img style="max-width: 100%" src="images/iderr.png" /></p>
+  For sub-accounts use ID=Account Number + index, e.g. for account "Bank Number=1030" the first sub-account "#1236786817 in Bank" has ID=10301.
 </p>
 <p>
-  Finally, chart of accounts is:
-<div style="text-align: center;">
+  * Entities like documents, its lines, items (inventory) have automatic replication-ready ID.
+  Replication items (products) can be only one-way, and it's impossible to create and use the same items in different databases at the same time.
+</p>
+<p>
+  * If you are editing a form but forget to create a dependent entity, e.g. Employee for document Wage,
+  then you can open Beigesoft™ EIS in another browser tab and create Employee, then go back and in picker
+  press page (1 for example) to refresh it.
+</p>
+
+<p>
+  At last, the chart of accounts is:
+  <div style="text-align: center;">
     <h4>
-      Chart Of Accounts <br></br>
+      Chart of accounts <br></br>
       Bob's Pizza
     </h4>
-<table>
+  </div>
+  <table>
     <tr>
       <th>ID</th>
       <th>Number</th>
       <th>Name</th>
-      <th>Subaccount</th>
+      <th>Sub-account</th>
       <th>Normal balance type</th>
       <th>Type</th>
       <th>Description</th>
@@ -167,43 +185,17 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          CashInBanks
+          BANK
         </td>
         <td>
           1030
         </td>
         <td>
-          Cash In Banks
-        </td>
-        <td>
-          #1236786817 in Bank
+          Cash in bank
         </td>
         <td>
           
-            Debit
-          
-        </td>
-        <td>
-          
-            Asset
-          
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          OwnerDraws
-        </td>
-        <td>
-          1045
-        </td>
-        <td>
-          Owner's Withdrawals
-        </td>
-        <td>
+            (10301) #1236786817 in Bank
           
         </td>
         <td>
@@ -223,16 +215,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          BadDebts
+          BADDEBTS
         </td>
         <td>
           1090
         </td>
         <td>
-          Bad Debts
+          Bad debts
         </td>
         <td>
-          Funny coffee shop
+          
+            (10901) Funny coffee shop
+          
         </td>
         <td>
           
@@ -251,16 +245,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          AccReceivable
+          RECEIVABLE
         </td>
         <td>
           1105
         </td>
         <td>
-          Accounts Receivable
+          Accounts receivable
         </td>
         <td>
-          Mini-market
+          
+            (11051) Mini-market
+          
         </td>
         <td>
           
@@ -288,7 +284,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Funny coffee shop
+          
+            (11052) Funny coffee shop
+          
         </td>
         <td>
           
@@ -303,16 +301,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          ReturnsReceivable
+          RETRECV
         </td>
         <td>
           1110
         </td>
         <td>
-          Purchase Returns Receivable
+          Returns receivable
         </td>
         <td>
-          Carlo's grocery
+          
+            (11101) Carlo's grocery
+          
         </td>
         <td>
           
@@ -325,13 +325,13 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Due purchases returns to vendor(supplier)
+          
         </td>
       </tr>
     
       <tr>
         <td>
-          Inventory
+          INVENTORY
         </td>
         <td>
           1200
@@ -340,7 +340,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           Inventory
         </td>
         <td>
-          Pizza Ingredients
+          
+            (12001) Pizza Ingredients
+          
         </td>
         <td>
           
@@ -353,30 +355,6 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          It holds inventory uncapitalized cost exactly for a goods which reduce your income tax when you sell it by FIFO/LIFO/Average method
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          Pizza in progress
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
           
         </td>
       </tr>
@@ -392,7 +370,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Pizza bacon frozen
+          
+            (12002) Pizza in progress
+          
         </td>
         <td>
           
@@ -416,7 +396,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Pizza cheese frozen
+          
+            (12003) Pizza bacon frozen
+          
         </td>
         <td>
           
@@ -431,16 +413,44 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          InventoryDirectCostTmp
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+            (12004) Pizza cheese frozen
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          INVDRCST
         </td>
         <td>
           1205
         </td>
         <td>
-          Inventory direct cost temporary
+          Inventory direct cost (temporary)
         </td>
         <td>
-          Direct Labor
+          
+            (12051) Indirect labor
+          
         </td>
         <td>
           
@@ -453,22 +463,78 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          For manufacturing it temporary hold direct labor cost that will be included into inventory item cost (goods)
+          
         </td>
       </tr>
     
       <tr>
         <td>
-          SalesTaxFromSalReturns
+          SATAXRECV
+        </td>
+        <td>
+          1310
+        </td>
+        <td>
+          Sales taxes receivable
+        </td>
+        <td>
+          
+            (13101) STG4.7%
+          
+        </td>
+        <td>
+          
+            Debit
+          
+        </td>
+        <td>
+          
+            Asset
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+            (13102) STG6.4%
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          SATAXRECVRT
         </td>
         <td>
           1315
         </td>
         <td>
-          Sales Tax From Sales Returns
+          Sales taxes receivable from returns
         </td>
         <td>
-          STG4.7%
+          
         </td>
         <td>
           
@@ -487,40 +553,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          STG6.4%
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          Prepayments
+          PREPFOR
         </td>
         <td>
           1320
         </td>
         <td>
-          Prepayments
+          Prepayments for
         </td>
         <td>
-          Rent
+          
+            (13201) Rent
+          
         </td>
         <td>
           
@@ -533,22 +577,24 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          prepayments for rent, electricity etc.
+          
         </td>
       </tr>
     
       <tr>
         <td>
-          PrepaymentsTo
+          PREPTO
         </td>
         <td>
           1400
         </td>
         <td>
-          Prepayments to vendors
+          Prepayments to
         </td>
         <td>
-          Carlo's grocery
+          
+            (14001) Carlo's grocery
+          
         </td>
         <td>
           
@@ -567,7 +613,7 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          Property
+          PROPERTY
         </td>
         <td>
           1520
@@ -576,7 +622,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           Property
         </td>
         <td>
-          Ford
+          
+            (15201) Ford
+          
         </td>
         <td>
           
@@ -595,16 +643,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          AccPayable
+          PAYABLE
         </td>
         <td>
           2050
         </td>
         <td>
-          Accounts Payable
+          Accounts payable
         </td>
         <td>
-          Carlo's grocery
+          
+            (20501) Carlo's grocery
+          
         </td>
         <td>
           
@@ -623,16 +673,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          ReturnsPayable
+          RETPAY
         </td>
         <td>
-          2080
+          2055
         </td>
         <td>
-          Sales Returns Payable
+          Returns payable
         </td>
         <td>
-          Funny coffee shop
+          
+            (20551) Funny coffee shop
+          
         </td>
         <td>
           
@@ -645,50 +697,24 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          For USA this is Notes Payable
+          
         </td>
       </tr>
     
       <tr>
         <td>
-          AccruedPayableFor
+          ACCRPAY
         </td>
         <td>
           2110
         </td>
         <td>
-          Accrued Payable for
-        </td>
-        <td>
-          Rent
+          Accrued payable
         </td>
         <td>
           
-            Credit
+            (21101) Rent
           
-        </td>
-        <td>
-          
-            Liability
-          
-        </td>
-        <td>
-          Accrued Payable for unpaid rent, electricity etc
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          NetWagesPay
-        </td>
-        <td>
-          2220
-        </td>
-        <td>
-          Net Wages Payable
-        </td>
-        <td>
-          Cooks
         </td>
         <td>
           
@@ -707,16 +733,48 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          EmploymentTaxesPay
+          WAGEPAY
         </td>
         <td>
-          2240
+          2200
         </td>
         <td>
-          Employment Taxes Payable
+          Wage payable
         </td>
         <td>
-          SST wh.
+          
+            (22001) Cooks
+          
+        </td>
+        <td>
+          
+            Credit
+          
+        </td>
+        <td>
+          
+            Liability
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          WAGTXPAY
+        </td>
+        <td>
+          2210
+        </td>
+        <td>
+          Wage taxes payable
+        </td>
+        <td>
+          
+            (22101) Federal income tax
+          
         </td>
         <td>
           
@@ -744,31 +802,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          F. Income Tax wh.
-        </td>
-        <td>
           
-        </td>
-        <td>
+            (22102) Social security tax
           
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          FUTA wh.
         </td>
         <td>
           
@@ -792,7 +828,35 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Medicare wh.
+          
+            (22103) Medicare
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+            (22104) FUTA
+          
         </td>
         <td>
           
@@ -816,7 +880,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          NY income tax wh.
+          
+            (22105) NY income tax
+          
         </td>
         <td>
           
@@ -831,16 +897,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          SalesTaxPay
+          SATAXPAY
         </td>
         <td>
           2310
         </td>
         <td>
-          Sales Taxes Payable
+          Sales taxes payable
         </td>
         <td>
-          STG4.7%
+          
+            (23101) STG4.7%
+          
         </td>
         <td>
           
@@ -868,31 +936,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          STG6.4%
-        </td>
-        <td>
           
-        </td>
-        <td>
+            (23102) STG6.4%
           
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          STS11%
         </td>
         <td>
           
@@ -907,13 +953,39 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          IncomeTaxPay
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+            (23103) STS11%
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          BUSTXPAY
         </td>
         <td>
           2320
         </td>
         <td>
-          Taxes Payable based on owner income due to owner
+          Business taxes payable
         </td>
         <td>
           
@@ -935,16 +1007,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          PrepaymentsFrom
+          PREPFR
         </td>
         <td>
           2400
         </td>
         <td>
-          Prepayments from customers
+          Prepayments from
         </td>
         <td>
-          Mini-market
+          
+            (24001) Mini-market
+          
         </td>
         <td>
           
@@ -963,13 +1037,13 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          StartedCapital
+          SCAPITAL
         </td>
         <td>
-          3005
+          3010
         </td>
         <td>
-          Bob's Started Capital
+          Bob's started capital
         </td>
         <td>
           
@@ -991,13 +1065,13 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          RetainedEarnings
+          REARNINGS
         </td>
         <td>
           3200
         </td>
         <td>
-          Bob's Earnings
+          Bob's earnings
         </td>
         <td>
           
@@ -1019,44 +1093,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          RetainedLooses
-        </td>
-        <td>
-          3250
-        </td>
-        <td>
-          Retained looses
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-            Debit
-          
-        </td>
-        <td>
-          
-            Owner's equity
-          
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          Sales
+          GSALES
         </td>
         <td>
           4010
         </td>
         <td>
-          Goods Sales Revenue
+          Goods sales revenue
         </td>
         <td>
-          Pizza bacon frozen
+          
+            (40101) Pizza Ingredients
+          
         </td>
         <td>
           
@@ -1084,31 +1132,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Pizza cheese frozen
-        </td>
-        <td>
           
-        </td>
-        <td>
+            (40102) Pizza bacon frozen
           
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          Pizza Ingredients
         </td>
         <td>
           
@@ -1123,16 +1149,44 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          SalesServices
+          
         </td>
         <td>
-          4020
+          
         </td>
         <td>
-          Services Sales Revenue
+          
         </td>
         <td>
-          Cleaning
+          
+            (40103) Pizza cheese frozen
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          SSALES
+        </td>
+        <td>
+          4030
+        </td>
+        <td>
+          Services sales revenue
+        </td>
+        <td>
+          
+            (40301) Cleaning
+          
         </td>
         <td>
           
@@ -1151,16 +1205,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          SalesReturns
+          GRETURNS
         </td>
         <td>
           5010
         </td>
         <td>
-          Goods Sales Returns
+          Goods sales returns
         </td>
         <td>
-          Pizza bacon frozen
+          
+            (50101) Pizza bacon frozen
+          
         </td>
         <td>
           
@@ -1188,7 +1244,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Pizza cheese frozen
+          
+            (50102) Pizza cheese frozen
+          
         </td>
         <td>
           
@@ -1203,16 +1261,18 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          BadDebtsExpense
+          BADDEBTEXP
         </td>
         <td>
           5020
         </td>
         <td>
-          Bad Debts Expense
+          Bad debts expenses
         </td>
         <td>
-          Funny coffee shop
+          
+            (50201) Funny coffee shop
+          
         </td>
         <td>
           
@@ -1234,13 +1294,15 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           COGS
         </td>
         <td>
-          5100
+          5110
         </td>
         <td>
-          Cost Of Goods Sold
+          Cost of goods sold
         </td>
         <td>
-          Pizza bacon frozen
+          
+            (51101) Pizza Ingredients
+          
         </td>
         <td>
           
@@ -1253,30 +1315,6 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          It is made automatically from goods uncapitalized cost by FIFO/LIFO/Average
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          Pizza cheese frozen
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
           
         </td>
       </tr>
@@ -1292,7 +1330,35 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Pizza Ingredients
+          
+            (51102) Pizza bacon frozen
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+            (51103) Pizza cheese frozen
+          
         </td>
         <td>
           
@@ -1310,41 +1376,45 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           COGL
         </td>
         <td>
-          5110
-        </td>
-        <td>
-          Cost Of Goods Loss/Stole/Broken
-        </td>
-        <td>
-          Pizza Ingredients
-        </td>
-        <td>
-          
-            Debit
-          
-        </td>
-        <td>
-          
-            Income Expense
-          
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          Expenses
-        </td>
-        <td>
           5150
         </td>
         <td>
+          Cost of goods loss/stolen/broken
+        </td>
+        <td>
+          
+            (51501) Pizza Ingredients
+          
+        </td>
+        <td>
+          
+            Debit
+          
+        </td>
+        <td>
+          
+            Income Expense
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          EXPENSES
+        </td>
+        <td>
+          5250
+        </td>
+        <td>
           Expenses
         </td>
         <td>
-          Indirect Labor
+          
+            (52501) Bank fees
+          
         </td>
         <td>
           
@@ -1372,31 +1442,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Rent
-        </td>
-        <td>
           
-        </td>
-        <td>
+            (52502) Indirect labor
           
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          Property Deprecation
         </td>
         <td>
           
@@ -1420,31 +1468,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Federal Income Tax withholding
-        </td>
-        <td>
           
-        </td>
-        <td>
+            (52503) Property deprecation
           
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          Federal Unemployment Tax withholding
         </td>
         <td>
           
@@ -1468,31 +1494,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          Social Security withholding
-        </td>
-        <td>
           
-        </td>
-        <td>
+            (52504) Rent
           
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          Medicare withholding
         </td>
         <td>
           
@@ -1516,31 +1520,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
           
         </td>
         <td>
-          State Income Tax withholding
-        </td>
-        <td>
           
-        </td>
-        <td>
+            (52505) Wage taxes withholding
           
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          Bank fees
         </td>
         <td>
           
@@ -1554,14 +1536,13 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
       </tr>
     
   </table>
-</div>
 
 </p>
 
 <h4>Started capital.</h4>
 <p>Bob opened checking account #1236786b17 in Bank on Jan 10 2016 and deposited 40000USD. He made the first accounting entries from Menu Accounting -> Input accounting Entries:
   <p align="center"><img alt="Beigesoft™ EIS started capital" style="max-width: 100%" src="images/started-capital.png" /></p>
-  * amount in accounting entries always has maximum decimal places - 4 for cost precision. 
+  * amount in accounting entries always has maximum decimal places - 2 for cost precision. 
 </p>
 <h4>Book's style entries vs Computer's style ones</h4>
 <p>
@@ -1579,27 +1560,11 @@ Debit "Cash In Bank.#1236786b17 in Bank" Credit "Bob's Started Capital" for 40,0
   </pre>
 </p>
 
-<h4>Main tips to use Beigesoft™ EIS.</h4>
-<p>
-  <ul>
-    <li>* here "Entity" means any element like "Expense", "Account", document, etc.</li>
-    <li>If you are editing a form but forget to create a dependent entity, e.g. Employee for document Wage,
-      then you can open Beigesoft™ EIS in another browser tab and create Employee, then go back and in picker
-      press page (1 for example) to refresh it.</li>
-    <li>You can edit accounting entry' description(only) in menu Accounting - Accounting Records</li>
-    <li>Part of entities require entering ID manually for their creating. For customer/vendor/employee ID you can use its phone number (only numbers) or tax identification number.
-      If you got error when you are creating such entity, then probably ID is not unique, e.g. ID for "Other fees" is already in use:
-  <p align="center"><img style="max-width: 100%" src="images/iderr.png" /></p>
-      
-    </li>
-  </ul>
-</p>
-
 <h4>Running Beigesoft™ EIS in "protected from light harmful software" mode.</h4>
 <p>
   Light harmful software hide inside a regular application (not inside an operation system file), or it is any harmful-script, e.g script on HTML page.
   Light harmful software run under your regular account, and it can read any file that you can read.
-  On *nix OS (Linux...) you can run Beige Accounting under another account in terminal. To do this:
+  On *nix OS (Linux...) you can run Beigesoft™ EIS under another account in terminal. To do this:
   <ol>
     <li>Open terminal and login as ROOT user - command "su", set current directory to "cd /home".</li>
     <li>As ROOT add new user "accountant" with password - commands "useradd -m -U accountant", "passwd accountant" and "chmod o-r accountant"</li>
@@ -1608,7 +1573,7 @@ Debit "Cash In Bank.#1236786b17 in Bank" Credit "Bob's Started Capital" for 40,0
     <li>Exit from ROOT - "exit"</li>
     <li>Copy <b>beige-accjet-bin.zip</b> into <b>/file-exch</b> by using any file manager</li>
     <li>Open terminal and login as accountant - "su -l accountant"</li>
-    <li>Use file manager Midnight mc to install (unpack) Beige Accounting</li>
+    <li>Use file manager Midnight mc to install (unpack) Beigesoft™ EIS</li>
   </ol>
   Screenshots:
   <p align="center"><img style="max-width: 100%" src="images/commandline1.png" /></p>
@@ -1625,7 +1590,7 @@ $ sudo chmod o+w /file-exch
   </pre>
 </p>
 <p>
-  To start Beige Accounting in "command line mode" run: "java -jar beige-accjet-jar-with-dependencies.jar cli":
+  To start Beigesoft™ EIS in "command line mode" run: "java -jar beige-accjet-jar-with-dependencies.jar cli":
   <p align="center"><img style="max-width: 100%" src="images/commandline3.png" /></p>
 </p>
 <p>As a result you (and possible light harmful software, e.g. if your web-browser has enabled macros on HTML page to read your file system) can't read "accountant" files:
@@ -1638,7 +1603,7 @@ $ sudo chmod o+w /file-exch
   <p align="center"><img style="max-width: 100%" src="images/loginprotect2.png" /></p>
 </p>
 <p>
-  Heavy harmful software poison your operation system, so it can do everything. OS updates might remove it, but complex harmware can fake "OS updates",
+  Heavy harmful software poisons your operation system, so it can do everything. OS updates might remove it, but complex harmware can fake "OS updates",
   so you have only way to heal your computer - completely reinstall OS by using clean, write-protected installation source (DVD).
 </p>
     </section>
