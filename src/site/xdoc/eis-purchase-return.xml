@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Accounting of purchase returns.">
+
+     <p>Keywords: Accounting of purchase returns.</p>
+
+      <p>On 16 Jan Bob found that 12 eggs and 1 pound of cheese are not fresh.
+        At first he switched off entries source #15 "	Purchase return. Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount.".
+        Then he has made purchase return to Carlo's grocery:
+        <p align="center"><img alt="Beigesoft™ EIS purchase returns" style="max-width: 100%" src="images/purchret.png" /></p>
+        * you can change cost (price) (it's still picked automatically), and you can change tax amount (if taxes are extracted from purchase).
+      </p>
+      <p>Field <b>Site from</b> is optional. If it's empty then withdrawal will be from the first warehouse
+        site/s with available item/s.</p>
+      <p>Purchase return makes complex accounting, warehouse and draw goods entries:
+        <p align="center"><img alt="Beigesoft™ EIS purchase return report" style="max-width: 100%" src="images/purchretr.png" /></p>
+      </p>
+
+      <p>After that purchase invoice full report shows goods withdrawal:
+        <p align="center"><img style="max-width: 100%" src="images/purch1rar.png" /></p>
+      </p>
+
+    </section>
+
+  </body>
+
+</document>

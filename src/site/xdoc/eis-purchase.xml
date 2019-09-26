@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Accounting of purchase, prepayments, payments tracking, bank reconciliation.">
+
+      <p>Keywords: Accounting of purchase, prepayments, sales taxes from purchase, payments tracking, bank reconciliation.</p>
+
+      <h4>Sales taxes payed for raw material (producing USA).</h4>
+      <p>According <a href="https://www.irs.gov/pub/irs-pdf/p535.pdf">IRS 535 Business Expenses, Page 18</a> sales taxes that Bob paid for materials
+      are business expenses (sales taxes are included into material cost),  i.e. they are deducting income tax:
+<pre style="white-space: pre-wrap;">
+...
+Any sales tax you pay on a service for your business, or on the purchase or use of property
+in your business is treated as part of the cost of the service or property.
+If the service or the cost or use of the property is a deductible business expense,
+you can deduct the tax as part of that service or cost.
+If the property is merchandise bought for resale, the sales tax is part of the cost of the merchandise.
+...
+</pre>  
+        That is sales taxes from purchase is included into inventory and they become expenses automatically as part of Cost Of Goods Sold (method FIFO in this case).
+        So Bob should set accounting settings "Extract sales taxes from purchase" to No,
+        and set "Enabled" to No for "Entries source" #4 "Purchase invoice. Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount.":
+          <p align="center"><img alt="Beigesoft™ EIS settings - sales taxes from purchase" style="max-width: 100%" src="images/entrsourcestfrpur.png" /></p>
+        Also he should set "Enabled" to No asset account <b>Sales Tax From Purchase</b>.
+      </p>
+      <p>
+        If you have to use different method to account sales tax from purchase,
+        then set accounting settings "Extract sales taxes from purchase" to Yes,
+        and set "Enabled" to Yes for method #4 "Purchase invoice. Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount."
+        Then you should set "Enabled" to true asset account <b>Sales Tax From Purchase</b>. Also you should add sales taxes, item tax categories and set tax category for goods/service (see <a href="eis-selling.html">Accounting of sales, prepayments, payments tracking.</a>)
+        You are able to change tax amount in a purchase invoice line (item basis and aggregate/only rate) or total invoice (invoice basis).
+        In USA extracting taxes from purchase is required in case of using "inventory capitalized costs" method (see <a href="https://www.irs.gov/pub/irs-pdf/p538.pdf">IRS 538, Page 18 Uniform Capitalization Rules</a>).
+        Capitalized cost becomes expense partially depends of ending inventory (product).
+      </p>
+      <p>For many other countries sales taxes (e.g. VAT) from purchases is always extracted from goods/service cost and they are deducting themselves (taxes from sales).</p>
+      
+      <h4>Prepayments</h4>
+      <p>Bob has prepaid goods to Carlo's grocery on 14 Jan:
+          <p align="center"><img alt="Beigesoft™ EIS prepayment for purchase" style="max-width: 100%" src="images/prepforpurc.png" /></p>
+          * field <b>Total FC</b> is used in case of purchases made in foreign currency.
+      </p>
+      <p>"Prepayment for purchase" has made simple accounting entries:
+          <p align="center"><img alt="Beigesoft™ EIS prepayment for purchase report" style="max-width: 100%" src="images/prepforpurcrep.png" /></p>
+      </p>
+
+      <p>
+        * After a document is accounted you can't change it, you can only reverse it
+        or change description (only) of its accounting entries. Beigesoft™ EIS is designed for high load job,
+        this kind of software requires accuracy, otherwise you will get mess-up quickly. Just make database backup more frequently.
+      </p>
+      
+      <h4>Purchase</h4>
+      <p>
+        Bob has bought pizza ingredients on Jan 15, then filled purchase invoice, then accounted it:
+        <p align="center"><img alt="Beigesoft™ EIS purchase invoice" style="max-width: 100%" src="images/purchase1.png" /></p>
+        <p>Field <b>pay by date</b> is optional, fields <b>Foreign currency</b> and <b>exchange rate</b> are used for purchases made in foreign currency, after you added invoice line in native currency they will disappeared.</p>
+        <p align="center"><img alt="Beigesoft™ EIS purchase invoice report" style="max-width: 100%" src="images/purchase11.png" /></p>
+        <p align="center">full report  is:</p>
+        <p align="center"><img alt="Beigesoft™ EIS purchase invoice report" style="max-width: 100%" src="images/purchase1r.png" /></p>
+        <p align="center"><img alt="Beigesoft™ EIS purchase invoice report" style="max-width: 100%" src="images/purchase1r1.png" /></p>
+        <p>* As you can see, purchase invoice makes automatically accounting record prepayments to account payable. Only prepayment per invoice is allowed (has implemented),
+        otherwise you should make prepayments and payments tracking "by hand".</p>
+        <p>* You also can see that sales tax for cheese is included into its cost, i.e. it is not extracted.</p>
+      </p>
+
+      <h4>Payments tracking</h4>
+      <p>Bob has paid the rest to Carlo's grocery for purchase invoice#1 on 15 Jan:
+          <p align="center"><img alt="Beigesoft™ EIS payment for purchase" style="max-width: 100%" src="images/paypurch.png" /></p>
+      </p>
+      <p>Document "Payment for purchase" has made simple accounting entries:
+          <p align="center"><img alt="Beigesoft™ EIS payment for purchase report" style="max-width: 100%" src="images/paypurchrep.png" /></p>
+      </p>
+      <p>Purchase invoice's payment's tracking fields in the list are changed after that:
+          <p align="center"><img alt="Beigesoft™ EIS payment for purchase tracking" style="max-width: 100%" src="images/paypurchtrack.png" /></p>
+      </p>
+
+      <h4>Bank reconciliation</h4>
+      <p>When bank account balance in your accounting system (software or book) is not same as in the bank (in the bank statement),
+        then you have to make adjusting entries. This is called "bank reconciliation".
+        For example yesterday you had received check for 500USD from customer "Firm A" and made accounting entry:
+        <pre style="white-space: pre-wrap;">
+Debit CashInBank.Account#243443354 for 500USD Credit AccountsReceivable.FirmA for 500USD
+        </pre>
+        After that your bank account balance is 10000USD (in your accounting system).
+        Today you have received the bank statement that is saying that the check was rejected, and you was charged for 10USD additionally cause that "wrong check",
+        and the balance is 9490USD.
+        So you have to make two adjusting entries:
+        <pre style="white-space: pre-wrap;">
+Credit CashInBank.Account#243443354 for 500USD Debit AccountsReceivable.FirmA for 500USD
+Credit CashInBank.Account#243443354 for 10USD Debit Expenses.BankExpenses for 10USD
+        </pre>
+      </p>
+
+    </section>
+
+  </body>
+
+</document>

@@ -1597,7 +1597,7 @@ $ sudo chmod o+w /file-exch
   <p align="center"><img style="max-width: 100%" src="images/commandline4.png" /></p>
 </p>
 <p>
-  Light harmful software can try to match your password and steal your data by making HTTP requests. But you are protected with strong password and maximum 5 fail login attempts per session:
+  Light harmful software can try to match your password and steal your data by making HTTP requests. But you are protected with strong password and maximum 5 fail login attempts per session (15 minutes):
   <p align="center"><img style="max-width: 100%" src="images/loginprotect1.png" /></p>
   <p>you should check <b>secure.log</b> periodically:</p>
   <p align="center"><img style="max-width: 100%" src="images/loginprotect2.png" /></p>

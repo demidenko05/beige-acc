@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Accounting of rent, electricity, etc.">
+  <p>Keywords: Accounting of rent, electricity, etc.</p>
+<p>
+
+  These expenses usually don't require tracking payments to its vendor(supplier), and usually they don't include taxes.
+  So accounting of such expenses is very simple.
+  Bob rented kitchen on Jan 13 with equipment for 1000USD per month. The document lease is the proof that says that rent expense will be occurred
+  on the last day of every month for 1000USD even unpaid (accrual method).
+  <h4>Accounting of prepaid rent.</h4>
+  Bob prepaid 3000USD for 3 months and made accounting entries:
+  <p align="center"><img alt="Beigesoft™ EIS prepaid rent" style="max-width: 100%" src="images/prepaid-rent.png" /></p>
+  <p>
+    One month rent is occurred on Jan 31, so Bob will makes adjusting entries (transfers 1000USD from prepayments into income (business) expense account <b>5150 Expenses.Rent</b>):
+  </p>
+  <p align="center"><img alt="Beigesoft™ EIS rent occurred prepaid" style="max-width: 100%" src="images/rent-occurred.png" /></p>
+  <p>
+    Bob will make similar entries on February and March.
+  </p>
+  <h4>Accounting of unpaid rent.</h4>
+  <p>
+    Assume, in April Bob will have not paid rent on time, so he will make entries for occurred rent expense:
+  </p>
+  <p align="center"><img alt="Beigesoft™ EIS rent occurred unpaid" style="max-width: 100%" src="images/rent-occurred-unpaid.png" /></p>
+  <p>
+    When Bob will paid rent for April, he will make accounting entries:<br></br>
+    <pre style="white-space: pre-wrap;">Debit "Accrued Payable.Rent" Credit "Cash In Bank" for 1000 USD</pre>
+  </p>
+  <h4>Accounting of paid rent on time.</h4>
+  <p>
+    When Bob will paid rent on time, he will make accounting entries:<br></br>
+    <pre style="white-space: pre-wrap;">Debit "Expenses.Rent" Credit "Cash In Bank" for 1000 USD</pre>
+  </p>
+  <p>
+    * If according the law of your country rent expense is required to be capitalized, then it's used asset account <b>1210 Inventory Capitalized Cost.Rent</b> instead of <b>5150 Expenses.Rent</b>.
+  </p>
+</p>
+
+    </section>
+
+  </body>
+
+</document>
