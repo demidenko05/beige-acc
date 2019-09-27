@@ -8,5 +8,5 @@ See LICENSE in base folder
 <properties>
 <comment>Explicit final definition.</comment>
 <entry key="frmFds">ownr,iid,idOr,dbOr,tax,alw,rate,plAm,tot,dscr,rvId</entry>
-<entry key="selFds">Wage,tot</entry>
+<entry key="selFds">Wage,tot,ver</entry>
 </properties>

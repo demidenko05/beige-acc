@@ -61,7 +61,7 @@ public class EntrSrcCr implements IPrcEnt<IEntrSrc, Long> {
     Calendar nowc = Calendar.getInstance();
     Calendar opDtc = Calendar.getInstance();
     opDtc.setTime(aupf.getOpDt());
-    opDtc.set(Calendar.HOUR, nowc.get(Calendar.HOUR));
+    opDtc.set(Calendar.HOUR_OF_DAY, nowc.get(Calendar.HOUR_OF_DAY));
     opDtc.set(Calendar.MINUTE, nowc.get(Calendar.MINUTE));
     opDtc.set(Calendar.SECOND, nowc.get(Calendar.SECOND));
     opDtc.set(Calendar.MILLISECOND, nowc.get(Calendar.MILLISECOND));

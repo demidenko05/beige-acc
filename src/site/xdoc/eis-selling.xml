@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Accounting of sales, prepayments, payments tracking.">
+    <p>Keywords: Accounting of sales, payments tracking software, sales taxes.</p>
+
+      <p>Sales taxes imposed on the buyer are always extracted from sales revenue, and seller have to remit them to tax revenue authorities. This rule is applied in all countries.</p>
+
+      <p>Bob should not pay sales taxes for frozen pizza, but here is used fake sales taxes for goods with cheese and all services (only for example purpose)!</p>
+      
+      <p>To apply sales tax for a material/merchandise/service you should:
+        <p>1. Add <b>Tax</b> (type must be "Sales (VAT)"!) e.g.:
+          <p align="center"><img alt="Beigesoft™ EIS sales tax" style="max-width: 100%" src="images/taxfake.png" /></p>
+        </p>
+        <p>2. Add <b>Tax Category</b> e.g.:
+          <p align="center"><img alt="Beigesoft™ EIS merchandise sales tax category" style="max-width: 100%" src="images/taxcat.png" /></p>
+          * tax line requires entering manually ID, so use simple formula:
+          <pre>
+            100 + TAX CATEGORY ID append LINE INDEX, e.g. here first line should be 100 + 1 append 1 = 1011, and second = 1012 end so on.
+          </pre>
+          Here 100 gives you ability to have up to 899 different tax categories with ID from 1-899 without their lines ID collisions.
+          First and 123 line's ID of TC:
+          <pre>
+            TC ID LINE#1 ID LINE#123 ID 
+            1     1011      101123
+            99    1991      199123
+            100   2001      200123
+            155   2541      254123
+            899   9991      999123
+          </pre>
+        </p>
+        <p>3. Set <b>Tax Category</b> for material e.g.:
+          <p align="center"><img alt="Beigesoft™ EIS set merchandise sales tax" style="max-width: 100%" src="images/setsaltax.png" /></p>
+        </p>
+        <p>4. In "Accounting settings" set "extract sales taxes from sales" to "Yes" and set <b>ST aggregate rate</b> to "Yes", this means that an item can has only tax, or in case "multi-taxes" it's used aggregate rate, this is the mostly used method.
+          Then switch to "Yes" "Entries source #11 Sales Invoice, Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount."
+        </p>
+      </p>
+
+      <p>
+        Bob received 50USD prepayment from Mini Market on Jan 16.
+        Bob has filled Prepayment From:
+        <p align="center"><img alt="Beigesoft™ EIS prepayment for sales" style="max-width: 100%" src="images/prepfrom1.png" /></p>
+        <p align="center">After accounting full report is:</p>
+        <p align="center"><img alt="Beigesoft™ EIS prepayment for sales report" style="max-width: 100%" src="images/prepfrom2.png" /></p>
+      </p>
+      <p>
+        Bob sold on Jan 17 6 Pizza with bacon frozen and 6 Pizza with cheese frozen to Mini Market (he also sold 3 pounds of cheese and 1.5 hours of cleaning for example purposes).
+        Bob has filled Sales invoice:
+        <p align="center"><img alt="Beigesoft™ EIS sales invoice" style="max-width: 100%" src="images/sales0.png" /></p>
+        <p align="center">After accounting full report is:</p>
+        <p align="center"><img alt="Beigesoft™ EIS sales invoice report" style="max-width: 100%" src="images/sales1.png" /></p>
+        <p align="center"><img alt="Beigesoft™ EIS sales invoice report" style="max-width: 100%" src="images/sales2.png" /></p>
+      </p>
+      <p>
+        After that trial balance is:
+        <p align="center"><img style="max-width: 100%" src="images/trbalan2.png" /></p>
+      </p>
+      <p>
+        Ledger Inventory is:
+        <p align="center"><img alt="Beigesoft™ EIS Ledger Inventory" style="max-width: 100%" src="images/ledginv1.png" /></p>
+        <p align="center"><img alt="Beigesoft™ EIS Ledger Inventory" style="max-width: 100%" src="images/ledginv2.png" /></p>
+      </p>
+      <p>
+        As you can see Bob made another mistake. He set Sales date less than Manufacture date for that pizza, so
+        balance of Inventory.Pizza Cheese Frozen is -18.96 (red color) at 4:07 PM because it(pizza) was made at 6:36 PM.
+        So it's reasonable to make database copy more frequently, he needs to copy bseis.sqlite
+        by file explorer without exiting from accounting (on Android he should do it in the Database manager).
+        Otherwise he should reverse whole document. For warehouse document date means nothing cause warehouse
+        entries use current time. And you can't withdraw a product or material if it doesn't exist in warehouse.
+      </p>
+
+      <h4>Payments tracking</h4>
+      <p>Bob received on 18 Jan the rest 107.64 from Mini Market for sales invoice #1:
+          <p align="center"><img alt="Beigesoft™ EIS payment for sales" style="max-width: 100%" src="images/paymesal1.png" /></p>
+      </p>
+      <p>It make simple accounting entries:
+          <p align="center"><img alt="Beigesoft™ EIS payment for sales report" style="max-width: 100%" src="images/paymesal2.png" /></p>
+      </p>
+      <p>After what sales invoice's payment tracking fields in the list are changed:
+          <p align="center"><img alt="Beigesoft™ EIS payment for sales tracking" style="max-width: 100%" src="images/salpaymtrack.png" /></p>
+      </p>
+      <p>You can use filter for fields <b>Payment total</b> and <b>Pay by date</b> to report payments for sales:
+          <p align="center"><img alt="Beigesoft™ EIS report payments for sales" style="max-width: 100%" src="images/salpaymtrack1.png" /></p>
+      </p>
+
+      <h4>Sales tax rounding mode.</h4>
+      <p>Truly "Rounding" is "revealing the nearest number with reduced decimal places to the given (source) one".
+        Both "Half-up" and "Half-down" give the nearest result, but "Half-up" is the standard.
+      </p>
+      <p>Example for numbers: "20.215", "20.21501" and "20.21499", rounding to cents - 2 decimal places.</p>
+      <p><b>Half-up</b>:
+<pre style="white-space: pre-wrap;">
+  round(20.215) = 20.22, not 20.21
+  checking: (20.22-20.215)=0.005 equals to (20.215-20.21)=0.005
+  round(20.21501) = 20.22, not 20.21
+  checking: (20.22-20.21501)=0.00499 less than (20.21501-20.21)=0.00501
+  round(20.21499) = 20.21, not 20.22
+  checking: (20.21499-20.21)=0.00499 less than (20.22-20.21499)=0.00501
+</pre>
+      </p>
+      <p><b>Half-down</b>:
+<pre style="white-space: pre-wrap;">
+  round(20.215) = 20.21, not 20.22
+  checking: (20.215-20.21)=0.005 equals to (20.22-20.215)=0.005
+  round(20.21501) = 20.22, not 20.21
+  checking: (20.22-20.21501)=0.00499 less than (20.21501-20.21)=0.00501
+  round(20.21499) = 20.21, not 20.22
+  checking: (20.21499-20.21)=0.00499 less than (20.22-20.21499)=0.00501
+</pre>
+      </p>
+      <p>They like to introduce new methods in financial sphere, including rounding.
+        Method "CELL" is useful to make "cent discount".
+        Make sure about sales tax calculation rules in your country.
+        If before rounding you have to rip decimal places to 3, then "half-down" of "20.21501" gives "20.215"->"20.21", so you save cent.
+        If you have to always round up all fractions after 2 decimal place, then "half-up" of "20.21499" gives "20.215"->"20.22", so you lose cent.
+        Because of it, Beigesoft™ EIS allows to change tax amount in any invoice.
+      </p>
+      <p>If you have choices between standard thing and new one, then you should better opt standard one to avoid problems.</p>
+    </section>
+
+  </body>
+
+</document>
