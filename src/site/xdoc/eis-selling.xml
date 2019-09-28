@@ -9,8 +9,8 @@
 
   <body>
 
-    <section name="Accounting of sales, prepayments, payments tracking.">
-    <p>Keywords: Accounting of sales, payments tracking software, sales taxes.</p>
+    <section name="Accounting of sales, prepayments, payments tracking, COGS.">
+    <p>Keywords: Accounting of sales, payments tracking software, sales taxes, Cost Of Goods Sold.</p>
 
       <p>Sales taxes imposed on the buyer are always extracted from sales revenue, and seller have to remit them to tax revenue authorities. This rule is applied in all countries.</p>
 
@@ -23,19 +23,19 @@
         <p>2. Add <b>Tax Category</b> e.g.:
           <p align="center"><img alt="Beigesoft™ EIS merchandise sales tax category" style="max-width: 100%" src="images/taxcat.png" /></p>
           * tax line requires entering manually ID, so use simple formula:
-          <pre>
-            100 + TAX CATEGORY ID append LINE INDEX, e.g. here first line should be 100 + 1 append 1 = 1011, and second = 1012 end so on.
-          </pre>
+<pre style="white-space: pre-wrap;">
+  100 + TAX CATEGORY ID append LINE INDEX, e.g. here first line should be 100 + 1 append 1 = 1011, and second = 1012 end so on.
+</pre>
           Here 100 gives you ability to have up to 899 different tax categories with ID from 1-899 without their lines ID collisions.
           First and 123 line's ID of TC:
-          <pre>
-            TC ID LINE#1 ID LINE#123 ID 
-            1     1011      101123
-            99    1991      199123
-            100   2001      200123
-            155   2541      254123
-            899   9991      999123
-          </pre>
+<pre style="white-space: pre-wrap;">
+  TC ID LINE#1 ID LINE#123 ID 
+  1     1011      101123
+  99    1991      199123
+  100   2001      200123
+  155   2541      254123
+  899   9991      999123
+</pre>
         </p>
         <p>3. Set <b>Tax Category</b> for material e.g.:
           <p align="center"><img alt="Beigesoft™ EIS set merchandise sales tax" style="max-width: 100%" src="images/setsaltax.png" /></p>
@@ -127,6 +127,34 @@
       <p>If you have choices between standard thing and new one, then you should better opt standard one to avoid problems.</p>
     </section>
 
+    <p>Cost Of Goods Sold</p>
+    <p>Here used the most natural FIFO method, easy to understand and make it by computer, it's hard to make it and track by hand, unless you sell little items per day.
+      Average method is suitable when recording it by hand i.e. without computer.
+      LIFO is little bit bizarre (hard to track) and it's lawless in many countries.
+    </p>
+    <p>When we use items and make COGS entry, then we often face rounding error.
+      For example 120 eggs for 20 USD, price (rounded)=0.17USD, so withdrawal 119 eggs * 0.17USD = 20.23USD, that is no good.
+      In old Beige Accounting you should use more decimal places for cost (price) to reduce rounding error, and yet, little rounding error (the rest) might occurred in assets account Inventory.
+      That is price(cost) 0.1667 * 120 = 20.00, so there is no remaining "the rest" in this and most cases. New COGS withdrawal algorithm allows to use the same precision (decimal places) for cost as price without any problem.
+    </p>
+    <p>To check it, just create one test purchase (6 eggs for 4.29USD total) and sale for 96 eggs.
+      <p>Purchase#1 has eggs prior to test sale:
+          <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs1.png" /></p>
+      </p>
+      <p>Test Purchase#2 17 Jan has eggs prior to test sale:
+          <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs2.png" /></p>
+          * new item source has always zero total left, it's cause of used algorithm (cause complex cost revealing that depends on used tax methods: item/invoice basis, tax included...), and it actually means that total left equals to total.
+      </p>
+      <p>Test Sale#3 full report:
+          <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs3.png" /></p>
+      </p>
+      <p>Purchase#1 has eggs after test sale:
+          <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs4.png" /></p>
+      </p>
+      <p>Test Purchase#2 has eggs after test sale:
+          <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs5.png" /></p>
+      </p>
+    </p>
   </body>
 
 </document>

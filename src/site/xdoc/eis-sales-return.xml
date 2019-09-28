@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Accounting of sales returns.">
+      
+      <p>Keywords: Accounting of sales returns.</p>
+
+     <p>
+        Bob sold on Jan 18 4 Pizza with bacon frozen and 4 Pizza with cheese frozen to Funny coffee shop.
+        Bob has filled sales invoice (see <a href="eis-selling.html">Accounting of Sales.</a>)
+      </p>
+      <p>
+        Bob was confirmed on Jan 19 that Funny coffee shop is bankrupt, and he was received sales return 2 Pizza with bacon frozen and 2 Pizza with cheese frozen.
+      </p>
+
+      <p>Bob filled new sales return for the sales invoice:
+          <p align="center"><img alt="Beigesoft™ EIS sales return" style="max-width: 100%" src="images/salreturn.png" /></p>
+      </p>
+      <p>It made complex accounting/warehouse entries:
+          <p align="center"><img alt="Beigesoft™ EIS sales return report" style="max-width: 100%" src="images/salreturn1.png" /></p>
+          * here COGS accounting entries are made by using COGS entries from the sales invoice (see previous article), so pizza with bacon cost 21.84 for 6, and 21.84/6*2=7.28
+      </p>
+      <p>
+        * Sales returns are business expenses (deducting income tax).
+        If according the law of your country accrual method means that business expense occurs when you have received document (proof)
+        even though you haven't received goods yet (in the same day), then (in this case) switch off Entries cource#16 "Sales Return, Debit Goods sales returns per good category, Credit Returns Payable per Customer for subtotal amount." and make
+        these deducting income accounting entries by hand.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>

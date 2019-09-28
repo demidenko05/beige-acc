@@ -112,7 +112,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
       .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
-    mkEntr(pRvs, vs, pEnt, null, pWrp, dtFr);
+    mkEntr(pRvs, vs, pEnt, null, pWrp, pEnt.getQuan(), dtFr);
     mkWrhItm(pRvs, vs, pEnt, pWrp, pEnt.getQuan());
   }
 
@@ -130,23 +130,39 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
       .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
-    WrhPl wrp;
+    String where;
     if (pWrp != null) {
-      wrp = pWrp;
+      where = "where ITM=" + pEnt.getItm().getIid() + " and UOM="
+        + pEnt.getUom().getIid() + " and WRHP=" + pWrp.getIid()
+          + " and ITLF>0 limit " + pEnt.getQuan();
     } else {
-      vs.put("WrhItmndFds", new String[] {"wrhp"});
-      vs.put("WrhPldpLv", 0);
-      List<WrhItm> lst = this.orm.retLstCnd(pRvs, vs, WrhItm.class, "where ITM="
-        + pEnt.getItm().getIid() + " and UOM=" + pEnt.getUom().getIid()
-          + " and ITLF>=" + pEnt.getQuan() + " limit 1"); //fastest query
-      vs.clear();
-      if (lst.size() == 0) {
-        throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");
-      }
-      wrp = lst.get(0).getWrhp();
+      where = "where ITM=" + pEnt.getItm().getIid() + " and UOM="
+        + pEnt.getUom().getIid() + " and ITLF>0 limit " + pEnt.getQuan();
     }
-    mkEntr(pRvs, vs, pEnt, wrp, null, dtFr);
-    mkWrhItm(pRvs, vs, pEnt, wrp, pEnt.getQuan().negate());
+    vs.put("WrhItmndFds", new String[] {"itLf"});
+    vs.put("WrhItmdpLv", 1);
+    List<WrhItm> lst = this.orm.retLstCnd(pRvs, vs, WrhItm.class, where);
+    vs.clear();
+    if (lst.size() == 0) {
+      throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");
+    }
+    BigDecimal drLf = pEnt.getQuan();
+    for (WrhItm wi : lst) {
+      drLf = drLf.subtract(wi.getItLf());
+    }
+    if (drLf.compareTo(BigDecimal.ZERO) == 1) {
+      throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");
+    }
+    drLf = pEnt.getQuan();
+    for (WrhItm wi : lst) {
+      BigDecimal drCn = drLf.min(wi.getItLf());
+      mkEntr(pRvs, vs, pEnt, wi.getWrhp(), null, drCn, dtFr);
+      mkWrhItm(pRvs, vs, pEnt, wi.getWrhp(), drCn.negate());
+      drLf = drLf.subtract(drCn);
+      if (drLf.compareTo(BigDecimal.ZERO) == 0) {
+        break;
+      }
+    }
   }
 
   /**
@@ -164,7 +180,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
       .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
-    mkEntr(pRvs, vs, pEnt, pWrpFr, pWrpTo, dtFr);
+    mkEntr(pRvs, vs, pEnt, pWrpFr, pWrpTo, pEnt.getQuan(), dtFr);
     mkWrhItm(pRvs, vs, pEnt, pWrpFr, pEnt.getQuan().negate());
     mkWrhItm(pRvs, vs, pEnt, pWrpTo, pEnt.getQuan());
   }
@@ -199,8 +215,47 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
       .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
-    WrhEnr[] rz = mkRevEntr(pRvs, vs, pEnt, dtFr); //[reversing,reversed]
-    mkWrhItm(pRvs, vs, pEnt, rz[1].getWpFr(), rz[1].getQuan());
+    List<WrhEnr> revds = this.orm.retLstCnd(pRvs, vs, WrhEnr.class,
+      "where SRTY=" + pEnt.cnsTy() + " and SRID=" + pEnt.getRvId()
+        + " and ITM=" + pEnt.getItm().getIid());
+    if (revds.size() == 0) {
+      throw new ExcCode(ExcCode.WR, "Can't reverse for CLS/RVID/ID/TY: "
+        + pEnt.getClass() + "/" + pEnt.getRvId() + "/" + pEnt.getIid()
+          + "/" + pEnt.cnsTy());
+    }
+    for (WrhEnr revd : revds) {
+      if (revd.getRvId() != null) {
+        throw new ExcCode(ExcCode.WR, "Reverse reversed for CLS/RVID/ID/TY: "
+          + pEnt.getClass() + "/" + pEnt.getRvId() + "/" + pEnt.getIid()
+            + "/" + pEnt.cnsTy());
+      }
+      WrhEnr revg = new WrhEnr();
+      revg.setDbOr(this.orm.getDbId());
+      revg.setRvId(revd.getIid());
+      revg.setSrTy(pEnt.cnsTy());
+      revg.setSrId(pEnt.getIid());
+      revg.setSowTy(pEnt.getOwnrTy());
+      revg.setSowId(pEnt.getOwnrId());
+      revg.setItm(revd.getItm());
+      revg.setUom(revd.getUom());
+      revg.setQuan(revd.getQuan().negate());
+      revg.setWpFr(revd.getWpFr());
+      revg.setWpTo(revd.getWpTo());
+      StringBuffer sb = mkDscr(pRvs, pEnt, dtFr);
+      sb.append(" ," + getI18n().getMsg("reversed", cpf.getLngDef().getIid()));
+      sb.append(" #" + revd.getDbOr() + "-" + revd.getIid());
+      revg.setDscr(sb.toString() + "!");
+      this.orm.insIdLn(pRvs, vs, revg);
+      revd.setRvId(revg.getIid());
+      revd.setDscr(revd.getDscr() + ", !" + getI18n()
+        .getMsg("reversing", cpf.getLngDef().getIid()) + " #" + revg.getDbOr()
+          + "-" + revg.getIid() + "!");
+      String[] ndFds = new String[] {"dscr", "rvId", "ver"};
+      Arrays.sort(ndFds);
+      vs.put("ndFds", ndFds);
+      this.orm.update(pRvs, vs, revd); vs.clear();
+      mkWrhItm(pRvs, vs, pEnt, revd.getWpFr(), revd.getQuan());
+    }
   }
 
   /**
@@ -321,13 +376,15 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
    * @param pEnt source
    * @param pWpFr place from
    * @param pWpTo place to
+   * @param pQuan quantity
    * @param pDtFrm date format
    * @return entry
    * @throws Exception - an exception
    **/
   public final WrhEnr mkEntr(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final IMkWsEnr pEnt, final WrhPl pWpFr,
-      final WrhPl pWpTo, final DateFormat pDtFrm) throws Exception {
+      final WrhPl pWpTo, final BigDecimal pQuan,
+        final DateFormat pDtFrm) throws Exception {
     WrhEnr rz = new WrhEnr();
     rz.setDbOr(this.orm.getDbId());
     rz.setSrTy(pEnt.cnsTy());
@@ -336,7 +393,7 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     rz.setSowId(pEnt.getOwnrId());
     rz.setItm(pEnt.getItm());
     rz.setUom(pEnt.getUom());
-    rz.setQuan(pEnt.getQuan());
+    rz.setQuan(pQuan);
     rz.setWpFr(pWpFr);
     rz.setWpTo(pWpTo);
     StringBuffer sb = mkDscr(pRvs, pEnt, pDtFrm);

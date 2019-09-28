@@ -80,7 +80,7 @@ public class MnpMcsSv<RS> implements IPrcEnt<MnpMcs, Long> {
   private IRdb<RS> rdb;
 
   /**
-   * <p>Process that pertieves entity.</p>
+   * <p>Process that saves entity.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
    * @param pEnt Entity to process

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Accounting of bad debts.">
+
+      <p>Keywords: Accounting of bad debts.</p>
+      <p>
+        "Funny coffee shop" is bankrupt. The balance shows the debt:
+        <p align="center"><img style="max-width: 100%" src="images/balandebt.png" /></p>
+        <p>
+          Bob transferred on Jan 20 the amount of the debt to the account of asset "Bad Debts":
+        </p>
+        <p align="center"><img style="max-width: 100%" src="images/debtasset.png" /></p>
+        <p>
+          After that trial balance is:
+        <p align="center"><img style="max-width: 100%" src="images/balandebt1.png" /></p>
+        </p>
+      </p>
+      <p>When Bob will received document from IRS that this debt is approved, then Bob will transferred this amount into income (business) expense account.</p>
+    </section>
+
+  </body>
+
+</document>

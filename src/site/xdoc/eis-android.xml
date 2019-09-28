@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Beigesoft™ EIS on Android.">
+
+    <p>Keywords: Double entry accounting software for Android.</p>
+<p>
+  This is same WEB application based on embedded A-Jetty for Android.
+  Beigesoft™ EIS for Android complies rules <a href="https://play.google.com/about/privacy-security/personal-sensitive/">https://play.google.com/about/privacy-security/personal-sensitive/</a>,
+  i.e. private data (SQLite database, private log files, key-store with keys for encryption) are placed in private application storage,
+  all other applications can't read these files. Beigesoft™ EIS uses encryption to make HTTPS connection and to backup encrypted SQLite databases and log files.
+  These encrypted files stored on shared storage (where photos, files...), all other application can't decrypt them.
+  But when you print PDF reports then Chrome will download them into shared <b>Download</b> folder and any application that has permission to shared storage can read this file,
+  i.e. not only PDF viewer.
+</p>
+<p>
+  Bob decided to try this application on his Android smartphone.
+  He installed Beigesoft™ EIS from Play Store. He started it in the same way as described in <a href="eis-settings.html">Software installation...</a>.
+  <p align="center"><img style="max-width: 100%" src="images/andrstart.png" /></p>
+  Files <b>ajetty-ca.pem</b> and <b>ajetty-file-exch777.kpub</b> will be at the root of external storage.
+  To install A-Jetty CA certificate select Settings -> Security -> Install certificate from storage
+  (you will be forced to set screen locking - PIN with/without fingerprint, if you haven't it yet):
+  <p align="center"><img style="max-width: 100%" src="images/andrca.png" /></p>
+  You can find this certificate in Security -> Trusted Credentials -> User:
+  <p align="center"><img style="max-width: 100%" src="images/andrca1.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="images/andrca2.png" /></p>
+    After that Android versions might blame "A trusted certificate on your device is allowing a third party to monitor your network...":
+  <p align="center"><img style="max-width: 100%" src="images/andcawarn.png" /></p>
+  <p>There is no public explanation about this message, e.g. on <a href="https://support.google.com/nexus/answer/2844832?hl=en">https://support.google.com/nexus/answer/2844832?hl=en</a></p>
+  <p>
+    The facts:
+    <ul>
+      <li>Manually added any CA certificate is the same as already added (installed in the system). You can check it on ordinal computer (browser - settings - certificates).</li>
+      <li>Adding CA certificate on ordinal desktop Linux allows constraint CA to only "Trust this certificate to identity website". That is if system received an application that is signed by certificate from that CA, this the signature will be refused.</li>
+      <li>HTTP (unencrypted) is actually danger thing, but browsers never scare you about it.</li>
+      <li>You can work without installing CA.</li>
+    </ul>
+  </p>
+  <p>You can work without installing A-Jetty CA certificate. Just press "advanced", then "proceed unsafe". HTTPS still works - data will be encrypted, but red scaring sign will be appeared on address place. Any way you should learn about data protection.</p>
+  <p>Start menu is:</p>
+  <p align="center"><img style="max-width: 100%" src="images/andmenu.png" /></p>
+  <p>To send SQLite database from notebook to smartphone Bob copied public key <b>ajetty-file-exch777.kpub</b> from smartphone to notebook folder
+  <b>/home/accountant/beige-accjet/pub-exch</b>:
+    <p align="center"><img style="max-width: 100%" src="images/copypubtonot.png" /></p>
+  </p>
+  <p>
+    then Bob opened Database Manager, checked SHA1 fingerprint of public key A-Jetty777, then pressed <b>backup</b>:
+    <p align="center"><img style="max-width: 100%" src="images/backupto7.png" /></p>
+    then he copied 4 encrypted files and notebook A-Jetty public key <b>ajetty-file-exch444.kpub</b> into smartphone public backup folder "Bseis":
+    <p align="center"><img style="max-width: 100%" src="images/copytoandr.png" /></p>
+    These files are:
+    <ul>
+      <li>bobs-pizza-tax6.sqlten - database that is encrypted with 256bit AES session symmetric key.</li>
+      <li>bobs-pizza-tax6.sqlten.sig - encrypted database signature that is made with A-Jetty444 private 2048bit RSA key</li>
+      <li>bobs-pizza-tax6.sqlten.sken - 256bit AES session symmetric key that is encrypted with A-Jetty777 public 2048bit RSA key, this file can be decrypted only with A-Jetty777 RSA private key</li>
+      <li>bobs-pizza-tax6.sqlten.sken.sig - encrypted AES key signature that is made with A-Jetty444 private 2048bit RSA key</li>
+    </ul>
+  </p>
+  Then Bob restored database on smartphone:
+  <p align="center"><img style="max-width: 100%" src="images/andrdbman.png" /></p>
+  <p align="center">He looks at the same data:</p>
+  <p align="center"><img style="max-width: 100%" src="images/andr1.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="images/andr2.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="images/andrbaln.png" /></p>
+  <p>He can create new sales invoice:</p>
+  <p align="center"><img style="max-width: 100%" src="images/andrsal.png" /></p>
+  
+</p>
+
+    </section>
+
+  </body>
+
+</document>
