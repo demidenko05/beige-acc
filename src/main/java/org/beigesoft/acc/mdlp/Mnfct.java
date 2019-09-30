@@ -92,11 +92,6 @@ public class Mnfct extends ADoci implements IDcDri, IItmSrc,
   private WrhPl wrhp;
 
   /**
-   * <p>Warehouse place from (optional).</p>
-   **/
-  private WrhPl whpo;
-
-  /**
    * <p>Constant of code type 14.</p>
    * @return 14
    **/
@@ -290,6 +285,24 @@ public class Mnfct extends ADoci implements IDcDri, IItmSrc,
     return DrItEnr.class;
   }
 
+  /**
+   * <p>Getter for wrhp.</p>
+   * @return WrhPl
+   **/
+  @Override
+  public final WrhPl getWrhp() {
+    return this.wrhp;
+  }
+
+  /**
+   * <p>Setter for wrhp.</p>
+   * @param pWrhp reference
+   **/
+  @Override
+  public final void setWrhp(final WrhPl pWrhp) {
+    this.wrhp = pWrhp;
+  }
+
   //Simple getters and setters:
   /**
    * <p>Getter for mnp.</p>
@@ -321,37 +334,5 @@ public class Mnfct extends ADoci implements IDcDri, IItmSrc,
    **/
   public final void setPri(final BigDecimal pPri) {
     this.pri = pPri;
-  }
-
-  /**
-   * <p>Getter for wrhp.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWrhp() {
-    return this.wrhp;
-  }
-
-  /**
-   * <p>Setter for wrhp.</p>
-   * @param pWrhp reference
-   **/
-  public final void setWrhp(final WrhPl pWrhp) {
-    this.wrhp = pWrhp;
-  }
-
-  /**
-   * <p>Getter for whpo.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWhpo() {
-    return this.whpo;
-  }
-
-  /**
-   * <p>Setter for whpo.</p>
-   * @param pWhpo reference
-   **/
-  public final void setWhpo(final WrhPl pWhpo) {
-    this.whpo = pWhpo;
   }
 }

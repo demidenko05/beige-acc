@@ -237,6 +237,24 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
     return 4;
   }
 
+  /**
+   * <p>Getter for wrhp.</p>
+   * @return WrhPl
+   **/
+  @Override
+  public final WrhPl getWrhp() {
+    return this.wrhp;
+  }
+
+  /**
+   * <p>Setter for wrhp.</p>
+   * @param pWrhp reference
+   **/
+  @Override
+  public final void setWrhp(final WrhPl pWrhp) {
+    this.wrhp = pWrhp;
+  }
+
   //Simple getters and setters:
   /**
    * <p>Getter for txLns.</p>
@@ -252,21 +270,5 @@ public class PuInGdLn extends AInvLn<PurInv, Itm> implements IItmSrc {
    **/
   public final void setTxLns(final List<PuInGdTxLn> pTxLns) {
     this.txLns = pTxLns;
-  }
-
-  /**
-   * <p>Getter for wrhp.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWrhp() {
-    return this.wrhp;
-  }
-
-  /**
-   * <p>Setter for wrhp.</p>
-   * @param pWrhp reference
-   **/
-  public final void setWrhp(final WrhPl pWrhp) {
-    this.wrhp = pWrhp;
   }
 }

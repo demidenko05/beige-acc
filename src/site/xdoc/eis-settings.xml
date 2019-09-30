@@ -469,71 +469,17 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
     
       <tr>
         <td>
-          SATAXRECV
-        </td>
-        <td>
-          1310
-        </td>
-        <td>
-          Sales taxes receivable
-        </td>
-        <td>
-          
-            (13101) STG4.7%
-          
-        </td>
-        <td>
-          
-            Debit
-          
-        </td>
-        <td>
-          
-            Asset
-          
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-            (13102) STG6.4%
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-        <td>
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td>
           SATAXRECVRT
         </td>
         <td>
           1315
         </td>
         <td>
-          Sales taxes receivable from returns
+          Sales taxes receivable from sales returns
         </td>
         <td>
+          
+            (13151) STG4.7%
           
         </td>
         <td>
@@ -544,6 +490,32 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
         <td>
           
             Asset
+          
+        </td>
+        <td>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+            (13152) STG6.4%
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
           
         </td>
         <td>

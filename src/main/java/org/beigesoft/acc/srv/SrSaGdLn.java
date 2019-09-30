@@ -53,11 +53,6 @@ public class SrSaGdLn implements ISrInItLn<SalInv, SaInGdLn> {
   private IOrm orm;
 
   /**
-   * <p>Warehouse entries service.</p>
-   **/
-  private ISrWrhEnr srWrhEnr;
-
-  /**
    * <p>Line reverser.</p>
    **/
   private IRvInvLn<SalInv, SaInGdLn> rvInvLn;
@@ -78,8 +73,8 @@ public class SrSaGdLn implements ISrInItLn<SalInv, SaInGdLn> {
   @Override
   public final void mkEntrs(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final SaInGdLn pEnt) throws Exception {
+    //it also makes WS entries:
     this.srDrItEnr.draw(pRvs, pEnt);
-    this.srWrhEnr.draw(pRvs, pEnt, pEnt.getWhpo());
   }
 
   /**
@@ -186,22 +181,6 @@ public class SrSaGdLn implements ISrInItLn<SalInv, SaInGdLn> {
    **/
   public final void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
-  }
-
-  /**
-   * <p>Getter for srWrhEnr.</p>
-   * @return ISrWrhEnr
-   **/
-  public final ISrWrhEnr getSrWrhEnr() {
-    return this.srWrhEnr;
-  }
-
-  /**
-   * <p>Setter for srWrhEnr.</p>
-   * @param pSrWrhEnr reference
-   **/
-  public final void setSrWrhEnr(final ISrWrhEnr pSrWrhEnr) {
-    this.srWrhEnr = pSrWrhEnr;
   }
 
   /**

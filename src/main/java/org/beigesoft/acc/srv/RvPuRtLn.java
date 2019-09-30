@@ -121,7 +121,6 @@ public class RvPuRtLn<RS> implements IRvInvLn<PurRet, PuRtLn> {
     this.rdb.delete("PURTLTL", "OWNR=" + pRved.getIid());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     pRvng.setInvl(pRved.getInvl());
-    pRvng.setWhpo(pRved.getWhpo());
     StringBuffer sb = new StringBuffer();
     if (pRvng.getDscr() != null) {
       sb.append(pRvng.getDscr() + " !");

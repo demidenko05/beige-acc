@@ -1319,9 +1319,6 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     SrPuRtLn sritln = new SrPuRtLn();
     rz.setSrInItLn(sritln);
     sritln.setOrm(this.fctBlc.lazOrm(pRvs));
-    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
-      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
-    sritln.setSrWrhEnr(srWrhEnr);
     ISrDrItEnr srDrItEnr = (ISrDrItEnr) this.fctBlc
       .laz(pRvs, ISrDrItEnr.class.getSimpleName());
     sritln.setSrDrItEnr(srDrItEnr);
@@ -1426,9 +1423,6 @@ public class FcEnPrAc<RS> implements IFctPrcEnt {
     SrSaGdLn sritln = new SrSaGdLn();
     rz.setSrInItLn(sritln);
     sritln.setOrm(this.fctBlc.lazOrm(pRvs));
-    ISrWrhEnr srWrhEnr = (ISrWrhEnr) this.fctBlc
-      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
-    sritln.setSrWrhEnr(srWrhEnr);
     ISrDrItEnr srDrItEnr = (ISrDrItEnr) this.fctBlc
       .laz(pRvs, ISrDrItEnr.class.getSimpleName());
     sritln.setSrDrItEnr(srDrItEnr);

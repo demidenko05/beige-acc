@@ -122,9 +122,9 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
       if (pEnt.getMnp().getItLf().compareTo(pEnt.getQuan()) == 0) {
         pEnt.setTot(pEnt.getMnp().getToLf());
       } else {
-        pEnt.setTot(pEnt.getMnp().getToLf().divide(pEnt.getMnp().getItLf(),
-          as.getCsDp(), as.getRndm()).multiply(pEnt.getQuan())
-            .setScale(as.getCsDp(), as.getRndm()));
+        pEnt.setTot(pEnt.getMnp().getToLf().divide(pEnt.getMnp().getItLf(), 15,
+          as.getRndm()).multiply(pEnt.getQuan())
+            .setScale(as.getPrDp(), as.getRndm()));
       }
       pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
         as.getCsDp(), as.getRndm()));
@@ -156,8 +156,8 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
         getOrm().update(pRvs, vs, pEnt);
       }
       if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
+        //it also makes draw WS entries:
         this.srDrItEnr.drawFr(pRvs, mnfFdDe, pEnt.getMnp(), pEnt.getQuan());
-        this.srWrhEnr.draw(pRvs, mnfFdWe, pEnt.getWhpo());
         this.srWrhEnr.load(pRvs, pEnt, pEnt.getWrhp());
         this.srEntr.mkEntrs(pRvs, pEnt);
         pRvs.put("msgSuc", "account_ok");

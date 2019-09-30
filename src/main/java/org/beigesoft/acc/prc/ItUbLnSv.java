@@ -107,7 +107,6 @@ public class ItUbLnSv<RS> implements IPrcEnt<ItUbLn, Long> {
         pEnt.setItm(revd.getItm());
         pEnt.setAcc(revd.getAcc());
         pEnt.setUom(revd.getUom());
-        pEnt.setWhpo(revd.getWhpo());
         pEnt.setQuan(revd.getQuan().negate());
         CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
         StringBuffer sb = new StringBuffer();
@@ -143,8 +142,7 @@ public class ItUbLnSv<RS> implements IPrcEnt<ItUbLn, Long> {
           throw new ExcCode(ExcCode.WRPR, "account_must_be_cogs_itct");
         }
         this.orm.insIdLn(pRvs, vs, pEnt);
-        this.srDrItEnr.draw(pRvs, pEnt);
-        this.srWrhEnr.draw(pRvs, pEnt, pEnt.getWhpo());
+        this.srDrItEnr.draw(pRvs, pEnt); //it also makes WS entries
         pRvs.put("msgSuc", "insert_ok");
       }
 String qu = "select sum(TOT) as TOT from COGSENR where RVID is null and DOWID="

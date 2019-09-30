@@ -335,11 +335,11 @@ public class ItAdLn extends AOrId implements IOwned<ItmAdd, Long>, IItmSrc {
     return 12;
   }
 
-  //Simple getters and setters:
   /**
    * <p>Getter for wrhp.</p>
    * @return WrhPl
    **/
+  @Override
   public final WrhPl getWrhp() {
     return this.wrhp;
   }
@@ -348,10 +348,12 @@ public class ItAdLn extends AOrId implements IOwned<ItmAdd, Long>, IItmSrc {
    * <p>Setter for wrhp.</p>
    * @param pWrhp reference
    **/
+  @Override
   public final void setWrhp(final WrhPl pWrhp) {
     this.wrhp = pWrhp;
   }
 
+  //Simple getters and setters:
   /**
    * <p>Getter for pri.</p>
    * @return BigDecimal

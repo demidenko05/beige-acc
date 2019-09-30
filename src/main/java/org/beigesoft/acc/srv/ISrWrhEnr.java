@@ -30,6 +30,7 @@ package org.beigesoft.acc.srv;
 
 import java.util.List;
 import java.util.Map;
+import java.math.BigDecimal;
 
 import org.beigesoft.acc.mdlb.IDocb;
 import org.beigesoft.acc.mdlb.IMkWsEnr;
@@ -59,10 +60,11 @@ public interface ISrWrhEnr {
    * @param pRvs Request scoped variables, not null
    * @param pEnt drawer source, not null
    * @param pWrp warehouse place, optional
+   * @param pQuan quantity
    * @throws Exception - an exception
    **/
   void draw(Map<String, Object> pRvs, IMkWsEnr pEnt,
-    WrhPl pWrp) throws Exception;
+    WrhPl pWrp, BigDecimal pQuan) throws Exception;
 
   /**
    * <p>Moves item from one warehouse place to another for given source.</p>

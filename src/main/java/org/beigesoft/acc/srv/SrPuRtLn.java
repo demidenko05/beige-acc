@@ -55,11 +55,6 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
   private IOrm orm;
 
   /**
-   * <p>Warehouse entries service.</p>
-   **/
-  private ISrWrhEnr srWrhEnr;
-
-  /**
    * <p>Line reverser.</p>
    **/
   private IRvInvLn<PurRet, PuRtLn> rvInvLn;
@@ -79,8 +74,8 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
   @Override
   public final void mkEntrs(final Map<String, Object> pRvs,
     final Map<String, Object> pVs, final PuRtLn pEnt) throws Exception {
+    //it also makes WS entries:
     this.srDrItEnr.drawFr(pRvs, pEnt, pEnt.getInvl(), pEnt.getQuan());
-    this.srWrhEnr.draw(pRvs, pEnt, pEnt.getWhpo());
   }
 
   /**
@@ -111,8 +106,8 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
           .setScale(as.getPrDp(), as.getRndm()));
       }
     }
-    String[] fds = new String[] {"itm", "uom", "pri", "prFc", "txCt", "itLf",
-      "toLf", "dbOr", "subt"};
+    String[] fds = new String[] {"itm", "uom", "pri", "prFc", "txCt", "wrhp",
+      "itLf", "toLf", "dbOr", "subt"};
     Arrays.sort(fds);
     pVs.put(pEnt.getInvl().getClass().getSimpleName() + "ndFds", fds);
     pVs.put(pEnt.getInvl().getClass().getSimpleName() + "dpLv", 1);
@@ -208,22 +203,6 @@ public class SrPuRtLn implements ISrInItLn<PurRet, PuRtLn> {
    **/
   public final void setOrm(final IOrm pOrm) {
     this.orm = pOrm;
-  }
-
-  /**
-   * <p>Getter for srWrhEnr.</p>
-   * @return ISrWrhEnr
-   **/
-  public final ISrWrhEnr getSrWrhEnr() {
-    return this.srWrhEnr;
-  }
-
-  /**
-   * <p>Setter for srWrhEnr.</p>
-   * @param pSrWrhEnr reference
-   **/
-  public final void setSrWrhEnr(final ISrWrhEnr pSrWrhEnr) {
-    this.srWrhEnr = pSrWrhEnr;
   }
 
   /**

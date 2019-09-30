@@ -285,11 +285,11 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
     return null;
   }
 
-  //Simple getters and setters:
   /**
    * <p>Getter for wrhp.</p>
    * @return WrhPl
    **/
+  @Override
   public final WrhPl getWrhp() {
     return this.wrhp;
   }
@@ -298,10 +298,12 @@ public class MnfPrc extends ADoci implements IDcDri, IItmSrc {
    * <p>Setter for wrhp.</p>
    * @param pWrhp reference
    **/
+  @Override
   public final void setWrhp(final WrhPl pWrhp) {
     this.wrhp = pWrhp;
   }
 
+  //Simple getters and setters:
   /**
    * <p>Getter for pri.</p>
    * @return BigDecimal

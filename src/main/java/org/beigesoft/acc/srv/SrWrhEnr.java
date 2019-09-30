@@ -121,11 +121,12 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
    * @param pRvs Request scoped variables, not null
    * @param pEnt drawer source, not null
    * @param pWrp warehouse place, maybe null
+   * @param pQuan quantity
    * @throws Exception - an exception
    **/
   @Override
   public final void draw(final Map<String, Object> pRvs, final IMkWsEnr pEnt,
-    final WrhPl pWrp) throws Exception {
+    final WrhPl pWrp, final BigDecimal pQuan) throws Exception {
     Map<String, Object> vs = new HashMap<String, Object>();
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
@@ -134,10 +135,10 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     if (pWrp != null) {
       where = "where ITM=" + pEnt.getItm().getIid() + " and UOM="
         + pEnt.getUom().getIid() + " and WRHP=" + pWrp.getIid()
-          + " and ITLF>0 limit " + pEnt.getQuan();
+          + " and ITLF>0 limit " + pQuan;
     } else {
       where = "where ITM=" + pEnt.getItm().getIid() + " and UOM="
-        + pEnt.getUom().getIid() + " and ITLF>0 limit " + pEnt.getQuan();
+        + pEnt.getUom().getIid() + " and ITLF>0 limit " + pQuan;
     }
     vs.put("WrhItmndFds", new String[] {"itLf"});
     vs.put("WrhItmdpLv", 1);
@@ -146,14 +147,14 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     if (lst.size() == 0) {
       throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");
     }
-    BigDecimal drLf = pEnt.getQuan();
+    BigDecimal drLf = pQuan;
     for (WrhItm wi : lst) {
       drLf = drLf.subtract(wi.getItLf());
     }
     if (drLf.compareTo(BigDecimal.ZERO) == 1) {
       throw new ExcCode(ExcCode.WRPR, "THERE_IS_NO_GOODS");
     }
-    drLf = pEnt.getQuan();
+    drLf = pQuan;
     for (WrhItm wi : lst) {
       BigDecimal drCn = drLf.min(wi.getItLf());
       mkEntr(pRvs, vs, pEnt, wi.getWrhp(), null, drCn, dtFr);

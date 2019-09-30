@@ -149,8 +149,8 @@ public class MnpAcsSv<RS> implements IPrcEnt<MnpAcs, Long> {
     pEnt.getOwnr().setTot(pEnt.getOwnr().getMaCs().add(pEnt.getOwnr()
       .getAdCs()).setScale(as.getCsDp(), as.getRndm()));
     pEnt.getOwnr().setToLf(pEnt.getOwnr().getTot());
-      pEnt.getOwnr().setPri(pEnt.getOwnr().getTot()
-        .divide(pEnt.getOwnr().getQuan(), as.getCsDp(), as.getRndm()));
+    pEnt.getOwnr().setPri(pEnt.getOwnr().getTot()
+      .divide(pEnt.getOwnr().getQuan(), as.getCsDp(), as.getRndm()));
     String[] upFds = new String[] {"adCs", "tot", "pri", "toLf", "ver"};
     Arrays.sort(upFds);
     vs.put("ndFds", upFds);

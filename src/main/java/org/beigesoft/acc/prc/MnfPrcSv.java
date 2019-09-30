@@ -121,7 +121,6 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
         rgl.setRvId(rdml.getIid());
         rgl.setItm(rdml.getItm());
         rgl.setUom(rdml.getUom());
-        rgl.setWhpo(rdml.getWhpo());
         rgl.setQuan(rdml.getQuan().negate());
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {

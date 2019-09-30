@@ -123,7 +123,6 @@ public class RvSaGdLn<RS> implements IRvInvLn<SalInv, SaInGdLn> {
       final SaInGdLn pRvng, final SaInGdLn pRved) throws Exception {
     this.rdb.delete("SAINGDTXLN", "OWNR=" + pRved.getIid());
     CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
-    pRvng.setWhpo(pRved.getWhpo());
     StringBuffer sb = new StringBuffer();
     if (pRvng.getDscr() != null) {
       sb.append(pRvng.getDscr() + " !");

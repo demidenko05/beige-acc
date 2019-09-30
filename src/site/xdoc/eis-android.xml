@@ -19,7 +19,8 @@
   all other applications can't read these files. Beigesoft™ EIS uses encryption to make HTTPS connection and to backup encrypted SQLite databases and log files.
   These encrypted files stored on shared storage (where photos, files...), all other application can't decrypt them.
   But when you print PDF reports then Chrome will download them into shared <b>Download</b> folder and any application that has permission to shared storage can read this file,
-  i.e. not only PDF viewer.
+  i.e. not only PDF viewer. In next year Android all applications are required to use "scoped storage". That means that any application hes no direct access to any file in shared storage,
+  it can use any file only when user allow it interactively, i.e. user will be asked for that.
 </p>
 <p>
   Bob decided to try this application on his Android smartphone.

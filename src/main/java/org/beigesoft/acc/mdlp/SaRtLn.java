@@ -572,6 +572,24 @@ public class SaRtLn extends AOrId
     this.invl = pInvl;
   }
 
+  /**
+   * <p>Getter for wrhp.</p>
+   * @return WrhPl
+   **/
+  @Override
+  public final WrhPl getWrhp() {
+    return this.wrhp;
+  }
+
+  /**
+   * <p>Setter for wrhp.</p>
+   * @param pWrhp reference
+   **/
+  @Override
+  public final void setWrhp(final WrhPl pWrhp) {
+    this.wrhp = pWrhp;
+  }
+
   //Simple getters and setters:
   /**
    * <p>Getter for txLns.</p>
@@ -587,21 +605,5 @@ public class SaRtLn extends AOrId
    **/
   public final void setTxLns(final List<SaRtLtl> pTxLns) {
     this.txLns = pTxLns;
-  }
-
-  /**
-   * <p>Getter for wrhp.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWrhp() {
-    return this.wrhp;
-  }
-
-  /**
-   * <p>Setter for wrhp.</p>
-   * @param pWrhp reference
-   **/
-  public final void setWrhp(final WrhPl pWrhp) {
-    this.wrhp = pWrhp;
   }
 }

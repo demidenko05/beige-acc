@@ -117,7 +117,6 @@ public class ItmUlbSv implements IPrcEnt<ItmUlb, Long> {
         rgl.setAcc(rdl.getAcc());
         rgl.setItm(rdl.getItm());
         rgl.setUom(rdl.getUom());
-        rgl.setWhpo(rdl.getWhpo());
         rgl.setQuan(rdl.getQuan().negate());
         StringBuffer sb = new StringBuffer();
         if (rgl.getDscr() != null) {

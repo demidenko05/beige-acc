@@ -16,7 +16,7 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'RETRECV','11
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVENTORY','1200','Inventory',1462867931627,1,1004);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'INVDRCST','1205','Inventory direct cost (temporary)',1462867931627,1,1000);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECV','1310','Sales taxes receivable',1462867931627,1,1008);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECVRT','1315','Sales taxes receivable from returns',1462867931627,1,1008);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'SATAXRECVRT','1315','Sales taxes receivable from sales returns',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PREPFOR','1320','Prepayments for',1462867931627,1,1000);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PREPTO','1400','Prepayments to',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (0,0,'PROPERTY','1520','Property',1462867931627,1,1012);
@@ -26,7 +26,7 @@ insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'ACCRPAY','21
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'WAGEPAY','2200','Wage payable',1462867931627,1,1009);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'WAGTXPAY','2210','Wage taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAY','2310','Sales taxes payable',1462867931627,1,1008);
-insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAYRT','2315','Sales taxes payable from returns',1462867931627,1,1008);
+insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'SATAXPAYRT','2315','Sales taxes payable from purchases returns',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'BUSTXPAY','2320','Business taxes payable',1462867931627,1,1008);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED,SATY) values (1,1,'PREPFR','2400','Prepayments from',1462867931627,1,1002);
 insert into ACNT (TYP,BLTY,IID,NMBR,NME,VER,USED) values (2,1,'SCAPITAL','3010','Started capital',1462867931627,1);

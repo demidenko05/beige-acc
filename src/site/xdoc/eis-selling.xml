@@ -135,7 +135,17 @@
     <p>When we use items and make COGS entry, then we often face rounding error.
       For example 120 eggs for 20 USD, price (rounded)=0.17USD, so withdrawal 119 eggs * 0.17USD = 20.23USD, that is no good.
       In old Beige Accounting you should use more decimal places for cost (price) to reduce rounding error, and yet, little rounding error (the rest) might occurred in assets account Inventory.
-      That is price(cost) 0.1667 * 120 = 20.00, so there is no remaining "the rest" in this and most cases. New COGS withdrawal algorithm allows to use the same precision (decimal places) for cost as price without any problem.
+      That is price(cost) 0.1667 * 120 = 20.00, so there is no remaining "the rest" in this and most cases.
+      New COGS withdrawal algorithm allows to use the same precision (decimal places) for cost as price without any problem, the equation is:
+<pre style="white-space: pre-wrap;">
+  IF items left - quantity != 0 THEN  amount to withdrawal = round(total left / items left * quantity, price decimal places)
+  IF items left - quantity == 0 THEN  amount to withdrawal = total left
+  e.g. 119 eggs to withdrawal, items left = 120, total left = 20, price decimal places = 2, so:
+  amount to withdrawal = round (20 / 120 * 119, 2) = 19.83
+  after that items left = 1, total left = 0.17
+  the rest 1 egg:
+  amount to withdrawal = total left = 0.17
+</pre>
     </p>
     <p>To check it, just create one test purchase (6 eggs for 4.29USD total) and sale for 96 eggs.
       <p>Purchase#1 has eggs prior to test sale:

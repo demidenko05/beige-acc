@@ -30,6 +30,7 @@ package org.beigesoft.acc.mdlb;
 
 import java.util.Date;
 import java.math.BigDecimal;
+import org.beigesoft.acc.mdlp.WrhPl;
 
 /**
  * <p>Model of entity that hold inventory item to draw.
@@ -87,4 +88,17 @@ public interface IItmSrc extends IMkWsEnr {
    * @param pDocDt owner date from SQL query
    **/
   void setDocDt(Date pDocDt);
+
+
+  /**
+   * <p>Getter for wrhp.</p>
+   * @return WrhPl
+   **/
+  WrhPl getWrhp();
+
+  /**
+   * <p>Setter for wrhp.</p>
+   * @param pWrhp reference
+   **/
+  void setWrhp(WrhPl pWrhp);
 }

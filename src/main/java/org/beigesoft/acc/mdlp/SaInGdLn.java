@@ -49,11 +49,6 @@ public class SaInGdLn extends AInvLn<SalInv, Itm>
   private SalInv ownr;
 
   /**
-   * <p>Warehouse place optional.</p>
-   **/
-  private WrhPl whpo;
-
-  /**
    * <p>Item.</p>
    **/
   private Itm itm;
@@ -168,21 +163,5 @@ public class SaInGdLn extends AInvLn<SalInv, Itm>
    **/
   public final void setTxLns(final List<SaInGdTxLn> pTxLns) {
     this.txLns = pTxLns;
-  }
-
-  /**
-   * <p>Getter for whpo.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWhpo() {
-    return this.whpo;
-  }
-
-  /**
-   * <p>Setter for whpo.</p>
-   * @param pWhpo reference
-   **/
-  public final void setWhpo(final WrhPl pWhpo) {
-    this.whpo = pWhpo;
   }
 }

@@ -50,11 +50,6 @@ public class ItUbLn extends AOrId implements IOwned<ItmUlb, Long>,
   private ItmUlb ownr;
 
   /**
-   * <p>Warehouse place optional.</p>
-   **/
-  private WrhPl whpo;
-
-  /**
    * <p>Reversed ID.</p>
    **/
   private Long rvId;
@@ -247,22 +242,6 @@ public class ItUbLn extends AOrId implements IOwned<ItmUlb, Long>,
   }
 
   //Simple getters and setters:
-  /**
-   * <p>Getter for whpo.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWhpo() {
-    return this.whpo;
-  }
-
-  /**
-   * <p>Setter for whpo.</p>
-   * @param pWhpo reference
-   **/
-  public final void setWhpo(final WrhPl pWhpo) {
-    this.whpo = pWhpo;
-  }
-
   /**
    * <p>Getter for acc.</p>
    * @return Acnt

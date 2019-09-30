@@ -54,7 +54,9 @@ public interface ISrDrItEnr {
   void hndStgCng(Map<String, Object> pRvs) throws Exception;
 
   /**
-   * <p>Makes drawing entries for given drawer.</p>
+   * <p>Makes drawing entries for given drawer.
+   * It also makes warehouse entries exactly for warehouse place
+   * as in source one.</p>
    * @param <T> draw entry type
    * @param pRvs Request scoped variables
    * @param pDrer drawer document or line
@@ -64,7 +66,9 @@ public interface ISrDrItEnr {
     IMkDriEnr<T> pDrer) throws Exception;
 
   /**
-   * <p>Makes drawing entries for given drawer from given source.</p>
+   * <p>Makes drawing entries for given drawer from given source.
+   * It also makes warehouse entries exactly for warehouse place
+   * as in source one.</p>
    * @param <T> draw entry type
    * @param pRvs Request scoped variables
    * @param pDrer drawer document or line

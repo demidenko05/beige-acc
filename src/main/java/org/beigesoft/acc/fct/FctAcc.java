@@ -966,6 +966,9 @@ public class FctAcc<RS> implements IFctAux<RS> {
     HlTyEnSr hlTyEnSr = (HlTyEnSr) pFctApp
       .laz(pRvs, HlTyEnSr.class.getSimpleName());
     rz.setHlTyEnSr(hlTyEnSr);
+    ISrWrhEnr srWrhEnr = (ISrWrhEnr) pFctApp
+      .laz(pRvs, ISrWrhEnr.class.getSimpleName());
+    rz.setSrWrhEnr(srWrhEnr);
     pFctApp.put(pRvs, ISrDrItEnr.class.getSimpleName(), rz);
     pFctApp.lazLogStd(pRvs).info(pRvs, getClass(),
       SrDrItEnr.class.getSimpleName() + " has been created");

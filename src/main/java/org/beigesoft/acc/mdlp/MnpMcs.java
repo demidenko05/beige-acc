@@ -50,11 +50,6 @@ public class MnpMcs extends AOrId implements IOwned<MnfPrc, Long>,
   private MnfPrc ownr;
 
   /**
-   * <p>Warehouse place optional.</p>
-   **/
-  private WrhPl whpo;
-
-  /**
    * <p>Reversed ID.</p>
    **/
   private Long rvId;
@@ -239,22 +234,5 @@ public class MnpMcs extends AOrId implements IOwned<MnfPrc, Long>,
   @Override
   public final Class<DrItEnr> getEnrCls() {
     return DrItEnr.class;
-  }
-
-  //Simple getters and setters:
-  /**
-   * <p>Getter for whpo.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWhpo() {
-    return this.whpo;
-  }
-
-  /**
-   * <p>Setter for whpo.</p>
-   * @param pWhpo reference
-   **/
-  public final void setWhpo(final WrhPl pWhpo) {
-    this.whpo = pWhpo;
   }
 }

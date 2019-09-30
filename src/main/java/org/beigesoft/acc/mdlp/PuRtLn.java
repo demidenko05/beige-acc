@@ -56,11 +56,6 @@ public class PuRtLn extends AOrId
   private PuInGdLn invl;
 
   /**
-   * <p>Warehouse place optional.</p>
-   **/
-  private WrhPl whpo;
-
-  /**
    * <p>Reversed ID.</p>
    **/
   private Long rvId;
@@ -503,21 +498,5 @@ public class PuRtLn extends AOrId
    **/
   public final void setTxLns(final List<PuRtLtl> pTxLns) {
     this.txLns = pTxLns;
-  }
-
-  /**
-   * <p>Getter for whpo.</p>
-   * @return WrhPl
-   **/
-  public final WrhPl getWhpo() {
-    return this.whpo;
-  }
-
-  /**
-   * <p>Setter for whpo.</p>
-   * @param pWhpo reference
-   **/
-  public final void setWhpo(final WrhPl pWhpo) {
-    this.whpo = pWhpo;
   }
 }
