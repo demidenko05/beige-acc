@@ -30,7 +30,7 @@ package org.beigesoft.acc.mdlp;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.mdlp.AOrId;
 import org.beigesoft.acc.mdlb.IRvId;
 
@@ -39,7 +39,7 @@ import org.beigesoft.acc.mdlb.IRvId;
  *
  * @author Yury Demidenko
  */
-public class WgLn extends AOrId implements IOwned<Wage, Long>, IRvId {
+public class WgLn extends AOrId implements IOwnedOr<Wage>, IRvId {
 
   /**
    * <p>Owner.</p>

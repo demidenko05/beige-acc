@@ -28,8 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.rpl;
 
-import org.beigesoft.mdl.IOwned;
-import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.mdl.IOwnedi;
+import org.beigesoft.mdlp.AIdLn;
 import org.beigesoft.acc.mdlp.Acnt;
 
 /**
@@ -37,7 +37,7 @@ import org.beigesoft.acc.mdlp.Acnt;
  *
  * @author Yury Demidenko
  */
-public abstract class ARpAcLn extends AOrId implements IOwned<RplAcc, Long> {
+public abstract class ARpAcLn extends AIdLn implements IOwnedi<RplAcc> {
 
   /**
    * <p>Owner.</p>

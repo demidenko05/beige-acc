@@ -30,15 +30,15 @@ package org.beigesoft.acc.mdlp;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
-import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.mdl.IOwnedi;
+import org.beigesoft.mdlp.AIdLn;
 
 /**
  * <p>Model of employee year wage line.</p>
  *
  * @author Yury Demidenko
  */
-public class EmpWg extends AOrId implements IOwned<Empl, Long> {
+public class EmpWg extends AIdLn implements IOwnedi<Empl> {
 
   /**
    * <p>Owner.</p>

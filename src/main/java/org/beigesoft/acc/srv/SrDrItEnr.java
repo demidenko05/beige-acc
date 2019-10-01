@@ -186,10 +186,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     } else {
       throw new ExcCode(ExcCode.WRPR, "cogs_av_not_imp");
     }
-    long lim = pDrer.getQuan().longValue();
-    if (lim == 0L) {
-      lim = 1L;
-    }
+    long lim = pDrer.getQuan().longValue() + 1L;
     sb.append(" limit " + lim + ";");
     String qu = sb.toString();
     IRecSet<RS> rs = null;
@@ -317,7 +314,7 @@ public class SrDrItEnr<RS> implements ISrDrItEnr {
     sb.append(", " + dtFr.format(pSrc.getDocDt()));
     enr.setDscr(sb.toString());
     this.orm.insIdLn(pRvs, vs, enr);
-    this.srWrhEnr.draw(pRvs, pSrc, pSrc.getWrhp(), pQuan);
+    this.srWrhEnr.draw(pRvs, pDrer, pSrc.getWrhp(), pQuan);
   }
 
   /**

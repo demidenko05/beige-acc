@@ -19,8 +19,14 @@ In others countries it's used little more complex method <b>allowances per year<
 </p>
 <p>
   Bob has hired Rob Swallow as a cook.
+  He filled out Employee category, Employee and Wage Types for Rob:
+  <p align="center"><img alt="Beigesoft™ EIS wage" style="max-width: 100%" src="images/employee.png" /></p>
+  * use TIN (SSN) or phone number for emmployee ID. At least use IDs that have same number of digits, e.g. 6 digits ID from 100000 to 999999.
+  This is because of using this parent ID for its automatic lines (year wage), e.g. Employee ID 100000 has two lines year wage with ID 1000001 and 1000002.
+  <p align="center"><img alt="Beigesoft™ EIS wage" style="max-width: 100%" src="images/wagty.png" /></p>
   Bob uses <a href="https://www.irs.gov/pub/irs-pdf/p15.pdf">IRS Publication 15</a> (<b>IRS-ETG</b>) to account employment federal taxes, and
   <a href="https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf">NYS New York State Withholding Tax</a> for state ones.
+  So he filled out wage tax tables.
 </p>
   <p>
     1. Federal Income Tax from employee wage.
@@ -28,6 +34,21 @@ In others countries it's used little more complex method <b>allowances per year<
     allowance daily is 15.6 * 2 = 31.2. Bob should use table 8 (page 45 of <b>IRS-ETG</b>) to withhold Federal Income tax,
     so he has filled Employment -  Wage tax table according it:
     <p align="center"><img alt="Beigesoft™ EIS tax percentage method" style="max-width: 100%" src="images/wttfit.png" /></p>
+          * any tax table line requires entering manually ID, so use simple formula:
+<pre style="white-space: pre-wrap;">
+  1000 + TAX TABLE ID append LINE INDEX, e.g. here first line should be 1000 + 1 append 1 = 10011, and second = 10012 end so on.
+</pre>
+    Here 1000 gives you ability to have up to 8999 different tax tables with ID from 1-8999 without their lines ID collisions.
+    First and 123 line's ID of TT:
+<pre style="white-space: pre-wrap;">
+  TT ID LINE#1 ID LINE#123 ID 
+  1     10011      1001123
+  199   11991      1199123
+  1100  21001      2100123
+  5155  61551      6155123
+  8999  99991      9999123
+</pre>
+* as you can see different entities, e.g. lines of different types in this case, can have the same ID.
   </p>
   <p>
     2. Medicare Tax from employee wage.

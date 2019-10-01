@@ -197,7 +197,14 @@ public class WageSv<RS> implements IPrcEnt<Wage, Long> {
               if (empWg == null) {
                 empWg = new EmpWg();
                 empWg.setIsNew(true);
-                empWg.setDbOr(this.orm.getDbId());
+                Integer rc = this.rdb.evInt(
+                  "select count(*) as ROWCNT from EMPWG where OWNR="
+                    + pEnt.getEmpl().getIid(), "ROWCNT");
+                if (rc == null) {
+                  rc = 0;
+                }
+                String elid = pEnt.getEmpl().getIid().toString() + (rc++);
+                empWg.setIid(Long.valueOf(elid));
                 empWg.setOwnr(pEnt.getEmpl());
                 empWg.setWgTy(wl.getWgTy());
                 empWg.setYer(year);

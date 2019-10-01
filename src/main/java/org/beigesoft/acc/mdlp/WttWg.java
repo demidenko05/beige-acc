@@ -28,15 +28,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlp;
 
-import org.beigesoft.mdl.IOwned;
-import org.beigesoft.mdlp.AOrId;
+import org.beigesoft.mdl.IOwnedi;
+import org.beigesoft.mdlp.AIdLn;
 
 /**
  * <p>Model of wage tax table wage line.</p>
  *
  * @author Yury Demidenko
  */
-public class WttWg extends AOrId implements IOwned<WagTt, Long> {
+public class WttWg extends AIdLn implements IOwnedi<WagTt> {
 
   /**
    * <p>Owner.</p>

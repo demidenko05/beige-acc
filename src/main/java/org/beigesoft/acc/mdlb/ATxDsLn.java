@@ -28,7 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.beigesoft.acc.mdlb;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IOwnedi;
 import org.beigesoft.mdl.IIdLn;
 import org.beigesoft.mdlp.AIdLn;
 import org.beigesoft.acc.mdlp.TxDst;
@@ -41,7 +41,7 @@ import org.beigesoft.acc.mdlp.TxCt;
  * @author Yury Demidenko
  */
 public abstract class ATxDsLn<T extends IIdLn> extends AIdLn
-  implements IOwned<T, Long> {
+  implements IOwnedi<T> {
 
   /**
    * <p>Tax destination, not null.</p>

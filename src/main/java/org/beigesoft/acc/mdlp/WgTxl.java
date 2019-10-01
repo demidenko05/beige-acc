@@ -30,7 +30,7 @@ package org.beigesoft.acc.mdlp;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.acc.mdlb.ADcTxLn;
 
 /**
@@ -38,7 +38,7 @@ import org.beigesoft.acc.mdlb.ADcTxLn;
  *
  * @author Yury Demidenko
  */
-public class WgTxl extends ADcTxLn implements IOwned<Wage, Long> {
+public class WgTxl extends ADcTxLn implements IOwnedOr<Wage> {
 
   /**
    * <p>Owner.</p>

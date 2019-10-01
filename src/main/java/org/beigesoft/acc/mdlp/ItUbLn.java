@@ -31,7 +31,7 @@ package org.beigesoft.acc.mdlp;
 import java.util.Date;
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.mdlp.AOrId;
 import org.beigesoft.acc.mdl.EItSrTy;
 import org.beigesoft.acc.mdlb.IMkDriEnr;
@@ -41,7 +41,7 @@ import org.beigesoft.acc.mdlb.IMkDriEnr;
  *
  * @author Yury Demidenko
  */
-public class ItUbLn extends AOrId implements IOwned<ItmUlb, Long>,
+public class ItUbLn extends AOrId implements IOwnedOr<ItmUlb>,
   IMkDriEnr<CogsEnr> {
 
   /**

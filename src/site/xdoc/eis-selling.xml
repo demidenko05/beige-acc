@@ -22,20 +22,6 @@
         </p>
         <p>2. Add <b>Tax Category</b> e.g.:
           <p align="center"><img alt="Beigesoft™ EIS merchandise sales tax category" style="max-width: 100%" src="images/taxcat.png" /></p>
-          * tax line requires entering manually ID, so use simple formula:
-<pre style="white-space: pre-wrap;">
-  100 + TAX CATEGORY ID append LINE INDEX, e.g. here first line should be 100 + 1 append 1 = 1011, and second = 1012 end so on.
-</pre>
-          Here 100 gives you ability to have up to 899 different tax categories with ID from 1-899 without their lines ID collisions.
-          First and 123 line's ID of TC:
-<pre style="white-space: pre-wrap;">
-  TC ID LINE#1 ID LINE#123 ID 
-  1     1011      101123
-  99    1991      199123
-  100   2001      200123
-  155   2541      254123
-  899   9991      999123
-</pre>
         </p>
         <p>3. Set <b>Tax Category</b> for material e.g.:
           <p align="center"><img alt="Beigesoft™ EIS set merchandise sales tax" style="max-width: 100%" src="images/setsaltax.png" /></p>

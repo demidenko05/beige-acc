@@ -132,13 +132,14 @@ public class SrWrhEnr<RS> implements ISrWrhEnr {
     DateFormat dtFr = DateFormat.getDateTimeInstance(DateFormat
       .MEDIUM, DateFormat.SHORT, new Locale(cpf.getLngDef().getIid()));
     String where;
+    long lim = pQuan.longValue() + 1L;
     if (pWrp != null) {
       where = "where ITM=" + pEnt.getItm().getIid() + " and UOM="
         + pEnt.getUom().getIid() + " and WRHP=" + pWrp.getIid()
-          + " and ITLF>0 limit " + pQuan;
+          + " and ITLF>0 limit " + lim;
     } else {
       where = "where ITM=" + pEnt.getItm().getIid() + " and UOM="
-        + pEnt.getUom().getIid() + " and ITLF>0 limit " + pQuan;
+        + pEnt.getUom().getIid() + " and ITLF>0 limit " + lim;
     }
     vs.put("WrhItmndFds", new String[] {"itLf"});
     vs.put("WrhItmdpLv", 1);

@@ -30,7 +30,7 @@ package org.beigesoft.acc.mdlb;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IOwnedOr;
 
 /**
  * <p>Abstract model of invoice tax line.</p>
@@ -39,7 +39,7 @@ import org.beigesoft.mdl.IOwned;
  * @author Yury Demidenko
  */
 public abstract class AInTxLn<T extends IInvb> extends ADcTxLn
-  implements IOwned<T, Long> {
+  implements IOwnedOr<T> {
 
   /**
    * <p>Total FC.</p>

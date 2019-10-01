@@ -31,7 +31,7 @@ package org.beigesoft.acc.mdlp;
 import java.util.Date;
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.mdlp.AOrId;
 import org.beigesoft.acc.mdlb.IItmSrc;
 
@@ -40,7 +40,7 @@ import org.beigesoft.acc.mdlb.IItmSrc;
  *
  * @author Yury Demidenko
  */
-public class ItAdLn extends AOrId implements IOwned<ItmAdd, Long>, IItmSrc {
+public class ItAdLn extends AOrId implements IOwnedOr<ItmAdd>, IItmSrc {
 
   /**
    * <p>Document.</p>

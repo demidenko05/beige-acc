@@ -30,7 +30,7 @@ package org.beigesoft.acc.mdlb;
 
 import java.math.BigDecimal;
 
-import org.beigesoft.mdl.IOwned;
+import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.mdlp.IOrId;
 import org.beigesoft.acc.mdlp.Uom;
 import org.beigesoft.acc.mdlp.TxCt;
@@ -43,7 +43,7 @@ import org.beigesoft.acc.mdlp.TxCt;
  * @author Yury Demidenko
  */
 public interface IInvLn<T extends IInvb, I extends AItm<?, ?>>
-  extends IOwned<T, Long>, IOrId, IRvId {
+  extends IOwnedOr<T>, IOrId, IRvId {
 
   /**
    * <p>Getter for itm.</p>
