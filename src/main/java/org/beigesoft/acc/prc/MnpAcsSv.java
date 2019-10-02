@@ -145,12 +145,12 @@ public class MnpAcsSv<RS> implements IPrcEnt<MnpAcs, Long> {
     }
     AcStg as = (AcStg) pRvs.get("astg");
     pEnt.getOwnr().setAdCs(BigDecimal.valueOf(tot)
-      .setScale(as.getCsDp(), as.getRndm()));
+      .setScale(as.getPrDp(), as.getRndm()));
     pEnt.getOwnr().setTot(pEnt.getOwnr().getMaCs().add(pEnt.getOwnr()
-      .getAdCs()).setScale(as.getCsDp(), as.getRndm()));
+      .getAdCs()).setScale(as.getPrDp(), as.getRndm()));
     pEnt.getOwnr().setToLf(pEnt.getOwnr().getTot());
     pEnt.getOwnr().setPri(pEnt.getOwnr().getTot()
-      .divide(pEnt.getOwnr().getQuan(), as.getCsDp(), as.getRndm()));
+      .divide(pEnt.getOwnr().getQuan(), as.getPrDp(), as.getRndm()));
     String[] upFds = new String[] {"adCs", "tot", "pri", "toLf", "ver"};
     Arrays.sort(upFds);
     vs.put("ndFds", upFds);

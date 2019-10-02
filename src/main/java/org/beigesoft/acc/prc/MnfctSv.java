@@ -127,7 +127,7 @@ public class MnfctSv implements IPrcEnt<Mnfct, Long> {
             .setScale(as.getPrDp(), as.getRndm()));
       }
       pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
-        as.getCsDp(), as.getRndm()));
+        as.getPrDp(), as.getRndm()));
       pEnt.setToLf(pEnt.getTot());
       if (pEnt.getIsNew()) {
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {

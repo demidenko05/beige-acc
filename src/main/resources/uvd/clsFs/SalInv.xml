@@ -16,7 +16,10 @@ See LICENSE in base folder
 <entry key="toPacnToSt">CnvPriStr</entry>
 <entry key="paFccnToSt">CnvPriStr</entry>
 <entry key="exRtcnToSt">CnvMaxStr</entry>
-<entry key="paybstr">dtTm</entry>
+<entry key="paybinp">dt</entry>
+<entry key="paybstr">dt</entry>
+<entry key="paybcnToSt">CnvDtStr</entry>
+<entry key="paybcnFrSt">CnvStrDt</entry>
 <entry key="datstr">dtTm</entry>
 <entry key="pdscinp">reo</entry>
 <entry key="totinp">dtot</entry>

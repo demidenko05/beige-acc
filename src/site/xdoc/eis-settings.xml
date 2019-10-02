@@ -1514,7 +1514,7 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
 <h4>Started capital.</h4>
 <p>Bob opened checking account #1236786b17 in Bank on Jan 10 2016 and deposited 40000USD. He made the first accounting entries from Menu Accounting -> Input accounting Entries:
   <p align="center"><img alt="Beigesoft™ EIS started capital" style="max-width: 100%" src="images/started-capital.png" /></p>
-  * amount in accounting entries always has maximum decimal places - 2 for cost precision. 
+  * amount in accounting entries always has maximum decimal places - 2 for price precision. 
 </p>
 <h4>Book's style entries vs Computer's style ones</h4>
 <p>

@@ -155,7 +155,7 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       if (pEnt.getAcDb() == null && pEnt.getAcCr() == null) {
         throw new ExcCode(ExcCode.WRPR, "account_is_null");
       }
-      pEnt.setDebt(pEnt.getDebt().setScale(astg.getCsDp(), astg.getRndm()));
+      pEnt.setDebt(pEnt.getDebt().setScale(astg.getPrDp(), astg.getRndm()));
       if (pEnt.getAcCr() != null) {
         pEnt.setCred(pEnt.getDebt());
       }
@@ -208,9 +208,9 @@ public class EntrSv<RS> implements IPrcEnt<Entr, Long> {
       tots[1] = 0.0;
     }
     doc.setDebt(BigDecimal.valueOf(tots[0])
-      .setScale(astg.getCsDp(), astg.getRndm()));
+      .setScale(astg.getPrDp(), astg.getRndm()));
     doc.setCred(BigDecimal.valueOf(tots[1])
-      .setScale(astg.getCsDp(), astg.getRndm()));
+      .setScale(astg.getPrDp(), astg.getRndm()));
     getOrm().update(pRvs, vs, doc);
     getSrBlnc().hndNewEntr(pRvs, pEnt.getDat());
     UvdVar uvs = (UvdVar) pRvs.get("uvs");

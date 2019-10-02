@@ -184,7 +184,7 @@ public class SrEntr<RS> implements ISrEntr {
             entr.setSadTy(rs.getInt("SADTY"));
             Double debt = rs.getDouble("DEBT");
             entr.setDebt(BigDecimal.valueOf(debt)
-              .setScale(as.getCsDp(), as.getRndm()));
+              .setScale(as.getPrDp(), as.getRndm()));
           }
           String acCrs = rs.getStr("ACCR");
           if (acCrs !=  null) {
@@ -196,7 +196,7 @@ public class SrEntr<RS> implements ISrEntr {
             entr.setSacTy(rs.getInt("SACTY"));
             Double cred = rs.getDouble("CRED");
             entr.setCred(BigDecimal.valueOf(cred)
-              .setScale(as.getCsDp(), as.getRndm()));
+              .setScale(as.getPrDp(), as.getRndm()));
           }
           entr.setDscr(getI18n().getMsg(pDoc.getClass().getSimpleName() + "sht",
         cpf.getLngDef().getIid()) + " #" + pDoc.getDbOr() + "-" + pDoc.getIid()

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Beigesoft™ EIS start not from scratch.">
+
+      <p>
+        In real life a user usually begins to use an accounting software when it already has been doing its business.
+        Assume that Bob started using Beigesoft™ EIS on 21 Jan 2016 with the same (as describing in previous articles) accounting results.
+        He has been using single entry accounting software, he just writes records in spreadsheet. So results are:
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/nfsexcel.png" /></p>
+      
+      <p>As you can see only Rob's wage and taxes are liabilities and Bob's income tax expenses at the same time i.e. 
+      they should be recorded as symmetric double entries. All others are recorded as single asymmetric entries.
+      To record Inventory you should use document <b>Beginning Inventory</b>.
+      </p>
+      
+      <p>Bob started using Beigesoft™ EIS in same way as <a href="eis-settings.html">Software installation, accounting settings, chart of accounts, started capital.</a>
+        except "Started capital". He made accounting entries "Started capital", "Prepaid Rent", "Debtors/creditors",
+        "Property", "Cash":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin1.png" /></p>
+      
+      <p>Then Bob made symmetric accounting entries "Beginning Rob's wage and taxes":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin2.png" /></p>
+      
+      <p>Then Bob made asymmetric accounting entries "Beginning Sales, Sales returns, COGS, Goods losses":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin3.png" /></p>
+      
+      <p>Then Bob made asymmetric accounting entries "Beginning Sales tax fake":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin4.png" /></p>
+      
+      <p>Then Bob made "Beginning Inventory" document for source "Purchase #1-1 Jan 15 2016 12:29 PM":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin5.png" /></p>
+      
+      <p>Then Bob made "Beginning Inventory" document for source "Manufacture # 1-1, Jan 17 2016 6:40 PM":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin61.png" /></p>
+      
+      <p>Then Bob made "Beginning Inventory" document for source "Manufacture # 1-2, Jan 17 2016 6:50 PM":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin62.png" /></p>
+      
+      <p>Finally Bob made "Beginning Inventory" document for source "Sales return #1-1 Jan 19 2016 9:45 AM":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin7.png" /></p>
+
+      <p>Trial balances in database "from scratch" and database  are same (except rounding error in "not from scratch" databases):
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/nfsbaln.png" /></p>
+      <p align="center"><img style="max-width: 100%" src="images/nfsbaln1.png" /></p>
+
+      <p>Warehouse in database "from scratch" and database "not from scratch" is the same:
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/nfswarehouse.png" /></p>
+
+      <p>Ledger in database "from scratch" and database "not from scratch" are different, e.g. <b>Inventory</b>:
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/nfsledger1.png" /></p>
+      <p align="center"><img style="max-width: 100%" src="images/nfsledger2.png" /></p>
+
+    </section>
+
+  </body>
+
+</document>

@@ -141,7 +141,7 @@ String qu = "select sum(TOT) as TOT from ITADLN where RVID is null and OWNR="
       }
       AcStg as = (AcStg) pRvs.get("astg");
       pEnt.getOwnr().setTot(BigDecimal.valueOf(tot)
-        .setScale(as.getCsDp(), as.getRndm()));
+        .setScale(as.getPrDp(), as.getRndm()));
       String[] upFds = new String[] {"tot", "ver"};
       Arrays.sort(upFds);
       vs.put("ndFds", upFds);

@@ -200,7 +200,7 @@ public class MnfPrcSv implements IPrcEnt<MnfPrc, Long> {
         }
         AcStg as = (AcStg) pRvs.get("astg");
         pEnt.setPri(pEnt.getTot().divide(pEnt.getQuan(),
-          as.getCsDp(), as.getRndm()));
+          as.getPrDp(), as.getRndm()));
         if ("mkEnr".equals(pRqDt.getParam("acAd"))) {
           if (old.getTot().compareTo(BigDecimal.ZERO) == 0) {
             throw new ExcCode(ExcCode.WRPR, "amount_eq_zero");
