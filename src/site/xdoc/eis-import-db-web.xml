@@ -50,7 +50,7 @@ keytool -import -trustcacerts -alias ajettyca -file "ajetty-ca.pem" -keystore /u
       <p>* to import web-store data with S.E. sellers you should at first add S.E. sellers into "Users" and "User Roles" with same names as in source!</p>
       <p>
         He launched SQlite version Beigesoft™ EIS on 8444 port (source local database). Then he started Tomcat and opened address <a href="https://localhost:8443/beige-accweb/">https://localhost:8443/beige-accweb/</a>
-        He selected Menu -> Admin -> Import database, then  entered "URL of WEB-service of source database:" as "localhost:8444/bsa8444/secure/sendEntities" and filled user/password fields then pressed "submit":</p>
+        He selected Menu -> Admin -> Import database, then  entered "URL of WEB-service of source database:" as "localhost:8444/bsa8444/adm/xml" and filled user/password fields then pressed "submit":</p>
       <p align="center"><img style="max-width: 100%" src="images/importdb1.png" /></p>
       
       <p>The import report is:</p>

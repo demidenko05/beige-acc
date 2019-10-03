@@ -12,15 +12,15 @@
     <section name="Beigesoft™ EIS start not from scratch.">
 
       <p>
-        In real life a user usually begins to use an accounting software when it already has been doing its business.
+        In real life a user usually starts to use an accounting software when it already has been doing its business.
         Assume that Bob started using Beigesoft™ EIS on 21 Jan 2016 with the same (as describing in previous articles) accounting results.
-        He has been using single entry accounting software, he just writes records in spreadsheet. So results are:
+        He has been using single entry accounting software, he just writes records in a spreadsheet. So results are:
       </p>
       <p align="center"><img style="max-width: 100%" src="images/nfsexcel.png" /></p>
       
       <p>As you can see only Rob's wage and taxes are liabilities and Bob's income tax expenses at the same time i.e. 
       they should be recorded as symmetric double entries. All others are recorded as single asymmetric entries.
-      To record Inventory you should use document <b>Beginning Inventory</b>.
+      To record Inventory you should use document <b>Item adding</b>.
       </p>
       
       <p>Bob started using Beigesoft™ EIS in same way as <a href="eis-settings.html">Software installation, accounting settings, chart of accounts, started capital.</a>
@@ -41,26 +41,31 @@
       </p>
       <p align="center"><img style="max-width: 100%" src="images/eisbegin4.png" /></p>
       
-      <p>Then Bob made "Beginning Inventory" document for source "Purchase #1-1 Jan 15 2016 12:29 PM":
+      <p>Then Bob made "Item adding" document for source "Purchase #1-1 Jan 15 2016 3:02 AM":
       </p>
       <p align="center"><img style="max-width: 100%" src="images/eisbegin5.png" /></p>
       
-      <p>Then Bob made "Beginning Inventory" document for source "Manufacture # 1-1, Jan 17 2016 6:40 PM":
+      <p>Then Bob made "Item adding" document for source "Manufacture # 1-2, Jan 17 2016 6:05 PM":
       </p>
-      <p align="center"><img style="max-width: 100%" src="images/eisbegin61.png" /></p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin6.png" /></p>
       
-      <p>Then Bob made "Beginning Inventory" document for source "Manufacture # 1-2, Jan 17 2016 6:50 PM":
-      </p>
-      <p align="center"><img style="max-width: 100%" src="images/eisbegin62.png" /></p>
-      
-      <p>Finally Bob made "Beginning Inventory" document for source "Sales return #1-1 Jan 19 2016 9:45 AM":
+      <p>Then Bob made "Item adding" document for source "Manufacture # 1-1, Jan 17 2016 6:36 PM":
       </p>
       <p align="center"><img style="max-width: 100%" src="images/eisbegin7.png" /></p>
+      
+      <p>Then Bob made "Item adding" document for source "Purchase #1-2 Jan 17 2016 9:48 PM":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin8.png" /></p>
 
-      <p>Trial balances in database "from scratch" and database  are same (except rounding error in "not from scratch" databases):
+      <p>Finally Bob made "Item adding" document for source "Sales return #1-1 Jan 19 2016 10:41 AM":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/eisbegin9.png" /></p>
+
+      <p>Trial balances in database "from scratch" and database is almost same:
       </p>
       <p align="center"><img style="max-width: 100%" src="images/nfsbaln.png" /></p>
-      <p align="center"><img style="max-width: 100%" src="images/nfsbaln1.png" /></p>
+      <p>The difference 0.04USD is because of purchase return see <a href="eis-purchase-return.html">Accounting of purchase returns</a>,
+        there 12 eggs was returned for 2.04USD (0.17each), but COGS entry is made for 2.00USD. </p>
 
       <p>Warehouse in database "from scratch" and database "not from scratch" is the same:
       </p>
