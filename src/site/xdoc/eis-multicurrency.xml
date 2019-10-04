@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Multi-currency. Exchange gain or loss. Exchange difference.">
+      
+      <p>Keywords: multi-currency, exchange gain or loss, exchange difference, foreign currency transactions.</p>
+      
+      <h4>Multi-currency, exchange gain or loss.</h4>
+      <p>If you sell a merchandise that is paid in foreign currency, and you use the ACCRUAL method (you have to report revenue for unpaid sales),
+        and currency exchange rate is different when the payment occurred, then you face "exchange difference".
+        You will never face an exchange difference if you use the CASH method, except if you sell currency.
+        In that case, it's not actually "exchange difference", it's common "difference between purchase price and sales one", i.e. currency is regular goods in that case.</p>
+      <p>The most countries have a similar law about foreign currency transactions, that is:
+      <ul>
+        <li>you have to make records in national currency (and language).</li>
+        <li>selling/buying transaction is made with the current exchange rate (booking date)</li>
+        <li>payment transaction is made with the current exchange rate (payment date)</li>
+        <li>difference between booking and payment rates (gain or loss) is business revenue or expense.</li>
+      </ul>
+      </p>
+      <h4>Selling goods that is paid with foreign currency example</h4>
+      <p>
+        Create new invoice and set foreign currency to EURO and exchange rate is 1.12 (on 7 Jun 2016), add 2 "Pizza with cheese frozen" for 14.11 EURO:
+        <p align="center"><img alt="multi currency invoice example" style="max-width: 100%" src="images/salesmc1.png" /></p>
+      </p>
+      <p>
+        Add 100 pounds of "bacon" for 10.15 EURO:
+        <p align="center"><img style="max-width: 100%" src="images/salesmc2.png" /></p>
+      </p>
+      <p>
+        After adding 28.5 hours of "delivering to the seaport" for 5.52 EURO and accounting full report is:
+        <p align="center"><img style="max-width: 100%" src="images/salesmc3.png" /></p>
+        <p>* as you can see, accounting entries are made in national currency.</p>
+      </p>
+      <p>See <a href="eis-overseas-sales.html">Overseas sales. Advanced internationalization.</a> to print invoice translated in foreign language (if it's need).</p>
+      <p>Payment is made on 16 Jun 2016, and exchange rate is 1.14, so you have to report additional revenue "exchange gain" (1,368.62 - 1,344.61 = 24.01):
+<pre style="white-space: pre-wrap;">
+16 Jun 2016 10:26AM, Debit CashInBank."#1236786817 in Bank" Credit AccReceivable."OOO Berezka" for 1,368.62 USD
+* after that the balance AccReceivable."OOO Berezka" is -24.01 (negative)
+
+16 Jun 2016 11:15AM, Debit AccReceivable."OOO Berezka" Credit ExchangeGain for 24.01 USD
+</pre>
+        * of course, you have to report additional business expenses like "fee for wire transfer", "fee for currency exchange", etc.
+      </p>
+      <p>You should add new account "Exchange Gain" of type "Income revenue":
+        <p align="center"><img style="max-width: 100%" src="images/salesmc4.png" /></p>
+      </p>
+      <p>
+        Accounting entries above made with documents:
+        <p align="center"><img style="max-width: 100%" src="images/salesmc5.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/salesmc6.png" /></p>
+      </p>
+      <p>
+        You have to fill in "Payment From" field "Total FO" (total in foreign currency) for payments tracking (in foreign currency for such invoices):
+        <p align="center"><img style="max-width: 100%" src="images/salesmc7.png" /></p>
+      </p>
+      <h4>Handling big exchange rate, e.g. <b>0.0154781432211</b></h4>
+      <p>In this case use negative foreign currency value, e.g. 1USD=63.12RUB,
+      if RUB is national currency then enter <b>63.12</b>, otherwise (USD is national currency) enter <b>-63.12</b>.
+      Application itself makes rate=1/63.12.
+      </p>
+    </section>
+
+  </body>
+
+</document>

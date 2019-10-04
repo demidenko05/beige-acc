@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System</title>
+   </properties>
+
+  <body>
+
+    <section name="Accounting of sales taxes cash method, cash method vs accrual.">
+
+    <p>Keywords: Accounting of sales taxes cash method, cash method vs accrual method.</p>
+
+    <h4>Basic principles.</h4>
+    <p>At first, it's need to understand these things:
+      <ul>
+        <li>Prepaid merchandise - means that buyer has paid 100% for merchandise and has not yet received it (merchandise).</li>
+        <li>Paid merchandise - means that buyer has paid/prepaid 100% for merchandise and has received it (merchandise).</li>
+        <li>Prepaid/paid partially - means that buyer has paid less then 100% for merchandise.</li>
+        <li>Sold merchandise - means that buyer has received merchandise*.</li>
+      </ul>
+      *for some countries term "sold" may means also "merchandise is sent to buyer". In Beigesoft™ EIS "sold/bought" means when invoice is accounted (document has made accounting entries).
+    </p>
+    <p>Accrual or cash method is dedicated to estimate income tax "WHEN" (all other taxes usually have the same method as income tax).</p>
+    <p>The most used method for income tax is:
+    <pre style="white-space:pre-wrap">
+      Income tax = (Business revenue - Business expenses) * Tax Rate
+    </pre>
+    There are two methods "WHEN" revenue or expense is occurred:
+    <ul>
+      <li>CASH method - means that expense/revenue/tax is occurred when merchandise is sold and paid.</li>
+      <li>ACCRUAL method - means that expense/revenue/tax is occurred when merchandise is sold (even unpaid or partially paid).</li>
+    </ul>
+    Cash method is used in tax accounting only in simple cases - when income is low.
+    Accrual is only reliable method to properly estimate business results and it is used in market (financial) accounting.
+    If you have choice between these methods for tax accounting, then you should better opt accrual method.
+    </p>
+    
+    <h4>Sales taxes cash method</h4>
+    <p>In some countries the law may demand to use cash method to estimate sales taxes despite of using accrual method for income tax.</p>
+    <p>Beigesoft™ EIS has implemented this method for sales, purchases and their returns.</p>
+    <p>Lets make a purchase for example. At first, set enabled of "Entries sources":
+      <ul>
+        <li><b>Sales taxes methods must be switched according current rules (here is: Cash=On, Accrual=Off)</b></li>
+        <li><b>Sales:</b></li>
+        <li>#27 "Payment from. Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount, when Payments>=Sales, CASH!!!" set on.</li>
+        <li>#26 "Sales invoice. Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount, when Payments>=Sales, CASH!!!" set on.</li>
+        <li>#11 "Sales invoice. Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount." set off.</li>
+        <li>#30 "Sales return. Debit Sales tax receivable from returns per Tax, Credit Returns Payable per Customer for tax amount, when Payments+Returns>=Sales, CASH!!!" set on.</li>
+        <li>#17 "Sales return. Debit Sales tax receivable from returns per Tax, Credit Returns Payable per Customer for tax amount." set off.</li>
+        <li><b>Purchases:</b></li>
+        <li>#29 "Payment to. Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount, when Payments>=Purchases, CASH!!!" set on.</li>
+        <li>#28 "Purchase invoice. Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount, when Payments>=Purchases, CASH!!!" set on.</li>
+        <li>#4 "Purchase invoice. Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount." set off.</li>
+        <li>#31 "Purchase return. Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount, when Payments+Returns>=Purchases, CASH!!!" set on.</li>
+        <li>#15 "Purchase return. Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount." set off.</li>
+      </ul>
+      Also set in accounting settings "Extract sales taxes from sales" to "ON". Example of switching entries source, e.g.:
+        <p align="center"><img style="max-width: 100%" src="images/entrsour.png" /></p>
+    </p>
+    <h4>100% prepaid invoice.</h4>
+    <p>Add 100% prepayments to vendor (13 Jul. 2016, 668.54$ total) and account it.
+      Then add sales invoice (14 Jul. 2016, 668.54$ total) with that prepayment:
+      <p align="center"><img style="max-width: 100%" src="images/satacashinv1.png" /></p>
+    </p>
+    <p>After invoice has been accounted, the report is:
+      <p align="center"><img style="max-width: 100%" src="images/satacashinv2.png" /></p>
+      As you can see it made all accounting entries: taxes, receivable to revenue, inventory to COGS, adjusting prepayments to receivable.
+    </p>
+    <h4>50% prepaid invoice plus 25%*2 payments.</h4>
+    <p>Add 50% prepayments to vendor (15 Jul. 2016, 334.27$ total) and account it.
+      Then add sales invoice with the same goods and services as above one (17 Jul. 2016, 668.54$ total),
+        then account it, the report is:
+      <p align="center"><img style="max-width: 100%" src="images/satacashinv3.png" /></p>
+      As you can see it made not all accounting entries: receivable to revenue, inventory to COGS, adjusting prepayments to receivable.
+    </p>
+    <p>Then add payment (18 Jul. 2016, 167.14$ total) and account it:
+      <p align="center"><img style="max-width: 100%" src="images/satacashpay1.png" /></p>
+      As you can see it made only cash to receivable accounting entries.
+    </p>
+    <p>Then add the rest payment (19 Jul. 2016, 167.13$ total) and account it:
+      <p align="center"><img style="max-width: 100%" src="images/satacashpay2.png" /></p>
+      As you can see it made cash to receivable and taxes to receivable accounting entries.
+    </p>
+    </section>
+
+  </body>
+
+</document>
