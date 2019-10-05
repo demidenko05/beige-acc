@@ -104,7 +104,7 @@ public class AcStg extends AIdLn {
   /**
    * <p>Cost precision.</p>
    **/
-  private Integer csDp = 4;
+  private Integer csDp = 2;
 
   /**
    * <p>Price precision.</p>

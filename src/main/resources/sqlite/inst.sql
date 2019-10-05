@@ -55,7 +55,7 @@ insert into UOM (IID,NME,VER) values (9,'cubic inches',1462867931627);
 insert into UOM (IID,NME,VER) values (10,'cubic feet',1462867931627);
 insert into UOM (IID,NME,VER) values (11,'minute',1462867931627);
 insert into UOM (IID,NME,VER) values (12,'hour',1462867931627);
-insert into ACSTG (ORG,IID,VER,MNTH,CSDP,PRDP,RPDP,QUDP,TXDP,RNDM,BLPR,STRM,TTFF,TTFB,PGSZ,PGOR,MRLF,MRRI,MRTO,MRBO,FNSZ,CURR,COGS) values ('Bob''s Pizza',1,1462867931627,1462867931627,4,2,2,2,3,4,3,4,'DejaVuSerif','DejaVuSerif-Bold',2,0,20,10,10,10,3.5,840,0);
+insert into ACSTG (ORG,IID,VER,MNTH,CSDP,PRDP,RPDP,QUDP,TXDP,RNDM,BLPR,STRM,TTFF,TTFB,PGSZ,PGOR,MRLF,MRRI,MRTO,MRBO,FNSZ,CURR,COGS) values ('Bob''s Pizza',1,1462867931627,1462867931627,2,2,2,2,3,4,3,4,'DejaVuSerif','DejaVuSerif-Bold',2,0,20,10,10,10,3.5,840,0);
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (1,2,'PrepFrCrAcCashDb',1462867931627,1,'PREPFR.IID','Debit Account Cash, Credit Prepayments from per customer.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (2,3,'PrepToDbAcCashCr',1462867931627,1,'PREPTO.IID','Debit Prepayments to per vendor, Credit Account Cash.');
 insert into ENRSRC (IID,SRTY,QUFL,VER,USED,SRIDNM,DSCR) values (3,4,'PuInPaybDbPrepToCr',1462867931627,1,'PURINV.IID','Debit Payable per vendor, Credit Prepayments to per vendor for min(prepayment,purchase) amount.');
