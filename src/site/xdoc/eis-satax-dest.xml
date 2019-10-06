@@ -26,7 +26,7 @@
       When you sell such items to "other destination customers", then "destination taxes" will be used instead of <b>tax category of item (origin taxes)</b>.</p>
       
       <h4>Example of destination-based sales tax.</h4>
-      <p>Assume, Bob has sold same items to two customers - <b>NSC</b> from New York, <b>FSC</b> from other state.
+      <p>Assume, Bob has sold same items to two customers - <b>Mini-mart</b> from New York, <b>FSC</b> from other state.
         Taxable items in NY (aggregate rate, item basis, half-up):
         <ul>
           <li>Cheese, STG4.7%, STG6.4%</li>
@@ -62,7 +62,7 @@
       </p>
       <p>To make item "origin-bases" taxable in other state do nothing (this is about "Sofa").</p>
       <p>
-        Finally, make two invoices to local (NSC) and foreign (FSC) state customers with the same items and prices:
+        Finally, make two invoices to local (Mini-mart) and foreign (FSC) state customers with the same items and prices:
         <p align="center"><img style="max-width: 100%" src="images/satadest5.png" /></p>
         <p align="center"><img style="max-width: 100%" src="images/satadest6.png" /></p>
         <p align="center"><img style="max-width: 100%" src="images/satadest7.png" /></p>
