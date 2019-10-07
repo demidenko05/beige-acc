@@ -97,7 +97,7 @@ public class AddStg extends AIdLn {
    * </ul>
    * </p>
    **/
-  private Integer onlMd = 0;
+  private Integer onlMd = 1;
 
   //Simple getters and setters:
   /**

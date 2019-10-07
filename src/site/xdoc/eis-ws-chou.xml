@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ Enterprise Information System.</title>
+   </properties>
+
+  <body>
+
+    <section name="Bob's web-store example.">
+      <h4>Bob's pizza web-store example. Part 2, cart checkout, forced delivering (shipping).</h4>
+        <p>* see previous article about how to add S.E. Seller, item, etc into web-store.</p>
+
+        <p>"Forced delivering (shipping), free from N total" is widely used method.
+          Here is example "Delivering 10USD, free from 300USD total".</p>
+        <p>To add it create this service in <b>menu -> Appearance -> Desktop -> Common -> Services</b> with tax category STS11%.
+          Then open <b>menu -> ... -> Administrator</b> and :
+          <ul>
+            <li>add price 10USD for all buyers <b>Pricing -> Service price</b></li>
+            <li>add availability "always available", quantity "9999999999" in <b>Catalog G/S -> Service place</b></li>
+            <li>add delivering methods <b>Common - Delivering methods</b>:
+              <ul>
+                <li>Pick up by buyer</li>
+                <li>Delivering with this service and "Applying method=300"</li>
+              </ul>
+            </li>
+          </ul>
+          <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou1.png" /></p>
+        </p>
+
+      <h4>Online payment</h4>
+      <p>Right now Beigesoft™ web-store has only online payment method PayPal.
+        Adding any other 3-d party payment gateway is not difficult task.
+        All payment gateways work in same same way: it's created "payment circle" between "payer web-browser"-"payee web-store"-"payment gateway".
+        It's made with JSON requests. Payment gateway usually provide "SDK" to avoid making JSON query by hand (include OAuth2 authentication) and for data validation prior to sending.
+        Buyer's payment method (secret data) is handled entirely by payment gateways.
+        To use PayPal you should either compile "web-store" by yourself (see example <a href="https://github.com/demidenko05/beige-accoio-web">beige-accoio-web</a>),
+        or reassemble WAR with included "beigesoft-ppl.jar" library.
+      </p>
+      
+      <h4>S.E. seller's items</h4>
+      <p>User can order any item. During checkout cart will be used to make customer orders - one for web-store owner's items and others for S.E.Seller's ones.
+        To demonstrate this, add new S.E. seller "Yoga Teacher" (you should login as administrator):
+        <ul>
+          <li>add "Debitor/creditor" "Yoga Teacher" in <b>menu -> Appearance -> Desktop -> Common</b></li>
+          <li>add "User": name-"YogaTeacher", password-"****" in <b>menu -> ... -> Administrator -> ... -> Users</b></li>
+          <li>add "User role": user-"YogaTeacher", role-"seller" in <b>menu -> ... -> Administrator -> ... -> User roles</b></li>
+          <li>add "S.E.Seller": seller-"Yoga Teacher", user-"YogaTeacher" in <b>menu -> ... -> Administrator -> Catalog G/S -> S.E.Sellers</b></li>
+        </ul>
+        Then logout and login as Yoga Teacher in <b>menu -> Admin -> S.E.Seller</b> where:
+        <ul>
+          <li>add S.E. good - "Yoga uniform" tax category STG4.7%, STG6.4%</li>
+          <li>add S.E. good in place - quantity 20, "is always = NO", place "NY" (any place can be added only by administrator)</li>
+          <li>add S.E. good price - 100USD for "price for all" price category.</li>
+          <li>add S.E. service - "Yoga class 2 months, starts on 2 April", tax category STS11%</li>
+          <li>add S.E. service in place - quantity 20, "is always = NO", place "NY"</li>
+          <li>add S.E. service price - 500USD for "price for all" price category.</li>
+        </ul>
+      </p>
+      <p>Finally, to add these items to list, add as web-store administrator "S.E.Good/Service in catalog", then set "Contains of S.E.Goods/Services" for that catalog. Then push "... -> Refresh items in list".</p>
+
+      <h4>Buyer registration</h4>
+      <p>Buyer can add item into cart without registration. Cart checkout requires registered and authorized user.
+        For new buyer fill "Sign Up" fields (name minimum 3 letters), for sign in from new browser use registered email and password:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou2.png" /></p>
+      </p>
+
+      <h4>Online payment settings</h4>
+      <p>If you build web-store with PayPal payment library, then add payment method <b>menu -> ... - Administrator -> Common -> Payments methods</b>:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou3.png" /></p>
+        where name must be exactly "PAYPAL", sec1 - "payee ID", sec2 - "payee Secret", mode - "sandbox/production".
+      </p>
+      <p>S.E.sellers also may has payee methods. It's set in <b>... -> Additional settings - Online payment mode=0</b>.
+        "Online payment mode=1" means that web-store owner is only payee, i.e. it will receive payment for S.E. orders.
+        Set it to "1". For several payee buyer can order only payee goods in this version, otherwise it will be error.</p>
+      
+      <h4>Cart checkout</h4>
+      <p>After adding 2 items cart is:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou4.png" /></p>
+        After adding "Yoga class" delivering fee is waived:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou5.png" /></p>
+        Press checkout, two orders will be created:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou6.png" /></p>
+      </p>
+      <p>
+        Online payment:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou7.png" /></p>
+        Payment accepted, buyer can list all its orders:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou8.png" /></p>
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou9.png" /></p>
+      </p>
+      
+      <h4>Customer orders</h4>
+      <p>Right now creating invoice from order is not yet implemented. Web-store admin can change its order's status to "payed/closed/canceled" in "Pricing" menu.
+        And so does S.E. seller. S.E. seller can't see others seller's items, orders. Webstore-admin can only see all S.E. seller data.
+      </p>
+      <p>
+        Buyer and seller can print order:
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou10.png" /></p>
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
