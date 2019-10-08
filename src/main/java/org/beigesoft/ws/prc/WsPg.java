@@ -479,7 +479,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
                 if (sbg != null) {
                   sbq = new StringBuffer();
                   sbq.append(
-            "select 0 as VER, ITM, PRI from PRIITM where ITM in " + sbg + ")");
+  "select 0 as VER, ITM, PRICT, PRI from PRIITM where ITM in " + sbg + ")");
                 }
                 if (sbs != null) {
                   if (sbq == null) {
@@ -488,7 +488,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
                     sbq.append("\n union all \n");
                   }
                   sbq.append(
-            "select 1 as VER, ITM, PRI from PRISRV where ITM in " + sbs + ")");
+  "select 1 as VER, ITM, PRICT, PRI from PRISRV where ITM in " + sbs + ")");
                 }
                 if (sbsg != null) {
                   if (sbq == null) {
@@ -497,7 +497,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
                     sbq.append("\n union all \n");
                   }
                   sbq.append(
-          "select 2 as VER, ITM, PRI from SEITMPRI where ITM in " + sbsg + ")");
+  "select 2 as VER, ITM, PRICT, PRI from SEITMPRI where ITM in " + sbsg + ")");
                 }
                 if (sbss != null) {
                   if (sbq == null) {
@@ -506,18 +506,16 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
                     sbq.append("\n union all \n");
                   }
                   sbq.append(
-          "select 3 as VER, ITM, PRI from SEPRISRV where ITM in " + sbss + ")");
+  "select 3 as VER, ITM, PRICT, PRI from SESRVPRI where ITM in " + sbss + ")");
                 }
                 if (sbq != null) {
                   sbq.append(";");
-                  String[] ndFlPr = new String[] {"itm", "pri",
-                    "ver"}; //actually item type!
+                  String[] ndFlPr = new String[] {"pri", "ver"};
                   Arrays.sort(ndFlPr);
                   vs.put("PriItmndFds", ndFlPr);
-                  vs.put("ItmdpLv", 0);
+                  vs.put("PriItmdpLv", 1); //without joins
                   List<PriItm> prcs = this.orm.retLstQu(pRvs, vs, PriItm.class,
-                    sbq.toString());
-                  vs.clear();
+                    sbq.toString()); vs.clear();
                   for (PriItm pri : prcs) {
                     for (Itlist iil : itList) {
                       long itTyp = iil.getTyp().ordinal();
