@@ -11,7 +11,8 @@
   <body>
     <menu ref="reports" />
     <menu name="Articles">
-      <item name="Beigesoft™ EIS, Bob's pizza example " href="eis-bobs-pizza.html" />
+      <item name="Beigesoft™ EIS, Bob's pizza example" href="eis-bobs-pizza.html" />
+      <item name="Пример ведения коммерческого бухгалтерского учета в Беижсофт™ ИСП" href="eis-iv.html" />
     </menu>
   </body>
 </project>

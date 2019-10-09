@@ -78,7 +78,7 @@ public class AcntSv<RS> implements IPrcEnt<Acnt, String> {
         || old.getSaTy() != null && !pEnt.getSaTy().equals(pEnt.getSaTy())) {
         Integer entrsNrCn = getRdb().evInt(
           "select count(*) as ENNRCN from ENTR where ACDB='" + pEnt.getIid()
-            + " or ACCR='" + pEnt.getIid() + "';", "ENNRCN");
+            + "' or ACCR='" + pEnt.getIid() + "';", "ENNRCN");
         if (entrsNrCn != null && entrsNrCn > 0) {
           throw new ExcCode(ExcCode.SPAM, "account_has_non_reversed_entries");
         }
