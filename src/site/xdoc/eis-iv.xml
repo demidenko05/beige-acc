@@ -260,7 +260,7 @@
   Распакуйте архив и запустите JAR файл <b> beige-accjet-jar-with-dependencies.jar</b> двойным кликом мышки или вызовом меню - Java.
   Вы можете запустить JAR через интерфейс командной строки ("command prompt", "power shell", "комманд промпт", "повэр шелл") командой:  <b>java -jar beige-accjet-jar-with-dependencies.jar</b>
   Вы увидите ошибку запуска.
-       <p align="center"><img style="max-width: 100%" src="images/ivwadjsterr.png" /></p>
+       <p align="center"><img style="max-width: 100%" src="images/ajsterrru.png" /></p>
        Если посмотрите файл starter0.log в корневой папке ПО, то увидите:
   <pre style="white-space:pre-wrap">
 ...org.bouncycastle.operator.OperatorCreationException: unable to create OutputEncryptor: JCE cannot authenticate the provider BC...
@@ -270,7 +270,7 @@
         Нужно установить криптопровайдер статическим путем. Нужно скачать файлы download bcprov-jdk15on-1.61.jar из <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.61/">https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.61/</a>
     и bcpkix-jdk15on-1.61.jar из <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.61/">https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.61/</a>
     и скопировать их а [java-папка]/lib/ext e.g. "C:\Program Files (x86)\Java\jre[version#8]\lib\ext":
-       <p align="center"><img style="max-width: 100%" src="images/ivwbcjar.png" /></p>
+       <p align="center"><img style="max-width: 100%" src="images/bslibru.png" /></p>
      </p>
      <p>
         Этого достаточно в последней версии Джава, но обычно нужно внести запись о криптопровайдере "security.provider.[следующий номер]=org.bouncycastle.jce.provider.BouncyCastleProvider" в [JAVA папка]/lib/security/java.security:
@@ -292,13 +292,13 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
   Если такая ошибка возникает, то нужно скопировать файлы политик длины ключей из "C:\Program Files (x86)\Java\jre[version#8]\lib\security\policy\unlimited" в "[JAVA папка]/lib/security".
      </p>
      <p>
-        После успешного запуска можно установить сертификат в браузер: настройки - дополнительно - сертификаты - вкладка "Доверенные корневые центры сертификации" - импорт. Для выбора файла <b>ajetty-ca.pem</b> уберите фильтр расширений. Импортированный файл в списке:
-       <p align="center"><img style="max-width: 100%" src="images/ivwca1.png" /></p>
+        После успешного запуска можно установить сертификат в браузер: настройки - дополнительно - сертификаты - вкладка "Доверенные корневые центры сертификации" - импорт. Для выбора файла <b>ajetty-ca[Номер Аджети].pem</b> уберите фильтр расширений. Импортированный файл в списке:
+       <p align="center"><img style="max-width: 100%" src="images/cacertru.png" /></p>
        В Линукс имеется дополнительная возможность установить полезное ограничение - "Доверять только HTTPS сертификатам выпущенным данным ЦС",  т.е. если появится файл ПО подписанный данным сертификатом от данного ЦС, то подпись будет недействительна.
      </p>
      <p>
         После запуска зарегистрируйте нового пользователя:
-       <p align="center"><img style="max-width: 100%" src="images/ivwadduser.png" /></p>
+       <p align="center"><img style="max-width: 100%" src="images/adduserru.png" /></p>
      </p>
      <p>
        Для копирования базы на/с Андроид нужно обменяться файлами публичных ключей. На Андроиде он находится в корне внутреннего хранилища ajetty-file-exch[Номер Аджети].kpub,
@@ -308,9 +308,9 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
      <p>
         На обычном компьютере базы данных в незашифрованном виде находятся в корневая папка/webapp. Скачайте туда демонстрационные базы из <a href="https://sourceforge.net/projects/beige-accounting/">https://sourceforge.net/projects/beige-accounting/</a>.
         После обмена ключами откройте меню - базы данных, нажмите "архивировать" на файле "bobs-pizza-ws6.sqlite":
-       <p align="center"><img style="max-width: 100%" src="images/ivwdbcop1.png" /></p>
+       <p align="center"><img style="max-width: 100%" src="images/expbdru.png" /></p>
         После в корневой папке/backup будут 4 файла:
-       <p align="center"><img style="max-width: 100%" src="images/ivwdbcop2.png" /></p>
+       <p align="center"><img style="max-width: 100%" src="images/expbdru1.png" /></p>
        <ul>Где:
          <li>bobs-pizza-ws6.sqlten - база зашифрованная (ЗБД) 256-битным AES симметричным сессионным ключем</li>
          <li>bobs-pizza-ws6.sqlten.sig - подпись ЗБД сделанная A-Jetty(Компьютера) 2048-битным приватном RSA ключем</li>
@@ -323,7 +323,7 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
        Далее запускаем А-Джетти на Андроиде, и тем же самым интерфейсом расшифровываем БД.
        Нажмите "Изменить" на переданной БД "bobs-pizza-ws6.sqlite", она станет текущей БД. Используйте пользователь/пароль "admin/admin" для работы в ней.
        Восстановленные данные на компьютере:
-       <p align="center"><img style="max-width: 100%" src="images/ivwwebst1.png" /></p>
+       <p align="center"><img style="max-width: 100%" src="images/webstoreru.png" /></p>
      </p>
 
     
