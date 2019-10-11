@@ -206,12 +206,12 @@ public class UtInLnTxToBs<RS> {
               if (pTxRules.getStIb()) { //invoice basis:
                 if (pLine.getOwnr().getInTx()) {
                   taxAggegated = txdLn.getTot().subtract(txdLn.getTot()
-                    .divide(BigDecimal.ONE.add(txdLn.getTxCt().getAgRt()
-                      .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
+              .divide(BigDecimal.ONE.add(txdLn.getTxCt().getAgRt().divide(bd100,
+            15, RoundingMode.HALF_UP)), pAs.getPrDp(), pTxRules.getStRm()));
                   if (pLine.getOwnr().getCuFr() != null) {
                     taxAggegatedFc = txdLn.getToFc().subtract(txdLn.getToFc()
-                      .divide(BigDecimal.ONE.add(txdLn.getTxCt().getAgRt()
-                        .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
+              .divide(BigDecimal.ONE.add(txdLn.getTxCt().getAgRt().divide(bd100,
+            15, RoundingMode.HALF_UP)), pAs.getPrDp(), pTxRules.getStRm()));
                   }
                 } else {
                   taxAggegated = txdLn.getSubt().multiply(txdLn
@@ -570,9 +570,11 @@ public class UtInLnTxToBs<RS> {
             BigDecimal totbd = BigDecimal.valueOf(tot);
             BigDecimal totbdf = BigDecimal.valueOf(totf);
             txv = totbd.subtract(totbd.divide(BigDecimal.ONE.add(prbd
-              .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
+              .divide(bd100, 15, RoundingMode.HALF_UP)),
+                pAs.getPrDp(), pTxRules.getStRm()));
             txvf = totbdf.subtract(totbdf.divide(BigDecimal.ONE.add(prbd
-              .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
+              .divide(bd100, 15, RoundingMode.HALF_UP)),
+                pAs.getPrDp(), pTxRules.getStRm()));
             tctx.setTxb(totbd);
             tctx.setTxbFc(totbdf);
           }
@@ -714,12 +716,12 @@ public class UtInLnTxToBs<RS> {
           BigDecimal bd100 = new BigDecimal("100.00");
           if (pLine.getOwnr().getInTx()) {
             totTxs = pLine.getTot().subtract(pLine.getTot().divide(BigDecimal
-              .ONE.add(pLine.getTxCt().getAgRt().divide(bd100)), pAs
-                .getPrDp(), pTxRules.getStRm()));
+              .ONE.add(pLine.getTxCt().getAgRt().divide(bd100, 15,
+                RoundingMode.HALF_UP)), pAs.getPrDp(), pTxRules.getStRm()));
             if (pLine.getOwnr().getCuFr() != null) {
             totTxsFc = pLine.getToFc().subtract(pLine.getToFc()
-              .divide(BigDecimal.ONE.add(pLine.getTxCt().getAgRt()
-                .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
+              .divide(BigDecimal.ONE.add(pLine.getTxCt().getAgRt().divide(bd100,
+                15, RoundingMode.HALF_UP)), pAs.getPrDp(), pTxRules.getStRm()));
             }
           } else {
             totTxs = pLine.getSubt().multiply(pLine.getTxCt()
@@ -1070,13 +1072,13 @@ public class UtInLnTxToBs<RS> {
     BigDecimal taxRestFc = null;
     if (pLine.getOwnr().getInTx()) {
       taxTot = pLine.getTot().subtract(pLine.getTot().divide(BigDecimal.ONE
-        .add(pLine.getTxCt().getAgRt().divide(bd100)), pAs.getPrDp(),
-          pTxRules.getStRm()));
+        .add(pLine.getTxCt().getAgRt().divide(bd100, 15, RoundingMode.HALF_UP)),
+          pAs.getPrDp(), pTxRules.getStRm()));
       taxRest = taxTot;
       if (pLine.getOwnr().getCuFr() != null) {
         taxTotFc = pLine.getToFc().subtract(pLine.getToFc()
-          .divide(BigDecimal.ONE.add(pLine.getTxCt().getAgRt()
-            .divide(bd100)), pAs.getPrDp(), pTxRules.getStRm()));
+          .divide(BigDecimal.ONE.add(pLine.getTxCt().getAgRt().divide(bd100,
+            15, RoundingMode.HALF_UP)), pAs.getPrDp(), pTxRules.getStRm()));
         taxRestFc = taxTotFc;
       }
     }

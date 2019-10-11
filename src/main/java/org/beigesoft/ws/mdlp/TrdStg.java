@@ -83,6 +83,12 @@ public class TrdStg extends AIdLnNm {
    **/
   private Boolean utxds = Boolean.FALSE;
 
+  /**
+   * <p>Base online price category, not null,
+   * must be set after it was added.</p>
+   **/
+  private PriCt prCtb;
+
   //Simple getters and setters:
   /**
    * <p>Getter for priCus.</p>
@@ -210,5 +216,21 @@ public class TrdStg extends AIdLnNm {
    **/
   public final void setUtxds(final Boolean pUtxds) {
     this.utxds = pUtxds;
+  }
+
+  /**
+   * <p>Getter for prCtb.</p>
+   * @return PriCt
+   **/
+  public final PriCt getPrCtb() {
+    return this.prCtb;
+  }
+
+  /**
+   * <p>Setter for prCtb.</p>
+   * @param pPrCtb reference
+   **/
+  public final void setPrCtb(final PriCt pPrCtb) {
+    this.prCtb = pPrCtb;
   }
 }

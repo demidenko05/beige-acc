@@ -413,8 +413,8 @@ public class SrCart<RS> implements ISrCart {
               if (pTxRls.getStIb()) { //invoice basis:
                 if (!pTs.getTxExcl()) {
                   txAgr = txdLn.getTot().subtract(txdLn.getTot().divide(
-                BigDecimal.ONE.add(txdLn.getTxCt().getAgRt()
-              .divide(bd100, pAs.getPrDp(), pTxRls.getStRm()))));
+               BigDecimal.ONE.add(txdLn.getTxCt().getAgRt().divide(bd100,
+            15, RoundingMode.HALF_UP)), pAs.getPrDp(), pTxRls.getStRm()));
                 } else {
                   txAgr = txdLn.getSubt().multiply(txdLn.getTxCt()
                 .getAgRt()).divide(bd100, pAs.getPrDp(), pTxRls.getStRm());
@@ -818,8 +818,8 @@ public class SrCart<RS> implements ISrCart {
           BigDecimal taxRest = null;
           if (!pTs.getTxExcl()) {
             taxTot = pCaLn.getTot().subtract(pCaLn.getTot().divide(BigDecimal
-              .ONE.add(pCaLn.getTxCt().getAgRt().divide(bd100)),
-                pAs.getPrDp(), pTxRls.getStRm()));
+    .ONE.add(pCaLn.getTxCt().getAgRt().divide(bd100, 15, RoundingMode.HALF_UP)),
+  pAs.getPrDp(), pTxRls.getStRm()));
             taxRest = taxTot;
           }
           StringBuffer sb = new StringBuffer();
@@ -855,8 +855,8 @@ public class SrCart<RS> implements ISrCart {
         } else {
           if (!pTs.getTxExcl()) {
             toTxs = pCaLn.getTot().subtract(pCaLn.getTot().divide(BigDecimal.ONE
-              .add(pCaLn.getTxCt().getAgRt().divide(bd100)),
-                pAs.getPrDp(), pTxRls.getStRm()));
+        .add(pCaLn.getTxCt().getAgRt().divide(bd100, 15, RoundingMode.HALF_UP)),
+      pAs.getPrDp(), pTxRls.getStRm()));
           } else {
             toTxs = pCaLn.getSubt().multiply(pCaLn.getTxCt()
               .getAgRt()).divide(bd100, pAs.getPrDp(), pTxRls.getStRm());
@@ -1042,6 +1042,7 @@ public class SrCart<RS> implements ISrCart {
           query = lazQuItemSePrice();
         }
         query = query.replace(":ITMID", pItId.toString());
+        query = query.replace(":PRICTID", pTs.getPrCtb().getIid().toString());
         query = query.replace(":LNG", lang);
         query = query.replace(":TITMPRI", itPriCl.getSimpleName()
           .toUpperCase());
@@ -1052,7 +1053,7 @@ public class SrCart<RS> implements ISrCart {
           getOrm().retLstQu(pRvs, vs, itPriCl, query);
       } else {
         itPris = (List<AItmPri<?, ?>>) getOrm().retLstCnd(pRvs, vs, itPriCl,
-          "where ITM=" + pItId);
+          "where ITM=" + pItId + " and PRICT=" + pTs.getPrCtb().getIid());
       }
       if (itPris.size() == 0) {
         throw new ExcCode(ExcCode.WR, "requested item has no price");

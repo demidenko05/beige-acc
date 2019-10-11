@@ -5,4 +5,4 @@ from :TITMPRI as ITMPRI
 join :TITM as ITM10 on ITMPRI.ITM=ITM10.IID
 left join TXCT as :TXCTAL on :TXCTAL.IID=ITM10.TXCT
 left join (select NME, HASNM from :TI18ITM where HASNM=:ITMID and LNG=':LNG') as I18ITM on I18ITM.HASNM=ITM10.IID
-where ITM=:ITMID;
+where ITM=:ITMID and PRICT=:PRICTID;

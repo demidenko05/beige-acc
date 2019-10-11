@@ -26,6 +26,7 @@
           <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wssettng.png" /></p>
             He set web-store name to "Bob's store" and "Use advanced internalization" to "true".
         </p>
+        <p><b>* Base online price category must be added and set here, otherwise any buyer will got error</b></p>
         
         <p>
           Bob added several catalogs into "menu - Catalog of goods":
