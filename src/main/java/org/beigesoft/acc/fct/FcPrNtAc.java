@@ -194,6 +194,7 @@ public class FcPrNtAc<RS> implements IFctPrc {
     rz.setSrBlnc(srBlnc);
     rz.setSrvDt(this.fctApp.getFctBlc().lazSrvDt(pRvs));
     rz.setTrIsl(this.fctApp.getFctBlc().getFctDt().getReadTi());
+    rz.setLog(this.fctApp.getFctBlc().lazLogStd(pRvs));
     this.procs.put(PrcBln.class.getSimpleName(), rz);
     this.fctApp.getFctBlc().lazLogStd(pRvs).info(pRvs, getClass(),
       PrcBln.class.getSimpleName() + " has been created");

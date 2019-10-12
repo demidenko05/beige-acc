@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.List;
 
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.log.ILog;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.srv.ISrvDt;
 import org.beigesoft.prc.IPrc;
@@ -69,6 +70,11 @@ public class PrcBln<RS> implements IPrc {
   private Integer trIsl;
 
   /**
+   * <p>Log.</p>
+   **/
+  private ILog log;
+
+  /**
    * <p>Process request.</p>
    * @param pRvs request scoped vars
    * @param pRqDt Request Data
@@ -90,6 +96,7 @@ public class PrcBln<RS> implements IPrc {
       pRvs.put("blnDt", dt);
       this.rdb.commit();
     } catch (Exception ex) {
+      this.log.error(pRvs, getClass(), "wrong: ", ex);
       this.srBlnc.hndRlBk(pRvs);
       if (!this.rdb.getAcmt()) {
         this.rdb.rollBack();
@@ -163,5 +170,21 @@ public class PrcBln<RS> implements IPrc {
    **/
   public final void setTrIsl(final Integer pTrIsl) {
     this.trIsl = pTrIsl;
+  }
+
+  /**
+   * <p>Geter for log.</p>
+   * @return ILog
+   **/
+  public final ILog getLog() {
+    return this.log;
+  }
+
+  /**
+   * <p>Setter for log.</p>
+   * @param pLog reference
+   **/
+  public final void setLog(final ILog pLog) {
+    this.log = pLog;
   }
 }

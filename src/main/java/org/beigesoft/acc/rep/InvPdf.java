@@ -338,7 +338,7 @@ public class InvPdf<WI> implements IInvPdf {
     if (addr != null) {
       docMaker.addRowToDocTable(tblDbcr);
       tblDbcr.getItsCells().get(++n).setItsContent(this.i18n
-        .getMsg("state", upf.getLng().getIid()) + ": " + addr);
+        .getMsg("stat", upf.getLng().getIid()) + ": " + addr);
     }
     if (i18Buyr != null) {
       addr = i18Buyr.getCntr();
