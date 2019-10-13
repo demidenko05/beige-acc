@@ -23,10 +23,15 @@
   it can use any file only when user allowed it, i.e. user will be asked for that.
 </p>
 <p>
+  <b>This application requires permission to the Storage (shared files on internal storage and CD-card).
+  At first start, if you allow application to read and write storage, but when you push button "Start" and receive message "No permissions!", then just restart application.
+  To restart application just push "Back", then push application start icon again. You can change given application permissions in "Settings - Applications and notifications".</b>
+</p>
+<p>
   Bob decided to try this application on his Android smartphone.
   He installed Beigesoft™ EIS from Play Store. He started it in the same way as described in <a href="eis-settings.html">Software installation...</a>.
   <p align="center"><img style="max-width: 100%" src="images/andrstart.png" /></p>
-  Files <b>ajetty-ca.pem</b> and <b>ajetty-file-exch777.kpub</b> will be at the root of external storage.
+  Files <b>ajetty-ca.pem</b> and <b>ajetty-file-exch777.kpub</b> will be at the root of internal shared storage.
   To install A-Jetty CA certificate select Settings -> Security -> Install certificate from storage
   (you will be forced to set screen locking - PIN with/without fingerprint, if you haven't it yet):
   <p align="center"><img style="max-width: 100%" src="images/andrca.png" /></p>
