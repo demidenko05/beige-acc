@@ -24,7 +24,7 @@
 </p>
 <p>
   <b>This application requires permission to the Storage (shared files on internal storage and CD-card).
-  At first start, if you allow application to read and write storage, but when you push button "Start" and receive message "No permissions!", then just restart application.
+  At the first start, if you allowed application to read and write storage (accepted permission), but when you pushed button "Start" and received message "No permissions!", then just restart application.
   To restart application just push "Back", then push application start icon again. You can change given application permissions in "Settings - Applications and notifications".</b>
 </p>
 <p>
