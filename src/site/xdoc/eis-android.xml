@@ -23,7 +23,10 @@
   it can use any file only when user allowed it, i.e. user will be asked for that.
 </p>
 <p>
-  <b>This application requires permission to the Storage (shared files on internal storage and CD-card).
+  <b>*You should accept privacy policy to use this application</b>
+</p>
+<p>
+  <b>*This application requires permission to the Storage (shared files on internal storage and CD-card).
   At the first start, if you allowed application to read and write storage (accepted permission), but when you pushed button "Start" and received message "No permissions!", then just restart application.
   To restart application just push "Back", then push application start icon again. You can change given application permissions in "Settings - Applications and notifications".</b>
 </p>
@@ -40,17 +43,23 @@
   <p align="center"><img style="max-width: 100%" src="images/andrca2.png" /></p>
     After that Android versions might blame "A trusted certificate on your device is allowing a third party to monitor your network...":
   <p align="center"><img style="max-width: 100%" src="images/andcawarn.png" /></p>
-  <p>There is no public explanation about this message, e.g. on <a href="https://support.google.com/nexus/answer/2844832?hl=en">https://support.google.com/nexus/answer/2844832?hl=en</a></p>
+  <p>There is no public explanation about this message, e.g. on <a href="https://support.google.com/nexus/answer/2844832?hl=en">https://support.google.com/nexus/answer/2844832?hl=en</a>
+    They just say: "Most people don't need to work with CA certificates. Adding a CA certificate can affect your device's security."
+  </p>
   <p>
     The facts:
     <ul>
       <li>Manually added any CA certificate is the same as already added (installed in the system). You can check it on ordinal computer (browser - settings - certificates).</li>
-      <li>Adding CA certificate on ordinal desktop Linux allows constraint CA to only "Trust this certificate to identity website". That is if system received an application that is signed by certificate from that CA, this the signature will be refused.</li>
+      <li>Adding CA certificate on ordinal desktop Linux allows constraint CA to only "Trust this certificate to identity website". That is, if the system received an application signed with certificate from this CA, then the signature will not be trusted.</li>
       <li>HTTP (unencrypted) is actually danger thing, but browsers never scare you about it.</li>
+      <li>A-Jetty keystore is not available for other applications. All certificates are generated automatically at the first start.</li>
       <li>You can work without installing CA.</li>
     </ul>
   </p>
-  <p>You can work without installing A-Jetty CA certificate. Just press "advanced", then "proceed unsafe". HTTPS still works - data will be encrypted, but red scaring sign will be appeared on address place. Any way you should learn about data protection.</p>
+  <p>You can work without installing A-Jetty CA certificate. Just press "advanced", then "proceed unsafe". HTTPS still works - data will be encrypted, but red scaring sign will be appeared on address place. Any way you should learn about data protection.
+    Any software that can intercept the TCP port (can read traffic locally) can't decrypt your data (traffic).
+    The browser refuses to save passwords in this case, and it's really annoying disadvantage that forces you to install the CA certificate.
+  </p>
   <p>Start menu is:</p>
   <p align="center"><img style="max-width: 100%" src="images/andmenu.png" /></p>
   <p>To send SQLite database from notebook to smartphone Bob copied public key <b>ajetty-file-exch777.kpub</b> from smartphone to notebook folder

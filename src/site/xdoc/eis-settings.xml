@@ -17,7 +17,7 @@
   because of you don't need to install the Java and the crypto-provider in this case, see <a href="eis-android.html">Beigesoft™ EIS for Android</a>.</p>
 
 <p>Bob Brown from NY decided to start his own pizza business as sole proprietor.
-Bob's Pizza makes frozen pizza, so according <a href="https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/food_sold_by_food_stores.htm">NYS. sales taxable food</a>
+Bob's Pizza makes frozen pizza, so according to <a href="https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/food_sold_by_food_stores.htm">NYS. sales taxable food</a>
 he isn't a sales tax vendor.
 Bob read <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a business</a> and elected:
 <ul>
@@ -28,9 +28,9 @@ Bob read <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a b
 </p>
 <p>
   Bob chose Beigesoft™ EIS because it's free, it does everything that he needs, it's easy to install and use.
-  In addition it works as standalone WEB application on a notebook and on an Android tablet with the same SQLite database.
+  In addition, it works as standalone WEB application on a notebook and on an Android tablet with the same SQLite database.
   Bob can send database from his notebook to his tablet and vise versa.
-  In the future (when it's needs) Bob can publish his software on cloud, Beigesoft™ EIS is ready for high load job.
+  In the future (when it'll be needed) Bob can publish his database on the cloud, Beigesoft™ EIS is ready for high load job.
   You are able to transfer full data from any EIS's SQlite database into high load (enterprise ready) MySql or PostgreSql database
   by using WEB-service (see <a href="eis-import-db-web.html">Import an EIS database by using WEB-service</a>).
 </p>
@@ -107,7 +107,7 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
   This is not true, your connection (https) is encrypted, and no application can read traffic (your data).
   The only true is A-Jetty HTTPS is signed by unknown certificate authority (CA). So after installing CA A-Jetty (ajetty-ca.pem), browsers stop show fearful messages.
   But you can point browser to accept this site without installing CA certificate - just push "Advanced" then "Proceed to localhost (unsafe)".
-  In this case (without installing CA certificate) the red https sign will be only problem, connection will be encrypted well, so software, that can intercept your traffic locally (intercept port e.g. an anti-virus),
+  In this case (without installing CA certificate) the red https sign will be only problem, connection will be encrypted well, so software, that can intercept your traffic locally (intercept TCP port e.g. an anti-virus),
   can't read your data (decrypt your traffic).
   <p align="center"><img alt="Beigesoft™ EIS without CA certificate" style="max-width: 100%" src="images/nocahttps.png" /></p>
   Any unencrypted HTTP connection is actually danger thing for you, but browsers never scare you about it.

@@ -58,7 +58,7 @@
       </h5>
 
       <h5>
-        <a href="eis-bobs-taxes.html">Accounting of business owner's taxes, Bob's earnings.</a>
+        <a href="eis-bobs-taxes.html">Accounting of business owner's taxes. Bob's earnings.</a>
       </h5>
 
       <h5>
@@ -74,11 +74,11 @@
       </h5>
 
       <h5>
-        <a href="eis-tax-market.html">Market (Mark To Market) accounting, importing data from tax accounting.</a>
+        <a href="eis-tax-market.html">Market (Mark To Market) accounting. Importing data from tax accounting.</a>
       </h5>
 
       <h5>
-        <a href="eis-sales-taxes-cash.html">Accounting of sales taxes cash method, cash method vs accrual method.</a>
+        <a href="eis-sales-taxes-cash.html">Accounting of sales taxes cash method. Cash method vs accrual method.</a>
       </h5>
 
       <h5>
@@ -90,11 +90,11 @@
       </h5>
 
       <h5>
-        <a href="eis-satax-iteminv.html">Sales tax due on transactions on an item or invoice basis.</a>
+        <a href="eis-satax-iteminv.html">Sales tax (VAT) due on tax due on a transaction on an item or an invoice basis.</a>
       </h5>
 
       <h5>
-        <a href="eis-satax-aggr.html">Multi sales taxes. Aggregate tax rate method.</a>
+        <a href="eis-satax-aggr.html">Aggregate sales tax rate method.</a>
       </h5>
       <h5>
         <a href="eis-bank-csv.html">Import bank statement from CSV file, semi-automatically bank reconciliation.</a>
@@ -118,7 +118,7 @@
         <a href="eis-ws-chou.html">Bob's pizza web-store example. Part 2, cart checkout, forced delivering (shipping).</a>
       </h5>
       <h5>
-        <a href="eis-ws-prc.html">Bob's pizza web-store example. Part 3, prices depend on buyer, prices in foreign currency.</a>
+        <a href="eis-ws-prc.html">Bob's pizza web-store example. Part 3, price depend on buyer's category, price in foreign currency.</a>
       </h5>
 
     </section>
