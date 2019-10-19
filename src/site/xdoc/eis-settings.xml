@@ -45,6 +45,7 @@ Bob read <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a b
 </p>
   Bob should see window like this:
   <p align="center"><img alt="Beigesoft™ EIS start" style="max-width: 100%" src="images/beige-eis-start.png" /></p>
+  * the first start takes a time, you should wait for it!
 <p>
   Beigesoft™ EIS standalone versions are always in secure enabled mode,
   that is they use encrypted (HTTPS) connection and require strong password for authorization,
@@ -127,8 +128,8 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
   <b>Here are part of screenshots are shown with installed A-Jetty CA certificate (the https sign is well), and part without it (https is red). </b>
 </p>
 <p>  
-  Then Bob pushed button <b>https://localhost:8443/bsa8443</b>, default browser will opened this address.
-  At first time, the empty database requires to add the first (only) user with strong password, so Bob added himself:
+  Then Bob pushed button <b>https://localhost:8443/bsa8443</b>, default browser will open this address.
+  At the first time, the empty database requires to add the first (only) user with strong password, so Bob added himself:
   <p align="center"><img alt="Beigesoft™ EIS adding first user" style="max-width: 100%" src="images/accadduser.png" /></p>
   At first Bob set accounting settings, he selected Menu -> Appearance - > Standard -> Accounting -> Accounting settings:
   <p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings.png" /></p>
@@ -147,16 +148,16 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
   <p align="center"><img alt="Beigesoft™ EIS accounting subaccounts for Employment Taxes Payable" style="max-width: 100%" src="images/subacctax.png" /></p>
 </p>
 
-<p>* The most types of entities like expense, tax, debtor, etc. requires to enter ID (non-automatic). For a debtor/creditor you can use its global ID, i.e. TIN or phone number.
+<p>* The most types of entities like expense, tax, debtor, etc. require to enter ID (non-automatic). For a debtor/creditor you can use its global ID, i.e. TIN or phone number.
   This is need for replication of distributed databases, i.e. import data from office A to office B.
-  Non-automatic ID allows to insert (create) the same entity with the same ID in all databases at the same time and work with it, then replicate data with no problem.
+  Non-automatic ID allows to insert (create) the same entity with the same ID in all databases at the same time and to work with it, then to replicate the data with no problem.
   If you got error when you are creating such entity, then probably ID is not unique, e.g. ID=6 for "Owner income tax" is already in use:
   <p align="center"><img style="max-width: 100%" src="images/iderr.png" /></p>
   For sub-accounts use ID=Account Number + index, e.g. for account "Bank Number=1030" the first sub-account "#1236786817 in Bank" has ID=10301.
 </p>
 <p>
   * Entities like documents, its lines, items (inventory) have automatic replication-ready ID.
-  Replication items (products) can be only one-way, and it's impossible to create and use the same items in different databases at the same time.
+  Replication of items (products) can be only one-way, and it's impossible to create and use the same items in different databases at the same time.
 </p>
 <p>
   * If you are editing a form but forget to create a dependent entity, e.g. Employee for document Wage,
@@ -1512,7 +1513,7 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
 </p>
 
 <h4>Started capital.</h4>
-<p>Bob opened checking account #1236786b17 in Bank on Jan 10 2016 and deposited 40000USD. He made the first accounting entries from Menu Accounting -> Input accounting Entries:
+<p>Bob opened checking account #1236786b17 in Bank on Jan 10 2016 and deposited 40000USD. He made the first accounting entries from Menu Accounting -> Input entries:
   <p align="center"><img alt="Beigesoft™ EIS started capital" style="max-width: 100%" src="images/started-capital.png" /></p>
   * amount in accounting entries always has maximum decimal places - 2 for price precision. 
 </p>
@@ -1576,7 +1577,7 @@ $ sudo chmod o+w /file-exch
 </p>
 <p>
   Heavy harmful software poisons your operation system, so it can do everything. OS updates might remove it, but complex harmware can fake "OS updates",
-  so you have only way to heal your computer - completely reinstall OS by using clean, write-protected installation source (DVD).
+  so you have only way to heal your computer - completely reinstall OS by using clean, write-protected installation source (e.g. DVD).
 </p>
     </section>
 

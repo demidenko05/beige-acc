@@ -9,18 +9,18 @@
 
   <body>
 
-    <section name="Beigesoft™ EIS on Android.">
+    <section name="Beigesoft™ EIS for Android.">
 
     <p>Keywords: Double entry accounting software for Android.</p>
 <p>
-  This is same WEB application based on embedded A-Jetty for Android.
+  This is same WEB application that is based on embedded A-Jetty for Android.
   Beigesoft™ EIS for Android complies rules <a href="https://play.google.com/about/privacy-security/personal-sensitive/">https://play.google.com/about/privacy-security/personal-sensitive/</a>,
   i.e. private data (SQLite database, private log files, key-store with keys for encryption) are placed in private application storage,
   all other applications can't read these files. Beigesoft™ EIS uses encryption to make HTTPS connection and to backup encrypted SQLite databases and log files.
   These encrypted files stored on shared storage (where photos, files...), all other application can't decrypt them.
   But when you print PDF reports, then Chrome will download them into shared <b>Download</b> folder and any application that has permission to shared storage can read this file,
-  i.e. not only PDF viewer. In the next year all Android applications are required to use "scoped storage". That means that any application hes no direct access to any file in shared storage,
-  it can use any file only when user allowed it, i.e. user will be asked for that.
+  i.e. not only PDF viewer. In the next year all Android applications are required to use "scoped storage". That means that any application has no direct access to any file in shared storage,
+  it can use any file only when user allowed it explicitly, i.e. user will be asked for that.
 </p>
 <p>
   <b>*You should accept privacy policy to use this application</b>
@@ -41,16 +41,17 @@
   You can find this certificate in Security -> Trusted Credentials -> User:
   <p align="center"><img style="max-width: 100%" src="images/andrca1.png" /></p>
   <p align="center"><img style="max-width: 100%" src="images/andrca2.png" /></p>
-    After that Android versions might blame "A trusted certificate on your device is allowing a third party to monitor your network...":
+    After that Android might blame "A trusted certificate on your device is allowing a third party to monitor your network...":
   <p align="center"><img style="max-width: 100%" src="images/andcawarn.png" /></p>
+  <p><b>* new Android versions (e.g. 7.0) do not show this message</b></p>
   <p>There is no public explanation about this message, e.g. on <a href="https://support.google.com/nexus/answer/2844832?hl=en">https://support.google.com/nexus/answer/2844832?hl=en</a>
     They just say: "Most people don't need to work with CA certificates. Adding a CA certificate can affect your device's security."
   </p>
   <p>
     The facts:
     <ul>
-      <li>Manually added any CA certificate is the same as already added (installed in the system). You can check it on ordinal computer (browser - settings - certificates).</li>
-      <li>Adding CA certificate on ordinal desktop Linux allows constraint CA to only "Trust this certificate to identity website". That is, if the system received an application signed with certificate from this CA, then the signature will not be trusted.</li>
+      <li>Manually added any CA certificate is the same as already added (installed in the system). You can check it on regular computer (browser - settings - certificates).</li>
+      <li>Adding CA certificate on regular desktop Linux allows constraint CA to only "Trust this certificate to identity website". That is, if the system received an application signed with certificate from this CA, then the signature will not be trusted.</li>
       <li>HTTP (unencrypted) is actually danger thing, but browsers never scare you about it.</li>
       <li>A-Jetty keystore is not available for other applications. All certificates are generated automatically at the first start.</li>
       <li>You can work without installing CA.</li>
@@ -65,6 +66,7 @@
   <p>To send SQLite database from notebook to smartphone Bob copied public key <b>ajetty-file-exch777.kpub</b> from smartphone to notebook folder
   <b>/home/accountant/beige-accjet/pub-exch</b>:
     <p align="center"><img style="max-width: 100%" src="images/copypubtonot.png" /></p>
+    <b>* new Android versions may not show files in internal storage, so you have to copy the files from/to external storage (CD) by using Android file explorer!</b>
   </p>
   <p>
     then Bob opened Database Manager, checked SHA1 fingerprint of public key A-Jetty777, then pressed <b>backup</b>:

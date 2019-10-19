@@ -10,6 +10,10 @@
   <body>
 
     <section name="Beigesoft™ Enterprise Information System, Bob's pizza example.">
+
+      <p>
+        <a href="https://www.facebook.com/Beigesoft-Accounting-All-In-One-401150900677249">Page on Facebook</a>
+      </p>
       
       <h4>Topics:</h4>      
       
@@ -78,7 +82,7 @@
       </h5>
 
       <h5>
-        <a href="eis-sales-taxes-cash.html">Accounting of sales taxes cash method. Cash method vs accrual method.</a>
+        <a href="eis-sales-taxes-cash.html">Accounting of sales tax (VAT, GST) cash method. Cash method vs accrual method.</a>
       </h5>
 
       <h5>
@@ -90,11 +94,11 @@
       </h5>
 
       <h5>
-        <a href="eis-satax-iteminv.html">Sales tax (VAT) due on tax due on a transaction on an item or an invoice basis.</a>
+        <a href="eis-satax-iteminv.html">Sales tax (VAT, GST) due on tax due on a transaction on an item or an invoice basis.</a>
       </h5>
 
       <h5>
-        <a href="eis-satax-aggr.html">Aggregate sales tax rate method.</a>
+        <a href="eis-satax-aggr.html">Sales tax aggregate rate method.</a>
       </h5>
       <h5>
         <a href="eis-bank-csv.html">Import bank statement from CSV file, semi-automatically bank reconciliation.</a>
@@ -103,7 +107,7 @@
         <a href="eis-price-list.html">Export price list into CSV file.</a>
       </h5>
       <h5>
-        <a href="eis-satax-dest.html">Destination-based sales tax. Overriding vendor's tax calculation method.</a>
+        <a href="eis-satax-dest.html">Destination-based sales tax (VAT, GST). Overriding vendor's tax calculation method.</a>
       </h5>
 
       <h5>
