@@ -13,9 +13,9 @@
 
      <p>Keywords: Accounting of purchase returns.</p>
 
-      <p>On 16 Jan Bob found that 12 eggs and 1 pound of cheese are not fresh.
-        At first he switched off entries source #15 "	Purchase return. Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount.".
-        Then he has made purchase return to Carlo's grocery:
+      <p>Bob found on January 16 that 12 eggs and 1 pound of cheese are not fresh.
+        At first, he switched off entries source #15 "	Purchase return. Debit Returns Receivable per vendor, Credit Sales Tax Payable from returns per Tax for tax amount".
+        Then he made purchase return to Carlo's grocery:
         <p align="center"><img alt="Beigesoft™ EIS purchase returns" style="max-width: 100%" src="images/purchret.png" /></p>
           * you can change cost (price) (it's still picked automatically) and total, you can also change tax amount (if taxes are extracted from purchase).
       </p>

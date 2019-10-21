@@ -13,12 +13,12 @@
       
       <p>Keywords: Accounting of employment (payroll).</p>
       
-<p>Beigesoft™ EIS has implemented widely used in many countries <b>tax table percentage method</b> for automatically calculation wage taxes.</p>
-<p>It has implemented automatically calculation <b>wage tax = tax percent (according tables) * (gross wage - all allowances per payment)</b>. This simple method is used in USA.
-In others countries it's used little more complex method <b>allowances per year</b>, which application hasn't implemented automatically yet.
+<p>Beigesoft™ EIS uses <b>tax table percentage method (withholding tax tables</b>) for automatically calculation wage taxes.</p>
+<p>It calculates <b>wage tax = tax rate (according to tables) * (gross wage - all allowances per payment)</b>. This simple method is used in USA.
+Other countries use little more complex method <b>allowances per year</b>, which application can't make automatically yet.
 </p>
 <p>
-  Bob has hired Rob Swallow as a cook.
+  Bob hired Rob Swallow as a cook.
   He filled out Employee category, Employee and Wage Types for Rob:
   <p align="center"><img alt="Beigesoft™ EIS wage" style="max-width: 100%" src="images/employee.png" /></p>
   * use TIN (SSN) or phone number for emmployee ID. At least use IDs that have same number of digits, e.g. 6 digits ID from 100000 to 999999.
@@ -32,7 +32,7 @@ In others countries it's used little more complex method <b>allowances per year<
     1. Federal Income Tax from employee wage.
     Rob filled form W-4 and got two withholding allowances. Bob elected percentage method, so according Table 5 (page 42 of <b>IRS-ETG</b>)
     allowance daily is 15.6 * 2 = 31.2. Bob should use table 8 (page 45 of <b>IRS-ETG</b>) to withhold Federal Income tax,
-    so he has filled Employment -  Wage tax table according it:
+    so he filled Menu - Other - Wage tax table according it:
     <p align="center"><img alt="Beigesoft™ EIS tax percentage method" style="max-width: 100%" src="images/wttfit.png" /></p>
           * any tax table line requires entering manually ID, so use simple formula:
 <pre style="white-space: pre-wrap;">
@@ -76,7 +76,7 @@ In others countries it's used little more complex method <b>allowances per year<
   </p>
   <p>
     Rob made on Jan 17 12 Pizza with bacon Frozen and 12 Pizza with cheese Frozen, then delivered them to customers.
-    Bob has filled Wage document for 60 USD gross for cooking
+    Bob filled Wage document for 60 USD gross for cooking
     and 20 USD for delivering. He set tax account expense to <b>5105 Expenses</b>,
     then pressed <b>save</b>, then added wage line for cooking (account <b>Inventory direct cost temporary</b> for direct labor cost),
     and line for delivering (<b>5105 Expenses</b> for indirect labor cost):
@@ -85,7 +85,7 @@ In others countries it's used little more complex method <b>allowances per year<
     <p align="center"><img alt="Beigesoft™ EIS payroll" style="max-width: 100%" src="images/wage1.png" /></p>
     <p align="center"><img alt="Beigesoft™ EIS payroll report" style="max-width: 100%" src="images/wage2.png" /></p>
     <p>
-      As you can see cooking(direct labor) wage is accounted separately from delivery(indirect labor) one.
+      As you can see cooking (direct labor) wage is accounted separately from delivering (indirect labor) one.
       For manufacturing direct labor cost (as well as cost of materials) is usually included into cost of the final product.
       Make sure that it's true for your tax rules.
     </p>
@@ -95,7 +95,7 @@ In others countries it's used little more complex method <b>allowances per year<
   <a href="https://labor.ny.gov/ui/bpta/contribution-rates.shtm">NY SUTA rate</a>
   <a href="https://www.tax.ny.gov/pdf/publications/withholding/nys50.pdf">NY SUTA instructions.</a>).
   So you should make sure that you made all properly according the law of your country. Tax authorities provide full information with examples on its Internet site.
-  You should study it thoroughly, if you have a question, then call to your tax authority and ask them.
+  You should study it thoroughly, if you have a question, then call to your tax authority.
   Otherwise if you made mistake, then you will get penalty, e.g. if you deduct your income tax with wrong cost of goods sold (deducting expense is greater than you can prove).
   You have to make (and keep) records that shows these properly calculations according <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a business, page 12</a>.
   Beigesoft™ EIS respect this, in addition it makes many records automatically (COGS, employment taxes, sales taxes, etc.)
