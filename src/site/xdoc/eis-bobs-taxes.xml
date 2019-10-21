@@ -12,36 +12,36 @@
     <section name="Accounting of business owner taxes, retained earnings.">
     <p>Keywords: Accounting of income tax, profit.</p>
 <p>
-  There are three Income Tax methods used in all countries:
+  There are three Income Tax methods that is used in all countries:
   <ul>
     <li>income tax = rate * (business revenues - business expenses - allowances), and usually accrued method</li>
     <li>income tax = rate * (business revenues - allowances), and usually cash method</li>
     <li>income tax = fixed amount (e.g. 500USD per month.)</li>
   </ul> 
-  Accrued means that business revenue/expense is occurred when you bought or sold something (goods, services, rent etc) even unpaid.
-  Cash - when you earn money or paid ones, but not prepayments, i.e. for already sold/purchased goods/service.
+  Accrued means that business revenue/expense occurs when you bought or sold something (a goods or a service) even unpaid.
+  Cash - when you earn money or paid ones, but it's not a prepayment, i.e. for already sold/purchased goods/service.
   According <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a business, page 6</a>
-  Bob as sole proprietor should pays Income Tax, Self-employment tax. He should pays estimated income tax
+  Bob as sole proprietor should pay Income Tax, Self-employment tax. He should pay estimated income tax
   by April 18 (see Form 1040-ES).
 </p>
   
   <h4>Capitalized cost method.</h4>
   <p>Manufacturing (Producing) business activity often (in many countries) is subject of method "capitalized cost".
     For USA see <a href="https://www.irs.gov/pub/irs-pdf/p538.pdf">IRS 538, Page 18 Uniform Capitalization Rules</a>.
-    According this method the most business expenses are required to be capitalized (i.e. placed into assets).
-    For USA these expenses are - rent, electricity, indirect labor, property deprecation, sales tax from purchases etc.
+    According to this method, the most business expenses are required to be capitalized (i.e. placed into assets).
+    For USA these expenses are - rent, electricity, indirect labor, property deprecation, sales tax from purchases, etc.
     Part of those costs (or whole total) are deducting the tax at the end of period, and that "part" depends on starting and ending inventory (product direct cost).
-    The law provides the equation (formula) to calculate this "part" and in USA it's called "Simplified Production Absorption Ratio".
+    The law provides the equation (formula) to calculate this "part", and in USA it's called "Simplified Production Absorption Ratio".
     For example a factory has 0 notebooks at start and it has produced 1000 notebooks.
-    They costs (product) is 100000 (100 each).
-    Assume that warehouse rent expenses are required to be capitalized, and its costs are placed on asset accounts e.g. InventoryCapitalaizedCost.Rent,
-    and at the end of period Rent expenses are 9000.
+    They cost (product) is 100000 (100 each).
+    Assume that warehouse rent expenses are required to be capitalized, and its costs are placed on an asset account e.g. InventoryCapitalaizedCost.Rent,
+    and at the end of period Rent expense is 9000.
     At the end of period 900 notebooks are sold (90%), so ending inventory is 10000.
     Assume that formula of "part to be expense" is (TotalPeriod - InventoryEnd)/TotalPeriod = (100000 - 10000)/100000 = 0.9,
-    so 0.9 of capitalized costs Rent 8100 is deducting the tax, the rest 900 is remained on assets.</p>
+    so 0.9 of capitalized cost Rent 8100 is deducting the tax, the rest 900 is remained on assets.</p>
 
   <h4>Bob's earnings.</h4>
-  <p>After Bob has made all business revenues and expenses his gross income is:
+  <p>After Bob has made all business revenues and expenses, his gross income is:
     <pre style="white-space:pre-wrap">
       gross income = sum(income revenue accounts) - sum(income expense accounts)
     </pre>

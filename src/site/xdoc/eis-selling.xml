@@ -12,9 +12,9 @@
     <section name="Accounting of sales, prepayments, payments tracking, COGS.">
     <p>Keywords: Accounting of sales, payments tracking software, sales taxes, Cost Of Goods Sold.</p>
 
-      <p>Sales taxes imposed on the buyer are always extracted from sales revenue, and seller have to remit them to tax revenue authorities. This rule is applied in all countries.</p>
+      <p>Sales taxes (VAT, GST) imposed on the buyer are always extracted from sales revenue, and seller have to remit them to tax revenue authorities. This rule is applied in all countries.</p>
 
-      <p>Bob should not pay sales taxes for frozen pizza, but here is used fake sales taxes for goods with cheese and all services (only for example purpose)!</p>
+      <p>Bob should not apply sales taxes for frozen pizza, but here is used fake sales taxes for goods with cheese and all services (only for example purpose)!</p>
       
       <p>To apply sales tax for a material/merchandise/service you should:
         <p>1. Add <b>Tax</b> (type must be "Sales (VAT)"!) e.g.:
@@ -33,16 +33,16 @@
 
       <p>
         Bob received 50USD prepayment from Mini Market on Jan 16.
-        Bob has filled Prepayment From:
+        Bob filled Prepayment From:
         <p align="center"><img alt="Beigesoft™ EIS prepayment for sales" style="max-width: 100%" src="images/prepfrom1.png" /></p>
-        <p align="center">After accounting full report is:</p>
+        Full report of the accounted document is:
         <p align="center"><img alt="Beigesoft™ EIS prepayment for sales report" style="max-width: 100%" src="images/prepfrom2.png" /></p>
       </p>
       <p>
         Bob sold on Jan 17 6 Pizza with bacon frozen and 6 Pizza with cheese frozen to Mini Market (he also sold 3 pounds of cheese and 1.5 hours of cleaning for example purposes).
-        Bob has filled Sales invoice:
+        Bob filled Sales invoice:
         <p align="center"><img alt="Beigesoft™ EIS sales invoice" style="max-width: 100%" src="images/sales0.png" /></p>
-        <p align="center">After accounting full report is:</p>
+        Full report of the accounted document is:
         <p align="center"><img alt="Beigesoft™ EIS sales invoice report" style="max-width: 100%" src="images/sales1.png" /></p>
         <p align="center"><img alt="Beigesoft™ EIS sales invoice report" style="max-width: 100%" src="images/sales2.png" /></p>
       </p>
@@ -58,20 +58,20 @@
       <p>
         As you can see Bob made another mistake. He set Sales date less than Manufacture date for that pizza, so
         balance of Inventory.Pizza Cheese Frozen is -18.93 (red color) at 4:07 PM because it(pizza) was made at 6:36 PM.
-        So it's reasonable to make database copy more frequently, he needs to copy bseis.sqlite
-        by file explorer without exiting from accounting (on Android he should do it in the Database manager).
-        Otherwise he should reverse whole document. For warehouse document date means nothing cause warehouse
-        entries use current time. And you can't withdraw a product or material if it doesn't exist in warehouse.
+        So it's reasonable to make database copy more frequently. Just copy bseis.sqlite
+        by file explorer without exiting from application (on Android use the Database manager).
+        For warehouse document date means nothing cause warehouse
+        entries use current time. And you can't withdraw a product or a material if it doesn't exist in warehouse.
       </p>
 
       <h4>Payments tracking</h4>
       <p>Bob received on 18 Jan the rest 107.64 from Mini Market for sales invoice #1:
           <p align="center"><img alt="Beigesoft™ EIS payment for sales" style="max-width: 100%" src="images/paymesal1.png" /></p>
       </p>
-      <p>It make simple accounting entries:
+      <p>It makes simple accounting entries:
           <p align="center"><img alt="Beigesoft™ EIS payment for sales report" style="max-width: 100%" src="images/paymesal2.png" /></p>
       </p>
-      <p>After what sales invoice's payment tracking fields in the list are changed:
+      <p>After that, sales invoice's payment tracking fields in the list are changed:
           <p align="center"><img alt="Beigesoft™ EIS payment for sales tracking" style="max-width: 100%" src="images/salpaymtrack.png" /></p>
       </p>
       <p>You can use filter for fields <b>Payment total</b> and <b>Pay by date</b> to report payments for sales:
@@ -114,13 +114,13 @@
     </section>
 
     <p>Cost Of Goods Sold</p>
-    <p>Here used the most natural FIFO method, easy to understand and make it by computer, it's hard to make it and track by hand, unless you sell little items per day.
+    <p>Here is used the most natural FIFO method. It's easy to understand and make it by computer. It's hard to make it and track by hand, unless you sell little items per day.
       Average method is suitable when recording it by hand i.e. without computer.
-      LIFO is little bit bizarre (hard to track) and it's lawless in many countries.
+      LIFO is little bit bizarre (it's hard to track) and it's lawless in many countries.
     </p>
     <p>When we use items and make COGS entry, then we often face rounding error.
       For example 120 eggs for 20 USD, price (rounded)=0.17USD, so withdrawal 119 eggs * 0.17USD = 20.23USD, that is no good.
-      In old Beige Accounting you should use more decimal places for cost (price) to reduce rounding error, and yet, little rounding error (the rest) might occurred in assets account Inventory.
+      In old Beige Accounting you should use more decimal places for cost (price) to reduce rounding error, and yet, little rounding error (the rest) might occur in assets account Inventory.
       That is price(cost) 0.1667 * 120 = 20.00, so there is no remaining "the rest" in this and most cases.
       New COGS withdrawal algorithm allows to use the same precision (decimal places) for cost as price without any problem, the equation is:
 <pre style="white-space: pre-wrap;">
@@ -133,13 +133,13 @@
   amount to withdrawal = total left = 0.17
 </pre>
     </p>
-    <p>To check this, just create one test purchase (6 eggs for 4.29USD total) and sale for 96 eggs.
+    <p>To check this, just create one test purchase (6 eggs for 4.29USD total) and one sale for 96 eggs.
       <p>Purchase#1 has eggs prior to test sale:
           <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs1.png" /></p>
       </p>
       <p>Test Purchase#2 17 Jan has eggs prior to test sale:
           <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs2.png" /></p>
-          * new item source has always zero total left, it's cause of used algorithm (cause complex cost revealing that depends on used tax methods: item/invoice basis, tax included...), and it actually means that total left equals to total.
+          * new item source has always zero total left, it's cause of used algorithm (cause complex cost revealing depends on used tax methods: item/invoice basis, tax included...), and it actually means that total left equals to total.
       </p>
       <p>Test Sale#3 full report:
           <p align="center"><img alt="Beigesoft™ EIS COGS" style="max-width: 100%" src="images/cogs3.png" /></p>

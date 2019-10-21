@@ -16,7 +16,7 @@
         "Funny coffee shop" is bankrupt. The balance shows the debt:
         <p align="center"><img style="max-width: 100%" src="images/balandebt.png" /></p>
         <p>
-          Bob transferred on Jan 20 the amount of the debt to the account of asset "Bad Debts":
+          Bob transferred on Jan 20 the amount of the debt to the asset account "Bad Debts":
         </p>
         <p align="center"><img style="max-width: 100%" src="images/debtasset.png" /></p>
         <p>
@@ -24,7 +24,7 @@
         <p align="center"><img style="max-width: 100%" src="images/balandebt1.png" /></p>
         </p>
       </p>
-      <p>When Bob will received document from IRS that this debt is approved, then Bob will transferred this amount into income (business) expense account.</p>
+      <p>When Bob will receive document from IRS that approves this debt, then Bob will transfer this amount into an income (business) expense account.</p>
     </section>
 
   </body>
