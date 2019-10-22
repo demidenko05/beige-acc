@@ -9,21 +9,21 @@
 
   <body>
 
-    <section name="Accounting of sales taxes cash method, cash method vs accrual.">
+    <section name="Accounting of sales taxes cash method, cash method vs accrual method.">
 
     <p>Keywords: Accounting of sales taxes cash method, cash method vs accrual method.</p>
 
     <h4>Basic principles.</h4>
     <p>At first, it's need to understand these things:
       <ul>
-        <li>Prepaid merchandise - means that buyer has paid 100% for merchandise and has not yet received it (merchandise).</li>
-        <li>Paid merchandise - means that buyer has paid/prepaid 100% for merchandise and has received it (merchandise).</li>
-        <li>Prepaid/paid partially - means that buyer has paid less then 100% for merchandise.</li>
-        <li>Sold merchandise - means that buyer has received merchandise*.</li>
+        <li>Prepaid merchandise - means that buyer has paid 100% for this merchandise and has not yet received it (merchandise).</li>
+        <li>Paid merchandise - means that buyer has paid/prepaid 100% for this merchandise and has received it (merchandise).</li>
+        <li>Prepaid/paid partially - means that buyer has paid less then 100% for this merchandise.</li>
+        <li>Sold merchandise - means that buyer has received this merchandise*.</li>
       </ul>
-      *for some countries term "sold" may means also "merchandise is sent to buyer". In Beigesoft™ EIS "sold/bought" means when invoice is accounted (document has made accounting entries).
+      *for some countries term "sold" may means also "the merchandise is sent to the buyer". In Beigesoft™ EIS "sold/bought" means when an invoice is accounted (document has made accounting entries).
     </p>
-    <p>Accrual or cash method is dedicated to estimate income tax "WHEN" (all other taxes usually have the same method as income tax).</p>
+    <p>Accrual or cash method is dedicated to making income tax "WHEN" (all other taxes usually have the same method as income tax).</p>
     <p>The most used method for income tax is:
     <pre style="white-space:pre-wrap">
       Income tax = (Business revenue - Business expenses) * Tax Rate
@@ -39,11 +39,11 @@
     </p>
     
     <h4>Sales taxes cash method</h4>
-    <p>In some countries the law may demand to use cash method to estimate sales taxes despite of using accrual method for income tax.</p>
-    <p>Beigesoft™ EIS has implemented this method for sales, purchases and their returns.</p>
+    <p>In some countries the law may demand to use cash method for sales taxes despite of using accrual method for income tax.</p>
+    <p>In Beigesoft™ EIS you can use this method for sales, purchases and their returns.</p>
     <p>Lets make a purchase for example. At first, set enabled of "Entries sources":
       <ul>
-        <li><b>Sales taxes methods must be switched according current rules (here is: Cash=On, Accrual=Off)</b></li>
+        <li><b>Sales taxes methods must be switched according to current rules (here is: Cash=On, Accrual=Off)</b></li>
         <li><b>Sales:</b></li>
         <li>#27 "Payment from. Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount, when Payments>=Sales, CASH!!!" set on.</li>
         <li>#26 "Sales invoice. Debit Receivable per customer, Credit Sales taxes payable per tax for tax amount, when Payments>=Sales, CASH!!!" set on.</li>
@@ -61,7 +61,7 @@
         <p align="center"><img style="max-width: 100%" src="images/entrsour.png" /></p>
     </p>
     <h4>100% prepaid invoice.</h4>
-    <p>Add 100% prepayments to vendor (13 Jul. 2016, 668.54$ total) and account it.
+    <p>Add 100% prepayments to vendor (13 Jul. 2016, 668.54$ total) and to account it.
       Then add sales invoice (14 Jul. 2016, 668.54$ total) with that prepayment:
       <p align="center"><img style="max-width: 100%" src="images/satacashinv1.png" /></p>
     </p>
@@ -70,9 +70,9 @@
       As you can see it made all accounting entries: taxes, receivable to revenue, inventory to COGS, adjusting prepayments to receivable.
     </p>
     <h4>50% prepaid invoice plus 25%*2 payments.</h4>
-    <p>Add 50% prepayments to vendor (15 Jul. 2016, 334.27$ total) and account it.
+    <p>Add 50% prepayments to vendor (15 Jul. 2016, 334.27$ total) and to account it.
       Then add sales invoice with the same goods and services as above one (17 Jul. 2016, 668.54$ total),
-        then account it, the report is:
+      then to account it, the report is:
       <p align="center"><img style="max-width: 100%" src="images/satacashinv3.png" /></p>
       As you can see it made not all accounting entries: receivable to revenue, inventory to COGS, adjusting prepayments to receivable.
     </p>

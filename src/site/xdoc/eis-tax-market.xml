@@ -37,18 +37,18 @@ Assets - Liabilities = current market value of Bob's business (How much he can e
         Then (before starting and creating new database) he edited XML file <b>\WEB-INF\web.xml</b> to change new database ID into 2:
         <p align="center"><img style="max-width: 100%" src="images/marketaccid.png" /></p>
       </p>
-      <p>Bob started using Beigesoft™ EIS Market in the same way as described in <a href="eis-settings.html">Software installation, accounting settings, chart of accounts, started capital.</a>,
+      <p>Bob started using Beigesoft™ EIS Market in the same way as described in <a href="eis-settings.html">Software installation, accounting settings, chart of accounts, started capital</a>,
         except "Chart of accounts", "Expenses" and "Started capital".
       </p>
 
       <h4>Import data from tax accounting.</h4>
-      <p>To use WEB-services on Intranet (localhost) Bob installed Bouncy Castle Crypto Provider and A-Jetty CA certificate as described in <a href="eis-import-db-web.html">Import database with WEB-service.</a></p>
+      <p>To use WEB-services on Intranet (localhost) Bob installed Bouncy Castle Crypto Provider and A-Jetty CA certificate as described in <a href="eis-import-db-web.html">Import an EIS database by using WEB-service.</a></p>
       <p>
         He launched source database Tax Beigesoft™ EIS on port 8444.
         Then he launched market accounting on port 8445, new market database will be created with ID=2.
       </p>
       <p>
-        He uses "menu - about" to know database ID:
+        He uses "menu - ... - about" to see database ID:
       </p>
       <p align="center"><img style="max-width: 100%" src="images/taxaccabout.png" /></p>
       <p>
@@ -56,7 +56,7 @@ Assets - Liabilities = current market value of Bob's business (How much he can e
       </p>
       <p align="center"><img style="max-width: 100%" src="images/replaccmeth.png" /></p>
       <p>
-        He filled import acc. entries form (WEB-service address is "https://localhost:8444/bsa8444/adm/xml", then fill user and password (that matched to Tax database) and pressed replicate:
+        He filled import acc. entries form (WEB-service address is "https://localhost:8444/bsa8444/adm/xml", then filled user and password (that is matched to Tax database) and pressed replicate:
       </p>
       <p align="center"><img alt="Beigesoft™ EIS import from tax to market(business) accounting" style="max-width: 100%" src="images/importacc.png" /></p>
       <p>
@@ -65,18 +65,18 @@ Assets - Liabilities = current market value of Bob's business (How much he can e
       <p align="center"><img style="max-width: 100%" src="images/importacc1.png" /></p>
       
       <h4>Evaluating market cost of a depreciable property</h4>
-      <p>To report loss by market rules Bob created account "Other losses":</p>
+      <p>To report loss by market rules, Bob created account "Other losses":</p>
       <p align="center"><img style="max-width: 100%" src="images/otherloss.png" />
       </p>
       <p>If you bought something (not for resale), then you usually can't sold it for the same price. Bob thinks that he can sold his Ford
-      right now (in January) for 20000 USD, so he reported Ford value loss (transfered loss into Other losses):</p>
+      right now (in January) for 20000 USD, so he reported Ford value loss (transfered the loss amount into Other losses):</p>
       <p align="center"><img style="max-width: 100%" src="images/fordcostloss.png" />
       </p>
-      <p>* this loss is not exceed ford deprecation (that is made with tax rules) at the end of the year, so it's taxable (business) expense.</p>
+      <p>* this loss is not exceed ford deprecation (that is made according to tax rules) at the end of the year, so it's taxable (business) expense.</p>
 
       <h4>Accounting of bad debts</h4>
-      <p>In opposite to tax accounting rules, Bob wants to report loss immediately. Funny coffee shop bad debt is 67.47 - 33.73 = 33.74.
-         If IRS has approved this bad debt, then Bob's income tax deducting will be roughly 33.74 * 25% = 8.44 (25 is predicted tax rate).
+      <p>In opposite to tax accounting rules, Bob wants to report such losses immediately. Funny coffee shop bad debt is 67.47 - 33.73 = 33.74.
+         If IRS approve this bad debt, then Bob's income tax deducting will be roughly 33.74 * 25% = 8.44 (25 is predicted Bob's income tax rate).
          So he created new asset account <b>Income Tax Deducting</b>:
       </p>
       <p align="center"><img style="max-width: 100%" src="images/inctaxded.png" /></p>
@@ -84,7 +84,7 @@ Assets - Liabilities = current market value of Bob's business (How much he can e
       <p>Then Bob transferred 64.47 and 33.73 into it (with same way as bad debt in tax accounting), then transferred 25.30 from it into <b>Other losses</b>:</p>
       <p align="center"><img style="max-width: 100%" src="images/marketbaddebt.png" /></p>
 
-      <p>* to be brief sample database <b>bobs-pizza-market6.sqlite</b> contains of summary revenue and expenses entries instead of lot of Purchase and Sales invoices,
+      <p>* to be brief, sample database <b>bobs-pizza-market6.sqlite</b> contains summary revenue and expenses entries instead of lot of Purchase and Sales invoices,
       so trial balance on 31 Jan is:</p>
       <p align="center"><img style="max-width: 100%" src="images/marktrialjan.png" /></p>
       
@@ -101,7 +101,7 @@ Assets - Liabilities = current market value of Bob's business (How much he can e
       <p>As a result the balance sheet on 31 Jan is:</p>
       <p align="center"><img style="max-width: 100%" src="images/markjanbalan.png" /></p>
       <p>So Bob earn 6,777.82USD in January(*) and his business market value is 46,777.82USD.</p>
-      <p>* take note that it is a simple example which does not include other taxes and their properly rates, also liabilities such taxes must be payed.</p>
+      <p>* take note that it is a simple example that does not include other taxes and their properly rates, also liabilities, such as taxes, must be payed.</p>
       
       <h4>Accounting of business (trade) name.</h4>
       <p>In February Bob has sold pizza for 37,000 USD, expenses is 11,000 USD. So gross income = 26,000 USD,

@@ -18,12 +18,12 @@
       </p>
       <p align="center"><img style="max-width: 100%" src="images/nfsexcel.png" /></p>
       
-      <p>As you can see only Rob's wage and taxes are liabilities and Bob's income tax expenses at the same time i.e. 
+      <p>As you can see only Rob's wage and taxes are liabilities and Bob's income tax expenses at the same time, i.e. 
       they should be recorded as symmetric double entries. All others are recorded as single asymmetric entries.
-      To record Inventory you should use document <b>Item adding</b>.
+      To record beginning Inventory you should use document <b>Item adding</b>.
       </p>
       
-      <p>Bob started using Beigesoft™ EIS in same way as <a href="eis-settings.html">Software installation, accounting settings, chart of accounts, started capital.</a>
+      <p>Bob started using Beigesoft™ EIS in the same way as described in <a href="eis-settings.html">Software installation, accounting settings, chart of accounts, started capital</a>,
         except "Started capital". He made accounting entries "Started capital", "Prepaid Rent", "Debtors/creditors",
         "Property", "Cash":
       </p>
@@ -64,8 +64,8 @@
       <p>Trial balances in database "from scratch" and database is almost same:
       </p>
       <p align="center"><img style="max-width: 100%" src="images/nfsbaln.png" /></p>
-      <p>The difference 0.04USD is because of purchase return see <a href="eis-purchase-return.html">Accounting of purchase returns</a>,
-        there 12 eggs was returned for 2.04USD (0.17each), but COGS entry is made for 2.00USD. </p>
+      <p>The difference 0.04USD is because of the purchase return, see <a href="eis-purchase-return.html">Accounting of purchase returns</a>,
+        there 12 eggs was returned for 2.04USD (0.17each), but COGS entry was made for 2.00USD. </p>
 
       <p>Warehouse in database "from scratch" and database "not from scratch" is the same:
       </p>
