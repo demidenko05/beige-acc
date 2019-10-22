@@ -9,14 +9,14 @@
 
   <body>
 
-    <section name="Multi sales taxes. Aggregate tax rate method.">
+    <section name="Sales tax aggregate (combined) rate method.">
       
-      <p>Keywords: Multi sales taxes, aggregate tax rate, multi-rate tax.</p>
-
-      <p>* Several countries use only sales tax for a good/service, e.g. VAT 10%. Another use several taxes for a good/service, but they still use words "sales tax" and "multi-rate tax". Here is used words "Multi sales taxes".</p>
+      <p>Keywords: Sales tax aggregate (combined) rate method.</p>
       
-      <h4>Multi sales taxes. Aggregate tax rate method.</h4>
-      <p>In case of multi sales taxes for an item you can (or must according the law) use this method.</p>
+      <h4>Sales tax aggregate (combined) rate method.</h4>
+      <p>If several sales taxes are applied to an item (a merchandise or a service), then you can (or must according to the law) use this method.
+      For example, in USA these are State, Local (County, City...) sales taxes.
+      </p>
       <p>This method is useful for "due on item basis" method for both "tax included or not" methods, and for invoice basis - tax included in price. 
         Aggregate tax rate for multi-taxes gives different tax result (against "non-aggregate").
         For example tax1=11%, tax2=1.6%, tax3=3.3% for two lines (4.56USD and 51.13USD):
@@ -48,7 +48,7 @@ tax3 = 9.18 - (9.35 + 0.92) = 1.91
 To prevent difference between total aggregate from lines and total taxes cause grouping rounding error,
 the last tax total line is the rest of aggregate tax.
       </p>
-      <p>Property "ST aggregate rate" of "Accounting Settings" and "Tax destination" is used to switch this method, default is false.
+      <p>Property "ST aggregate rate" in "Accounting Settings" and "Tax destination" is used to switch this method, default is false.
       "Aggregate rate" is mostly used method for multi-taxes. If your items have only tax (e.g. item1 10%, item2 18%, etc), then set property "Aggregate tax rate or only tax" to "Yes".
       </p>
       

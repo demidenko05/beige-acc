@@ -15,15 +15,15 @@
       
       <h4>Multi-currency, exchange gain or loss.</h4>
       <p>If you sell a merchandise that is paid in foreign currency, and you use the ACCRUAL method (you have to report revenue for unpaid sales),
-        and currency exchange rate is different when the payment occurred, then you face "exchange difference".
-        You will never face an exchange difference if you use the CASH method, except if you sell currency.
+        and currency exchange rate is different when the payment occurred, then you will face "exchange difference".
+        You will never face an exchange difference if you use the CASH method, except if you sell exactly currency.
         In that case, it's not actually "exchange difference", it's common "difference between purchase price and sales one", i.e. currency is regular goods in that case.</p>
       <p>The most countries have a similar law about foreign currency transactions, that is:
       <ul>
         <li>you have to make records in national currency (and language).</li>
         <li>selling/buying transaction is made with the current exchange rate (booking date)</li>
         <li>payment transaction is made with the current exchange rate (payment date)</li>
-        <li>difference between booking and payment rates (gain or loss) is business revenue or expense.</li>
+        <li>the difference between booking and payment rates (gain or loss) is a business revenue or expense.</li>
       </ul>
       </p>
       <h4>Selling goods that is paid with foreign currency example</h4>
@@ -63,9 +63,9 @@
         <p align="center"><img style="max-width: 100%" src="images/salesmc7.png" /></p>
       </p>
       <h4>Handling big exchange rate, e.g. <b>0.0154781432211</b></h4>
-      <p>In this case use negative foreign currency value, e.g. 1USD=63.12RUB,
-      if RUB is national currency then enter <b>63.12</b>, otherwise (USD is national currency) enter <b>-63.12</b>.
-      Application itself makes rate=1/63.12.
+      <p>In this case use negative foreign currency value, e.g. 1USD=63.12RUB.
+      If RUB is national currency, then enter <b>63.12</b>, otherwise (USD is national currency) enter <b>-63.12</b>.
+      Application itself makes rate=1/63.12 for negative rate.
       </p>
     </section>
 

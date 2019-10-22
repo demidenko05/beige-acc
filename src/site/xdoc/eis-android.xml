@@ -13,7 +13,7 @@
 
     <p>Keywords: Double entry accounting software for Android.</p>
 <p>
-  This is same WEB application that is based on embedded A-Jetty for Android.
+  This is the same WEB application that is based on embedded A-Jetty for Android.
   Beigesoft™ EIS for Android complies rules <a href="https://play.google.com/about/privacy-security/personal-sensitive/">https://play.google.com/about/privacy-security/personal-sensitive/</a>,
   i.e. private data (SQLite database, private log files, key-store with keys for encryption) are placed in private application storage,
   all other applications can't read these files. Beigesoft™ EIS uses encryption to make HTTPS connection and to backup encrypted SQLite databases and log files.

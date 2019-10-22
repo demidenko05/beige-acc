@@ -17,9 +17,9 @@
       
       <p>
         * In English language a word can means many things, even unrelated. Here word "Accounting entries" means "Journal entries".
-        There is neither a "Book" nor "Journals". There is a database table that contains of all accounting entries.
+        There is neither a "Book" nor "Journals". There is a database table that contains all accounting entries.
         "Accounting of [something]" means "how to record this in an accounting (bookkeeping) system".
-        "To account a document" means making (creating) accounting entries for that document.
+        "To account a document" means making (creating) accounting entries for this document.
         "A document" can be an invoice, for example.
       </p>
       
@@ -102,11 +102,11 @@
       </h5>
 
       <h5>
-        <a href="eis-satax-iteminv.html">Sales tax (VAT, GST) due on tax due on a transaction on an item or an invoice basis.</a>
+        <a href="eis-satax-iteminv.html">Sales tax (VAT, GST) due on a transaction on an item or an invoice basis.</a>
       </h5>
 
       <h5>
-        <a href="eis-satax-aggr.html">Sales tax aggregate rate method.</a>
+        <a href="eis-satax-aggr.html">Sales tax aggregate (combined) rate method.</a>
       </h5>
       <h5>
         <a href="eis-bank-csv.html">Import bank statement from CSV file, semi-automatically bank reconciliation.</a>

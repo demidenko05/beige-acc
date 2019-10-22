@@ -9,17 +9,17 @@
 
   <body>
 
-    <section name="Destination-based sales tax. Overriding vendor's tax calculation method.">
+    <section name="Destination-based sales tax (VAT, GST). Overriding vendor's tax calculation method.">
       
       <p>Keywords: destination-based vs origin-based sales tax.</p>
       
-      <h4>Destination-based sales tax. Overriding vendor's tax calculation method.</h4>
+      <h4>Destination-based sales tax (VAT, GST). Overriding vendor's tax calculation method.</h4>
       <p>If law of your country allows to use different sales tax calculation methods, then you can set <b>Tax destination</b> method for vendors with different methods.
         For example you use HALF-UP rounding and item basis method, but a vendor uses HALF-DOWN and invoice basis,
-        then just create <b>Tax destination</b> with different methods and set it in this vendor.
+        then just create <b>Tax destination</b> with different methods and set it for this vendor.
         You are also able to change sales tax amount in invoice line (item basis) or in invoice total (invoice basis).
       </p>
-      <p>If sales taxes in your country depend of a region (state, province, county, etc., e.g. this applies in USA), then
+      <p>If sales taxes in your country depend on a region (state, province, county, etc., e.g. this applies in USA), then
       you should add <b>Tax destination</b> for that region and set it in customers (from that region),
       then add <b>Item tax category</b> with destination sales taxes,
       then add <b>Tax destination line</b> (tax destination-destination tax category) for selling items.
@@ -57,7 +57,7 @@
         * Delivering is made in the same way.
       </p>
       <p>
-        Then set foreign state tax destination and empty tax category in the product "Armchair" to make it non-taxable in "other state":
+        Then set foreign state tax destination and clear tax category in the product "Armchair" to make it non-taxable in "other state":
         <p align="center"><img style="max-width: 100%" src="images/satadest4.png" /></p>
       </p>
       <p>To make item "origin-bases" taxable in other state do nothing (this is about "Sofa").</p>
@@ -70,7 +70,7 @@
       </p>
       
       <h4>Omit taxes in invoice</h4>
-      <p>In case if customer bought merchandise for resale, sales taxes may be omitted (this applies in USA for example), so just set "omit taxes" to "yes" in such invoice.</p>
+      <p>In case if customer bought merchandise for resale, sales taxes may be omitted (it's applied in USA for example), so just set "omit taxes" to "yes" in such invoice.</p>
     </section>
 
   </body>

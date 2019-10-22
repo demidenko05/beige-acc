@@ -18,12 +18,12 @@
         <ul>
           <li>import bank statement entries from CSV file.</li>
           <li>if entry has status "VOIDED" (canceled), then matching entries (if found) will be listed for reversing (canceling).</li>
-          <li>entries with others status allow to create new records, matching entries (if found) will be listed anyway to prevent duplicates</li>
+          <li>entries with other status allow to create new records, matching entries (if found) will be listed anyway to prevent duplicates</li>
         </ul>
       </p>
       <h4>Semi-automatically bank reconciliation example.</h4>
       <p>Assume Bob received prepayment from Mini-market check#175762 for 23.15USD and payment check#175763 for 33.15USD on Jan 25, 2016.
-      Bob has entered these checks into Beigesoft™ EIS.
+      Bob entered these checks into Beigesoft™ EIS.
       </p>
       <p>Bob received on Jan 26 bank statement, its CSV file is:
 <pre style="white-space: pre-wrap;">
@@ -47,11 +47,11 @@ That is check#175762 wasn't accepted, there is additional fee 11.15, check#17576
         columns fields are:
         <ul>
           <li>name - any suitable name</li>
-          <li>data format - here used only for Date column, string "MM/dd/yyyy" means USA standard, "dd/MM/yyyy" the most used standard, for more details see <a href="https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html">https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html</a></li>
+          <li>data format - here used only for Date column, string "MM/dd/yyyy" means USA standard, "dd/MM/yyyy" is the most used standard, for more details see <a href="https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html">https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html</a></li>
           <li>type - "Date" for date columns, "Text" for most others columns, "Numeric" for amount column</li>
           <li>index - imported column index, not all columns might be imported (part of them might be omitted), e.g. if you want to omit column status, then columns "Date,Description,Amount" will have indexes: "1,2,3"</li>
           <li>index in source - imported column index in source file, not all columns might be imported (part of them might be omitted), e.g. if you want to omit column status, then columns "Date,Description,Amount" will have indexes: "1,2,4"</li>
-          <li>Text delimiter - cell string value delimiter,  e.g. quote for strings that contains column separator</li>
+          <li>Text delimiter - cell's string value delimiter,  e.g. quote for strings that contains column separator</li>
         </ul>
     here example of CSV file there description column has quota text delimiter:
 <pre style="white-space: pre-wrap;">
@@ -60,7 +60,7 @@ That is check#175762 wasn't accepted, there is additional fee 11.15, check#17576
 </pre>
       </p>
       <p>Columns of type "Numeric" i.e. decimal numbers use scientist standard by default - dot is decimal separator without decimal group separator, e.g. number "12654865.45".
-        If your file has decimal numbers in different standard, then you should set format in "Data format" field according this pattern:
+        If your file has decimal numbers represented in different standard, then you should set format in "Data format" field according to this pattern:
 <pre style="white-space: pre-wrap;">
 [decimal-separator],[decimal-group-separator]
 </pre>
@@ -69,7 +69,7 @@ There are three special words for separator value:
   <li>SPACE</li>
   <li>COMMA</li>
   <li>NONE</li>
-  * SPACE is non-breaking space with code "0x00A0"
+  * SPACE is non-breaking space, its code is "0x00A0"
 </ul>
 Examples:
 <pre style="white-space: pre-wrap;">

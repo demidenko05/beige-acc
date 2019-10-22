@@ -14,14 +14,12 @@
       <p>Keywords: export price list into CSV file.</p>
       
       <h4>Export price list into CSV file.</h4>
-      <p>Right now Beigesoft™ EIS has implemented only method "item price for price category", i.e. "product1[price for shop in downtown]=12.34".
-        Price methods that based on "base price" are not yet implemented. Price list is available in "Web-Store" part.
+      <p>You can use Beigesoft™ EIS to make price list in different price categories, e.g. "Price for shop1", "Price for customers A". Price list is available in "Web-Store" part.
       </p>
-      <p>The aim of this topic is exporting product list into a POS. You can also make price CSV lists for your customers (B2B).</p>
-      <p>There is no standard of product list data in CSV file for POS. For example, different POS require different tax formats, e.g. multi-tax TAX5% and TAX6%,
-        product1(TAX5%,TAX6%), product2(TAX5%), product3(non-taxable) (aggregate rate is not allowed):
+      <p>There is no standard of product list data in CSV file for a POS. For example, different POS require different tax formats, e.g. multi-tax TAX5% and TAX6%,
+        product1(TAX5%,TAX6%), product2(TAX5%), product3(non-taxable):
         <ul>
-          <li>POS1 required:
+          <li>POS1 requires:
 <pre style="white-space: pre-wrap;">
 Product,ProductCode,Price,TaxMethod
 product1,1,12.4,TAXMETH1
@@ -29,7 +27,7 @@ product2,2,11.41,TAXMETH2
 product3,2,4.6,
 </pre>
           </li>
-          <li>POS2 required:
+          <li>POS2 requires:
 <pre style="white-space: pre-wrap;">
 Product,ProductCode,Price,UseTax5%,UseTax6%
 product1,1,12.4,true,true
@@ -37,7 +35,7 @@ product2,2,11.41,true,false
 product3,2,4.6,false,false
 </pre>
           </li>
-          <li>POS3 required:
+          <li>POS3 requires:
 <pre style="white-space: pre-wrap;">
 Product,ProductCode,Price,Tax5%,Tax6%
 product1,1,12.4,5,6
@@ -48,23 +46,23 @@ product3,2,4.6,0,0
           <li>there are else similar formats</li>
         </ul>
       </p>
-      <p>Beigesoft™ EIS allows to make CSV file for numerous of demanded requirements. You can make any separated products or services price list.</p>
+      <p>Beigesoft™ EIS allows to make CSV file for numerous of demanded requirements.</p>
       
       <h4>Example of exporting price list into CSV file.</h4>
-      <p>Assume we have three sales taxes: 	STG4.7%, STG6.4%, STS11%. POS wants CSV file like this:
+      <p>Assume we have three sales taxes: 	STG4.7%, STG6.4%, STS11%. POS expects CSV file similar this:
 <pre style="white-space: pre-wrap;">
 Product,ProductCode,Cost,Markup,Price,Tax,IsTaxIncudedInPrice,Discount,Supplier,Place,Quantity,Category,Variant,isService,isAvailable
 product1,1,1.00,20.00,1.20,11.1,0,0.00,,room1,12,food,regular,0,1
 product2,2,1.00,25.00,1.25,4.7,0,0.00,,room1,11,food,large,0,1
 product3,3,2.00,25.00,2.50,0,0,0.00,,room1,11,drink,regular,0,1
 </pre>
-  where tax means aggregate tax rate (percent). Product1 has tax category #1 (STG4.7%, STG6.4%),
+  there tax means aggregate tax rate (percent). Product1 has tax category #1 (STG4.7%, STG6.4%),
   product2 has tax category#3 (STG4.7%), product3 - non-taxable.
       </p>
       <p>
         At first, add CSV Method with data retriever "Product price list" in menu - "main"-"..."-"CSV Methods":
         <p align="center"><img style="max-width: 100%" src="images/pricecsv1.png" /></p>
-        where "Has header" means whether print or not columns names in the first line. UTF-8 is the most used encoding in modern software (POS).
+        there "Has header" means whether print or not columns names in the first line. UTF-8 is the most used encoding in modern software (POS).
       </p>
       <p>
         The first column is "Product" name of type "Text", just pick "item->name" in "data path picker":
@@ -89,7 +87,7 @@ product3,3,2.00,25.00,2.50,0,0,0.00,,room1,11,drink,regular,0,1
       </p>
       <p>IsTaxIncudedInPrice, Discount and Place are constants, Supplier is empty. Pick quantity from data picker, it's the rest (items left) in the warehouse.</p>
       <p>
-        Any product in beige-accounting can has only category (1-level category),
+        Any product in Beigesoft EIS can have only category (1-level category),
         e.g. here product1 has category "Food regular", product2 - "Food large", product3 - "Drink large".
         To make columns Category and Variant we will use product category ID and "Match Foreign" methods:
         <p align="center"><img style="max-width: 100%" src="images/pricecsv4.png" /></p>
@@ -107,13 +105,12 @@ product3,3,2.00,25.00,2.50,0,0,0.00,,room1,11,drink,regular,0,1
       <p>
         Then add "Item price" for all goods, e.g.:
         <p align="center"><img style="max-width: 100%" src="images/pricecsv8.png" /></p>
-        *if you want to list unavailable product in the list, then set "special unavailable price", e.g. "999999".
       </p>
       <p>
         Finally, to make CSV file, open in menu "Pricing-Price list", select CSV Method and "Price category", then press "Report":
         <p align="center"><img style="max-width: 100%" src="images/pricecsv9.png" /></p>
-        *set "optimistic quantity" any number, e.g. 20, to set quantity and "isAvailable" for products that
-        are not exist in warehouse. Set "Unavailable price" to make products that you want unavailable (i.e. their goods price = UP).
+        *set "optimistic quantity" to any number, e.g. 20, to set quantity and "isAvailable" for products that
+        are not exist in warehouse.
       </p>
       <p>The result CSV file is:
 <pre style="white-space: pre-wrap;">

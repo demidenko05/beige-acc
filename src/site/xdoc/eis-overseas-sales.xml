@@ -9,17 +9,17 @@
 
   <body>
 
-    <section name="Overseas sales.">
+    <section name="Overseas sales. Advanced internationalization.">
       
       <p>Keywords: overseas sales.</p>
 
-      <h4>Overseas sales.</h4>
+      <h4>Overseas sales. Advanced internationalization.</h4>
       <p>Nowadays international trading is still growing sphere of business.
-        Even small business entities make overseas sales (export) or import.</p>
+        Even small business entities do overseas sales (export) or import.</p>
       <p>Overseas buyer usually have not to pay foreign sales taxes. For example, foreigners travelers can refund sales taxes when they leave the country.
         You should set "Omit taxes" in any invoice for such customers/vendors.
       </p>
-      <p>Foreign buyers that buy goods for business purpose (e.g. for resale) usually must have translated invoice. This is required by their tax authority.
+      <p>Foreign buyers that buy goods for business purpose (e.g. for resale) usually must have a translated invoice. This is required by their tax authority.
         Beigesoft™ EIS has advanced dynamic internationalization to do it. This helps foreigner buyers and might attract more of them.
       </p>
       <h4>Making sales invoice translated in buyer's native language.</h4>
@@ -41,7 +41,7 @@
       </p>
       <p>* after changing internalization things such as currency or base, you should restart application.</p>
       <p>
-        Finally just add invoice, report in English is:
+        Finally just add invoice, its report in English is:
         <p align="center"><img style="max-width: 100%" src="images/foregninvrepen.png" /></p>
       </p>
       <p>
@@ -49,12 +49,12 @@
         <p align="center"><img style="max-width: 100%" src="images/langprefch.png" /></p>
       </p>
       <p>
-        Then report invoice again in Russian is:
+        Then print invoice again in Russian:
         <p align="center"><img style="max-width: 100%" src="images/foregninvrepru.png" /></p>
       </p>
 
       <h4>How to add new language without recompiling.</h4>
-      <p>Beigesoft™ EIS uses TTF fonts DejaVuSerif-Bold.ttf and DejaVuSerif.ttf that contains many languages. For other languages you should add TTF file into Java archive file (see below).
+      <p>Beigesoft™ EIS uses TTF fonts DejaVuSerif-Bold.ttf and DejaVuSerif.ttf that contain many languages. For other languages you should add TTF file into Java archive file (see below).
         Asian free TTF fonts you can find:
         <ul>
           <li>Japanese VL-Gothic fonts - <a href="http://vlgothic.dicey.org">http://vlgothic.dicey.org</a></li>
@@ -62,7 +62,7 @@
           <li>Chinese Han Sans - <a href="https://github.com/be5invis/source-han-sans-ttf/releases">https://github.com/be5invis/source-han-sans-ttf/releases</a></li>
         </ul>
       </p>
-      <p>Java executable files placed in JAR file, that actually is ZIP archive. JAR, WAR and APK are ZIP archives. All you should do is:
+      <p>Java files are placed in JAR file, that is actually a ZIP archive. JAR, WAR and APK are ZIP archives. All you should do is:
         <ul>
           <li>extract files with folders (tree structure) into folder e.g. "foo"</li>
           <li>add basic static internationalization - file e.g. /resources/Messages_fr_FR.properties for France language, just copy file Messages_en_US.properties to Messages_fr_FR-UTF8.properties, edit it in UTF-8 editor, encode it to ASCII by command <b>native2ascii -encoding UTF-8 Messages_fr_FR-UTF8.properties Messages_fr_FR.properties</b>.</li>

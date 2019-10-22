@@ -9,11 +9,11 @@
 
   <body>
 
-    <section name="Sales tax due on transactions on an item or invoice basis.">
+    <section name="Sales tax (VAT, GST) due on a transaction on an item or an invoice basis.">
       
-      <p>Keywords: Sales tax due on transactions on an item or invoice basis.</p>
+      <p>Keywords: Sales tax (VAT, GST) due on a transaction on an item or an invoice basis.</p>
       
-      <h4>Sales tax due on transactions on an item or invoice basis.</h4>
+      <h4>Sales tax (VAT, GST) due on a transaction on an item or an invoice basis</h4>
       <p>There are two "grouping" calculation methods:
         <ul>
           <li>Tax due on a transaction on an item basis</li>
