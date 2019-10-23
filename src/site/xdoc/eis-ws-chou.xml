@@ -10,10 +10,10 @@
   <body>
 
     <section name="Bob's web-store example.">
-      <h4>Bob's pizza web-store example. Part 2, cart checkout, forced delivering (shipping).</h4>
+      <h4>Bob's pizza web-store example. Part 2, cart checkout, imposed delivering (shipping).</h4>
         <p>* see previous article about how to add S.E. Seller, item, etc into web-store.</p>
 
-        <p>"Forced delivering (shipping), free from N total" is widely used method.
+        <p>"Imposed delivering (shipping), free from N total" is widely used method.
           Here is example "Delivering 10USD, free from 300USD total".</p>
         <p>To add it create this service in <b>menu -> Appearance -> Desktop -> Common -> Services</b> with tax category STS11%.
           Then open <b>menu -> ... -> Administrator</b> and :
@@ -33,7 +33,7 @@
       <h4>Online payment</h4>
       <p>Right now Beigesoft™ web-store has only online payment method PayPal.
         Adding any other 3-d party payment gateway is not difficult task.
-        All payment gateways work in same same way: it's created "payment circle" between "payer web-browser"-"payee web-store"-"payment gateway".
+        All payment gateways work in the same way: it's created "payment circle" between "payer web-browser"-"payee web-store"-"payment gateway".
         It's made with JSON requests. Payment gateway usually provide "SDK" to avoid making JSON query by hand (include OAuth2 authentication) and for data validation prior to sending.
         Buyer's payment method (secret data) is handled entirely by payment gateways.
         To use PayPal you should either compile "web-store" by yourself (see example <a href="https://github.com/demidenko05/beige-accoio-web">beige-accoio-web</a>),
@@ -59,11 +59,11 @@
           <li>add S.E. service price - 500USD for "price for all" price category.</li>
         </ul>
       </p>
-      <p>Finally, to add these items to list, add as web-store administrator "S.E.Good/Service in catalog", then set "Contains of S.E.Goods/Services" for that catalog. Then push "... -> Refresh items in list".</p>
+      <p>Finally, to add these items to list, login as administrator and add them with "menu-S.E.Good/Service in catalog", then set "Contains S.E.Goods/Services" for that catalog. Then push "... -> Refresh items in list".</p>
 
       <h4>Buyer registration</h4>
       <p>Buyer can add item into cart without registration. Cart checkout requires registered and authorized user.
-        For new buyer fill "Sign Up" fields (name minimum 3 letters), for sign in from new browser use registered email and password:
+        Any unregistered buyer should fill "Sign Up" fields (name minimum 3 letters). Any registered user should use its email and password for sign in:
         <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wschou2.png" /></p>
       </p>
 
@@ -94,7 +94,7 @@
       
       <h4>Customer orders</h4>
       <p>Right now creating invoice from order is not yet implemented. Web-store admin can change its order's status to "payed/closed/canceled" in "Pricing" menu.
-        And so does S.E. seller. S.E. seller can't see others seller's items, orders. Webstore-admin can only see all S.E. seller data.
+        And so does any S.E. seller. S.E. seller can't see others seller's items, orders. Webstore-admin can only see all S.E. seller data.
       </p>
       <p>
         Buyer and seller can print order:

@@ -10,7 +10,7 @@
   <body>
 
     <section name="Bob's web-store example.">
-      <h4>Bob's pizza web-store example. Part 3, prices depend on buyer, prices in foreign currency.</h4>
+      <h4>Bob's pizza web-store example. Part 3, price depend on buyer's category, price in foreign currency.</h4>
 
         <p>To make different prices for different buyers you should open <b>menu -> Administrator</b> then:
           <ul>
@@ -35,7 +35,7 @@
         <h4>Prices in foreign currency</h4>
         <p>It's used "Currency rates" in "menu -> Administrator -> Pricing" .
           Base currency is in "Accounting settings". Foreign price = price in base currency * currency rate.
-          Exchange rate might has huge decimal places, e.g. 1USD=61.12RUB, base currency RUB, so rate is "0.0163612565445".
+          Exchange rate might have huge decimal places, e.g. 1USD=61.12RUB, base currency RUB, so rate is "0.0163612565445".
           To handle such rates just use negative value, i.e. "-61.12" in that case, application itself makes rate = 1/61.12.
           Example of exchange rates (base currency USD):
           <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wsprice6.png" /></p>
