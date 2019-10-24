@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.</title>
+   </properties>
+
+  <body>
+
+    <section name="Example of simple ordering application. Part 1, basic logic.">
+
+    <h4>Models.</h4>
+    <p>
+      This is simple example, and so do these models:
+      <ul>
+        <li>Customer - has name</li>
+        <li>Merchandise - has name</li>
+        <li>Customer order - has date, customer, total, lines</li>
+        <li>Customer order's line - has merchandise, quantity, price, amount</li>
+      </ul>
+    </p>
+    
+    <h4>Creating Maven project</h4>
+    <p>* All files must be in UTF-8 format. I recommend <b>Jeany</b> editor.</p>
+    <p>Create project folder "myapp", then create <b>pom.xml</b> in it:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+  &lt;groupId&gt;org.myapp&lt;/groupId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+  &lt;artifactId&gt;ordering&lt;/artifactId&gt;
+  &lt;packaging&gt;jar&lt;/packaging&gt;
+
+  &lt;name&gt;My ordering business logic.&lt;/name&gt;
+  &lt;inceptionYear&gt;2019&lt;/inceptionYear&gt;
+
+  &lt;properties&gt;
+    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;java.version&gt;1.7&lt;/java.version&gt;
+  &lt;/properties&gt;
+
+        
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.beigesoft&lt;/groupId&gt;
+      &lt;artifactId&gt;beige-blc&lt;/artifactId&gt;
+      &lt;version&gt;1.0&lt;/version&gt;
+      &lt;exclusions&gt;
+        &lt;exclusion&gt;
+          &lt;groupId&gt;com.zaxxer&lt;/groupId&gt;
+          &lt;artifactId&gt;HikariCP&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+      &lt;/exclusions&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+
+  &lt;build&gt;
+    &lt;finalName&gt;${project.artifactId}&lt;/finalName&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.5.2&lt;/version&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-deploy-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.8.2&lt;/version&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.7&lt;/version&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.22.1&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;useSystemClassLoader&gt;false&lt;/useSystemClassLoader&gt;
+          &lt;useFile&gt;false&lt;/useFile&gt;
+          &lt;trimStackTrace&gt;false&lt;/trimStackTrace&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.1&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;source&gt;${java.version}&lt;/source&gt;
+          &lt;target&gt;${java.version}&lt;/target&gt;
+          &lt;compilerArgs&gt;
+            &lt;!--&lt;arg&gt;-verbose&lt;/arg&gt;--&gt;
+            &lt;arg&gt;-Xlint:all,-options,-path&lt;/arg&gt;
+          &lt;/compilerArgs&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+  
+&lt;/project&gt;
+</pre>
+Then create folders for source code:
+<pre style="white-space: pre-wrap;">
+myapp - src - main - java - org - myapp - ordering
+myapp - src - main - resources - dbcp
+myapp - src - main - resources - sqlite
+myapp - src - main - resources - uvd - clsCs
+</pre>
+    </p>
+    
+    <h4>Implementing the models</h4>
+    <p>According to  <a href="bclbasicen.html">Basic information about using Beigesoft™ libraries</a> you should use <b>org.beigesoft.mdlp.AIdLnNm</b> as basic model for Customer, so create "org.mycompany.Customer.java" in folder "myapp - src - main - java - org - myapp - ordering":
+<pre style="white-space: pre-wrap;">
+package org.myapp.ordering;
+
+import org.beigesoft.mdlp.AIdLnNm;
+
+public class Customer extends AIdLnNm {
+
+}
+</pre>
+      Assume, we have several databases (warehouse A, B)  and a lot of goods, so we use <b>org.beigesoft.mdlp.AOrIdNm</b> for it:
+<pre style="white-space: pre-wrap;">
+package org.myapp.ordering;
+
+import org.beigesoft.mdlp.AOrIdNm;
+
+public class Merchandise extends AOrIdNm {
+
+}
+</pre>
+      We might need to import orders into central database, so it will be:
+<pre style="white-space: pre-wrap;">
+package org.myapp.ordering;
+
+import java.util.List;
+import java.util.Date;
+import java.math.BigDecimal;
+
+import org.beigesoft.mdlp.AOrId;
+
+public class Order extends AOrId {
+
+  private Date itsDate;
+  
+  private Customer customer;
+  
+  private BigDecimal itsTotal;
+  
+  private List&lt;OrderLine&gt; itsLines;
+
+  //Simple getters and setters:
+  /**
+   * &lt;p&gt;Getter for itsDate.&lt;/p&gt;
+   * @return Date
+   **/
+  public final Date getItsDate() {
+    return this.itsDate;
+  }
+
+  /**
+   * &lt;p&gt;Setter for itsDate.&lt;/p&gt;
+   * @param pItsDate reference
+   **/
+  public final void setItsDate(final Date pItsDate) {
+    this.itsDate = pItsDate;
+  }
+
+  /**
+   * &lt;p&gt;Getter for customer.&lt;/p&gt;
+   * @return Customer
+   **/
+  public final Customer getCustomer() {
+    return this.customer;
+  }
+
+  /**
+   * &lt;p&gt;Setter for customer.&lt;/p&gt;
+   * @param pCustomer reference
+   **/
+  public final void setCustomer(final Customer pCustomer) {
+    this.customer = pCustomer;
+  }
+
+  /**
+   * &lt;p&gt;Getter for itsTotal.&lt;/p&gt;
+   * @return BigDecimal
+   **/
+  public final BigDecimal getItsTotal() {
+    return this.itsTotal;
+  }
+
+  /**
+   * &lt;p&gt;Setter for itsTotal.&lt;/p&gt;
+   * @param pItsTotal reference
+   **/
+  public final void setItsTotal(final BigDecimal pItsTotal) {
+    this.itsTotal = pItsTotal;
+  }
+
+  /**
+   * &lt;p&gt;Getter for itsLines.&lt;/p&gt;
+   * @return List&lt;OrderLine&gt;
+   **/
+  public final List&lt;OrderLine&gt; getItsLines() {
+    return this.itsLines;
+  }
+
+  /**
+   * &lt;p&gt;Setter for itsLines.&lt;/p&gt;
+   * @param pItsLines reference
+   **/
+  public final void setItsLines(final List&lt;OrderLine&gt; pItsLines) {
+    this.itsLines = pItsLines;
+  }
+}
+</pre>
+Its line will be:
+<pre style="white-space: pre-wrap;">
+package org.myapp.ordering;
+
+import java.math.BigDecimal;
+
+import org.beigesoft.mdl.IOwnedOr;
+import org.beigesoft.mdlp.AOrId;
+
+public class OrderLine extends AOrId implements IOwnedOr&lt;Order&lt; {
+  
+  private Order ownr;
+  
+  private Merchandise product;
+  
+  private BigDecimal itsQuantity;
+  
+  private BigDecimal itsPrice;
+
+  private BigDecimal itsAmount;
+
+  /**
+   * &lt;p&gt;Getter for ownr.&lt;/p&gt;
+   * @return Order
+   **/
+  @Override
+  public final Order getOwnr() {
+    return this.ownr;
+  }
+
+  /**
+   * &lt;p&gt;Setter for ownr.&lt;/p&gt;
+   * @param pOwnr reference
+   **/
+  @Override
+  public final void setOwnr(final Order pOwnr) {
+    this.ownr = pOwnr;
+  }
+
+  //Simple getters and setters:
+  /**
+   * &lt;p&gt;Getter for product.&lt;/p&gt;
+   * @return Merchandise
+   **/
+  public final Merchandise getProduct() {
+    return this.product;
+  }
+
+  /**
+   * &lt;p&gt;Setter for product.&lt;/p&gt;
+   * @param pProduct reference
+   **/
+  public final void setProduct(final Merchandise pProduct) {
+    this.product = pProduct;
+  }
+  /**
+   * &lt;p&lt;Getter for itsQuantity.&lt;/p&lt;
+   * @return BigDecimal
+   **/
+  public final BigDecimal getItsQuantity() {
+    return this.itsQuantity;
+  }
+
+  /**
+   * &lt;p&lt;Setter for itsQuantity.&lt;/p&lt;
+   * @param pItsQuantity reference
+   **/
+  public final void setItsQuantity(final BigDecimal pItsQuantity) {
+    this.itsQuantity = pItsQuantity;
+  }
+
+  /**
+   * &lt;p&lt;Getter for itsPrice.&lt;/p&lt;
+   * @return BigDecimal
+   **/
+  public final BigDecimal getItsPrice() {
+    return this.itsPrice;
+  }
+
+  /**
+   * &lt;p&lt;Setter for itsPrice.&lt;/p&lt;
+   * @param pItsPrice reference
+   **/
+  public final void setItsPrice(final BigDecimal pItsPrice) {
+    this.itsPrice = pItsPrice;
+  }
+
+  /**
+   * &lt;p&lt;Getter for itsAmount.&lt;/p&lt;
+   * @return BigDecimal
+   **/
+  public final BigDecimal getItsAmount() {
+    return this.itsAmount;
+  }
+
+  /**
+   * &lt;p&lt;Setter for itsAmount.&lt;/p&lt;
+   * @param pItsAmount reference
+   **/
+  public final void setItsAmount(final BigDecimal pItsAmount) {
+    this.itsAmount = pItsAmount;
+  }
+}
+</pre>
+    </p>
+
+    <h4>Adding XML configuration for full database copy</h4>
+    <p>Just copy <b>conf.xml</b> from <b>beige-blc/dbcp</b> into "myapp - src - main - resources - dbcp" then add your models:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;comment&gt;My ordering DBCP configuration&lt;/comment&gt;
+&lt;entry key="clss"&gt;org.beigesoft.mdlp.DbInf,
+  org.beigesoft.mdlp.UsTmc,
+  org.beigesoft.mdlp.UsRlTmc,
+  org.beigesoft.mdlp.Lng,
+  org.beigesoft.mdlp.Cntr,
+  org.beigesoft.mdlp.DcSp,
+  org.beigesoft.mdlp.DcGrSp,
+  org.beigesoft.mdlp.UsPrf,
+  org.beigesoft.mdlp.MaFrn,
+  org.beigesoft.mdlp.MaFrnLn,
+  org.beigesoft.mdlp.CsvMth,
+  org.beigesoft.mdlp.CsvCl,
+  org.beigesoft.mdlp.EmAdr,
+  org.beigesoft.mdlp.EmCon,
+  org.beigesoft.mdlp.EmInt,
+  org.beigesoft.mdlp.EmStr,
+  org.beigesoft.mdlp.EmMsg,
+  org.beigesoft.mdlp.EmRcp,
+  org.beigesoft.mdlp.EmAtch,
+  org.myapp.ordering.Customer,
+  org.myapp.ordering.Merchandise,
+  org.myapp.ordering.Order,
+  org.myapp.ordering.OrderLine&lt;/entry&gt;
+&lt;entry key="stgClsNms"&gt;exlFlds,idFlds&lt;/entry&gt;
+&lt;entry key="stgFldNms"&gt;&lt;/entry&gt;
+&lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+The order is essential! E.g. OrderLine is the last because it contains Merchandise and Order.
+    </p>
+
+    <h4>Adding XML configuration for ORM</h4>
+    <p>Copy <b>conf.xml</b> from <b>beige-blc/mysql,postgres,sqlite</b> into "myapp - src - main - resources - mysql, postgres, sqlite" then add your models, for example SQLite:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;comment&gt;My ordering SQLite configuration&lt;/comment&gt;
+&lt;entry key="clss"&gt;org.beigesoft.mdlp.DbInf,
+  org.beigesoft.mdlp.UsTmc,
+  org.beigesoft.mdlp.UsRlTmc,
+  org.beigesoft.mdlp.Lng,
+  org.beigesoft.mdlp.Cntr,
+  org.beigesoft.mdlp.DcSp,
+  org.beigesoft.mdlp.DcGrSp,
+  org.beigesoft.mdlp.UsPrf,
+  org.beigesoft.mdlp.MaFrn,
+  org.beigesoft.mdlp.MaFrnLn,
+  org.beigesoft.mdlp.CsvMth,
+  org.beigesoft.mdlp.CsvCl,
+  org.beigesoft.mdlp.EmAdr,
+  org.beigesoft.mdlp.EmCon,
+  org.beigesoft.mdlp.EmInt,
+  org.beigesoft.mdlp.EmStr,
+  org.beigesoft.mdlp.EmMsg,
+  org.beigesoft.mdlp.EmRcp,
+  org.beigesoft.mdlp.EmAtch,
+  org.myapp.ordering.Customer,
+  org.myapp.ordering.Merchandise,
+  org.myapp.ordering.Order,
+  org.myapp.ordering.OrderLine&lt;/entry&gt;
+&lt;entry key="stgClsNms"&gt;exlFlds,idFlds,vrAlg,cnstr&lt;/entry&gt;
+&lt;entry key="stgFldNms"&gt;def,nul&lt;/entry&gt;
+&lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+    </p>
+
+    <p>Then copy <b>cmnst.xml</b> from <b>beige-blc/sqlite</b> into "myapp - src - main - resources - sqlite" and change only database name/URL/user/password:
+<pre style="white-space: pre-wrap;">
+...
+&gt;entry key="dbUrl"&gt;jdbc:sqlite:#currentDir#myordering.sqlite&gt;/entry&gt;
+...
+</pre>
+    </p>
+
+    <h4>Adding XML configuration for WEB interface</h4>
+    <p>Copy <b>conf.xml</b> from <b>beige-blc/uvd</b> into "myapp - src - main - resources - uvd" then add your models:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;comment&gt;UVD configuration&lt;/comment&gt;
+&lt;entry key="clss"&gt;org.beigesoft.mdlp.UsTmc,
+  org.beigesoft.mdlp.UsRlTmc,
+  org.beigesoft.mdlp.Lng,
+  org.beigesoft.mdlp.Cntr,
+  org.beigesoft.mdlp.DcSp,
+  org.beigesoft.mdlp.DcGrSp,
+  org.beigesoft.mdlp.UsPrf,
+  org.beigesoft.mdlp.MaFrn,
+  org.beigesoft.mdlp.MaFrnLn,
+  org.beigesoft.mdlp.CsvMth,
+  org.beigesoft.mdlp.CsvCl,
+  org.beigesoft.mdlp.EmAdr,
+  org.beigesoft.mdlp.EmCon,
+  org.beigesoft.mdlp.EmInt,
+  org.beigesoft.mdlp.EmStr,
+  org.beigesoft.mdlp.EmMsg,
+  org.beigesoft.mdlp.EmRcp,
+  org.beigesoft.mdlp.EmAtch,
+  org.myapp.ordering.Customer,
+  org.myapp.ordering.Merchandise,
+  org.myapp.ordering.Order,
+  org.myapp.ordering.OrderLine&lt;/entry&gt;
+&lt;entry key="stgClsNms"&gt;exlFlds,idFlds,owdEnts,frmFds,lstFds,pickFds,selFds,selDpl&lt;/entry&gt;
+&lt;entry key="stgFldNms"&gt;cnToSt,cnFrSt,inp,str,wde&lt;/entry&gt;
+&lt;entry key="exlFlds"&gt;&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+    </p>
+    <p>Then add Order.xml into "myapp - src - main - resources - uvd - clsCs"
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;comment&gt;Explicit final definition.&lt;/comment&gt;
+&lt;entry key="frmFds"&gt;iid,idOr,dbOr,itsDate,customer,itsTotal&lt;/entry&gt;
+&lt;entry key="owdEnts"&gt;org.myapp.ordering.OrderLine&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+    </p>
+    <p>Then add OrderLine.xml into "myapp - src - main - resources - uvd - clsCs"
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;comment&gt;Explicit final definition.&lt;/comment&gt;
+&lt;entry key="frmFds"&gt;iid,idOr,dbOr,product,itsQuantity,itsPrice,itsAmount&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+    </p>
+    <p>That is all at this time.</p>
+
+    </section>
+
+  </body>
+
+</document>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.</title>
+   </properties>
+
+  <body>
+
+    <section name="Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.">
+
+    <h4>Topics:</h4>      
+    
+    <h5>
+      <a href="bclbasicen.html">Basic information about using Beigesoft™ libraries.</a>
+    </h5>
+    
+    <h5>
+      <a href="bclrapiden1.html">Example of simple ordering application. Part 1, basic logic.</a>
+    </h5>
+    
+    <h5>
+      <a href="bclrapiden2.html">Example of simple ordering application. Part 2, cloud WAR version.</a>
+    </h5>
+
+    </section>
+
+  </body>
+
+</document>

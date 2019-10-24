@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.</title>
+   </properties>
+
+  <body>
+
+    <section name="Example of simple ordering application. Part 2, cloud WAR version.">
+   
+    <h4>Creating WAR Maven project</h4>
+    <p>* All files must be in UTF-8 format. I recommend <b>Jeany</b> editor.</p>
+    <p>Create project folder "myappweb", then create <b>pom.xml</b> in it:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+  &lt;groupId&gt;org.myapp&lt;/groupId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+  &lt;artifactId&gt;ordering-web&lt;/artifactId&gt;
+  &lt;packaging&gt;war&lt;/packaging&gt;
+
+  &lt;name&gt;My ordering WEB-application.&lt;/name&gt;
+  &lt;inceptionYear&gt;2019&lt;/inceptionYear&gt;
+
+  &lt;properties&gt;
+    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;java.version&gt;1.7&lt;/java.version&gt;
+  &lt;/properties&gt;
+
+        
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.myapp&lt;/groupId&gt;
+      &lt;artifactId&gt;ordering&lt;/artifactId&gt;
+      &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.beigesoft&lt;/groupId&gt;
+      &lt;artifactId&gt;beige-web-jar&lt;/artifactId&gt;
+      &lt;version&gt;1.0&lt;/version&gt;
+      &lt;exclusions&gt;
+        &lt;exclusion&gt;
+          &lt;groupId&gt;org.beigesoft&lt;/groupId&gt;
+          &lt;artifactId&gt;beige-blc&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+      &lt;/exclusions&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.taglibs&lt;/groupId&gt;
+      &lt;artifactId&gt;taglibs-standard-spec&lt;/artifactId&gt;
+      &lt;version&gt;1.2.5&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.taglibs&lt;/groupId&gt;
+      &lt;artifactId&gt;taglibs-standard-impl&lt;/artifactId&gt;
+      &lt;version&gt;1.2.5&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.beigesoft&lt;/groupId&gt;
+      &lt;artifactId&gt;beige-web&lt;/artifactId&gt;
+      &lt;version&gt;1.0&lt;/version&gt;
+      &lt;type&gt;war&lt;/type&gt;
+      &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+
+  &lt;build&gt;
+    &lt;finalName&gt;${project.artifactId}&lt;/finalName&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.5.2&lt;/version&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-deploy-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.8.2&lt;/version&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.7&lt;/version&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.22.1&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;useSystemClassLoader&gt;false&lt;/useSystemClassLoader&gt;
+          &lt;useFile&gt;false&lt;/useFile&gt;
+          &lt;trimStackTrace&gt;false&lt;/trimStackTrace&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.1&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;source&gt;${java.version}&lt;/source&gt;
+          &lt;target&gt;${java.version}&lt;/target&gt;
+          &lt;compilerArgs&gt;
+            &lt;!--&lt;arg&gt;-verbose&lt;/arg&gt;--&gt;
+            &lt;arg&gt;-Xlint:all,-options,-path&lt;/arg&gt;
+          &lt;/compilerArgs&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+  
+&lt;/project&gt;
+</pre>
+Then create folders for source code:
+<pre style="white-space: pre-wrap;">
+ myappweb - src - main - java - org - myapp - ordering
+ myappweb - src - main - webapp - WEB-INF - jsp
+ myappweb - src - main - webapp - META-INF
+</pre>
+</p>
+    <h4>Adding the models in the menu</h4>
+    <p>Copy <b>dsk.jsp</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF - jsp" and add drop-down menu with entities:
+<pre style="white-space: pre-wrap;">
+...
+&lt;div class="navbar"&gt;
+  &lt;div class="dropdown"&gt;
+    &lt;a href="#" class="dropdown-btn"&gt;${i18n.getMsg("Ordering", rvs.upf.lng.iid)}&lt;/a&gt;
+    &lt;div class="dropdown-content"&gt;
+      &lt;a href="#" onclick="bsGtAjx('GET', 'srv?act=lst&amp;rnd=lhj&amp;ent=Customer&amp;pg=1');"&gt;${i18n.getMsg("Customers", rvs.upf.lng.iid)}&lt;/a&gt;
+      &lt;a href="#" onclick="bsGtAjx('GET', 'srv?act=lst&amp;rnd=lhj&amp;ent=Merchandise&amp;pg=1');"&gt;${i18n.getMsg("Merchandises", rvs.upf.lng.iid)}&lt;/a&gt;
+      &lt;a href="#" onclick="bsGtAjx('GET', 'srv?act=lst&amp;rnd=lhj&amp;ent=Order&amp;pg=1');"&gt;${i18n.getMsg("Orders", rvs.upf.lng.iid)}&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="dropdown"&gt;
+...
+</pre>
+
+    </p>
+
+    <h4>web.xml</h4>
+    <p>Copy <b>web-sqlite.xml</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF" rename it to "web.xml" and change application factory class:\    
+<pre style="white-space: pre-wrap;">
+...
+&lt;context-param&gt;
+  &lt;param-name&gt;fctAppCls&lt;/param-name&gt;
+  &lt;param-value&gt;org.myapp.ordering.FctAppSqlt&lt;/param-value&gt;
+&lt;/context-param&gt;
+...
+</pre>
+Also remove wrong handler "hnAcEnRq" from servlet with name "srv"!!! Only leave "HndI18nRq". 
+    </p>
+
+    <h4>Creating application factory for WAR version</h4>
+    <p>
+      At this time just copy file org.beigesoft.war.FctAppSqlt.java into "myappweb - src - main - java - org - myapp - ordering"
+      and change its package.
+    </p>
+
+    <h4>JDBC authentication</h4>
+    <p>For Tomcat copy <b>context-sqlt.xml</b> from <b>beige-web</b> into "myappweb - src - main - webapp - META-INF" rename it to "context.xml" and change database url:
+<pre style="white-space: pre-wrap;">
+...
+connectionURL="jdbc:sqlite:../webapps/myappweb/myordering.sqlite"
+...
+</pre>
+    
+    </p>
+
+    <h4>The first start</h4>
+    <p>Compile both projects by executing "mvn clean install" at the root folder of each project.
+    Then copy myappweb.war into Tomcat "webapps" folder.
+    </p>
+    </section>
+
+  </body>
+
+</document>
