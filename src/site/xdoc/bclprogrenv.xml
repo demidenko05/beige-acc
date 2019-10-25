@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.</title>
+   </properties>
+
+  <body>
+
+    <section name="Installation of the programming environment.">
+
+    <h4>Installing JDK on Unix-like OS.</h4>
+    <p>I recommend Debian Scretch (9) with LXDE interface. There is its 32bit version.
+      To install OpenJDK on Debian based linux just run as "root" "apt-get install openjdk-8-jdk" or "sudo apt-get install openjdk-8-jdk".
+      On Red Hat based Linux run "dnf install java-1.8.0-openjdk-devel".
+      Then set environment variables in the <b>.bashrc</b> file, for Debian example:
+<pre style="white-space: pre-wrap;">
+export ANT_HOME=$HOME/programmer/java/apache-ant-1.10.6
+export CATALINA_HOME=$HOME/programmer/java/apache-tomcat-7.0.82
+export TOMCATA_HOME=$HOME/programmer/java/apache-tomcat-7.0.68a
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export H2DRIVERS=$HOME/.m2/repository/org/postgresql/postgresql/9.4-1206-jdbc4/postgresql-9.4-1206-jdbc4.jar:$HOME/.m2/repository/org/xerial/sqlite-jdbc/3.21.0.1/sqlite-jdbc-3.21.0.1.jar:$HOME/.m2/repository/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$HOME/programmer/java/apache-maven-3.5.2/bin:$ANT_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
+export GPG_TTY=$(tty)
+</pre>
+* you will create folders that is described in the environment variables, and maven artifacts will be downloaded in farther steps.
+    </p>
+
+    <h4>Installing JDK on MS Windows.</h4>
+    <p>You can use OpenJDK included in "Android IDE Studio". You need Android IDE Studio to make Android version. You should install it first.
+
+    </p>
+
+    <h4>Installing Maven</h4>
+    <p>Just create folder e.g. "$HOME/programmer/java/" for Unix like OS, or "C:\programmer\java" for MS Windows.
+    Then download apache-maven-3.5.2.zip and unpack it there.
+    </p>
+
+    <h4>Make environment variables in MS Windows</h4>
+    <p>
+      On MS Windows 10 open "Search" and type "env" then "Edit the system environment variables" will be listed, so choose it,
+      "System Properties" window will be appeared,
+      switch to "Advanced" then push "Environment variables",
+      then add or change:
+      <ul>
+        <li>Set JAVA_HOME to standard location C:\Program Files\Android\Android Studio\jre (check it out)</li>
+        <li>ANDROID_HOME - in Android Studion open SDK manager to see Android SDK Location</li>
+        <li>Path - leave all entries and add
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+      After saving, check it: open Power Shell and type "$env:JAVA_HOME" or "$env:Path"
+    </p>
+    </section>
+
+  </body>
+
+</document>

@@ -11,6 +11,8 @@
 
     <section name="Example of simple ordering application. Part 2, cloud WAR version.">
    
+<p>* use exactly version 1.0 binaries and sources of Beigesoft™ libraries</p>
+
     <h4>Creating WAR Maven project</h4>
     <p>* All files must be in UTF-8 format. I recommend <b>Jeany</b> editor.</p>
     <p>Create project folder "myappweb", then create <b>pom.xml</b> in it:
@@ -71,6 +73,14 @@
 
   &lt;build&gt;
     &lt;finalName&gt;${project.artifactId}&lt;/finalName&gt;
+    &lt;resources&gt;
+      &lt;!--Apache Tomcat7 loads jars ordered by name, so beige-blc.jar
+      is loaded first. Placing ordered resources
+      to the WEB-INF/classes folder resolves this problem:--&gt;
+      &lt;resource&gt;
+        &lt;directory&gt;..${file.separator}myapp${file.separator}src${file.separator}main${file.separator}resources&lt;/directory&gt;
+      &lt;/resource&gt;
+    &lt;/resources&gt;
     &lt;plugins&gt;
       &lt;plugin&gt;
         &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
@@ -105,9 +115,25 @@
           &lt;source&gt;${java.version}&lt;/source&gt;
           &lt;target&gt;${java.version}&lt;/target&gt;
           &lt;compilerArgs&gt;
-            &lt;!--&lt;arg&gt;-verbose&lt;/arg&gt;--&gt;
             &lt;arg&gt;-Xlint:all,-options,-path&lt;/arg&gt;
           &lt;/compilerArgs&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.1.0&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;overlays&gt;
+            &lt;overlay /&gt;
+            &lt;overlay&gt;
+              &lt;groupId&gt;org.beigesoft&lt;/groupId&gt;
+              &lt;artifactId&gt;beige-web&lt;/artifactId&gt;
+              &lt;excludes&gt;
+                &lt;exclude&gt;META-INF${file.separator}BEIGESOF.RSA&lt;/exclude&gt;
+                &lt;exclude&gt;META-INF${file.separator}BEIGESOF.SF&lt;/exclude&gt;
+              &lt;/excludes&gt;
+            &lt;/overlay&gt;
+          &lt;/overlays&gt;
         &lt;/configuration&gt;
       &lt;/plugin&gt;
     &lt;/plugins&gt;
@@ -132,17 +158,17 @@ Then create folders for source code:
     &lt;div class="dropdown-content"&gt;
       &lt;a href="#" onclick="bsGtAjx('GET', 'srv?act=lst&amp;rnd=lhj&amp;ent=Customer&amp;pg=1');"&gt;${i18n.getMsg("Customers", rvs.upf.lng.iid)}&lt;/a&gt;
       &lt;a href="#" onclick="bsGtAjx('GET', 'srv?act=lst&amp;rnd=lhj&amp;ent=Merchandise&amp;pg=1');"&gt;${i18n.getMsg("Merchandises", rvs.upf.lng.iid)}&lt;/a&gt;
-      &lt;a href="#" onclick="bsGtAjx('GET', 'srv?act=lst&amp;rnd=lhj&amp;ent=Order&amp;pg=1');"&gt;${i18n.getMsg("Orders", rvs.upf.lng.iid)}&lt;/a&gt;
+      &lt;a href="#" onclick="bsGtAjx('GET', 'srv?act=lst&amp;rnd=lhj&amp;ent=COrder&amp;pg=1');"&gt;${i18n.getMsg("Orders", rvs.upf.lng.iid)}&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class="dropdown"&gt;
 ...
 </pre>
-
+And make mbl.jsp in the same way.
     </p>
 
     <h4>web.xml</h4>
-    <p>Copy <b>web-sqlite.xml</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF" rename it to "web.xml" and change application factory class:\    
+    <p>Copy <b>web-sqlite.xml</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF" rename it to "web.xml" and change application factory class:
 <pre style="white-space: pre-wrap;">
 ...
 &lt;context-param&gt;
@@ -151,7 +177,6 @@ Then create folders for source code:
 &lt;/context-param&gt;
 ...
 </pre>
-Also remove wrong handler "hnAcEnRq" from servlet with name "srv"!!! Only leave "HndI18nRq". 
     </p>
 
     <h4>Creating application factory for WAR version</h4>
@@ -164,7 +189,7 @@ Also remove wrong handler "hnAcEnRq" from servlet with name "srv"!!! Only leave 
     <p>For Tomcat copy <b>context-sqlt.xml</b> from <b>beige-web</b> into "myappweb - src - main - webapp - META-INF" rename it to "context.xml" and change database url:
 <pre style="white-space: pre-wrap;">
 ...
-connectionURL="jdbc:sqlite:../webapps/myappweb/myordering.sqlite"
+connectionURL="jdbc:sqlite:../webapps/ordering-web/myordering.sqlite"
 ...
 </pre>
     
@@ -172,8 +197,30 @@ connectionURL="jdbc:sqlite:../webapps/myappweb/myordering.sqlite"
 
     <h4>The first start</h4>
     <p>Compile both projects by executing "mvn clean install" at the root folder of each project.
-    Then copy myappweb.war into Tomcat "webapps" folder.
+    Then copy myappweb.war into Tomcat "webapps" folder. After application will be deployed, open its SQLite database "ordering-web/myordering.sqlite" (I recomend H2 web-tool for it) and insert users:
+<pre style="white-space: pre-wrap;">
+insert into USTMC (USR, PWD, VER) values ('admin', 'admin', 1);
+insert into USTMC (USR, PWD, VER) values ('user', 'user', 1);
+insert into USRLTMC (USR, ROL, VER)  values ('admin', 'admin', 1);
+insert into USRLTMC (USR, ROL, VER)  values ('user', 'user', 1);
+</pre>
+<p>* see <b>web.xml</b> JEE authentication part about roles and secure path.</p>
+After that you are able to login into "secure place" and make orders:
+<p align="center"><img style="max-width: 100%" src="images/editcord.png" /></p>
+Lists, edit forms, entity pickers will be generated automatically.
     </p>
+    <h4>Internationalization</h4>
+    <p>For internationalization use ${i18n.getMsg("COrder", rvs.upf.lng.iid)} in a JSP page.
+    You should add this message into <b>Msgs_en_US.properties</b> and non English e.g. <p>Msgs_ru_RU-UTF8.properties</p>.
+    Just copy these files from <b>beige-blc</b> and edit them. After editing make ASCII encoded file for non-English messages, e.g.:
+<pre style="white-space: pre-wrap;">
+native2ascii -encoding UTF-8 Msgs_ru_RU-UTF8.properties Msgs_ru_RU.properties
+</pre>
+
+    </p>
+    <h4>Conclusion</h4>
+    <p>This is the simplest example. As a result you have to fill Amount=Quantity*Price by hand. In the following articles we will customize application to do all  things automatically.</p>
+
     </section>
 
   </body>

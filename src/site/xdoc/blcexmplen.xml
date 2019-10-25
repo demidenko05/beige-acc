@@ -11,10 +11,17 @@
 
     <section name="Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.">
 
+    <p>These topics are dedicated to broad sections of audience. It's also for programmers who never use Java before, or for accountants who want to customize Beigesoft EIS.</p>
+    <p>Here is used SQlite database, because of you no need to install it.</p>
+
     <h4>Topics:</h4>      
     
     <h5>
       <a href="bclbasicen.html">Basic information about using Beigesoft™ libraries.</a>
+    </h5>
+    
+    <h5>
+      <a href="bclprogrenv.html">Installation of the programming environment.</a>
     </h5>
     
     <h5>

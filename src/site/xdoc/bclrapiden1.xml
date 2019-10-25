@@ -11,6 +11,8 @@
 
     <section name="Example of simple ordering application. Part 1, basic logic.">
 
+<p>* use exactly version 1.0 binaries and sources of Beigesoft™ libraries</p>
+
     <h4>Models.</h4>
     <p>
       This is simple example, and so do these models:
@@ -110,6 +112,7 @@ myapp - src - main - java - org - myapp - ordering
 myapp - src - main - resources - dbcp
 myapp - src - main - resources - sqlite
 myapp - src - main - resources - uvd - clsCs
+myapp - src - main - resources - uvd - fldTyFs
 </pre>
     </p>
     
@@ -144,7 +147,7 @@ import java.math.BigDecimal;
 
 import org.beigesoft.mdlp.AOrId;
 
-public class Order extends AOrId {
+public class COrder extends AOrId {
 
   private Date itsDate;
   
@@ -220,6 +223,10 @@ public class Order extends AOrId {
   }
 }
 </pre>
+<p>
+  * to avoid names colligion (with SQL special words) you should name entities and its fields carefully,
+  e.g. if you name this entity as "Order", then it will be error.
+</p>
 Its line will be:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
@@ -229,9 +236,9 @@ import java.math.BigDecimal;
 import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.mdlp.AOrId;
 
-public class OrderLine extends AOrId implements IOwnedOr&lt;Order&lt; {
+public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   
-  private Order ownr;
+  private COrder ownr;
   
   private Merchandise product;
   
@@ -243,10 +250,10 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;Order&lt; {
 
   /**
    * &lt;p&gt;Getter for ownr.&lt;/p&gt;
-   * @return Order
+   * @return COrder
    **/
   @Override
-  public final Order getOwnr() {
+  public final COrder getOwnr() {
     return this.ownr;
   }
 
@@ -255,7 +262,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;Order&lt; {
    * @param pOwnr reference
    **/
   @Override
-  public final void setOwnr(final Order pOwnr) {
+  public final void setOwnr(final COrder pOwnr) {
     this.ownr = pOwnr;
   }
 
@@ -354,14 +361,14 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;Order&lt; {
   org.beigesoft.mdlp.EmAtch,
   org.myapp.ordering.Customer,
   org.myapp.ordering.Merchandise,
-  org.myapp.ordering.Order,
+  org.myapp.ordering.COrder,
   org.myapp.ordering.OrderLine&lt;/entry&gt;
 &lt;entry key="stgClsNms"&gt;exlFlds,idFlds&lt;/entry&gt;
 &lt;entry key="stgFldNms"&gt;&lt;/entry&gt;
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-The order is essential! E.g. OrderLine is the last because it contains Merchandise and Order.
+The order is essential! E.g. OrderLine is the last because it contains Merchandise and COrder.
     </p>
 
     <h4>Adding XML configuration for ORM</h4>
@@ -392,7 +399,7 @@ The order is essential! E.g. OrderLine is the last because it contains Merchandi
   org.beigesoft.mdlp.EmAtch,
   org.myapp.ordering.Customer,
   org.myapp.ordering.Merchandise,
-  org.myapp.ordering.Order,
+  org.myapp.ordering.COrder,
   org.myapp.ordering.OrderLine&lt;/entry&gt;
 &lt;entry key="stgClsNms"&gt;exlFlds,idFlds,vrAlg,cnstr&lt;/entry&gt;
 &lt;entry key="stgFldNms"&gt;def,nul&lt;/entry&gt;
@@ -436,7 +443,7 @@ The order is essential! E.g. OrderLine is the last because it contains Merchandi
   org.beigesoft.mdlp.EmAtch,
   org.myapp.ordering.Customer,
   org.myapp.ordering.Merchandise,
-  org.myapp.ordering.Order,
+  org.myapp.ordering.COrder,
   org.myapp.ordering.OrderLine&lt;/entry&gt;
 &lt;entry key="stgClsNms"&gt;exlFlds,idFlds,owdEnts,frmFds,lstFds,pickFds,selFds,selDpl&lt;/entry&gt;
 &lt;entry key="stgFldNms"&gt;cnToSt,cnFrSt,inp,str,wde&lt;/entry&gt;
@@ -444,26 +451,65 @@ The order is essential! E.g. OrderLine is the last because it contains Merchandi
 &lt;/properties&gt;
 </pre>
     </p>
-    <p>Then add Order.xml into "myapp - src - main - resources - uvd - clsCs"
+    <p>Then add COrder.xml into "myapp - src - main - resources - uvd - clsCs"
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
 &lt;properties&gt;
-&lt;comment&gt;Explicit final definition.&lt;/comment&gt;
 &lt;entry key="frmFds"&gt;iid,idOr,dbOr,itsDate,customer,itsTotal&lt;/entry&gt;
 &lt;entry key="owdEnts"&gt;org.myapp.ordering.OrderLine&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
+It describes what fields should be retrieved in list and they order.
+It also says what owned lists must be listed in this entity's form.
     </p>
     <p>Then add OrderLine.xml into "myapp - src - main - resources - uvd - clsCs"
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
 &lt;properties&gt;
-&lt;comment&gt;Explicit final definition.&lt;/comment&gt;
 &lt;entry key="frmFds"&gt;iid,idOr,dbOr,product,itsQuantity,itsPrice,itsAmount&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
+    </p>
+    <p>Then copy cnToSt.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and add BigDecimal entry:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;entry key="java.util.Date"&gt;CnvDtTmStr&lt;/entry&gt;
+&lt;entry key="java.math.BigDecimal"&gt;CnvPriStr&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+This says that for all fields of type "BigDecimal" it will be used converter to string (service) named "CnvPriStr".
+    </p>
+    <p>Then copy str.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and edit it:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;entry key="java.lang.Long"&gt;str&lt;/entry&gt;
+&lt;entry key="java.math.BigDecimal"&gt;str&lt;/entry&gt;
+&lt;entry key="java.util.Date"&gt;dtTm&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+It describes which HTML to string widget (JSP) will be used for a field depending on its type.
+    </p>
+    <p>Then copy inp.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and edit it:
+<pre style="white-space: pre-wrap;">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;entry key="org.beigesoft.mdl.IHasNm"&gt;nme&lt;/entry&gt;
+&lt;entry key="org.beigesoft.mdl.IHasId"&gt;hsid&lt;/entry&gt;
+&lt;entry key="java.util.Date"&gt;dtTm&lt;/entry&gt;
+&lt;entry key="java.lang.String"&gt;str&lt;/entry&gt;
+&lt;entry key="java.lang.Long"&gt;int&lt;/entry&gt;
+&lt;entry key="java.lang.Boolean"&gt;bln&lt;/entry&gt;
+&lt;entry key="java.math.BigDecimal"&gt;pri&lt;/entry&gt;
+&lt;/properties&gt;
+</pre>
+It describes which HTML input widget (JSP) will be used for a field depending on its type.
     </p>
     <p>That is all at this time.</p>
 
