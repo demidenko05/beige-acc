@@ -11,8 +11,6 @@
 
     <section name="Example of simple ordering application. Part 1, basic logic.">
 
-<p>* use exactly version 1.0 binaries and sources of Beigesoft™ libraries</p>
-
     <h4>Models.</h4>
     <p>
       This is simple example, and so do these models:
@@ -26,7 +24,7 @@
     
     <h4>Creating Maven project</h4>
     <p>* All files must be in UTF-8 format. I recommend <b>Jeany</b> editor.</p>
-    <p>Create project folder "myapp", then create <b>pom.xml</b> in it:
+    <p>Create project folder "myapp" in "programmer/java", then create <b>pom.xml</b> in it:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0"?&gt;
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
@@ -106,6 +104,9 @@
   
 &lt;/project&gt;
 </pre>
+<p>*<b>pom.xml</b> is the main file of any Maven project. It describes about project artifact: its name, group, version, packaging (JAR in this case), used 3-d party libraries (dependencies).
+JAR libraries is the standard Java archive, that contains of all compiled Java classes and other files - properties in text or XML files, images,  etc.
+</p>
 Then create folders for source code:
 <pre style="white-space: pre-wrap;">
 myapp - src - main - java - org - myapp - ordering
@@ -127,6 +128,19 @@ public class Customer extends AIdLnNm {
 
 }
 </pre>
+<p>
+  * any Java class has fields (properties), e.g. property <b>nme</b> of type String that holds Name value. These properties accessed via methods <b>Getters</b> and <b>Setters</b>,
+  e.g. for property "nme" method "getNme()" returns its value, and setNme(String pValue) set its value.
+</p>
+<p>
+  * Java word <b>extends</b> means that this class extends another class (AIdLnNm in this case). As a result, extending class inherits (will have) all fields and methods of extended class.
+</p>
+<p>
+  * as you can notice, class name is the same as its file name, package name matches its path from "java" folder.
+</p>
+<p>
+  Class in this case is data model of business object "Customer". Another class can be a "service" that makes something, e.g. service that saves a model into database.
+</p>
       Assume, we have several databases (warehouse A, B)  and a lot of goods, so we use <b>org.beigesoft.mdlp.AOrIdNm</b> for it:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
@@ -334,7 +348,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
     </p>
 
     <h4>Adding XML configuration for full database copy</h4>
-    <p>Just copy <b>conf.xml</b> from <b>beige-blc/dbcp</b> into "myapp - src - main - resources - dbcp" then add your models:
+    <p>Just copy <b>conf.xml</b> from <b>beige-blc/src/main/resources/dbcp</b> into "myapp - src - main - resources - dbcp" then add your models:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -405,6 +419,12 @@ The order is essential! E.g. OrderLine is the last because it contains Merchandi
 &lt;entry key="stgFldNms"&gt;def,nul&lt;/entry&gt;
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
+</pre>
+ORM means that you will no care about making SQL commands by yourself. For example to insert new Merchandise into database just write this code:
+<pre style="white-space: pre-wrap;">
+Merchandise product1 = new Merchandise();
+product1.setNme("Product 1"); //ID will be generated automatically
+this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and set new generated ID for this product
 </pre>
     </p>
 

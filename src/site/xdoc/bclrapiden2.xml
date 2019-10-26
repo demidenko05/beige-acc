@@ -10,8 +10,6 @@
   <body>
 
     <section name="Example of simple ordering application. Part 2, cloud WAR version.">
-   
-<p>* use exactly version 1.0 binaries and sources of Beigesoft™ libraries</p>
 
     <h4>Creating WAR Maven project</h4>
     <p>* All files must be in UTF-8 format. I recommend <b>Jeany</b> editor.</p>
@@ -34,7 +32,6 @@
     &lt;java.version&gt;1.7&lt;/java.version&gt;
   &lt;/properties&gt;
 
-        
   &lt;dependencies&gt;
     &lt;dependency&gt;
       &lt;groupId&gt;org.myapp&lt;/groupId&gt;
@@ -141,6 +138,9 @@
   
 &lt;/project&gt;
 </pre>
+<p>
+  * this is WAR archive of JEE WEB application. Both WAR and JAR is actually ZIP archives.
+</p>
 Then create folders for source code:
 <pre style="white-space: pre-wrap;">
  myappweb - src - main - java - org - myapp - ordering
@@ -196,16 +196,23 @@ connectionURL="jdbc:sqlite:../webapps/ordering-web/myordering.sqlite"
     </p>
 
     <h4>The first start</h4>
-    <p>Compile both projects by executing "mvn clean install" at the root folder of each project.
-    Then copy myappweb.war into Tomcat "webapps" folder. After application will be deployed, open its SQLite database "ordering-web/myordering.sqlite" (I recomend H2 web-tool for it) and insert users:
+    <p>Compile both projects by executing "mvn clean install" at the root folder of each project (where pom.xml). Generated libraries <b>ordering.jar</b> and <b>ordering-web.war</b> will be in the target folders.
+    To start Tomcat run in its "bin" folder "startup.bat" on MS Windows or "startup.sh" on Unix-like OS.
+    Copy ordering-web.war into Tomcat "webapps" folder. Application will be deployed, it creates and fills SQLite database "ordering-web/myordering.sqlite" 
+<p>You should have installed H2 database as described in 2-nd article. Just run its SQL tool (H2 console): in its "bin" folder run "h2.bat" on MS Windows or "h2.sh" on Unix like OS. Browser will open WEB-interface of its tool,
+select "Saved Settings"-"Generic SQLite" and type database address in JDBC URL, e.g. "jdbc:sqlite:C:\programmer\java\apache-tomcat-7.0.96\webapps\ordering-web\myordering.sqlite", do not care about user and password:
+<p align="center"><img style="max-width: 100%" src="images/h2setren.png" /></p>
+then push "connect", H2 SQL console will show tables, to insert users, just copy these entries and paste into tool window then push "Run":
 <pre style="white-space: pre-wrap;">
 insert into USTMC (USR, PWD, VER) values ('admin', 'admin', 1);
 insert into USTMC (USR, PWD, VER) values ('user', 'user', 1);
 insert into USRLTMC (USR, ROL, VER)  values ('admin', 'admin', 1);
 insert into USRLTMC (USR, ROL, VER)  values ('user', 'user', 1);
 </pre>
-<p>* see <b>web.xml</b> JEE authentication part about roles and secure path.</p>
-After that you are able to login into "secure place" and make orders:
+</p>
+
+<p>* see bottom of <b>web.xml</b> there is JEE authentication part about roles and secure path.</p>
+After that you are able to login into "secure place" and make orders,  type in browser "http://localhost:8080/ordering-web":
 <p align="center"><img style="max-width: 100%" src="images/editcord.png" /></p>
 Lists, edit forms, entity pickers will be generated automatically.
     </p>

@@ -11,6 +11,8 @@
 
     <section name="Basic information about using Beigesoft™ libraries.">
 
+    <p>* this is probably a difficult article for beginners, especially second part, so just take a glance and go to the next article.</p>
+
     <h4>Implementation of persistable models (that are stored in a database).</h4>
     <p>* they are also called - entity</p>
     <p>
