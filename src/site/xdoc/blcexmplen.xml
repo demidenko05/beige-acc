@@ -9,9 +9,9 @@
 
   <body>
 
-    <section name="Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.">
+    <section name="Beigesoft™ software (libraries) for rapid development of cross-platform financial WEB-applications.">
 
-    <p>These topics are dedicated to broad sections of audience. It's also for programmers who never use Java before, or for accountants who want to customize Beigesoft EIS.</p>
+    <p>These topics are dedicated to broad sections of audience. For example,  this is for programmers who never use Java before, or for accountants who want to customize Beigesoft EIS.</p>
     <p>At first, you will use SQlite database, because of you no need to install it. At the end, you will copy all data from private (standalone) SQLite version into cloud Postgesql (or Mysql) version.
       You also will learn about data protection, e.g. checking a file's checksum or digital signature.
     </p>

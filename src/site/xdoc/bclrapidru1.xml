@@ -4,27 +4,27 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.</title>
+    <title>Беижсофт™ ПО для быстрой разработки кроссс-платформенного финансового ПО с ВЕБ-интерфейсом.</title>
    </properties>
 
   <body>
 
-    <section name="Example of simple ordering application. Part 1, basic logic.">
+    <section name="Пример простой системы заказа товара. Часть 1, базовая логика.">
 
-    <h4>Models.</h4>
+    <h4>ИС модели.</h4>
     <p>
-      This is simple example, and so do these models:
+      Реализуем данные простые модели:
       <ul>
-        <li>Customer - has name</li>
-        <li>Merchandise - has name</li>
-        <li>Customer order - has date, customer, total, lines</li>
-        <li>Customer order's line - has merchandise, quantity, price, amount</li>
+        <li>Customer - Контрагент, имеет имя</li>
+        <li>Merchandise - Номенклатура, имеет имя</li>
+        <li>Customer order - Заказ, имеет дату, контрагента, итого, строки с товаром</li>
+        <li>Customer order's line - Строка заказа, имеет товар, количество, цену, итого</li>
       </ul>
     </p>
     
-    <h4>Creating Maven project</h4>
-    <p>* All files must be in UTF-8 format. I recommend <b>Jeany</b> editor.</p>
-    <p>Create project folder "myapp" in "programmer/java", then create <b>pom.xml</b> in it:
+    <h4>Создание Мавен проекта</h4>
+    <p>* Все файлы должны быть в UTF-8 кодировке. Я рекомендую редактор <b>Jeany</b>.</p>
+    <p>Создайте папку проекта "myapp" в "programmer/java", и создайте <b>pom.xml</b> в ней:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0"?&gt;
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
@@ -104,10 +104,10 @@
   
 &lt;/project&gt;
 </pre>
-<p>*<b>pom.xml</b> is the main file of any Maven project. It describes about project artifact: its name, group, version, packaging (JAR in this case), used 3-d party libraries (dependencies).
-JAR libraries is the standard Java archive, that contains of all compiled Java classes and other files - properties in text or XML files, images,  etc.
+<p>*<b>pom.xml</b> это главный файл в Мавен проекте. Он описывает библиотеку (Мавен артифакт): имя, группу, версию, тип архива (JAR в данном случае), используемые сторонние библиотеки (зависимости/dependencies).
+JAR это стандартный Java архив содержащий скомпилированные Java классы и другие файлы - настройки в текстовых и XML файлах, изображения и прочее.
 </p>
-Then create folders for source code:
+Затем создайте папки для исходного кода:
 <pre style="white-space: pre-wrap;">
 myapp - src - main - java - org - myapp - ordering
 myapp - src - main - resources - dbcp
@@ -117,8 +117,8 @@ myapp - src - main - resources - uvd - fldTyFs
 </pre>
     </p>
     
-    <h4>Implementing the models</h4>
-    <p>According to  <a href="bclbasicen.html">Basic information about using Beigesoft™ libraries</a> you should use <b>org.beigesoft.mdlp.AIdLnNm</b> as basic model for Customer, so create file "Customer.java" in folder "myapp - src - main - java - org - myapp - ordering":
+    <h4>Реализация моделей</h4>
+    <p>Согласно <a href="bclbasicru.html">Базовая информация о ПО Беижсофт</a> мы должны использовать <b>org.beigesoft.mdlp.AIdLnNm</b> для Контрагента (Customer), создайте файл "Customer.java" в папке "myapp - src - main - java - org - myapp - ordering":
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
 
@@ -129,19 +129,19 @@ public class Customer extends AIdLnNm {
 }
 </pre>
 <p>
-  * any Java class has fields (properties), e.g. property <b>nme</b> of type String that holds Name value. These properties accessed via methods <b>Getters</b> and <b>Setters</b>,
-  e.g. for property "nme" method "getNme()" returns its value, and setNme(String pValue) set its value.
+  * Джава класс имеет поля(реквизиты), например поле <b>nme</b> строкового типа (String) для хранения имени. Данные поля доступны через методы <b>Getters</b> и <b>Setters</b>,
+  например для поля "nme" метод "getNme()" возвращает его значение, а setNme(String pValue) устанавливает значение.
 </p>
 <p>
-  * Java word <b>extends</b> means that this class extends another class (AIdLnNm in this case). As a result, extending class inherits (will have) all fields and methods of extended class.
+  * В Джаве слово <b>extends</b> значит что данный класс расширяет другой класс (AIdLnNm в данном случае). Результирующий класс наследует (имеет) все поля и методы родительского класса.
 </p>
 <p>
-  * as you can notice, class name is the same as its file name, package name matches its path from "java" folder.
+  * как вы заметили, класс имеет имя файла, а имя пакета (package) совпадает с папками начиная с папки "java".
 </p>
 <p>
-  Class in this case is data model of business object "Customer". Another class can be a "service" that makes something, e.g. service that saves a model into database.
+  Класс в данном случае реализует информационную  сохраниемую (в БД) модель. Другие классы имеют функции сервиса, например сервис записывающий модель в базу данных.
 </p>
-      Assume, we have several databases (warehouse A, B)  and a lot of goods, so we use <b>org.beigesoft.mdlp.AOrIdNm</b> for it:
+  Предположим что у нас несколько баз данных (офис 1 и офис 2) и большая номенклатура, поэтому будем использовать <b>org.beigesoft.mdlp.AOrIdNm</b> для товара:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
 
@@ -151,7 +151,7 @@ public class Merchandise extends AOrIdNm {
 
 }
 </pre>
-  We need to import orders into central database, so it will be:
+    Нам нужно импортировать заказы в центральную базу, соответственно Заказ будет:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
 
@@ -238,10 +238,10 @@ public class COrder extends AOrId {
 }
 </pre>
 <p>
-  * to avoid names colligion (with SQL special words) you should name entities and its fields carefully,
-  e.g. if you name this entity as "Order", then it will be error.
+  * для избежания коллизий с именами СКЛ (SQL) нам нужно именовать модели и поля осторожно,
+  например если мы будем использовать "Order" для имени модели заказа то получим ошибку.
 </p>
-Its line will be:
+Строка заказа:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
 
@@ -347,8 +347,8 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
 </pre>
     </p>
 
-    <h4>Adding XML configuration for full database copy</h4>
-    <p>Just copy <b>conf.xml</b> from <b>beige-blc/src/main/resources/dbcp</b> into "myapp - src - main - resources - dbcp" then add your models:
+    <h4>Добавление XML конфигурации дли импорта полной копии БД</h4>
+    <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/src/main/resources/dbcp</b> в "myapp - src - main - resources - dbcp" и добавте 4 новых модели:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -382,11 +382,11 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-The order is essential! E.g. OrderLine is the last because it contains Merchandise and COrder.
+Порядок важен! OrderLine последняя так как содержит Merchandise и COrder.
     </p>
 
-    <h4>Adding XML configuration for ORM</h4>
-    <p>Copy <b>conf.xml</b> from <b>beige-blc/sqlite</b> into "myapp - src - main - resources - sqlite" then add your models:
+    <h4>Добавление XML конфигурации для ОРМ</h4>
+    <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/sqlite</b> в "myapp - src - main - resources - sqlite" и добавьте модели:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -420,15 +420,15 @@ The order is essential! E.g. OrderLine is the last because it contains Merchandi
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-ORM means that you will no care about making SQL commands by yourself. For example to insert new Merchandise into database just write this code:
+ОРМ значит что вам не нужно делать SQL комманды вручную. Например для создания нового Merchandise в БД:
 <pre style="white-space: pre-wrap;">
 Merchandise product1 = new Merchandise();
-product1.setNme("Product 1"); //ID will be generated automatically
-this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and set new generated ID for this product
+product1.setNme("Продукт 1"); //Код будет сгенерирован автоматически
+this.orm.insIdLn(product1); //ОРМ сама делает SQL insert команду, и устанавливает сгенерированный код для товара
 </pre>
     </p>
 
-    <p>Then copy <b>cmnst.xml</b> from <b>beige-blc/sqlite</b> into "myapp - src - main - resources - sqlite" and change database name:
+    <p>Затем скопируйте <b>cmnst.xml</b> из <b>beige-blc/sqlite</b> в "myapp - src - main - resources - sqlite" и измените имя базы данных:
 <pre style="white-space: pre-wrap;">
 ...
 &gt;entry key="dbUrl"&gt;jdbc:sqlite:#currentDir#myordering.sqlite&gt;/entry&gt;
@@ -436,8 +436,8 @@ this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and set ne
 </pre>
     </p>
 
-    <h4>Adding XML configuration for WEB interface</h4>
-    <p>Copy <b>conf.xml</b> from <b>beige-blc/uvd</b> into "myapp - src - main - resources - uvd" then add your models:
+    <h4>Добавление XML конфигурации для ВЕБ-интерфейса</h4>
+    <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/uvd</b> в "myapp - src - main - resources - uvd" и добавьте модели:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -471,7 +471,7 @@ this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and set ne
 &lt;/properties&gt;
 </pre>
     </p>
-    <p>Then add COrder.xml into "myapp - src - main - resources - uvd - clsCs"
+    <p>Затем создайте файл COrder.xml в "myapp - src - main - resources - uvd - clsCs"
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -480,10 +480,10 @@ this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and set ne
 &lt;entry key="owdEnts"&gt;org.myapp.ordering.OrderLine&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-It describes what fields should be retrieved in list and they order.
-It also says what owned lists must be listed in this entity's form.
+Он описывает какие поля должны быть заполнены и их порядок.
+Также сдесь указываются владеемые списки (строки) которые должны отображаться в форме редактирования владельца.
     </p>
-    <p>Then add OrderLine.xml into "myapp - src - main - resources - uvd - clsCs"
+    <p>Затем добавте OrderLine.xml в "myapp - src - main - resources - uvd - clsCs"
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -492,7 +492,7 @@ It also says what owned lists must be listed in this entity's form.
 &lt;/properties&gt;
 </pre>
     </p>
-    <p>Then copy cnToSt.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and add BigDecimal entry:
+    <p>Затем скопируйте cnToSt.xml из <b>beige-blc</b> в "myapp - src - main - resources - uvd - fldTyFs" добавте BigDecimal:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -501,9 +501,9 @@ It also says what owned lists must be listed in this entity's form.
 &lt;entry key="java.math.BigDecimal"&gt;CnvPriStr&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-This says that for all fields of type "BigDecimal" it will be used converter to string (service) named "CnvPriStr".
+Данный файл указывает какой конвертер в строковое представление будет использоваться для полей с данными типами.
     </p>
-    <p>Then copy str.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and edit it:
+    <p>Затем скопируйте str.xml из <b>beige-blc</b> в "myapp - src - main - resources - uvd - fldTyFs" и отредактируйте:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -513,9 +513,9 @@ This says that for all fields of type "BigDecimal" it will be used converter to 
 &lt;entry key="java.util.Date"&gt;dtTm&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-It describes which HTML to string widget (JSP) will be used for a field depending on its type.
+Данный файл указывает какой виджет (JSP) будет использоваться для отображения полей согласно их типу.
     </p>
-    <p>Then copy inp.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and edit it:
+    <p>Затем скопируйте inp.xml from <b>beige-blc</b> в "myapp - src - main - resources - uvd - fldTyFs" и отредактируйте:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -529,9 +529,9 @@ It describes which HTML to string widget (JSP) will be used for a field dependin
 &lt;entry key="java.math.BigDecimal"&gt;pri&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-It describes which HTML input widget (JSP) will be used for a field depending on its type.
+Данный файл указывает какой виджет (JSP) будет использоваться для редактирования полей согласно их типу.
     </p>
-    <p>That is all at this time.</p>
+    <p>На данное время это все.</p>
 
     </section>
 

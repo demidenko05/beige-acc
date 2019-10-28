@@ -63,7 +63,7 @@ and check it against SHA512 on the site: https://archive.apache.org/dist/maven/m
 </pre>  
     </p>
     <p>To check checksum on Unix like OS type "SHA1SUM [pathToFile]" or "SHA256SUM [pathToFile]" or "SHA512SUM [pathToFile]".
-    On Debian you should better:
+    GnuPg already installed:
 <pre style="white-space: pre-wrap;">
 1. Open terminal and login as root
 2. download public keys:
@@ -82,11 +82,11 @@ gpg --verify https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache
     </p>
 
     <h4>Installing Beige libraries sources.</h4>
-    <p>Just download the first release of beige-blc from https://github.com/demidenko05/beige-blc/releases and beige-web from https://github.com/demidenko05/beige-blc/releases. Then unpack them into "programmer" folder.</p>
+    <p>Just download the first release of beige-blc from https://github.com/demidenko05/beige-blc/releases and beige-web from https://github.com/demidenko05/beige-blc/releases. Then unpack them into "programmer/java" folder.</p>
 
     
 
-    <h4>Make environment variables in MS Windows</h4>
+    <h4>Making environment variables in MS Windows</h4>
     <p>
       On MS Windows 10 open "Search" and type "env" then "Edit the system environment variables" will be listed, so choose it,
       "System Properties" window will be appeared,
@@ -109,12 +109,10 @@ gpg --verify https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache
      and type "mvn clean install". Maven will download all needed libraries into "C:\users\[your name]\.m2\repository".
     </p>
 
-    <h4>Make environment variable H2DRIVERS in MS Windows</h4>
+    <h4>Making environment variable H2DRIVERS in MS Windows</h4>
     <p>
-      Open "Search" again and type "env" then "Edit the system environment variables" will be listed, so choose it,
-      "System Properties" window will be appeared,
-      switch to "Advanced" then push "Environment variables",
-      then add variable H2DRIVERS and choose just downloaded file "C:\users\[your name]\.m2\repository\org\xerial\sqlite-jdbc\3.21.0.1\sqlite-jdbc-3.21.0.1.jar":
+      Open "System Properties" - "Environment variables" as described above,
+      then add variable H2DRIVERS and choose just downloaded file "C:\users\[your name]\.m2\repository\org\xerial\sqlite-jdbc\3.21.0.1\sqlite-jdbc-3.21.0.1.jar".
       After saving, check it: open Power Shell and type "$env:H2DRIVERS"
     </p>
 

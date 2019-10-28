@@ -15,20 +15,21 @@
       First, an application based on Beigesoft™ libraries works anywhere. All parts - ORM, PDF Writer (reporting tool), WEB-interface work on standard Java as well as on Android one.
     </p>
     <p>
-      Second, they are fast. All parts work fast even on weak devices such as a smartphone. Beige WEB interface is based on JSP. JSP WEB-view technology is the same as PHP, ASPX, etc. This is the dominant technology (mostly used).
+      Second, they are fast. All parts work fast even on weak devices such as a smartphone. Beige WEB interface is based on JSP. JSP WEB-view technology is the same as PHP, ASPX, etc. This is the dominant WEB-view technology (mostly used).
       JSP is faster than PHP (and other script languages) because of compiling JSP into processor code on fly. Beige-PDF writer caches TTF fonts and makes PDF files with only used characters, so you will never get a huge PDF file or wait long for it.
       Standard ORM use "lazy initialization" to retrieve entity's fields. That means that it will be several SQL queries to retrieve whole model.
       Beige ORM allow to retrieve whole model in one SQL query. One big SQL query that retrieves all data is faster then several small SQL queries that retrieve the same data.
     </p>
     <p>
-      Third, they allow to build quickly very complex business applications. You can check it by yourself making example application in the next articles.
-      Beige PDF writer can't make a chart or a barcode. Programming Beige PDF takes 3 months to me. PDF is naturally able to draw lines and shapes. It will be neither long nor difficult to implement a chart or bar-code. And this is a regular task even for an IT student.
+      Third, they allow to build quickly very complex business applications. You can check it by yourself by making the example application in the next articles.
+      Beige PDF writer can't make a chart or a barcode. Programming Beige PDF takes 3 months to me. PDF is naturally able to draw lines and shapes. It will be neither long nor difficult to implement a chart or a bar-code. And this is a regular task even for an IT student.
+      Programming a report without a visual editor is actually a reliable and quick way.
     </p>
     <p>
       Fourth, they and all 3-party software are under truly free licenses. BSD 2-Clause License means:
       <ul>
         <li>it's open source (you can modify it)</li>
-        <li>it's free (even for commercial purposes)</li>
+        <li>it's free for any purposes (even for commercial purposes)</li>
         <li>there is no any warranty</li>
         <li>there is no any liability</li>
         <li>you must include copyright in any redistribution of these libraries (software that use Beigesoft libraries), e.g. just make regular HTML page that lists all parts and their licenses (similar to a book way)</li>
@@ -36,7 +37,7 @@
       They blame that such license is advertising. Have you ever seen a reliable book without reference page? Omitting of used sources, resources in a book is lawless.
       And it's not about advertising, it's about "the authors", "the terms" and "the responsibilities". There are a lot of useless software (especially duplicates) that just dedicated to waste your time.
       The last time when the Law hits such ugly things in IT sphere was "data privacy".
-      In other hand, there are software with "non-properly" or "unclear" licenses and authors. Just take a look inside a famous open-source software and you might found a part with non-free or unclear license.
+      In other hand, there are software with "non-properly" or "unclear" licenses and authors. Just take a look inside a famous open-source software and you may find a part with non-free or unclear license.
     </p>
     </section>
 
