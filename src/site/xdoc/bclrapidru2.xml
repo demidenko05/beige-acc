@@ -4,16 +4,16 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Beigesoft™ software (libraries) for rapid development of cross-platform financial WEB-applications.</title>
+    <title>Беижсофт™ ПО для быстрой разработки кросс-платформенного финансового ПО с ВЕБ-интерфейсом.</title>
    </properties>
 
   <body>
 
-    <section name="Example of simple ordering application. Part 2, cloud WAR version.">
+    <section name="Пример простой системы заказа товара. Часть 2, облачная WAR версия.">
 
-    <h4>Creating WAR Maven project</h4>
+    <h4>Создание WAR Мавен проекта</h4>
 
-    <p>Create project folder "myappweb", then create <b>pom.xml</b> in it:
+    <p>Создайте папку проекта "myappweb" и файл <b>pom.xml</b> в ней:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0"?&gt;
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
@@ -139,17 +139,17 @@
 &lt;/project&gt;
 </pre>
 <p>
-  * this is WAR archive of JEE WEB application. Both WAR and JAR is actually ZIP archives.
+  * Это будет WAR архив ВЕБ-приложения по стандарту Джава Интерпрайз Едишин. И WAR и JAR в действительности ZIP архивы.
 </p>
-Then create folders for source code:
+Создайте папки для исходного кода:
 <pre style="white-space: pre-wrap;">
  myappweb - src - main - java - org - myapp - ordering
  myappweb - src - main - webapp - WEB-INF - jsp
  myappweb - src - main - webapp - META-INF
 </pre>
 </p>
-    <h4>Adding the models in the menu</h4>
-    <p>Copy <b>dsk.jsp</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF - jsp" and add drop-down menu with entities:
+    <h4>Добавление ИС моделей в меню ВЕБ-интерфейса</h4>
+    <p>Скопируйте <b>dsk.jsp</b> из базовой библиотеки <b>beige-web</b> в "myappweb - src - main - webapp - WEB-INF - jsp" и добавьте HTML DIV элемент класса "dropdown" содержащий модели аналогично существующему меню:
 <pre style="white-space: pre-wrap;">
 ...
 &lt;div class="navbar"&gt;
@@ -164,11 +164,11 @@ Then create folders for source code:
   &lt;div class="dropdown"&gt;
 ...
 </pre>
-And make mbl.jsp in the same way.
+Сделайте тоже для Мобильного вида - mbl.jsp.
     </p>
 
     <h4>web.xml</h4>
-    <p>Copy <b>web-sqlite.xml</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF" rename it into "web.xml" and change application factory class:
+    <p>Скопируйте <b>web-sqlite.xml</b> из исходного кода <b>beige-web</b> в папку "myappweb - src - main - webapp - WEB-INF", переименуйте его в "web.xml" и измените класс фабрики приложения:
 <pre style="white-space: pre-wrap;">
 ...
 &lt;context-param&gt;
@@ -177,18 +177,19 @@ And make mbl.jsp in the same way.
 &lt;/context-param&gt;
 ...
 </pre>
-<b>web.xml</b> is the main file that describes about this JEE WEB-application.
+<b>web.xml</b> это главный файл описывающий ВЕБ-приложение по стандарту JEE.
     </p>
 
-    <h4>Creating application factory for WAR version</h4>
-    <p>An application factory creates all application's services (including inner factories) in "lazy mode". For example service that prints a PDF report will be created when user pushes button "Print order PDF".
-      Of course, factories for different platforms (OS) are different.
-      At this time just copy file org.beigesoft.war.FctAppSqlt.java from <b>beige-web</b> into "myappweb - src - main - java - org - myapp - ordering"
-      and change its package.
+    <h4>Создание фабрики приложения для WAR версии</h4>
+    <p>
+      Фабрика приложения это класс создающий все сервисы (в том числе вложенные фабрики) данного приложения в режиме "инициализация по запросу". Например сервис создающий PDF отчет будет создан когда пользователь нажмет "печать заказа в ПДФ".
+      Фабрики для разных платформ (ОС) отличаются.
+      На данный момент просто скопируйте файл org.beigesoft.war.FctAppSqlt.java из "beige-web" в "myappweb - src - main - java - org - myapp - ordering"
+      и измените путь его "Пакета" (package).
     </p>
 
-    <h4>JDBC authentication</h4>
-    <p>For Tomcat's standard, copy <b>context-sqlt.xml</b> from <b>beige-web</b> into "myappweb - src - main - webapp - META-INF" rename it into "context.xml" and change database URL:
+    <h4>Авторизация через базу данных (JEE JDBC authentication)</h4>
+    <p>Для Томкэт стандарта нужно скопировать <b>context-sqlt.xml</b> из <b>beige-web</b> в "myappweb - src - main - webapp - META-INF" и переименовать его в "context.xml", затем изменить путь к базе данных:
 <pre style="white-space: pre-wrap;">
 ...
 connectionURL="jdbc:sqlite:../webapps/ordering-web/myordering.sqlite"
@@ -197,14 +198,14 @@ connectionURL="jdbc:sqlite:../webapps/ordering-web/myordering.sqlite"
     
     </p>
 
-    <h4>The first start</h4>
-    <p>Compile both projects by executing "mvn clean install" at the root folder of each project (where pom.xml), at first at <b>myapp</b> then at <b>myappweb</b>. Generated libraries <b>ordering.jar</b> and <b>ordering-web.war</b> will be in the target folders.
-    To start Tomcat run in its "bin" folder "startup.bat" on MS Windows or "startup.sh" on Unix-like OS.
-    Copy ordering-web.war into Tomcat "webapps" folder. Application will be deployed, it creates and fills SQLite database "ordering-web/myordering.sqlite" 
-<p>You should have installed H2 database as described in the 3-d article. Just run its SQL tool (H2 console): in its "bin" folder run "h2.bat" on MS Windows or "h2.sh" on Unix like OS. Browser will open WEB-interface of its tool,
-select "Saved Settings"-"Generic SQLite" and type database address in JDBC URL, e.g. "jdbc:sqlite:C:\programmer\java\apache-tomcat-7.0.96\webapps\ordering-web\myordering.sqlite", do not care about user and password:
-<p align="center"><img style="max-width: 100%" src="images/h2setren.png" /></p>
-then push "connect", H2 SQL console will show tables, to insert users, just copy these entries and paste into tool window then push "Run":
+    <h4>Первый запуск</h4>
+    <p>Используя терминал (Power Shell) запустите команду "mvn clean install" в корне папок обоих проектов (где pom.xml), конечно сперва в <b>myapp</b> затем в <b>myappweb</b>. Скомпилированные библиотеки <b>ordering.jar</b> и <b>ordering-web.war</b> будут в папке "target".
+    Запустите Томкэт дважды щелкнув файл "startup.bat" для Виндоус или "startup.sh" для Юникс-подобной ОС в папке Томкэта "bin".
+    Скопируйте ordering-web.war в папку Томкэта "webapps". Томкэт развернет и запустит приложения, приложение создаст и заполнит СКЛайт (SQLite) базу данных "ordering-web/myordering.sqlite" 
+<p>Вы должны были установить базу данных Эйч2 (H2) описанную во третьей статье. Запустите утилиту Эйч2 консоль (H2 console): в папке "bin" запустите "h2.bat" (Виндоус) или "h2.sh" (Юникс подобная ОС). Браузер откроет интерфейс данной утилиты,
+выберите "Сохранить настройки"-"Generic SQLite" и напишите путь к базе данных в JDBC URL, например "jdbc:sqlite:C:\programmer\java\apache-tomcat-7.0.96\webapps\ordering-web\myordering.sqlite", пользователь и пароль не важны:
+<p align="center"><img style="max-width: 100%" src="images/h2setru.png" /></p>
+Нажмите "Соединиться", Эйч2 консоль покажет все созданные таблицы, для авторизации нужно добавить пользователей и их пароли, скопируйте следующие команды в окно консоли и исполните их:
 <pre style="white-space: pre-wrap;">
 insert into USTMC (USR, PWD, VER) values ('admin', 'admin', 1);
 insert into USTMC (USR, PWD, VER) values ('user', 'user', 1);
@@ -213,23 +214,27 @@ insert into USRLTMC (USR, ROL, VER)  values ('user', 'user', 1);
 </pre>
 </p>
 
-<p>* see bottom of <b>web.xml</b> there is JEE authentication part about roles and secure paths.</p>
-After that you are able to login into "secure place" and make orders (user/password admin/admin), type in your browser "http://localhost:8080/ordering-web":
-<p align="center"><img style="max-width: 100%" src="images/editcord.png" /></p>
-Lists, edit forms, entity pickers will be generated automatically.
+<p>* смотрите конец <b>web.xml</b> где описаны роли и пути требующие авторизации.</p>
+
+После этого вы можете авторизоваться для работы с заказами (пользователь/пароль admin/admin), наберите в браузере "http://localhost:8080/ordering-web":
+<p align="center"><img style="max-width: 100%" src="images/editcordru.png" /></p>
+Списки ИС моделей, формы их редактирования и их подборщик будут сгенерированны автоматически.
     </p>
-    <h4>Internationalization</h4>
-    <p>For internationalization use ${i18n.getMsg("COrder", rvs.upf.lng.iid)} in a JSP page.
-    You should add this message into <b>Msgs_en_US.properties</b> and non English e.g. <b>Msgs_ru_RU-UTF8.properties</b>.
-    Just copy these files from <b>beige-blc/src/main/resources</b> and edit them. After editing make ASCII encoded file for non-English messages, e.g.:
+
+    <h4>Интернационализация</h4>
+    <p>Для интернационализации используйте ${i18n.getMsg("COrder", rvs.upf.lng.iid)} в странице JSP.
+    Нужно добавить все сообщения по Русски в <b>Msgs_ru_RU-UTF8.properties</b> и по Английски в <b>Msgs_en_US.properties</b>.
+    Скопируйте эти файлы из <b>beige-blc/src/main/resources</b> и измените. После нужно перекодировать UTF8 в ASCII кодировку:
 <pre style="white-space: pre-wrap;">
 native2ascii -encoding UTF-8 Msgs_ru_RU-UTF8.properties Msgs_ru_RU.properties
 </pre>
-Do not neglect to Internationalization. Even some big WEB-stores have no advanced internationalization similar to Beigesoft WEB-store's one.
+Бизнес часто имеет дело с иностранными поставщиками и/или покупателями.
+Не стоит пренебрегать интернационализацией.
+Даже не все крупные ВЕБ-магазины могут похвастаться интернационализацией подобной той, что реализована в ВЕБ-магазине Беижсофт ЕИС.
     </p>
 
-    <h4>Conclusion</h4>
-    <p>This is the simplest example. As a result you have to fill Amount=Quantity*Price by hand. In the following articles we will customize application to do all  things automatically.</p>
+    <h4>Заключение</h4>
+    <p>Это простейший пример. ИТОГО нужно заполнять вручную. В дальнейшем мы доработаем приложение для автоматического расчета итогов.</p>
 
     </section>
 

@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Беижсофт™ ПО для быстрой разработки кроссс-платформенного финансового ПО с ВЕБ-интерфейсом.</title>
+    <title>Беижсофт™ ПО для быстрой разработки кросс-платформенного финансового ПО с ВЕБ-интерфейсом.</title>
    </properties>
 
   <body>
 
-    <section name="Пример простой системы заказа товара. Часть 1, базовая логика.">
+    <section name="Пример простой системы заказа товара. Часть 1, базовая бизнес логика.">
 
     <h4>ИС модели.</h4>
     <p>
@@ -17,8 +17,8 @@
       <ul>
         <li>Customer - Контрагент, имеет имя</li>
         <li>Merchandise - Номенклатура, имеет имя</li>
-        <li>Customer order - Заказ, имеет дату, контрагента, итого, строки с товаром</li>
-        <li>Customer order's line - Строка заказа, имеет товар, количество, цену, итого</li>
+        <li>CОrder - Заказ, имеет дату, контрагента, итого, строки с товаром</li>
+        <li>OrderLine - Строка заказа, имеет товар, количество, цену, итого</li>
       </ul>
     </p>
     
@@ -104,7 +104,7 @@
   
 &lt;/project&gt;
 </pre>
-<p>*<b>pom.xml</b> это главный файл в Мавен проекте. Он описывает библиотеку (Мавен артифакт): имя, группу, версию, тип архива (JAR в данном случае), используемые сторонние библиотеки (зависимости/dependencies).
+<p>*<b>pom.xml</b> это главный файл в Мавен проекте. Он описывает данную библиотеку (Мавен артифакт): имя, группу, версию, тип архива (JAR в данном случае), используемые сторонние библиотеки (зависимости/dependencies).
 JAR это стандартный Java архив содержащий скомпилированные Java классы и другие файлы - настройки в текстовых и XML файлах, изображения и прочее.
 </p>
 Затем создайте папки для исходного кода:
@@ -238,8 +238,8 @@ public class COrder extends AOrId {
 }
 </pre>
 <p>
-  * для избежания коллизий с именами СКЛ (SQL) нам нужно именовать модели и поля осторожно,
-  например если мы будем использовать "Order" для имени модели заказа то получим ошибку.
+  <b>* для избежания коллизий с именами СКЛ (SQL) нам нужно именовать модели и поля осторожно,
+  например если мы будем использовать "Order" для имени модели заказа то получим ошибку.</b>
 </p>
 Строка заказа:
 <pre style="white-space: pre-wrap;">
@@ -250,7 +250,7 @@ import java.math.BigDecimal;
 import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.mdlp.AOrId;
 
-public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
+public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&gt; {
   
   private COrder ownr;
   
@@ -296,8 +296,9 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   public final void setProduct(final Merchandise pProduct) {
     this.product = pProduct;
   }
+
   /**
-   * &lt;p&lt;Getter for itsQuantity.&lt;/p&lt;
+   * &lt;p&gt;Getter for itsQuantity.&lt;/p&gt;
    * @return BigDecimal
    **/
   public final BigDecimal getItsQuantity() {
@@ -305,7 +306,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Setter for itsQuantity.&lt;/p&lt;
+   * &lt;p&gt;Setter for itsQuantity.&lt;/p&gt;
    * @param pItsQuantity reference
    **/
   public final void setItsQuantity(final BigDecimal pItsQuantity) {
@@ -313,7 +314,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Getter for itsPrice.&lt;/p&lt;
+   * &lt;p&gt;Getter for itsPrice.&lt;/p&gt;
    * @return BigDecimal
    **/
   public final BigDecimal getItsPrice() {
@@ -321,7 +322,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Setter for itsPrice.&lt;/p&lt;
+   * &lt;p&gt;Setter for itsPrice.&lt;/p&gt;
    * @param pItsPrice reference
    **/
   public final void setItsPrice(final BigDecimal pItsPrice) {
@@ -329,7 +330,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Getter for itsAmount.&lt;/p&lt;
+   * &lt;p&gt;Getter for itsAmount.&lt;/p&gt;
    * @return BigDecimal
    **/
   public final BigDecimal getItsAmount() {
@@ -337,7 +338,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Setter for itsAmount.&lt;/p&lt;
+   * &lt;p&gt;Setter for itsAmount.&lt;/p&gt;
    * @param pItsAmount reference
    **/
   public final void setItsAmount(final BigDecimal pItsAmount) {
@@ -348,7 +349,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
     </p>
 
     <h4>Добавление XML конфигурации дли импорта полной копии БД</h4>
-    <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/src/main/resources/dbcp</b> в "myapp - src - main - resources - dbcp" и добавте 4 новых модели:
+    <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/src/main/resources/dbcp</b> в "myapp - src - main - resources - dbcp" и добавьте 4 новых модели:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -420,7 +421,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-ОРМ значит что вам не нужно делать SQL комманды вручную. Например для создания нового Merchandise в БД:
+ОРМ значит что вам не нужно делать SQL команды вручную. Например для создания нового Merchandise в БД:
 <pre style="white-space: pre-wrap;">
 Merchandise product1 = new Merchandise();
 product1.setNme("Продукт 1"); //Код будет сгенерирован автоматически
@@ -431,7 +432,7 @@ this.orm.insIdLn(product1); //ОРМ сама делает SQL insert коман
     <p>Затем скопируйте <b>cmnst.xml</b> из <b>beige-blc/sqlite</b> в "myapp - src - main - resources - sqlite" и измените имя базы данных:
 <pre style="white-space: pre-wrap;">
 ...
-&gt;entry key="dbUrl"&gt;jdbc:sqlite:#currentDir#myordering.sqlite&gt;/entry&gt;
+&lt;entry key="dbUrl"&gt;jdbc:sqlite:#currentDir#myordering.sqlite&lt;/entry&gt;
 ...
 </pre>
     </p>
@@ -483,7 +484,7 @@ this.orm.insIdLn(product1); //ОРМ сама делает SQL insert коман
 Он описывает какие поля должны быть заполнены и их порядок.
 Также сдесь указываются владеемые списки (строки) которые должны отображаться в форме редактирования владельца.
     </p>
-    <p>Затем добавте OrderLine.xml в "myapp - src - main - resources - uvd - clsCs"
+    <p>Затем добавьте OrderLine.xml в "myapp - src - main - resources - uvd - clsCs"
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -492,7 +493,7 @@ this.orm.insIdLn(product1); //ОРМ сама делает SQL insert коман
 &lt;/properties&gt;
 </pre>
     </p>
-    <p>Затем скопируйте cnToSt.xml из <b>beige-blc</b> в "myapp - src - main - resources - uvd - fldTyFs" добавте BigDecimal:
+    <p>Затем скопируйте cnToSt.xml из <b>beige-blc</b> в "myapp - src - main - resources - uvd - fldTyFs" добавьте BigDecimal:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -531,7 +532,7 @@ this.orm.insIdLn(product1); //ОРМ сама делает SQL insert коман
 </pre>
 Данный файл указывает какой виджет (JSP) будет использоваться для редактирования полей согласно их типу.
     </p>
-    <p>На данное время это все.</p>
+    <p>На данное время это все по базовой логике.</p>
 
     </section>
 

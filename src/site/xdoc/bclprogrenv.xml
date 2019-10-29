@@ -4,15 +4,15 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.</title>
+    <title>Beigesoft™ software (libraries) for rapid development of cross-platform financial WEB-applications.</title>
    </properties>
 
   <body>
 
     <section name="Installation of the programming environment.">
 
-    <p>The first rule about computer's (your data) safety is: "you must avoid unencrypted HTTP (without ending 'S'") resources".
-    If you download something from an unencrypted resource (HTTP), then you must at least check file's "CHECKSUM". It's usually SHA1, SHA256 or SHA512.
+    <p>The first rule about computer's (your data) safety is: "you must avoid unencrypted HTTP (without ending 'S') resources".
+    If you download an executable file from an unencrypted resource (HTTP), then you must at least check its "CHECKSUM". It's usually SHA1, SHA256 or SHA512.
     You must use software from official, well known sources. Sometimes search engines list scam resources at the fist lines.
     </p>
     <p>
@@ -38,7 +38,7 @@ export GPG_TTY=$(tty)
     </p>
 
     <h4>Installing JDK on MS Windows.</h4>
-    <p>You can use OpenJDK included in "Android Studio". You need Android Studio to make Android version. You should install it first.
+    <p>You can use OpenJDK included in "Android Studio". You need Android Studio to make the application for Android version. You should install it first.
       This is not difficult even for beginners, just download it from official Android site https://developer.android.com and install by default settings.
       You will no need to check its signature by hand, MS Windows will show it.
     </p>
@@ -75,18 +75,20 @@ wget https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3
 5. download Maven's signature:
 wget https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz.asc
 6. check signature:
-gpg --verify https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz.asc
+gpg --verify apache-maven-3.6.2-bin.tar.gz.asc
 </pre>
   On Unix like OS you have to download installation files under the ROOT user.
-  This guaranty that Only ROOT can change these binaries files.
+  This guaranty that only ROOT can change these binary files.
     </p>
 
     <h4>Installing Beige libraries sources.</h4>
-    <p>Just download the first release of beige-blc from https://github.com/demidenko05/beige-blc/releases and beige-web from https://github.com/demidenko05/beige-blc/releases. Then unpack them into "programmer/java" folder.</p>
+    <p>Just download the first release of beige-blc from https://github.com/demidenko05/beige-blc/releases and beige-web from https://github.com/demidenko05/beige-blc/releases. Then unpack them into "programmer/java" folder.
+    </p>
+    <p>* during unpacking ZIP archives on MS Windows may arise an error, so if not all needed files will be unpacked, then try tar.gz archive (7zip or 8zip)</p>
 
     
 
-    <h4>Making environment variables in MS Windows</h4>
+    <h4>Making environment variables on MS Windows</h4>
     <p>
       On MS Windows 10 open "Search" and type "env" then "Edit the system environment variables" will be listed, so choose it,
       "System Properties" window will be appeared,
@@ -105,11 +107,11 @@ gpg --verify https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache
     </p>
   
     <h4>Installing Maven artifacts - all 3-d party libraries.</h4>
-    <p>We need at least downloaded SQlite library for H2 datbase tool. Just open Power Shell in <b>beige-blc</b> folder
-     and type "mvn clean install". Maven will download all needed libraries into "C:\users\[your name]\.m2\repository".
+    <p>We need at least downloaded SQlite library for H2 datbase tool. Just open Power Shell in the source code <b>beige-blc</b> folder
+     and type "mvn clean install". Maven will download all needed libraries into "C:\users\[your name]\.m2\repository" on MS Windows or "[your home]/.m2/repository" on Unix-like OS.
     </p>
 
-    <h4>Making environment variable H2DRIVERS in MS Windows</h4>
+    <h4>Making environment variable H2DRIVERS on MS Windows</h4>
     <p>
       Open "System Properties" - "Environment variables" as described above,
       then add variable H2DRIVERS and choose just downloaded file "C:\users\[your name]\.m2\repository\org\xerial\sqlite-jdbc\3.21.0.1\sqlite-jdbc-3.21.0.1.jar".
@@ -118,7 +120,7 @@ gpg --verify https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache
 
     <h4>Installing Apache Tomcat</h4>
     <p>Install its latest 7.0.96 version from https://tomcat.apache.org/download-70.cgi by using the same way as Maven installation.
-    Copy these libraries into its "lib" folder from maven repository:
+    Copy these libraries into its "lib" folder from local Maven repository:
     <ul>
       <li>[path to maven local repository]\.m2\repository\org\xerial\sqlite-jdbc\3.21.0.1\sqlite-jdbc-3.21.0.1.jar</li>
       <li>[path to maven local repository]\.m2\repository\org\slf4j\slf4j-api\1.7.12\slf4j-api-1.7.12.jar</li>
@@ -128,12 +130,12 @@ gpg --verify https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache
     </p>
 
     <h4>Installing H2 database</h4>
-    <p>We never use H2 database. We will use its very useful SQL tool with WEB interface.
+    <p>We never use H2 database. We will use its very useful SQL tool with WEB interface (H2 console).
     Install it from https://www.h2database.com/html/download.html (last version platform independent ZIP, check its SHA1 and unpack it into "programmer\java" folder).
     </p>
 
     <h4>Installing text editor</h4>
-    <p>I recommend Geany https://www.geany.org/download/releases/ . On Linux you can install it "apt-get install geany".</p>
+    <p>I recommend Geany https://www.geany.org/download/releases/ . On Debian-like OS you can install it "apt-get install geany".</p>
     </section>
 
   </body>

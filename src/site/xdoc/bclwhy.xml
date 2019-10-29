@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="Why you should opt Beigesoft™ libraries.">
+    <section name="Why you should opt Beigesoft™ software (libraries).">
 
     <p>
       First, an application based on Beigesoft™ libraries works anywhere. All parts - ORM, PDF Writer (reporting tool), WEB-interface work on standard Java as well as on Android one.
@@ -18,7 +18,7 @@
       Second, they are fast. All parts work fast even on weak devices such as a smartphone. Beige WEB interface is based on JSP. JSP WEB-view technology is the same as PHP, ASPX, etc. This is the dominant WEB-view technology (mostly used).
       JSP is faster than PHP (and other script languages) because of compiling JSP into processor code on fly. Beige-PDF writer caches TTF fonts and makes PDF files with only used characters, so you will never get a huge PDF file or wait long for it.
       Standard ORM use "lazy initialization" to retrieve entity's fields. That means that it will be several SQL queries to retrieve whole model.
-      Beige ORM allow to retrieve whole model in one SQL query. One big SQL query that retrieves all data is faster then several small SQL queries that retrieve the same data.
+      Beige ORM allow to retrieve whole model in one SQL query (with JOINS). One big SQL query (exactly with JOINS) that retrieves all data is faster then several small SQL queries that retrieve the same data.
     </p>
     <p>
       Third, they allow to build quickly very complex business applications. You can check it by yourself by making the example application in the next articles.

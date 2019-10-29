@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications.</title>
+    <title>Beigesoft™ software (libraries) for rapid development of cross-platform financial WEB-applications.</title>
    </properties>
 
   <body>
 
-    <section name="Example of simple ordering application. Part 1, basic logic.">
+    <section name="Example of simple ordering application. Part 1, basic business logic.">
 
     <h4>Models.</h4>
     <p>
@@ -104,8 +104,8 @@
   
 &lt;/project&gt;
 </pre>
-<p>*<b>pom.xml</b> is the main file of any Maven project. It describes about project artifact: its name, group, version, packaging (JAR in this case), used 3-d party libraries (dependencies).
-JAR libraries is the standard Java archive, that contains of all compiled Java classes and other files - properties in text or XML files, images,  etc.
+<p>*<b>pom.xml</b> is the main file of any Maven project. It describes about this project artifact: its name, group, version, packaging (JAR in this case), used 3-d party libraries (dependencies).
+Any JAR file is a standard Java archive, that contains of all compiled Java classes and other files - properties in text or XML files, images,  etc.
 </p>
 Then create folders for source code:
 <pre style="white-space: pre-wrap;">
@@ -129,8 +129,8 @@ public class Customer extends AIdLnNm {
 }
 </pre>
 <p>
-  * any Java class has fields (properties), e.g. property <b>nme</b> of type String that holds Name value. These properties accessed via methods <b>Getters</b> and <b>Setters</b>,
-  e.g. for property "nme" method "getNme()" returns its value, and setNme(String pValue) set its value.
+  * any Java class has fields (properties), e.g. property <b>nme</b> of type String that holds Name value. These properties is accessed via methods <b>Getters</b> and <b>Setters</b>,
+  e.g. for property "nme" method "getNme()" returns its value, and setNme(String pValue) sets its value.
 </p>
 <p>
   * Java word <b>extends</b> means that this class extends another class (AIdLnNm in this case). As a result, extending class inherits (will have) all fields and methods of extended class.
@@ -238,8 +238,8 @@ public class COrder extends AOrId {
 }
 </pre>
 <p>
-  * to avoid names colligion (with SQL special words) you should name entities and its fields carefully,
-  e.g. if you name this entity as "Order", then it will be error.
+  <b>* to avoid names collisions (with SQL special words) you should name entities and its fields carefully,
+  e.g. if you name this entity as "Order", then it will be error.</b>
 </p>
 Its line will be:
 <pre style="white-space: pre-wrap;">
@@ -250,7 +250,7 @@ import java.math.BigDecimal;
 import org.beigesoft.mdl.IOwnedOr;
 import org.beigesoft.mdlp.AOrId;
 
-public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
+public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&gt; {
   
   private COrder ownr;
   
@@ -296,8 +296,9 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   public final void setProduct(final Merchandise pProduct) {
     this.product = pProduct;
   }
+
   /**
-   * &lt;p&lt;Getter for itsQuantity.&lt;/p&lt;
+   * &lt;p&gt;Getter for itsQuantity.&lt;/p&gt;
    * @return BigDecimal
    **/
   public final BigDecimal getItsQuantity() {
@@ -305,7 +306,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Setter for itsQuantity.&lt;/p&lt;
+   * &lt;p&gt;Setter for itsQuantity.&lt;/p&gt;
    * @param pItsQuantity reference
    **/
   public final void setItsQuantity(final BigDecimal pItsQuantity) {
@@ -313,7 +314,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Getter for itsPrice.&lt;/p&lt;
+   * &lt;p&gt;Getter for itsPrice.&lt;/p&gt;
    * @return BigDecimal
    **/
   public final BigDecimal getItsPrice() {
@@ -321,7 +322,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Setter for itsPrice.&lt;/p&lt;
+   * &lt;p&gt;Setter for itsPrice.&lt;/p&gt;
    * @param pItsPrice reference
    **/
   public final void setItsPrice(final BigDecimal pItsPrice) {
@@ -329,7 +330,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Getter for itsAmount.&lt;/p&lt;
+   * &lt;p&gt;Getter for itsAmount.&lt;/p&gt;
    * @return BigDecimal
    **/
   public final BigDecimal getItsAmount() {
@@ -337,7 +338,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&lt; {
   }
 
   /**
-   * &lt;p&lt;Setter for itsAmount.&lt;/p&lt;
+   * &lt;p&gt;Setter for itsAmount.&lt;/p&gt;
    * @param pItsAmount reference
    **/
   public final void setItsAmount(final BigDecimal pItsAmount) {
@@ -420,18 +421,18 @@ The order is essential! E.g. OrderLine is the last because it contains Merchandi
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-ORM means that you will no care about making SQL commands by yourself. For example to insert new Merchandise into database just write this code:
+ORM means that you will not care about making SQL commands by yourself. For example to insert new Merchandise into database just write this code:
 <pre style="white-space: pre-wrap;">
 Merchandise product1 = new Merchandise();
 product1.setNme("Product 1"); //ID will be generated automatically
-this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and set new generated ID for this product
+this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and sets new generated ID for this product
 </pre>
     </p>
 
     <p>Then copy <b>cmnst.xml</b> from <b>beige-blc/sqlite</b> into "myapp - src - main - resources - sqlite" and change database name:
 <pre style="white-space: pre-wrap;">
 ...
-&gt;entry key="dbUrl"&gt;jdbc:sqlite:#currentDir#myordering.sqlite&gt;/entry&gt;
+&lt;entry key="dbUrl"&gt;jdbc:sqlite:#currentDir#myordering.sqlite&lt;/entry&gt;
 ...
 </pre>
     </p>
@@ -531,7 +532,7 @@ It describes which HTML to string widget (JSP) will be used for a field dependin
 </pre>
 It describes which HTML input widget (JSP) will be used for a field depending on its type.
     </p>
-    <p>That is all at this time.</p>
+    <p>That is all about basic logic at this time.</p>
 
     </section>
 
