@@ -83,14 +83,14 @@
               
         <p>Benefits:</p>
         <ul>
-          <li>It packs TTF font with only used characters. Even DeJaVue.TTF is 800KB, so without packing resulting PDF file is big. Asian languages (with hieroglyphs) TTF files are extremely huge.</li>
+          <li>It packs TTF font with only used characters. Asian languages (with hieroglyphs) TTF files are extremely huge.</li>
           <li>Ready for high load job. Performance test's (thread per invoice) results show that making 100 invoices (3pages each) takes less than 4 seconds on a regular notebook.</li>
           <li>There are not 3-d party libraries. Beigesoft™ Document Writer, Swing/Android graphics libraries, Logger are licensed under truly free GPLv2 and BSD 2-clause.</li>
         </ul>
-        Although Beigesoft™ PDF Writer hasn't yet implemented graphic charts and other features, and it has no visual editor, it's really enough to create complex black and white (including non-masked RGB images) business reports quickly.
+        Although Beigesoft™ PDF Writer hasn't yet implemented graphic charts and other features, and it has no visual editor, it's really reliable to create complex black and white (including non-masked RGB images) business reports quickly.
         Visual editor is planned to be the same as MS Word or LibreOffice Writer. Here are PDF files for example:
         <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjM3YTU4MWFmNDNiYzZmYjk">Invoice sample</a> <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjNhZDczYWU4OWE2MDU3ODQ">Счет-фактура</a> <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjE4MTA3ODM1NTg3MTAyNzQ">Платежное поручение</a>
-
+        These sample reports clearly show abilities of this reporting tool. Source code that makes these reports is in <b>test</b> folder of the project's source.
       <h4>A-Jetty</h4>
       <p>A-Jetty is Jetty 9.2 adapted for Android, it can run precompiled JSP/JSTL. It works on Android Java as well as on standard Java 7+.</p>
       <p>
@@ -109,20 +109,20 @@
       </p>
 
       <h4>Beige-UML</h4>
-<p>Beige-UML is an UML diagram editor. It has two user interfaces - standard desktop SWING and Android.</p>
+<p>Beige-UML is a free, open source UML diagram editor. It has two user interfaces - standard desktop SWING one and Android one.</p>
 <p>Features:</p>
   <ol>
     <li>It supports UML 2.4.1 compliant class diagram, package diagram, object diagram, sequence diagram and use case diagram.</li>
     <li>It generates UML class diagram from Java classes.</li>
-    <li>It's a doclet that generates standard Javadoc with UML class diagram.</li>
+    <li>It's a doclet that generates standard Javadoc with editable UML class diagrams.</li>
   </ol>
-<p>Using Beige-UML to generate Javadocs has a disadvantage - the resulting UML diagrams are PNG files,
-  so they are increasing Javadoc files size too much. Beige-UML is planned to be ported into Beigesoft Document Writer,
-  and writing to javadocs will be in SVG format (external file or html5 SVG).</p>
+<p>This is the first free, truly cross-platform UML editor that can make a reliable (real-life) UML class diagram (with a frame, many classes and BUS-relationships). For non-huge projects generated Java-docs with PNG diagrams (with editable sources) is also reliable thing. Some customers demand this (that Beige-UML can do, but another free UML editors can't).
+This is for programmers, so fill free to improve this project - add other diagrams, make Java-doc with SVG diagrams.
+</p>
 <p>This application you can download from <a href="https://repo1.maven.org/maven2/org/beigesoft/beige-uml-swing/">https://repo1.maven.org/maven2/org/beigesoft/beige-uml-swing/</a>
   There <b>beige-uml-swing-[VERSION]-jar-with-dependencies.jar</b> is Swing application.
   Android version you can find in Google Play Store. Its source code you can download from <a href="https://github.com/demidenko05/beige-uml">https://github.com/demidenko05/beige-uml</a></p>
-<p>Source of beige-android-demo (demo of Android tree/file-chooser, list-chooser etc.) you can find at <a href="http://sourceforge.net/projects/beigeuml/">http://sourceforge.net/projects/beigeuml/</a></p>
+<p>Demo project <b>DemoUML.zip</b> and source of beige-android-demo (demo of Android tree/file-chooser, list-chooser etc.) you can find at <a href="http://sourceforge.net/projects/beigeuml/">http://sourceforge.net/projects/beigeuml/</a></p>
 <p> <a href="https://sites.google.com/site/beigesoftware/gettingstartedgui">Beige UML getting started.</a> </p>
             
     <p>
