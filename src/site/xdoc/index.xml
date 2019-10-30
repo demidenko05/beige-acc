@@ -79,7 +79,7 @@
         <h4>Beigesoft™ PDF Writer.</h4>
               
         <p>This is light-weight (all JARs size is about 250KB), international friendly and fast PDF writer. This is actually reporting tool. It automatically makes pagination, tables (e.g. repeating header on every page).
-         It's cross-platform writer - Standard Java and Android.</p>
+         It's cross-platform writer - Standard Java and Android one.</p>
               
         <p>Benefits:</p>
         <ul>
@@ -90,6 +90,7 @@
         Although Beigesoft™ PDF Writer hasn't yet implemented graphic charts and other features, and it has no visual editor, it's really reliable to create complex black and white (including non-masked RGB images) business reports quickly.
         Visual editor is planned to be the same as MS Word or LibreOffice Writer. Here are PDF files for example:
         <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjM3YTU4MWFmNDNiYzZmYjk">Invoice sample</a> <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjNhZDczYWU4OWE2MDU3ODQ">Счет-фактура</a> <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjE4MTA3ODM1NTg3MTAyNzQ">Платежное поручение</a>
+        <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OmY1M2JjYjM4NTY2YTRlYw">Example of partially internationalized invoice with "VL-Gothic-Regular.ttf" (Japanese)</a>
         These sample reports clearly show abilities of this reporting tool. Source code that makes these reports is in <b>test</b> folder of the project's source.
       <h4>A-Jetty</h4>
       <p>A-Jetty is Jetty 9.2 adapted for Android, it can run precompiled JSP/JSTL. It works on Android Java as well as on standard Java 7+.</p>
@@ -117,7 +118,7 @@
     <li>It's a doclet that generates standard Javadoc with editable UML class diagrams.</li>
   </ol>
 <p>This is the first free, truly cross-platform UML editor that can make a reliable (real-life) UML class diagram (with a frame, many classes and BUS-relationships). For non-huge projects generated Java-docs with PNG diagrams (with editable sources) is also reliable thing. Some customers demand this (that Beige-UML can do, but another free UML editors can't).
-This is for programmers, so fill free to improve this project - add other diagrams, make Java-doc with SVG diagrams.
+This is for programmers, so feel free to improve this project - add other diagrams, make Java-doc with SVG diagrams.
 </p>
 <p>This application you can download from <a href="https://repo1.maven.org/maven2/org/beigesoft/beige-uml-swing/">https://repo1.maven.org/maven2/org/beigesoft/beige-uml-swing/</a>
   There <b>beige-uml-swing-[VERSION]-jar-with-dependencies.jar</b> is Swing application.
@@ -125,12 +126,6 @@ This is for programmers, so fill free to improve this project - add other diagra
 <p>Demo project <b>DemoUML.zip</b> and source of beige-android-demo (demo of Android tree/file-chooser, list-chooser etc.) you can find at <a href="http://sourceforge.net/projects/beigeuml/">http://sourceforge.net/projects/beigeuml/</a></p>
 <p> <a href="https://sites.google.com/site/beigesoftware/gettingstartedgui">Beige UML getting started.</a> </p>
             
-    <p>
-      * Address http://www.beigesoft.org was switched off for security (safety) reasons.
-      Any HTML page comes to your browser by passing through several intermediate Internet servers.
-      If any intermediate server is affected by harmful software, then it can changes content and injects harmful script into HTML page
-      because HTTP is an unencrypted transport.
-    </p>
     </section>
 
   </body>
