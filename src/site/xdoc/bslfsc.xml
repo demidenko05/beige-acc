@@ -14,7 +14,7 @@
     <h5>Why make Linux from source code?</h5>
 <p>
 The most Linux distributives are provided as binary packages.
-Many Linux providers stop provide 32bit versions. Sometime they provide non-well updates, and it's take a time to resolve problems (issues).
+Many Linux vendors stop provide 32bit versions. Sometime they provide non-well updates, and it's take a time to resolve problems (issues).
 So, at first, it's about achieving independence and reliability.
 </p>
 
@@ -22,28 +22,34 @@ So, at first, it's about achieving independence and reliability.
 <p>
   The first method is native building into current root "/". You can compile by this method any high-level application, e.g. a music player.
   It's need building environment to do this. This is minimum set of program and libraries - glibc, gcc, binutils, bash...
-  To make this building environment from scratch you should use cross compiling.
+  To make this building environment from source code you should use cross compiling.
 </p>
 <p>
   The second, but actually the main method, is cross-compiling. This is building binary into different root even for different architecture, e.g. building for ARM (tablet OS) on a x86 PC.
-  There are two main standard variables to do this: "sysroot" and "DESTDIR".
+  There are four main standard variables to do this:
+  <ul>
+    <li>--sysroot - tells compiler where search headers, and linker where search libs (where is new sysroot)</li>
+    <li>DESTDIR - tells "make" where new root directory to install this software</li>
+    <li>--host - tells "configure" what target (built/compiled) architecture</li>
+    <li>--build - tells "configure" what building(compiling) architecture, without "configure" will think that it's a native compiling, and "host" just point to proper sub-architecture, e.g. i786-pc-linux-gnu</li>
+  </ul>
+  There is also "--target" for building compiler tools for cross-compiling (gcc, binutils).
 </p>
 
 <p>The main problem is that even some low level software doesn't respect cross compiling.
-For example ACL try to install few man pages links into the building root, it's fixed by setting variable PKG_MAN_DIR.
-Others software run just compiled libraries for building itself, so it will fail for different architecture target.
-Because of it the next version of LFSC will use "non-root" installing.
+For example built software may run just compiled libraries for building itself, so it will fail for different architecture target.
 Version 1.1 uses su root -c "make DESTDIR=$LFSC install", so you should use it on separate building Linux,
 or remove "su root" from scripts and make it according version 1.
+The next versions of LFSC will use "non-root" installing.
 </p>
 
 <p>
-  It's used pure "cross-compiling" method for making Beigesoft™ Linux From Source Code, that is for both low and high level software.
+  It's used pure "cross-compiling" method for making Beigesoft™ Linux From Source Code, that is for both low-level and high-level software.
   Right now LFSC has no building environment (gcc, make, ld, etc).
 </p>
 
 <p>
-The work was done on Debian 9. It already has cross-compilers for any architecture.
+The work was done on Debian 9. It already has cross-compilers for all architectures.
 </p>
 
 <p>
