@@ -25,7 +25,8 @@ So, at first, it's about achieving independence and reliability.
   To make this building environment from source code you should use cross compiling.
 </p>
 <p>
-  The second, but actually the main method, is cross-compiling. This is building binary into different root even for different architecture, e.g. building for ARM (tablet OS) on a x86 PC.
+  The second is cross-compiling. This is building binary into different root even for different architecture, e.g. building for ARM (tablet OS) on a x86 PC.
+  This is only method for tablet's/mobile's OS.
   There are four main standard variables to do this:
   <ul>
     <li>--sysroot - tells compiler where search headers, and linker where search libs (where is new sysroot)</li>
@@ -35,17 +36,26 @@ So, at first, it's about achieving independence and reliability.
   </ul>
   There is also "--target" for building compiler tools for cross-compiling (gcc, binutils).
 </p>
+<p>There is also compiling with CHROOT method, LFS uses it.</p>
 
 <p>The main problem is that even some low level software doesn't respect cross compiling.
 For example built software may run just compiled libraries for building itself, so it will fail for different architecture target.
-Version 1.1 uses su root -c "make DESTDIR=$LFSC install", so you should use it on separate building Linux,
-or remove "su root" from scripts and make it according version 1.
-The next versions of LFSC will use "non-root" installing.
+Even though CHROOT method often faces such problems, e.g. coreutils's error help2man: can't get `--help' info from man/dir.td/dir.
+It seems that the cause is confusing about native and target libraries/settings files.
+Testing is also the problem (in case of cross-compiling for ordinary computer).
+Of course, special building systems for tablet's OS handle those problems.
 </p>
 
 <p>
-  It's used pure "cross-compiling" method for making Beigesoft™ Linux From Source Code, that is for both low-level and high-level software.
-  Right now LFSC has no building environment (gcc, make, ld, etc).
+  It's used pure "cross-compiling" method for making Beigesoft™ Linux From Source Code 1.2, that is for both low-level and high-level software.
+  Classic building (native compiling on regular computer) deal with already installed libraries. It's often deal with cross-dependencies.
+  Even though the base library GLIBC requires SELINUX for supporting it (of course, it's never linked to libselinux), so it's needs twice compiling of software that requires cross-dependencies.
+  Facing two facts - "twice compiling cause cross-depending" and "cross-testing problem" leads to proper way of building LFSC:
+  <ol>
+    <li>pure cross-compiling including building software (gcc, binutils, make, etc.), i.e. making raw LFSC</li>
+    <li>pure native-compiling (including tests and cross-dependency) all software again on newly born raw LFSC</li>
+  </ol>
+  So next version 1.3 will include building tools.
 </p>
 
 <p>
