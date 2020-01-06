@@ -38,8 +38,10 @@ So, at first, it's about achieving independence and reliability.
 </p>
 <p>There is also compiling with CHROOT method, LFS uses it.</p>
 
-<p>The main problem is that even some low level software doesn't respect cross compiling.
-For example built software may run just compiled libraries for building itself, so it will fail for different architecture target.
+<p>The main problem is that even low level software doesn't respect cross compiling with "--sysroot" method.
+Only compilers properly treat "--sysroot", i.e. they search headers in the "target root". Native LDD treats  "--sysroot" as "additional root", so you must pass "-L[DIR]" to change priority of target libs.
+Autotools also mix native and target roots.
+Built(compiled) software may run just compiled libraries for building itself, so it will fail for different architecture target.
 Even though CHROOT method often faces such problems, e.g. coreutils's error help2man: can't get `--help' info from man/dir.td/dir.
 It seems that the cause is confusing about native and target libraries/settings files.
 Testing is also the problem (in case of cross-compiling for ordinary computer).
@@ -47,15 +49,14 @@ Of course, special building systems for tablet's OS handle those problems.
 </p>
 
 <p>
-  It's used pure "cross-compiling" method for making Beigesoft™ Linux From Source Code 1.2, that is for both low-level and high-level software.
+  It's used pure "cross-compiling" method for making Beigesoft™ Linux From Source Code 1.3 64-bit multi-arch. GCC can compile 32 and 64 bit programs, x32 is not yet worked.
   Classic building (native compiling on regular computer) deal with already installed libraries. It's often deal with cross-dependencies.
-  Even though the base library GLIBC requires SELINUX for supporting it (of course, it's never linked to libselinux), so it's needs twice compiling of software that requires cross-dependencies.
+  Even though the main library GLIBC requires SELINUX for supporting it (of course, it's never linked to libselinux), so it's needs twice compiling of software that requires cross-dependencies.
   Facing two facts - "twice compiling cause cross-depending" and "cross-testing problem" leads to proper way of building LFSC:
   <ol>
     <li>pure cross-compiling including building software (gcc, binutils, make, etc.), i.e. making raw LFSC</li>
     <li>pure native-compiling (including tests and cross-dependency) all software again on newly born raw LFSC</li>
   </ol>
-  So next version 1.3 will include building tools.
 </p>
 
 <p>
@@ -68,7 +69,7 @@ You can download source code (set of bash-scripts and instructions) from <a href
 <p>
 References:
 <ul>
-  <li><a href="https://wiki.debian.org/Multiarch">about cross-compiling https://wiki.debian.org/Multiarch</a></li>
+  <li><a href="https://wiki.debian.org/Multiarch">about multi-arch/cross-compiling https://wiki.debian.org/Multiarch</a></li>
   <li>Linux From Scratch (LFS) http://www.linuxfromscratch.org</li>
   <li><a href="https://trac.clfs.org/">Cross-Compiled Linux From Scratch https://trac.clfs.org/</a></li>
   <li><a href="https://www.linuxjournal.com/content/diy-build-custom-minimal-linux-distribution-source">DIY: Build a Custom Minimal Linux Distribution from Source by Petros Koutoupis</a></li>
