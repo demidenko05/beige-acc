@@ -37,9 +37,10 @@ So, at first, it's about achieving independence and reliability.
   There is also "--target" for building compiler tools for cross-compiling (gcc, binutils).
 </p>
 <p>There is also compiling with CHROOT method, LFS uses it.</p>
+<p>Autotools's --host, --build and --target vars are also used for compiling for current computer multi-arch tools and libs.</p>
 
 <p>The main problem is that even low level software doesn't respect cross compiling with "--sysroot" method.
-Only compilers properly treat "--sysroot", i.e. they search headers in the "target root". Native LDD treats  "--sysroot" as "additional root", so you must pass "-L[DIR]" to change priority of target libs.
+Only compilers properly treat "--sysroot", i.e. they search headers in the "target root". Native LD treats  "--sysroot" as "additional root", so you must pass "-L[DIR]" to change priority of target libs.
 Autotools also mix native and target roots.
 Built(compiled) software may run just compiled libraries for building itself, so it will fail for different architecture target.
 Even though CHROOT method often faces such problems, e.g. coreutils's error help2man: can't get `--help' info from man/dir.td/dir.
@@ -49,14 +50,15 @@ Of course, special building systems for tablet's OS handle those problems.
 </p>
 
 <p>
-  It's used pure "cross-compiling" method for making Beigesoft™ Linux From Source Code 1.3 64-bit multi-arch. GCC can compile 32 and 64 bit programs, x32 is not yet worked.
-  Classic building (native compiling on regular computer) deal with already installed libraries. It's often deal with cross-dependencies.
+  Classic building (native compiling on regular computer) deal with already installed libraries. It's often deal with cross (mutual) dependencies, e.g. compiling SYSTEMD depends on DBUS and vice versa.
   Even though the main library GLIBC requires SELINUX for supporting it (of course, it's never linked to libselinux), so it's needs twice compiling of software that requires cross-dependencies.
-  Facing two facts - "twice compiling cause cross-depending" and "cross-testing problem" leads to proper way of building LFSC:
+  Facing two facts - "twice compiling cause cross(mutual) depending" and "cross-testing problem" leads to proper way of building LFSC:
   <ol>
-    <li>pure cross-compiling including building software (gcc, binutils, make, etc.), i.e. making raw LFSC</li>
-    <li>pure native-compiling (including tests and cross-dependency) all software again on newly born raw LFSC</li>
+    <li>pure cross-compiling (without chroot) including building software (gcc, binutils, make, etc.), i.e. making raw LFSC</li>
+    <li>pure native-compiling (including tests and cross(mutual) dependences) all software again on newly born raw LFSC</li>
   </ol>
+  It's used truly "cross-compiling" (without chroot) then "native-compiling" methods for making Beigesoft™ Linux From Source Code multi-arch (64/32bit) since version 1.5.
+  32bit libs (i386) are needed for Android developing. x32 seems to be useless.
 </p>
 
 <p>
