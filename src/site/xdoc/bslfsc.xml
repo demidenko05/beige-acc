@@ -50,9 +50,9 @@ Of course, special building systems for tablet's OS handle those problems.
 </p>
 
 <p>
-  Classic building (native compiling on regular computer) deal with already installed libraries. It's often deal with cross (mutual) dependencies, e.g. compiling SYSTEMD depends on DBUS and vice versa.
-  Even though the main library GLIBC requires SELINUX for supporting it (of course, it's never linked to libselinux), so it's needs twice compiling of software that requires cross-dependencies.
-  Facing two facts - "twice compiling cause cross(mutual) depending" and "cross-testing problem" leads to proper way of building LFSC:
+  Classic building (native compiling on regular computer) deals with already installed libraries. It's often deal with cross (mutual) dependencies, e.g. compiling SYSTEMD depends on DBUS and vice versa.
+  Even though the main library GLIBC requires SELINUX for supporting it (of course, it's never be linked to libselinux), so repeated compiling is needed for software with cross(mutual)-dependencies.
+  Facing two facts - "repeated compiling cause cross(mutual) depending" and "cross-testing problem" leads to proper way of building LFSC:
   <ol>
     <li>pure cross-compiling (without chroot) including building software (gcc, binutils, make, etc.), i.e. making raw LFSC</li>
     <li>pure native-compiling (including tests and cross(mutual) dependences) all software again on newly born raw LFSC</li>
