@@ -18,7 +18,7 @@ Many Linux vendors stop provide 32bit versions. Sometime they provide non-well u
 So, at first, it's about achieving independence and reliability.
 </p>
 
-<h5>What building/compiling methods exists?</h5>
+<h5>What building/compiling methods exist?</h5>
 <p>
   The first method is native building into current root "/". You can compile by this method any high-level application, e.g. a music player.
   It's need building environment to do this. This is minimum set of program and libraries - glibc, gcc, binutils, bash...
@@ -36,7 +36,7 @@ So, at first, it's about achieving independence and reliability.
   </ul>
   There is also "--target" for building compiler tools for cross-compiling (gcc, binutils).
 </p>
-<p>There is also compiling with CHROOT method, LFS uses it.</p>
+<p>There is also compiling with CHROOT method, it is native-like method, LFS uses it. This method can't be used for different architecture or for too different versions of compiling and compiled (target) systems, e.g. compiling (build) kernel4 and glibc24 and compiling kernel5 and glibc31(with minimum kernel 5).</p>
 <p>Autotools's --host, --build and --target vars are also used for compiling for current computer multi-arch tools and libs.</p>
 
 <p>The main problem is that even low level software doesn't respect cross compiling with "--sysroot" method.
@@ -52,6 +52,7 @@ Of course, special building systems for tablet's OS handle those problems.
 <p>
   Classic building (native compiling on regular computer) deals with already installed libraries. It's often deal with cross (mutual) dependencies, e.g. compiling SYSTEMD depends on DBUS and vice versa.
   Even though the main library GLIBC requires SELINUX for supporting it (of course, it's never be linked to libselinux), so repeated compiling is needed for software with cross(mutual)-dependencies.
+  You can check it by configuring GLIBC with "--with-selinux", it will blame if SELinux library not found.
   Facing two facts - "repeated compiling cause cross(mutual) depending" and "cross-testing problem" leads to proper way of building LFSC:
   <ol>
     <li>pure cross-compiling (without chroot) including building software (gcc, binutils, make, etc.), i.e. making raw LFSC</li>
@@ -60,9 +61,19 @@ Of course, special building systems for tablet's OS handle those problems.
   It's used truly "cross-compiling" (without chroot) then "native-compiling" methods for making Beigesoft™ Linux From Source Code multi-arch (64/32bit) since version 1.5.
   32bit libs (i386) are needed for Android developing. x32 seems to be useless.
 </p>
+<p>
+  Because of cross-compiling is difficult in many cases, since version 1.6 LFSC is built in this way:
+  <ol>
+    <li>cross-compiling minimal self-build-able Linux with building software (gcc, binutils, make, etc.) without many ones like systemd. It will be kernel, bash (as init program), nano, m4...</li>
+    <li>native-compiling stage 1 without testing up to systemd and dbus on init-bash booted LFSC.</li>
+    <li>native-compiling/recompiling all stage 2 (including tests and cross(mutual) dependences) all other software on init-systemd booted LFSC</li>
+  </ol>
+  Since version 1.6 it's used the newest software source code to build LFSC, e.g. Kernel-5.5.2, GLIBC-2.31, SystemD-244, Gcc-9.2.0...
+  Building system is still the same - Debian 9.
+</p>
 
 <p>
-The work was done on Debian 9. It already has cross-compilers for all architectures.
+The work was done on Debian 9. It already has cross-compilers for most architectures.
 </p>
 
 <p>
