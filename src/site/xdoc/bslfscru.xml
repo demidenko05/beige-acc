@@ -72,6 +72,10 @@
 Работа была проделана на Debian 9. Он имеет кросс-компиляторы для большинства архитектур.
 </p>
 
+
+  <p>Снимок экрана ЛИИК 1.8:</p>
+  <p align="center"><img style="max-width: 100%" src="images/lfsc18a.png" /></p>
+
 <p>
 Исходные коды (набор bash-скриптов и инструкции): <a href="https://sourceforge.net/projects/linux-from-source-code/">https://sourceforge.net/projects/linux-from-source-code/</a>
 </p>

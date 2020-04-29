@@ -36,7 +36,7 @@ So, at first, it's about achieving independence and reliability.
   </ul>
   There is also "--target" for building compiler tools for cross-compiling (gcc, binutils).
 </p>
-<p>There is also compiling with CHROOT method, it is native-like method, LFS uses it. This method can't be used for different architecture or for too different versions of compiling and compiled (target) systems, e.g. compiling (build) kernel4 and glibc24 and compiling kernel5 and glibc31(with minimum kernel 5).</p>
+<p>There is also compiling with CHROOT method, it is native-like method, LFS uses it. This method can't be used for different architecture or for too different versions of compiling and compiled (target) systems, e.g. compiling Linux has kernel4 and glibc2.24, but compiled Linux has kernel5 and glibc2.31(with minimum kernel 5).</p>
 <p>Autotools's --host, --build and --target vars are also used for compiling for current computer multi-arch tools and libs.</p>
 
 <p>The main problem is that even low level software doesn't respect cross compiling with "--sysroot" method.
@@ -71,6 +71,9 @@ Of course, special building systems for tablet's OS handle those problems.
   Since version 1.6 it's used the newest software source code to build LFSC, e.g. Kernel-5.5.2, GLIBC-2.31, SystemD-244, Gcc-9.2.0...
   Building system is still the same - Debian 9.
 </p>
+
+  <p>Screenshot LFSC 1.8:</p>
+  <p align="center"><img style="max-width: 100%" src="images/lfsc18a.png" /></p>
 
 <p>
 The work was done on Debian 9. It already has cross-compilers for most architectures.

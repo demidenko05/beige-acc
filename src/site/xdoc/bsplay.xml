@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™ multimedia player (bsplay).</title>
+   </properties>
+
+  <body>
+
+    <h4>Beigesoft™ multimedia player (bsplay).</h4>
+    <p>Beigesoft™ bsplay is FFMPEG/GTK2 based multimedia player.</p>
+    
+    <h5>Why BSPLAY?</h5>
+<p>
+FFMPEG plus ALSA, Xorg (standard graphic and video libs) are enough for playing any audio/video file and Internet stream.
+ffmpeg's ffplay can play any media,
+but it's really needed to manage audio play lists.
+Also, GUI is mandatory for further mobile/tablet version of LFSC or for any other mobile Linux.
+BSPLAY's GUI is designed for using in mobile view.
+</p>
+
+<p>
+<h5>features:</h5>
+<ul>
+  <li>Adding set of files (including m3u lists) into play-list</li>
+  <li>Moving items inside play-list</li>
+  <li>Saving play-list into a m3u file</li>
+  <li>Loop all playing</li>
+  <li>Random playing</li>
+  <li>Subtitles file must has the same base name as video one to be opened automatically</li>
+  <li>Go to position HH:MM:SS (seek), it's useful to continue watching a video</li>
+  <li>It prevents screen-locking during playing or pause!</li>
+  <li>To play Internet stream, you need to add in a m3u list direct HTTP address (not m3u8)</li>
+  <li>During video playing, ffplay's hot-key interface is available (e.g. space - pause, right seek...)</li>
+</ul>
+</p>
+
+  <p>Screenshots:</p>
+  <p align="center"><img style="max-width: 100%" src="images/bsplay-aud.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="images/bsplay-vid.png" /></p>
+
+<p>
+You can download source code from <a href="https://sourceforge.net/projects/bsplay/">https://sourceforge.net/projects/bsplay/</a>
+</p>
+
+
+
+  </body>
+
+</document>
