@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™. Type-safe programming complex programs in C.</title>
+   </properties>
+
+  <body>
+
+<h4>Beigesoft™. Type-safe programming complex programs in C.</h4>
+
+<p>This is about how to make complex programs in C in optimal way. Using C in this way to create complex applications seems to be more optimal than using OOP C++ language.</p>
+<p>
+This is also about programming "static" programs, i.e. that can be changed only during software update.
+Such complex high-performance programs are suitable for working in weak device like mobile phone.
+For enterprise-like application program languages like Java are the choice, because we can change and dynamically load (replace or add) any service (e.g. a form renderer) in a never-stop enterprise application.
+For LFSC static applications like media-player, dictionary C is the choice.
+C is actually the most used language in a regular Linux distribution (kernel itself, glibc, gtk...).
+</p>
+<p>
+We should consider these facts for maximum type-safe approach in a C-program:
+<ul>
+  <li>there are libs and a client program that use these libs</li>
+  <li>a lib consists of data models and methods dedicated to work with these data models</li>
+  <li>direct access of lib's data models (e.g. shape->x1=1.23) in client is wrong approach, it must be used dedicated lib's methods for it</li>
+  <li>by using different kind of methods and data models we can achieve any high-level programming approach (e.g. polymorphism) in type-safe way</li>
+  <li>checking object (data-model) type during runtime (it do all OOP languages, GLIB...) is never optimal approach</li>
+  <li>by using different kind of type-safe approaches we can guarantee that a whole program is type-safe in compile time, so checking object (data-model) type during runtime is redundant</li>
+</ul>
+</p>
+
+  <h5>Example #1. How to achieve type-safe programming of polymorphism in C.</h5>
+<p>
+There are drawable objects (shapes) - triangle, square, circle.
+There is pane to show (draw) these objects.
+Any object has type-safe methods "int SHAPE_draw(SHAPE*)" and "SHAPE *SHAPE_new(SHAPE_ARGS)" (e.g. "int triangle_draw(triangle*)" and "triangle *triangle_new(int x1, int y1, int x2, int y2, int x3, int y3)")
+Pane has all type-unsafe pointers same-size arrays to these objects and their corresponding methods, i.e. void ** shapes and int(**draw)(void).
+Pane has methods "pane *pane_new(int total_objects)" "int pane_free(pain*)" "int pain_redraw_all()".
+Any object has type-safe method to add itself into the pane, e.g. int triangle_add_to_pane(pane*, triangle*).
+Of course the ONLY "type-unsafe" code is in adding shape into pane method, there we cast SHAPE*->void*. And ONLY such method may cause TYPE-UNSAFE error (e.g. triangle data is putted into index 3, but method is putted into index 4), that can be detected very easily in test phase.
+Shapes and Pane are library. Client - final program use ONLY lib's methods and never access shape's data directly, so client knows only about data name (never about data structure) and all methods.
+Client example:
+<pre style="white-space: pre-wrap;">
+...
+include triangle.h
+include pane.h
+...
+Pane *pane = pane_new(4);
+TRIANGLE_CREATE(tr0, 1, 2, 3, 4, 5, 6); //macro to statically allocate triangle (without malloc), this is impossible in Java
+triangle_add_to_pane(pane, &amp;tr0);
+Triangle *tr1 = triangle_new(1, 2, 3, 4, 5, 6);
+triangle_add_to_pane(pane, tr1);
+Triangle *tr2 = triangle_new(11, 12, 13, 14, 15, 16);
+triangle_add_to_pane(pane, tr2);
+...
+pane_draw_all();
+...
+triangle_free(tr1);
+pane_free(pane);
+...
+</pre>
+So this polymorphism approach in C seems to be quite type-safe.
+
+</p>
+
+<p>
+To save you time, you can download source code "bs-ctsp-in-c-1.0.tar.xz" from files folder in <a href="https://sourceforge.net/projects/bsplay/">https://sourceforge.net/projects/bsplay/</a>
+Unpack it, then "make test".
+</p>
+
+<p>
+We should also consider these approaches and facts for optimal programming (it also must be maximum readable in C and native (disassemble) code):
+<ul>
+  <li>using garbage collector seems to be non-optimal</li>
+  <li>in most cases compiler's warnings are actually errors</li>
+  <li>Java code style standard seems to be more readable, but variable aliases should be long and prefixed for debugging in native code (e.g. s_title - static title, sf_make_stuff1 - static function, triangle_new - public triangle's method, p_total - method's parameter)</li>
+  <li>using only best alternative, e.g. operator "? :" in Java code stile considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch" </li>
+  <li>of course, every lib should be tested</li>
+</ul>
+</p>
+<p>
+Also for BS LFSC standard, an application's (statically upgraded, non-enterprise) interface should be GTK2 based and adapted for mobile view.
+</p>
+<p>
+Participate to make additional/optimal C programs for BS LFSC (Linux From Source Code) that is planned to be portable - desktop/tablet/mobile.
+</p>
+  </body>
+
+</document>
