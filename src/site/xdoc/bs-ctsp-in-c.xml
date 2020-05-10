@@ -4,19 +4,19 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Beigesoft™. Type-safe programming complex programs in C.</title>
+    <title>Beigesoft™. Type-safe programming complex applications in C.</title>
    </properties>
 
   <body>
 
-<h4>Beigesoft™. Type-safe programming complex programs in C.</h4>
+<h4>Beigesoft™. Type-safe programming complex applications in C.</h4>
 
 <p>This is about how to make complex programs in C in optimal way. Using C in this way to create complex applications seems to be more optimal than using OOP C++ language.</p>
 <p>
 This is also about programming "static" programs, i.e. that can be changed only during software update.
 Such complex high-performance programs are suitable for working on a weak device like mobile phone.
-For enterprise-like applications language like Java is the choice, because we can change and dynamically reload any service (e.g. a renderer (JSP)) on a never-stop enterprise application.
-For LFSC static applications like media-player, dictionary C is the choice.
+For enterprise-like applications a language like Java is the choice, because we can change and dynamically reload any service (e.g. a renderer JSP) on a never-stop enterprise application.
+For LFSC static applications like a media-player or a dictionary the C is the choice.
 C is actually the most used language in a regular Linux distribution (kernel itself, glibc, system-d, dbus, glib, gtk, gimp...).
 </p>
 <p>
@@ -61,9 +61,9 @@ Any drawable object has type-safe method to add itself into given pane, e.g.:
 <pre style="white-space: pre-wrap;">
   int triangle_add_to_pane(Pane *p_pane, Triangle *p_trngl);
 </pre>
-Of course, the ONLY "type-unsafe" code is in self-adding shape into pane method, there we cast SHAPE*->void*. And ONLY such method may cause TYPE-UNSAFE error (e.g. triangle data is putted into index 3, but method is putted into index 4, so you fill face the famous error "segmentation fault"), that can be detected very easily in test phase.
-Shapes and Pane are library. Client is a final program that uses ONLY lib's methods and macros and never access shape's data directly.
-Client example:
+Of course, the ONLY type-unsafe code is in a method that adds given shape into given pane. In this method we cast SHAPE*->void*. ONLY such methods may cause TYPE-UNSAFE error (e.g. triangle data is putted into index 3, but method is putted into index 4, so you will face the famous error "segmentation fault"), that can be detected very easily in the test phase.
+Shapes and Pane are library. A client is a final program that uses ONLY lib's methods and macros and never access shape's data directly.
+Example of a client:
 <pre style="white-space: pre-wrap;">
 ...
 include "triangle.h"
@@ -89,7 +89,7 @@ So this polymorphism approach in C seems to be quite type-safe.
 </p>
 
 <p>
-To save you time, you can download source code "bs-ctsp-in-c-1.0.tar.xz" from files folder in <a href="https://sourceforge.net/projects/bsplay/">https://sourceforge.net/projects/bsplay/</a>
+To save you time, you can download source code "bs-tsp-in-c-1.0.tar.xz" from files folder in <a href="https://sourceforge.net/projects/bsplay/">https://sourceforge.net/projects/bsplay/</a>
 Unpack it, then "make test".
 </p>
 
