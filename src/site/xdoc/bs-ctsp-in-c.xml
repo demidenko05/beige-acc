@@ -94,6 +94,33 @@ Unpack it, then "make test".
 </p>
 
 <p>
+  <h4>Comparing approaches for polymorphism-like tasks, e.g. "draw_all()"</h4>
+  <table>
+    <tr>
+      <th>Approach</th>
+      <th>Result</th>
+    </tr>
+    <tr>
+      <td>C without polymorphism</td>
+      <td>Totally type-safe, high performance, large lib's code, nice client's code</td>
+    </tr>
+    <tr>
+      <td>C with polymorphism described above</td>
+      <td>Practically type-safe, highest performance, smaller lib's code, nice client's code</td>
+    </tr>
+    <tr>
+      <td>C with OOP-like lib, e.g. GLIB</td>
+      <td>Type-safe only in run-time, high performance, small lib's code, there is a lot of objects casting in client's code</td>
+    </tr>
+    <tr>
+      <td>OOP-language, e.g. C++</td>
+      <td>Totally type-safe, lowest performance, smallest lib's and client's code</td>
+    </tr>
+  </table>
+</p>
+
+<p>
+  <h4>Other  approaches for optimal programming in C</h4>
 We should also consider these approaches and facts for optimal programming (it also must be maximum readable in C and native (disassemble) code):
 <ul>
   <li>using garbage collector seems to be non-optimal</li>
@@ -116,7 +143,7 @@ Also for BS LFSC standard, an application's (statically upgraded, non-enterprise
 //you should type only object's structure:
 typedef struct {
   int x1; int y1; int x2; int y2; int x3; int y3;
-} Trinagle;
+} Triangle;
 //then you should point this object to IDE to create static macro constructor, set of methods prototypes here in header file and their implementations in C file.
 //example of possible automatically-generated methods:
 //dynamic instance constructors/destructors:
@@ -129,8 +156,8 @@ Triangle *triangle_new_appd(AppDestructor *p_appd, p_x1, int p_y1, int p_x2, int
 //it can be generated a complex destructor, e.g.: free(p_pane->drawers) free(p_pane)
 int triangle_free(Triangle *p_trng);
 //getters/setters:
-int triangle_get_x(Triangle *p_trng);
-int triangle_set_x(Triangle *p_trng, int p_x);
+int triangle_get_x1(Triangle *p_trng);
+int triangle_set_x1(Triangle *p_trng, int p_x1);
 ...
 </pre>
 </p>
