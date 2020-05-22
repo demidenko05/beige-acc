@@ -17,7 +17,7 @@ This is also about programming "static" programs, i.e. that can be changed only 
 Such complex high-performance programs are suitable for working on a weak device like mobile phone.
 For enterprise-like applications a language like Java is the choice, because we can change and dynamically reload any service (e.g. a renderer JSP) on a never-stop enterprise application.
 For LFSC static applications like a media-player or a dictionary the C is the choice.
-C is actually the most used language in a regular Linux distribution (kernel itself, glibc, system-d, dbus, glib, gtk, gimp...).
+C is actually the most used language in a regular Linux distribution (kernel itself, glibc, system-d, dbus, glib, gtk, gimp, Java, Perl...).
 </p>
 <p>
 We should consider these facts for maximum type-safe approach in a C-program:
@@ -27,7 +27,7 @@ We should consider these facts for maximum type-safe approach in a C-program:
   <li>direct access to lib's data models (e.g. shape->x1=1.23) in client is a wrong approach, it must be used dedicated lib's methods for it</li>
   <li>by using different kind of methods and data models we can achieve any high-level programming approach (e.g. polymorphism) in type-safe way</li>
   <li>checking object's (data-model) type during runtime (it do all OOP languages, GLIB...) is never optimal approach</li>
-  <li>by using different kind of type-safe approaches we can guarantee that a whole program is type-safe in COMPILE TIME, so checking object's type during runtime is redundant</li>
+  <li>by using different kind of type-safe approaches we can guarantee that whole program is type-safe in COMPILE TIME, so checking object's type during runtime is redundant</li>
 </ul>
 </p>
 
@@ -102,7 +102,7 @@ Unpack it, then "make test".
     </tr>
     <tr>
       <td>C without polymorphism</td>
-      <td>Totally type-safe, high performance, large lib's code, nice client's code</td>
+      <td>Totally type-safe, high performance, large lib's code, nice client's code (in case of using encapsulation-like methods)</td>
     </tr>
     <tr>
       <td>C with polymorphism described above</td>
@@ -110,11 +110,11 @@ Unpack it, then "make test".
     </tr>
     <tr>
       <td>C with OOP-like lib, e.g. GLIB</td>
-      <td>Type-safe only in run-time, high performance, small lib's code, there is a lot of objects casting in client's code</td>
+      <td>Type-safe only on run-time, high performance, small lib's code, there are a lot of objects casting in client's code</td>
     </tr>
     <tr>
       <td>OOP-language, e.g. C++</td>
-      <td>Totally type-safe, lowest performance, smallest lib's and client's code</td>
+      <td>Totally(practically) type-safe, lowest performance, smallest lib's code, client's code often(in practice) consist of type-unsafe generics, e.g. in Java "Map&lt;String, Object&gt; params"</td>
     </tr>
   </table>
 </p>
@@ -125,10 +125,14 @@ We should also consider these approaches and facts for optimal programming (it a
 <ul>
   <li>using garbage collector seems to be non-optimal</li>
   <li>in most cases compiler's warnings are actually errors</li>
-  <li>Java code style standard seems to be more readable, but variable aliases should be long and prefixed for debugging in native code (e.g. s_title - static title, sf_make_stuff1 - static file's method, triangle_new - public triangle's method, p_total - method's parameter)</li>
-  <li>using only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
+  <li>using the most used in the universe part-assembly approach, an assembly can be a part of another assembly</li>
+  <li>part(of lib - single h and c file) is minimum composite, there are not cross(mutual)-dependencies between parts in whole lib</li>
   <li>of course, every lib should be tested</li>
   <li>when you free an object, then GLIBC caches this memory, so additional caching seems to be redundant, i.e. you mark object as unused, then use it as new instead of creating with constructor</li>
+  <li>Java code style standard seems to be more readable, but variable aliases should be long and prefixed for debugging in native code (e.g. s_title - static title, sf_make_stuff1 - static file's method, triangle_new - public triangle's method, p_total - method's parameter)</li>
+  <li>the simpler the better</li>
+  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values...</li>
+  <li>use only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
   <li>source code should be well commented</li>
 </ul>
 </p>
@@ -137,7 +141,7 @@ We should also consider these approaches and facts for optimal programming (it a
 Also for BS LFSC standard, an application's (statically upgraded, non-enterprise) interface should be GTK2 based and adapted for mobile view.
 </p>
 
-<h4>Rapid development in C</h4>
+<h4>Rapid development in C, other examples.</h4>
 <p>You should noticed that many methods and static macro constructor should be generated automatically in the same way as getters and setters in OOP IDE, e.g:
 <pre style="white-space: pre-wrap;">
 //you should type only object's structure:
@@ -160,6 +164,50 @@ int triangle_get_x1(Triangle *p_trng);
 int triangle_set_x1(Triangle *p_trng, int p_x1);
 ...
 </pre>
+Also, Pane should better has type-unsafe method like:
+<pre style="white-space: pre-wrap;">
+//it's also thread-safe method, i.e. it locks (synchronizes) those pointers arrays during invocation
+int pane_add_shape_tus(Pane *p_pane, void *p_shape, Draw_Gen_Tus *p_drawer);
+</pre>
+This method must be wrapped be type-safe method in any shape.
+So, making type-unsafe generic methods and data, then wrap them (implement) with type-safe ones is good approach for many tasks, e.g. iterator+consumer:
+<pre style="white-space: pre-wrap;">
+//file Record.h
+//type-safe data:
+...
+typedef struct {...} Record;
+
+//type-unsafe methods and data:
+typedef int Record_Consumer_Tus(Record *p_rec, void *p_instrument);
+
+int file_iterate_all_tus(FILE *p_file, Record_Consumer_Tus *p_rec_csm, void *p_instrument);
+...
+
+//file RecordMax.h
+//all type-safe including wrappers:
+...
+typedef struct {...} RecordMaxInst;
+
+//an implementation can be wrapped by another type-safe implementation (interceptor), e.g. for debugging/testing
+typedef int Record_Consumer_Max(Record *p_rec, RecordMaxInst *p_instrument);
+...
+
+//file RecordMax.c
+int file_iterate_all_max(FILE *p_file, Record_Consumer_Max *p_rec_csm, RecordMaxInst *p_instrument) {
+//some preparation:
+...
+  file_iterate_all_tus(p_file, (Record_Consumer_Tus*) p_rec_csm, (void*) p_instrument); //only type-unsafe entry
+//some finishing:
+...
+}
+</pre>
+Standard lib also should be wrapped, it makes more easy life for client, e.g.:
+<pre style="white-space: pre-wrap;">
+int fwrite_long_int(FILE *p_file, long int *p_data) { //type safe wrapper
+  return fwrite(p_data, sizeof(long int), 1, p_file);
+}
+</pre>
+
 </p>
 
 <p>
