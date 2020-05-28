@@ -61,7 +61,7 @@ Any drawable object has type-safe method to add itself into given pane, e.g.:
 <pre style="white-space: pre-wrap;">
   int triangle_add_to_pane(Pane *p_pane, Triangle *p_trngl);
 </pre>
-Of course, the ONLY type-unsafe code is in a method that adds given shape into given pane. In this method we cast SHAPE*->void*. ONLY such methods may cause TYPE-UNSAFE error (e.g. triangle data is putted into index 3, but method is putted into index 4, so you will face the famous error "segmentation fault"), that can be detected very easily in the test phase.
+Of course, the ONLY type-unsafe code is in the method that adds given shape into given pane. In this method we cast SHAPE*->void*. ONLY such methods may cause TYPE-UNSAFE error (e.g. triangle data is putted into index 3, but method is putted into index 4, so you will face the famous error "segmentation fault"), that can be detected very easily in the test phase.
 Shapes and Pane are library. A client is a final program that uses ONLY lib's methods and macros and never access shape's data directly.
 Example of a client:
 <pre style="white-space: pre-wrap;">
@@ -101,8 +101,8 @@ Unpack it, then "make test".
       <th>Result</th>
     </tr>
     <tr>
-      <td>C without polymorphism</td>
-      <td>Totally type-safe, high performance, large lib's code, nice client's code (in case of using encapsulation-like methods)</td>
+      <td>C without polymorphism (in case of using type-safe encapsulation-like methods)</td>
+      <td>Totally type-safe, high performance, large lib's code, nice client's code</td>
     </tr>
     <tr>
       <td>C with polymorphism described above</td>
@@ -131,7 +131,7 @@ We should also consider these approaches and facts for optimal programming (it a
   <li>when you free an object, then GLIBC caches this memory, so additional caching seems to be redundant, i.e. you mark object as unused, then use it as new instead of creating with constructor</li>
   <li>Java code style standard seems to be more readable, but variable aliases should be long and prefixed for debugging in native code (e.g. s_title - static title, sf_make_stuff1 - static file's method, triangle_new - public triangle's method, p_total - method's parameter)</li>
   <li>the simpler the better</li>
-  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values...</li>
+  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values, etc.</li>
   <li>use only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
   <li>source code should be well commented</li>
 </ul>
@@ -170,7 +170,7 @@ Also, Pane should better has type-unsafe method like:
 int pane_add_shape_tus(Pane *p_pane, void *p_shape, Draw_Gen_Tus *p_drawer);
 </pre>
 This method must be wrapped be type-safe method in any shape.
-So, making type-unsafe generic methods and data, then wrap them (implement) with type-safe ones is good approach for many tasks, e.g. iterator+consumer:
+So, making type-unsafe generic methods and data, then wrap them (implement) with type-safe ones is a good approach for many tasks, e.g. iterator+consumer:
 <pre style="white-space: pre-wrap;">
 //file Record.h
 //type-safe data:
@@ -201,7 +201,7 @@ int file_iterate_all_max(FILE *p_file, Record_Consumer_Max *p_rec_csm, RecordMax
 ...
 }
 </pre>
-Standard lib also should be wrapped, it makes more easy life for client, e.g.:
+Standard lib should also be wrapped, it makes more easy life for a client, e.g.:
 <pre style="white-space: pre-wrap;">
 int fwrite_long_int(FILE *p_file, long int *p_data) { //type safe wrapper
   return fwrite(p_data, sizeof(long int), 1, p_file);
