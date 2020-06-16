@@ -17,7 +17,7 @@ This is also about programming "static" programs, i.e. that can be changed only 
 Such complex high-performance programs are suitable for working on a weak device like mobile phone.
 For enterprise-like applications a language like Java is the choice, because we can change and dynamically reload any service (e.g. a renderer JSP) on a never-stop enterprise application.
 For LFSC static applications like a media-player or a dictionary the C is the choice.
-C is actually the most used language in a regular Linux distribution (kernel itself, glibc, system-d, dbus, glib, gtk, gimp, Java, Perl...).
+C is actually the most used language in a regular Linux distribution (kernel itself, glibc, system-d, dbus, glib, gtk, gimp, Java, Perl, etc. are written with C).
 </p>
 <p>
 We should consider these facts for maximum type-safe approach in a C-program:
@@ -123,7 +123,7 @@ Unpack it, then "make test".
   <h4>Other  approaches for optimal programming in C</h4>
 We should also consider these approaches and facts for optimal programming (it also must be maximum readable in C and native (disassemble) code):
 <ul>
-  <li>using garbage collector seems to be non-optimal</li>
+  <li>using garbage collector seems to be non-optimal, it should be methods to detect non-freed objects (program mistake) during checking sources files. Crashing is another problem.</li>
   <li>in most cases compiler's warnings are actually errors</li>
   <li>using the most used in the universe part-assembly approach, an assembly can be a part of another assembly</li>
   <li>part(of lib - single h and c file) is minimum composite, there are not cross(mutual)-dependencies between parts in whole lib</li>
@@ -131,10 +131,17 @@ We should also consider these approaches and facts for optimal programming (it a
   <li>when you free an object, then GLIBC caches this memory, so additional caching seems to be redundant, i.e. you mark object as unused, then use it as new instead of creating with constructor</li>
   <li>Java code style standard seems to be more readable, but variable aliases should be long and prefixed for debugging in native code (e.g. s_title - static title, sf_make_stuff1 - static file's method, triangle_new - public triangle's method, p_total - method's parameter)</li>
   <li>the simpler the better</li>
-  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values, etc.</li>
+  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values, etc. Also names(aliases) of data(variables) and methods should be straightly-meanings, e.g. triangle_free(p_trngl) means just free memory and nulling pointers, but object_free_clsf(p_obj) means free memory and close object's files (this helps to understand code more quickly without looking comments).</li>
   <li>use only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
   <li>source code should be well commented</li>
+  <li>a lot of methods should be public only for testing purpose</li>
+  <li>in practice, using debug logging together with testing is more efficient (faster) than use a debugger (even with testing).</li>
 </ul>
+Rules "the simpler the better", "use only the best alternative" and "the more straight-full meaning the better" say that creating and using static (allocating) constructors in the above example (draw_all) is wrong approach.
+</p>
+<p>
+Rules above and testing obey to decrease possible errors, ability to fix them more easy and faster, so as a result programming complex application in C is never complicated than do it in high level languages like Java.
+In opposite to Java, long names (aliases) in C never cause increasing stripped binary files size.
 </p>
 
 <p>
@@ -207,7 +214,73 @@ int fwrite_long_int(FILE *p_file, long int *p_data) { //type safe wrapper
   return fwrite(p_data, sizeof(long int), 1, p_file);
 }
 </pre>
-
+Also autotools seems to be useless. Just add new file (and its test) into Makefile during making huge application step by step (file by file).
+Make allows enough flexible behavior,  e.g.:
+<pre style="white-space: pre-wrap;">
+libs=alsa sdl2
+ifeq ($(shell pkg-config libass &amp;&amp; echo $$?),0)
+  libs += libass
+endif
+//or from file created according user's preferences:
+libs = $(shell cat libs.conf)
+</pre>
+</p>
+<h4>Errors handling and reporting</h4>
+<p>It's like handling exceptions in Java.
+Even though there is no "often changed business logic", errors sometimes happen in regular C applications.
+Simple approach to handle and report errors can be like this:
+<ul>
+  <li>any method that can cause an error must return Error object</li>
+  <li>if an error occurred, then non-NULL Error object consists of initial error code and all error messages array</li>
+  <li>this non-NULL Error object will be propagated from first error occurrence to the thirst invoker(main program) with adding information about error and all invokers</li>
+  <li>a file is the best alternative to report an error</li>
+</ul>
+So, example is:
+<pre style="white-space: pre-wrap;">
+//first error occurrence:
+Error *arrayint_set(ArrayInt *p_array, int p_idx, int p_value) {
+  if (p_idx &lt; 0 || p_idx &gt;= p_array->size) {
+    return bserror_new(ARR_ERR_OUT_OF_BOUNDS, "arrayint_set");
+  }
+  p_array->array[p_idx] = p_value;
+  return NULL;
+}
+//error propagation:
+Error *invoker_im() {
+  ...
+  ARRAYINT_NEW(arr, 11)
+  Error *err = arrayint_set(arr, 12, 3); //12 > 10max
+  if (err != NULL) {
+    error_propagate(err, "invoker_im");
+  } else {
+    ...
+  }
+  arrayint_free(arr);
+  return err;
+}
+//final client handles the error:
+int main(int argc, char *argv[]) {
+  ...
+  Error *err = invoker_im();
+  if (err != NULL) {
+    int errcode = err->code;
+    error_report_free(err, "top client"); //it will also free error
+    //finishing (free memory and closing files) and exiting:
+    ...
+    return errcode;
+  }
+  //normal steps:
+  ...
+</pre>
+So, this code is never more complex or verbose than "try-catch" in Java, but it can't catch real happen error e.g. "Segmentation fault".
+GLIBC utility "catchsegv" allows to track these errors by hand. But GDB is the best alternative, just use "backtrace" or "bt".
+To automatically report backtrace, use same named GLIBC method (execinfo.h), "open" file descriptor (fcntl.h) and "backtrace_symbols_fd" (see "debug" folder in GLIBC source).
+So, after interception "SIGABRT" or similar errors, free resources and close files, then print stack-trace. To obtain the line in source code by address from report use command:
+<pre style="white-space: pre-wrap;">
+addr2line -e [program_file] [address]
+//e.g.:
+addr2line -e tst_1 0x401da1
+</pre>
 </p>
 
 <p>
