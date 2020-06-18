@@ -272,15 +272,24 @@ int main(int argc, char *argv[]) {
   //normal steps:
   ...
 </pre>
-So, this code is never more complex or verbose than "try-catch" in Java, but it can't catch real happen error e.g. "Segmentation fault".
+But this approach can't catch real happen error e.g. "Segmentation fault".
 GLIBC utility "catchsegv" allows to track these errors by hand. But GDB is the best alternative, just use "backtrace" or "bt".
 To automatically report backtrace, use same named GLIBC method (execinfo.h), "open" file descriptor (fcntl.h) and "backtrace_symbols_fd" (see "debug" folder in GLIBC source).
+Alternatively, to record into own log file, you can use only "backtrace" method to get addresses, and it's seems enough (i.e. printing only method's addresses).
+Or make new mathod based on "backtrace_symbols/-fd" or to avoid using malloc or FD.
 So, after interception "SIGABRT" or similar errors, free resources and close files, then print stack-trace. To obtain the line in source code by address from report use command:
 <pre style="white-space: pre-wrap;">
-addr2line -e [program_file] [address]
+addr2line -e [program_file] [address1] [address2]
 //e.g.:
-addr2line -e tst_1 0x401da1
+addr2line -e tst_1 0x401da1 0x404d11
 </pre>
+GLIBC's backtrace (actually GCC's _Unwind_Backtrace) can't work when cause is "wrong method's address", and so does "catchsegv" (it can print only registers dump). GDB can do it.
+So, if you got empty report, then see "bad pointers" to methods (use GDB).
+</p>
+<p>
+  Method with making object "Error" is not more helpful than "C-signals" plus printing backtrace (even only methods addresses).
+  And it requires more coding than sending error signal.
+  So, "C-signals" is the best alternative.
 </p>
 
 <p>
