@@ -15,7 +15,8 @@
 <p>
 This is also about programming "static" programs, i.e. that can be changed only during software update.
 Such complex high-performance programs are suitable for working on a weak device like mobile phone.
-For enterprise-like applications a language like Java is the choice, because we can change and dynamically reload any service (e.g. a renderer JSP) on a never-stop enterprise application.
+For financial-like applications Java with WEB-interface is the choice, because we can change and dynamically reload any service (e.g. a renderer JSP) on a never-stop enterprise application,
+and there is cross-platform WEB-app server A-Jetty.
 For LFSC static applications like a media-player or a dictionary the C is the choice.
 C is actually the most used language in a regular Linux distribution (kernel itself, glibc, system-d, dbus, glib, gtk, gimp, Java, Perl, etc. are written with C).
 </p>
@@ -226,6 +227,13 @@ libs = $(shell cat libs.conf)
 </pre>
 </p>
 <h4>Errors handling and reporting</h4>
+<p>Here errors mean "program's errors". Errors types:
+  <ul>
+    <li>program's checkable errors, e.g. NULL pointer when it's not allowed, index outside of array, wrong pointer outside dedicated to it segment, etc.</li>
+    <li>program's non-checkable errors, e.g. bad pointer inside dedicated to it segment, string non-initialized with zero terminator and passed to "strlen", etc.</li>
+    <li>out of order errors, e.g. out of memory, network connection is broken, disk full, etc.</li>
+  </ul>
+</p>
 <p>Even though there is no "often changed business logic", errors sometimes happen in regular C applications.
 Simple approach to handle and report errors can be like this:
 <ul>
@@ -250,10 +258,10 @@ BSCOLLECTION(BsVoidMethods, BsVoid_Method)
 //Collection lib: first error occurrence:
 BsError *bscollectiontus_set(BsCollectionTus *p_array, long p_idx, void *p_object) {
   if (p_object == NULL) {
-    return bserror_new(BSR_ARR_ERR_SET_NULL, "bscollectiontus_set");
+    return bserror_new(BSR_ARR_ERR_SET_NULL, "bscollectiontus_set", "O=NULL");
   }
   if (p_idx &lt; 0 || p_idx &gt;= p_array->size) {
-    return bserror_new(BSR_ARR_ERR_OUT_OF_BOUNDS, "bscollectiontus_set");
+    return bserror_new(BSR_ARR_ERR_OUT_OF_BOUNDS, "bscollectiontus_set", "out of bounds");
   }
   p_array->array[p_idx] = p_object;
   return NULL;
@@ -262,13 +270,13 @@ BsError *bscollectiontus_set(BsCollectionTus *p_array, long p_idx, void *p_objec
 BsError *bsvoidmethods_set(BsVoidMethods *p_array, long p_idx, BsVoid_Method *p_object) {
   BsError *err = bscollectiontus_set((BsCollectionTus*) p_array, p_idx, (void*) p_object);
   if (err != NULL) {
-    bserror_propagate(err, "bsvoidmethods_set");
+    bserror_propagate(err, "bsvoidmethods_set", NULL);
   }
   return err;
 }
 
-#define BSVOIDMETHODS_ADD_EP_OUT(p_arrn, p_methp, p_inc, p_msg) err = bsvoidmethods_add(p_arrn, p_methp, p_inc);\
-  if (err != NULL) { bserror_propagate(err, p_msg); goto out; }
+#define BSVOIDMETHODS_ADD_EP_OUT(p_arrn, p_methp, p_inc, p_msg1, p_msg2) err = bsvoidmethods_add(p_arrn, p_methp, p_inc);\
+  if (err != NULL) { bserror_propagate(err, p_msg1, p_msg2); goto out; }
 
 ...
 //CLIENT's sub-lib: error propagation2:
@@ -280,18 +288,17 @@ static void sf_void_meth1(void) {
 }
 
 static BsError *sf_tst1() {
-  BSVOIDMETHODS_NEW(arr, 2L) //size=2
-  if (arr == NULL) { //hardly ever possible BSR_OUT_OF_MEMORY
-    return bserror_new(BSR_OUT_OF_MEMORY, "sf_tst1.0");
-  }
-  BsError *err = bsvoidmethods_add(arr, &amp;sf_void_meth1, 2); //increase=2 when full-filled
-  if (err != NULL) { bserror_propagate(err, "sf_tst1.1"); goto out; }
-  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp;sf_void_meth1, 2, "sf_tst1.2")
+  BsError *err = NULL;
+  //it can return error on hardly ever possible BSR_OUT_OF_MEMORY:
+  BSVOIDMETHODS_NEW_EP_RET(arr, 2L, "sf_tst1", "mn1") //size=2
+  //increase=2 when full-filled:
+  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp;sf_void_meth1, 2, "sf_tst1", "mn2")
+  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp; sf_void_meth1, 2, "sf_tst1", "mn3")
   //it will increase size or hardly ever possible BSR_OUT_OF_MEMORY:
-  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp;sf_void_meth1, 2, "sf_tst1.3")
+  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp;sf_void_meth1, 2, "sf_tst1", "mn4")
   bsvoidmethods_invoke_all(arr); //s_flag must be 3
   err = bsvoidmethods_set(arr, 4L, &amp;sf_void_meth1); //ERROR! 4 > (size-1)=3
-  if (err != NULL) { bserror_propagate(err, "sf_tst1.4"); }
+  if (err != NULL) { bserror_propagate(err, "sf_tst1", "must error"); }
 out:
   bsvoidmethods_free(arr);
   return err;
@@ -336,17 +343,20 @@ This allows to more accurately handle and report error, to keep program working,
 Also, using "C-signals" requires additional coding to pass all destructors.
 In case of excessive error handling using macro can decrease coding (see example above).
 </p>
+<p>Standard C-lib also treat part of exactly program's errors as non-fatal.
+E.g. "stdio.seek" will not abort if you point outside of a file, it just return error code.
+But "strlen" on NULL pointer will cause segmentation fault, instead of checking and returning error (or setting thread-local "errno" code).</p>
 <p>
   So, additional (sometime may seem excessive) work like:
   <ul>
     <li>Making methods to operate objects with additional checking</li>
     <li>Making type-safe wrappers</li>
-    <li>Making type-safe libs to allow clients to be tiny and totally type-safe at compile time</li>
+    <li>Making type-safe libs with macro-wrappers to allow clients to be tiny and totally type-safe at compile time</li>
     <li>Testing</li>
     <li>Logging (including debug)</li>
-    <li>Excessive error handling</li>
+    <li>Excessive error checking and handling</li>
   </ul>
-  are considered as useful here for BSSoft standard. They obey to decrease errors, to detect and fix them more faster.
+  are considered as useful here for Beigesoft standard. They obey to decrease errors, to detect and fix them more faster.
 </p>
 
 <p>
