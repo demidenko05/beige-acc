@@ -166,10 +166,10 @@ Triangle *triangle_new(int p_x1, int p_y1, int p_x2, int p_y2, int p_x3, int p_y
   //this creates app-scoped (life-time) object and puts it and free method into AppDestructor that will invoke all registered destructors;
 Triangle *triangle_new_appd(AppDestructor *p_appd, p_x1, int p_y1, int p_x2, int p_y2, int p_x3, int p_y3);
 //it can be generated a complex destructor, e.g.: free(p_pane->drawers) free(p_pane)
-int triangle_free(Triangle *p_trng);
+void triangle_free(Triangle *p_trng);
 //getters/setters:
 int triangle_get_x1(Triangle *p_trng);
-int triangle_set_x1(Triangle *p_trng, int p_x1);
+void triangle_set_x1(Triangle *p_trng, int p_x1);
 ...
 </pre>
 Also, Pane should better has type-unsafe method like:
@@ -235,12 +235,11 @@ libs = $(shell cat libs.conf)
   </ul>
 </p>
 <p>Even though there is no "often changed business logic", errors sometimes happen in regular C applications.
-Simple approach to handle and report errors can be like this:
+The best approach to handle and report errors should be like this:
 <ul>
-  <li>any method that can cause an error must return Error object</li>
-  <li>if an error occurred, then non-NULL Error object consists of initial error code and all error messages array</li>
-  <li>this non-NULL Error object will be propagated from first error occurrence to the thirst invoker(main program) with adding information about error and all invokers</li>
-  <li>a file is the best alternative to report an error</li>
+  <li>any method that can cause an error must set thread scoped variable "errno" and log error</li>
+  <li>any subsequent-back method (that invokes errorable method) should check errno, and handle - i.e. it should log to track whole backtrace</li>
+  <li>a file is the best alternative to report any error</li>
 </ul>
 So, example is:
 <pre style="white-space: pre-wrap;">
@@ -255,67 +254,67 @@ typedef void BsVoid_Method(void);
 
 BSCOLLECTION(BsVoidMethods, BsVoid_Method)
 ...
-//Collection lib: first error occurrence:
-BsError *bscollectiontus_set(BsCollectionTus *p_array, long p_idx, void *p_object) {
-  if (p_object == NULL) {
-    return bserror_new(BSR_ARR_ERR_SET_NULL, "bscollectiontus_set", "O=NULL");
-  }
-  if (p_idx &lt; 0 || p_idx &gt;= p_array->size) {
-    return bserror_new(BSR_ARR_ERR_OUT_OF_BOUNDS, "bscollectiontus_set", "out of bounds");
-  }
-  p_array->array[p_idx] = p_object;
-  return NULL;
-}
-  //LIB: error propagation1:
-BsError *bsvoidmethods_set(BsVoidMethods *p_array, long p_idx, BsVoid_Method *p_object) {
-  BsError *err = bscollectiontus_set((BsCollectionTus*) p_array, p_idx, (void*) p_object);
-  if (err != NULL) {
-    bserror_propagate(err, "bsvoidmethods_set", NULL);
-  }
-  return err;
-}
 
-#define BSVOIDMETHODS_ADD_EP_OUT(p_arrn, p_methp, p_inc, p_msg1, p_msg2) err = bsvoidmethods_add(p_arrn, p_methp, p_inc);\
-  if (err != NULL) { bserror_propagate(err, p_msg1, p_msg2); goto out; }
+#define BSLOG_ERR bslog_log(BSLERROR, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
+
+void bscollectiontus_set(BsCollectionTus *p_arr, BS_INDEX_TYPE p_idx, void *p_obj) {
+  if (p_obj == NULL) {
+    errno = BSE_ARR_SET_NULL;
+    BSLOG_ERR
+    return;
+  }
+  if (p_idx &lt; BS_INDEX_MIN || p_idx &gt;= p_arr->size) {
+    errno = BSE_ARR_OUT_OF_BOUNDS;
+    BSLOG_LOG(BSLERROR, "index=%ld, array size=%ld\n", p_idx, p_arr->size)
+    return;
+  }
+  p_arr->array[p_idx] = p_obj;
+}
+//Just type-safe wrapper:
+void bsvoidmethods_set(BsVoidMethods *p_arr, BS_INDEX_TYPE p_idx, BsVoid_Method *p_obj) {
+  bscollectiontus_set((BsCollectionTus*) p_arr, p_idx, (void*) p_obj);
+}
+//Error propagation generic macro:
+#define BS_METHOD_ERR_OUT(p_invoke_method) p_invoke_method;\
+  if (errno != 0) { BSLOG_ERR goto out; }
 
 ...
-//CLIENT's sub-lib: error propagation2:
-...
+//CLIENT's sub-lib: error propagation:
 static int s_flag = 0;
 
 static void sf_void_meth1(void) {
   s_flag++;
 }
 
-static BsError *sf_tst1() {
-  BsError *err = NULL;
-  //it can return error on hardly ever possible BSR_OUT_OF_MEMORY:
-  BSVOIDMETHODS_NEW_EP_RET(arr, 2L, "sf_tst1", "mn1") //size=2
+static void sf_tst1() {
+  //it will return error on hardly ever possible ENOMEM:
+  BSVOIDMETHODS_NEW_ERR_RET(arr, 2L) //size=2
   //increase=2 when full-filled:
-  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp;sf_void_meth1, 2, "sf_tst1", "mn2")
-  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp; sf_void_meth1, 2, "sf_tst1", "mn3")
-  //it will increase size or hardly ever possible BSR_OUT_OF_MEMORY:
-  BSVOIDMETHODS_ADD_EP_OUT(arr, &amp;sf_void_meth1, 2, "sf_tst1", "mn4")
+  BS_METHOD_ERR_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
+  BS_METHOD_ERR_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
+  //it will increase size or hardly ever possible ENOMEM:
+  BS_METHOD_ERR_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
   bsvoidmethods_invoke_all(arr); //s_flag must be 3
-  err = bsvoidmethods_set(arr, 4L, &amp;sf_void_meth1); //ERROR! 4 > (size-1)=3
-  if (err != NULL) { bserror_propagate(err, "sf_tst1", "must error"); }
+  BS_METHOD_ERR(bsvoidmethods_set(arr, 4L, &amp;sf_void_meth1)) //ERROR! 4 > (size-1)=3
 out:
   bsvoidmethods_free(arr);
-  return err;
 }
 //Main client:
 int main(int argc, char *argv[]) {
   ...
-  Error *err = sf_tst1();
-  if (err != NULL) {
-    int errcode = err->code;
-    error_report_free(err, "top client"); //it will also free error
+  sf_tst1(); //must be BSE_ARR_OUT_OF_BOUNDS
+  if (errno != 0) {
     //report to user and stay working
     //or finishing (free memory and closing files) and exiting:
     ...
   }
   //normal steps:
   ...
+//back-trace report will be:
+//Thu Jul  2 14:00:10 2020:68 thread#140303616562944 COMMON: ERROR, Out of bounds
+//BsCollection.c:bscollectiontus_set:131, index=4, array size=4
+//Thu Jul  2 14:00:10 2020:68 thread#140303616562944 COMMON: ERROR, Out of bounds
+//tst_BsCollection.c:sf_tst1:36
 </pre>
 But this approach can't catch real happen error e.g. "Segmentation fault".
 GLIBC utility "catchsegv" allows to track these errors by hand. But GDB is the best alternative, just use "backtrace" or "bt".
@@ -334,12 +333,13 @@ GLIBC's backtrace (actually GCC's _Unwind_Backtrace) can't work when cause is "w
 So, if you got empty report, then see "bad pointers" to methods (use GDB). Anyway segmentation fault cause wrong method's pointer happen very seldom (used in code).
 </p>
 <p>
-  Approach with making object "Error" seems to be no more helpful than "C-signals" plus printing backtrace (even only methods addresses).
-  It requires more coding than sending error signal. Program errors should happen hardly ever.
-  So, "C-signals" seem to be the best alternative. That is use "raise(SIGABRT)" plus well-logging or just "assert([condition])" to abort and report into stderr this condition.
+  Using brutal "C-signals" plus printing backtrace (even only methods addresses) may seem to be the best alternative to handle exactly program's errors.
+  Because of program's errors should happen hardly ever, and never on production build (in theory, but not in practice).
+  That is use "raise(SIGABRT)" plus well-logging or just "assert([condition])" to abort and report into stderr this condition.
 </p>
 <p>In other hand, GLIB uses such excessive error checking and propagation without termination (checking for type, if parameter is NULL).
 This allows to more accurately handle and report error, to keep program working, so user can use other error-less functionality.
+So program's errors are treated as "part of functionality is out of order".
 Also, using "C-signals" requires additional coding to pass all destructors.
 In case of excessive error handling using macro can decrease coding (see example above).
 </p>
@@ -357,6 +357,14 @@ But "strlen" on NULL pointer will cause segmentation fault, instead of checking 
     <li>Excessive error checking and handling</li>
   </ul>
   are considered as useful here for Beigesoft standard. They obey to decrease errors, to detect and fix them more faster.
+</p>
+<p>
+  To avoid excessive double checking(validation) use well known phases:
+  <ol>
+    <li>Object creating/initializing (and filling) with validation</li>
+    <li>Object further modification with validation</li>
+    <li>Object using (without modification and double validation)</li>
+  </ol>
 </p>
 
 <p>
