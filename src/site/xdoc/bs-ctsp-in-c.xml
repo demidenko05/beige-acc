@@ -136,7 +136,7 @@ We should also consider these approaches and facts for optimal programming (it a
   <li>use only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
   <li>source code should be well commented</li>
   <li>a lot of methods should be public only for testing purpose</li>
-  <li>in practice, using debug logging together with testing is more efficient (faster) than use a debugger (even with testing).</li>
+  <li>GDB should be used when "seg-fault" or a test fails and adding new sub-tests or validators and logging seems to be excessive.</li>
 </ul>
 Rules "the simpler the better", "use only the best alternative" and "the more straight-full meaning the better" say that creating and using static (allocating) constructors in the above example (draw_all) is wrong approach.
 </p>
@@ -311,10 +311,10 @@ int main(int argc, char *argv[]) {
   //normal steps:
   ...
 //back-trace report will be:
-//Thu Jul  2 14:00:10 2020:68 thread#140303616562944 COMMON: ERROR, Out of bounds
-//BsCollection.c:bscollectiontus_set:131, index=4, array size=4
-//Thu Jul  2 14:00:10 2020:68 thread#140303616562944 COMMON: ERROR, Out of bounds
-//tst_BsCollection.c:sf_tst1:36
+20/07/20 10:37:38.546 thread#140285484025600 ERROR: Out of bounds
+  BsCollection.c:bscollectiontus_set:297, index=4, array size=4
+20/07/20 10:37:38.546 thread#140285484025600 ERROR: Out of bounds
+  tst_BsCollection.c:sf_tst1:36
 </pre>
 But this approach can't catch real happen error e.g. "Segmentation fault".
 GLIBC utility "catchsegv" allows to track these errors by hand. But GDB is the best alternative, just use "backtrace" or "bt".
@@ -333,7 +333,7 @@ GLIBC's backtrace (actually GCC's _Unwind_Backtrace) can't work when cause is "w
 So, if you got empty report, then see "bad pointers" to methods (use GDB). Anyway segmentation fault cause wrong method's pointer happen very seldom (used in code).
 </p>
 <p>
-  Using brutal "C-signals" plus printing backtrace (even only methods addresses) may seem to be the best alternative to handle exactly program's errors.
+  Using brutal "C-signals" plus printing backtrace (even only with methods addresses) may seem to be the best alternative to handle exactly program's errors.
   Because of program's errors should happen hardly ever, and never on production build (in theory, but not in practice).
   That is use "raise(SIGABRT)" plus well-logging or just "assert([condition])" to abort and report into stderr this condition.
 </p>
@@ -370,7 +370,7 @@ But "strlen" on NULL pointer will cause segmentation fault, instead of checking 
 </p>
 
 <h4>Using excessive checking in destructors and rapid development</h4>
-<p>In this case code became more simple and readable and IDE can generate automatically complex constructors and part of methods.</p>
+<p>In this case, code becames more simple and readable, and IDE can generate automatically complex constructors and part of methods.</p>
 <p>
 Constructor standard style example:
 <pre style="white-space: pre-wrap;">
@@ -458,7 +458,7 @@ out:
   }
   return obj;
 }
-//Destructor with excessive checking that always returns NULL:
+//Destructor with excessive checking that always return NULL:
 BsLogFiles *bslogfiles_free(BsLogFiles *p_log_files) {
   if (p_log_files != NULL) {
     if (p_log_files-&gt;files != NULL) {
@@ -499,7 +499,6 @@ out:
 </pre>
 </p>
 <p>In this case destructor is more reusable and code looks more readable, error-less-able, patternable, simple and similar for many use-cases.</p>
-
 
 <p>
 Participate to develop additional/optimal C programs for BS LFSC (Linux From Source Code) that is planned to be portable - desktop/tablet/mobile.
