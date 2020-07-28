@@ -25,10 +25,11 @@ We should consider these facts for maximum type-safe approach in a C-program:
 <ul>
   <li>there are libs and a client program that uses these libs</li>
   <li>a lib consists of data models and methods dedicated to work with these data models</li>
-  <li>direct access to lib's data models (e.g. shape->x1=1.23) in client is a wrong approach, it must be used dedicated lib's methods for it</li>
+  <li>sometime direct access to lib's data models (e.g. shape->x1=1.23) is a wrong approach, e.g. when argument maybe wrong</li>
   <li>by using different kind of methods and data models we can achieve any high-level programming approach (e.g. polymorphism) in type-safe way</li>
   <li>checking object's (data-model) type during runtime (it do all OOP languages, GLIB...) is never optimal approach</li>
   <li>by using different kind of type-safe approaches we can guarantee that whole program is type-safe in COMPILE TIME, so checking object's type during runtime is redundant</li>
+  <li>it's all about finding gold mean between pure C-style (highest performance, but sometimes brutal and type-unsafe) and OOP-like (less error-able, more readable) approach</li>
 </ul>
 </p>
 
@@ -149,30 +150,9 @@ In opposite to Java, long names (aliases) in C never cause increasing stripped b
 Also for BS LFSC standard, an application's (statically upgraded, non-enterprise) interface should be GTK2 based and adapted for mobile view.
 </p>
 
-<h4>Rapid development in C, other examples.</h4>
-<p>You should noticed that many methods and static macro constructor should be generated automatically in the same way as getters and setters in OOP IDE, e.g:
-<pre style="white-space: pre-wrap;">
-//you should type only object's structure:
-typedef struct {
-  int x1; int y1; int x2; int y2; int x3; int y3;
-} Triangle;
-//then you should point this object to IDE to create static macro constructor, set of methods prototypes here in header file and their implementations in C file.
-//example of possible automatically-generated methods:
-//dynamic instance constructors/destructors:
-  //client will itself invoke free for object created by this constructor:
-Triangle *triangle_new(int p_x1, int p_y1, int p_x2, int p_y2, int p_x3, int p_y3);
-  //macro to hide Triangle type:
-#define TRIANGLE_NEW(p_aliasp, p_x1, p_y1, p_x2, p_y2, p_x3, p_y3) Triangle *p_aliasp = triangle_new(p_x1, p_y1, p_x2, p_y2, p_x3, p_y3);
-  //this creates app-scoped (life-time) object and puts it and free method into AppDestructor that will invoke all registered destructors;
-Triangle *triangle_new_appd(AppDestructor *p_appd, p_x1, int p_y1, int p_x2, int p_y2, int p_x3, int p_y3);
-//it can be generated a complex destructor, e.g.: free(p_pane->drawers) free(p_pane)
-void triangle_free(Triangle *p_trng);
-//getters/setters:
-int triangle_get_x1(Triangle *p_trng);
-void triangle_set_x1(Triangle *p_trng, int p_x1);
-...
-</pre>
-Also, Pane should better has type-unsafe method like:
+<h4>Type-safe wrappers.</h4>
+<p>
+Pane should better has type-unsafe method like:
 <pre style="white-space: pre-wrap;">
 //it's also thread-safe method, i.e. it locks (synchronizes) those pointers arrays during invocation
 int pane_add_shape_tus(Pane *p_pane, void *p_shape, Draw_Gen_Tus *p_drawer);
@@ -226,6 +206,7 @@ endif
 libs = $(shell cat libs.conf)
 </pre>
 </p>
+
 <h4>Errors handling and reporting</h4>
 <p>Here errors mean "program's errors". Errors types:
   <ul>
@@ -275,7 +256,7 @@ void bsvoidmethods_set(BsVoidMethods *p_arr, BS_INDEX_TYPE p_idx, BsVoid_Method 
   bscollectiontus_set((BsCollectionTus*) p_arr, p_idx, (void*) p_obj);
 }
 //Error propagation generic macro:
-#define BS_METHOD_ERR_OUT(p_invoke_method) p_invoke_method;\
+#define BS_INVOKE_E_OUT(p_invoke_method) p_invoke_method;\
   if (errno != 0) { BSLOG_ERR goto out; }
 
 ...
@@ -290,10 +271,10 @@ static void sf_tst1() {
   //it will return error on hardly ever possible ENOMEM:
   BSVOIDMETHODS_NEW_ERR_RET(arr, 2L) //size=2
   //increase=2 when full-filled:
-  BS_METHOD_ERR_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
-  BS_METHOD_ERR_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
+  BS_INVOKE_E_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
+  BS_INVOKE_E_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
   //it will increase size or hardly ever possible ENOMEM:
-  BS_METHOD_ERR_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
+  BS_INVOKE_E_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
   bsvoidmethods_invoke_all(arr); //s_flag must be 3
   BS_METHOD_ERR(bsvoidmethods_set(arr, 4L, &amp;sf_void_meth1)) //ERROR! 4 > (size-1)=3
 out:
@@ -357,9 +338,8 @@ But "strlen" on NULL pointer will cause segmentation fault, instead of checking 
     <li>Excessive error checking and handling</li>
   </ul>
   are considered as useful here for Beigesoft standard. They obey to decrease errors, to detect and fix them more faster.
-  
 </p>
-<p>These excessive things are called "fault tolerance" in "reliability engineering".</p>
+<p>*Such excessive things are called "fault tolerance" in "reliability engineering".</p>
 <p>
   To avoid excessive double checking(validation) use well known phases:
   <ol>
@@ -367,9 +347,10 @@ But "strlen" on NULL pointer will cause segmentation fault, instead of checking 
     <li>Object further modification with validation</li>
     <li>Object using (without modification and double validation)</li>
   </ol>
+  Although GLIB/GTK use excessive double checking, they are really fast.
 </p>
 
-<h4>Using excessive checking in destructors and rapid development</h4>
+<h4>Using excessive checking in destructors</h4>
 <p>In this case, code becames more simple and readable, and IDE can generate automatically complex constructors and part of methods.</p>
 <p>
 Constructor standard style example:
@@ -498,7 +479,7 @@ out:
 }
 </pre>
 </p>
-<p>In this case destructor is more reusable and code looks more readable, error-less-able, patternable, simple and similar for many use-cases.</p>
+<p>In this case destructor is more reusable and code looks more readable, less error-able, patternable, simple and similar for many use-cases.</p>
 
 <p>
 Participate to develop additional/optimal C programs for BS LFSC (Linux From Source Code) that is planned to be portable - desktop/tablet/mobile.
