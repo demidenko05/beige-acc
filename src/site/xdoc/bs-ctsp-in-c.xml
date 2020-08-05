@@ -131,9 +131,8 @@ We should also consider these approaches and facts for optimal programming (it a
   <li>part(of lib - single h and c file) is minimum composite, there are not cross(mutual)-dependencies between parts in whole lib</li>
   <li>of course, every lib should be tested</li>
   <li>when you free an object, then GLIBC caches this memory, so additional caching seems to be redundant, i.e. you mark object as unused, then use it as new instead of creating with constructor</li>
-  <li>Java code style standard seems to be more readable, but variable aliases should be long and prefixed for debugging in native code (e.g. s_title - static title, sf_make_stuff1 - static file's method, triangle_new - public triangle's method, p_total - method's parameter)</li>
   <li>the simpler the better</li>
-  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values, etc. Also names(aliases) of data(variables) and methods should be straightly-meanings, e.g. triangle_free(p_trngl) means just free memory and nulling pointers, but object_free_clsf(p_obj) means free memory and close object's files (this helps to understand code more quickly without looking comments).</li>
+  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values, etc. Also names(aliases) of data(variables) and methods should be straightly-meanings, e.g. triangle_free(p_trngl) means just free memory and nulling pointers, but object_destroy(p_obj) means free memory and additional things like closing object's files (this helps to understand code more quickly without looking comments).</li>
   <li>use only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
   <li>source code should be well commented</li>
   <li>a lot of methods should be public only for testing purpose</li>
@@ -143,11 +142,38 @@ Rules "the simpler the better", "use only the best alternative" and "the more st
 </p>
 <p>
 Rules above and testing obey to decrease possible errors, ability to fix them more easy and faster, so as a result programming complex application in C is never complicated than do it in high level languages like Java.
-In opposite to Java, long names (aliases) in C never cause increasing stripped binary files size.
 </p>
-
 <p>
 Also for BS LFSC standard, an application's (statically upgraded, non-enterprise) interface should be GTK2 based and adapted for mobile view.
+</p>
+
+<h4>Code style</h4>
+<p>
+  This is about how to make code's words more distinct (actually more faster recognized/perceived by brain). There are facts:
+  <ul>
+    <li>In practice short aliases (variables, functions, etc. names) look better in code (exactly in code's lines, i.e. inside methods, not in data definitions).</li>
+    <li>object's member's name "len" is better (in code) than "length"</li>
+    <li>Spacing make code more readable. This is not only about inside line spaces, it's also about spaces between lines.</li>
+    <li>Vertical spaces is useful not only because of using upper-case macro. It's needed because of small monospace-fonts line spacing (actually glyph's height).</li>
+    <li>The more spaces inside line, the more longer line, i.e. it become less readable.</li>
+    <li>Distinct rules about naming words of different types and spacing improve readability, e.g. lower prefix "p" in method's arguments, "if ( i = 1 )" vs "a = s_method1 (45);" .</li>
+    <li>type name "DataSet" is better than "struct data_set". Non-struct data types (hardly ever used) should be prefixed.</li>
+    <li>type name "Compare_Tus*" is better than "int (*compare)(void*,void*)".</li>
+  </ul>
+  So, code should be spaced by spaces themselves and with shorting names. Naming and spacing should be distinct(different) depending of their subject.
+  <p>Code style should be like this:</p>
+  <ul>
+    <li>Horizontal off-start space (indentation) is 2 spaces, and big ('vary to avoid making long line) for split line's 2-nd parts (except method's "return type - name" line)</li>
+    <li>Vertical spacing is made of line with only brace (open/close block), empty line, and sometime with huge horizontal indentation (spacing) of 2-nd part[s] of a split line (in case of short next line)</li>
+    <li>Vertical spacing made of empty line is optional</li>
+    <li>Vertical spacing is optional for short methods</li>
+    <li>Types names start with upper cases.</li>
+    <li>methods and their types names are highlighted with "_", static ones should be prefixed with "s_"</li>
+    <li>variables never use "_", but use upper-cases letters after start, e.g. sTimer - static timer, pX1 - argument, bufSz - automatic var, .bufSize or better .bsize - member in an object.</li>
+    <li>Macro's names use upper-case letters with "_".</li>
+    <li>Enum values are same as macro names, except them should be prefixed with "E"</li>
+    <li>Debug lines can be long</li>
+  </ul>
 </p>
 
 <h4>Type-safe wrappers.</h4>
@@ -166,33 +192,38 @@ So, making type-unsafe generic methods and data, then wrap them (implement) with
 typedef struct {...} Record;
 
 //type-unsafe methods and data:
-typedef int Record_Consumer_Tus(Record *p_rec, void *p_instrument);
+typedef int Rec_Consume_Tus(Record *pRec, void *pInstr);
 
-int file_iterate_all_tus(FILE *p_file, Record_Consumer_Tus *p_rec_csm, void *p_instrument);
+int file_iterate_tus (FILE *pFile, Rec_Consume_Tus *pRecCsm, void *pInstr);
 ...
 
 //file RecordMax.h
 //all type-safe including wrappers:
 ...
-typedef struct {...} RecordMaxInst;
+typedef struct {...} RecordMax;
 
 //an implementation can be wrapped by another type-safe implementation (interceptor), e.g. for debugging/testing
-typedef int Record_Consumer_Max(Record *p_rec, RecordMaxInst *p_instrument);
+typedef int Rec_Consume_Max(Record *p_rec, RecordMax *pInstr);
 ...
 
 //file RecordMax.c
-int file_iterate_all_max(FILE *p_file, Record_Consumer_Max *p_rec_csm, RecordMaxInst *p_instrument) {
+int
+  file_iterate_max (FILE *pFile, Rec_Consume_Max *pRecCsm, RecordMax *pInstr)
+{
 //some preparation:
 ...
-  file_iterate_all_tus(p_file, (Record_Consumer_Tus*) p_rec_csm, (void*) p_instrument); //only type-unsafe entry
+  file_iterate_tus (pFile, (Rec_Consume_Tus*) pRecCsm, (void*) pInstr); //only type-unsafe entry
 //some finishing:
 ...
 }
 </pre>
 Standard lib should also be wrapped, it makes more easy life for a client, e.g.:
 <pre style="white-space: pre-wrap;">
-int fwrite_long_int(FILE *p_file, long int *p_data) { //type safe wrapper
-  return fwrite(p_data, sizeof(long int), 1, p_file);
+//type safe wrapper:
+int
+  fwrite_long (FILE *pFile, long int *pData)
+{
+  return fwrite (pData, sizeof(long int), 1, pFile);
 }
 </pre>
 Also autotools seems to be useless. Just add new file (and its test) into Makefile during making huge application step by step (file by file).
@@ -224,67 +255,89 @@ The best approach to handle and report errors should be like this:
 </ul>
 So, example is:
 <pre style="white-space: pre-wrap;">
-//Collection lib Types:
+//Data set lib Types:
 ...
-#define BSCOLLECTION(p_type_name, p_arr_type) typedef struct {\
-  long size; p_arr_type **array; } p_type_name;
+#define BSDATASET(pSetType) BS_IDX_T bsize; BS_IDX_T size; pSetType **vals;
 
-BSCOLLECTION(BsCollectionTus, void)
+typedef struct {
+  BSDATASET(void)
+} BsDataSetTus;
 
 typedef void BsVoid_Method(void);
 
-BSCOLLECTION(BsVoidMethods, BsVoid_Method)
-...
+typedef struct {
+  BSDATASET(BsVoid_Method)
+} BsVoidMeths;
 
 #define BSLOG_ERR bslog_log(BSLERROR, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
 
-void bscollectiontus_set(BsCollectionTus *p_arr, BS_INDEX_TYPE p_idx, void *p_obj) {
-  if (p_obj == NULL) {
-    errno = BSE_ARR_SET_NULL;
+void
+  bsdatasettus_remove_shrink (BsDataSetTus *pSet, BS_IDX_T pIdx)
+{
+  if ( pIdx &lt; BS_IDX_0 || pIdx &gt;= pSet-&gt;size )
+  {
+    errno = BSE_ARR_OUT_OF_BOUNDS;
     BSLOG_ERR
     return;
   }
-  if (p_idx &lt; BS_INDEX_MIN || p_idx &gt;= p_arr->size) {
-    errno = BSE_ARR_OUT_OF_BOUNDS;
-    BSLOG_LOG(BSLERROR, "index=%ld, array size=%ld\n", p_idx, p_arr->size)
-    return;
+  pSet-&gt;vals[pIdx] = NULL;
+  for ( BS_IDX_T l = pIdx + BS_IDX_1; l &lt; pSet-&gt;size; l++ )
+  {
+    pSet-&gt;vals[l - BS_IDX_1] = pSet-&gt;vals[l];
   }
-  p_arr->array[p_idx] = p_obj;
+  pSet-&gt;size--;
 }
+
 //Just type-safe wrapper:
-void bsvoidmethods_set(BsVoidMethods *p_arr, BS_INDEX_TYPE p_idx, BsVoid_Method *p_obj) {
-  bscollectiontus_set((BsCollectionTus*) p_arr, p_idx, (void*) p_obj);
+void
+  bsvoidmeths_remove_shrink (BsVoidMeths *pSet, BS_IDX_T pIdx)
+{
+  bsdatasettus_remove_shrink ((BsDataSetTus*) pSet, pIdx);
 }
+
 //Error propagation generic macro:
-#define BS_INVOKE_E_OUT(p_invoke_method) p_invoke_method;\
+#define BS_DO_E_OUT(p_invoked) p_invoked;\
   if (errno != 0) { BSLOG_ERR goto out; }
-
 ...
-//CLIENT's sub-lib: error propagation:
-static int s_flag = 0;
 
-static void sf_void_meth1(void) {
-  s_flag++;
+//CLIENT's sub-lib: error propagation:
+static int sCount = 0;
+
+static void
+  s_void_meth1 (void)
+{
+  sCount++;
 }
 
-static void sf_tst1() {
+static void
+  s_test1 ()
+{
   //it will return error on hardly ever possible ENOMEM:
-  BSVOIDMETHODS_NEW_ERR_RET(arr, 2L) //size=2
+  BSVOIDMETHS_NEW_E_RET (arr, 2L) //size=2
+
   //increase=2 when full-filled:
-  BS_INVOKE_E_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
-  BS_INVOKE_E_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
+  BS_DO_E_OUT (bsvoidmeths_add_inc (arr, &amp;s_void_meth1, 2))
+
+  BS_DO_E_OUT (bsvoidmeths_add_inc (arr, &amp;s_void_meth1, 2))
+
   //it will increase size or hardly ever possible ENOMEM:
-  BS_INVOKE_E_OUT(bsvoidmethods_add(arr, &amp;sf_void_meth1, 2))
-  bsvoidmethods_invoke_all(arr); //s_flag must be 3
-  BS_METHOD_ERR(bsvoidmethods_set(arr, 4L, &amp;sf_void_meth1)) //ERROR! 4 > (size-1)=3
+  BS_DO_E_OUT (bsvoidmeths_add_inc (arr, &amp;s_void_meth1, 2))
+
+  bsvoidmeths_invoke_all (arr); //sCount must be 3
+
+  BS_DO_ERR (bsvoidmeths_remove_shrink (arr, 4L)) //ERROR! 4 &gt; (size-1)=3
+
 out:
-  bsvoidmethods_free(arr);
+  bsvoidmeths_free(arr);
 }
 //Main client:
-int main(int argc, char *argv[]) {
+int
+  main (int argc, char *argv[])
+{
   ...
-  sf_tst1(); //must be BSE_ARR_OUT_OF_BOUNDS
-  if (errno != 0) {
+  s_test1 (); //must be BSE_ARR_OUT_OF_BOUNDS
+  if ( errno != 0 )
+  {
     //report to user and stay working
     //or finishing (free memory and closing files) and exiting:
     ...
@@ -292,10 +345,10 @@ int main(int argc, char *argv[]) {
   //normal steps:
   ...
 //back-trace report will be:
-20/07/20 10:37:38.546 thread#140285484025600 ERROR: Out of bounds
-  BsCollection.c:bscollectiontus_set:297, index=4, array size=4
-20/07/20 10:37:38.546 thread#140285484025600 ERROR: Out of bounds
-  tst_BsCollection.c:sf_tst1:36
+02/08/20 13:59:06.367 thread#140432137471744 ERROR: Out of bounds
+  BsDataSet.c:bsdatasettus_remove_shrink:498
+02/08/20 13:59:06.367 thread#140432137471744 ERROR: Out of bounds
+  tst_BsDataSet.c:s_test1:67
 </pre>
 But this approach can't catch real happen error e.g. "Segmentation fault".
 GLIBC utility "catchsegv" allows to track these errors by hand. But GDB is the best alternative, just use "backtrace" or "bt".
@@ -355,127 +408,147 @@ But "strlen" on NULL pointer will cause segmentation fault, instead of checking 
 <p>
 Constructor standard style example:
 <pre style="white-space: pre-wrap;">
-BsLogFiles *bslogfiles_new(int p_size) {
-  if (p_size &lt; 1) {
+BsLogFiles*
+  bslogfiles_new (int pSize)
+{
+  if ( pSize &lt; 1 ) {
     errno = BSE_ARR_WPSIZE;
-    fprintf(stderr, "%s %s\n", __func__, bserror_to_str(errno));
+    fprintf (stderr, "%s %s\n", __func__, bserror_to_str(errno));
     return NULL;
   }
-  BsLogFiles *obj = malloc(sizeof(BsLogFiles));
-  if (obj == NULL) {
-    if (errno == 0) { errno = ENOMEM; }
-    perror(__func__);
+  BsLogFiles *obj = malloc (sizeof (BsLogFiles));
+  if ( obj == NULL )
+  {
+    if ( errno == 0 ) { errno = ENOMEM; }
+    perror (__func__);
     return NULL;
   }
-  obj-&gt;files = malloc(p_size * sizeof(BsLogFile*));
-  if (obj-&gt;files == NULL) {
-    goto err1;
-  }
-  obj-&gt;size = p_size;
+  obj-&gt;files = malloc (pSize * sizeof (BsLogFile*));
+  if (obj-&gt;files == NULL)
+                      { goto err1; }
+  obj-&gt;size = pSize;
   int i;
-  for (i = 0; i &lt; obj-&gt;size; i++) {
+  for ( i = 0; i &lt; obj-&gt;size; i++ )
+  {
     obj-&gt;files[i] = NULL;
   }
-  for (i = 0; i &lt; obj-&gt;size; i++) {
+  for ( i = 0; i &lt; obj-&gt;size; i++ )
+  {
     obj-&gt;files[i] = malloc(sizeof(BsLogFile));
-    if (obj-&gt;files[i] == NULL) {
-      goto err2;
-    }
+    if (obj-&gt;files[i] == NULL)
+                      { goto err2; }
     obj-&gt;files[i]-&gt;file = NULL;
     obj-&gt;files[i]-&gt;path = NULL;
   }
   return obj;
 err2:
-  for (i = 0; i &lt; obj-&gt;size; i++) {
-    if (obj-&gt;files[i] != NULL) {
-      free(obj-&gt;files[i]);
-    }
+  for ( i = 0; i &lt; obj-&gt;size; i++ )
+  {
+    if ( obj-&gt;files[i] != NULL )
+                      { free (obj-&gt;files[i]); }
   }
-  free(obj-&gt;files);
+  free (obj-&gt;files);
 err1:
-  free(obj);
-  if (errno == 0) { errno = ENOMEM; }
-  perror(__func__);
+  free (obj);
+  if ( errno == 0 ) { errno = ENOMEM; }
+  perror (__func__);
   return NULL;
 }
 </pre>
 Constructor/destructor with excessive checking example:
 <pre style="white-space: pre-wrap;">
-BsLogFiles *bslogfiles_new(int p_size) {
-  if (p_size &lt; 1) {
+BsLogFiles*
+  bslogfiles_new (int pSize)
+{
+  if ( pSize &lt; 1 )
+  {
     errno = BSE_ARR_WPSIZE;
-    fprintf(stderr, "%s %s\n", __func__, bserror_to_str(errno));
+    fprintf (stderr, "%s %s\n", __func__, bserror_to_str(errno));
     return NULL;
   }
-  BsLogFiles *obj = malloc(sizeof(BsLogFiles));
-  if (obj == NULL) {
-    if (errno == 0) { errno = ENOMEM; }
-    perror(__func__);
+  BsLogFiles *obj = malloc (sizeof (BsLogFiles));
+  if ( obj == NULL )
+  {
+    if ( errno == 0 ) { errno = ENOMEM; }
+    perror (__func__);
     return NULL;
   }
-  obj-&gt;files = malloc(p_size * sizeof(BsLogFile*));
-  if (obj-&gt;files == NULL) {
-    obj = bslogfiles_free(obj);
+  obj-&gt;files = malloc (pSize * sizeof (BsLogFile*));
+  if ( obj-&gt;files == NULL )
+  {
+    obj = bslogfiles_free (obj);
     goto out;
   }
-  obj-&gt;size = p_size;
+  obj-&gt;size = pSize;
   int i;
-  for (i = 0; i &lt; obj-&gt;size; i++) {
+  for ( i = 0; i &lt; obj-&gt;size; i++ )
+  {
     obj-&gt;files[i] = NULL;
   }
-  for (i = 0; i &lt; obj-&gt;size; i++) {
-    obj-&gt;files[i] = malloc(sizeof(BsLogFile));
-    if (obj-&gt;files[i] == NULL) {
-      obj = bslogfiles_free(obj);
+  for ( i = 0; i &lt; obj-&gt;size; i++ )
+  {
+    obj-&gt;files[i] = malloc (sizeof (BsLogFile));
+    if ( obj-&gt;files[i] == NULL )
+    {
+      obj = bslogfiles_free (obj);
       break;
     }
     obj-&gt;files[i]-&gt;file = NULL;
     obj-&gt;files[i]-&gt;path = NULL;
   }
 out:
-  if (obj == NULL) {
-    if (errno == 0) { errno = ENOMEM; }
-    perror(__func__);
+  if ( obj == NULL )
+  {
+    if ( errno == 0 ) { errno = ENOMEM; }
+    perror (__func__);
   }
   return obj;
 }
 //Destructor with excessive checking that always return NULL:
-BsLogFiles *bslogfiles_free(BsLogFiles *p_log_files) {
-  if (p_log_files != NULL) {
-    if (p_log_files-&gt;files != NULL) {
-      for (int i = 0; i &lt; p_log_files-&gt;size; i++) {
-        if (p_log_files-&gt;files[i]-&gt;file != NULL) {
-          fprintf(p_log_files-&gt;files[i]-&gt;file, "BS-LOG try to close...\n");
-          fclose(p_log_files-&gt;files[i]-&gt;file);
+BsLogFiles*
+  bslogfiles_free (BsLogFiles *pLogFls)
+{
+  if ( pLogFls != NULL ) {
+    if ( pLogFls-&gt;files != NULL ) {
+      for ( int i = 0; i &lt; pLogFls-&gt;size; i++ ) {
+        if ( pLogFls-&gt;files[i]-&gt;file != NULL ) {
+          fprintf (pLogFls-&gt;files[i]-&gt;file, "BS-LOG try to close...\n");
+          fclose (pLogFls-&gt;files[i]-&gt;file);
         }
-        if (p_log_files-&gt;files[i]-&gt;path != NULL) {
-          free(p_log_files-&gt;files[i]-&gt;path);
+        if ( pLogFls-&gt;files[i]-&gt;path != NULL ) {
+          free (pLogFls-&gt;files[i]-&gt;path);
         }
-        free(p_log_files-&gt;files[i]);
+        free (pLogFls-&gt;files[i]);
       }
-      free(p_log_files-&gt;files);
+      free (pLogFls-&gt;files);
     }
-    free(p_log_files);
+    free (pLogFls);
   }
   return NULL;
 }
 </pre>
 Method using constructors/destructors with excessive checking example (this part can be generated by IDE):
 <pre style="white-space: pre-wrap;">
-void method1(void) {
-  OBJECTTYPE0_NEW_ERR_RET(ot0)
+void
+  method1 (void)
+{
+  OBJECTTYPE0_NEW_ERR_RET (ot0)
+
   ObjectType1 ot1 = NULL;
   ObjectType2 ot2 = NULL;
   ObjectType3 ot3 = NULL;
-  INVOKE_ERR_OUT(ot1 = objecttype1_new())
-  INVOKE_ERR_OUT(ot2 = objecttype2_new())
-  INVOKE_ERR_OUT(ot3 = objecttype3_new())
+
+  INVOKE_ERR_OUT (ot1 = objecttype1_new())
+
+  INVOKE_ERR_OUT (ot2 = objecttype2_new())
+
+  INVOKE_ERR_OUT (ot3 = objecttype3_new())
   ...
 out:
-  objecttype0_free(ot0);
-  objecttype1_free(ot1);
-  objecttype2_free(ot2);
-  objecttype3_free(ot3);
+  objecttype0_free (ot0);
+  objecttype1_free (ot1);
+  objecttype2_free (ot2);
+  objecttype3_free (ot3);
 }
 </pre>
 </p>
