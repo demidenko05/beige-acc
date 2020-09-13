@@ -9,7 +9,7 @@ See LICENSE in base folder
 <comment>Beigesoft ORM common settings</comment>
 <entry key="appInf">Beige-EIS ver1.0</entry>
 <entry key="dbUrl">jdbc:mysql://localhost/bseis</entry>
-<entry key="dsCls">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</entry>
+<entry key="dsCls">com.mysql.cj.jdbc.MysqlDataSource</entry>
 <entry key="dbUsr">beigeaccounting</entry>
 <entry key="dbPsw">beigeaccounting</entry>
 <entry key="checkTbl">select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='bseis' and TABLE_NAME=':tblNm';</entry>
