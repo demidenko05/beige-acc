@@ -264,6 +264,7 @@ public class FcPrWs<RS> implements IFctPrc {
   private PrPur<RS> crPuPrPur(final Map<String, Object> pRvs) throws Exception {
     PrPur<RS> rz = new PrPur<RS>();
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    rz.setSpamHnd(this.fctBlc.lazHndSpam(pRvs));
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);
@@ -292,6 +293,7 @@ public class FcPrWs<RS> implements IFctPrc {
   private PrLog<RS> crPuPrLog(final Map<String, Object> pRvs) throws Exception {
     PrLog<RS> rz = new PrLog<RS>();
     rz.setLog(this.fctBlc.lazLogStd(pRvs));
+    rz.setSpamHnd(this.fctBlc.lazHndSpam(pRvs));
     @SuppressWarnings("unchecked")
     IRdb<RS> rdb = (IRdb<RS>) this.fctBlc.laz(pRvs, IRdb.class.getSimpleName());
     rz.setRdb(rdb);

@@ -164,29 +164,7 @@
     <dependency>
       <groupId>org.beigesoft</groupId>
       <artifactId>beige-blc</artifactId>
-      <version>1.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.zaxxer</groupId>
-          <artifactId>HikariCP</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <version>3.4.5</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.beigesoft</groupId>
@@ -202,7 +180,7 @@
     <dependency>
       <groupId>org.beigesoft</groupId>
       <artifactId>beige-blc</artifactId>
-      <version>1.0</version>
+      <version>1.1-SNAPSHOT</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

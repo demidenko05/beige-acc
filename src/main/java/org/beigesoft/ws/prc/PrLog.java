@@ -39,6 +39,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.mdl.ColVals;
 import org.beigesoft.log.ILog;
+import org.beigesoft.hnd.IHndSpam;
 import org.beigesoft.prc.IPrc;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.rdb.IOrm;
@@ -66,6 +67,11 @@ public class PrLog<RS> implements IPrc {
    * <p>Logger.</p>
    **/
   private ILog log;
+
+  /**
+   * <p>Spam handler.</p>
+   **/
+  private IHndSpam spamHnd;
 
   /**
    * <p>ORM service.</p>
@@ -169,7 +175,7 @@ public class PrLog<RS> implements IPrc {
               "Several users with same password and email!: " + eml);
           }
         } else {
-          spam(pRvs, pRqDt);
+          this.spamHnd.handle(pRvs, pRqDt, 10, "Unregistered buyer wrong request!");
         }
       } else { //registered:
         if (now - buyer.getLsTm() < 1800000L && buyer.getBuSeId() != null) {
@@ -215,7 +221,7 @@ public class PrLog<RS> implements IPrc {
               this.orm.update(pRvs, vs, buyer);
             }
           } else { //either spam or buyr login from other browser without logout
-            spam(pRvs, pRqDt);
+            this.spamHnd.handle(pRvs, pRqDt, 5, "Either spam or buyr login from other browser without logout!");
           }
         } else { //unauthorized requests:
           if (pwd != null) { //login action:
@@ -230,7 +236,7 @@ public class PrLog<RS> implements IPrc {
               pRvs.put("errMsg", "wrong_password");
             }
           } else {
-            spam(pRvs, pRqDt);
+            this.spamHnd.handle(pRvs, pRqDt, 10, "Registered buyer wrong authorization request!");
           }
         }
       }
@@ -245,21 +251,11 @@ public class PrLog<RS> implements IPrc {
     }
     String procNm = pRqDt.getParam("prcRed");
     if (getClass().getSimpleName().equals(procNm)) {
+      this.spamHnd.handle(pRvs, pRqDt, 11111, "Attempt to cyrcle redirect!");
       throw new ExcCode(ExcCode.SPAM, "Danger! stupid scam!!!");
     }
     IPrc proc = this.fcPrWs.laz(pRvs, procNm);
     proc.process(pRvs, pRqDt);
-  }
-
-  /**
-   * <p>Handles spam.</p>
-   * @param pRvs request scoped vars
-   * @param pRqDt Request Data
-   * @throws Exception - an exception
-   **/
-  public final void spam(final Map<String, Object> pRvs,
-    final IReqDt pRqDt) throws Exception {
-    //TODO
   }
 
   /**
@@ -449,5 +445,21 @@ public class PrLog<RS> implements IPrc {
    **/
   public final void setBuySr(final IBuySr pBuySr) {
     this.buySr = pBuySr;
+  }
+
+  /**
+   * <p>Getter for spamHnd.</p>
+   * @return IHndSpam
+   **/
+  public final IHndSpam getSpamHnd() {
+    return this.spamHnd;
+  }
+
+  /**
+   * <p>Setter for spamHnd.</p>
+   * @param pSpamHnd reference
+   **/
+  public final void setSpamHnd(final IHndSpam pSpamHnd) {
+    this.spamHnd = pSpamHnd;
   }
 }

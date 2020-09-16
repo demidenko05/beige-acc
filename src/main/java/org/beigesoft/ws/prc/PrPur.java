@@ -37,6 +37,7 @@ import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.log.ILog;
 import org.beigesoft.prc.IPrc;
+import org.beigesoft.hnd.IHndSpam;
 import org.beigesoft.rdb.IOrm;
 import org.beigesoft.rdb.IRdb;
 import org.beigesoft.ws.mdl.EPaymMth;
@@ -68,9 +69,9 @@ public class PrPur<RS> implements IPrc {
   private ILog log;
 
   /**
-   * <p>Logger security.</p>
+   * <p>Spam handler.</p>
    **/
-  private ILog secLog;
+  private IHndSpam spamHnd;
 
   /**
    * <p>Database service.</p>
@@ -116,7 +117,7 @@ public class PrPur<RS> implements IPrc {
     }
     Buyer buyer = this.buySr.getAuthBuyr(pRvs, pRqDt);
     if (buyer == null) {
-  this.log.warn(pRvs, getClass(), "Trying to accept purchase without buyer!");
+      this.spamHnd.handle(pRvs, pRqDt, 100, "Trying to accept purchase without buyer!");
       redir(pRvs, pRqDt);
       return;
     }
@@ -187,6 +188,7 @@ public class PrPur<RS> implements IPrc {
     final IReqDt pRqDt) throws Exception {
     String procNm = pRqDt.getParam("prcRed");
     if (getClass().getSimpleName().equals(procNm)) {
+      this.spamHnd.handle(pRvs, pRqDt, 11111, "Attempt to cyrcle redirect!");
       throw new ExcCode(ExcCode.SPAM, "Danger! Stupid scam!!!");
     }
     IPrc proc = this.fcPrWs.laz(pRvs, procNm);
@@ -211,19 +213,19 @@ public class PrPur<RS> implements IPrc {
   }
 
   /**
-   * <p>Getter for secLog.</p>
-   * @return ILog
+   * <p>Getter for spamHnd.</p>
+   * @return IHndSpam
    **/
-  public final ILog getSecLog() {
-    return this.secLog;
+  public final IHndSpam getSpamHnd() {
+    return this.spamHnd;
   }
 
   /**
-   * <p>Setter for secLog.</p>
-   * @param pSecLog reference
+   * <p>Setter for spamHnd.</p>
+   * @param pSpamHnd reference
    **/
-  public final void setSecLog(final ILog pSecLog) {
-    this.secLog = pSecLog;
+  public final void setSpamHnd(final IHndSpam pSpamHnd) {
+    this.spamHnd = pSpamHnd;
   }
 
   /**

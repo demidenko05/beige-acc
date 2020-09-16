@@ -252,11 +252,10 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
           List<FltSpf> fltSpfs = revFltsSpec(tcat, pRvs, pRqDt);
           String whereAdd = revWhePri(fltPri, cuRt);
           String whereCatl = revealWhereCatl(tcat, fltCatl);
-          //TODO StringBuffer
-          String queryg = null;
-          String querys = null;
-          String queryseg = null;
-          String queryses = null;
+          StringBuffer queryg = null;
+          StringBuffer querys = null;
+          StringBuffer queryseg = null;
+          StringBuffer queryses = null;
           if (ts.getAi18n()) {
             UsPrf upf = (UsPrf) pRvs.get("upf");
             CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
@@ -264,70 +263,82 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
             String langDef = cpf.getLngDef().getIid();
             if (!lang.equals(langDef)) {
               if (tcat.getCatl().getHsGds()) {
-                queryg = lazyGetQuItInLstCaIn().replace(":ITTYP", "0")
+                queryg = new StringBuffer();
+                queryg.append(lazyGetQuItInLstCaIn().replace(":ITTYP", "0")
       .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
-    .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+    .replace(":WHEREADD", whereAdd).replace(":LNG", lang));
               }
               if (tcat.getCatl().getHsSrv()) {
-                querys = lazyGetQuItInLstCaIn().replace(":ITTYP", "1")
+                querys = new StringBuffer();
+                querys.append(lazyGetQuItInLstCaIn().replace(":ITTYP", "1")
     .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
-  .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+  .replace(":WHEREADD", whereAdd).replace(":LNG", lang));
               }
               if (tcat.getCatl().getHsSgo()) {
-                queryseg = lazyGetQuItInLstCaIn().replace(":ITTYP", "2")
+                queryseg = new StringBuffer();
+                queryseg.append(lazyGetQuItInLstCaIn().replace(":ITTYP", "2")
      .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
-   .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+   .replace(":WHEREADD", whereAdd).replace(":LNG", lang));
               }
               if (tcat.getCatl().getHsSse()) {
-                queryses = lazyGetQuItInLstCaIn().replace(":ITTYP", "3")
+                queryses = new StringBuffer();
+                queryses.append(lazyGetQuItInLstCaIn().replace(":ITTYP", "3")
             .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
-          .replace(":WHEREADD", whereAdd).replace(":LNG", lang);
+          .replace(":WHEREADD", whereAdd).replace(":LNG", lang));
               }
             }
           }
           if (tcat.getCatl().getHsGds() && queryg == null) {
-            queryg = lazyGetQuItInLstCa().replace(":ITTYP", "0")
+            queryg = new StringBuffer();
+            queryg.append(lazyGetQuItInLstCa().replace(":ITTYP", "0")
       .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
-    .replace(":WHEREADD", whereAdd);
+    .replace(":WHEREADD", whereAdd));
           }
           if (tcat.getCatl().getHsSrv() && querys == null) {
-            querys = lazyGetQuItInLstCa().replace(":ITTYP", "1")
+            querys = new StringBuffer();
+            querys.append(lazyGetQuItInLstCa().replace(":ITTYP", "1")
     .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
-  .replace(":WHEREADD", whereAdd);
+  .replace(":WHEREADD", whereAdd));
           }
           if (tcat.getCatl().getHsSgo() && queryseg == null) {
-            queryseg = lazyGetQuItInLstCa().replace(":ITTYP", "2")
+            queryseg = new StringBuffer();
+            queryseg.append(lazyGetQuItInLstCa().replace(":ITTYP", "2")
      .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
-   .replace(":WHEREADD", whereAdd);
+   .replace(":WHEREADD", whereAdd));
           }
           if (tcat.getCatl().getHsSse() && queryses == null) {
-            queryses = lazyGetQuItInLstCa().replace(":ITTYP", "3")
+            queryses = new StringBuffer();
+            queryses.append(lazyGetQuItInLstCa().replace(":ITTYP", "3")
          .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
-       .replace(":WHEREADD", whereAdd);
+       .replace(":WHEREADD", whereAdd));
           }
-          String querygRc = null;
+          StringBuffer querygRc = null;
           if (tcat.getCatl().getHsGds()) {
-            querygRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "0")
+            querygRc = new StringBuffer();
+            querygRc.append(lazyGetQuItInLstCaTo().replace(":ITTYP", "0")
       .replace(":TITCAT", "ITMCTL").replace(":FLTCAT", whereCatl)
-    .replace(":WHEREADD", whereAdd);
+    .replace(":WHEREADD", whereAdd));
           }
-          String querysRc = null;
+          StringBuffer querysRc = null;
           if (tcat.getCatl().getHsSrv()) {
-            querysRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "1")
+            querysRc = new StringBuffer();
+            querysRc.append(lazyGetQuItInLstCaTo().replace(":ITTYP", "1")
     .replace(":TITCAT", "SRVCTL").replace(":FLTCAT", whereCatl)
-  .replace(":WHEREADD", whereAdd);
+  .replace(":WHEREADD", whereAdd));
           }
-          String querysegRc = null;
+          StringBuffer querysegRc = null;
           if (tcat.getCatl().getHsSgo()) {
-            querysegRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "2")
+            querysegRc = new StringBuffer();
+            querysegRc.append(lazyGetQuItInLstCaTo().replace(":ITTYP", "2")
      .replace(":TITCAT", "SEITMCTL").replace(":FLTCAT", whereCatl)
-    .replace(":WHEREADD", whereAdd);
+    .replace(":WHEREADD", whereAdd));
           }
-          String querysesRc = null;
+          StringBuffer querysesRc = null;
           if (tcat.getCatl().getHsSse()) {
-            querysesRc = lazyGetQuItInLstCaTo().replace(":ITTYP", "3")
+            querysesRc = new StringBuffer();
+            querysesRc.append(lazyGetQuItInLstCaTo().replace(":ITTYP", "3")
              .replace(":TITCAT", "SESRVCTL").replace(":FLTCAT", whereCatl)
-              .replace(":WHEREADD", whereAdd);
+              .replace(":WHEREADD", whereAdd));
           }
           boolean dbgSh = getLog().getDbgSh(this.getClass(), 13100);
           if (fltSpfs != null) {
@@ -341,74 +352,74 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
                 String querySpec = lazyGetQuItSpFlt()
       .replace(":TITSPEC", "ITMSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-                queryg += querySpec;
-                querygRc += querySpec;
+                queryg.append(querySpec);
+                querygRc.append(querySpec);
               }
               if (querys != null) {
                 String querySpec = lazyGetQuItSpFlt()
       .replace(":TITSPEC", "SRVSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-                querys += querySpec;
-                querysRc += querySpec;
+                querys.append(querySpec);
+                querysRc.append(querySpec);
               }
               if (queryseg != null) {
                 String querySpec = lazyGetQuItSpFlt()
       .replace(":TITSPEC", "SEITMSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-                queryseg += querySpec;
-                querysegRc += querySpec;
+                queryseg.append(querySpec);
+                querysegRc.append(querySpec);
               }
               if (queryses != null) {
                 String querySpec = lazyGetQuItSpFlt()
       .replace(":TITSPEC", "SESRVSPF").replace(":WHESPITFLR", whereSpec
     .getWhere()).replace(":SPITFLTCO", whereSpec.getWhereCount().toString());
-                queryses += querySpec;
-                querysesRc += querySpec;
+                queryses.append(querySpec);
+                querysesRc.append(querySpec);
               }
             }
           }
           if (queryg != null || querys != null || queryseg != null
             || queryses != null) {
-            String query = null;
-            String queryRc = null;
+            StringBuffer query = new StringBuffer();
+            StringBuffer queryRc = new StringBuffer();
             if (queryg != null) {
-              query = queryg;
-              queryRc = querygRc;
+              query.append(queryg.toString());
+              queryRc.append(querygRc.toString());
             }
             if (querys != null) {
-              if (query == null) {
-                query = querys;
-                queryRc = querysRc;
-              } else {
-                query += "\n union all \n" + querys;
-                queryRc += "\n union all \n" + querysRc;
+              if (query.length() != 0) {
+                query.append("\n union all \n");
+                queryRc.append("\n union all \n");
               }
+              query.append(querys.toString());
+              queryRc.append(querysRc.toString());
             }
             if (queryseg != null) {
-              if (query == null) {
-                query = queryseg;
-                queryRc = querysegRc;
-              } else {
-                query += "\n union all \n" + queryseg;
-                queryRc += "\n union all \n" + querysegRc;
+              if (query.length() != 0) {
+                query.append("\n union all \n");
+                queryRc.append("\n union all \n");
               }
+              query.append(queryseg.toString());
+              queryRc.append(querysegRc.toString());
             }
             if (queryses != null) {
-              if (query == null) {
-                query = queryses;
-                queryRc = querysesRc;
-              } else {
-                query += "\n union all \n" + queryses;
-                queryRc += "\n union all \n" + querysesRc;
+              if (query.length() != 0) {
+                query.append("\n union all \n");
+                queryRc.append("\n union all \n");
               }
+              query.append(queryses.toString());
+              queryRc.append(querysesRc.toString());
             }
-            queryRc = "select count(*) as TROWS from (" + queryRc
-              + ") as ALLTOT";
+            String qrc = queryRc.toString();
+            queryRc.delete(0, queryRc.length());
+            queryRc.append("select count(*) as TROWS from (");
+            queryRc.append(qrc);
+            queryRc.append(") as ALLTOT");
             if (orderBy != null) {
-              query += orderBy;
+              query.append(orderBy);
             }
-            queryRc += ";";
-            Integer rowCount = this.rdb.evInt(queryRc, "TROWS");
+            queryRc.append(";");
+            Integer rowCount = this.rdb.evInt(queryRc.toString(), "TROWS");
             String[] ndFds = new String[] {"typ", "itId", "nme", "img", "specs",
               "pri", "priPr", "quan", "detMt"};
             Arrays.sort(ndFds);
@@ -427,7 +438,7 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
             }
             int firstResult = (page - 1) * cpf.getPgSz(); //0-20,20-40
             List<Itlist> itList = getOrm().retPgQu(pRvs, vs, Itlist.class,
-              query, firstResult, cpf.getPgSz()); vs.clear();
+              query.toString(), firstResult, cpf.getPgSz()); vs.clear();
             if (ts.getPriCus() && cart != null
               && cart.getBuyr().getEml() != null) {
               List<BurPric> burPrics = getOrm().retLstCnd(pRvs, vs,
