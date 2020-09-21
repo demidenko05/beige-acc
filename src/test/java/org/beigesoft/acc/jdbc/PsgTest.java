@@ -26,7 +26,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.srv;
+package org.beigesoft.acc.jdbc;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -44,9 +44,9 @@ import java.math.BigDecimal;
 
 import org.beigesoft.log.ILog;
 import org.beigesoft.fct.FctBlc;
-import org.beigesoft.acc.fct.FctTstPsg;
 import org.beigesoft.prp.ISetng;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.acc.srv.TstSrBlnc;
 
 /**
  * <p>Postgres tests.</p>

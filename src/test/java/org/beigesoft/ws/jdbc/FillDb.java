@@ -26,7 +26,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.ws;
+package org.beigesoft.ws.jdbc;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ import java.sql.ResultSet;
 import org.beigesoft.log.ILog;
 import org.beigesoft.fct.FctDt;
 import org.beigesoft.fct.FctBlc;
-import org.beigesoft.acc.fct.FctTstSqlt;
+import org.beigesoft.acc.jdbc.FctTstSqlt;
 import org.beigesoft.prp.Setng;
 import org.beigesoft.prp.ISetng;
 import org.beigesoft.rdb.IOrm;

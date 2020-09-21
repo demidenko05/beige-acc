@@ -26,7 +26,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.beigesoft.acc.srv;
+package org.beigesoft.acc.jdbc;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -44,31 +44,40 @@ import java.math.BigDecimal;
 
 import org.beigesoft.log.ILog;
 import org.beigesoft.fct.FctBlc;
-import org.beigesoft.acc.fct.FctTstMyl;
 import org.beigesoft.prp.ISetng;
 import org.beigesoft.rdb.IOrm;
+import org.beigesoft.acc.srv.TstSrBlnc;
 
 /**
- * <p>Mysql tests.</p>
+ * <p>SQlite tests.</p>
  *
  * @author Yury Demidenko
  */
-public class MylTest {
+public class SqltTest {
 
-  private FctTstMyl fctApp;
+  private FctTstSqlt fctApp;
  
   private Map<String, Object> rqVs = new HashMap<String, Object>();
 
-  public MylTest() throws Exception {
-    this.fctApp = new FctTstMyl();
-    this.fctApp.getFctBlc().getFctDt().setLogStdNm(MylTest.class.getSimpleName());
+  public SqltTest() throws Exception {
+    this.fctApp = new FctTstSqlt();
+    this.fctApp.getFctBlc().getFctDt().setLogStdNm(SqltTest.class.getSimpleName());
     this.fctApp.getFctBlc().lazLogStd(rqVs).test(rqVs, getClass(), "Starting...");
-    this.fctApp.getFctBlc().getFctDt().setStgOrmDir("mysql");
+    this.fctApp.getFctBlc().getFctDt().setStgOrmDir("sqlite");
     ISetng setng = this.fctApp.getFctBlc().lazStgOrm(rqVs);
-    this.fctApp.getFctBlc().getFctDt().setDbCls(setng.lazCmnst().get(IOrm.DSCLS));
-    this.fctApp.getFctBlc().getFctDt().setDbUsr(setng.lazCmnst().get(IOrm.DBUSR));
-    this.fctApp.getFctBlc().getFctDt().setDbPwd(setng.lazCmnst().get(IOrm.DBPSW));
-    this.fctApp.getFctBlc().getFctDt().setDbUrl(setng.lazCmnst().get(IOrm.DBURL));
+    String dbUrl = setng.lazCmnst().get(IOrm.DBURL);
+    String currDir = System.getProperty("user.dir");
+    if (dbUrl.contains(IOrm.CURDIR)) {
+      dbUrl = dbUrl.replace(IOrm.CURDIR, currDir + File.separator);
+    } else if (dbUrl.contains(IOrm.CURPDIR)) {
+      File fcd = new File(currDir);
+      dbUrl = dbUrl.replace(IOrm.CURPDIR, fcd.getParent() + File.separator);
+    }
+    if (dbUrl.contains("#FS#")) {
+      dbUrl = dbUrl.replace("#FS#",  File.separator);
+    }
+    this.fctApp.getFctBlc().getFctDt().setDbUrl(dbUrl);
+    this.fctApp.getFctBlc().getFctDt().setDbCls(setng.lazCmnst().get(IOrm.JDBCCLS));
   }
 
   @Test
