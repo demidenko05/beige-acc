@@ -11,19 +11,20 @@
 
     <section name="Software installation, accounting settings, chart of accounts, started capital.">
 
-<p>Keywords: free and open-source double-entry accounting software.</p>
+<p><b>Keywords: free and open-source double-entry accounting software.</b></p>
 
-<p>* the easiest way to install and try Beigesoft™ EIS is installing it on an Android device,
-  because of you don't need to install the Java and the crypto-provider in this case, see <a href="eis-android.html">Beigesoft™ EIS for Android</a>.</p>
+<p><i>* The easiest way to install and try Beigesoft™ EIS is installing it on an Android device,
+  because of you don't need to install the Java and the crypto-provider in this case, see <a href="eis-android.html">Beigesoft™ EIS for Android</a>.
+</i></p>
 
 <p>Bob Brown from NY decided to start his own pizza business as sole proprietor.
-Bob's Pizza makes frozen pizza, so according to <a href="https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/food_sold_by_food_stores.htm">NYS. sales taxable food</a>
+Bob's Pizza makes frozen pizza, so according to <a href="HTTPS://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/food_sold_by_food_stores.htm">NYS. sales taxable food</a>
 he isn't a sales tax vendor.
-Bob read <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a business</a> and elected:
+Bob read <a href="HTTPS://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a business</a> and elected:
 <ul>
   <li>calendar tax year</li>
   <li>account Inventory to calculate costs that decrease his income tax, so he has to use accrual accounting method.</li>
-  <li>FIFO method for pizza ingredients whose cost can't be recognized (e.g. eggs) according <a href="https://www.irs.gov/pub/irs-pdf/p538.pdf">IRS Accounting Periods and Methods</a></li>
+  <li>FIFO method for pizza ingredients whose cost can't be recognized (e.g. eggs) according <a href="HTTPS://www.irs.gov/pub/irs-pdf/p538.pdf">IRS Accounting Periods and Methods</a></li>
 </ul>
 </p>
 <p>
@@ -31,48 +32,54 @@ Bob read <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a b
   In addition, it works as standalone WEB application on a notebook and on an Android tablet with the same SQLite database.
   Bob can send database from his notebook to his tablet and vise versa.
   In the future (when it'll be needed) Bob can publish his database on the cloud, Beigesoft™ EIS is ready for high load job.
-  You are able to transfer full data from any EIS's SQlite database into high load (enterprise ready) MySql or PostgreSql database
+  You are able to transfer full data from any EIS's SQlite database into high performance (enterprise ready) MySql or PostgreSql database
   by using WEB-service (see <a href="eis-import-db-web.html">Import an EIS database by using WEB-service</a>).
 </p>
 
 <p>
-  Bob installed Java (Oracle) and Google Chrome on his notebook (Chromium or Opera will do too). 
-  Bob downloaded a file <b>beige-accjet-bin.zip</b> from  central Maven repository <a href="https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22">https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22</a>
-  or <a href="https://repo1.maven.org/maven2/org/beigesoft/beige-accjet/">https://repo1.maven.org/maven2/org/beigesoft/beige-accjet/</a>.
+  Bob installed Java SE 8 (JRE8 from the official Oracle web-site) and Google Chrome on his notebook (Chromium or Opera will do too). 
+  Bob downloaded <b>beige-accjet-bin.zip</b> from  central Maven repository <a href="HTTPS://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22">HTTPS://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22</a>
+  or <a href="HTTPS://repo1.maven.org/maven2/org/beigesoft/beige-accjet/">HTTPS://repo1.maven.org/maven2/org/beigesoft/beige-accjet/</a>.
   He extracted the ZIP archive then launched the JAR file <b> beige-accjet-jar-with-dependencies.jar</b> by double click on it or right click and choose Java.
   You can start any executable JAR from command line (synonyms - "terminal", "command prompt", "power shell") by type command:  
-  <b>java -jar beige-accjet-jar-with-dependencies.jar</b>
+  <pre>java -jar beige-accjet-jar-with-dependencies.jar</pre>
 </p>
+<p>
   Bob should see window like this:
-  <p align="center"><img alt="Beigesoft™ EIS start" style="max-width: 100%" src="images/beige-eis-start.png" /></p>
-  * the first start takes a time, you should wait for it!
+</p>
+<p align="center"><img alt="Beigesoft™ EIS start" style="max-width: 100%" src="images/beige-eis-start.png" /></p>
+<p>
+  <i>* The first start takes a time for creating and populating the database, so you should wait for it!</i>
+</p>
 <p>
   Beigesoft™ EIS standalone versions are always in secure enabled mode,
   that is they use encrypted (HTTPS) connection and require strong password for authorization,
   they also use encryption (modern algorithm RSA with 2048bit key and 256bit AES) for safe
-  file (SQlite databases) exchange between computers/tablets.
-  So you should think of strong password. Think also of A-Jetty number (it should be different from A-Jetty on another computer/tablet).
+  file (SQlite databases) sharing between computers/tablets.
+  So you should think of a strong password. Think also of the A-Jetty number (it should be different from an A-Jetty's one on another computer/tablet).
 </p>
 <p>
-  * it seems to be useless to encrypt HTTP traffic and files that are used inside only computer (because of all application on computer has direct access to the EIS SQLite databases),
-  but you are able to run standalone (non-cloud) EIS in "protected from light harmful software mode" (see below).
+  <i>* It seems to be useless to encrypt HTTP traffic and files that are used inside only computer (because of all application on computer has direct access to the EIS SQLite databases),
+  but you are able to run standalone (non-cloud) EIS in "protected from light harmful software mode" (see below).</i>
 </p>
 <p>
-  To make strong and ease to remember password, you should use 2-3 words and several (3-5) digits, e.g. "racooneatstone123"
+  To make strong and easy to remember password, you should use 2-3 words and several (3-5) digits, e.g. "racooneatstone123"
 </p>
 <p>
-  Bob entered new A-Jetty number, new password, confirmed it, then he pushed button <b>Start</b>.
+  Bob entered a new A-Jetty number, new password, confirmed it, then he pushed the <b>Start</b> button.
   If you got error (see title):
-  <p align="center"><img alt="Beigesoft™ EIS start error" style="max-width: 100%" src="images/ajetty-start-error.png" /></p>
-  then see starter.log file in application folder.<br></br>
+</p>
+<p align="center"><img alt="Beigesoft™ EIS start error" style="max-width: 100%" src="images/ajetty-start-error.png" /></p>
+<p>
+  then see starter.log file in the application folder.<br></br>
   a) If it's saying:
   <pre style="white-space:pre-wrap">
 ...org.bouncycastle.operator.OperatorCreationException: unable to create OutputEncryptor: JCE cannot authenticate the provider BC...
   </pre>
   then you should install Bouncy Castle crypto-provider in static way:
   <ol>
-    <li>download bcprov-jdk15on-1.61.jar from <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.61/">https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.61/</a>
-    and bcpkix-jdk15on-1.61.jar from <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.61/">https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.61/</a></li>
+    <li>download bcprov-jdk15on-1.66.jar from <a href="HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.66/">HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.66/</a>
+    and bcpkix-jdk15on-1.66.jar from <a href="HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.66/">HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.66/</a></li>
     <li>put them into [java-home]/lib/ext e.g. "C:\Program Files (x86)\Java\jre[version#8]\lib\ext" (change [version#8] to yours)</li>
   </ol>
   Previous step is usually sufficient, otherwise you should also add Bouncy Castle into <b>java.security</b>.
@@ -92,7 +99,7 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
   <pre style="white-space:pre-wrap">
 ...org.bouncycastle.operator.OperatorCreationException: unable to create OutputEncryptor: Illegal key size or default parameters...
   </pre>
-  then you should install "Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files for Java 8" into
+  then you should install "Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files for Java 8" into the
   folder [JAVA_HOME]/lib/security. For MS Windows you can find these files in folder "C:\Program Files (x86)\Java\jre[version#8]\lib\security\policy\unlimited",
   otherwise download these from Oracle HTTPS web-site.
   Encryption with strong keys (long size) protects you (your information) from swindlers, so any law must protect you too.
@@ -100,69 +107,77 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
 
 <p>
   After A-Jetty has been successfully started (it may takes several minutes for the first time to create database) button with HTTPS address has been appeared:
-  <p align="center"><img alt="Beigesoft™ EIS started" style="max-width: 100%" src="images/ajettystarted.png" /></p>
 </p>
+<p align="center"><img alt="Beigesoft™ EIS started" style="max-width: 100%" src="images/ajettystarted.png" /></p>
 <p>
-  A-Jetty Certificate Authority certificate <b>ajetty-ca[A-JETTY NUMBER].pem</b> will be at the application folder. You can install it
-  as trusted Certificate Authority in the browser, otherwise your browser will scare you "your connection is not private ...".
-  This is not true, your connection (https) is encrypted, and no application can read traffic (your data).
-  The only true is A-Jetty HTTPS is signed by unknown certificate authority (CA). So after installing CA A-Jetty (ajetty-ca.pem), browsers stop show fearful messages.
-  But you can point browser to accept this site without installing CA certificate - just push "Advanced" then "Proceed to localhost (unsafe)".
-  In this case (without installing CA certificate) the red https sign will be only problem, connection will be encrypted well, so software, that can intercept your traffic locally (intercept TCP port e.g. an anti-virus),
+  A-Jetty's CA (Certificate Authority) certificate <b>ajetty-ca[A-JETTY NUMBER].pem</b> will be in the application folder. You can install it
+  as a trusted Certificate Authority in the browser, otherwise your browser will scare you "your connection is not private ...".
+  This is not true, your connection (HTTPS) is encrypted, and no application can read traffic (your data).
+  The only truth is that A-Jetty's SSL certificate (HTTPS) is signed by an unknown certificate authority (CA). So after installing A-Jetty's CA certificate, browsers stop showing fearful messages.
+  But you can point browser to accept this site without installing the CA certificate - just push "Advanced", then "Proceed to localhost (unsafe)".
+  In this case (without installing the CA certificate) the red HTTPS sign will be the only problem, the connection will be encrypted well, so software, that can intercept your traffic locally (intercept TCP port e.g. an anti-virus),
   can't read your data (decrypt your traffic).
-  <p align="center"><img alt="Beigesoft™ EIS without CA certificate" style="max-width: 100%" src="images/nocahttps.png" /></p>
-  Any unencrypted HTTP connection is actually danger thing for you, but browsers never scare you about it.
-  It's not only about your data reading/changing/tracking, also, any HTML page (or any downloaded file) comes to your browser by passing through several Internet servers, and if some server is affected by harmful software,
+</p>
+<p align="center"><img alt="Beigesoft™ EIS without CA certificate" style="max-width: 100%" src="images/nocahttps.png" /></p>
+<p>
+  Any unencrypted HTTP connection is actually a dangerous thing for you, and browsers until quite recently start to tell you more noticeably about it.
+  It's not only about your data reading/changing/tracking, also, any HTML page (or any downloaded file) comes to your browser by passing through several Internet servers, and when some server is affected by harmful software,
   then it can inject harmful script (software) in the page or file.
 </p>
 <p>
-  To install A-Jetty CA certificate on chrome push Menu -> Settings -> Advanced -> Manage certificates -> AUTHORITIES and push button <b>IMPORT</b>, here is Linux example:
-  <p align="center"><img alt="Beigesoft™ EIS install CA certificate" style="max-width: 100%" src="images/installcaweb1.png" /></p>
-  <p align="center"><img alt="Beigesoft™ EIS install CA certificate" style="max-width: 100%" src="images/installcaweb2.png" /></p>
-  <p>On MS Windows switch file extension to all "*.*" in order to select "*.pem" file, then select "Place all certificates in the following store" and choose "Trusted Root Certificate Authorities", then press "finish".
-  After that select this certificate push additional to restrict its roles (trust settings).</p>
-  Certificates that aren't signed by global trusted CA are often used to create private (non-public internet) intranets and for using digital signatures inside organization (business entity).
-  Here "home-made" A-Jetty CA is used to create HTTPS intranet inside only computer, and for safe files exchanging between your computers/tablets.
+  To install A-Jetty's CA certificate on Chrome push the Menu -> Settings -> Advanced -> Manage certificates -> AUTHORITIES and push the <b>IMPORT</b> button, here is Linux example:
+</p>
+<p align="center"><img alt="Beigesoft™ EIS install CA certificate" style="max-width: 100%" src="images/installcaweb1.png" /></p>
+<p align="center"><img alt="Beigesoft™ EIS install CA certificate" style="max-width: 100%" src="images/installcaweb2.png" /></p>
+<p>On MS Windows switch file extension to all "*.*" in order to select a "*.pem" file, then select "Place all certificates in the following store" and choose "Trusted Root Certificate Authorities", then press the "Finish" button.
+After that, select this certificate, then push the "Additional" button to restrict its roles (trust settings).</p>
+<p>
+Certificates that aren't signed by a global trusted CA are often used to create private (non-public internet) intranets and for using digital signatures inside an organization (business entity).
+Here "home-made" A-Jetty's CA is used to create HTTPS intranet inside an only computer, and for secure files sharing between your computers/tablets.
 </p>
 <p>
-  <b>Here are part of screenshots are shown with installed A-Jetty CA certificate (the https sign is well), and part without it (https is red). </b>
+  <i>* Here part of screenshots are shown with installed A-Jetty CA certificate (the HTTPS sign is well), and part without it (HTTPS is red). </i>
 </p>
 <p>  
-  Then Bob pushed button <b>https://localhost:8443/bsa8443</b>, default browser will open this address.
+  Then Bob pushed the button <b>HTTPS://localhost:8443/bsa8443</b>, the default browser will open this address.
   At the first time, the empty database requires to add the first (only) user with strong password, so Bob added himself:
-  <p align="center"><img alt="Beigesoft™ EIS adding first user" style="max-width: 100%" src="images/accadduser.png" /></p>
-  At first Bob set accounting settings, he selected Menu -> Appearance - > Standard -> Accounting -> Accounting settings:
-  <p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings.png" /></p>
-  <p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings1.png" /></p>
-  Bob changed report page settings: page size to "Letter", in this case unit of measurement is INCH, font size 3.5mm=0.1378inch.
-  For page size A2-5 use millimeters.
-  Bob set cost precision to 2 decimal places, new COGS algorithm handles this well without the rounding error, see the following articles.
-  Setting <b>Operation month</b> used for restricting the month of the date of any operated document.
+</p>
+<p align="center"><img alt="Beigesoft™ EIS adding first user" style="max-width: 100%" src="images/accadduser.png" /></p>
+<p>
+  At first, Bob set accounting settings, he selected the Menu -> Appearance - > Standard -> Accounting -> Accounting settings:
+</p>
+<p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings.png" /></p>
+<p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings1.png" /></p>
+<p>
+Bob changed report page settings: page size to "Letter", in this case the unit of measurement is INCH, font size 3.5mm=0.1378inch.
+For page size A2-5 use millimeters.
+Bob set cost precision to 2 decimal places, new COGS algorithm handles this well without the rounding error, see the following articles.
+Setting <b>Operation month</b> used for restricting the month of the date of any operated document.
 </p>
 
 <h4>Chart of accounts.</h4>
-<p>Bob changed names of two accounts "started capital" and "retained earnings" and "Enabled" for his needs.
-  Using subaccounts is simple and efficient way to manage your chart of accounts. Bob added subaccounts taxes, properties, bank accounts, etc. Expenses screenshot:
-  <p align="center"><img alt="Beigesoft™ EIS accounting subaccounts expenses" style="max-width: 100%" src="images/subaccexpence.png" /></p>
-  Then add them into accounts, for example <b>Employment Taxes Payable</b> account:
-  <p align="center"><img alt="Beigesoft™ EIS accounting subaccounts for Employment Taxes Payable" style="max-width: 100%" src="images/subacctax.png" /></p>
+<p>Bob changed names of two accounts "started capital" and "retained earnings". He set "Enabled" for all accounts that he needs.
+  Using subaccounts is a simple and efficient way to manage your chart of accounts. Bob added subaccounts taxes, properties, bank accounts, etc. Expenses screenshot:
 </p>
+<p align="center"><img alt="Beigesoft™ EIS accounting subaccounts expenses" style="max-width: 100%" src="images/subaccexpence.png" /></p>
+<p>Then add them into accounts, for example the <b>Employment Taxes Payable</b> account:</p>
+<p align="center"><img alt="Beigesoft™ EIS accounting subaccounts for Employment Taxes Payable" style="max-width: 100%" src="images/subacctax.png" /></p>
 
-<p>* The most types of entities like expense, tax, debtor, etc. require to enter ID (non-automatic). For a debtor/creditor you can use its global ID, i.e. TIN or phone number.
+<p>The most types of entities (like expense, tax, debtor, etc.) require to enter ID (non-automatic). For a debtor/creditor you can use its global ID, i.e. TIN or phone number.
   This is need for replication of distributed databases, i.e. import data from office A to office B.
-  Non-automatic ID allows to insert (create) the same entity with the same ID in all databases at the same time and to work with it, then to replicate the data with no problem.
+  Non-automatic ID allows to insert (create) the same entity with the same ID in all databases at the same time and to work with it, then to replicate (share) the data with no problem.
   If you got error when you are creating such entity, then probably ID is not unique, e.g. ID=6 for "Owner income tax" is already in use:
-  <p align="center"><img style="max-width: 100%" src="images/iderr.png" /></p>
-  For sub-accounts use ID=Account Number + index, e.g. for account "Bank Number=1030" the first sub-account "#1236786817 in Bank" has ID=10301.
+</p>
+<p align="center"><img style="max-width: 100%" src="images/iderr.png" /></p>
+<p>For sub-accounts use ID=Account Number + index, e.g. for account "Bank Number=1030" the first sub-account "#1236786817 in Bank" has ID=10301.</p>
+<p>
+  Entities like documents, its lines, items (inventory) have automatic replication-ready ID.
+  Replication (sharing) of such entities can be only one-way, and it's impossible to create and use the same entity (e.g. a product) in different databases at the same time.
 </p>
 <p>
-  * Entities like documents, its lines, items (inventory) have automatic replication-ready ID.
-  Replication of items (products) can be only one-way, and it's impossible to create and use the same items in different databases at the same time.
-</p>
-<p>
-  * If you are editing a form but forget to create a dependent entity, e.g. Employee for document Wage,
-  then you can open Beigesoft™ EIS in another browser tab and create Employee, then go back and in picker
-  press page (1 for example) to refresh it.
+  <i>* If you are editing a form but forget to create a dependent entity, e.g. Employee for document Wage,
+  then you can open Beigesoft™ EIS in another browser tab and create Employee, then go back and press in picker
+  page (1 for example) to refresh it.</i>
 </p>
 
 <p>
@@ -1513,10 +1528,11 @@ security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider
 </p>
 
 <h4>Started capital.</h4>
-<p>Bob opened checking account #1236786b17 in Bank on Jan 10 2016 and deposited 40000USD. He made the first accounting entries from Menu Accounting -> Input entries:
-  <p align="center"><img alt="Beigesoft™ EIS started capital" style="max-width: 100%" src="images/started-capital.png" /></p>
-  * amount in accounting entries always has maximum decimal places - 2 for price precision. 
+<p>Bob opened his checking account #1236786b17 in the Bank on Jan 10 2016 and deposited 40000USD. He made the first accounting entries from the Menu -> Accounting -> Input entries:
 </p>
+<p align="center"><img alt="Beigesoft™ EIS started capital" style="max-width: 100%" src="images/started-capital.png" /></p>
+<p><i>* amount in accounting entries always has maximum decimal places - 2 for price precision.</i></p>
+
 <h4>Book's style entries vs Computer's style ones</h4>
 <p>
   Accounting entries above is made with computer's style - two classic symmetric entries are made as a single one:
@@ -1535,9 +1551,9 @@ Debit "Cash In Bank.#1236786b17 in Bank" Credit "Bob's Started Capital" for 40,0
 
 <h4>Running Beigesoft™ EIS in "protected from light harmful software" mode.</h4>
 <p>
-  Light harmful software hide inside a regular application (not inside an operation system file), or it is any harmful-script, e.g script on HTML page.
-  Light harmful software run under your regular account, and it can read any file that you can read.
-  On *nix OS (Linux...) you can run Beigesoft™ EIS under another account in terminal. To do this:
+  Light harmful software hides inside a regular application (not inside an operating system file), or it is any harmful-script, e.g a script on a HTML page.
+  Light harmful software runs under your regular account, and it can read any file that you can read.
+  On UNIX like OS (Linux, ...) you can run Beigesoft™ EIS under another account in the terminal. To do this:
   <ol>
     <li>Open terminal and login as ROOT user - command "su", set current directory to "cd /home".</li>
     <li>As ROOT add new user "accountant" with password - commands "useradd -m -U accountant", "passwd accountant" and "chmod o-r accountant"</li>
@@ -1548,10 +1564,10 @@ Debit "Cash In Bank.#1236786b17 in Bank" Credit "Bob's Started Capital" for 40,0
     <li>Open terminal and login as accountant - "su -l accountant"</li>
     <li>Use file manager Midnight mc to install (unpack) Beigesoft™ EIS</li>
   </ol>
-  Screenshots:
-  <p align="center"><img style="max-width: 100%" src="images/commandline1.png" /></p>
-  <p align="center"><img style="max-width: 100%" src="images/commandline2.png" /></p>
 </p>
+Screenshots:
+<p align="center"><img style="max-width: 100%" src="images/commandline1.png" /></p>
+<p align="center"><img style="max-width: 100%" src="images/commandline2.png" /></p>
 <p>On Ubuntu Linux and Mac OS account <b>root</b> is disabled, and your regular account is able to invoke <b>sudo</b> command, so do that above (only root part) as:
   <pre style="white-space: pre-wrap;">
 $ cd /home
@@ -1564,20 +1580,20 @@ $ sudo chmod o+w /file-exch
 </p>
 <p>
   To start Beigesoft™ EIS in "command line mode" run: "java -jar beige-accjet-jar-with-dependencies.jar cli":
-  <p align="center"><img style="max-width: 100%" src="images/commandline3.png" /></p>
 </p>
+<p align="center"><img style="max-width: 100%" src="images/commandline3.png" /></p>
 <p>As a result you (and possible light harmful software, e.g. if your web-browser has enabled macros on HTML page to read your file system) can't read "accountant" files:
-  <p align="center"><img style="max-width: 100%" src="images/commandline4.png" /></p>
 </p>
+<p align="center"><img style="max-width: 100%" src="images/commandline4.png" /></p>
 <p>
   Light harmful software can try to match your password and steal your data by making HTTP requests. But you are protected with strong password and maximum 5 fail login attempts per session (15 minutes):
-  <p align="center"><img style="max-width: 100%" src="images/loginprotect1.png" /></p>
-  <p>you should check <b>secure.log</b> periodically:</p>
-  <p align="center"><img style="max-width: 100%" src="images/loginprotect2.png" /></p>
 </p>
+<p align="center"><img style="max-width: 100%" src="images/loginprotect1.png" /></p>
+<p>you should check <b>secure.log</b> periodically:</p>
+<p align="center"><img style="max-width: 100%" src="images/loginprotect2.png" /></p>
 <p>
-  Heavy harmful software poisons your operation system, so it can do everything. OS updates might remove it, but complex harmware can fake "OS updates",
-  so you have only way to heal your computer - completely reinstall OS by using clean, write-protected installation source (e.g. DVD).
+  Heavy harmful software poisons your operating system, so it can do anything. OS updates might remove it, but complex harmware can fake "OS updates",
+  so you have the only way to heal your computer - completely reinstall OS by using clean, write-protected installation source (e.g. DVD).
 </p>
     </section>
 

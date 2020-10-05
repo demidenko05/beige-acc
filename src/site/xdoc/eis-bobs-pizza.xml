@@ -16,7 +16,7 @@
       </p>
       
       <p>
-        * In English language a word can means many things, even unrelated. Here word "Accounting entries" means "Journal entries".
+        * In English language a word can mean many things, even unrelated. Here the phrase "Accounting entries" means "Journal entries".
         There is neither a "Book" nor "Journals". There is a database table that contains all accounting entries.
         "Accounting of [something]" means "how to record this in an accounting (bookkeeping) system".
         "To account a document" means making (creating) accounting entries for this document.
@@ -62,7 +62,7 @@
       </h5>
 
       <h5>
-        <a href="eis-loss.html">Accounting of goods loss/broking/stolen/using.</a>
+        <a href="eis-loss.html">Accounting of goods loss/broken/stolen/using.</a>
       </h5>
 
       <h5>
@@ -86,11 +86,11 @@
       </h5>
 
       <h5>
-        <a href="eis-tax-market.html">Market (Mark To Market) accounting. Importing data from tax accounting.</a>
+        <a href="eis-tax-market.html">Financial accounting. Importing data from tax accounting.</a>
       </h5>
 
       <h5>
-        <a href="eis-sales-taxes-cash.html">Accounting of sales tax (VAT, GST) cash method. Cash method vs accrual method.</a>
+        <a href="eis-sales-taxes-cash.html">Accounting of sales tax (VAT, GST) cash method. Cash vs accrual methods.</a>
       </h5>
 
       <h5>
@@ -119,7 +119,7 @@
       </h5>
 
       <h5>
-        * Sample databases (use user/password: admin/admin) <b>bobs-pizza-tax6.sqlite (from scratch)</b>, <b>bobs-pizza-market6.sqlite</b>, <b>bobs-pizza-nfs6.sqlite (not from scratch)</b> and <b>bobs-pizza-ws6.sqlite (the rest of articles including webstore)</b> you can download from <a href="https://sourceforge.net/projects/beige-accounting/">https://sourceforge.net/projects/beige-accounting/</a>
+        * Sample databases (use user/password: admin/admin) <b>bobs-pizza-tax6.sqlite (from scratch)</b>, <b>bobs-pizza-market6.sqlite</b>, <b>bobs-pizza-nfs6.sqlite (not from scratch)</b> and <b>bobs-pizza-ws6.sqlite (the rest of these articles including web-store's ones)</b> you can download from <a href="https://sourceforge.net/projects/beige-accounting/">https://sourceforge.net/projects/beige-accounting/</a>
       </h5>
 
       <h5>
@@ -130,7 +130,7 @@
         <a href="eis-ws-chou.html">Bob's pizza web-store example. Part 2, cart checkout, imposed delivering (shipping).</a>
       </h5>
       <h5>
-        <a href="eis-ws-prc.html">Bob's pizza web-store example. Part 3, price depend on buyer's category, price in foreign currency.</a>
+        <a href="eis-ws-prc.html">Bob's pizza web-store example. Part 3, price depends on buyer's category, price in foreign currency.</a>
       </h5>
 
     </section>
