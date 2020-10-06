@@ -11,22 +11,23 @@
 
     <section name="Accounting of property deprecation.">
       
-      <p>Keywords: Accounting of property deprecation.</p>
+      <p><b>Keywords: Accounting of property deprecation.</b></p>
 
-      <p>Bob bought Ford on Jan. 12 2016 for 22000USD. He made accounting entries:
-        <p align="center"><img alt="Beigesoft™ EIS property bought" style="max-width: 100%" src="images/ford-bought.png" /></p>
-        <p align="center">So first trial balance as at Jan.12 2016 is:</p>
-        <p align="center"><img style="max-width: 100%" src="images/trial-balance1.png" /></p>
-
-        He should use MACRS method for it deprecation according to <a href="https://www.irs.gov/pub/irs-pdf/p946.pdf">IRS Publication 946</a>.
-        This is listed property that is used 100% for business purpose, so he elected GDS (General Depreciation System).
-        This is 5­year property. He elected 200% declining balance method (DL).
-        He should use half-year convention (HY), so he uses Table A-1.
-        According this table deprecation is 20% for the first year, i.e. 4400USD is deducting Bob's 2016 Income Tax.
-        So on 31 December 2016 Bob will transfer 4400USD from asset account <b>Property</b> into income (business) expense account <b>5150 Expenses.Property Deprecation</b>:
-        <p align="center"><img style="max-width: 100%" alt="Beigesoft™ EIS property deprecation" src="images/ford-deprication.png" /></p>
+      <p>Bob bought a Ford on Jan. 12 2016 for 22000 USD. He made the accounting entries:
       </p>
-      <p>* You should set current operation month in "Accounting settings". You also should better set operation day in "User preferences" to make automatically date of new document</p>
+      <p align="center"><img alt="Beigesoft™ EIS property bought" style="max-width: 100%" src="images/ford-bought.png" /></p>
+      <p align="center">So the first trial balance as at Jan.12 2016 is:</p>
+      <p align="center"><img style="max-width: 100%" src="images/trial-balance1.png" /></p>
+      <p>
+      He should use the MACRS method for its deprecation according to <a href="https://www.irs.gov/pub/irs-pdf/p946.pdf">IRS Publication 946</a>.
+      This is a listed property, that is used 100% for business purposes, so he elected the GDS (General Depreciation System).
+      This is a 5-­year property. He elected the 200% declining balance method (DL).
+      He should use the half-year convention (HY), so he uses the Table A-1.
+      According to this table the deprecation is 20% for the first year, i.e. 4400 USD is the deducting Bob's 2016 Income Tax.
+      So on 31 December 2016 Bob will transfer 4400 USD from asset account <b>Property</b> into income (business) expense account <b>5150 Expenses.Property Deprecation</b>:
+      </p>
+      <p align="center"><img style="max-width: 100%" alt="Beigesoft™ EIS property deprecation" src="images/ford-deprication.png" /></p>
+      <p><i>* You should set the current operation month in the "Accounting settings". You also should better set the operation day in the "User preferences" to make automatically the date of a new document.</i></p>
     </section>
 
   </body>
