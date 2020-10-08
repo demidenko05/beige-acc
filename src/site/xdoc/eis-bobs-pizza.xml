@@ -21,6 +21,7 @@
         "Accounting of [something]" means "how to record this in an accounting (bookkeeping) system".
         "To account a document" means making (creating) accounting entries for this document.
         "A document" can be an invoice, for example.
+        Things like "a document", "an employee", "a tax", etc are called "Entities".
       </p>
       
       <h4>Topics:</h4>      
@@ -38,11 +39,11 @@
       </h5>
 
       <h5>
-        <a href="eis-purchase.html">Accounting of purchase, prepayments, payments tracking, bank reconciliation.</a>
+        <a href="eis-purchase.html">Accounting of purchases, prepayments, payments tracking, bank reconciliation.</a>
       </h5>
 
       <h5>
-        <a href="eis-purchase-return.html">Accounting of purchase returns.</a>
+        <a href="eis-purchase-return.html">Accounting of purchases returns.</a>
       </h5>
 
       <h5>

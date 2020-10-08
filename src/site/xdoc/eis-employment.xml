@@ -11,30 +11,31 @@
 
     <section name="Accounting of employment (payroll).">
       
-      <p>Keywords: Accounting of employment (payroll).</p>
+      <p><b>Keywords: Accounting of employment (payroll).</b></p>
       
-<p>Beigesoft™ EIS uses <b>tax table percentage method (withholding tax tables</b>) for automatically calculation wage taxes.</p>
-<p>It calculates <b>wage tax = tax rate (according to tables) * (gross wage - all allowances per payment)</b>. This simple method is used in USA.
-Other countries use little more complex method <b>allowances per year</b>, which application can't make automatically yet.
+<p>Beigesoft™ EIS uses the <b>tax table percentage method (withholding tax tables</b>) for automatically calculating wage taxes.</p>
+<p>It calculates <b>wage tax = tax rate (according to tables) * (gross wage - all allowances per payment)</b>. This simple method is used in the USA.
+Other countries use a little bit more complex method <b>allowances per year</b>, which this application can't make automatically yet.
 </p>
 <p>
   Bob hired Rob Swallow as a cook.
-  He filled out Employee category, Employee and Wage Types for Rob:
-  <p align="center"><img alt="Beigesoft™ EIS wage" style="max-width: 100%" src="images/employee.png" /></p>
-  * use TIN (SSN) or phone number for emmployee ID. At least use IDs that have same number of digits, e.g. 6 digits ID from 100000 to 999999.
-  This is because of using this parent ID for its automatic lines (year wage), e.g. Employee ID 100000 has two lines year wage with ID 1000001 and 1000002.
-  <p align="center"><img alt="Beigesoft™ EIS wage" style="max-width: 100%" src="images/wagty.png" /></p>
-  Bob uses <a href="https://www.irs.gov/pub/irs-pdf/p15.pdf">IRS Publication 15</a> (<b>IRS-ETG</b>) to account employment federal taxes, and
-  <a href="https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf">NYS New York State Withholding Tax</a> for state ones.
-  So he filled out wage tax tables.
+  He filled out "Employee category", "Employee" and "Wage Types" for Rob:
 </p>
+<p align="center"><img alt="Beigesoft™ EIS wage" style="max-width: 100%" src="images/employee.png" /></p>
+<p><i>* use a TIN (SSN) or a phone number for an employee ID. At least, use IDs that have the same number of digits, e.g. 6 digits IDs from 100000 to 999999.
+This is important because of using such parent ID for its automatic lines (year wage), e.g. an employee with ID 100000 has two lines of year's wage with IDs 1000001 and 1000002.</i></p>
+<p align="center"><img alt="Beigesoft™ EIS wage" style="max-width: 100%" src="images/wagty.png" /></p>
+<p>Bob uses <a href="https://www.irs.gov/pub/irs-pdf/p15.pdf">IRS Publication 15</a> (<b>IRS-ETG</b>) for accounting employment federal taxes, and
+<a href="https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf">NYS New York State Withholding Tax</a> for state ones.
+So he filled out the "wage tax tables".</p>
   <p>
     1. Federal Income Tax from employee wage.
-    Rob filled form W-4 and got two withholding allowances. Bob elected percentage method, so according Table 5 (page 42 of <b>IRS-ETG</b>)
-    allowance daily is 15.6 * 2 = 31.2. Bob should use table 8 (page 45 of <b>IRS-ETG</b>) to withhold Federal Income tax,
-    so he filled Menu - Other - Wage tax table according it:
-    <p align="center"><img alt="Beigesoft™ EIS tax percentage method" style="max-width: 100%" src="images/wttfit.png" /></p>
-          * any tax table line requires entering manually ID, so use simple formula:
+    Rob filled form W-4 and got two withholding allowances. Bob elected the percentage method, so according to the Table 5 (page 42 of <b>IRS-ETG</b>)
+    the daily allowance is 15.6 * 2 = 31.2. Bob should use the table 8 (page 45 of <b>IRS-ETG</b>) to withhold the Federal Income tax,
+    so he filled "Menu - Other - Wage tax table" accordingly:
+  </p>
+  <p align="center"><img alt="Beigesoft™ EIS tax percentage method" style="max-width: 100%" src="images/wttfit.png" /></p>
+  <p><i>* any tax table line requires entering manually ID, so use this simple formula:</i>
 <pre style="white-space: pre-wrap;">
   1000 + TAX TABLE ID append LINE INDEX, e.g. here first line should be 1000 + 1 append 1 = 10011, and second = 10012 end so on.
 </pre>
@@ -48,72 +49,72 @@ Other countries use little more complex method <b>allowances per year</b>, which
   5155  61551      6155123
   8999  99991      9999123
 </pre>
-* as you can see different entities, e.g. lines of different types in this case, can have the same ID.
-  </p>
+<i>* as you can see different entities, e.g. lines of different types in this case, can have the same ID.</i>
+</p>
   <p>
     2. Medicare Tax from employee wage.
-    According <b>IRS-ETG</b> its rate is 1.45%, so he has filled new Wage tax table:
-    <p align="center"><img style="max-width: 100%" src="images/wttmt.png" /></p>
+    According to <b>IRS-ETG</b> its rate is 1.45%, so he has filled new "Wage tax table":
   </p>
+  <p align="center"><img style="max-width: 100%" src="images/wttmt.png" /></p>
   <p>
     3. Social Security Tax from employee wage.
-    According <b>IRS-ETG</b> its rate is 6.2% with year wage limit 118500 USD,
-    he has filled SST Wage tax table:
-    <p align="center"><img style="max-width: 100%" src="images/wttsst.png" /></p>
+    According to <b>IRS-ETG</b> its rate is 6.2% with year wage limit 118500 USD,
+    he has filled new "Wage tax table" for the SST:
   </p>
+  <p align="center"><img style="max-width: 100%" src="images/wttsst.png" /></p>
   <p>
-    4. Federal Unemployment Tax from EMPLOYER. According <b>IRS-ETG</b> its rate is 6% with year wage limit 7000 USD,
-    so he has filled FUTA Wage tax table:
-    <p align="center"><img style="max-width: 100%" src="images/wttfuta.png" /></p>
-    * make sure that you set the tax type properly (from employee or employer).
+    4. Federal Unemployment Tax from EMPLOYER. According to <b>IRS-ETG</b> its rate is 6% with year wage limit 7000 USD,
+    so he has filled "Wage tax table" for the FUTA:
   </p>
+  <p align="center"><img style="max-width: 100%" src="images/wttfuta.png" /></p>
+  <p><i>* make sure that you set the tax type properly (from employee or employer).</i></p>
   <p>
     5. New York Income Tax from employee wage.
-    According <a href="https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf">NYS New York State Withholding Tax</a>
-    Rob's two allowances by form W-4 give him daily allowance 36.15 (Table-A on page 14). Bob uses table II-E (page 17)
-    to figure NY Income tax, so he has filled NY Income Wage tax table according it:
+    According to <a href="https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf">NYS New York State Withholding Tax</a>
+    Rob's two allowances (by form W-4) give him a daily allowance 36.15 (Table-A on page 14). Bob uses the table II-E (page 17)
+    to figure the NY Income tax, so he has filled new "Wage tax table" for the NYIT accordingly:
     <p align="center"><img style="max-width: 100%" src="images/wttnit.png" /></p>
   </p>
   <p>
-    Rob made on Jan 17 12 Pizza with bacon Frozen and 12 Pizza with cheese Frozen, then delivered them to customers.
-    Bob filled Wage document for 60 USD gross for cooking
-    and 20 USD for delivering. He set tax account expense to <b>5105 Expenses</b>,
-    then pressed <b>save</b>, then added wage line for cooking (account <b>Inventory direct cost temporary</b> for direct labor cost),
-    and line for delivering (<b>5105 Expenses</b> for indirect labor cost):
-    <p align="center"><img alt="Beigesoft™ EIS payroll" style="max-width: 100%" src="images/wageld.png" /></p>
-    <p>then pressed button <b>fill taxes</b>, then accounted document:</p>
-    <p align="center"><img alt="Beigesoft™ EIS payroll" style="max-width: 100%" src="images/wage1.png" /></p>
-    <p align="center"><img alt="Beigesoft™ EIS payroll report" style="max-width: 100%" src="images/wage2.png" /></p>
-    <p>
-      As you can see cooking (direct labor) wage is accounted separately from delivering (indirect labor) one.
-      For manufacturing direct labor cost (as well as cost of materials) is usually included into cost of the final product.
-      Make sure that it's true for your tax rules.
-    </p>
+    Rob made on Jan 17 12 Pizza with bacon Frozen and 12 Pizza with cheese Frozen, then he delivered them to the customers.
+    Bob filled the Wage document for 60 USD gross for cooking
+    and 20 USD for delivering. He set the "tax account expense" to <b>5105 Expenses</b>,
+    then pressed <b>save</b>, then added new wage line for cooking (account <b>Inventory direct cost temporary</b> for direct labor cost),
+    and another line for delivering (<b>5105 Expenses</b> for indirect labor cost):
+  </p>
+  <p align="center"><img alt="Beigesoft™ EIS payroll" style="max-width: 100%" src="images/wageld.png" /></p>
+  <p>then he pressed the <b>fill taxes</b> button, then accounted the document:</p>
+  <p align="center"><img alt="Beigesoft™ EIS payroll" style="max-width: 100%" src="images/wage1.png" /></p>
+  <p align="center"><img alt="Beigesoft™ EIS payroll report" style="max-width: 100%" src="images/wage2.png" /></p>
+  <p>
+    As you can see, the cooking (direct labor) wage is accounted separately from the delivering (indirect labor) one.
+    For manufacturing, a direct labor cost (as well as cost of materials) is usually included into the cost of the final product.
+    Make sure that it's true for your tax rules.
   </p>
 <p>
-  I guess that you noticed that Bob made mistake, he forget about NY unemployment tax (<a href="https://labor.ny.gov/ui/employerinfo/quarterly-reporting.shtm">NY SUTA requirements and limit</a>
+  I guess that you noticed that Bob made a mistake, he forgot about the NY unemployment tax (<a href="https://labor.ny.gov/ui/employerinfo/quarterly-reporting.shtm">NY SUTA requirements and limit</a>
   <a href="https://labor.ny.gov/ui/bpta/contribution-rates.shtm">NY SUTA rate</a>
   <a href="https://www.tax.ny.gov/pdf/publications/withholding/nys50.pdf">NY SUTA instructions.</a>).
-  So you should make sure that you made all properly according the law of your country. Tax authorities provide full information with examples on its Internet site.
-  You should study it thoroughly, if you have a question, then call to your tax authority.
-  Otherwise if you made mistake, then you will get penalty, e.g. if you deduct your income tax with wrong cost of goods sold (deducting expense is greater than you can prove).
-  You have to make (and keep) records that shows these properly calculations according <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a business, page 12</a>.
-  Beigesoft™ EIS respect this, in addition it makes many records automatically (COGS, employment taxes, sales taxes, etc.)
+  So you should make sure that you made all things properly according to the law of your country. Tax authorities provide full information with examples on its Internet site.
+  You should study it thoroughly, when you have a question, then call your tax authority.
+  Otherwise if you made a mistake, then you will get a penalty, e.g. if you deduct your income tax with a wrong cost of goods sold (the deducting expenses is greater than you can prove).
+  You have to make (and keep) records that show these proper calculations according to <a href="https://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a business, page 12</a>.
+  Beigesoft™ EIS respects this, in addition it makes many records automatically (COGS, employment taxes, sales taxes, etc.)
   and reports to prove your business expenses.
 </p>
 
 <p>
-  Trial balance after that is:
-    <p align="center"><img alt="Beigesoft™ EIS payroll balance" style="max-width: 100%" src="images/balanemp.png" /></p>
+  The trial balance after that is:
 </p>
-<h4>Allowance per year</h4>
+<p align="center"><img alt="Beigesoft™ EIS payroll balance" style="max-width: 100%" src="images/balanemp.png" /></p>
+<h4>Allowance per year.</h4>
 <p>
-  To use more complex method <b>allowances per year</b> don't fill allowances in tax tables. Fill taxes automatically, then  change allowances in wage tax lines and taxes in wage lines by hand.
-  For example Jim Gold got 2000 EUR allowances per year for Income tax 12%. He is paid 1500 EUR per month, so tax lines will be:
+  To use the more complex method <b>allowances per year</b> don't fill allowances in the tax tables. Fill the taxes automatically, then change the allowances in the wage tax lines and the taxes in the wage lines by hand.
+  For example Jim Gold got 2000 EUR allowances per year for Income tax 12%. He is paid 1500 EUR per month, so the tax lines will be:
   <ul>
-    <li>1st month - allowance used 1500 (the rest 500) - no tax</li>
-    <li>2nd month - allowance used 500 (the rest 0) - tax = (1500-500)*0.12</li>
-    <li>3d, 4th ... months - allowance is 0, so tax = 1500*0.12</li>
+    <li>1st month - 1500 EUR of the allowance is used  (the rest is 500) - no tax</li>
+    <li>2nd month - 500 EUR of the allowance is used (the rest is 0) - the tax = (1500-500)*0.12</li>
+    <li>3d, 4th ... months - the allowance is 0, so the tax = 1500*0.12</li>
   </ul>
 </p>
 
