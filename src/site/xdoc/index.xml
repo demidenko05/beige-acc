@@ -10,15 +10,13 @@
   <body>
 
     <!-- The body of the document contains a number of sections -->
-    <section name="Beige-Software overview">
+    <section name="Beige-Software overview.">
 
       <p><a href="https://www.facebook.com/Beigesoft-Accounting-All-In-One-401150900677249">Page on Facebook</a></p>
 
             
-      <p>Keywords: Java open source software, free accounting software, Java reporting tools, PDF creator, Java PDF library, Jetty for Android, Java ORM library, JSP, JSTL, JSON, AJAX.</p>
+      <p><b>Keywords: Java open source software, free accounting software, Java reporting tools, PDF creator, Java PDF library, Jetty for Android, Java ORM library, JSP, JSTL, JSON, AJAX.</b></p>
       
-      <h3>Products:</h3>
-
       <h4>Beigesoft™ Enterprise Information System.</h4>
       <p>This application will never waste your time because of:
         <p><b>It provides sufficient functionality:</b></p>
@@ -32,8 +30,8 @@
           <li>Payroll - automatic calculation of the taxes using withholding tax tables.</li>
           <li>Production - automatic calculation of the cost of a product from used materials, direct labor and other costs.</li>
           <li>Inventory - two dimensional (warehouse, place) registration, moving items inside a warehouse, etc.</li>
-          <li>Multi-databases (organizations) for standalone (local) versions, which use SQlite database.</li>
-          <li>Embedded Web-Store. Pricing - multicurrency, price depends on buyer's category, exporting price list into CSV</li>
+          <li>Multi-databases (organizations) for standalone (local) versions, which use SQlite databases.</li>
+          <li>Embedded Web-Store. Pricing, multi-currency, price depends on buyer's category, exporting price list into CSV</li>
           <li>and more.</li>
         </ul>
         * You can check its functionality by reading this documentation (i.e. without installation).
@@ -41,7 +39,7 @@
         <ul>
           <li>All its parts are under truly free licenses.</li>
           <li>It's open source software, so fixing an error or its customizing is not a problem.</li>
-          <li>It will never be downgraded or disappeared. You always can find it (binary and source code) in Central Maven Repository.</li>
+          <li>It will never be downgraded or disappeared. You always can find it (binary and source code) in the Central Maven Repository.</li>
           <li>This is a high performance software. The cloud version will never be slow even on weak computers.</li>
         </ul>
       </p>
@@ -82,13 +80,13 @@
 
         <h4>Beigesoft™ PDF Writer.</h4>
               
-        <p>This is light-weight (all JARs size is about 250KB), international friendly and fast PDF writer. This is actually reporting tool. It automatically makes pagination, tables (e.g. repeating header on every page).
+        <p>This is light-weight (all JARs size is about 250KB), international friendly and fast PDF writer. This is actually a reporting tool. It automatically makes pagination and tables (e.g. repeating header on every page).
          It's cross-platform writer - Standard Java and Android one.</p>
               
         <p>Benefits:</p>
         <ul>
-          <li>It packs TTF font with only used characters. Asian languages (with hieroglyphs) TTF files are extremely huge.</li>
-          <li>Ready for high load job. Performance test's (thread per invoice) results show that making 100 invoices (3pages each) takes less than 4 seconds on a regular notebook.</li>
+          <li>It packs a TTF font with only used characters. Asian languages (with hieroglyphs) TTF files are extremely huge.</li>
+          <li>It's a high-performance application. Performance test's (thread per invoice) results show that making 100 invoices (3pages each) takes less than 4 seconds on a regular notebook.</li>
           <li>There are not 3-d party libraries. Beigesoft™ Document Writer, Swing/Android graphics libraries, Logger are licensed under truly free GPLv2 and BSD 2-clause.</li>
         </ul>
         With Beigesoft™ PDF Writer you can create complex black and white (including non-masked RGB images) business reports quickly.
@@ -99,34 +97,38 @@
       <h4>A-Jetty</h4>
       <p>A-Jetty is Jetty 9.2 adapted for Android, it can run precompiled JSP/JSTL. It works on Android Java as well as on standard Java 7+.</p>
       <p>
-        JSP(plus JSTL) is the same WEB-view technology as ASPX, PHP and deprecated ASP. JSP and ASPX are faster than PHP and ASP, because of
-        they are compiled into byte-code, which is executed (actually it's compiled on fly into CPU code) by Java VM or DOT-NET. PHP and ASP are script languages that are interpreted during runtime. Although there is PHP "fly compiler", but it's slower than Java or DOT-NET.
-        All these technologies are used to build complex WEB-interface quickly.
+        JSP(plus JSTL) is the same WEB-view technology as ASPX, PHP and deprecated ASP. JSP and ASPX are faster than PHP and ASP, because
+        they are compiled into byte-code, which is executed (actually it's compiled on the fly (JIT) into CPU code) by Java VM or DOT-NET.
+        PHP and ASP are script languages that are interpreted during runtime.
+        Although there is a PHP "JIT compiler", it's slower than Java or DOT-NET.
+        All these technologies are used to build a complex WEB-interface quickly.
       </p>
       <p>
-        Using JSP(JSTL) allows you to create truly multi-platform WEB-applications, cause A-Jetty can run them anywhere (on any operation system).
+        Using JSP(JSTL) allows you to create truly multi-platform WEB-applications, because A-Jetty can run them anywhere (on any operating system).
         The best way of using A-Jetty is using it as an embedded server in a standalone WEB-application.
       </p>
       
       <h4>Beigesoft™ BLC (business logic common) and WEB libraries.</h4>
-      <p>These libraries allow you to create cross-platform business WEB application quickly. Beige-ORM is fast even on a smartphone. WEB-library automatically makes an entity's list, forms for  editing and reliable entity pickers.
-        Any generated entity-picker already has pagination and filter (e.g. a picker of a product from huge set of products). These libraries also include data replication via WEB-service (e.g. full database copy).
+      <p>These libraries allow you to create cross-platform business WEB applications quickly. Beige-ORM is fast even on a smartphone. WEB-library automatically makes an entity's list with a filter, forms for editing and reliable entity pickers.
+        Any generated entity-picker already has pagination and a filter (e.g. a picker of a product from a huge set of products). These libraries also include data replication via WEB-service (e.g. full database copy).
       </p>
 
       <p> <a href="https://sites.google.com/site/beigesoftware/blcexmplen">Beigesoft™ software (libraries) for rapid development of cross-platform financial WEB-applications.</a> </p>
       
       <p> <a href="https://sites.google.com/site/beigesoftware/blcexmplru">Беижсофт™ ПО (библиотеки) для быстрой разработки кросс-платформенного финансового ПО с ВЕБ-интерфейсом.</a> </p>
 
-      <h4>Beige-UML</h4>
+      <h4>Beige-UML.</h4>
 <p>Beige-UML is a free, open source UML diagram editor. It has two user interfaces - standard desktop SWING one and Android one.</p>
 <p>Features:</p>
   <ol>
     <li>It supports UML 2.4.1 compliant class diagram, package diagram, object diagram, sequence diagram and use case diagram.</li>
-    <li>It generates UML class diagram from Java classes.</li>
+    <li>It generates UML class diagrams from Java classes.</li>
     <li>It's a doclet that generates standard Javadoc with editable UML class diagrams.</li>
   </ol>
-<p>This is the first free, truly cross-platform UML editor that can make a reliable (real-life) UML class diagram (with a frame, many classes and BUS-relationships). For non-huge projects generated Java-docs with PNG diagrams (with editable sources) is also reliable tool. Some customers demand this (that Beige-UML can do, but another free UML editors can't).
+<p>This is the first free, truly cross-platform UML editor that can make a reliable (real-life) UML class diagram (with a frame, many classes and BUS-relationships). For non-huge projects generated Java-docs with PNG diagrams (with editable sources) is also a reliable tool.
+Some customers demand this (that Beige-UML can do, but other free UML editors can't).
 This is for programmers, so feel free to improve this project - add other diagrams, make Java-doc with SVG diagrams.
+In its source code you can find how to draw line endings (triangles, diamonds...) by using Vector Algebra (the optimal method).
 </p>
 <p>Demo project with diagrams <b>DemoUML.zip</b> and source of beige-android-demo (demo of Android tree/file-chooser, list-chooser etc.) you can find in <a href="http://sourceforge.net/projects/beigeuml/">http://sourceforge.net/projects/beigeuml/</a></p>
 <p> <a href="https://sites.google.com/site/beigesoftware/gettingstartedgui">Beige UML getting started.</a> </p>
