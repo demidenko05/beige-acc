@@ -9,30 +9,30 @@
 
   <body>
 
-    <section name="Accounting of sales returns.">
+    <section name="Accounting of sales returns (goods returned by customers).">
       
-      <p>Keywords: Accounting of sales returns.</p>
+      <p><b>Keywords: Accounting of sales returns (goods returned by customers).</b></p>
 
      <p>
-        Bob sold on Jan 18 4 Pizza with bacon frozen and 4 Pizza with cheese frozen to Funny coffee shop.
-        Bob filled sales invoice (see <a href="eis-selling.html">Accounting of Sales.</a>)
+        Bob sold on Jan 18 4 Pizza with bacon frozen and 4 Pizza with cheese frozen to "Funny coffee shop".
+        Bob filled new "Sales invoice" (see <a href="eis-selling.html">Accounting of sales, prepayments, payments tracking, COGS.</a>)
       </p>
       <p>
-        Bob was confirmed on Jan 19 that Funny coffee shop is bankrupt, and he was received sales return 2 Pizza with bacon frozen and 2 Pizza with cheese frozen.
+        Bob was confirmed on Jan 19 that "Funny coffee shop" is bankrupt, and he has received back (goods return) 2 Pizza with bacon frozen and 2 Pizza with cheese frozen.
       </p>
 
-      <p>Bob filled new sales return for the sales invoice:
+      <p>Bob filled a new sales return for the returned goods and the sales invoice:
           <p align="center"><img alt="Beigesoft™ EIS sales return" style="max-width: 100%" src="images/salreturn.png" /></p>
       </p>
-      <p>It made complex accounting/warehouse entries:
-          <p align="center"><img alt="Beigesoft™ EIS sales return report" style="max-width: 100%" src="images/salreturn1.png" /></p>
-          * here COGS accounting entries are made by using COGS entries from the sales invoice (see previous article), so pizza with bacon cost 21.84 for 6, and 21.84/6*2=7.28
+      <p>It made these complex accounting and warehouse entries:
       </p>
+      <p align="center"><img alt="Beigesoft™ EIS sales return report" style="max-width: 100%" src="images/salreturn1.png" /></p>
+      <p><i>* here the COGS accounting entries are made by using the COGS entries from the sales invoice (see previous article), so six pizza with bacon cost is 21.84, so one pizza cost is 21.84/6*2=7.28</i></p>
       <p>
-        * Sales returns are business expenses (deducting income tax).
-        If according the law of your country accrual method means that business expense occurs when you have received document (proof)
-        even though you haven't received goods yet (in the same day), then (in this case) switch off Entries cource#16 "Sales Return, Debit Goods sales returns per good category, Credit Returns Payable per Customer for subtotal amount." and make
-        these deducting income accounting entries by hand.
+        <i>* Sales returns are business expenses (deducting the income tax).</i>
+        If according the law of your country the accrual method means that a business expense occurs when you have received the document (the proof of this expense)
+        even though you haven't received the goods yet (in the same day), then switch off Entries source#16 "Sales Return, Debit Goods sales returns per good category, Credit Returns Payable per Customer for subtotal amount."
+        and make these deducting the income tax accounting entries by hand.
       </p>
 
     </section>

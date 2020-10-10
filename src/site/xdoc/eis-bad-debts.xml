@@ -11,19 +11,19 @@
 
     <section name="Accounting of bad debts.">
 
-      <p>Keywords: Accounting of bad debts.</p>
+      <p><b>Keywords: Accounting of bad debts.</b></p>
       <p>
         "Funny coffee shop" is bankrupt. The balance shows the debt:
-        <p align="center"><img style="max-width: 100%" src="images/balandebt.png" /></p>
-        <p>
-          Bob transferred on Jan 20 the amount of the debt to the asset account "Bad Debts":
-        </p>
-        <p align="center"><img style="max-width: 100%" src="images/debtasset.png" /></p>
-        <p>
-          After that trial balance is:
-        <p align="center"><img style="max-width: 100%" src="images/balandebt1.png" /></p>
-        </p>
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/balandebt.png" /></p>
+      <p>
+        Bob transferred on Jan 20 the amount of the debt to the asset account "Bad Debts":
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/debtasset.png" /></p>
+      <p>
+        After that the trial balance is:
+      </p>
+      <p align="center"><img style="max-width: 100%" src="images/balandebt1.png" /></p>
       <p>When Bob will receive document from IRS that approves this debt, then Bob will transfer this amount into an income (business) expense account.</p>
     </section>
 

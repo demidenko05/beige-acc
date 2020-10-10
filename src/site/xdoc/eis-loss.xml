@@ -9,21 +9,21 @@
 
   <body>
 
-    <section name="Accounting of goods loss/broking/stolen/using.">
-    <p>Keywords: Accounting of goods loss, broking, stolen, using.</p>
+    <section name="Accounting of goods loss (damaged, stolen).">
+    <p><b>Keywords: Accounting of goods loss (damaged, stolen).</b></p>
      <p>
-        Rob broke on Jan 19 12 eggs. According <a href="https://www.irs.gov/pub/irs-pdf/p538.pdf">IRS Accounting Periods and Methods, page 19 loss of inventory</a>
-        Bob can increase Cost Of Goods Sold with a loss cost.
+        Rob broke on Jan 19 12 eggs. According to <a href="https://www.irs.gov/pub/irs-pdf/p538.pdf">IRS Accounting Periods and Methods, page 19 loss of inventory</a>
+        Bob can increase Cost Of Goods Sold with any loss cost.
       </p>
-      <p>* Test sales#3 (for COGS checking) was reversed (voided), otherwise only 4 eggs remain in warehouse.</p>
-      <p>Bob filled document "Item use/loss/broke":
+      <p><i>* The test sales invoice #3 (for COGS checking) was reversed (voided), otherwise only 4 eggs remain in the warehouse.</i></p>
+      <p>Bob filled the new document "Item use/loss/broke":
           <p align="center"><img alt="Beigesoft™ EIS goods loss" style="max-width: 100%" src="images/goodloss.png" /></p>
       </p>
-      <p>It made complex accounting/warehouse/draw goods entries:
-          <p align="center"><img alt="Beigesoft™ EIS goods loss report" style="max-width: 100%" src="images/goodloss1.png" /></p>
+      <p>It made these complex accounting, warehouse and draw goods entries:
       </p>
+      <p align="center"><img alt="Beigesoft™ EIS goods loss report" style="max-width: 100%" src="images/goodloss1.png" /></p>
       <p>
-        Using supplies, e.g. paper for printing reports, is also made with this document, just change expense account to "Cost of supplies used". 
+        Using supplies, e.g. paper for printing reports, is also made by this document, just change the expense account to "Cost of supplies used". 
       </p>
 
     </section>

@@ -91,9 +91,9 @@
         </ul>
         With Beigesoft™ PDF Writer you can create complex black and white (including non-masked RGB images) business reports quickly.
         Here are PDF files for example:
-        <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjM3YTU4MWFmNDNiYzZmYjk">Invoice sample</a> <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjNhZDczYWU4OWE2MDU3ODQ">Счет-фактура</a> <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OjE4MTA3ODM1NTg3MTAyNzQ">Платежное поручение</a>
-        <a href="https://docs.google.com/viewer?a=v&amp;pid=sites&amp;srcid=ZGVmYXVsdGRvbWFpbnxiZWlnZXNvZnR3YXJlfGd4OmY1M2JjYjM4NTY2YTRlYw">Example of partially internationalized invoice with "VL-Gothic-Regular.ttf" (Japanese)</a>
-        These sample reports clearly show abilities of this reporting tool. Source code that makes these reports is in <b>test</b> folder of the project's source.
+        <a href="https://github.com/demidenko05/beige-pdfwriter/blob/master/invoiceA-68687687.pdf">Invoice sample</a> <a href="https://github.com/demidenko05/beige-pdfwriter/blob/master/Sfactura.pdf">Счет-фактура</a> <a href="https://github.com/demidenko05/beige-pdfwriter/blob/master/Platyojka.pdf">Платежное поручение</a>
+        <a href="https://github.com/demidenko05/beige-acc/blob/master/src/site/resources/files/invoice-jp.pdf">Example of partially internationalized invoice with "VL-Gothic-Regular.ttf" (Japanese)</a>
+        These sample reports clearly show abilities of this reporting tool. The source code that makes these reports is in <b>test</b> folder of the project's source.
       <h4>A-Jetty</h4>
       <p>A-Jetty is Jetty 9.2 adapted for Android, it can run precompiled JSP/JSTL. It works on Android Java as well as on standard Java 7+.</p>
       <p>
