@@ -206,7 +206,7 @@
         <p>Finally Bob just added S.E. good in catalog and refresh items list, catalog is in "en/ru":
           <p align="center"><img style="max-width: 100%" src="images/wsrez1.png" /></p>
           <p align="center"><img style="max-width: 100%" src="images/wsrez2.png" /></p>
-          <p>* you can check it out, that this page for that filter and goods (4000 items) is too slow on SQLite, but it's fast on Postgesql and MySql.</p>
+          <p><i>* you can check it out, that this page for that filter and goods (4000 items) is too slow (page refreshing takes about 1 minute) on SQLite, but it's fast on Postgesql and MySql. Some filters (e.g. "Cars / Manufacturer In list (Ford, Honda) / Color In list (Red) / Order by Price ascending") make the application non-responded only for SQLITE, so do not worry about it.</i></p>
           <p>Detail page in "en/ru" is:</p>
           <p align="center"><img style="max-width: 100%" src="images/wsrez3.png" /></p>
           <p align="center"><img style="max-width: 100%" src="images/wsrez4.png" /></p>
