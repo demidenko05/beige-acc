@@ -9,20 +9,20 @@
 
   <body>
 
-    <section name="Import an EIS database by using WEB-service.">
+    <section name="Import an EIS database by using the WEB-service.">
 
-    <p>Keywords: Import database by using WEB-service.</p>
+    <p><b>Keywords: Import a database by using the WEB-service.</b></p>
 
-      <p><b>* you can not use A-Jetty HTTPS certificate in Internet available version! You can use it on Tomcat only for test import purpose with disabled Internet connection!</b></p>
+      <p><b>* You can not use the A-Jetty SSL (HTTPS) certificate for any Internet resource (site or WEB-service)! You can use it on Tomcat only for testing purposes with disabled Internet connection!</b></p>
 
       <p>If you decided to move from lite standalone (single user) SQlite version of Beigesoft™ EIS
-      into high load enterprise-ready database MySql or Postgresql, then use WEB-service <b>Import database</b></p>
+      into a high performance enterprise-ready database MySql or Postgresql, then use the WEB-service in the <b>Menu->...->Import database</b></p>
       <p>
-        Bob decided to check out this. He installed Apache Tomcat and Postgresql according <a href="https://github.com/demidenko05/beige-accweb">https://github.com/demidenko05/beige-accweb README.txt</a>.
-        He download file <b>beige-accweb.war</b> from  central Maven repository <a href="https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22">https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22</a>
-        and put it into <b>webapps</b> folder of Apache Tomcat.
-        Bob installed Bouncy Castle crypto-provider in static way (see <a href="eis-settings.html">Software installation...</a>),
-        then he copied <b>ajettykeystore.444</b> file into <b>[tomcat-home]/conf</b> folder and uncommented and changed SSL connector in <b>[tomcat-home]/conf/server.xml</b>:
+        Bob decided to check it out. He installed the Apache Tomcat and the Postgresql according to <a href="https://github.com/demidenko05/beige-accweb">https://github.com/demidenko05/beige-accweb README.txt</a>.
+        He download the file <b>beige-accweb.war</b> from the central Maven repository <a href="https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22">https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.beigesoft%22</a>
+        and put it into the <b>webapps</b> folder of the Apache Tomcat.
+        Bob installed the Bouncy Castle crypto-provider in static way (see <a href="eis-settings.html">Software installation...</a>),
+        then he copied <b>ajettykeystore.444</b> file into <b>[tomcat-home]/conf</b> folder and uncommented and changed SSL connector in the <b>[tomcat-home]/conf/server.xml</b>:
         <pre style="white-space:pre-wrap">
 &lt;Connector port="8443" protocol="org.apache.coyote.http11.Http11Protocol"
    maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
@@ -33,23 +33,23 @@
    keystoreProvider="BC" 
    clientAuth="false" sslProtocol="TLS" /&gt;
         </pre>
-        Bob check out what he can not read <b>server.xml</b> file under his regular account, cause this file hold keystore password.
+        Bob checks out that he can not read the <b>server.xml</b> file under his regular account, because this file holds the keystore password.
       </p>
       <p>
-        Bob added <b>ajetty-ca.pem</b> into Java trusted CA keystore:
+        Bob added the <b>ajetty-ca.pem</b> into the Java's trusted CA keystore:
         <pre style="white-space:pre-wrap">
 keytool -import -trustcacerts -alias ajettyca -file "ajetty-ca.pem" -keystore /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts
         </pre>
-  * on MS Windows open Power Shell as ADMIN in Beigesoft EIS folder and run:
+  * on MS Windows open the PowerShell as ADMIN in the Beigesoft EIS folder and run:
         <pre style="white-space:pre-wrap">
 &amp; "C:\Program Files (x86)\Java\jre[version#8]\bin\keytool.exe" -import -trustcacerts -alias ajettyca -file "ajetty-ca.pem" -keystore "C:\Program Files (x86)\Java\jre[version#8]\lib\security\cacerts"
         </pre>        
-        The default password to this keystore is <b>changeit</b>. Adding CA certificate to this keystore requires ROOT permission,
-        so do not worry about keystore password. Never use this keystore to store private keys!
+        The default password to this keystore is <b>changeit</b>. Adding a CA certificate to this keystore requires ROOT permission,
+        so do not worry about the keystore password. Never use this keystore to store private keys!
       </p>
       <p>
-        He launched SQlite version Beigesoft™ EIS on 8444 port (source local database). Then he started Tomcat and opened address <a href="https://localhost:8443/beige-accweb/">https://localhost:8443/beige-accweb/</a>
-        He selected Menu -> ... -> Import database, then  entered "URL of WEB-service of source database:" as "localhost:8444/bsa8444/adm/xml" and filled user/password fields then pressed "submit":</p>
+        He launched the SQlite version Beigesoft™ EIS on 8444 port (source local database). Then he started Tomcat and opened the address <a href="https://localhost:8443/beige-accweb/">https://localhost:8443/beige-accweb/</a>
+        He pushed the <b>Menu -> ... -> Import database</b>, then  entered "URL of WEB-service of source database:" as "localhost:8444/bsa8444/adm/xml" and filled user/password fields then pressed "submit":</p>
       <p align="center"><img style="max-width: 100%" src="images/importdb1.png" /></p>
       
       <p>The import report is:</p>
@@ -60,9 +60,9 @@ keytool -import -trustcacerts -alias ajettyca -file "ajetty-ca.pem" -keystore /u
       <p align="center"><img style="max-width: 100%" src="images/importdb4.png" /></p>
       
       <p>Local WEB-server A-Jetty <b>https://127.0.0.1:8444/bsa8444</b> is not available for cloud (Internet).
-      Apache Tomcat uses Internet-available address, so you data will be Internet-accessible, and you can import data from your Tomcat (on your computer) to Beigesoft™ EIS deployed on any other cloud JEE server.
-      But you can not use A-Jetty HTTPS certificate for it! You must make new HTTPS certificate by yourself that is matched to your Tomcat Internet address (include application path).
-      You can do it (for example) by using Bouncy Castle Crypto Java API or OpenSSL.
+      Apache Tomcat uses an Internet-available IP address, so your data will be Internet-accessible, and you can import data from your Tomcat (on your computer) into a Beigesoft™ EIS deployed on any other cloud JEE server.
+      But you can not use the A-Jetty HTTPS certificate for it! You must make a new HTTPS certificate by yourself.
+      You can do it (for example) by using the Bouncy Castle Crypto Java API or the OpenSSL.
       </p>
     </section>
 
