@@ -19,7 +19,7 @@
         * In English language a word can mean many things, even unrelated. Here the phrase "Accounting entries" means "Journal entries".
         There is neither a "Book" nor "Journals". There is a database table that contains all accounting entries.
         "Accounting of [something]" means "how to record this in an accounting (bookkeeping) system".
-        "To account a document" means making (creating) accounting entries for this document.
+        The button "make entries" in the documents means posting it (making accounting entries for this document).
         "A document" can be an invoice, for example.
         Things like "a document", "an employee", "a tax", etc are called "Entities".
       </p>
@@ -79,19 +79,19 @@
       </h5>
 
       <h5>
-        <a href="eis-import-db-web.html">Import an EIS database by using the WEB-service.</a>
+        <a href="eis-import-db-web.html">Import of an EIS database by using the WEB-service.</a>
       </h5>
 
       <h5>
-        <a href="eis-start-not-from-scratch.html">Beigesoft™ EIS start not from scratch.</a>
+        <a href="eis-start-not-from-scratch.html">Beigesoft™ EIS, start no from scratch.</a>
       </h5>
 
       <h5>
-        <a href="eis-tax-market.html">Financial accounting. Importing data from tax accounting.</a>
+        <a href="eis-tax-market.html">Financial Accounting. Import of data from Tax Accounting.</a>
       </h5>
 
       <h5>
-        <a href="eis-sales-taxes-cash.html">Accounting of sales tax (VAT, GST) cash method. Cash vs accrual methods.</a>
+        <a href="eis-sales-taxes-cash.html">Accounting of sales tax (VAT, GST) cash method. Cash method vs accrual method.</a>
       </h5>
 
       <h5>

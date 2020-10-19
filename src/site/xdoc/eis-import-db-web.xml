@@ -9,9 +9,9 @@
 
   <body>
 
-    <section name="Import an EIS database by using the WEB-service.">
+    <section name="Import of an EIS database by using the WEB-service.">
 
-    <p><b>Keywords: Import a database by using the WEB-service.</b></p>
+    <p><b>Keywords: Import of a database by using a WEB-service.</b></p>
 
       <p><b>* You can not use the A-Jetty SSL (HTTPS) certificate for any Internet resource (site or WEB-service)! You can use it on Tomcat only for testing purposes with disabled Internet connection!</b></p>
 

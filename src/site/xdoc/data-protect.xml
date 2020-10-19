@@ -70,8 +70,13 @@
     <h4>Flexibility leads to vulnerability.</h4>
     <p>A software can be installed statically, e.g. C/C++ binaries, or dynamically, e.g. JavaScript on a HTML page.
     Historically any program has direct access to user's files.
+    There are also "holes", i.e. program's errors. 
+    Many languages with a JIT compiler had the program error that allows to invoke an arbitrary native (CPU) code.
+    And so did JS.
+    So, what is the main factor in security vulnerability in this case? Is it allowing JIT to boost a dynamically loaded JS program,
+    or is it the "hole" in the JS compiler?
     So, the more software restricted, the less vulnerable it is.
-    There are also "holes", i.e. program's errors. Anyway, restricting reduces the probability of those "holes".
+    Restricting definitely reduces the probability of "security holes".
     </p>
 
     <h4>What do you do the worst for you?</h4>
@@ -124,19 +129,30 @@
       So tracking of a secret key usage is essential.
     </p>
     <p>
-      It must be a "device for signing" and "global tracking of using signature" to resolve these problems. "Device for signing" makes a signature itself.
-      There is no way to get the private key from it. It contains your private key to make your signature, and contains its own private key to report to the global tracking server about using your signature.
+      A "device for signing" and "global tracking of using a signature" is a reliable means to resolve these problems. This "Device for signing" makes a signature itself.
+      There is no way to get the private key from it. It contains your private key to make your signature and do other security stuff, e.g. reporting to the global tracking server about using your signature.
       Public keys from such devices must be actually non-public, i.e. they must be transferred and stored in a secure way. That is such devices know all current public keys, and they update them on the go.
       The best way is using this device as your only digital passport, thus it also will contain your photo, fingerprints and other information.
       You will use this device for any activity - opening a door (home, car, hotel room), sing-in into a computer and into any Internet site, making bank transfers, ATM money withdrawal, etc.
       You even will not need to use a pin code for making signature, a cashier will check your photo from your device (bank software can do it too), the device itself will check your fingerprints.
-      All software must be signed with such devices for signing.
-      Of course this requires changing law and adapting software, but finally you will be totally protected from any swindler's activity:
+      All software must be signed with such devices. This device will make session symmetric secret keys to transfer data over the network (e.g. make HTTPS connection).
+      This device will encrypt your data. Again, this device will make all stuff by itself, this is an autonomic "black box".
+      So, this is an alternative way to the current encryption infrastructure, that is based on exactly public keys (certificates) that are signed by Certificate Authorities, and there the most stuff is made by hand.
+      Of course this requires changing law and adapting software, but finally you will be totally protected from any swindlers activities:
       <ul>
         <li>from stealing your money or private information (violence against you)</li>
         <li>from faking news (violence against democracy)</li>
         <li>from faking ratings, duplicates and other spam activity (violence against free market)</li>
+        <li>from exploiting security holes in software</li>
       </ul>
+      And finally you do not have to learn about security at all, to think of passwords...
+    </p>
+    
+    <h4>Example of preventing data leakage due the security hole "allowing already authorized users to request data for another user ID".</h4>
+    <p>You might have heard that a bank software had this "hole". Assume, in the future a bank will have this security hole. So, a swindler will have access to other users data.
+    But HTTPS connection and authorization will be made by using its personal device for signing. So, the global tracking server will store this information forever.
+    Banks usually store logs for a quite long time. So, after revealing the hole, the bank will retrieve all harmful requests from the logs.
+    Would be a swindler so stupid to reveal and exploit security holes while all activities is signed with its personal device? That is, it can't steal another user password and other data such as IP and MAC address to make fake requests to avoid unmasking, as it does today.
     </p>
 
     </section>
