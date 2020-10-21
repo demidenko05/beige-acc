@@ -18,7 +18,7 @@
       <p>
         * In English language a word can mean many things, even unrelated. Here the phrase "Accounting entries" means "Journal entries".
         There is neither a "Book" nor "Journals". There is a database table that contains all accounting entries.
-        "Accounting of [something]" means "how to record this in an accounting (bookkeeping) system".
+        "Accounting for [something]" means "how to record this in an accounting (bookkeeping) system".
         The button "make entries" in the documents means posting it (making accounting entries for this document).
         "A document" can be an invoice, for example.
         Things like "a document", "an employee", "a tax", etc are called "Entities".
@@ -31,47 +31,47 @@
       </h5>
       
       <h5>
-        <a href="eis-property.html">Accounting of property deprecation.</a>
+        <a href="eis-property.html">Accounting for property deprecation.</a>
       </h5>
 
       <h5>
-        <a href="eis-rent.html">Accounting of expenses like rent, electricity, etc.</a>
+        <a href="eis-rent.html">Accounting for expenses such as rent, electricity, etc.</a>
       </h5>
 
       <h5>
-        <a href="eis-purchase.html">Accounting of purchases, prepayments, payments tracking, bank reconciliation.</a>
+        <a href="eis-purchase.html">Accounting for purchases, prepayments, payments tracking, bank reconciliation.</a>
       </h5>
 
       <h5>
-        <a href="eis-purchase-return.html">Accounting of purchases returns (goods returned to suppliers).</a>
+        <a href="eis-purchase-return.html">Accounting for purchases returns (goods returned to suppliers).</a>
       </h5>
 
       <h5>
-        <a href="eis-employment.html">Accounting of employment (payroll).</a>
+        <a href="eis-employment.html">Accounting for employment (payroll).</a>
       </h5>
 
       <h5>
-        <a href="eis-manufacturing.html">Accounting of manufacturing (producing).</a>
+        <a href="eis-manufacturing.html">Accounting for manufacturing (producing).</a>
       </h5>
 
       <h5>
-        <a href="eis-selling.html">Accounting of sales, prepayments, payments tracking, COGS.</a>
+        <a href="eis-selling.html">Accounting for sales, prepayments, payments tracking, COGS.</a>
       </h5>
 
       <h5>
-        <a href="eis-sales-return.html">Accounting of sales returns (goods returned by customers).</a>
+        <a href="eis-sales-return.html">Accounting for sales returns (goods returned by customers).</a>
       </h5>
 
       <h5>
-        <a href="eis-loss.html">Accounting of goods loss (damaged, stolen).</a>
+        <a href="eis-loss.html">Accounting for goods loss (damaged, stolen).</a>
       </h5>
 
       <h5>
-        <a href="eis-bad-debts.html">Accounting of bad debts.</a>
+        <a href="eis-bad-debts.html">Accounting for bad debts.</a>
       </h5>
 
       <h5>
-        <a href="eis-bobs-taxes.html">Accounting of business owner's taxes. Bob's earnings.</a>
+        <a href="eis-bobs-taxes.html">Accounting of business owner taxes, retained earnings.</a>
       </h5>
 
       <h5>
@@ -83,7 +83,7 @@
       </h5>
 
       <h5>
-        <a href="eis-start-not-from-scratch.html">Beigesoft™ EIS, start no from scratch.</a>
+        <a href="eis-start-not-from-scratch.html">Beigesoft™ EIS, start after scratch.</a>
       </h5>
 
       <h5>
@@ -91,7 +91,7 @@
       </h5>
 
       <h5>
-        <a href="eis-sales-taxes-cash.html">Accounting of sales tax (VAT, GST) cash method. Cash method vs accrual method.</a>
+        <a href="eis-sales-taxes-cash.html">Accounting for sales tax (VAT, GST) cash method. Cash method vs accrual method.</a>
       </h5>
 
       <h5>
@@ -103,14 +103,14 @@
       </h5>
 
       <h5>
-        <a href="eis-satax-iteminv.html">Sales tax (VAT, GST) due on a transaction on an item or an invoice basis.</a>
+        <a href="eis-satax-iteminv.html">Sales tax (VAT, GST) due on a transaction on an item basis or an invoice basis.</a>
       </h5>
 
       <h5>
         <a href="eis-satax-aggr.html">Sales tax aggregate (combined) rate method.</a>
       </h5>
       <h5>
-        <a href="eis-bank-csv.html">Import bank statement from CSV file, semi-automatically bank reconciliation.</a>
+        <a href="eis-bank-csv.html">Import bank statement from CSV file. Semi-automatic bank reconciliation.</a>
       </h5>
       <h5>
         <a href="eis-price-list.html">Export price list into CSV file.</a>
@@ -120,7 +120,7 @@
       </h5>
 
       <h5>
-        * Sample databases (use user/password: admin/admin) <b>bobs-pizza-tax6.sqlite (from scratch)</b>, <b>bobs-pizza-market6.sqlite</b>, <b>bobs-pizza-nfs6.sqlite (not from scratch)</b> and <b>bobs-pizza-ws6.sqlite (the rest of these articles including web-store's ones)</b> you can download from <a href="https://sourceforge.net/projects/beige-accounting/">https://sourceforge.net/projects/beige-accounting/</a>
+        * Sample databases (use user/password: admin/admin) <b>bobs-pizza-tax6.sqlite (from scratch)</b>, <b>bobs-pizza-market6.sqlite</b>, <b>bobs-pizza-nfs6.sqlite (after scratch)</b> and <b>bobs-pizza-ws6.sqlite (the rest of these articles including web-store's ones)</b> you can download from <a href="https://sourceforge.net/projects/beige-accounting/">https://sourceforge.net/projects/beige-accounting/</a>
       </h5>
 
       <h5>

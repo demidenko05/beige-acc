@@ -11,7 +11,7 @@
 
     <section name="Accounting of purchases, prepayments, payments tracking, bank reconciliation.">
 
-      <p><b>Keywords: Accounting of purchases, prepayments, sales taxes from purchase, payments tracking, bank reconciliation.</b></p>
+      <p><b>Keywords: Accounting of purchases, prepayments, sales taxes from purchases, payments tracking, bank reconciliation.</b></p>
 
       <h4>Sales taxes that are paid on purchases of raw materials (producing USA).</h4>
       <p>According to <a href="https://www.irs.gov/pub/irs-pdf/p535.pdf">IRS 535 Business Expenses, Page 18</a> sales taxes that Bob pays on purchases of materials
@@ -30,8 +30,20 @@ If the property is merchandise bought for resale, the sales tax is part of the c
         So Bob should set accounting settings "Extract sales taxes from purchase" to No,
         and set "Enabled" to "No" for "Entries source" #4 "Purchase invoice. Debit Sales tax from purchase per tax, Credit Payable per vendor for tax amount.":
       </p>
+
       <p align="center"><img alt="Beigesoft™ EIS settings - sales taxes from purchase" style="max-width: 100%" src="images/entrsourcestfrpur.png" /></p>
       <p>He also should set "Enabled" to "No" the <b>Sales Tax From Purchase</b> asset account.</p>
+      <p><i>* Term "extract sales taxes from purchase/sales" means that you should record sales/purchases of goods/services as if these goods/services are not taxable (without taxes), i.e. you should not make tax records.</i>
+      For example, if you buy 1 pound of cheese for 10.5 USD with 0.5 USD sales tax included in the price, the you should make this entry:
+<pre style="white-space: pre-wrap;">
+Debit Inventory For 10.5 USD, Credit Accounts Payable For 10.5 USD
+</pre>
+instead of these entries (including extracting the sales tax):
+<pre style="white-space: pre-wrap;">
+Debit Inventory For 10.0 USD, Credit Accounts Payable For 10.0 USD
+Sales Tax Receivable For 0.5 USD, Credit Accounts Payable For 0.5 USD
+</pre>
+      </p>
       <p>
         If you have to use a different method to account sales tax from purchase,
         then set accounting settings "Extract sales taxes from purchase" to Yes,
@@ -60,7 +72,7 @@ If the property is merchandise bought for resale, the sales tax is part of the c
       
       <h4>Purchases.</h4>
       <p>
-        Bob bought pizza ingredients on Jan 15, then he filled the purchase invoice, then accounted it:
+        Bob bought pizza ingredients on Jan 15, then he filled the purchase invoice, then posted it:
       </p>
       <p align="center"><img alt="Beigesoft™ EIS purchase invoice" style="max-width: 100%" src="images/purchase1.png" /></p>
       <p>The <b>pay by date</b> field is optional, the <b>Foreign currency</b> and <b>exchange rate</b> fields are used for purchases in a foreign currency, after you added an invoice line in the native currency they will disappear.</p>

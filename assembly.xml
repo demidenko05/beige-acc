@@ -22,6 +22,11 @@
         <include>${file.separator}findbug-exclude.xml</include>
         <include>${file.separator}checkstyle-suppressions.xml</include>
       </includes>
+      <excludes>
+        <exclude>${file.separator}src${file.separator}site${file.separator}gimp${file.separator}**</exclude>
+        <exclude>${file.separator}src${file.separator}site${file.separator}resources${file.separator}files${file.separator}**</exclude>
+        <exclude>${file.separator}src${file.separator}site${file.separator}resources${file.separator}images${file.separator}**</exclude>
+      </excludes>
     </fileSet>
   </fileSets>
 </assembly>

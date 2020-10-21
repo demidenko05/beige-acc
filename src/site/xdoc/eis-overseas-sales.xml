@@ -11,72 +11,75 @@
 
     <section name="Overseas sales. Advanced internationalization.">
       
-      <p>Keywords: overseas sales.</p>
+      <p><b>Keywords: overseas sales.</b></p>
 
-      <h4>Overseas sales. Advanced internationalization.</h4>
-      <p>Nowadays international trading is still growing sphere of business.
-        Even small business entities do overseas sales (export) or import.</p>
+      <p>Nowadays international trading is still a growing sphere of business.
+        Even small business entities do overseas sales (export) or purchases (import).</p>
       <p>Overseas buyer usually have not to pay foreign sales taxes. For example, foreigners travelers can refund sales taxes when they leave the country.
-        You should set "Omit taxes" in any invoice for such customers/vendors.
+        You should set "Omit taxes" in an invoice for such customers/vendors.
       </p>
-      <p>Foreign buyers that buy goods for business purpose (e.g. for resale) usually must have a translated invoice. This is required by their tax authority.
+      <p>Foreign buyers that buy goods for business purposes (e.g. for resale) usually must have a translated invoice. This is required by their tax authority.
         Beigesoft™ EIS has advanced dynamic internationalization to do it. This helps foreigner buyers and might attract more of them.
       </p>
-      <h4>Making sales invoice translated in buyer's native language.</h4>
+      <h4>Making a sales invoice translated in a buyer's native language.</h4>
       <p>
-        At first add foreign buyer, e.g. "OOO Berezka" from Russia, then add Buyer internationalization for this buyer in Russian language:
-        <p align="center"><img style="max-width: 100%" src="images/forgnbuyerru.png" /></p>
+        At first, add a foreign buyer, e.g. "OOO Berezka" from Russia, then add a "Buyer internationalization" for this buyer in Russian language:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/forgnbuyerru.png" /></p>
       <p>
-        Then add Internationalization base business owner information in Russian language:
-        <p align="center"><img style="max-width: 100%" src="images/bownerru.png" /></p>
+        Then add a new "Internationalization base" for business owner information in the Russian language:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/bownerru.png" /></p>
       <p>
-        Then add goods/service/unit of measure internationalization in Russian language:
-        <p align="center"><img style="max-width: 100%" src="images/goodsru.png" /></p>
+        Then add a new "goods/service/unit of measure internationalization" in the Russian language:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/goodsru.png" /></p>
       <p>
-        Then add currency internationalization USD in Russian language:
-        <p align="center"><img style="max-width: 100%" src="images/currencyru.png" /></p>
+        Then add a new "currency internationalization" for USD in the Russian language:
       </p>
-      <p>* after changing internalization things such as currency or base, you should restart application.</p>
+      <p align="center"><img style="max-width: 100%" src="images/currencyru.png" /></p>
+      <p><i>* You should restart the application after changing some internalization things such as "i.currency" or "i.base".</i></p>
       <p>
-        Finally just add invoice, its report in English is:
-        <p align="center"><img style="max-width: 100%" src="images/foregninvrepen.png" /></p>
+        Finally just add a new invoice, the sample one's report in English is:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/foregninvrepen.png" /></p>
       <p>
-        Set Russian language, digit separator "comma" and group separator "space" in "Change language preferences":
-        <p align="center"><img style="max-width: 100%" src="images/langprefch.png" /></p>
+        Set Russian language, digit separator "comma" and group separator "space" in the "Change language preferences":
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/langprefch.png" /></p>
       <p>
-        Then print invoice again in Russian:
-        <p align="center"><img style="max-width: 100%" src="images/foregninvrepru.png" /></p>
+        Then print the sample invoice again in Russian:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/foregninvrepru.png" /></p>
 
-      <h4>How to add new language without recompiling.</h4>
-      <p>Beigesoft™ EIS uses TTF fonts DejaVuSerif-Bold.ttf and DejaVuSerif.ttf that contain many languages. For other languages you should add TTF file into Java archive file (see below).
-        Asian free TTF fonts you can find:
+      <h4>How to add a new language without recompiling.</h4>
+      <p>Beigesoft™ EIS uses TTF fonts DejaVuSerif-Bold.ttf and DejaVuSerif.ttf that contain many languages. For other languages you should add a TTF file into the Java archive file (see below).
+        Asian free TTF fonts you can find in:
         <ul>
           <li>Japanese VL-Gothic fonts - <a href="http://vlgothic.dicey.org">http://vlgothic.dicey.org</a></li>
           <li>Korean Nanum fonts - <a href="https://slackbuilds.org/repository/14.0/system/nanum-fonts-ttf/">https://slackbuilds.org/repository/14.0/system/nanum-fonts-ttf/</a></li>
           <li>Chinese Han Sans - <a href="https://github.com/be5invis/source-han-sans-ttf/releases">https://github.com/be5invis/source-han-sans-ttf/releases</a></li>
         </ul>
       </p>
-      <p>Java files are placed in JAR file, that is actually a ZIP archive. JAR, WAR and APK are ZIP archives. All you should do is:
+      <p>Java files are placed in a JAR file, that is actually a ZIP archive. JAR, WAR and APK are ZIP archives. All you should do is:
         <ul>
-          <li>extract files with folders (tree structure) into folder e.g. "foo"</li>
-          <li>add basic static internationalization - file e.g. /resources/Messages_fr_FR.properties for France language, just copy file Messages_en_US.properties to Messages_fr_FR-UTF8.properties, edit it in UTF-8 editor, encode it to ASCII by command <b>native2ascii -encoding UTF-8 Messages_fr_FR-UTF8.properties Messages_fr_FR.properties</b>.</li>
-          <li>add language and country codes into <b>langCountries</b> in <b>web.xml</b>, e.g. <b>en,US,ru,RU,fr,FR</b></li>
-          <li>remove digital signatures - foo/META-INF/BEIGESOF.RSA and BEIGESOF.SF</li>
-          <li>if need, add new TTF fonts into <b>fonts</b> folder</li>
-          <li>make JAR/WAR file by <b>jar</b> utility, e.g. run outside of "foo" folder: "jar cvfm beige-eis.jar foo/META-INF/MANIFEST.MF -C foo/ ."</li>
+          <li>extract all files with folders (tree structure) from a JAR/WAR into a folder e.g. "foo"</li>
+          <li>add a new basic static internationalization - i.e. a i18n.properties file, e.g. /resources/Messages_fr_FR.properties for France language, just copy the file Messages_en_US.properties into the new Messages_fr_FR-UTF8.properties,
+          the edit it with an UTF-8 editor,
+          then encode it into ASCII by this command:
+          <b>native2ascii -encoding UTF-8 Messages_fr_FR-UTF8.properties Messages_fr_FR.properties</b>.</li>
+          <li>add a language and a country codes into the <b>langCountries</b> in the <b>web.xml</b>, e.g. <b>en,US,ru,RU,fr,FR</b></li>
+          <li>remove digital signatures - e.g. foo/META-INF/BEIGESOF.RSA and BEIGESOF.SF</li>
+          <li>if it's need, add new TTF fonts into the <b>fonts</b> folder</li>
+          <li>make the JAR/WAR file by the <b>jar</b> utility, e.g. run outside of "foo" folder:
+          "jar cvfm beige-eis.jar foo/META-INF/MANIFEST.MF -C foo/ ."</li>
         </ul>
       </p>
-      <p>At first, add new language, country and language preferences, then push "refresh languages settings", then refresh page. Then add goods, service, etc. names in new language.</p>
-      <p>To use another TTF file, set it name without extension in "Accounting settings"-"TTF font",
+      <p>First, add a new "language", a "country" and a "language preferences", then push the "refresh languages settings", then refresh the page. Then add goods/services/etc. names in the new language.</p>
+      <p>To use another TTF file, set its name without extension in the "Accounting settings"-"TTF font",
         for example "VL-Gothic-Regular" (if there is no another Bold TTF, then leave that field "TTF font bold" empty!). <a href="files/invoice-jp.pdf">Example of partially internationalized invoice with "VL-Gothic-Regular.ttf"</a>
       </p>
-      <p>If you set "Accounting settings"-"page size" to "Letter", then you have to set page margins and font size in inches, otherwise (default A4) is millimeters. Default font size 3.5 millimeters equals to 0.1378 inch.</p>
+      <p>If you set the "Accounting settings"-"page size" to the "Letter", then you have to set the "page margins" and the "font size" in inches, otherwise (default A4) use millimeters. Default font size 3.5 millimeters equals 0.1378 inch.</p>
     </section>
 
   </body>
