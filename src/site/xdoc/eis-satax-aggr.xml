@@ -51,7 +51,7 @@ the last tax total line is the rest of the aggregate tax (i.e. tax3 = 9.18 - (9.
       The "Aggregate rate" is the most used method for multiple-taxes. If your items have only tax (e.g. item1 10%, item2 18%, etc), then set the "Aggregate tax rate or only tax" property to "Yes".
       </p>
       
-      <h4>Example of a sales invoices for the both methods (aggregate and non-aggregate).</h4>
+      <h4>Example of sales invoices for the both methods (aggregate and non-aggregate).</h4>
       <p>Add the taxes that are described above. Apply them to new fake services "Service A" and "Service B".</p>
       <p>
         The system's "Aggregate tax rate or only tax" property is "Yes",  so just add a new invoice with the aggregate rate and those two services with the prices and the taxes that described above:
