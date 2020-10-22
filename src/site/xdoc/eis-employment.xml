@@ -9,9 +9,9 @@
 
   <body>
 
-    <section name="Accounting of employment (payroll).">
+    <section name="Accounting for employment (payroll).">
       
-      <p><b>Keywords: Accounting of employment (payroll).</b></p>
+      <p><b>Keywords: Accounting for employment (payroll).</b></p>
       
 <p>Beigesoft™ EIS uses the <b>tax table percentage method (withholding tax tables</b>) for automatically calculating wage taxes.</p>
 <p>It calculates <b>wage tax = tax rate (according to tables) * (gross wage - all allowances per payment)</b>. This simple method is used in the USA.
@@ -83,11 +83,11 @@ So he filled out the "wage tax tables".</p>
     and another line for delivering (<b>5105 Expenses</b> for indirect labor cost):
   </p>
   <p align="center"><img alt="Beigesoft™ EIS payroll" style="max-width: 100%" src="images/wageld.png" /></p>
-  <p>then he pressed the <b>fill taxes</b> button, then accounted the document:</p>
+  <p>then he pressed the <b>fill taxes</b> button, then posted the document:</p>
   <p align="center"><img alt="Beigesoft™ EIS payroll" style="max-width: 100%" src="images/wage1.png" /></p>
   <p align="center"><img alt="Beigesoft™ EIS payroll report" style="max-width: 100%" src="images/wage2.png" /></p>
   <p>
-    As you can see, the cooking (direct labor) wage is accounted separately from the delivering (indirect labor) one.
+    As you can see, the cooking (direct labor) wage is posted separately from the delivering (indirect labor) one.
     For manufacturing, a direct labor cost (as well as cost of materials) is usually included into the cost of the final product.
     Make sure that it's true for your tax rules.
   </p>

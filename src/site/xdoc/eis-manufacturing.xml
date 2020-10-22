@@ -9,9 +9,9 @@
 
   <body>
 
-    <section name="Accounting of manufacturing (producing).">
+    <section name="Accounting for manufacturing (producing).">
 
-<p><b>Keywords: Accounting of manufacturing, direct and indirect labor, cost of product.</b></p>
+<p><b>Keywords: Accounting for manufacturing, direct and indirect labor, cost of product.</b></p>
 
       <p>Beigesoft™ EIS automatically calculates: <b>"cost of product = a cost of materials
        plus additional costs (direct labor, packaging etc)"</b>. This method is widely used in many countries.</p>
@@ -25,11 +25,11 @@
       </p>
       <p align="center"><img alt="Beigesoft™ EIS manufacturing" style="max-width: 100%" src="images/manufprc1.png" /></p>
       <p>Bob added one half of direct labor cost 45.91 (22.95) from the "Inventory capitalized cost temporary" account (see the "Wage" full report).
-      After completing and accounting its full report is:</p>
+      After completing and posting its full report is:</p>
       <p align="center"><img alt="Beigesoft™ EIS manufacturing report" style="max-width: 100%" src="images/manufprc2.png" /></p>
       <p align="center"><img alt="Beigesoft™ EIS manufacturing report" style="max-width: 100%" src="images/manufprc2-1.png" /></p>
       <p>
-        Then Bob filled and accounted this "Manufacture" based on that "Manufacturing process":
+        Then Bob filled and posted this "Manufacture" based on that "Manufacturing process":
       </p>
       <p align="center"><img style="max-width: 100%" src="images/manuf1.png" /></p>
       <p align="center"><img style="max-width: 100%" src="images/manuf2.png" /></p>

@@ -9,11 +9,10 @@
 
   <body>
 
-    <section name="Sales tax (VAT, GST) due on a transaction on an item or an invoice basis.">
+    <section name="Sales tax (VAT, GST) due on a transaction on an item basis VS an invoice basis.">
       
-      <p>Keywords: Sales tax (VAT, GST) due on a transaction on an item or an invoice basis.</p>
+      <p><b>Keywords: Sales tax (VAT, GST) due on a transaction on an item basis VS an invoice basis.</b></p>
       
-      <h4>Sales tax (VAT, GST) due on a transaction on an item or an invoice basis</h4>
       <p>There are two "grouping" calculation methods:
         <ul>
           <li>Tax due on a transaction on an item basis</li>
@@ -26,32 +25,32 @@ round(2.244 + 2.244) != round(2.244) + round(2.244);
 </pre>
       </p>
       <p>
-        By default Beigesoft™ EIS uses "item basis" method. You can switch it in "Accounting settings" and "Tax destination"
+        By default Beigesoft™ EIS uses the "item basis" method. You can switch it in the "Accounting settings" and a "Tax destination".
       </p>
-      <h4>Creating two identical invoices for both methods example.</h4>
+      <h4>Example of two identical invoices for the both methods.</h4>
       <p>
-        System's "item basis" method is "On", so just add new invoice with two services for 55.67USD each, applicable tax is 11%:
-        <p align="center"><img style="max-width: 100%" src="images/stitmbas1.png" /></p>
-        <p align="center"><img style="max-width: 100%" src="images/stitmbas2.png" /></p>
+        The system's "item basis" method is "On", so just add a new invoice with two services for 55.67USD each with tax 11%:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/stitmbas1.png" /></p>
+      <p align="center"><img style="max-width: 100%" src="images/stitmbas2.png" /></p>
       <p>
-        Add new fake tax destination "TD Invoice basis exm." and set "ST Invoice basis" in it to "Yes":
-        <p align="center"><img style="max-width: 100%" src="images/stitmbas3.png" /></p>
+        Add a new fake tax destination "TD Invoice basis exm." and set the "ST Invoice basis" field to "Yes", e.g:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/stitmbas3.png" /></p>
       <p>
-        Then add new customer with that "Tax destination":
-        <p align="center"><img style="max-width: 100%" src="images/stitmbas4.png" /></p>
+        Then add a new customer with that "Tax destination", e.g:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/stitmbas4.png" /></p>
       <p>
-        Then add "tax destination" to items:
-        <p align="center"><img style="max-width: 100%" src="images/stitmbas5.png" /></p>
+        Then assign that "tax destination" to items, e.g:
       </p>
+      <p align="center"><img style="max-width: 100%" src="images/stitmbas5.png" /></p>
       <p>
-        Then add new invoice with the same services and prices for new customer:
-        <p align="center"><img style="max-width: 100%" src="images/stitmbas6.png" /></p>
-        <p align="center"><img style="max-width: 100%" src="images/stitmbas7.png" /></p>
+        Then add a new invoice with the same services and prices for a new customer,  e.g:
       </p>
-      As you can see difference is 1 cent. In real live difference never exceed 1 dollar, it's usually about ten cents.
+      <p align="center"><img style="max-width: 100%" src="images/stitmbas6.png" /></p>
+      <p align="center"><img style="max-width: 100%" src="images/stitmbas7.png" /></p>
+      <p>As you can see, the difference is 1 cent. In real life, the difference never exceeds $ 1, usually around ten cents.</p>
     </section>
 
   </body>

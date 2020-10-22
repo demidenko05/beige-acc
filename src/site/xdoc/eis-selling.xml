@@ -9,8 +9,8 @@
 
   <body>
 
-    <section name="Accounting of sales, prepayments, payments tracking, COGS.">
-    <p><b>Keywords: Accounting of sales, payments tracking software, sales taxes, Cost Of Goods Sold.</b></p>
+    <section name="Accounting for sales, prepayments, payments tracking, COGS.">
+    <p><b>Keywords: Accounting for sales, payments tracking software, sales taxes, Cost Of Goods Sold.</b></p>
 
       <p>Sales taxes (VAT, GST) imposed on a buyer are always extracted from sales revenue, and a seller has to remit them to tax revenue authorities. This rule is applied in all countries.
       For the USA see <a href="https://www.irs.gov/pub/irs-pdf/p535.pdf">IRS 535 Business Expenses, Page 18</a>:
@@ -45,14 +45,14 @@ taxes in gross receipts or sales.
         Bob filled this "Prepayment From":
       </p>
       <p align="center"><img alt="Beigesoft™ EIS prepayment for sales" style="max-width: 100%" src="images/prepfrom1.png" /></p>
-      <p>The full report of the accounted document is:</p>
+      <p>The full report of the posted document is:</p>
       <p align="center"><img alt="Beigesoft™ EIS prepayment for sales report" style="max-width: 100%" src="images/prepfrom2.png" /></p>
       <p>
         Bob sold on Jan 17 6 Pizza with bacon frozen and 6 Pizza with cheese frozen to the "Mini Market" (he also sold 3 pounds of cheese and 1.5 hours of cleaning for example purposes).
         Bob filled this "Sales invoice":
       </p>
       <p align="center"><img alt="Beigesoft™ EIS sales invoice" style="max-width: 100%" src="images/sales0.png" /></p>
-      <p>The full report of the accounted "Sales invoice" is:</p>
+      <p>The full report of the posted "Sales invoice" is:</p>
       <p align="center"><img alt="Beigesoft™ EIS sales invoice report" style="max-width: 100%" src="images/sales1.png" /></p>
       <p align="center"><img alt="Beigesoft™ EIS sales invoice report" style="max-width: 100%" src="images/sales2.png" /></p>
       <p>
