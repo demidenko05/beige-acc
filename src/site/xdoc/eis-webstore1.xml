@@ -9,82 +9,99 @@
 
   <body>
 
-    <section name="Bob's web-store example.">
-      <h4>Bob's pizza web-store example. Part 1, catalog.</h4>
+    <section name="Bob's web-store example. Part 1, catalog.">
+
         <p>Beigesoft™ web-store allows you to create any catalog of goods and services.
           You can create dynamically (without programming) any good's or service's specifics (characteristic), e.g. "Color", "Size", "Car's body type", "Car's fuel type".
-          And these specifics is ready to use in the filter. Beigesoft™ web-store has advanced, dynamic internationalization, so your catalog will be appeared in the language that a buyer chose.
+          And these specifics is ready to use in the filter. Beigesoft™ web-store has advanced dynamic internationalization, so your catalog will be appeared in the language that a buyer chose.
         </p>
-        <p>Any catalog can contain your goods and services as well as something else's ones (that belong to another seller)</p>
+        <p>Any catalog can contain your goods and services as well as something else's ones (that belong to other sellers)</p>
         <p>
           Bob decided to use Beige-Webstore (it's included into Beigesoft™ EIS) for selling his pizza.
-          He also decided to start new business activity - allow other sellers selling their used car on Bob's store.
-          People trust Bob, so Bob will inspect other seller's cars to insure buyers that all information about goods is true.
+          He also decided to start a new business activity - allow other sellers to sell their used cars via Bob's web-store.
+          People trust Bob, so Bob will inspect other seller's cars to insure buyers that all information about goods is truthful.
           Other sellers will pay fee to Bob for his service after they have sold their cars.
         </p>
-        <p>At start, Bob opened <b>menu -> Administrator</b> and filled trading settings:
-          <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wssettng.png" /></p>
-            He set web-store name to "Bob's store" and "Use advanced internalization" to "true".
+        <p>At start, Bob opened the <b>menu -> Administrator</b> and filled the "trading settings":
         </p>
-        <p><b>* Base online price category must be added and set here, otherwise any buyer will get error</b></p>
+        <p align="center"><img alt="Beige-Webstore settings" style="max-width: 100%" src="images/wssettng.png" /></p>
+        <p>He set the web-store name to "Bob's store" and the "Use advanced internalization" field to "Yes".</p>
+        
+        <p><b>* A base online price category must be added and set here, otherwise any buyer will get the error!</b></p>
         
         <p>
           Bob added several catalogs into "menu - Catalog of goods":
-          <p align="center"><img alt="Beige-Webstore making catalog of goods" style="max-width: 100%" src="images/wscatalogs.png" /></p>
-          * catalogs must "contain goods"!
         </p>
-        <p>To add sub-catalog into catalog bob uses menu <b>Subcatalogs in catalogs</b>:
-          <p align="center"><img alt="Beige-Webstore making catalog of goods" style="max-width: 100%" src="images/wssubcatalogs.png" /></p>
+        <p align="center"><img alt="Beige-Webstore making catalog of goods" style="max-width: 100%" src="images/wscatalogs.png" /></p>
+        <p><b>* These catalogs must have "contain goods"="Yes"!</b></p>
+        
+        <p>To add a sub-catalog into a catalog bob uses the <b>Menu -> Subcatalogs in catalogs</b>:
         </p>
-        <p>To add a goods into catalog Bob uses menu <b>Items in catalog</b>:
-          <p align="center"><img style="max-width: 100%" src="images/wsgoodscat.png" /></p>
+        <p align="center"><img alt="Beige-Webstore making catalog of goods" style="max-width: 100%" src="images/wssubcatalogs.png" /></p>
+
+        <p>To add an item into catalog Bob uses the <b>Menu -> Items in catalog</b>:
         </p>
-        <p>Then Bob added <b>Pickup place</b>:
-          <p align="center"><img style="max-width: 100%" src="images/wspickpl.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsgoodscat.png" /></p>
+
+        <p>Then Bob added a new <b>Pickup place</b>:
         </p>
-        <p>Then Bob added <b>Item in place</b>:
-          <p align="center"><img style="max-width: 100%" src="images/wsgoodsavail.png" /></p>
-          Property <b>is always</b> means that customers can order this goods without availability checking.
+        <p align="center"><img style="max-width: 100%" src="images/wspickpl.png" /></p>
+
+        <p>Then Bob added a <b>Item in place</b> for every item, e.g.:
         </p>
-        <p>Then Bob added <b>Specifics of item</b> "Image":
-          <p align="center"><img style="max-width: 100%" src="images/wsspecimg.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsgoodsavail.png" /></p>
+
+        <p><i>The <b>is always</b> property means that customers can order this item without checking availability.</i></p>
+
+        <p>Then Bob added a new <b>Specifics of item</b> "Image":
         </p>
-        <p>Then Bob added <b>Specifics of item</b> "weight" of type "Numeric":
-          <p align="center"><img style="max-width: 100%" src="images/wsspweight.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsspecimg.png" /></p>
+
+        <p>Then Bob added a new <b>Specifics of item</b> "weight" of type "Numeric":
         </p>
-        <p>Then Bob added <b>Specifics of item</b> "Image" for every goods:
-          <p align="center"><img style="max-width: 100%" src="images/wsspecgood.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsspweight.png" /></p>
+
+        <p>Then Bob assigned the <b>Specifics of item</b> "Image" for every goods, e.g:
         </p>
-        <p>Then Bob added <b>Specifics of item</b> "weight" for every goods:
-          <p align="center"><img style="max-width: 100%" src="images/wsspgdweigth.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsspecgood.png" /></p>
+
+        <p>Then Bob assigned the <b>Specifics of item</b> "weight" for every goods, e.g.:
         </p>
-        <p>Then Bob added Price category, then Item price for every goods:
-          <p align="center"><img style="max-width: 100%" src="images/wsprigoods.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsspgdweigth.png" /></p>
+
+        <p>Then Bob assigned the "Price category" "price for all" and a price for every goods, e.g.:
         </p>
-        <p>After data has been completed Bob push <b>Refresh goods in list</b> in "Menu-..."</p>
-        <p>Resulting web-store catalog "Pizza with filter" is:
-          <p align="center"><img style="max-width: 100%" src="images/wspizzaflt.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsprigoods.png" /></p>
+
+        <p>After the data has been completed, Bob pushed the <b>Refresh goods in list</b> in the "Menu-..."</p>
+
+        <p>As a result, the web-store filtered catalog "Pizza" is:
         </p>
-        <p>Dynamically added specifics "Weight" is in filter:
-          <p align="center"><img style="max-width: 100%" src="images/wscatfltsp.png" /></p>
-          <p align="center"><img style="max-width: 100%" src="images/wspizzaflt1.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wspizzaflt.png" /></p>
+
+        <p>The dynamically added specifics "Weight" is in the filter:
         </p>
+        <p align="center"><img style="max-width: 100%" src="images/wscatfltsp.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wspizzaflt1.png" /></p>
+
         <h4>S.E. sellers.</h4>
-        <p>To register a seller, you should add it in menu "Administrator-..."<b>User</b>,
-          then add <b>User role</b> for this user with role exactly 'seller':
-          <p align="center"><img style="max-width: 100%" src="images/wsseselrol.png" /></p>
+        <p>To register a seller, you should add it in the "Menu -> Administrator -> ... -> User",
+          then add a <b>User role</b> for this user with exactly the 'seller' role:
         </p>
-        <p>Then you should add S.E. seller as "Debtor/Creditor" in accounting main menu.
-          Then you should add S.E. seller as "S.E.Seller" in "Administrator -> Catalog G/S" menu.</p>
-        <p>Any S.E.Seller can create its own goods/services. It can see neither software owner's accounting information (except shared information like "Unit of measure" or "Pick-up place")
-          nor information of other S.E. sellers. Software administrator only can see S.E.Seller's information, it can't change it by using HTML interface (it can change it only by using direct database access).
-          Any way adding/deleting S.E.Seller's item to any catalog can only web-store administrator.
+        <p align="center"><img style="max-width: 100%" src="images/wsseselrol.png" /></p>
+
+        <p>Then you should add S.E. seller as "Debtor/Creditor" in the accounting main menu.
+          Then you should add S.E. seller as "S.E.Seller" in the "Menu->Administrator -> Catalog G/S".</p>
+        <p>Any S.E.Seller can create its own goods/services. It can see neither software owner's accounting information (except shared information such as "Unit of measure" or "Pick-up place")
+          nor other S.E. sellers information. The software administrator only can see S.E.Seller's information, it can't change it by using the HTML interface (it can change it only by using the direct database access).
+          Any way, only the web-store administrator can add/delete any S.E.Seller's item to any catalog.
         </p>
+
         <p>At start, Bob added information that any S.E.Seller can't add:  "Pickup place":
         <ul>
           <li>New York</li>
         </ul> 
-         then he added "HTML templates" for any item:
+         then he added "HTML templates" for every item:
         <ul>
           <li>spec name bold: spec value1 value2	:SPECNM: :VAL1 :VAL2</li>
         </ul>
@@ -96,8 +113,10 @@
           <li>:VAL1 - specifics value#1, e.g. "0.23"</li>
           <li>:VAL2 - specifics value#2, e.g. "pound"</li>
         </ul>
-          then he set HTML group templates in "settings additional"
-          <p align="center"><img style="max-width: 100%" src="images/wssetadd.png" /></p>
+          then he set the "HTML group templates" in the "Additional settings":
+        </p>
+        <p align="center"><img style="max-width: 100%" src="images/wssetadd.png" /></p>
+        <p>
           then he added "Type of chooseable specifics of item" for cars:
         <ul>
           <li>Manufacturer</li>
@@ -125,9 +144,11 @@
            <li>Image20 of type "Image in set", group "Image set1", not show in list</li>
          </ul>
         </p>
-        <p>After that item's specifics are:
-          <p align="center"><img style="max-width: 100%" src="images/wsspecifics.png" /></p>
+
+        <p>After that the item's specifics are:
         </p>
+        <p align="center"><img style="max-width: 100%" src="images/wsspecifics.png" /></p>
+
         <p>Then Bob added values set of chooseable specifics "Manufacturer":
           <ul>
             <li>Ford</li>
@@ -163,54 +184,58 @@
           </ul>        
         </p>
         
-        <h4>Adding car by S.E.seller.</h4>
+        <h4>Adding a car by a S.E.seller.</h4>
         <p>
-          Seller should add <b>S.E.Good</b> - e.g. "Ford 2010", then add <b>Good in place</b>:
+          A seller should add a <b>S.E.Good</b> - e.g. "Ford 2010", then add a <b>Good in place</b>:
           <ul>
             <li>item - "Ford 2010"</li>
             <li>pickup place - NY</li>
             <li>Quantity - 1</li>
           </ul>
-          Then add "Goods price", then add all item's specifics:
+          Then add a "Goods price", then add all item's specifics:
           <ul>
             <li>Image</li>
             <li>Year - 2010</li>
             <li>...</li>
           </ul>
-          result list is:
-          <p align="center"><img style="max-width: 100%" src="images/wsford2010spes.png" /></p>
+          The result list is:
         </p>
+        <p align="center"><img style="max-width: 100%" src="images/wsford2010spes.png" /></p>
 
         <h4>Item detail page. Embedded HTML.</h4>
-        <p>It's used embedded HTML file to make pretty description (without images).
-          Seller should edit template HTML <a href="files/fordred.html">detail description HTML template</a>.
-          It should edit exactly inside HTML tag <b>DIV</b> with class name "embed-html" by using any HTML editor.
-          CSS bootstrap should be also provided to seller to preview it in same way as on Beigesoft Web-store.
+        <p>You should use an embedded HTML file to make a pretty description (without images).
+          Seller should edit the <a href="files/fordred.html">detail description HTML template</a>.
+          It should edit text exactly inside the HTML tag <b>DIV</b> with the class name "embed-html" by using any HTML editor.
+          CSS bootstrap library should be also provided to a seller to preview this template in same way as on Beigesoft Web-store.
         </p>
+
         <h4>Advanced internationalization.</h4>
-        <p>To make embedded HTML on detail page in other language you should:
+        <p>To make an embedded HTML on a detail page in other language you should:
           <ul>
-            <li>make new HTML based on the template in new language, you can name file as you want
+            <li>make a new HTML file based on the template with new language, you can name the file as you want
             </li>
-            <li>then edit item's specifics with embedded HTML with default language ->  "languages" is comma separated other languages codes, e.g. "ru,fr" - Russian, France.
-              Field language - current file's language, e.g. "ru".
+            <li>then set the "languages" field to comma separated other languages codes, e.g. "ru,fr" - Russian, France, in an item's specifics with embedded HTML.
+              Set the "language" field to current file's language, e.g. "ru".
             </li>
-            <li>then push "Save" to upload file</li>
+            <li>then push the "Save" button to upload the HTML file in other language</li>
           </ul>
           e.g. screenshot:
-          <p align="center"><img style="max-width: 100%" src="images/wsford2010htmlru.png" /></p>
         </p>
+        <p align="center"><img style="max-width: 100%" src="images/wsford2010htmlru.png" /></p>
+        
         <p>Internationalization of all other things is made in the same way as described in <a href="https://sites.google.com/site/beigesoftware/eis-bobs-pizza/eis-overseas-sales">Overseas sales. Advanced internationalization</a>.</p>
         
         <h4>Final</h4>
-        <p>Finally Bob just added S.E. good in catalog and refresh items list, catalog is in "en/ru":
-          <p align="center"><img style="max-width: 100%" src="images/wsrez1.png" /></p>
-          <p align="center"><img style="max-width: 100%" src="images/wsrez2.png" /></p>
-          <p><i>* you can check it out, that this page for that filter and goods (4000 items) is too slow (page refreshing takes about 1 minute) on SQLite, but it's fast on Postgesql and MySql. Some filters (e.g. "Cars / Manufacturer In list (Ford, Honda) / Color In list (Red) / Order by Price ascending") make the application non-responded only for SQLITE, so do not worry about it.</i></p>
-          <p>Detail page in "en/ru" is:</p>
-          <p align="center"><img style="max-width: 100%" src="images/wsrez3.png" /></p>
-          <p align="center"><img style="max-width: 100%" src="images/wsrez4.png" /></p>
+
+        <p>Finally Bob just added S.E. goods in the catalog and refresh the items list.
+          The catalog is in "en/ru":
         </p>
+        <p align="center"><img style="max-width: 100%" src="images/wsrez1.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsrez2.png" /></p>
+        <p><i>* you can check it out, that this page for that filter and goods (4000 items) is too slow (page refreshing takes about 1 minute) on SQLite, but it's fast on Postgesql and MySql. Some filters (e.g. "Cars / Manufacturer In list (Ford, Honda) / Color In list (Red) / Order by Price ascending") make the application non-responded only for SQLITE, so do not do it and worry about it.</i></p>
+        <p>The detail page in "en/ru" is:</p>
+        <p align="center"><img style="max-width: 100%" src="images/wsrez3.png" /></p>
+        <p align="center"><img style="max-width: 100%" src="images/wsrez4.png" /></p>
     </section>
 
   </body>
