@@ -27,7 +27,7 @@
       So on 31 December 2016 Bob will transfer 4400 USD from asset account <b>Property</b> into income (business) expense account <b>5150 Expenses.Property Deprecation</b>:
       </p>
       <p align="center"><img style="max-width: 100%" alt="Beigesoft™ EIS property deprecation" src="images/ford-deprication.png" /></p>
-      <p><i>* You should set the current operation month in the "Accounting settings". You also should better set the operation day in the "User preferences" to make automatically the date of a new document.</i></p>
+      <p><i>* You should set the current operating month in the "Accounting settings". You also should better set the operating day in the "User preferences" to make automatically the date of a new document.</i></p>
     </section>
 
   </body>

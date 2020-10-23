@@ -146,13 +146,13 @@ Here "home-made" A-Jetty's CA is used to create HTTPS intranet inside an only co
 <p>
   At first, Bob set accounting settings, he selected the Menu -> Appearance - > Standard -> Accounting -> Accounting settings:
 </p>
-<p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings.png" /></p>
+<p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="1.1/eis-accset.png" /></p>
 <p align="center"><img alt="Beigesoft™ EIS settings" style="max-width: 100%" src="images/eis-settings1.png" /></p>
 <p>
 Bob changed report page settings: page size to "Letter", in this case the unit of measurement is INCH, font size 3.5mm=0.1378inch.
 For page size A2-5 use millimeters.
 Bob set cost precision to 2 decimal places, new COGS algorithm handles this well without the rounding error, see the following articles.
-Setting <b>Operation month</b> used for restricting the month of the date of any operated document.
+Setting <b>Operating month</b> used for restricting the month of the date of any operated document.
 </p>
 
 <h4>Chart of accounts.</h4>
