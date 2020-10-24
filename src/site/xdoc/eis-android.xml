@@ -9,90 +9,89 @@
 
   <body>
 
-    <section name="Beigesoft™ EIS for Android.">
+  <section name="Beigesoft™ EIS for Android.">
 
-    <p>Keywords: Double entry accounting software for Android.</p>
-<p>
-  This is the same WEB application that is based on embedded A-Jetty for Android.
-  Beigesoft™ EIS for Android complies rules <a href="https://play.google.com/about/privacy-security/personal-sensitive/">https://play.google.com/about/privacy-security/personal-sensitive/</a>,
-  i.e. private data (SQLite database, private log files, key-store with keys for encryption) are placed in private application storage,
-  all other applications can't read these files. Beigesoft™ EIS uses encryption to make HTTPS connection and to backup encrypted SQLite databases and log files.
-  These encrypted files stored on shared storage (where photos, files...), all other application can't decrypt them.
-  But when you print PDF reports, then Chrome will download them into shared <b>Download</b> folder and any application that has permission to shared storage can read this file,
-  i.e. not only PDF viewer. In the next year all Android applications are required to use "scoped storage". That means that any application has no direct access to any file in shared storage,
-  it can use any file only when user allowed it explicitly, i.e. user will be asked for that.
-</p>
-<p>
-  <b>*You should accept privacy policy to use this application</b>
-</p>
-<p>
-  <b>*This application requires permission to the Storage (shared files on internal storage and CD-card).
-  At the first start, if you allowed application to read and write storage (accepted permission), but when you pushed button "Start" and received message "No permissions!", then just restart application.
-  To restart application just push "Back", then push application start icon again. You can change given application permissions in "Settings - Applications and notifications".</b>
-</p>
-<p>
+  <p><b>Keywords: Double entry accounting software for Android.</b></p>
+  <p>
+    This is the same WEB application that is based on embedded A-Jetty for Android.
+    Beigesoft™ EIS for Android complies the rules <a href="https://play.google.com/about/privacy-security/personal-sensitive/">https://play.google.com/about/privacy-security/personal-sensitive/</a>,
+    i.e. private data (SQLite database, private log files, key-store with keys for encryption) are placed in the private application storage.
+    All other applications can't read these files. Beigesoft™ EIS uses encryption to make HTTPS connection and to backup encrypted SQLite databases and the log files.
+    You can share (export/import) these files in the two secure ways:
+    <ol>
+      <li>via Google Driver without encryption</li>
+      <li>via the shared storage with encryption</li>
+    </ol>
+    You can share non-private information (e.g. CA certificate) via the shared storage without encryption.
+  </p>
+  <p>
+    <b><b><i> *You must learn and accept the privacy policy to use this application!</i></b></b>
+  </p>
+  <p>
   Bob decided to try this application on his Android smartphone.
-  He installed Beigesoft™ EIS from Play Store. He started it in the same way as described in <a href="eis-settings.html">Software installation...</a>.
-  <p align="center"><img style="max-width: 100%" src="images/andrstart.png" /></p>
-  Files <b>ajetty-ca.pem</b> and <b>ajetty-file-exch777.kpub</b> will be at the root of internal shared storage.
-  To install A-Jetty CA certificate select Settings -> Security -> Install certificate from storage
-  (you will be forced to set screen locking - PIN with/without fingerprint, if you haven't it yet):
+  He installed Beigesoft™ EIS from Google Play Store. He started it in the same way as described in <a href="eis-settings.html">Software installation...</a>.
+  </p>
+  <p align="center"><img style="max-width: 100%" src="1.1/andrst1.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="1.1/andrst2.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="1.1/andrst3.png" /></p>
+  <p>
+  Files <b>ajetty-ca.pem</b> and <b>ajetty-file-exch777.kpub</b> will be in the application private storage.
+  Restart the application, and export these non-private files by using the starting interface (see above).
+  To install the A-Jetty CA certificate select Settings -> Security -> Install certificate from storage
+  (you will be forced to set screen locking - PIN with/without fingerprint, if you don't do it yet):
+  </p>
   <p align="center"><img style="max-width: 100%" src="images/andrca.png" /></p>
   You can find this certificate in Security -> Trusted Credentials -> User:
   <p align="center"><img style="max-width: 100%" src="images/andrca1.png" /></p>
   <p align="center"><img style="max-width: 100%" src="images/andrca2.png" /></p>
-    After that Android might blame "A trusted certificate on your device is allowing a third party to monitor your network...":
+  <p>After that Android might blame "A trusted certificate on your device is allowing a third party to monitor your network...":</p>
   <p align="center"><img style="max-width: 100%" src="images/andcawarn.png" /></p>
-  <p><b>* new Android versions (e.g. 7.0) do not show this message</b></p>
-  <p>There is no public explanation about this message, e.g. on <a href="https://support.google.com/nexus/answer/2844832?hl=en">https://support.google.com/nexus/answer/2844832?hl=en</a>
-    They just say: "Most people don't need to work with CA certificates. Adding a CA certificate can affect your device's security."
+  <p><b>* new Android versions (e.g. 7.0) do not show this message. The newest Android versions may warn "CA certificate installed".</b></p>
+
+  <p>You can work without installing the A-Jetty CA certificate. Just push "Advanced", then "Proceed to localhost (unsafe)".
+  In this case (without installing the CA certificate) the red HTTPS sign will be the only problem, the connection will be encrypted well,
+  so software, that can intercept your traffic locally (intercept TCP port e.g. an anti-virus), can't read your data (decrypt your traffic).
   </p>
-  <p>
-    The facts:
-    <ul>
-      <li>Manually added any CA certificate is the same as already added (installed in the system). You can check it on regular computer (browser - settings - certificates).</li>
-      <li>Adding CA certificate on regular desktop Linux allows constraint CA to only "Trust this certificate to identity website". That is, if the system received an application signed with certificate from this CA, then the signature will not be trusted.</li>
-      <li>HTTP (unencrypted) is actually danger thing, but browsers never scare you about it.</li>
-      <li>A-Jetty keystore is not available for other applications. All certificates are generated automatically at the first start.</li>
-      <li>You can work without installing CA.</li>
-    </ul>
-  </p>
-  <p>You can work without installing A-Jetty CA certificate. Just press "advanced", then "proceed unsafe". HTTPS still works - data will be encrypted, but red scaring sign will be appeared on address place. Any way you should learn about data protection.
-    Any software that can intercept the TCP port (can read traffic locally) can't decrypt your data (traffic).
-    The browser refuses to save passwords in this case, and it's really annoying disadvantage that forces you to install the CA certificate.
-  </p>
-  <p>Start menu is:</p>
+
+  <p>The start menu is:</p>
   <p align="center"><img style="max-width: 100%" src="images/andmenu.png" /></p>
-  <p>To send SQLite database from notebook to smartphone Bob copied public key <b>ajetty-file-exch777.kpub</b> from smartphone to notebook folder
-  <b>/home/accountant/beige-accjet/pub-exch</b>:
-    <p align="center"><img style="max-width: 100%" src="images/copypubtonot.png" /></p>
-    <b>* new Android versions may not show files in internal storage, so you have to copy the files from/to external storage (CD) by using Android file explorer!</b>
-  </p>
+
+  <p>You can import a SQLITE database without encryption via Google Drive. But if you install Beige EIS on your computer in protected from light harmful software way,
+  then you can export your database from computer to your Android device via non-private places like shared storage. Bob did so, so he decided to check this sharing method.</p>
+
+  <p>To send encrypted SQLite database from his notebook to his  smartphone, Bob copied the public key <b>ajetty-file-exch777.kpub</b> from his smartphone to his notebook folder
+    <b>/home/accountant/beige-accjet/pub-exch</b>:</p>
+  <p align="center"><img style="max-width: 100%" src="images/copypubtonot.png" /></p>
+  <p><i><b>* If a public key is not readable for others, then you should change its permissions, e.g. "sudo chmod o+r ajetty-file-exch777.kpub"!</b></i></p>
+  <p><i><b>* New Android versions may not show files in the internal storage, so you have to copy the files from/to external storage (CD) by using Android file explorer!</b></i></p>
+
   <p>
-    then Bob opened Database Manager, checked SHA1 fingerprint of public key A-Jetty777, then pressed <b>backup</b>:
-    <p align="center"><img style="max-width: 100%" src="images/backupto7.png" /></p>
-    then he copied 4 encrypted files and notebook A-Jetty public key <b>ajetty-file-exch444.kpub</b> into smartphone public backup folder "Bseis":
-    <p align="center"><img style="max-width: 100%" src="images/copytoandr.png" /></p>
-    These files are:
-    <ul>
-      <li>bobs-pizza-tax6.sqlten - database that is encrypted with 256bit AES session symmetric key.</li>
-      <li>bobs-pizza-tax6.sqlten.sig - encrypted database signature that is made with A-Jetty444 private 2048bit RSA key</li>
-      <li>bobs-pizza-tax6.sqlten.sken - 256bit AES session symmetric key that is encrypted with A-Jetty777 public 2048bit RSA key, this file can be decrypted only with A-Jetty777 RSA private key</li>
-      <li>bobs-pizza-tax6.sqlten.sken.sig - encrypted AES key signature that is made with A-Jetty444 private 2048bit RSA key</li>
-    </ul>
+    Then Bob opened the Database Manager, checked SHA1 fingerprint of public key A-Jetty777, then pressed <b>backup</b>:
   </p>
-  Then Bob restored database on smartphone:
-  <p align="center"><img style="max-width: 100%" src="images/andrdbman.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="images/backupto7.png" /></p>
+
+  <p>Then he copied 4 just created encrypted files and the notebook's A-Jetty's public key <b>ajetty-file-exch444.kpub</b> into the smartphone's shared storage, e.g. a folder "Bseis":</p>
+  <p align="center"><img style="max-width: 100%" src="images/copytoandr.png" /></p>
+
+  <p>These files are:</p>
+  <ul>
+    <li>bobs-pizza-tax6.sqlten - database that is encrypted with 256bit AES session symmetric key.</li>
+    <li>bobs-pizza-tax6.sqlten.sig - encrypted database signature that is made with A-Jetty444 private 2048bit RSA key</li>
+    <li>bobs-pizza-tax6.sqlten.sken - 256bit AES session symmetric key that is encrypted with A-Jetty777 public 2048bit RSA key, this file can be decrypted only with A-Jetty777 RSA private key</li>
+    <li>bobs-pizza-tax6.sqlten.sken.sig - encrypted AES key signature that is made with A-Jetty444 private 2048bit RSA key</li>
+  </ul>
+  <p>Then Bob restored database on smartphone by using the main starting interface to copy these files into the private storage,
+  then the WEB interface to decrypt the database and switch into it:</p>
+  <p align="center"><img style="max-width: 100%" src="1.1/andrdbce1.png" /></p>
+  <p align="center"><img style="max-width: 100%" src="1.1/andrdbce2.png" /></p>
   <p align="center">He looks at the same data:</p>
   <p align="center"><img style="max-width: 100%" src="images/andr1.png" /></p>
   <p align="center"><img style="max-width: 100%" src="images/andr2.png" /></p>
   <p align="center"><img style="max-width: 100%" src="images/andrbaln.png" /></p>
-  <p>He can create new sales invoice:</p>
+  <p>He can create a new sales invoice:</p>
   <p align="center"><img style="max-width: 100%" src="images/andrsal.png" /></p>
-  
-</p>
 
-    </section>
+  </section>
 
   </body>
 

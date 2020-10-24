@@ -1556,7 +1556,7 @@ Debit "Cash In Bank.#1236786b17 in Bank" Credit "Bob's Started Capital" for 40,0
   On UNIX like OS (Linux, ...) you can run Beigesoft™ EIS under another account in the terminal. To do this:
   <ol>
     <li>Open terminal and login as ROOT user - command "su", set current directory to "cd /home".</li>
-    <li>As ROOT add new user "accountant" with password - commands "useradd -m -U accountant", "passwd accountant" and "chmod o-r accountant"</li>
+    <li>As ROOT add new user "accountant" with password - commands "useradd -m -U accountant", "passwd accountant" and "chmod o-r /home/accountant"</li>
     <li>Add shared folder for file exchange: "mkdir /file-exch" and "chmod o+w /file-exch"</li>
     <li>Install file manager Midnight Commandor (mc)</li>
     <li>Exit from ROOT - "exit"</li>
@@ -1573,7 +1573,7 @@ Screenshots:
 $ cd /home
 $ sudo useradd -m -U accountant
 $ sudo passwd accountant
-$ sudo chmod o-r accountant
+$ sudo chmod o-r /home/accountant
 $ sudo mkdir /file-exch
 $ sudo chmod o+w /file-exch
   </pre>
@@ -1586,7 +1586,7 @@ $ sudo chmod o+w /file-exch
 </p>
 <p align="center"><img style="max-width: 100%" src="images/commandline4.png" /></p>
 <p>
-  Light harmful software can try to match your password and steal your data by making HTTP requests. But you are protected with strong password and maximum 5 fail login attempts per session (15 minutes):
+  Light harmful software can try to match your password and steal your data by making HTTP requests. But you are protected with a strong password and maximum 5 fail login attempts per session (15 minutes):
 </p>
 <p align="center"><img style="max-width: 100%" src="images/loginprotect1.png" /></p>
 <p>you should check <b>secure.log</b> periodically:</p>
