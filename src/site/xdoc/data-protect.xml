@@ -53,7 +53,8 @@
       <ul>
         <li>They force you to use swindler-friendly features. For example, they force you to install a browser's plugin that requires permissions to your file system,
           or they force you to install and use unsigned software from "untrusted sources" to resolve your problems.</li>
-        <li>They place recovering (installation) software on non write-protected places like HDD or flash. Complex harmful-software can poison them (installation files) and break their protection.</li>
+        <li>They boost WEB-clients (web-browsers) with danger things such as dynamically loaded JS (including JIT) and diversity of them, instead of boosting the HTML(5) itself (it's a static library). If you switch off JS, then the most HTML pages stop working.</li>
+        <li>They place recovering (installation) software on non write-protected places a HDD or a CD-card. Complex harmful-software can poison them (installation files) and break their protection.</li>
         <li>They do not track usage of their digital signature.</li>
       </ul>
       "untrusted sources" means any non-well known Internet sites, especially with non-encrypted HTTP.

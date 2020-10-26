@@ -9,11 +9,11 @@
 
   <body>
 
-    <section name="Example of simple ordering application. Part 2, cloud WAR version.">
+    <section name="Example of simple ordering (booking of items) application. Part 2, cloud WAR version.">
 
-    <h4>Creating WAR Maven project</h4>
+    <h4>Creating WAR Maven project.</h4>
 
-    <p>Create project folder "myappweb", then create <b>pom.xml</b> in it:
+    <p>Create a project folder "myappweb", then create this <b>pom.xml</b> in it:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0"?&gt;
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
@@ -139,17 +139,17 @@
 &lt;/project&gt;
 </pre>
 <p>
-  * this is WAR archive of JEE WEB application. Both WAR and JAR is actually ZIP archives.
+  * This is the WAR archive of this JEE WEB application. Both WAR and JAR files are actually ZIP archives.
 </p>
-Then create folders for source code:
+Then create these folders for the source code:
 <pre style="white-space: pre-wrap;">
  myappweb - src - main - java - org - myapp - ordering
  myappweb - src - main - webapp - WEB-INF - jsp
  myappweb - src - main - webapp - META-INF
 </pre>
 </p>
-    <h4>Adding the models in the menu</h4>
-    <p>Copy <b>dsk.jsp</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF - jsp" and add drop-down menu with entities:
+    <h4>Adding the models into the menu.</h4>
+    <p>Copy the <b>dsk.jsp</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF - jsp", then add this drop-down menu with entities:
 <pre style="white-space: pre-wrap;">
 ...
 &lt;div class="navbar"&gt;
@@ -164,11 +164,11 @@ Then create folders for source code:
   &lt;div class="dropdown"&gt;
 ...
 </pre>
-And make mbl.jsp in the same way.
+Then make the mbl.jsp in the same way.
     </p>
 
     <h4>web.xml</h4>
-    <p>Copy <b>web-sqlite.xml</b> from <b>beige-web</b> project into "myappweb - src - main - webapp - WEB-INF" rename it into "web.xml" and change application factory class:
+    <p>Copy the <b>web-sqlite.xml</b> from the <b>beige-web</b> project into the "myappweb - src - main - webapp - WEB-INF", then rename it into "web.xml" and change application factory class:
 <pre style="white-space: pre-wrap;">
 ...
 &lt;context-param&gt;
@@ -177,18 +177,20 @@ And make mbl.jsp in the same way.
 &lt;/context-param&gt;
 ...
 </pre>
-<b>web.xml</b> is the main file that describes about this JEE WEB-application.
+A <b>web.xml</b> is the main file that describes about the JEE WEB-application.
     </p>
 
-    <h4>Creating application factory for WAR version</h4>
-    <p>An application factory creates all application's services (including inner factories) in "lazy mode". For example service that prints a PDF report will be created when user pushes button "Print order PDF".
+    <h4>Creating application factory for WAR version.</h4>
+    <p>An application factory creates the all application's services (including inner factories) in the "lazy mode". For example, a service that prints a PDF report will be created when an user pushes a "Print order PDF" button.
       Of course, factories for different platforms (OS) are different.
-      At this time just copy file org.beigesoft.war.FctAppSqlt.java from <b>beige-web</b> into "myappweb - src - main - java - org - myapp - ordering"
-      and change its package.
+      At this time just copy the file org.beigesoft.war.FctAppSqlt.java from the <b>beige-web</b> into the "myappweb - src - main - java - org - myapp - ordering",
+      then change its package.
     </p>
 
-    <h4>JDBC authentication</h4>
-    <p>For Tomcat's standard, copy <b>context-sqlt.xml</b> from <b>beige-web</b> into "myappweb - src - main - webapp - META-INF" rename it into "context.xml" and change database URL:
+    <h4>JEE JDBC authentication.</h4>
+    <p><b><i>* Browsers can refuse the JEE cookie "JSESSIONID" when it's used unencrypted HTTP connection (Chrome does this), and you will face "HTTP Status 408 – Request Timeout on http://localhost:8080/beige-accweb/sec/j_security_check"!
+      So, you must either make HTTPS, or switch off JEE authentication in the "web.xml"!</i></b></p>
+    <p>For Tomcat's standard, copy the <b>context-sqlt.xml</b> from the <b>beige-web</b> into the "myappweb - src - main - webapp - META-INF" rename it into "context.xml", then change the database URL in it:
 <pre style="white-space: pre-wrap;">
 ...
 connectionURL="jdbc:sqlite:../webapps/ordering-web/myordering.sqlite"
@@ -197,27 +199,32 @@ connectionURL="jdbc:sqlite:../webapps/ordering-web/myordering.sqlite"
     
     </p>
 
-    <h4>The first start</h4>
-    <p>Compile both projects by executing "mvn clean install" at the root folder of each project (where pom.xml), at first at <b>myapp</b> then at <b>myappweb</b>. Generated libraries <b>ordering.jar</b> and <b>ordering-web.war</b> will be in the target folders.
-    To start Tomcat run in its "bin" folder "startup.bat" on MS Windows or "startup.sh" on Unix-like OS.
-    Copy ordering-web.war into Tomcat "webapps" folder. Application will be deployed, it creates and fills SQLite database "ordering-web/myordering.sqlite" 
-<p>You should have installed H2 database as described in the 3-d article. Just run its SQL tool (H2 console): in its "bin" folder run "h2.bat" on MS Windows or "h2.sh" on Unix like OS. Browser will open WEB-interface of its tool,
-select "Saved Settings"-"Generic SQLite" and type database address in JDBC URL, e.g. "jdbc:sqlite:C:\programmer\java\apache-tomcat-7.0.96\webapps\ordering-web\myordering.sqlite", do not care about user and password:
+    <h4>The first start.</h4>
+    <p>Compile both projects by executing "mvn clean install" at the root folder of each project (where pom.xml is), first, at the <b>myapp</b>, then at the <b>myappweb</b>. The generated libraries <b>ordering.jar</b> and <b>ordering-web.war</b> will be in the target folders.
+    To start Tomcat run in its "bin" folder "startup.bat" on MS Windows, or "startup.sh" on Unix-like OS.
+    Copy the ordering-web.war file into Tomcat's "webapps" folder. The application will be deployed, it creates and fills SQLite database "ordering-web/myordering.sqlite" 
+    </p>
+<p>You should have installed H2 database as described in the 3-d article. Just run its SQL tool "H2 console": in its "bin" folder run "h2.bat" on MS Windows or "sh h2.sh" on Unix like OS. The browser will open the WEB-interface of this tool,
+select "Saved Settings"-"Generic SQLite" and type the database address in the "JDBC URL" field, e.g. "jdbc:sqlite:C:\programmer\java\apache-tomcat-7.0.96\webapps\ordering-web\myordering.sqlite", do not care about user and password:
+</p>
 <p align="center"><img style="max-width: 100%" src="images/h2setren.png" /></p>
-then push "connect", H2 SQL console will show tables, to insert users, just copy these entries and paste into tool window then push "Run":
+<p>
+then push "connect", H2 SQL console will show the tables, to insert users, just copy these entries and paste into the tool window, then push "Run":
+</p>
 <pre style="white-space: pre-wrap;">
 insert into USTMC (USR, PWD, VER) values ('admin', 'admin', 1);
 insert into USTMC (USR, PWD, VER) values ('user', 'user', 1);
 insert into USRLTMC (USR, ROL, VER)  values ('admin', 'admin', 1);
 insert into USRLTMC (USR, ROL, VER)  values ('user', 'user', 1);
 </pre>
-</p>
 
-<p>* see bottom of <b>web.xml</b> there is JEE authentication part about roles and secure paths.</p>
+<p>* See at the bottom of the <b>web.xml</b>, there is the JEE authentication part about roles and secure paths.</p>
+<p>
 After that you are able to login into "secure place" and make orders (user/password admin/admin), type in your browser "http://localhost:8080/ordering-web":
+</p>
 <p align="center"><img style="max-width: 100%" src="images/editcord.png" /></p>
-Lists, edit forms, entity pickers will be generated automatically.
-    </p>
+<p>Lists, edit forms, entity pickers will be generated automatically.</p>
+<p><b><i>* Here the browser allowed the"JSESSIONID" cookie for unencrypted HTTP connection. See <a href="eis-import-db-web.html">Import an EIS database by using WEB-service</a></i>, how to make HTTPS!</b></p>
     <h4>Internationalization</h4>
     <p>For internationalization use ${i18n.getMsg("COrder", rvs.upf.lng.iid)} in a JSP page.
     You should add this message into <b>Msgs_en_US.properties</b> and non English e.g. <b>Msgs_ru_RU-UTF8.properties</b>.
@@ -229,7 +236,7 @@ Do not neglect to Internationalization. Even some big WEB-stores have no advance
     </p>
 
     <h4>Conclusion</h4>
-    <p>This is the simplest example. As a result you have to fill Amount=Quantity*Price by hand. In the following articles we will customize application to do all  things automatically.</p>
+    <p>This is the simplest example. As a result you have to enter Amount=Quantity*Price by hand. In the following articles we will customize this application to do all things automatically.</p>
 
     </section>
 

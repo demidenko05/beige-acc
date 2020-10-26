@@ -11,17 +11,18 @@
 
     <section name="Beigesoft™ software (libraries) for rapid development of cross-platform financial WEB-applications.">
 
-    <p>* cross-platform means that whole application works anywhere (on any operating system). For example a whole local (Internet - unavailable) version (WEB-server, Database server and WEB-Client) works on an Android smartphone.</p>
+    <p>* Cross-platform means that the whole application (both the server and the client sides) works anywhere (on any operating system).
+      For example a whole local (Internet - unavailable) version (WEB-server, Database server and WEB-Client) works on an Android smartphone.</p>
 
     <p>These topics are dedicated to broad sections of audience. For example, this is for programmers who never use Java before, or for accountants who want to customize Beigesoft EIS.</p>
-    <p>At first, you will use SQlite database, because of you no need to install it. At the end, you will copy all data from local (standalone) SQLite version into cloud Postgesql (or Mysql) version.
-      You also will learn about data protection, e.g. checking a file's checksum or digital signature.
+    <p>At first, you will use SQlite database, because of you no need to install it. At the end, you will copy all data from the local (standalone) SQLite version into the cloud Postgesql (or Mysql) version.
+      You also will learn about data protection, e.g. checking a file's checksum and digital signature.
     </p>
 
     <h4>Topics:</h4>      
     
     <h5>
-      <a href="bclwhy.html">Why you should choose Beigesoft™ software (libraries).</a>
+      <a href="bclwhy.html">Why should you choose Beigesoft™ software (libraries).</a>
     </h5>
     
     <h5>
@@ -32,7 +33,7 @@
       <a href="bclprogrenv.html">Installation of the programming environment.</a>
     </h5>
     
-    <p>* archived source code of the next application you can download from https://sourceforge.net/projects/beige-accounting/files/EIS1.0/</p>
+    <p>* Archived source code of the next application you can download from https://sourceforge.net/projects/beige-accounting/files/EIS1.0/</p>
 
     <h5>
       <a href="bclrapiden1.html">Example of a simple ordering (booking of items) application. Part 1, basic business logic.</a>

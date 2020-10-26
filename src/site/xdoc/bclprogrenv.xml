@@ -12,43 +12,42 @@
     <section name="Installation of the programming environment.">
 
     <p>The first rule about computer's (your data) safety is: "you must avoid unencrypted HTTP (without ending 'S') resources".
-    If you download an executable file from an unencrypted resource (HTTP), then you must at least check its "CHECKSUM". It's usually SHA1, SHA256 or SHA512.
+    If you download a file from an unencrypted resource (HTTP), then you must at least check its "CHECKSUM". It's usually SHA1, SHA256 or SHA512.
     You must use software from official, well known sources. Sometimes search engines list scam resources at the fist lines.
     </p>
     <p>
-     You must use the latest version of a reliable browser. Beigesoft WEB interface is based on HTML5 dialogs. Google Chrome and Opera supports it (HTML5 dialogs), so you have to use one of them.
+     You must use the latest version of a reliable browser. Beigesoft WEB interface is based on HTML5 dialogs. Google Chrome and Opera support it (HTML5 dialogs), so you have to use one of them.
     </p>
 
     <h4>Installing JDK on Unix-like OS.</h4>
-    <p>I recommend Debian Scretch (9) with LXDE interface. There is its 32bit version.
+    <p>I recommend Debian with LXDE interface.
       To install OpenJDK on Debian based linux just run as "root" "apt-get install openjdk-8-jdk" or "sudo apt-get install openjdk-8-jdk".
       On Red Hat based Linux run "dnf install java-1.8.0-openjdk-devel".
       Then set environment variables in the <b>.bashrc</b> file, for Debian example:
 <pre style="white-space: pre-wrap;">
-export ANT_HOME=$HOME/programmer/java/apache-ant-1.10.6
-export CATALINA_HOME=$HOME/programmer/java/apache-tomcat-7.0.96
+export ANT_HOME=$HOME/programmer/java/apache-ant-1.10.8
+export CATALINA_HOME=$HOME/programmer/java/apache-tomcat-7.0.105
 export TOMCATA_HOME=$HOME/programmer/java/apache-tomcat-7.0.68a
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-export H2DRIVERS=$HOME/.m2/repository/org/postgresql/postgresql/9.4-1206-jdbc4/postgresql-9.4-1206-jdbc4.jar:$HOME/.m2/repository/org/xerial/sqlite-jdbc/3.21.0.1/sqlite-jdbc-3.21.0.1.jar:$HOME/.m2/repository/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar
+export H2DRIVERS=$HOME/.m2/repository/org/postgresql/postgresql/42.2.16/postgresql-42.2.16.jar:$HOME/.m2/repository/org/xerial/sqlite-jdbc/3.32.3.2/sqlite-jdbc-3.32.3.2.jar:$HOME/.m2/repository/mysql/mysql-connector-java/8.0.21/mysql-connector-java-8.0.21.jar
 export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$HOME/programmer/java/apache-maven-3.6.2/bin:$ANT_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
+export PATH=$PATH:$HOME/programmer/java/apache-maven-3.6.3/bin:$ANT_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
 export GPG_TTY=$(tty)
 </pre>
-* you will create folders that is described in the environment variables, and maven artifacts will be downloaded in the next steps.
+      * You should create the folders that are described in the environment variables. The maven artifacts will be downloaded automatically in the next steps.
     </p>
 
     <h4>Installing JDK on MS Windows.</h4>
-    <p>You can use OpenJDK included in "Android Studio". You need Android Studio to make the application for Android version. You should install it first.
-      This is not difficult even for beginners, just download it from official Android site https://developer.android.com and install by default settings.
+    <p>You can use OpenJDK included in "Android Studio". You will need Android Studio to make the application for Android. You should install it first.
+      This is not difficult even for beginners, just download it from the official Android site https://developer.android.com and install by default settings.
       You will no need to check its signature by hand, MS Windows will show it.
     </p>
 
-    <h4>Installing Apache Maven</h4>
-    <p>Maven 3.6.2 signed by signature that not exists in https://www.apache.org/dist/maven/KEYS.
-      This signature exists in https://archive.apache.org/dist/maven/KEYS.
+    <h4>Installing Apache Maven.</h4>
+    <p>Maven 3.6.3 signed by signature that is in https://archive.apache.org/dist/maven/KEYS.
     </p>
     <p>Just create folder e.g. "$HOME/programmer/java/" for Unix like OS, or "C:\programmer\java" for MS Windows.
-    Then download apache-maven-3.6.2.zip from https://maven.apache.org/, check its checksum and unpack it there.
+    Then download apache-maven-3.6.3.zip from https://maven.apache.org/, check its checksum and unpack it there.
     </p>
     <p>
     To check checksum on MS Windows open Power Shell (or CMD) in the Downloads folder (there is the file) and type in the command line:
@@ -57,13 +56,13 @@ certUtil -hashfile [pathToFileToCheck] [HashAlgorithm]
 
 i.e. run:
 
-certUtil -hashfile apache-maven-3.6.2-bin.zip SHA512
+certUtil -hashfile apache-maven-3.6.3-bin.zip SHA512
 
-and check it against SHA512 on the site: https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip.sha512
+and check it against SHA512 on the site: https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip.sha512
 </pre>  
     </p>
     <p>To check checksum on Unix like OS type "SHA1SUM [pathToFile]" or "SHA256SUM [pathToFile]" or "SHA512SUM [pathToFile]".
-    GnuPg already installed:
+    GnuPg is already installed:
 <pre style="white-space: pre-wrap;">
 1. Open terminal and login as root
 2. download public keys:
@@ -71,11 +70,11 @@ wget https://archive.apache.org/dist/maven/KEYS
 3. import public keys:
 gpg --import KEYS
 4. download Maven:
-wget https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz
+wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
 5. download Maven's signature:
-wget https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz.asc
+wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz.asc
 6. check signature:
-gpg --verify apache-maven-3.6.2-bin.tar.gz.asc
+gpg --verify apache-maven-3.6.3-bin.tar.gz.asc
 </pre>
   On Unix like OS you have to download installation files under the ROOT user.
   This guaranty that only ROOT can change these binary files.
@@ -84,11 +83,11 @@ gpg --verify apache-maven-3.6.2-bin.tar.gz.asc
     <h4>Installing Beige libraries sources.</h4>
     <p>Just download the first release of beige-blc from https://github.com/demidenko05/beige-blc/releases and beige-web from https://github.com/demidenko05/beige-blc/releases. Then unpack them into "programmer/java" folder.
     </p>
-    <p>* during unpacking ZIP archives on MS Windows may arise an error, so if not all needed files will be unpacked, then try tar.gz archive (7zip or 8zip)</p>
+    <p>* It might arise an error during unpacking ZIP archives on MS Windows, so if it's not all needed files are unpacked, then try tar.gz archive (7zip or 8zip)</p>
 
     
 
-    <h4>Making environment variables on MS Windows</h4>
+    <h4>Making environment variables on MS Windows.</h4>
     <p>
       On MS Windows 10 open "Search" and type "env" then "Edit the system environment variables" will be listed, so choose it,
       "System Properties" window will be appeared,
@@ -99,7 +98,7 @@ gpg --verify apache-maven-3.6.2-bin.tar.gz.asc
         <li>ANDROID_HOME - in Android Studio open SDK manager to see Android SDK Location</li>
         <li>Path - leave all entries and add
           <ul>
-            <li>C:\programmer\java\apache-maven-3.6.2\bin</li>
+            <li>C:\programmer\java\apache-maven-3.6.3\bin</li>
           </ul>
         </li>
       </ul>
@@ -111,30 +110,30 @@ gpg --verify apache-maven-3.6.2-bin.tar.gz.asc
      and type "mvn clean install". Maven will download all needed libraries into "C:\users\[your name]\.m2\repository" on MS Windows or "[your home]/.m2/repository" on Unix-like OS.
     </p>
 
-    <h4>Making environment variable H2DRIVERS on MS Windows</h4>
+    <h4>Making environment variable H2DRIVERS on MS Windows.</h4>
     <p>
       Open "System Properties" - "Environment variables" as described above,
-      then add variable H2DRIVERS and choose just downloaded file "C:\users\[your name]\.m2\repository\org\xerial\sqlite-jdbc\3.21.0.1\sqlite-jdbc-3.21.0.1.jar".
+      then add variable H2DRIVERS and choose just downloaded file "C:\users\[your name]\.m2\repository\org\xerial\sqlite-jdbc\3.32.3.2\sqlite-jdbc-3.32.3.2.jar".
       After saving, check it: open Power Shell and type "$env:H2DRIVERS"
     </p>
 
-    <h4>Installing Apache Tomcat</h4>
-    <p>Install its latest 7.0.96 version from https://tomcat.apache.org/download-70.cgi by using the same way as Maven installation.
+    <h4>Installing Apache Tomcat.</h4>
+    <p>Install its latest 7.0.105 version from https://tomcat.apache.org/download-70.cgi by using the same way as Maven installation.
     Copy these libraries into its "lib" folder from local Maven repository:
     <ul>
-      <li>[path to maven local repository]\.m2\repository\org\xerial\sqlite-jdbc\3.21.0.1\sqlite-jdbc-3.21.0.1.jar</li>
-      <li>[path to maven local repository]\.m2\repository\org\slf4j\slf4j-api\1.7.12\slf4j-api-1.7.12.jar</li>
-      <li>[path to maven local repository]\.m2\repository\com\zaxxer\HikariCP\2.4.3\HikariCP-2.4.3.jar</li>
+      <li>[path to maven local repository]\.m2\repository\org\xerial\sqlite-jdbc\3.32.3.2\sqlite-jdbc-3.32.3.2.jar</li>
+      <li>[path to maven local repository]\.m2\repository\org\slf4j\slf4j-api\1.7.30\slf4j-api-1.7.30.jar</li>
+      <li>[path to maven local repository]\.m2\repository\com\zaxxer\HikariCP\3.4.5\HikariCP-3.4.5.jar</li>
     </ul>
       
     </p>
 
-    <h4>Installing H2 database</h4>
+    <h4>Installing H2 database.</h4>
     <p>We never use H2 database. We will use its very useful SQL tool with WEB interface (H2 console).
     Install it from https://www.h2database.com/html/download.html (last version platform independent ZIP, check its SHA1 and unpack it into "programmer\java" folder).
     </p>
 
-    <h4>Installing text editor</h4>
+    <h4>Installing a text editor.</h4>
     <p>I recommend Geany https://www.geany.org/download/releases/ . On Debian-like OS you can install it "apt-get install geany".</p>
     </section>
 

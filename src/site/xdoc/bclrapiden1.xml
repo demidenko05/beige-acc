@@ -9,11 +9,11 @@
 
   <body>
 
-    <section name="Example of simple ordering application. Part 1, basic business logic.">
+    <section name="Example of  simple ordering (booking of items) application. Part 1, basic business logic.">
 
     <h4>Models.</h4>
     <p>
-      This is simple example, and so do these models:
+      This is a simple example, and so do these models:
       <ul>
         <li>Customer - has name</li>
         <li>Merchandise - has name</li>
@@ -22,9 +22,9 @@
       </ul>
     </p>
     
-    <h4>Creating Maven project</h4>
-    <p>* All files must be in UTF-8 format. I recommend <b>Jeany</b> editor.</p>
-    <p>Create project folder "myapp" in "programmer/java", then create <b>pom.xml</b> in it:
+    <h4>Creating Maven project.</h4>
+    <p><i>* All files must be in the UTF-8 format. I recommend <b>Jeany</b> editor.</i></p>
+    <p>Create a project folder "myapp" in the "programmer/java", then create a <b>pom.xml</b> in it:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0"?&gt;
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
@@ -107,7 +107,7 @@
 <p>*<b>pom.xml</b> is the main file of any Maven project. It describes about this project artifact: its name, group, version, packaging (JAR in this case), used 3-d party libraries (dependencies).
 Any JAR file is a standard Java archive, that contains of all compiled Java classes and other files - properties in text or XML files, images,  etc.
 </p>
-Then create folders for source code:
+Then create folders for the source code:
 <pre style="white-space: pre-wrap;">
 myapp - src - main - java - org - myapp - ordering
 myapp - src - main - resources - dbcp
@@ -117,8 +117,9 @@ myapp - src - main - resources - uvd - fldTyFs
 </pre>
     </p>
     
-    <h4>Implementing the models</h4>
-    <p>According to  <a href="bclbasicen.html">Basic information about using Beigesoft™ libraries</a> you should use <b>org.beigesoft.mdlp.AIdLnNm</b> as basic model for Customer, so create file "Customer.java" in folder "myapp - src - main - java - org - myapp - ordering":
+    <h4>Implementing the models.</h4>
+    <p>According to  <a href="bclbasicen.html">Basic information about using Beigesoft™ libraries</a> you should use <b>org.beigesoft.mdlp.AIdLnNm</b> as the basic model for the "Customer".
+    So, create a file "Customer.java" in the folder "myapp - src - main - java - org - myapp - ordering":
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
 
@@ -129,19 +130,19 @@ public class Customer extends AIdLnNm {
 }
 </pre>
 <p>
-  * any Java class has fields (properties), e.g. property <b>nme</b> of type String that holds Name value. These properties is accessed via methods <b>Getters</b> and <b>Setters</b>,
-  e.g. for property "nme" method "getNme()" returns its value, and setNme(String pValue) sets its value.
+  * any Java class has fields (properties), e.g. for the "AIdLnNm", it's the <b>nme</b> property of type String that holds Name value. These properties is accessed via methods <b>Getters</b> and <b>Setters</b>,
+  e.g. for the "nme" property, the "getNme()" method returns its value, and setNme(String pValue) sets its value.
 </p>
 <p>
-  * Java word <b>extends</b> means that this class extends another class (AIdLnNm in this case). As a result, extending class inherits (will have) all fields and methods of extended class.
+  * Java word <b>extends</b> means that this class extends another class (AIdLnNm in this case). As a result, an extending class inherits (will have) the all fields and methods of the extended class.
 </p>
 <p>
-  * as you can notice, class name is the same as its file name, package name matches its path from "java" folder.
+  * as you can notice, a class name is the same as its file name, a package name matches its path from the "java" folder.
 </p>
 <p>
-  Class in this case is data model of business object "Customer". Another class can be a "service" that makes something, e.g. service that saves a model into database.
+  Class in this case is a data model of the business object "Customer". Another class can be a "service" that makes something, e.g. a service that saves a model into a database.
 </p>
-      Assume, we have several databases (warehouse A, B)  and a lot of goods, so we use <b>org.beigesoft.mdlp.AOrIdNm</b> for it:
+      Assume, we have several databases (warehouse A, B)  and a lot of goods, so we use <b>org.beigesoft.mdlp.AOrIdNm</b> for the "Merchandise":
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
 
@@ -151,7 +152,7 @@ public class Merchandise extends AOrIdNm {
 
 }
 </pre>
-  We need to import orders into central database, so it will be:
+  We need to import orders into the central database, so it will be:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
 
@@ -238,8 +239,8 @@ public class COrder extends AOrId {
 }
 </pre>
 <p>
-  <b>* to avoid names collisions (with SQL special words) you should name entities and its fields carefully,
-  e.g. if you name this entity as "Order", then it will be error.</b>
+  <b>* To avoid names collisions (with SQL special words), you should name entities and its fields carefully,
+  e.g. if you name this entity as "Order", then it will be the error.</b>
 </p>
 Its line will be:
 <pre style="white-space: pre-wrap;">
@@ -348,8 +349,8 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&gt; {
 </pre>
     </p>
 
-    <h4>Adding XML configuration for full database copy</h4>
-    <p>Just copy <b>conf.xml</b> from <b>beige-blc/src/main/resources/dbcp</b> into "myapp - src - main - resources - dbcp" then add your models:
+    <h4>Adding XML configuration for full database copy.</h4>
+    <p>Just copy the <b>conf.xml</b> from the <b>beige-blc/src/main/resources/dbcp</b> into the "myapp - src - main - resources - dbcp", then add your models:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -383,11 +384,11 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&gt; {
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-The order is essential! E.g. OrderLine is the last because it contains Merchandise and COrder.
+The order is essential! E.g. the OrderLine is the last because of it contains a Merchandise and a COrder.
     </p>
 
-    <h4>Adding XML configuration for ORM</h4>
-    <p>Copy <b>conf.xml</b> from <b>beige-blc/sqlite</b> into "myapp - src - main - resources - sqlite" then add your models:
+    <h4>Adding XML configuration for Beige-ORM.</h4>
+    <p>Copy the <b>conf.xml</b> from the <b>beige-blc/sqlite</b> into the "myapp - src - main - resources - sqlite", then add your models:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -421,15 +422,15 @@ The order is essential! E.g. OrderLine is the last because it contains Merchandi
 &lt;entry key="exlFlds"&gt;isNew&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-ORM means that you will not care about making SQL commands by yourself. For example to insert new Merchandise into database just write this code:
+ORM means that you will not care about making SQL commands by yourself. For example to insert a new Merchandise into the database just write this code:
 <pre style="white-space: pre-wrap;">
 Merchandise product1 = new Merchandise();
 product1.setNme("Product 1"); //ID will be generated automatically
-this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and sets new generated ID for this product
+this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and sets a new generated ID for this product
 </pre>
     </p>
 
-    <p>Then copy <b>cmnst.xml</b> from <b>beige-blc/sqlite</b> into "myapp - src - main - resources - sqlite" and change database name:
+    <p>Then copy the <b>cmnst.xml</b> from the <b>beige-blc/sqlite</b> into the "myapp - src - main - resources - sqlite", then change the database name:
 <pre style="white-space: pre-wrap;">
 ...
 &lt;entry key="dbUrl"&gt;jdbc:sqlite:#currentDir#myordering.sqlite&lt;/entry&gt;
@@ -437,8 +438,8 @@ this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and sets n
 </pre>
     </p>
 
-    <h4>Adding XML configuration for WEB interface</h4>
-    <p>Copy <b>conf.xml</b> from <b>beige-blc/uvd</b> into "myapp - src - main - resources - uvd" then add your models:
+    <h4>Adding XML configuration for Beige-WEB interface.</h4>
+    <p>Copy the <b>conf.xml</b> from the <b>beige-blc/uvd</b> into the "myapp - src - main - resources - uvd", then add your models:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -472,7 +473,7 @@ this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and sets n
 &lt;/properties&gt;
 </pre>
     </p>
-    <p>Then add COrder.xml into "myapp - src - main - resources - uvd - clsCs"
+    <p>Then add this COrder.xml into the "myapp - src - main - resources - uvd - clsCs":
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -481,10 +482,10 @@ this.orm.insIdLn(product1); //ORM makes SQL insert command by itself, and sets n
 &lt;entry key="owdEnts"&gt;org.myapp.ordering.OrderLine&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-It describes what fields should be retrieved in list and they order.
-It also says what owned lists must be listed in this entity's form.
+This file describes which fields will be retrieved into the list and they order.
+It also says that owned lists will be listed in the form of this entity.
     </p>
-    <p>Then add OrderLine.xml into "myapp - src - main - resources - uvd - clsCs"
+    <p>Then add this OrderLine.xml into the "myapp - src - main - resources - uvd - clsCs":
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -493,7 +494,7 @@ It also says what owned lists must be listed in this entity's form.
 &lt;/properties&gt;
 </pre>
     </p>
-    <p>Then copy cnToSt.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and add BigDecimal entry:
+    <p>Then copy the cnToSt.xml from the <b>beige-blc</b> into the "myapp - src - main - resources - uvd - fldTyFs" and add BigDecimal entry:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -502,9 +503,9 @@ It also says what owned lists must be listed in this entity's form.
 &lt;entry key="java.math.BigDecimal"&gt;CnvPriStr&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-This says that for all fields of type "BigDecimal" it will be used converter to string (service) named "CnvPriStr".
+This file says that it will be used "converter to string" (service) named "CnvPriStr" for all fields of type "BigDecimal".
     </p>
-    <p>Then copy str.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and edit it:
+    <p>Then copy the str.xml from the <b>beige-blc</b> into the "myapp - src - main - resources - uvd - fldTyFs" and edit it:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -514,9 +515,9 @@ This says that for all fields of type "BigDecimal" it will be used converter to 
 &lt;entry key="java.util.Date"&gt;dtTm&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-It describes which HTML to string widget (JSP) will be used for a field depending on its type.
+This file describes which "HTML to string widget" (JSP) will be used for a field depending on its type.
     </p>
-    <p>Then copy inp.xml from <b>beige-blc</b> into "myapp - src - main - resources - uvd - fldTyFs" and edit it:
+    <p>Then copy the inp.xml from the <b>beige-blc</b> into the "myapp - src - main - resources - uvd - fldTyFs" and edit it:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -530,9 +531,9 @@ It describes which HTML to string widget (JSP) will be used for a field dependin
 &lt;entry key="java.math.BigDecimal"&gt;pri&lt;/entry&gt;
 &lt;/properties&gt;
 </pre>
-It describes which HTML input widget (JSP) will be used for a field depending on its type.
+This file describes which "HTML input widget" (JSP) will be used for a field depending on its type.
     </p>
-    <p>That is all about basic logic at this time.</p>
+    <p>This is all about the basic business logic at this time.</p>
 
     </section>
 
