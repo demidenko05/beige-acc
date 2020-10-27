@@ -232,7 +232,7 @@ After that you are able to login into "secure place" and make orders (user/passw
 <pre style="white-space: pre-wrap;">
 native2ascii -encoding UTF-8 Msgs_ru_RU-UTF8.properties Msgs_ru_RU.properties
 </pre>
-Do not neglect to Internationalization. Even some big WEB-stores have no advanced internationalization similar to Beigesoft WEB-store's one.
+Do not neglect Internationalization. Even some big WEB-stores have no advanced internationalization similar to Beigesoft WEB-store's one.
     </p>
 
     <h4>Conclusion</h4>
