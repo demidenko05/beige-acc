@@ -22,8 +22,8 @@
       </ul>
     </p>
     
-    <h4>Создание Мавен проекта</h4>
-    <p>* Все файлы должны быть в UTF-8 кодировке. Я рекомендую редактор <b>Jeany</b>.</p>
+    <h4>Создание Мавен проекта.</h4>
+    <p><i>* Все файлы должны быть в UTF-8 кодировке. Я рекомендую редактор <b>Jeany</b>.</i></p>
     <p>Создайте папку проекта "myapp" в "programmer/java", и создайте <b>pom.xml</b> в ней:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0"?&gt;
@@ -104,7 +104,7 @@
   
 &lt;/project&gt;
 </pre>
-<p>*<b>pom.xml</b> это главный файл в Мавен проекте. Он описывает данную библиотеку (Мавен артифакт): имя, группу, версию, тип архива (JAR в данном случае), используемые сторонние библиотеки (зависимости/dependencies).
+<p>*<b>pom.xml</b> это главный файл в Мавен проекте. Он описывает данную библиотеку (Мавен артефакт): имя, группу, версию, тип архива (JAR в данном случае), используемые сторонние библиотеки (зависимости/dependencies).
 JAR это стандартный Java архив содержащий скомпилированные Java классы и другие файлы - настройки в текстовых и XML файлах, изображения и прочее.
 </p>
 Затем создайте папки для исходного кода:
@@ -117,7 +117,7 @@ myapp - src - main - resources - uvd - fldTyFs
 </pre>
     </p>
     
-    <h4>Реализация моделей</h4>
+    <h4>Реализация моделей.</h4>
     <p>Согласно <a href="bclbasicru.html">Базовая информация о ПО Беижсофт</a> мы должны использовать <b>org.beigesoft.mdlp.AIdLnNm</b> для Контрагента (Customer), создайте файл "Customer.java" в папке "myapp - src - main - java - org - myapp - ordering":
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
@@ -128,19 +128,21 @@ public class Customer extends AIdLnNm {
 
 }
 </pre>
+    </p>
 <p>
-  * Джава класс имеет поля(реквизиты), например поле <b>nme</b> строкового типа (String) для хранения имени. Данные поля доступны через методы <b>Getters</b> и <b>Setters</b>,
+  * Джава класс имеет поля(реквизиты), например поле <b>nme</b> строкового типа (String) используется для хранения имени. Данные поля доступны через методы <b>Getters</b> и <b>Setters</b>,
   например для поля "nme" метод "getNme()" возвращает его значение, а setNme(String pValue) устанавливает значение.
 </p>
 <p>
   * В Джаве слово <b>extends</b> значит что данный класс расширяет другой класс (AIdLnNm в данном случае). Результирующий класс наследует (имеет) все поля и методы родительского класса.
 </p>
 <p>
-  * как вы заметили, класс имеет имя файла, а имя пакета (package) совпадает с папками начиная с папки "java".
+  * Как вы заметили, класс имеет имя такое-же как и его файл, а имя пакета (package) совпадает с папками начиная с папки "java".
 </p>
 <p>
-  Класс в данном случае реализует информационную  сохраниемую (в БД) модель. Другие классы имеют функции сервиса, например сервис записывающий модель в базу данных.
+  Класс в данном случае реализует информационную  сохраняемую (в БД) модель. Другие классы имеют функции сервиса, например сервис записывающий модель в базу данных.
 </p>
+  <p>
   Предположим что у нас несколько баз данных (офис 1 и офис 2) и большая номенклатура, поэтому будем использовать <b>org.beigesoft.mdlp.AOrIdNm</b> для товара:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
@@ -237,10 +239,12 @@ public class COrder extends AOrId {
   }
 }
 </pre>
+  </p>
 <p>
   <b>* для избежания коллизий с именами СКЛ (SQL) нам нужно именовать модели и поля осторожно,
   например если мы будем использовать "Order" для имени модели заказа то получим ошибку.</b>
 </p>
+  <p>
 Строка заказа:
 <pre style="white-space: pre-wrap;">
 package org.myapp.ordering;
@@ -348,7 +352,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&gt; {
 </pre>
     </p>
 
-    <h4>Добавление XML конфигурации дли импорта полной копии БД</h4>
+    <h4>Добавление XML конфигурации для импорта полной копии БД.</h4>
     <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/src/main/resources/dbcp</b> в "myapp - src - main - resources - dbcp" и добавьте 4 новых модели:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -386,7 +390,7 @@ public class OrderLine extends AOrId implements IOwnedOr&lt;COrder&gt; {
 Порядок важен! OrderLine последняя так как содержит Merchandise и COrder.
     </p>
 
-    <h4>Добавление XML конфигурации для ОРМ</h4>
+    <h4>Добавление XML конфигурации для ОРМ.</h4>
     <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/sqlite</b> в "myapp - src - main - resources - sqlite" и добавьте модели:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -437,7 +441,7 @@ this.orm.insIdLn(product1); //ОРМ сама делает SQL insert коман
 </pre>
     </p>
 
-    <h4>Добавление XML конфигурации для ВЕБ-интерфейса</h4>
+    <h4>Добавление XML конфигурации для ВЕБ-интерфейса.</h4>
     <p>Скопируйте <b>conf.xml</b> из <b>beige-blc/uvd</b> в "myapp - src - main - resources - uvd" и добавьте модели:
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -472,7 +476,7 @@ this.orm.insIdLn(product1); //ОРМ сама делает SQL insert коман
 &lt;/properties&gt;
 </pre>
     </p>
-    <p>Затем создайте файл COrder.xml в "myapp - src - main - resources - uvd - clsCs"
+    <p>Затем создайте файл COrder.xml в "myapp - src - main - resources - uvd - clsCs":
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
@@ -482,9 +486,9 @@ this.orm.insIdLn(product1); //ОРМ сама делает SQL insert коман
 &lt;/properties&gt;
 </pre>
 Он описывает какие поля должны быть заполнены и их порядок.
-Также сдесь указываются владеемые списки (строки) которые должны отображаться в форме редактирования владельца.
+Также здесь указываются владеемые списки (строки) которые должны отображаться в форме редактирования владельца.
     </p>
-    <p>Затем добавьте OrderLine.xml в "myapp - src - main - resources - uvd - clsCs"
+    <p>Затем добавьте OrderLine.xml в "myapp - src - main - resources - uvd - clsCs":
 <pre style="white-space: pre-wrap;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;

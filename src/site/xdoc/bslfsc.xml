@@ -11,26 +11,26 @@
 
     <h4>Beigesoft™ Linux From Source Code (LFSC).</h4>
     
-    <h5>Why make Linux from source code?</h5>
+    <h5>Why build Linux from source code?</h5>
 <p>
-The most Linux distributives are provided as binary packages.
+The most Linux distributions are provided as binary packages.
 Many Linux vendors stop provide 32bit versions. Sometime they provide non-well updates, and it's take a time to resolve problems (issues).
 So, at first, it's about achieving independence and reliability.
 </p>
 
-<h5>What building/compiling methods exist?</h5>
+<h5>Building/compiling methods.</h5>
 <p>
-  The first method is native building into current root "/". You can compile by this method any high-level application, e.g. a music player.
-  It's need building environment to do this. This is minimum set of program and libraries - glibc, gcc, binutils, bash...
-  To make this building environment from source code you should use cross compiling.
+  The first method is the native compiling method into the current root "/". You can compile by this method any high-level application, e.g. a music player.
+  It's needed a building environment to do this. This is a minimum set of program and libraries, such as glibc, gcc, binutils, bash...
+  To make a building environment from source code you should use the cross compiling method.
 </p>
 <p>
-  The second is cross-compiling. This is building binary into different root even for different architecture, e.g. building for ARM (tablet OS) on a x86 PC.
+  The second method is cross-compiling. This is building a binary into a different root, even for different architecture, e.g. building for an ARM (tablet OS) on a x86 PC.
   This is only method for tablet's/mobile's OS.
-  There are four main standard variables to do this:
+  There are the four main standard variables to do this:
   <ul>
-    <li>--sysroot - tells compiler where search headers, and linker where search libs (where is new sysroot)</li>
-    <li>DESTDIR - tells "make" where new root directory to install this software</li>
+    <li>--sysroot - tells to the compiler where search the headers, and to linker where search the libs (where is the new sysroot)</li>
+    <li>DESTDIR - tells to the "make" where is the new root directory to install this software</li>
     <li>--host - tells "configure" what target (built/compiled) architecture</li>
     <li>--build - tells "configure" what building(compiling) architecture, without "configure" will think that it's a native compiling, and "host" just point to proper sub-architecture, e.g. i786-pc-linux-gnu</li>
   </ul>

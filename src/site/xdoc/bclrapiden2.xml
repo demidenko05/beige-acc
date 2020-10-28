@@ -188,8 +188,8 @@ A <b>web.xml</b> is the main file that describes about the JEE WEB-application.
     </p>
 
     <h4>JEE JDBC authentication.</h4>
-    <p><b><i>* Browsers can refuse the JEE cookie "JSESSIONID" when it's used unencrypted HTTP connection (Chrome does this), and you will face "HTTP Status 408 – Request Timeout on http://localhost:8080/beige-accweb/sec/j_security_check"!
-      So, you must either make HTTPS, or switch off JEE authentication in the "web.xml"!</i></b></p>
+    <p><b><i>* Browsers can refuse the JEE cookie "JSESSIONID" when it's used unencrypted HTTP connection (Chrome does this), and you will face "HTTP Status 408 – Request Timeout on http://localhost:8080/ordering-web/sec/j_security_check"!
+      So, you must either make HTTPS, or switch off JEE authentication in the "web.xml"! Any authentication is completely useless without an encrypted connection.</i></b></p>
     <p>For Tomcat's standard, copy the <b>context-sqlt.xml</b> from the <b>beige-web</b> into the "myappweb - src - main - webapp - META-INF" rename it into "context.xml", then change the database URL in it:
 <pre style="white-space: pre-wrap;">
 ...
@@ -224,7 +224,7 @@ After that you are able to login into "secure place" and make orders (user/passw
 </p>
 <p align="center"><img style="max-width: 100%" src="images/editcord.png" /></p>
 <p>Lists, edit forms, entity pickers will be generated automatically.</p>
-<p><b><i>* Here the browser allowed the"JSESSIONID" cookie for unencrypted HTTP connection. See <a href="eis-import-db-web.html">Import an EIS database by using WEB-service</a></i>, how to make HTTPS!</b></p>
+<p><b><i>* Here the browser allowed the "JSESSIONID" cookie for unencrypted HTTP connection. See <a href="eis-import-db-web.html">Import an EIS database by using WEB-service</a></i>, how to make HTTPS!</b></p>
     <h4>Internationalization</h4>
     <p>For internationalization use ${i18n.getMsg("COrder", rvs.upf.lng.iid)} in a JSP page.
     You should add this message into <b>Msgs_en_US.properties</b> and non English e.g. <b>Msgs_ru_RU-UTF8.properties</b>.
