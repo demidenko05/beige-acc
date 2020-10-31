@@ -4,168 +4,235 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Beigesoft™. Type-safe programming complex applications in C.</title>
+    <title>Beigesoft™. Type-safe programming complex high-level applications in C.</title>
    </properties>
 
   <body>
 
-<h4>Beigesoft™. Type-safe programming complex applications in C.</h4>
+<h3>Beigesoft™. Type-safe programming complex high-level applications in C.</h3>
 
-<p>This is about how to make complex programs in C in optimal way. Using C in this way to create complex applications seems to be more optimal than using OOP C++ language.</p>
+<p>This is about how to make complex high-level programs such as a dictionary in C in optimal way. Using C in this way to create such applications seems to be more optimal than using OOP C++ language.</p>
 <p>
 This is also about programming "static" programs, i.e. that can be changed only during software update.
-Such complex high-performance programs are suitable for working on a weak device like mobile phone.
-For financial-like applications Java with WEB-interface is the choice, because we can change and dynamically reload any service (e.g. a renderer JSP) on a never-stop enterprise application,
+Such complex high-performance programs are suitable for working on a weak device such as a mobile phone.
+For financial-like applications, Java with WEB-interface is the choice, because we can change and dynamically reload any service (e.g. a renderer JSP) on a never-stop enterprise application,
 and there is cross-platform WEB-app server A-Jetty.
 For LFSC static applications like a media-player or a dictionary the C is the choice.
 C is actually the most used language in a regular Linux distribution (kernel itself, glibc, system-d, dbus, glib, gtk, gimp, Java, Perl, etc. are written with C).
 </p>
 <p>
-We should consider these facts for maximum type-safe approach in a C-program:
-<ul>
-  <li>there are libs and a client program that uses these libs</li>
-  <li>a lib consists of data models and methods dedicated to work with these data models</li>
-  <li>sometime direct access to lib's data models (e.g. shape->x1=1.23) is a wrong approach, e.g. when argument maybe wrong</li>
-  <li>by using different kind of methods and data models we can achieve any high-level programming approach (e.g. polymorphism) in type-safe way</li>
-  <li>checking object's (data-model) type during runtime (it do all OOP languages, GLIB...) is never optimal approach</li>
-  <li>by using different kind of type-safe approaches we can guarantee that whole program is type-safe in COMPILE TIME, so checking object's type during runtime is redundant</li>
-  <li>it's all about finding gold mean between pure C-style (highest performance, but sometimes brutal and type-unsafe) and OOP-like (less error-able, more readable) approach</li>
-</ul>
+  * In opposite to high-level applications, low level ones (e.g. a device driver) should use the pure C style, that is without type-safe wrappers, REF-counter libs...
+</p>
+<p>
+  We should consider these facts for maximum type-safe approach in a C-program:
+  <ul>
+    <li>there are libs and a client program that uses these libs</li>
+    <li>a lib consists of data models and methods dedicated to work with these data models</li>
+    <li>sometime direct access to lib's data models (e.g. shape->x1=1.23) is a wrong approach, e.g. when argument maybe wrong</li>
+    <li>by using different kind of methods and data models we can achieve any high-level programming approach (e.g. polymorphism) in type-safe way</li>
+    <li>checking object's (data-model) type during runtime (it do all OOP languages, GLIB...) isn't an optimal approach</li>
+    <li>by using different kind of type-safe approaches we can guarantee that the whole program is type-safe in COMPILE TIME, so checking object's type during runtime is redundant</li>
+    <li>it's all about finding gold mean between pure C-style (highest performance, but sometimes brutal and type-unsafe) and OOP-like (less error-able, more readable) approach</li>
+  </ul>
 </p>
 
-  <h4>Example #1. Type-safe polymorphism in C.</h4>
-<p>
-There are drawable objects (shapes) - triangle, square, circle.
-There is a pane to show (draw) these objects.
-Any object has type-safe methods like <b>int SHAPE_draw(SHAPE*)</b> and <b>SHAPE *SHAPE_new(SHAPE_ARGS)</b> e.g.:
-<pre style="white-space: pre-wrap;">
-//statically allocated constructor:
-#define TRIANGLE_CREATE(alias, p_x1, p_y1, p_x2, p_y2, p_x3, p_y3) Triangle alias = { .x1 = p_x1, .y1 = p_y1, .x2 = p_x2, .y2 = p_y2, .x3 = p_x3, .y3 = p_y3 };
-//dynamically allocated constructor:
-Triangle *triangle_new(int p_x1, int p_y1, int p_x2, int p_y2, int p_x3, int p_y3);
-int triangle_draw(Triangle *p_trngl);
-</pre>
-Pane has two same-size (total) arrays of all type-unsafe pointers to drawable objects and their corresponding methods, i.e.:
-<pre style="white-space: pre-wrap;">
+  <h4>Using type-safe and OOP-like approaches in C on a real program.</h4>
+  <p>Here is used https://github.com/demidenko05/bsdict source code for this. All approaches are made by using macros and methods-wrappers.</p>
+  <p><b>1. Using type-safe wrappers.</b></p>
+  <p>
+    Type-unsafe methods should be wrapped by type-safe ones to expose to clients (to high-level libs or applications).
+    Standard lib also should be wrapped, it makes more easy life for clients, e.g. bsdict/bslib/BsFioWrap.c:
+    <pre style="white-space: pre-wrap;">
+  void
+    bsfwrite_bool (bool *pData, FILE *pFile)
+  {
+    int cnt = 1;
+    int wcr = fwrite(pData, sizeof (bool), cnt, pFile);
+    if ( wcr != cnt )
+    {
+      if ( errno == 0 ) { errno = BSE_WRITE_FILE; }
+      BSLOG_ERR
+    }
+  }
+    </pre>
+    Here BSLOG_ERR is macro that report error into LOG file in verbose way, bsdict/bslib/BsLog.h:
+    <pre style="white-space: pre-wrap;">
+#define BSLOG_ERR bslog_log(BSLERROR, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
+    </pre>
+  </p>
+  <p><b>2. Inheritance.</b></p>
+  <p>Use similar to these macros and methods to avoid code duplicating, or better, to reuse an existing code,
+    bsdict/bslib/BsDataSet.c:
+    <pre style="white-space: pre-wrap;">
+//Data set lib Types:
+...
+#define BSDATASET(pSetType) BS_IDX_T bsize; BS_IDX_T size; pSetType **vals;
+
 typedef struct {
-  int total;
-  void **shapes;
-  int(**drawers)(void*); //delegators to draw
-} Pane;
-</pre>
-Pane has methods:
-<pre style="white-space: pre-wrap;">
-Pane *pane_new(int p_total_shapes);
-int pane_free(Pain *p_pane);
-int pain_draw_all(Pain *p_pane);
-</pre>
-Any drawable object has type-safe method to add itself into given pane, e.g.:
-<pre style="white-space: pre-wrap;">
-  int triangle_add_to_pane(Pane *p_pane, Triangle *p_trngl);
-</pre>
-Of course, the ONLY type-unsafe code is in the method that adds given shape into given pane. In this method we cast SHAPE*->void*. ONLY such methods may cause TYPE-UNSAFE error (e.g. triangle data is putted into index 3, but method is putted into index 4, so you will face the famous error "segmentation fault"), that can be detected very easily in the test phase.
-Shapes and Pane are library. A client is a final program that uses ONLY lib's methods and macros and never access shape's data directly.
-Example of a client:
-<pre style="white-space: pre-wrap;">
-...
-include "triangle.h"
-include "pane.h"
-...
-Pane *pane = pane_new(4);
-//it should be used a macro instead to hide Pane type, e.g.: PANE_NEW(pane, 4)
-//macro to statically allocate triangle (without malloc), this is impossible in Java:
-TRIANGLE_CREATE(tr0, 1, 2, 3, 4, 5, 6);
-triangle_add_to_pane(pane, &amp;tr0);
-Triangle *tr1 = triangle_new(1, 2, 3, 4, 5, 6);
-triangle_add_to_pane(pane, tr1);
-Triangle *tr2 = triangle_new(11, 12, 13, 14, 15, 16);
-triangle_add_to_pane(pane, tr2);
-...
-pane_draw_all(pane);
-...
-triangle_free(tr1);
-pane_free(pane);
-...
-</pre>
-So this polymorphism approach in C seems to be quite type-safe.
-</p>
+  BSDATASET(void)
+} BsDataSetTus;
 
-<p>
-To save you time, you can download source code "bs-tsp-in-c-1.0.tar.xz" from files folder in <a href="https://sourceforge.net/projects/bsplay/">https://sourceforge.net/projects/bsplay/</a>
-Unpack it, then "make test".
-</p>
+typedef void BsVoid_Method(void);
 
-<p>
-  <h4>Comparing approaches for polymorphism-like tasks, e.g. "draw_all()"</h4>
-  <table>
-    <tr>
-      <th>Approach</th>
-      <th>Result</th>
-    </tr>
-    <tr>
-      <td>C without polymorphism (in case of using type-safe encapsulation-like methods)</td>
-      <td>Totally type-safe, high performance, large lib's code, nice client's code</td>
-    </tr>
-    <tr>
-      <td>C with polymorphism described above</td>
-      <td>Practically type-safe, highest performance, smaller lib's code, nice client's code</td>
-    </tr>
-    <tr>
-      <td>C with OOP-like lib, e.g. GLIB</td>
-      <td>Type-safe only on run-time, high performance, small lib's code, there are a lot of objects casting in client's code</td>
-    </tr>
-    <tr>
-      <td>OOP-language, e.g. C++</td>
-      <td>Totally(practically) type-safe, lowest performance, smallest lib's code, client's code often(in practice) consist of type-unsafe generics, e.g. in Java "Map&lt;String, Object&gt; params"</td>
-    </tr>
-  </table>
-</p>
+typedef struct {
+  BSDATASET(BsVoid_Method)
+} BsVoidMeths;
 
-<p>
-  <h4>Other  approaches for optimal programming in C</h4>
-We should also consider these approaches and facts for optimal programming (it also must be maximum readable in C and native (disassemble) code):
-<ul>
-  <li>in most cases compiler's warnings are actually errors</li>
-  <li>using the most used in the universe part-assembly approach, an assembly can be a part of another assembly</li>
-  <li>part(of lib - single h and c file) is minimum composite, there are not cross(mutual)-dependencies between parts in whole lib</li>
-  <li>of course, every lib should be tested</li>
-  <li>the simpler the better</li>
-  <li>the more straight-full meaning the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values, etc. Also names(aliases) of data(variables) and methods should be straightly-meanings, e.g. triangle_free(p_trngl) means just free memory and nulling pointers, but object_destroy(p_obj) means free memory and additional things like closing files (this helps to understand code more quickly without looking comments).</li>
-  <li>use only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
-  <li>source code should be well commented</li>
-  <li>a lot of methods should be public only for testing purpose</li>
-  <li>GDB should be used when "seg-fault" or a test fails and adding new sub-tests or validators and logging seems to be excessive, but in practice looking into code twice is oftern more efficient.</li>
-  <li>when you free an object, then GLIBC caches this memory, so additional caching seems to be redundant, i.e. you mark object as unused, then use it as new instead of creating with constructor</li>
-  <li>destructing dynamic vars depends of their scope:
+void
+  bsdatasettus_remove_shrink (BsDataSetTus *pSet, BS_IDX_T pIdx, Bs_Destruct *pObjDestr)
+{
+  if ( pIdx &lt; BS_IDX_0 || pIdx &gt;= pSet-&gt;size )
+  {
+    errno = BSE_ARR_OUT_OF_BOUNDS;
+    BSLOG_ERR
+    return;
+  }
+  if ( pObjDestr != NULL )
+  {
+    pObjDestr (pSet-&gt;vals[pIdx]);
+  }
+  for (BS_IDX_T l = pIdx + BS_IDX_1; l &lt; pSet-&gt;size; l++ )
+  {
+    pSet-&gt;vals[l - BS_IDX_1] = pSet-&gt;vals[l];
+  }
+  pSet-&gt;vals[pSet-&gt;size - BS_IDX_1] = NULL;
+  pSet-&gt;size--;
+}
+
+//Just type-safe wrapper:
+void
+  bsvoidmeths_remove_shrink (BsVoidMeths *pSet, BS_IDX_T pIdx)
+{
+  bsdatasettus_remove_shrink ((BsDataSetTus*) pSet, pIdx, NULL);
+}
+    </pre>
+    As you can see, there are basic type-unsafe data models (macros) and methods. And there are type-safe data models that extend basic ones.
+    And there are type-safe method-wrappers that wrap and often extend type-unsafe ones.
+  </p>
+  <p><b>3. Polymorphism, encapsulation.</b></p>
+  <p>Use a struct that encapsulates generic data and methods to expose completely abstract interface for high level libs and clients.
+    For example bsdict/dict/BsDicObj.h:
+    <pre style="white-space: pre-wrap;">
+/**
+ * &lt;p&gt;Generic destructor.&lt;/p&gt;
+ * @param pDiIx - object or NULL
+ * @return always NULL
+ **/
+typedef BsDiIxBs* BsDiIx_Destroy (BsDiIxBs *pDiIx);
+
+/**
+ * &lt;p&gt;Find all matched words in given dictionary and IDX.&lt;/p&gt;
+ * @param pDiIx - DIC with IDX
+ * @param pFdWrds - collection to add found record
+ * @param pSbwrd - sub-word to match
+ * @set errno if error.
+ **/
+typedef void BsDiIxFind_Mtch (BsDiIxBs *pDiIx, BsDiFdWds *pFdWrds, char *pSbwrd);
+
+/**
+ * &lt;p&gt;Read word's description with substituted DIC's tags by HTML ones
+ * from dictionary with search content any type.&lt;/p&gt;
+ * @param pDiIx - DIC with IDX
+ * @param pFdWrd - found word with data to search content
+ * @return full description as BsHypStrs
+ * @set errno if error.
+ **/
+typedef BsHypStrs *BsDiIx_Read (BsDiIxBs *pDiIx, BsDiFdWd *pFdWrd);
+
+/**
+ * &lt;p&gt;Generic, type-safe assembly of text/audio/both/... dictionary
+ * with cached IDX head and methods (OOP like object).
+ * This is interface for high level GUI.
+ * This exposes abstractions (data and methods) that GUI needs.&lt;/p&gt;
+ * @member nme - file name plus state - e.g. indexing..., it will be hided in GUI with opened diIx-head-&gt;nme
+ * @member pth - file path either from bsdict.conf or that user chose
+ * @member opSt - opening shared data
+ * @member pref - user preferences
+ * @member diIx - text/audio/both/... dictionary with cached IDX head
+ * @method diix_destroy - destroyer
+ * @method diixfind_mtch - finder of matched words
+ * @method diix_read - reader of content of found word
+ **/
+typedef struct {
+  BsString *nme;
+  BsString *pth;
+  BsDiIxOst *opSt;
+  BsDiPref *pref;
+  BsDiIxBs *diIx;
+  BsDiIx_Destroy *diix_destroy;
+  BsDiIxFind_Mtch *diixfind_mtch;
+  BsDiIx_Read *diix_read;
+} BsDicObj;
+    </pre>
+    In BsDict application BsDicObj is the only OOP-object like assembly. So, this is not about using OOP for OOP itself sake.
+    This is an extremely abstract interface that can be implemented with variety of things (here audio/text dicts).
+    And clients never care and aware about implementation.
+    This assembly is actually type-safe. It's made with this way:
     <ol>
-      <li>application scoped (MT shared) are destructed when app exits, along with join main thread to non-stopped other ones.</li>
-      <li>request scoped single-thread are destructed after request(sub-work) is done, they are the most used vars and usually method's scoped, they are similar to automatic vars</li>
-      <li>on demand scoped (created and destroyed on events) single-thread are destructed usually "by hand", e.g. 3 refs - in model, widget1 and widget2</li>
-      <li>request/on demand scoped multi-threads are destructed by invoking ref-counter lib like KREF (kernel's), and such vars require adding REFLIB's (KREF/GLIB/C++ extends RefCounted...) properties into them.</li>
+      <li>It's initialized with "Path" and "Name" from a chosen dictionary file or from the settings.</li>
+      <li>BsDicObj's method <b>void bsdicobj_open (BsDicObj* pDiObj);</b> try to open this object, i.e. it initializes this object completely including type-safe methods.</li>
     </ol>
-  </li>
-</ul>
-Rules "the simpler the better", "use only the best alternative" and "the more straight-full meaning the better" say that creating and using static (allocating) constructors in the above example (draw_all) is wrong approach.
-</p>
-<p>
-Rules above and testing obey to decrease possible errors, ability to fix them more easy and faster, so as a result programming complex application in C is never complicated than do it in high level languages like Java.
-</p>
-<p>
-Also for BS LFSC standard, an application's (statically upgraded, non-enterprise) interface should be GTK2 based and adapted for mobile view.
-</p>
+    Example of polymorphic invocation, BsDict.c:
+    <pre style="white-space: pre-wrap;">
+...
+  for ( int i = 0; i &lt; wdics-&gt;size; i++ )
+  {
+    errno = 0;
+    if ( wdics-&gt;vals[i]-&gt;opSt-&gt;stt == EBSDS_OPENED )
+    {
+      BS_DO_E_CONT (wdics-&gt;vals[i]-&gt;diixfind_mtch (wdics-&gt;vals[i]-&gt;diIx, sDicsWrds, sLastCstr))
+    }
+  }
+...
+    </pre>
+  </p>
+  <p>Clients should have no type-unsafe code at all. By using these approaches, only libs can have type-unsafe code, but they must provide type-safe interface.
+  As a result, clients have totally type-safe and nice code (without casting).
+  </p>
 
-<h4>Code style</h4>
+  <h4>Other  approaches for optimal programming in C.</h4>
+  <p>
+    We should also consider these approaches and facts for optimal programming:
+    <ul>
+      <li>the simpler the better</li>
+      <li>in most cases compiler's warnings are actually errors</li>
+      <li>use the most used in the universe part-assembly approach, an assembly can be a part of another assembly</li>
+      <li>part(of lib - single h and c file) is a minimum composite, there should not be cross(mutual)-dependencies between parts in a whole lib</li>
+      <li>of course, every lib should be tested</li>
+      <li>the more straight-full meaning (straightforward) the better, e.g. use "if (object_pointer != NULL)" instead of "if (object_pointer)", also use "if (is_ok)" only when "is_ok" may have TRUE(1) or FALSE(0) values, etc. Also names(aliases) of data(variables) and methods should be straightly-meanings, e.g. triangle_free(p_trngl) means just free memory and nulling pointers, but object_destroy(p_obj) means free memory and additional things like closing files (this helps to understand code more quickly without looking comments).</li>
+      <li>use only the best alternative, e.g. operator "? :" in Java code style considered to be hard to read, and "if" is preferred, so here "if" is also preferred to "switch"</li>
+      <li>source code should be well commented</li>
+      <li>a lot of methods should be public only for testing purpose</li>
+      <li>GDB should be used when "seg-fault" or a test fails, and adding new sub-tests, validators and logging seems to be excessive, but in practice looking into a code twice is often more efficient.</li>
+      <li>REF-libs and destructors are the best alternative, a garbage collector is a less optimal choice.</li>
+      <li>destructing dynamic vars depends of their scope:
+        <ol>
+          <li>application scoped (even MT shared) vars are destructed when app exits, along with join main thread to non-stopped other ones.</li>
+          <li>request scoped (1-st level invoking method's scoped) single-thread vars are destructed after request(sub-work) is done, they are the most used vars, they are similar to automatic vars</li>
+          <li>on demand scoped (created and destroyed on events) multi-referenced vars are destructed by a REF-lib (e.g. KREF/GLIB/C++ extends RefCounted...).</li>
+          <li>on demand scoped single-referenced vars are destructed usually on "destroy" event. To simplify coding such things, a REF-lib maybe the best alternative.</li>
+        </ol>
+      </li>
+    </ul>
+  </p>
+  <p>
+  Rules above obey to decrease possible errors, ability to fix them more easy and faster, so as a result, programming a complex application with C isn't complicated than do it with a high level language, e.g. Java.
+  </p>
+  <p>
+  Also for BS LFSC standard, an application's (statically upgraded, non-enterprise) interface should be GTK2 based and adapted for mobile view.
+  </p>
+
+<h4>Code style.</h4>
 <p>
   This is about how to make code's words more distinct (actually more faster recognized/perceived by brain). There are facts:
   <ul>
-    <li>In practice short aliases (variables, functions, etc. names) look better in code (exactly in code's lines, i.e. inside methods, not in data definitions).</li>
-    <li>object's member's name "len" is better (in code) than "length"</li>
+    <li>In practice short aliases (variables, functions, etc. names) look better in code and well recognized (e.g. use "strlen" instead of "string_get_length", human brain is naturally able to remember "spatial compressed/coded" graphic things such as hieroglyphs).</li>
     <li>Spacing make code more readable. This is not only about inside line spaces, it's also about spaces between lines.</li>
     <li>Vertical spaces is useful not only because of using upper-case macro. It's needed because of small monospace-fonts line spacing (actually glyph's height).</li>
     <li>The more spaces inside line, the more longer line, i.e. it become less readable.</li>
-    <li>Distinct rules about naming words of different types and spacing improve readability, e.g. lower prefix "p" in method's arguments, "if ( i = 1 )" vs "a = s_method1 (45);" .</li>
-    <li>type name "DataSet" is better than "struct data_set". Non-struct data types (hardly ever used) should be prefixed.</li>
-    <li>type name "Compare_Tus*" is better than "int (*compare)(void*,void*)".</li>
+    <li>Distinct rules about naming words of different types and spacing improve readability, e.g. lower prefix "p" in method's arguments, "if ( i = 1 )", "a = s_method1 (45);"</li>
+    <li>type name "DataSet" is definitely better than "struct data_set". Non-struct data types (hardly ever used) should be prefixed.</li>
+    <li>type name "Compare_Tus*" is better than "int (*compare)(void*,void*)", because of "Tus" means type-unsafe "void*", and "int" is the standard of comparing result.</li>
   </ul>
   So, code should be spaced by spaces themselves and with shorting names. Naming and spacing should be distinct(different) depending of their subject.
   <p>Code style should be like this:</p>
@@ -183,125 +250,36 @@ Also for BS LFSC standard, an application's (statically upgraded, non-enterprise
   </ul>
 </p>
 
-<h4>Type-safe wrappers.</h4>
 <p>
-Pane should better has type-unsafe method like:
-<pre style="white-space: pre-wrap;">
-//it's also thread-safe method, i.e. it locks (synchronizes) those pointers arrays during invocation
-int pane_add_shape_tus(Pane *p_pane, void *p_shape, Draw_Gen_Tus *p_drawer);
-</pre>
-This method must be wrapped be type-safe method in any shape.
-So, making type-unsafe generic methods and data, then wrap them (implement) with type-safe ones is a good approach for many tasks, e.g. iterator+consumer:
-<pre style="white-space: pre-wrap;">
-//file Record.h
-//type-safe data:
-...
-typedef struct {...} Record;
-
-//type-unsafe methods and data:
-typedef int Rec_Consume_Tus(Record *pRec, void *pInstr);
-
-int file_iterate_tus (FILE *pFile, Rec_Consume_Tus *pRecCsm, void *pInstr);
-...
-
-//file RecordMax.h
-//all type-safe including wrappers:
-...
-typedef struct {...} RecordMax;
-
-//an implementation can be wrapped by another type-safe implementation (interceptor), e.g. for debugging/testing
-typedef int Rec_Consume_Max(Record *p_rec, RecordMax *pInstr);
-...
-
-//file RecordMax.c
-int
-  file_iterate_max (FILE *pFile, Rec_Consume_Max *pRecCsm, RecordMax *pInstr)
-{
-//some preparation:
-...
-  file_iterate_tus (pFile, (Rec_Consume_Tus*) pRecCsm, (void*) pInstr); //only type-unsafe entry
-//some finishing:
-...
-}
-</pre>
-Standard lib should also be wrapped, it makes more easy life for a client, e.g.:
-<pre style="white-space: pre-wrap;">
-//type safe wrapper:
-int
-  fwrite_long (FILE *pFile, long int *pData)
-{
-  return fwrite (pData, sizeof(long int), 1, pFile);
-}
-</pre>
-Also autotools seems to be useless. Just add new file (and its test) into Makefile during making huge application step by step (file by file).
-Make allows enough flexible behavior,  e.g.:
-<pre style="white-space: pre-wrap;">
-libs=alsa sdl2
-ifeq ($(shell pkg-config libass &amp;&amp; echo $$?),0)
-  libs += libass
-endif
-//or from file created according user's preferences:
-libs = $(shell cat libs.conf)
-</pre>
+  Also autotools seems to be useless. Just add a new file (and its test) into Makefile during making a huge application step by step (file by file).
+  The Make allows enough flexible behavior, e.g.:
+  <pre style="white-space: pre-wrap;">
+  libs=alsa sdl2
+  ifeq ($(shell pkg-config libass &amp;&amp; echo $$?),0)
+    libs += libass
+  endif
+  //or from file created according user's preferences:
+  libs = $(shell cat libs.conf)
+  </pre>
 </p>
 
-<h4>Errors handling and reporting</h4>
+<h4>Handling and reporting errors.</h4>
 <p>Here errors mean "program's errors". Errors types:
   <ul>
-    <li>program's checkable errors, e.g. NULL pointer when it's not allowed, index outside of array, wrong pointer outside dedicated to it segment, etc.</li>
-    <li>program's non-checkable errors, e.g. bad pointer inside dedicated to it segment, string non-initialized with zero terminator and passed to "strlen", etc.</li>
+    <li>program's checkable errors, e.g. a NULL pointer when it's not allowed, an index outside of an array, a wrong pointer outside the dedicated to it segment, etc.</li>
+    <li>program's non-checkable errors, e.g. a bad pointer inside the dedicated to it segment, a string non-initialized with the zero terminator and passed to "strlen", etc.</li>
     <li>out of order errors, e.g. out of memory, network connection is broken, disk full, etc.</li>
   </ul>
 </p>
-<p>Even though there is no "often changed business logic", errors sometimes happen in regular C applications.
+<p>Even though there is no "often changed business logic", errors happen in a regular C applications.
 The best approach to handle and report errors should be like this:
 <ul>
   <li>any method that can cause an error must set thread scoped variable "errno" and log error</li>
-  <li>any subsequent-back method (that invokes errorable method) should check errno, and handle - i.e. it should log to track whole backtrace</li>
+  <li>any subsequent-back method (that invokes errorable method) should check errno, and handle it - i.e. it should log to track the whole backtrace</li>
   <li>a file is the best alternative to report any error</li>
 </ul>
-So, example is:
+So, example is (see the data-set lib above):
 <pre style="white-space: pre-wrap;">
-//Data set lib Types:
-...
-#define BSDATASET(pSetType) BS_IDX_T bsize; BS_IDX_T size; pSetType **vals;
-
-typedef struct {
-  BSDATASET(void)
-} BsDataSetTus;
-
-typedef void BsVoid_Method(void);
-
-typedef struct {
-  BSDATASET(BsVoid_Method)
-} BsVoidMeths;
-
-#define BSLOG_ERR bslog_log(BSLERROR, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
-
-void
-  bsdatasettus_remove_shrink (BsDataSetTus *pSet, BS_IDX_T pIdx)
-{
-  if ( pIdx &lt; BS_IDX_0 || pIdx &gt;= pSet-&gt;size )
-  {
-    errno = BSE_ARR_OUT_OF_BOUNDS;
-    BSLOG_ERR
-    return;
-  }
-  pSet-&gt;vals[pIdx] = NULL;
-  for ( BS_IDX_T l = pIdx + BS_IDX_1; l &lt; pSet-&gt;size; l++ )
-  {
-    pSet-&gt;vals[l - BS_IDX_1] = pSet-&gt;vals[l];
-  }
-  pSet-&gt;size--;
-}
-
-//Just type-safe wrapper:
-void
-  bsvoidmeths_remove_shrink (BsVoidMeths *pSet, BS_IDX_T pIdx)
-{
-  bsdatasettus_remove_shrink ((BsDataSetTus*) pSet, pIdx);
-}
-
 //Error propagation generic macro:
 #define BS_DO_E_OUT(p_invoked) p_invoked;\
   if (errno != 0) { BSLOG_ERR goto out; }
@@ -319,7 +297,7 @@ static void
 static void
   s_test1 ()
 {
-  //it will return error on hardly ever possible ENOMEM:
+  //arr is a request (method) scoped var. It will return error on hardly ever possible ENOMEM:
   BSVOIDMETHS_NEW_E_RET (arr, 2L) //size=2
 
   //increase=2 when full-filled:
@@ -379,7 +357,7 @@ So, if you got empty report, then see "bad pointers" to methods (use GDB). Anywa
   That is use "raise(SIGABRT)" plus well-logging or just "assert([condition])" to abort and report into stderr this condition.
 </p>
 <p>In other hand, GLIB uses such excessive error checking and propagation without termination (checking for type, if parameter is NULL).
-This allows to more accurately handle and report error, to keep program working, so user can use other error-less functionality.
+This allows to handle and report error more accurately, to keep program working, so user can use other error-less functionality.
 So program's errors are treated as "part of functionality is out of order".
 Also, using "C-signals" requires additional coding to pass all destructors.
 In case of excessive error handling using macro can decrease coding (see example above).
@@ -403,14 +381,14 @@ But "strlen" on NULL pointer will cause segmentation fault, instead of checking 
 <p>
   To avoid excessive double checking(validation) use well known phases:
   <ol>
-    <li>Object creating/initializing (and filling) with validation</li>
+    <li>Object creating/initializing with validation</li>
     <li>Object further modification with validation</li>
     <li>Object using (without modification and double validation)</li>
   </ol>
   Although GLIB/GTK use excessive double checking, they are really fast.
 </p>
 
-<h4>Using excessive checking in destructors</h4>
+<h4>Using excessive checking in destructors.</h4>
 <p>In this case, code becames more simple and readable, and IDE can generate automatically complex constructors and part of methods.</p>
 <p>
 Constructor standard style example:

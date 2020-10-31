@@ -148,6 +148,11 @@
       </ul>
       And finally you do not have to learn about security at all, to think of passwords...
     </p>
+    <p>You may say that it smells like a "totalitarian world", that tracks all of us. But you are already totally tracked. Train/airplane tickets, public hidden or non-hidden cameras, etc. track "where you are/was". Internet tracks what you like and what you hate, i.e. it tracks your soul. Etc.
+    </p>
+    <p>
+    Of course, in the case of "device for signing", tracking things such as "open a door" can be optional.
+    </p>
     
     <h4>Example of preventing data leakage due the security hole "allowing already authorized users to request data for another user ID".</h4>
     <p>You might have heard that a bank software had this "hole". Assume, in the future a bank will have this security hole. So, a swindler will have access to other users data.
@@ -155,7 +160,7 @@
     Banks usually store logs for a quite long time. So, after revealing the hole, the bank will retrieve all harmful requests from the logs.
     Would be a swindler so stupid to reveal and exploit security holes while all activities is signed with its personal device? That is, it can't steal another user password and other data such as IP and MAC address to make fake requests to avoid unmasking, as it does today.
     </p>
-
+    
     </section>
 
   </body>
