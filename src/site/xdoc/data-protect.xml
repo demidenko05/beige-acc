@@ -25,7 +25,7 @@
           It was about 2000 year, when a computer with an operating system caught a virus just after connecting to the Internet. That is the user even did not open a WEB-browser. 
         </li>
         <li>
-          It was about 2010 year, when a web-browser had enabled a harmful-script on a HTML page, and that script had rewrote the master boot record (the heart of a file system). That virus was trying to force victims to pay money.
+          It was about 2010 year, when a web-browser had enabled a harmful-script on a HTML page, and that script had rewrote the master boot record (the heart of the old disk file system, prior to GPT). That virus was trying to force victims to pay money.
         </li>
         <li>
           You never need a lot of features that your software contains, but swindlers use them for cheating you.
@@ -40,7 +40,7 @@
     <p>
       <ul>
         <li>They remove or restrict swindler-friendly features, for example an Android application can't read files that belong to another application, and you set by yourself permissions to the shared storage.</li>
-        <li>They track activity of your account (all social networks do it). Thus if a swindler stole your password and tried to sign-in under your account from another device, then you will be informed about it (they can even block your account without your request).</li>
+        <li>They track activity of your account by a reliable method. The most reliable tracking method is reporting your activity (especially login) via your email, because of on-time notifications, and it's the most secure transport (in opposite to mobile networks).</li>
         <li>They allow you to use your social network account for authorization in other sites. Using a "master" account to login into other sites is the preferred authorization method, because they track your activity.</li>
         <li>They force you to install software from well known sources such "a software store".</li>
         <li>Of course, things like encryption, free anti-harmful-software.</li>
@@ -71,7 +71,7 @@
     <h4>Flexibility leads to vulnerability.</h4>
     <p>A software can be installed statically, e.g. C/C++ binaries, or dynamically, e.g. JavaScript on a HTML page.
     Historically any program has direct access to user's files.
-    There are also "holes", i.e. program's errors. 
+    There are also security "holes", i.e. program's errors. 
     Many languages with a JIT compiler had the program error that allows to invoke an arbitrary native (CPU) code.
     And so did JS.
     So, what is the main factor in security vulnerability in this case? Is it allowing JIT to boost a dynamically loaded JS program,
@@ -94,13 +94,13 @@
       The weakest passwords are:
       <ul>
         <li>Of course, similar to "qwerty" passwords - e.g. "admin", "1234567"...</li>
-        <li>Generated passwords e.g. "87ghgjs6KYfgluy" - user can't remember such password, and it's forced to stick a note with this password to its monitor.</li>
+        <li>Generated passwords e.g. "87ghgjs6KYfgluy" - an user can't remember such password, and it's forced to stick a note with such password to its monitor.</li>
       </ul>
       Strong passwords are easy to remember. These are a set of words e.g. "raccooneatstone165".
     </p>
     <p>
       Anyway, strong passwords are vulnerable to hidden cameras. Thus saving passwords in a browser is the preferred way.
-      But this storage must be under your master account (to track activity). It's also desirable that a browser doesn't save passwords locally, only caches them from account Internet storage.
+      But this storage must be under your master account (to track activity). It's also desirable that browsers don't save passwords locally, they should cache them from the account Internet storage.
       You should sign out when you leave your computer for a long time (e.g. a vocation).
     </p>
     
@@ -126,20 +126,20 @@
     </p>
     <p>A swindler can try to match the private key by using the public one and the signature. But it takes a very long time even for high-performance computers to check (try) all possible keys.
       Thus the common way is to steal the private key, or steal the keystore and retrieve its passphrase.
-      You could hear that a quantum computer can easily break a RSA key. A swindler could be lucky to match a secret key to a public one.
-      So tracking of a secret key usage is essential.
+      You could hear that a quantum computer can easily break a RSA key. A swindler could be lucky to match a private(secret) key to a public one.
+      So tracking of a private key usage is essential.
     </p>
     <p>
-      A "device for signing" and "global tracking of using a signature" is a reliable means to resolve these problems. This "Device for signing" makes a signature itself.
+      A "device for signing" and "global tracking of using a signature" are reliable means to resolve these problems. This "Device for signing" makes a signature itself.
       There is no way to get the private key from it. It contains your private key to make your signature and do other security stuff, e.g. reporting to the global tracking server about using your signature.
       Public keys from such devices must be actually non-public, i.e. they must be transferred and stored in a secure way. That is such devices know all current public keys, and they update them on the go.
       The best way is using this device as your only digital passport, thus it also will contain your photo, fingerprints and other information.
       You will use this device for any activity - opening a door (home, car, hotel room), sing-in into a computer and into any Internet site, making bank transfers, ATM money withdrawal, etc.
-      You even will not need to use a pin code for making signature, a cashier will check your photo from your device (bank software can do it too), the device itself will check your fingerprints.
+      You even will not need to use a pin code for making signature, a cashier will check your photo from your device, the device itself will check your fingerprints.
       All software must be signed with such devices. This device will make session symmetric secret keys to transfer data over the network (e.g. make HTTPS connection).
       This device will encrypt your data. Again, this device will make all stuff by itself, this is an autonomic "black box".
       So, this is an alternative way to the current encryption infrastructure, that is based on exactly public keys (certificates) that are signed by Certificate Authorities, and there the most stuff is made by hand.
-      Of course this requires changing law and adapting software, but finally you will be totally protected from any swindlers activities:
+      Of course this requires changing the law and adapting software, but finally you will be totally protected from any swindlers activities:
       <ul>
         <li>from stealing your money or private information (violence against you)</li>
         <li>from faking news (violence against democracy)</li>
@@ -158,7 +158,7 @@
     <p>You might have heard that a bank software had this "hole". Assume, in the future a bank will have this security hole. So, a swindler will have access to other users data.
     But HTTPS connection and authorization will be made by using its personal device for signing. So, the global tracking server will store this information forever.
     Banks usually store logs for a quite long time. So, after revealing the hole, the bank will retrieve all harmful requests from the logs.
-    Would be a swindler so stupid to reveal and exploit security holes while all activities is signed with its personal device? That is, it can't steal another user password and other data such as IP and MAC address to make fake requests to avoid unmasking, as it does today.
+    Would be a swindler so stupid to reveal and exploit security holes while all activities is signed with its personal device? That is, it can't steal another user's password and other data such as IP and MAC address to make fake requests to avoid unmasking, as it does today.
     </p>
     
     </section>
