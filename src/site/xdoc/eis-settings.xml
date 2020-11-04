@@ -78,8 +78,8 @@ Bob read <a href="HTTPS://www.irs.gov/pub/irs-pdf/p583.pdf">IRS 583 Starting a b
   </pre>
   then you should install Bouncy Castle crypto-provider in static way:
   <ol>
-    <li>download bcprov-jdk15on-1.66.jar from <a href="HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.66/">HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.66/</a>
-    and bcpkix-jdk15on-1.66.jar from <a href="HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.66/">HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.66/</a></li>
+    <li>download bcprov-jdk15on-1.67.jar from <a href="HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.67/">HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.67/</a>
+    and bcpkix-jdk15on-1.67.jar from <a href="HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.67/">HTTPS://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.67/</a></li>
     <li>put them into [java-home]/lib/ext e.g. "C:\Program Files (x86)\Java\jre[version#8]\lib\ext" (change [version#8] to yours)</li>
   </ol>
   Previous step is usually sufficient, otherwise you should also add Bouncy Castle into <b>java.security</b>.

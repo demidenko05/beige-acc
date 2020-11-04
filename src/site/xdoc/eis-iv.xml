@@ -309,8 +309,8 @@
 ...org.bouncycastle.operator.OperatorCreationException: unable to create OutputEncryptor: JCE cannot authenticate the provider BC...
   </pre>
      <p>
-        Нужно установить криптопровайдер статическим путем. Нужно скачать файлы download bcprov-jdk15on-1.66.jar из <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.66/">https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.66/</a>
-    и bcpkix-jdk15on-1.66.jar из <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.66/">https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.66/</a>
+        Нужно установить криптопровайдер статическим путем. Нужно скачать файлы download bcprov-jdk15on-1.67.jar из <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.67/">https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.67/</a>
+    и bcpkix-jdk15on-1.67.jar из <a href="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.67/">https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.67/</a>
     и скопировать их а [java-папка]/lib/ext e.g. "C:\Program Files (x86)\Java\jre[version#8]\lib\ext":
      </p>
      <p align="center"><img style="max-width: 100%" src="images/bslibru.png" /></p>
