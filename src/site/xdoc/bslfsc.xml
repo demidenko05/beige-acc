@@ -81,6 +81,7 @@ The work was done on Debian 9. It already has cross-compilers for most architect
 
 <p>
 You can download source code (set of bash-scripts and instructions) from <a href="https://sourceforge.net/projects/linux-from-source-code/">https://sourceforge.net/projects/linux-from-source-code/</a>
+(or <a href="1.1/lfsc-1.8.tar.xz">lfsc-1.8.tar.xz</a>)
 </p>
 <p>
 References:

@@ -37,7 +37,7 @@ C is actually the most used language in a regular Linux distribution (kernel its
 </p>
 
   <h4>Using type-safe and OOP-like approaches in C on a real program.</h4>
-  <p>Here is used https://github.com/demidenko05/bsdict source code for this. All approaches are made by using macros and methods-wrappers.</p>
+  <p>Here is used https://github.com/demidenko05/bsdict source code for this (or <a href="1.1/bsdict-1.2f.tar.xz">bsdict-1.2f.tar.xz</a>). All approaches are made by using macros and methods-wrappers.</p>
   <p><b>1. Using type-safe wrappers.</b></p>
   <p>
     Type-unsafe methods should be wrapped by type-safe ones to expose to clients (to high-level libs or applications).
@@ -110,7 +110,7 @@ void
     And there are type-safe method-wrappers that wrap and often extend type-unsafe ones.
   </p>
   <p><b>3. Polymorphism, encapsulation.</b></p>
-  <p>Use a struct that encapsulates generic data and methods to expose completely abstract interface for high level libs and clients.
+  <p>Use a struct that encapsulates generic data and methods to provide completely abstract interface for high level libs and clients.
     For example bsdict/dict/BsDicObj.h:
     <pre style="white-space: pre-wrap;">
 /**
