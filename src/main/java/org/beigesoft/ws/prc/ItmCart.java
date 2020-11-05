@@ -33,6 +33,8 @@ import java.math.BigDecimal;
 
 import org.beigesoft.exc.ExcCode;
 import org.beigesoft.mdl.IReqDt;
+import org.beigesoft.mdl.CmnPrf;
+import org.beigesoft.mdlp.DcSp;
 import org.beigesoft.log.ILog;
 import org.beigesoft.prc.IPrc;
 import org.beigesoft.rdb.IRdb;
@@ -133,6 +135,17 @@ public class ItmCart<RS> implements IPrc {
         String quanStr = pRqDt.getParam("quan");
         String avQuanStr = pRqDt.getParam("avQuan");
         String unStStr = pRqDt.getParam("unSt");
+        CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
+        String dgsep = cpf.getDcGrSpv();
+        if (dgsep != null) {
+          quanStr = quanStr.replace(dgsep, "");
+          if (DcSp.SPACEVL.equals(dgsep)) {
+            quanStr = quanStr.replace("Â", ""); //noajax send form bug - fltPriVal1-[1Â 200]? TODO
+          }
+        }
+        if (!"".equals(cpf.getDcSpv()) && !".".equals(cpf.getDcSpv())) {
+          quanStr = quanStr.replace(cpf.getDcSpv(), ".");
+        }
         BigDecimal quan = new BigDecimal(quanStr);
         BigDecimal avQuan = new BigDecimal(avQuanStr);
         if (quan.compareTo(avQuan) == 1) {

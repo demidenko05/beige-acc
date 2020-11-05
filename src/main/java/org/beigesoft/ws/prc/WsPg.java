@@ -47,6 +47,7 @@ import org.beigesoft.mdl.IReqDt;
 import org.beigesoft.mdl.Page;
 import org.beigesoft.mdl.CmnPrf;
 import org.beigesoft.mdlp.UsPrf;
+import org.beigesoft.mdlp.DcSp;
 import org.beigesoft.flt.EFltOpr;
 import org.beigesoft.flt.FltInt;
 import org.beigesoft.flt.FltBgd;
@@ -696,17 +697,27 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
       String val1Str = pRqDt.getParam("fltPriVal1");
       CmnPrf cpf = (CmnPrf) pRvs.get("cpf");
       String dgsep = cpf.getDcGrSpv();
+      boolean dbgSh = getLog().getDbgSh(this.getClass(), 13100);
+      if (dbgSh) {
+  this.log.debug(pRvs, getClass(), "val1/DGDEPV: " + val1Str + "/" + dgsep);
+      }
       if (operStr != null && !"".equals(operStr)
         && val1Str != null && !"".equals(val1Str)) {
         res.setOpr(Enum.valueOf(EFltOpr.class, operStr));
         if (dgsep != null) {
           val1Str = val1Str.replace(dgsep, "");
+          if (DcSp.SPACEVL.equals(dgsep)) {
+            val1Str = val1Str.replace("Â", ""); //noajax send form bug - fltPriVal1-[1Â 200]? TODO
+          }
         }
         res.setVal1(Integer.valueOf(val1Str));
         String val2Str = pRqDt.getParam("fltPriVal2");
         if (val2Str != null && !"".equals(val2Str)) {
           if (dgsep != null) {
             val2Str = val2Str.replace(dgsep, "");
+            if (DcSp.SPACEVL.equals(dgsep)) {
+              val2Str = val2Str.replace("Â", "");
+            }
           }
           res.setVal2(Integer.valueOf(val2Str));
         }
@@ -774,6 +785,9 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
             flt.setOpr(Enum.valueOf(EFltOpr.class, operStr));
             if (dgsep != null) {
               val1Str = val1Str.replace(dgsep, "");
+              if (DcSp.SPACEVL.equals(dgsep)) {
+                val1Str = val1Str.replace("Â", "");
+              }
             }
             flt.setVal1(Integer.valueOf(val1Str));
             String val2Str = pRqDt.getParam("fltSp"
@@ -781,6 +795,9 @@ public class WsPg<RS> implements IPrc, ILsCatlChg {
             if (val2Str != null && val2Str.length() > 0) {
               if (dgsep != null) {
                 val2Str = val2Str.replace(dgsep, "");
+                if (DcSp.SPACEVL.equals(dgsep)) {
+                  val2Str = val2Str.replace("Â", "");
+                }
               }
               flt.setVal2(Integer.valueOf(val2Str));
             }
