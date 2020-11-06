@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.beigesoft</groupId>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <artifactId>beige-acc</artifactId>
   <name>Beigesoft™ Enterprise Information System Java code.</name>
 
@@ -333,7 +333,7 @@
     <url>https://github.com/demidenko05/beige-acc.git</url>
     <connection>scm:git:git@github.com:demidenko05/beige-acc.git</connection>
     <developerConnection>scm:git:git@github.com:demidenko05/beige-acc.git</developerConnection>
-    <tag>beige-acc-1.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
 </project>
