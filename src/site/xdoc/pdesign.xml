@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Beigesoft™. Programming approaches.</title>
+   </properties>
+
+  <body>
+
+  <h3>Beigesoft™. Programming approaches.</h3>
+
+  
+  <b>Key words: Design principles, OOP patterns.</b>
+  
+  <p>This is about the main point of "how to design a program in optimal way".
+  All these approaches are widely used in real life. So this is about "get back from newest terms to old ones".
+  </p>
+  <h4>1. Part - assembly approach. A part should be as atomic as possible. An assembly can consist of other assemblies (parts).</h4>
+  <p>Real life example: a gear, an engine, an atom, a quark, etc.</p>
+  <p>OOP principles and patterns that follow to this approach:
+  <ul>
+    <li>Interface Segregation Principle (ISP): Clients should not be forced to depend upon interfaces that they don't use.</li>
+    <li>POJO - as a pure atomic data model</li>
+  </ul>
+  OOP means "encapsulation", so in the old days programmers often filled "Objects" as much as possible, what is why those OOP design patterns came about. 
+  </p>
+  
+  <h4>Common violations of "part-assembly" approach.</h4>
+  <p>1. OOP itself requires that an object must encapsulate of methods. In C we can create object String{char *val; int len;}, then, WHEN IT'S NEED, we can create StringObject{String *val; int (*printer)(char*);}.
+  As a result, programmers often prefer to use functional style in OOP language, because it's more easy and inexpensive. Remarkable example is Hibernate in Java.
+  </p>
+  <p>2. Runtime annotations in Java. Assume you want to add JAXB for an object that is already an annotated JPA entity. At first, you violate OCP and have to recompile this class. At second, mixing JAXB and JPA annotations is definitely looks no good and might not work.
+  You can look at Beige-EIS code, where for example DebtorCreditor entity has 4 different XML configurations: 1 - ORM, 2 - WEB FORM/LIST generator, 3 - full database copy via XML WEB-service, 4 - export from tax to financial database via XML WEB-service.
+  So a configuration of how to use a class in a library (ORM, ...) is exactly an another part that must be placed in a different place than this class.
+  </p>
+
+  <h4>2. Interface and Abstraction. This allows to make an assembly from parts by attaching via an interface with any level of abstraction. So you can fix or change an assembly by substitution a part.</h4>
+  <p>Real life example: an engine is connected to a transmission via a generic junction (interface), so you can choice between AT/MT4/MT6.</p>
+  <p>Functional programming - headers in C (public methods and data types). An interface can use super-abstractions such as void* pointers.</p>
+  <p>OOP. In Java there is exactly "interface" type of file. You should use Abstract classes only to inherit properties and methods for extending classes, and abstract classes must implements interface/s.</p>
+  <p>Example of high level abstraction interface between Shapes and Pane with methods encapsulation in C: Shape{int startX; int startY;} and ShapeObj{Shape *shape, void (*draw)(Shape*);}. In Java this is: IShape {int getStartX(); int getStartY(); void setStartX(int x); void setStartY(int y); void draw();} </p>
+  
+  <h4>3. An interface of a part must follow the client (assembly) expectations, i.e. interface must be implemented in straightforward (non-ambiguous) meaning, especially on case of substitutions of parts.</h4>
+  <p>Real life examples:
+    <ul>
+      Ambiguous:
+      <li>"charged" bank account VS "charged" atomic particle</li>
+    </ul>
+    <ul>
+      Properly:
+      <li>A transmission implementation must follow the engine specification - i.e. its power, torque, etc.</li>
+    </ul>
+    </p>
+  <p>
+    Programming - interface must be implemented in straightforward way, without confusing a client (assembly).
+    In case when a part is substituted by another one that has another meaning interface implementation, then already worked assembly might not work properly.
+    <ul>
+      <li>
+        OOP: Likov's Substitution Principle states that if a program module is using a Base class, then the reference to the Base class can be replaced with a Derived class without affecting the functionality of the program module. The article (https://www.oodesign.com/liskov-s-substitution-principle.html) provides an example: the interface "setHeight(int heihgt)" of the "Rectangle" was implemented in other-meaning way "setHeight(int heihgtAndWidth)" for the "Square" that confuses the client.
+      </li>
+    </ul>
+  </p>
+  
+  <p>References:
+  <ul>
+    <li>https://www.oodesign.com</li>
+  </ul>
+  </p>
+  
+  
+  </body>
+
+</document>

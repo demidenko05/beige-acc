@@ -40,12 +40,22 @@
         <pre style="white-space:pre-wrap">
 keytool -import -trustcacerts -alias ajettyca -file "ajetty-ca.pem" -keystore /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts
         </pre>
+  * on Java11 run:
+        <pre style="white-space:pre-wrap">
+keytool -importcert -trustcacerts -alias ajettyca -file "ajetty-ca[###].pem" -cacerts
+        </pre>        
   * on MS Windows open the PowerShell as ADMIN in the Beigesoft EIS folder and run:
         <pre style="white-space:pre-wrap">
 &amp; "C:\Program Files (x86)\Java\jre[version#8]\bin\keytool.exe" -import -trustcacerts -alias ajettyca -file "ajetty-ca.pem" -keystore "C:\Program Files (x86)\Java\jre[version#8]\lib\security\cacerts"
         </pre>        
         The default password to this keystore is <b>changeit</b>. Adding a CA certificate to this keystore requires ROOT permission,
         so do not worry about the keystore password. Never use this keystore to store private keys!
+      </p>
+      <p>For Java11 you should add Bouncy Castle jars in the system classpath Tomcat by hand. To do it, create <b>setenv.sh</b> in <b>bin</b> folder (see <b>catalina.sh</b>):
+      <pre style="white-space:pre-wrap">
+#!/bin/bash
+export CLASSPATH=/home/[you]/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.67/bcprov-jdk15on-1.67.jar:/home/[you]/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.67/bcpkix-jdk15on-1.67.jar
+      </pre>
       </p>
       <p>
         He launched the SQlite version Beigesoft™ EIS on 8444 port (source local database). Then he started Tomcat and opened the address <a href="https://localhost:8443/beige-accweb/">https://localhost:8443/beige-accweb/</a>
