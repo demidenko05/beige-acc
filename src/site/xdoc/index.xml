@@ -29,7 +29,7 @@
           <li>Tracking payments for sales/purchases in national and foreign currencies.</li>
           <li>Payroll - automatic calculation of the taxes using withholding tax tables.</li>
           <li>Production - automatic calculation of the cost of a product from used materials, direct labor and other costs.</li>
-          <li>Inventory - two dimensional (warehouse, place) registration, moving items inside a warehouse, etc.</li>
+          <li>Inventory - three dimensional (warehouse, place, unit of measurement) registration, moving items inside warehouse, etc.</li>
           <li>Multi-databases (organizations) for standalone (local) versions, which use SQlite databases.</li>
           <li>Embedded Web-Store. Pricing, multi-currency, price depends on buyer's category, exporting price list into CSV</li>
           <li>and more.</li>

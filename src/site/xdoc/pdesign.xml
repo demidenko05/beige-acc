@@ -48,7 +48,7 @@
   So a configuration of how to use a class in a library (ORM, ...) is exactly another part that must be placed in a its own place (file).
   </p>
 
-  <h4>2. Interface and Abstraction. This allows to make an assembly from parts by attaching via an interface with any level of abstraction. So you can fix or change an assembly by substitution a part.</h4>
+  <h4>2. Interface or Abstraction of a part. This allows to make an assembly from parts by attaching via an interface (abstraction). So you can fix or change an assembly by substitution a part.</h4>
   <p>Real life example: an engine is connected to a transmission via a generic junction (interface), so you can choice between AT/MT4/MT6.</p>
   <p>Functional programming - headers in C (public methods and data types). An interface can use super-abstractions such as void* pointers.</p>
   <p>OOP. In Java there is exactly "interface" type of file. You should use Abstract classes only to inherit properties and methods for extending classes, and abstract classes usually should implements interface/s.</p>
@@ -61,7 +61,7 @@
       </li>
     </ul>
   </p>
-  <p>In Java, an interface should be used only when it's needed by a client. For example in Beige EIS DebtorCreditor has generic interfaces - IHasID, IHasVersion, IHasName, but methods "get/set TIN" are only this class's methods, because there is no a client that expects this methods.</p>
+  <p>In Java, an interface should be used only when it's needed by a client. For example in Beige EIS DebtorCreditor has generic interfaces - IHasID, IHasVersion, IHasName, but methods "get/set TIN" are only this class's methods, because there is no a client that expects generic interface with this methods.</p>
   
   <h4>3. An interface of a part must follow the client (assembly) expectations, i.e. interface must be implemented in straightforward (non-ambiguous) meaning, especially on case of substitutions of parts.</h4>
   <p>Real life examples:
@@ -86,6 +86,17 @@
       </li>
     </ul>
   </p>
+  
+  <h4>Triple: the simple the better; use the best alternative; the more tests the better.</h4>
+  <p>If a part is satisfied to all of the requirements, then this is a reason to use it, and there is no reason to substitute it, except experimental or innovation purposes.</p>
+  <p>When you save time by using already working parts in a new assembly, then you have more time for testing.</p>
+  <p>Real life example: the same bearing has been used for many years in many countries in car engines, in wheel hubs, etc.</p>
+  <p>Software architects sometime choose creating new own parts for the only reason - they must be totally ours. Maybe it's a company politic - no advertising of free software.</p>
+  <p>Part of Java EE: servlets, JSP (WEB-server) are the best alternative not only for WEB-interface. Even JSP is best mean to make JSON responses (see in Beige-EIS payment gateway response RESTFUL).
+  With servlets you can easy make any thing - RESTFUL API, XML, PDF... In the old time Spring MVC overcame EJB because of the best performance. But it was actually JEE - WEB part. Automatically filling of a model from a request - isn't a big deal.
+  In Beige-EIS WEB-store buyers requests processed by hand. Of course, it's used Beige-WEB for making the catalog, prices, etc. And Beige-WEB isn't only for automatically filling of models, it also allow ta make reliable WEB-interface really quickly (almost automatically).
+  </p>
+  
   
   <p>References:
   <ul>
