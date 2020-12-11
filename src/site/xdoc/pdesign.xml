@@ -88,14 +88,17 @@
   </p>
   
   <h4>Triple: the simple the better; use the best alternative; the more tests the better.</h4>
-  <p>If a part is satisfied to all of the requirements, then this is a reason to use it, and there is no reason to substitute it, except experimental or innovation purposes.</p>
-  <p>When you save time by using already working parts in a new assembly, then you have more time for testing.</p>
-  <p>Real life example: the same bearing has been used for many years in many countries in car engines, in wheel hubs, etc.</p>
-  <p>Software architects sometime choose creating new own parts for the only reason - they must be totally ours. Maybe it's a company politic - no advertising of free software.</p>
-  <p>Part of Java EE: servlets, JSP (WEB-server) are the best alternative not only for WEB-interface. Even JSP is best mean to make JSON responses (see in Beige-EIS payment gateway response RESTFUL).
-  With servlets you can easy make any thing - RESTFUL API, XML, PDF... In the old time Spring MVC overcame EJB because of the best performance. But it was actually JEE - WEB part. Automatically filling of a model from a request - isn't a big deal.
-  In Beige-EIS WEB-store buyers requests processed by hand. Of course, it's used Beige-WEB for making the catalog, prices, etc. And Beige-WEB isn't only for automatically filling of models, it also allow ta make reliable WEB-interface really quickly (almost automatically).
+  <p>The main rule about part choosing: If a part is satisfied to all of the requirements, and it seems to be simpler than other alternatives, then this is the reason to use it, and there is no reasons to substitute it, except experimental or innovation purposes.
   </p>
+  <p>When you save time by using already working parts in a new assembly, then you have more time for testing.</p>
+  <p>Real life example: the same bearing has been used for many years in many countries (car manufacturers) in car engines, in wheel hubs, etc. Internal combustion engine is the best alternative yet, but actually the best alternative is hydrogen powered fuel cells, see https://global.honda/innovation/FuelCell.html. But because of very vast legacy of gasoline infrastructure, substituting hydrogen for gasoline seems to be a very difficult and expensive task. In opposite to this, substituting constrained plugins for JavaScript in WEB-clients (to make WEB-clients less vulnerable) seems to be very easy task.</p>
+  <p>Software architects sometime choose creating new own parts for the only reason - they must be totally ours. Maybe it's a company politic - no advertising of free software.</p>
+  <p>Part of Java EE WEB-part: servlets, JSP... are the best alternative not only for WEB-interface. Even JSP is the best mean to make JSON responses (see in Beige-EIS payment gateway response RESTFUL).
+  With servlets you can easy make any thing - RESTFUL API, any arbitrary XML, CSV, PDF... In the old times Spring MVC plus Hibernate overcame other JEE technologies including EJB because of the best performance. But MVC was actually JEE WEB part. Automatically filling of a model from a request - isn't a big deal.
+  Non-OOP Hibernate was turned into JPA.
+  In Beige-EIS WEB-store buyers requests processed by hand without any problem. Of course, it's used Beige-WEB for making the catalog, prices, etc. And Beige-WEB isn't only for automatically filling of models, it also allow to make reliable WEB-interface really quickly (almost automatically). Beige-WEB is based on own ORM that is different from Hibernate approach, but Beige-ORM approach is faster than Hibernate one and it's cross-platform (it's fastest on Android for real-life tasks).
+  </p>
+  <p>You might heard about battlecode.org. They are chasing the highest performance in Java. They do not use even standard JSE collections, they use their own array-based collections. Is such approaches the best alternative for practical programming? Of course not, because at least they seem to be not simpler than JSE ones. Although JSE and JEE have hardly ever used parts. For example, JSP must be used only as view or for making any other response (e.g. JSON), so tags like SQL are the dead weight.</p>
   
   
   <p>References:
