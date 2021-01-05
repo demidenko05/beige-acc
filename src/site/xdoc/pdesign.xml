@@ -24,6 +24,8 @@
       <li>Interface Segregation Principle (ISP): Clients should not be forced to depend upon interfaces that they don't use.</li>
       <li>Single Responsibility Principle. This principle states that if we have 2 reasons to change for a class, we have to split the functionality in two classes.</li>
       <li>POJO - as a pure atomic data model</li>
+      <li>MVC pattern - of course you must divide program into 3 parts - Model (data model plus service model), View and Controller</li>
+      <li>...</li>
     </ul>
     OOP means "encapsulation", so in the old days programmers often filled "Objects" as much as possible, what is why those OOP design patterns came about. 
   </p>
@@ -45,7 +47,7 @@
   </p>
   <p>2. Runtime annotations in Java. Assume you want to add JAXB for an object that is already an annotated JPA entity. At first, you violate OCP and have to recompile this class. At second, mixing JAXB and JPA annotations is definitely looks no good and might not work.
   You can look at Beige-EIS code, where for example DebtorCreditor entity has 4 different XML configurations: 1 - ORM, 2 - WEB FORM/LIST generator, 3 - full database copy via XML WEB-service, 4 - export from tax to financial database via XML WEB-service.
-  So a configuration of how to use a class in a library (ORM, ...) is exactly another part that must be placed in a its own place (file).
+  So a configuration of how to use a class in a library (ORM, ...) is exactly another part that must be placed in its own place (file).
   </p>
 
   <h4>2. Interface or Abstraction of a part. This allows to make an assembly from parts by attaching via an interface (abstraction). So you can fix or change an assembly by substitution a part.</h4>
@@ -87,11 +89,11 @@
     </ul>
   </p>
   
-  <h4>4. Triple: the simple the better; use the best alternative; the more tests the better.</h4>
+  <h4>4. Triplet: the simple the better; use the best alternative; the more tests the better.</h4>
   <p>The main rule about part choosing: If a part is satisfied to all of the requirements, and it seems to be simpler than other alternatives, then this is the reason to use it, and there is no reasons to substitute it, except experimental or innovation purposes.
   </p>
   <p>When you save time by using already working parts in a new assembly, then you have more time for testing.</p>
-  <p>Real life example: the same bearing has been used for many years in many countries (car manufacturers) in car engines, in wheel hubs, etc. Internal combustion engine is the best alternative yet, but actually the best alternative is hydrogen powered fuel cells, see https://global.honda/innovation/FuelCell.html. But because of very vast legacy of gasoline infrastructure, substituting hydrogen for gasoline seems to be a very difficult and expensive task. But it resolves greenhouse gas (CO2) problem, because this is actually the best energy accumulation technology that allows to fire much less coal, gas, etc. Why they (authorities, organizations such as Greenpease, activists) do not promote this? In opposite to substitution of hydrogen for gasoline, substituting constrained plugins for JavaScript in WEB-clients (to make WEB-clients less vulnerable) seems to be very easy task.</p>
+  <p>Real life example: the same bearing has been used for many years in many countries (car manufacturers) in car engines, in wheel hubs, etc. Internal combustion engine is the best alternative yet, but actually the best alternative is hydrogen powered fuel cells. But because of very vast legacy of gasoline infrastructure, substituting hydrogen for gasoline seems to be a very difficult and expensive task. But it resolves greenhouse gas (CO2) problem, because this is actually the best energy accumulation technology that allows to fire much less coal, gas, etc. Why they (organizations such as Greenpease, activists) never promote this? In contrast with substitution of hydrogen for gasoline, substituting HTML5+ and constrained plugins for JavaScript in WEB-clients (to make WEB-clients less vulnerable) seems to be very easy task.</p>
   <p>Software architects sometime choose creating new own parts for the only reason - they must be totally ours. Maybe it's a company politic - no advertising of free software.</p>
   <p>Part of Java EE WEB-part: servlets, JSP... are the best alternative not only for WEB-interface. Even JSP is the best mean to make JSON responses (see in Beige-EIS payment gateway response RESTFUL).
   With servlets you can easy make any thing - RESTFUL API, any arbitrary XML, CSV, PDF... In the old times Spring MVC plus Hibernate overcame other JEE technologies including EJB because of the best performance. But MVC was actually JEE WEB part. Automatically filling of a model from a request - isn't a big deal.
@@ -100,6 +102,38 @@
   </p>
   <p>You might heard about battlecode.org. They are chasing the highest performance in Java. They do not use even standard JSE collections, they use their own array-based collections. Is such approaches the best alternative for practical programming? Of course not, because at least they seem to be not simpler than JSE ones. Although JSE and JEE have hardly ever used parts. For example, JSP must be used only as view or for making any other response (e.g. JSON), so tags like SQL are the dead weight.</p>
   
+  <h4>5. Wrappers.</h4>
+  <p>Wrappers reuse a code and add functionality or/and adapt to new interface.</p>
+  <p><b>* This is not about JSE wrappers such as Integer that wraps primitive int type.</b></p>
+  <p>For OOP this is the best "extending" approach. If you extend a non-abstract class in Java, then code-style or findbug will warn "extending a class several times reduce performance".
+  This is also only approach for adding/removing functionality during runtime.
+  </p>
+  <p>
+    OOP patterns that follow to this approach: 
+    <ul>
+      <li>
+        Decorator Pattern - adding functionality during runtime.
+      </li>
+      <li>
+        Adapter Pattern - adapt existing code (usually a class) to desired interface.
+      </li>
+    </ul>
+  </p>
+  <p>Example of wrapper in C that wraps generic GLIBC's file writer to write exactly boolean with error reporting:
+<pre style="white-space: pre-wrap;">
+void
+  bsfwrite_bool (bool *pData, FILE *pFile)
+{
+  int cnt = 1;
+  int wcr = fwrite(pData, sizeof (bool), cnt, pFile);
+  if ( wcr != cnt )
+  {
+    if ( errno == 0 ) { errno = BSE_WRITE_FILE; }
+    BSLOG_ERR
+  }
+}
+</pre>
+  </p>
   
   <p>References:
   <ul>
