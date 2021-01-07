@@ -14,8 +14,8 @@
   
   <b>Key words: Design principles, OOP patterns.</b>
   
-  <p>This is about the main point of "how to design a program in optimal way".
-  All these approaches are widely used in the real life. So this is also about "get back from newest terms(words) to old ones".
+  <p>This is about the main point of "how to design a program in an optimal way".
+  All these approaches are widely used in real life. So this is also about "get back from newest terms(words) to old ones".
   </p>
   <h4>1. Part - assembly approach. A part should be as atomic as possible. An assembly can consist of other assemblies (parts).</h4>
   <p>Real life example: a gear, an engine, an atom, a quark, etc.</p>
@@ -25,12 +25,13 @@
       <li>Single Responsibility Principle. This principle states that if we have 2 reasons to change for a class, we have to split the functionality in two classes.</li>
       <li>POJO - as a pure atomic data model</li>
       <li>MVC pattern - of course you must divide program into 3 parts - Model (data model plus service model), View and Controller</li>
+      <li>Flyweight Pattern - several objects share only basic logic(part), e.g. a "solder renderer" is shared between final solder objects that have non-shared data - current position, see https://www.oodesign.com/flyweight-pattern-wargame-example-java-sourcecode.html. Of course having in each solder object duplicate data about the rendering solder's shape is a regular error.</li>
       <li>...</li>
     </ul>
-    OOP means "encapsulation", so in the old days programmers often filled "Objects" as much as possible, what is why those OOP design patterns came about. 
+    OOP means "encapsulation", so in the old days programmers often filled "Objects" as much as possible, which is why those OOP design patterns came about. 
   </p>
   
-  <p>You can look at https://github.com/demidenko05/beige-uml source that is very good example of "part-assemble" approach.
+  <p>You can look at https://github.com/demidenko05/beige-uml source that is a very good example of "part-assemble" approach.
     There an UML element is a full assemble (OOP) that includes all methods - invoking form (editor), draw, move, resize, etc. And this final assembly is made by final concrete platform-dependent factory, i.e. SWING and AWT or Android. Cross-platform logic parts include: element form editor, resize-movement service, etc.
     <ul>
       take a look at their source sizes(without tests sources):
@@ -42,18 +43,18 @@
   </p>
 
   <h4>Common violations of "part-assembly" approach.</h4>
-  <p>1. OOP itself requires that an object must encapsulate of methods. In C we can create object String{char *val; int len;}, then, WHEN IT'S NEEDED, we can create StringObject{String *val; int (*printer)(char*);}.
+  <p>1. OOP itself requires that an object must encapsulate methods. In C we can create object String{char *val; int len;}, then, WHEN IT'S NEEDED, we can create StringObject{String *val; int (*printer)(char*);}.
   As a result, programmers often prefer to use functional style in OOP language, because it's more easy and inexpensive. Remarkable example is Hibernate in Java.
   </p>
-  <p>2. Runtime annotations in Java. Assume you want to add JAXB for an object that is already an annotated JPA entity. At first, you violate OCP and have to recompile this class. At second, mixing JAXB and JPA annotations is definitely looks no good and might not work.
+  <p>2. Runtime annotations in Java. Assume you want to add JAXB for an object that is already an annotated JPA entity. First, you violate OCP and have to recompile this class. At second, mixing JAXB and JPA annotations definitely looks no good and might not work.
   You can look at Beige-EIS code, where for example DebtorCreditor entity has 4 different XML configurations: 1 - ORM, 2 - WEB FORM/LIST generator, 3 - full database copy via XML WEB-service, 4 - export from tax to financial database via XML WEB-service.
   So a configuration of how to use a class in a library (ORM, ...) is exactly another part that must be placed in its own place (file).
   </p>
 
-  <h4>2. Interface or Abstraction of a part. This allows to make an assembly from parts by attaching via an interface (abstraction). So you can fix or change an assembly by substitution a part.</h4>
-  <p>Real life example: an engine is connected to a transmission via a generic junction (interface), so you can choice between AT/MT4/MT6.</p>
+  <h4>2. Interface or Abstraction of a part. This allows to make an assembly from parts by attaching via an interface (abstraction). So you can fix or change an assembly by substituting a part.</h4>
+  <p>Real life example: an engine is connected to a transmission via a generic junction (interface), so you can choose between AT/MT4/MT6.</p>
   <p>Functional programming - headers in C (public methods and data types). An interface can use super-abstractions such as void* pointers.</p>
-  <p>OOP. In Java there is exactly "interface" type of file. You should use Abstract classes only to inherit properties and methods for extending classes, and abstract classes usually should implements interface/s.</p>
+  <p>OOP. In Java there is exactly an "interface" type of file. You should use Abstract classes only to inherit properties and methods for extending classes, and abstract classes usually should implement interface/s.</p>
   <p>Example of high level abstraction interface between Shapes and Pane with methods encapsulation in C: Shape{int startX; int startY;} and ShapeObj{Shape *shape, void (*draw)(Shape*);}. In Java this is: IShape {int getStartX(); int getStartY(); void setStartX(int x); void setStartY(int y); void draw();} </p>
   <p>
     OOP principles and patterns that follow to this approach: 
@@ -65,7 +66,7 @@
   </p>
   <p>In Java, an interface should be used only when it's needed by a client. For example in Beige EIS DebtorCreditor has generic interfaces - IHasID, IHasVersion, IHasName, but methods "get/set TIN" are only this class's methods, because there is no a client that expects generic interface with this methods.</p>
   
-  <h4>3. An interface of a part must follow the client (assembly) expectations, i.e. interface must be implemented in straightforward (non-ambiguous) meaning, especially on case of substitutions of parts.</h4>
+  <h4>3. An interface of a part must follow the client (assembly) expectations, i.e. interface must be implemented in straightforward (non-ambiguous) meaning, especially in case of substitutions of parts.</h4>
   <p>Real life examples:
     <ul>
       Ambiguous:
@@ -77,7 +78,7 @@
     </ul>
     </p>
   <p>
-    Programming - interface must be implemented in straightforward way, without confusing a client (assembly).
+    Programming - interface must be implemented in a straightforward way, without confusing a client (assembly).
     In case when a part is substituted by another one that has another meaning interface implementation, then already worked assembly might not work properly.
   </p>
   <p>
@@ -93,20 +94,20 @@
   <p>The main rule about part choosing: If a part is satisfied to all of the requirements, and it seems to be simpler than other alternatives, then this is the reason to use it, and there is no reasons to substitute it, except experimental or innovation purposes.
   </p>
   <p>When you save time by using already working parts in a new assembly, then you have more time for testing.</p>
-  <p>Real life example: the same bearing has been used for many years in many countries (car manufacturers) in car engines, in wheel hubs, etc. Internal combustion engine is the best alternative yet, but actually the best alternative is hydrogen powered fuel cells. But because of very vast legacy of gasoline infrastructure, substituting hydrogen for gasoline seems to be a very difficult and expensive task. But it resolves greenhouse gas (CO2) problem, because this is actually the best energy accumulation technology that allows to fire much less coal, gas, etc. Why they (organizations such as Greenpease, activists) never promote this? In contrast with substitution of hydrogen for gasoline, substituting HTML5+ and constrained plugins for JavaScript in WEB-clients (to make WEB-clients less vulnerable) seems to be very easy task.</p>
-  <p>Software architects sometime choose creating new own parts for the only reason - they must be totally ours. Maybe it's a company politic - no advertising of free software.</p>
-  <p>Part of Java EE WEB-part: servlets, JSP... are the best alternative not only for WEB-interface. Even JSP is the best mean to make JSON responses (see in Beige-EIS payment gateway response RESTFUL).
-  With servlets you can easy make any thing - RESTFUL API, any arbitrary XML, CSV, PDF... In the old times Spring MVC plus Hibernate overcame other JEE technologies including EJB because of the best performance. But MVC was actually JEE WEB part. Automatically filling of a model from a request - isn't a big deal.
+  <p>Real life example: the same bearing has been used for many years in many countries (car manufacturers) in car engines, in wheel hubs, etc. Internal combustion engine is the best alternative yet, but actually the best alternative is hydrogen powered fuel cells. But because of the very vast legacy of gasoline infrastructure, substituting hydrogen for gasoline seems to be a very difficult and expensive task. But it resolves the greenhouse gas (CO2) problem, because this is actually the best energy accumulation technology that allows to fire much less coal, gas, etc. Why do they (organizations such as Greenpease, activists) never promote this? In contrast with substitution of hydrogen for gasoline, substituting HTML5+ and constrained plugins for JavaScript in WEB-clients (to make WEB-clients less vulnerable) seems to be a very easy task.</p>
+  <p>Software architects sometimes choose creating new own parts for the only reason - they must be totally ours. Maybe it's company policy - no advertising of free software.</p>
+  <p>Part of Java EE WEB-part: servlets, JSP... are the best alternative not only for WEB-interface. Even JSP is the best approach to make JSON responses (see in Beige-EIS payment gateway response RESTFUL).
+  With servlets you can easily make anything - RESTFUL API, any arbitrary XML, CSV, PDF... In the old times Spring MVC plus Hibernate overcame other JEE technologies including EJB because of the best performance. But MVC was actually the JEE WEB part. Automatically filling a model from a request - isn't a big deal.
   Non-OOP Hibernate was turned into JPA.
-  In Beige-EIS WEB-store buyers requests processed by hand without any problem. Of course, it's used Beige-WEB for making the catalog, prices, etc. And Beige-WEB isn't only for automatically filling of models, it also allow to make reliable WEB-interface really quickly (almost automatically). Beige-WEB is based on own ORM that is different from Hibernate approach, but Beige-ORM approach is faster than Hibernate one and it's cross-platform (it's also fastest on Android for practical complex tasks).
+  In Beige-EIS WEB-store buyers requests are processed by hand without any problem. Of course, it's used by Beige-WEB for making the catalog, prices, etc. And Beige-WEB isn't only for automatically filling models, it also allows to make reliable WEB-interface really quickly (almost automatically). Beige-WEB is based on its own ORM that is different from Hibernate approach, but Beige-ORM approach is faster than Hibernate one and it's cross-platform (it's also fastest on Android for practical complex tasks).
   </p>
-  <p>You might heard about battlecode.org. They are chasing the highest performance in Java. They do not use even standard JSE collections, they use their own array-based collections. Is such approaches the best alternative for practical programming? Of course not, because at least they seem to be not simpler than JSE ones. Although JSE and JEE have hardly ever used parts. For example, JSP must be used only as view or for making any other response (e.g. JSON), so tags like SQL are the dead weight.</p>
+  <p>You might have heard about battlecode.org. They are chasing the highest performance in Java. They do not use even standard JSE collections, they use their own array-based collections. Is such approaches the best alternative for practical programming? Of course not, because at least they seem to be not simpler than JSE ones. Although JSE and JEE have hardly ever used parts. For example, JSP must be used only as a view or for making any other response (e.g. JSON), so tags like SQL are the dead weight.</p>
   
   <h4>5. Wrappers.</h4>
-  <p>Wrappers reuse a code and add functionality or/and adapt to new interface.</p>
-  <p><b>* This is not about JSE wrappers such as Integer that wraps primitive int type.</b></p>
-  <p>For OOP this is the best "extending" approach. If you extend a non-abstract class in Java, then code-style or findbug will warn "extending a class several times reduce performance".
-  This is also only approach for adding/removing functionality during runtime.
+  <p>Wrappers reuse code and add functionality or/and adapt to new interface/s.</p>
+  <p><b>* This is not about JSE wrappers such as Integer that wraps the primitive int type.</b></p>
+  <p>For OOP this is the best "extending" approach. If you extend a non-abstract class in Java, then code-style or findbug will warn "extending a class several times reduces performance".
+  This is also the only approach for adding/removing functionality during runtime.
   </p>
   <p>
     OOP patterns that follow to this approach: 
@@ -133,6 +134,129 @@ void
   }
 }
 </pre>
+  </p>
+  
+  <h4>6. Delegate.</h4>
+  <p>Delegate is a method or an object with methods that passed as a parameter to handle a job.</p>
+  <p>Common types of delegates:</p>
+  <p><b>a) Iterable delegates. These are comparators, consumers, etc.</b>
+  </p>
+  <p>Examples in C:
+<pre style="white-space: pre-wrap;">
+#include &lt;stdlib.h&gt;
+void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
+</pre>
+See https://github.com/demidenko05/bsdict/blob/master/dict/BsDicWord.h:
+<pre style="white-space: pre-wrap;">
+/**
+ * &lt;p&gt;Type-unsafe consumer of just read dic.word.&lt;/p&gt;
+ * @param pRdWrd - just read d.word to consume
+ * @param pInst - instrument to consume d.word
+ * @return 0 to continue iteration, otherwise stop iteration
+ * @set errno if error.
+ **/
+typedef int BsDicWord_Consume_Tus(BsDicWord *pRdWrd, void *pInst);
+
+/**
+ * &lt;p&gt;
+ * Type-unsafe iterator trough whole dictionary, just read dic.word will be consumed
+ * by given consumer, if consumer returned non-zero, then iteration will stop.
+ * Client must invoke another type-safe wrapper of this iterator.
+ * &lt;/p&gt;
+ * @param pDicFl - opened unwound dictionary file
+ * @param pDeBufSz - client expected/predicted this max entry size in dictionary
+ * @param pWd_Csm - dic.word consumer
+ * @param pInst - instrument to consume d.word
+ * @return BSR_OK_END or consumer's last return value, e.g. BSR_OK_ENOUGH or errno
+ * @set errno if error.
+ **/
+typedef int BsDicWord_Iter_Tus(FILE *pDicFl, int pDeBufSz, BsDicWord_Consume_Tus *pWd_Csm, void *pInst);
+</pre>
+
+  </p>
+  <p>Examples in Java:
+<pre style="white-space: pre-wrap;">
+java.util.List.sort(Comparator&lt;? super E&gt; c);
+</pre>  
+  </p>
+  <p><b>b) Event handle delegates. These are handlers, observers, listeners, callbackers (these are synonyms).</b>
+  </p>
+  <p>Examples in Java:
+  see  Dialog (Confirmation) in https://github.com/demidenko05/beige-uml/blob/master/beige-swing-lib/src/main/java/org/beigesoft/service/swing/SrvDialog.java:
+<pre style="white-space: pre-wrap;">
+package org.beigesoft.service.swing;
+
+import java.awt.Frame;
+import javax.swing.JOptionPane;
+import org.beigesoft.handler.IConsumer;
+import org.beigesoft.handler.IHandlerConfirm;
+import org.beigesoft.ui.service.ISrvDialog;
+
+public class SrvDialog implements ISrvDialog&lt;Frame&gt; {
+
+  @Override
+  public void confirm(Frame frame, String msg, String title, IHandlerConfirm handlerConfirm) {
+    int rez = JOptionPane.showConfirmDialog(frame, msg, title, 
+        JOptionPane.YES_NO_OPTION, 
+        JOptionPane.QUESTION_MESSAGE);
+    if(rez == JOptionPane.YES_OPTION) {
+      handlerConfirm.handleConfirm(true);
+    }
+    else if(rez == JOptionPane.NO_OPTION) {
+      handlerConfirm.handleConfirm(false);
+    }
+  }
+
+  @Override
+  public void showAndGetString(Frame frame, String msg, String title, IConsumer&lt;String&gt; consumerString) {
+     String result = JOptionPane.showInputDialog(frame, 
+        msg, title);
+     consumerString.consume(result);
+  }
+  ...
+}
+</pre>
+Here SWING (actually GTK) is probably based on Mediator Pattern, so JOptionPane.showConfirmDialog will freeze the program until the user clicks Yes or No.
+In opposite to this, Android uses exactly Handler Pattern, i.e. without waiting (freezing),
+see https://github.com/demidenko05/beige-uml/blob/master/beige-android-lib/src/main/java/org/beigesoft/android/ui/service/SrvDialog.java
+there android.app.AlertDialog uses exactly YES or NO Handlers:
+<pre style="white-space: pre-wrap;">
+package org.beigesoft.android.ui.service;
+
+import org.beigesoft.android.R;
+import org.beigesoft.android.ui.ListenerConfirmDialogNo;
+import org.beigesoft.android.ui.ListenerConfirmDialogYes;
+import org.beigesoft.android.ui.widget.DialogInputString;
+import org.beigesoft.handler.IConsumer;
+import org.beigesoft.handler.IHandlerConfirm;
+import org.beigesoft.ui.service.ISrvDialog;
+import android.app.Activity;
+import android.app.AlertDialog.Builder;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
+public class SrvDialog implements ISrvDialog&lt;Activity&gt; {
+
+  @Override
+  public void confirm(Activity activity, String msg, String title, IHandlerConfirm handlerConfirm) {
+    AlertDialog.Builder builder = new Builder(activity);
+    builder.setCancelable(false);
+    builder.setMessage(msg).setTitle(title);
+    builder.setPositiveButton(R.string.yes, new ListenerConfirmDialogYes(handlerConfirm));
+    builder.setNegativeButton(R.string.no, new ListenerConfirmDialogNo(handlerConfirm));
+    builder.show();
+  }
+
+  @Override
+  public void showAndGetString(Activity activity, String msg, String title, IConsumer&lt;String&gt; consumerString) {
+    DialogInputString dialogInputString = new DialogInputString(consumerString);
+    dialogInputString.setTitle(title);
+    dialogInputString.setMessage(msg);
+    dialogInputString.show(activity.getFragmentManager(), DialogInputString.class.getSimpleName());
+...
+  }
+</pre>
+So Mediator is an anti-pattern, at least for using it in this way (waiting for something by stopping the program is the old method, it's still used in Linux Kernel (don't remember there)).
   </p>
   
   <p>References:
