@@ -253,14 +253,75 @@ public class SrvDialog implements ISrvDialog&lt;Activity&gt; {
     dialogInputString.setTitle(title);
     dialogInputString.setMessage(msg);
     dialogInputString.show(activity.getFragmentManager(), DialogInputString.class.getSimpleName());
-...
   }
+  ...
+}
 </pre>
-So Mediator is an anti-pattern, at least for using it in this way (waiting for something by stopping the program is the old method, it's still used in Linux Kernel (don't remember there)).
+So Mediator is an anti-pattern, at least for using it in this way (waiting for something by stopping the program is the old method, it's still used in Linux Kernel (don't remember where it is)).
   </p>
+  
+  <h4>Creation patterns.</h4>
+  <p><b>a) Concrete object creation</b></p>
+  <p>It's used directly in a part with using that object (client do not need an abstraction of an object), and it's used in factories (client needs an abstraction of an object)</p>
+  <p>a1) Constructor. This is the best alternative in the most cases to create concrete object. It's used in both functional and OOP styles. Setters is used for setting non-final object's properties. If creating an object seems to be complex (there are a lot of final properties), then Builder might be the best choice.</p>
+  <p>a2) Concrete objects Builders - is a separated from an object part that holds all creation logic. This is an additional class (OOP) that holds all creation logic. In case of a complex object it saves resources (object in OOP doesn't have pointers to creation methods). Using builders everywhere seems to be exactly Part-Assemble approach, but in simple cases it's excessive (more complex), in OOP a constructor must be.</p>
+
+  <p><b>b) Abstract object creation</b></p>
+  <p>Clients never knows (and care) which concrete object should be created, e.g. an user wants to add a circle into the canvas, it choose menu->add circle, then client invokes the factory's method <b>IShape createShape(String pType)</b> where pType="circle".</p>
+  <b>b1) Factory's methods for creating/building abstract objects.</b>
+  <p>In C example see https://github.com/demidenko05/bsdict/blob/master/dict/BsDicObj.h creating and filling OOP-like object methods:
+<pre style="white-space: pre-wrap;">
+/**
+ * &lt;p&gt;Generic, type-safe assembly of text/audio/both/... dictionary
+ * with cached IDX head and methods (OOP like object).
+ * This is interface for high level GUI.
+ * This exposes abstractions (data and methods) that GUI needs.&lt;/p&gt;
+ * @member nme - file name plus state - e.g. indexing..., it will be hided in GUI with opened diIx-head-&gt;nme
+ * @member pth - file path either from bsdict.conf or that user chose
+ * @member opSt - opening shared data
+ * @member pref - user preferences
+ * @member diIx - text/audio/both/... dictionary with cached IDX head
+ * @method diix_destroy - destroyer
+ * @method diixfind_mtch - finder of matched words
+ * @method diix_read - reader of content of found word
+ **/
+typedef struct {
+  BsString *nme;
+  BsString *pth;
+  BsDiIxOst *opSt;
+  BsDiPref *pref;
+  BsDiIxBs *diIx;
+  BsDiIx_Destroy *diix_destroy;
+  BsDiIxFind_Mtch *diixfind_mtch;
+  BsDiIx_Read *diix_read;
+} BsDicObj;
+
+/**
+ * &lt;p&gt;Constructor.&lt;/p&gt;
+ * @param pPth - just chosen path
+ * @param pIsIxRm - client prefers IRT (index records table) in memory (RAM) than in file
+ * @return object or NULL when error
+ * @set errno if error.
+ **/
+BsDicObj* bsdicobj_new (char *pPth, bool pIsIxRm);
+
+/**
+ * &lt;p&gt;Generic opener (load or create) of DIC IDX with methods object.&lt;/p&gt;
+ * @param pDiObj - dictionary object to open.
+ * @clear errno if error with reporting
+ **/
+void bsdicobj_open (BsDicObj* pDiObj);
+</pre>
+  </p>
+  <p>For Java see https://github.com/demidenko05/beige-uml/tree/master/beige-uml-android/src/main/java/org/beigesoft/uml/factory/android objects factories package which size is 252.1 KiB (i.e. 63% of 399.7 KiB total Java source code).</p>
+  <p>Beige-BLC uses a lot of abstract objects factories, because it's more flexible for extending/changing functionality. Abstraction always means flexible.
+  See https://github.com/demidenko05/beige-blc/tree/master/src/main/java/org/beigesoft/fct package where sub-factories produce abstract converters, processors, etc, and the main application factory produces all sub-factories and services by using Object's Name as a parameter and returns super-abstraction - java.lang.Object.
+  </p>
+  <p>Factories is the more flexible, fast, powerful and cross-platform approach than IOC(CDI) containers. In case of never stop enterprise application, factories can implement any hot fixing logic.</p>
   
   <p>References:
   <ul>
+    <li>https://en.wikipedia.org/wiki/Builder_pattern</li>
     <li>https://www.oodesign.com</li>
   </ul>
   </p>
