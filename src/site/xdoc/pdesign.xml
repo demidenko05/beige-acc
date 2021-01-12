@@ -28,7 +28,7 @@
       <li>Flyweight Pattern - several objects share only basic logic(part), e.g. a "solder renderer" is shared between final solder objects that have non-shared data - current position, see https://www.oodesign.com/flyweight-pattern-wargame-example-java-sourcecode.html. Of course having in each solder object duplicate data about the rendering solder's shape is a regular error.</li>
       <li>...</li>
     </ul>
-    OOP means "encapsulation", so in the old days programmers often filled "Objects" as much as possible, which is why those OOP design patterns came about. 
+    OOP means "encapsulation", so in the old days programmers often filled "Objects" as much as possible, that is why those OOP design patterns came about. 
   </p>
   
   <p>You can look at https://github.com/demidenko05/beige-uml source that is a very good example of "part-assemble" approach.
@@ -216,7 +216,7 @@ public class SrvDialog implements ISrvDialog&lt;Frame&gt; {
   ...
 }
 </pre>
-Here SWING (actually GTK) is probably based on Mediator Pattern, so JOptionPane.showConfirmDialog will freeze the program until the user clicks Yes or No.
+Here SWING (actually GTK) is not based on Handler Pattern, so JOptionPane.showConfirmDialog will freeze the program until the user clicks Yes or No.
 In opposite to this, Android uses exactly Handler Pattern, i.e. without waiting (freezing),
 see https://github.com/demidenko05/beige-uml/blob/master/beige-android-lib/src/main/java/org/beigesoft/android/ui/service/SrvDialog.java
 there android.app.AlertDialog uses exactly YES or NO Handlers:
@@ -257,17 +257,17 @@ public class SrvDialog implements ISrvDialog&lt;Activity&gt; {
   ...
 }
 </pre>
-So Mediator is an anti-pattern, at least for using it in this way (waiting for something by stopping the program is the old method, it's still used in Linux Kernel (don't remember where it is)).
+Waiting for something by stopping the program is the old method, it's still used in Linux Kernel (don't remember where it is)).
   </p>
   
-  <h4>Creation patterns.</h4>
+  <h4>7. Creation patterns.</h4>
   <p><b>a) Concrete object creation</b></p>
   <p>It's used directly in a part with using that object (client do not need an abstraction of an object), and it's used in factories (client needs an abstraction of an object)</p>
-  <p>a1) Constructor. This is the best alternative in the most cases to create concrete object. It's used in both functional and OOP styles. Setters is used for setting non-final object's properties. If creating an object seems to be complex (there are a lot of final properties), then Builder might be the best choice.</p>
-  <p>a2) Concrete objects Builders - is a separated from an object part that holds all creation logic. This is an additional class (OOP) that holds all creation logic. In case of a complex object it saves resources (object in OOP doesn't have pointers to creation methods). Using builders everywhere seems to be exactly Part-Assemble approach, but in simple cases it's excessive (more complex), in OOP a constructor must be.</p>
+  <p>a1) Constructor. This is the best alternative for most cases to create concrete objects. It's used in both functional and OOP styles. Setters are used for setting non-final object's properties. If creating an object seems to be complex (there are a lot of final properties), then Builder might be the best choice.</p>
+  <p>a2) Concrete objects Builders - is separated from an object part that holds all creation logic. This is an additional class (OOP) that holds all creation logic. In case of a complex object it saves resources (object in OOP doesn't have pointers to creation methods). Using builders everywhere seems to be exactly the Part-Assemble approach, but in simple cases it's excessive (more complex), in OOP a constructor must be.</p>
 
   <p><b>b) Abstract object creation</b></p>
-  <p>Clients never knows (and care) which concrete object should be created, e.g. an user wants to add a circle into the canvas, it choose menu->add circle, then client invokes the factory's method <b>IShape createShape(String pType)</b> where pType="circle".</p>
+  <p>Clients never know (and care) which concrete object should be created, e.g. an user wants to add a circle into the canvas, it choose menu->add circle, then client invokes the factory's method <b>IShape createShape(String pType)</b> where pType="circle".</p>
   <b>b1) Factory's methods for creating/building abstract objects.</b>
   <p>In C example see https://github.com/demidenko05/bsdict/blob/master/dict/BsDicObj.h creating and filling OOP-like object methods:
 <pre style="white-space: pre-wrap;">
@@ -314,14 +314,20 @@ void bsdicobj_open (BsDicObj* pDiObj);
 </pre>
   </p>
   <p>For Java see https://github.com/demidenko05/beige-uml/tree/master/beige-uml-android/src/main/java/org/beigesoft/uml/factory/android objects factories package which size is 252.1 KiB (i.e. 63% of 399.7 KiB total Java source code).</p>
-  <p>Beige-BLC uses a lot of abstract objects factories, because it's more flexible for extending/changing functionality. Abstraction always means flexible.
+  <p>Beige-BLC uses a lot of abstract objects factories, because it's more flexible for extending/changing functionality. Abstraction always means "it's flexible".
   See https://github.com/demidenko05/beige-blc/tree/master/src/main/java/org/beigesoft/fct package where sub-factories produce abstract converters, processors, etc, and the main application factory produces all sub-factories and services by using Object's Name as a parameter and returns super-abstraction - java.lang.Object.
   </p>
-  <p>Factories is the more flexible, fast, powerful and cross-platform approach than IOC(CDI) containers. In case of never stop enterprise application, factories can implement any hot fixing logic.</p>
+  <p>Factories is the more flexible, fast, powerful and cross-platform approach than IOC(CDI) containers. In case of never stopping enterprise applications, factories can implement any hot fixing logic.</p>
+  <p><b>c) Other methods (OOP).</b> Factories without static methods seem to be the best alternative.</p>
+  <p>c1) Singleton (OOP). This is creating an only instance of a class by using the static way.</p>
+  
+  <h4>8. Lazy initializing (proxy).</h4>
+  <p>This is about creating (allocating memory, etc.) desired object/s on demand. Otherwise unneeded objects waste your time and resources (memory). Factories and IOC(CDI) use (must) this approach.</p>
+  <p>ORM (Hibernate, etc) uses lazy initialization for retrieving desired object's tree in a flexible way. On one hand it's easy for changing business logic (simply change a JSP page). In other hand DB connection is opened during a whole request. It also takes a lot of SQL requests to retrieve desired data. Beige-ORM doesn't use this approach, it retrieves only needed data by using a single big SQL query, so it's faster.</p>
   
   <p>References:
   <ul>
-    <li>https://en.wikipedia.org/wiki/Builder_pattern</li>
+    <li>https://en.wikipedia.org/wiki/Design_Patterns</li>
     <li>https://www.oodesign.com</li>
   </ul>
   </p>
