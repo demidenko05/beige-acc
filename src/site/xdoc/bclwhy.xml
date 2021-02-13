@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="Why should you choose Beigesoft™ software (libraries).">
+    <h3>Why should you choose Beigesoft™ software (libraries)</h3>
 
     <p>
       First, an application based on Beigesoft™ libraries works anywhere. The all parts - ORM, PDF Writer (reporting tool), WEB-interface work on standard Java as well as on Android one.
@@ -40,8 +40,89 @@
       The last time when the Law hits such ugly things in the IT sphere was the "data privacy". Many business owners bore direct losses because of it, for example imposing additional fees to prevent publishing WHOIS information.
       In other hand, there are software with "non-proper" or "unclear" licenses and authors. Just take a look inside an open-source software, and you might find a part with a non-free or unclear license.
     </p>
-    </section>
-
+    
+    <h4>Why Beige-WEB is a good choice? Server-side WEB interface vs Client side.</h4>
+    <p>Dynamic WEB interface is built by usually on server side, or on client. Both are the same years old.</p>
+    <p>Server side: CGI-BIN (C, PERL,...), PHP, ASP, JSP, ASPX, JEE based Apache Velocity and Wicket; new modern JEE based Thymeleaf, etc. They generate and send whole HTML pages - data and widgets.</p>
+    <p>Client side: a) JavaScript-based: JEE based GWT and JSF, Angular; new modern Node, React, Vue, ...  ; b) WEB-browser's plugin-based.
+      Server side send only dynamically data (usually as JSON responses) and static HTML template (usually consist of JS library), any server side applications (PHP, JSP...) can do this,
+      i.e. retrieve requested data then send it as a JSON response.
+      Client-side WEB-browser plugin or JS library sends request for data, then render widgets (forms, lists) by changing HTML template page dynamically.
+      See for example how to render a data-grid by JS on WEB-browser side: https://js.devexpress.com/Demos/WidgetsGallery/Demo/DataGrid/Overview/AngularJS/Light/.
+      Thanks to Google everyone uses its HTML docs. Google boosted JS very hard. So client side JS method took a really huge part of WEB-interfaces.
+    </p>
+    <p>
+      Anyway there are many cases when both methods are used together, i.e. building dynamic HTML on both client and server sides.
+      For example Beige-EIS for WEB-store uses pure JSP even without AJAX. But payment gateway PayPal probably uses client side JS dynamic WEB. 
+    </p>
+    <p>Beige-WEB uses server-side JSP pages to generate whole HTML pages or part of them (i.e. data plus HTML tags).
+      Beige-WEB uses AJAX requests and JSON responses that modifies HTML page (both widgets and data) partially, i.e. when you push the <b>save</b> button,
+      then it will send AJAX request, then a received JSON multi-target response will be used to refresh the form, the underlying list,
+      popup message (e.g. update success) and other things that are included into this JSON response.
+      Using AJAX and JSON allows to reduce traffic, i.e. it's faster then refreshing the whole page on form submit.
+      See for example <b>beige-web/src/main/webapp/WEB-INF/jsp/esj.jsp</b>:
+<pre style="white-space: pre-wrap;">
+&lt;%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%&gt;
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+&lt;%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %&gt;
+&lt;jsp:include page="tml/var.jsp"/&gt;
+&lt;jsp:useBean id="usdDp" class="java.util.HashMap" scope="request"/&gt;
+&lt;c:set var="ent" value="${rvs.uvs.ent}" scope="request"/&gt;
+&lt;c:set var="frPlNm" value="frmMnPl" scope="request"/&gt;
+&lt;c:set var="frAct" value="srv" scope="request"/&gt;
+&lt;c:import url="/WEB-INF/jsp/tml/ed.jsp" varReader="rdEdEn" charEncoding="UTF-8"&gt;
+{"mlTrRsp":
+  [{"trgNm": "${frPlNm}", "cont": "${utJsp.toJsonStrCls(rdEdEn)}",
+    "trgPrNm": null, "jscr": null}
+    &lt;c:set var="jscr" value="${hldUvd.setJs(rvs,usdDp,frPlNm)}bsOpnDlg('${frPlNm}EdDlg');"/&gt;
+    &lt;c:if test="${not empty rvs.msgSuc}"&gt;
+      &lt;c:set var="jscr" value="${jscr}bsShwSuc('${i18n.getMsg(rvs.msgSuc, rvs.upf.lng.iid)}');"/&gt;
+    &lt;/c:if&gt;
+    &lt;c:if test="${not empty rvs.msgWrn}"&gt;
+      &lt;c:set var="jscr" value="${jscr}bsShwWrn('${i18n.getMsg(rvs.msgWrn, rvs.upf.lng.iid)}');"/&gt;
+    &lt;/c:if&gt;
+    &lt;c:if test="${not empty rvs.msgErr}"&gt;
+      &lt;c:set var="jscr" value="${jscr}bsShwErr('${i18n.getMsg(rvs.msgErr, rvs.upf.lng.iid)}');"/&gt;
+    &lt;/c:if&gt;
+    &lt;c:if test="${not empty numJsAf}"&gt;
+      &lt;c:set var="jscr" value="${jscr}${numJsAf}"/&gt;
+    &lt;/c:if&gt;
+    &lt;c:set var="lsPlNm" value="lstMnPl" scope="request"/&gt;
+    &lt;c:set var="prfFlOrFrm" value="${lsPlNm}" scope="request"/&gt;
+    &lt;c:set var="rndLst" value="lj" scope="request"/&gt;
+    &lt;c:import url="/WEB-INF/jsp/tml/lst.jsp" varReader="rdEnts" charEncoding="UTF-8"&gt;
+      ,{"trgNm": "${lsPlNm}lst", "cont": "${utJsp.toJsonStrCls(rdEnts)}",
+        "trgPrNm": null, "jscr": "${utJsp.toJsonStr(jscr)}"}
+    &lt;/c:import&gt;
+  ]
+}
+&lt;/c:import&gt;
+</pre>
+      This response refreshes entity form (created by <b>jsp/tml/ed.jsp</b> from the passed by the business service the entity model)
+      in HTML page inside <b>DIV</b> target with ID=<b>${frmMnPl}</b>. And it so does for the entities list. JSON response also consists of JavaScripts, i.e. show error/warn/success message and open the modal form.
+    </p>
+    <p>Which method are the best? First, ignore buzz words such as "modern", "newest" (maybe someones use even "cutting age", "ground breaking" for their libs).
+      Ordinary competition (contest) can give a precise answer, so just try different approaches (libs) for real-world complex tasks. For example the invoice and its item forms in Beige-WEB are changed dramatically depending on: a) taxable or not, b) taxes included in price c) taxes item/invoice based d) cumulative tax rate or not.
+      A WEB-store list can show items in very complex way depending of many things. Also try to make generic viewer (rendering entities forms and lists with filters according to settings) similar to Beige-WEB.
+      A lot of new libs and frameworks infest, but they do not always impress at second deep look.
+    </p>
+    <p>Client side disadvantages:
+      <ul>
+        <li>I18n - you have to upload all vocabulary(s) into browser</li>
+        <li>you often should pass to browser settings for rendering, so it's no good if you do not want to expose some settings for rendering widgets (e.g. depending on the logged user).</li>
+        <li>again, rendering logic can be very complex and changeable, so using server-side is surely more easy and faster for it.</li>
+        <li>for JS - you face too huge JS libs.</li>
+        <li>for JS - look inside Beige-WEB(exactly EIS), it often uses BigDecimal expressions in JSP. In contrast to it, JavaScript has a lot of danger features (flexibility, JIT), but has no many very needed things such as Decimal type. You will get troubles by using float type in Math expressions, so you have to use additional JS library for it.</li>
+      </ul>
+    </p>
+    <p>Server side disadvantages:
+      <ul>
+        <li>Data and widgets are coupled together (classic HTML), so it increases traffic in many cases in contrast to client-side approach. For many cases such as Beige-WEB (i.e. accounting software UI), separating VIEW and DATA in presentation phase is a good way, but it should be an HTML5+ (any extension or plugin) for this, not JS.
+          In case of WEB-store, only items images usually do matter for increasing traffic, and huge items descriptions also have more weight than HTML tags.
+        </li>
+      </ul>
+    </p>
+    
   </body>
 
 </document>
