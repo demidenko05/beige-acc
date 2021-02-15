@@ -306,6 +306,11 @@
     </plugins>
   </build>
   
+  <organization>
+    <name>Beigesoft™</name>
+    <url>https://sites.google.com/site/beigesoftware</url>
+  </organization>
+
   <developers>
     <developer><name>Yury Demidenko</name></developer>
   </developers>
