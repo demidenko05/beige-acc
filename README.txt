@@ -1,4 +1,4 @@
-site: https://sites.google.com/site/beigesoftware
+site: https://demidenko05.github.io/beige-acc/
 
 Beigesoft™ Enterprise Information System Java code.
 It consists of double entry accounting and trading (web-store) business logic.
@@ -15,7 +15,7 @@ mvn site:site
 
 license / лицензия:
 BSD 2-Clause License
-https://sites.google.com/site/beigesoftware/bsd2csl
+https://github.com/demidenko05/beige-acc/blob/master/LICENSE
 
 It's based on previous beigesoft-accounting and beigesoft-webstore projects.
 

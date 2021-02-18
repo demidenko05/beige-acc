@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/navbar-top.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark sidebar bg-dark mb-4">
+      <div class="container-fluid">
+        <a href="index.html" class="navbar-brand navbar-brand-img"><img src="images/logo.png"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Articles</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                <li><a class="dropdown-item" href="eis-bobs-pizza.html">Beigesoft™ EIS, Bob's pizza example</a></li>
+                <li><a class="dropdown-item" href="eis-iv.html">Пример ведения коммерческого бухгалтерского учета в Беижсофт™ ИСП</a></li>
+                <li><a class="dropdown-item" href="blcexmplen.html">Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications</a></li>
+                <li><a class="dropdown-item" href="blcexmplru.html">Беижсофт™ библиотеки для быстрой разработки кроссс-платформенного финансового ПО с ВЕБ-интерфейсом</a></li>
+                <li><a class="dropdown-item" href="data-protect.html">Data protection</a></li>
+                <li><a class="dropdown-item" href="bslfsc.html">Beigesoft™ Linux From Source Code</a></li>
+                <li><a class="dropdown-item" href="bslfscru.html">Беижсофт™ Линукс из исходных кодов</a></li>
+                <li><a class="dropdown-item" href="bs-ctsp-in-c.html">Type-safe programming complex high-level applications in C</a></li>
+                <li><a class="dropdown-item" href="pdesign.html">Programming approaches</a></li>
+                <li><a class="dropdown-item" href="bsplay.html">Beigesoft™ multimedia player</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Info</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                <li><a class="dropdown-item" href="privacypolicy-en.html">Beigesoft™ Enterprise Information System Privacy Policy</a></li>
+                <li><a class="dropdown-item" href="privacypolicy-ru.html">Беижсофт™ Информационная Система Предприятия Политика конфиденциальности</a></li>
+                <li><a class="dropdown-item" href="license-eis.html">Beigesoft™ Enterprise Information System License</a></li>
+                <li><a class="dropdown-item" href="beigekeys.html">Beigesoft™ digital signatures</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.facebook.com/Beigesoft-Accounting-All-In-One-401150900677249">Page on Facebook</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+
+<h3>Beigesoft™ Enterprise Information System. Privacy Policy.</h3>
+<h4>Beigesoft™ EIS all versions.</h4>
+<p>  
+  Beigesoft™ EIS stores your information in database files. Log files may also contain private information.
+</p>
+<p>
+  If you enable the "Show debugging messages" setting, then the log files logStd0.log and logStd1.log will contain private information. When you are going to transfer these Log files to a third party (for example, to the programmer serving this software), then you need to delete all private information from these files.
+</p>
+<p>
+  Beigesoft™ EIS is based on the WEB interface, you need to use the latest version of a reliable Web Browser. You better refuse to install any extensions or plug-ins for the Web browser.
+</p>
+
+<h4>Beigesoft™ EIS standalone versions.</h4>
+<p>
+  These versions are based on the built-in private A-Jetty Web server. This private Web Server is not accessible outside of your computer or Android device. These versions require authorization with a strong password (you create a password yourself, and the software controls its reliability). These versions allow a maximum of 6 failed authorization attempts. Access will be blocked for 15 minutes in case of 6 unsuccessful login attempts. You need to periodically check the logSec.log file for authorization information. These versions use modern encryption of data passing from the server to the browser (HTTPS connection) and exchanged files (databases and log files). These versions allow you to work with several databases, you can create, switch, delete and encrypt databases by using the Web interface. You can use encryption (Web interface) for a transferred database.
+</p>
+
+<h4>Beigesoft™ EIS on embedded A-Jetty for a computer.</h4>
+<p>
+  Your information is located in the database file, by default - "webapp/bseis.sqlite". You can copy the database file to any other place (closed from public access) by using a file manager. The keystore for encryption is located in the "ks" folder. This  keystore is protected by a strong password (which you also create). You must use a strong password for authorization in your operating system. It would be better, when you set a password for starting your computer.
+  You can not use the A-Jetty SSL (HTTPS) certificate for any Internet resource (site or WEB-service).
+</p>
+
+<h4>Beigesoft™ EIS on embedded A-Jetty for Android.</h4>
+<p>
+Your information (SQLite database), logStd.log, logSec.log, keystore are in the place that is inaccessible to other software. If you forget the keystore or the application password, then you will lose your information. Therefore, you need to periodically make  a copy of the database into Google Drive. In addition, you can use encryption for the database, but this is appropriate when you send an encrypted database into Beigesoft™ EIS that is installed on a computer in protected from light harmful software way, or for sharing the database between Android devices via the shared storage (not via Google Drive). Never use the shared storage for exporting or importing non-encrypted private information.
+</p>
+<p>
+This application has no direct  access to your files on Google Drive, that is it can not list or read them. It only asks Google Drive Application for sending or receiving a file interactively, that is with user (your) confirmation.  
+</p>
+<p>
+PDF reports will be downloaded into the Downloads shared folder, so avoid installing unnecessary applications that require access to the storage. When you connect your Android device to a computer in file sharing mode, then any application on the computer will have direct access to these files. You need to delete these PDF files from the shared storage after viewing them.
+</p>
+<p>
+When all Android applications will be forced to use the "SCOPED STORAGE", then they will have only interactive access to files in the Downloads folder.  
+</p>
+<p>
+When your browser will pass a PDF file to a PDF viewer via the secure transport (not via shared Download folder), then all other applications will have no access to your PDF files.
+</p>
+<p>
+This application has no direct access to files on the shared storage. You can use the shared storage (just choose it instead of Google Drive) for exporting and importing non-private information (such as ajetty-ca#.pem) or encrypted private one.
+</p>
+<p>
+You also need to set a screen lock, such as a PIN code.
+</p>
+
+<h4>Beigesoft™ EIS cloud version.</h4>
+<p>
+  Protecting data published on the Internet is a difficult task. You should use this version only if necessary. You yourself must ensure the reliability of authorization (passwords) and encryption (HTTPS connection) of the transmitted data.
+</p>
+
+<p><a href="privacypolicy-ru.html">Беижсофт™ ИСП. Политика конфиденциальности.</a></p>
+
+    <footer class="blog-footer">
+      Copyright &#169; 2016 <a href="https://demidenko05.github.io/beige-acc/">Beigesoft™</a> All rights reserved.      
+    </footer>
+
+    </main>
+
+  </body>
+
+</html>

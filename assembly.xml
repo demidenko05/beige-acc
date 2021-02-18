@@ -13,6 +13,7 @@
       <useDefaultExcludes>false</useDefaultExcludes>
       <includes>
         <include>${file.separator}src${file.separator}**</include>
+        <include>${file.separator}docs${file.separator}**</include>
         <include>${file.separator}.gitignore</include>
         <include>${file.separator}README.txt</include>
         <include>${file.separator}LICENSE</include>
@@ -23,9 +24,11 @@
         <include>${file.separator}checkstyle-suppressions.xml</include>
       </includes>
       <excludes>
-        <exclude>${file.separator}src${file.separator}site${file.separator}gimp${file.separator}**</exclude>
-        <exclude>${file.separator}src${file.separator}site${file.separator}resources${file.separator}files${file.separator}**</exclude>
-        <exclude>${file.separator}src${file.separator}site${file.separator}resources${file.separator}images${file.separator}**</exclude>
+        <exclude>${file.separator}docs${file.separator}js${file.separator}**</exclude>
+        <exclude>${file.separator}docs${file.separator}css${file.separator}**</exclude>
+        <exclude>${file.separator}docs${file.separator}1.1${file.separator}**</exclude>
+        <exclude>${file.separator}docs${file.separator}files${file.separator}**</exclude>
+        <exclude>${file.separator}docs${file.separator}images${file.separator}**</exclude>
       </excludes>
     </fileSet>
   </fileSets>
