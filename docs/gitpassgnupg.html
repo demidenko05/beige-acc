@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/navbar-top.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark sidebar bg-dark mb-4">
+      <div class="container-fluid">
+        <a href="index.html" class="navbar-brand navbar-brand-img"><img src="images/logo.png"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Articles</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                <li><a class="dropdown-item" href="eis-bobs-pizza.html">Beigesoft™ EIS, Bob's pizza example</a></li>
+                <li><a class="dropdown-item" href="eis-iv.html">Пример ведения коммерческого бухгалтерского учета в Беижсофт™ ИСП</a></li>
+                <li><a class="dropdown-item" href="blcexmplen.html">Beigesoft™ libraries for rapid development of cross-platform financial WEB-applications</a></li>
+                <li><a class="dropdown-item" href="blcexmplru.html">Беижсофт™ библиотеки для быстрой разработки кроссс-платформенного финансового ПО с ВЕБ-интерфейсом</a></li>
+                <li><a class="dropdown-item" href="data-protect.html">Data protection</a></li>
+                <li><a class="dropdown-item" href="bslfsc.html">Beigesoft™ Linux From Source Code</a></li>
+                <li><a class="dropdown-item" href="bslfscru.html">Беижсофт™ Линукс из исходных кодов</a></li>
+                <li><a class="dropdown-item" href="bs-ctsp-in-c.html">Type-safe programming complex high-level applications in C</a></li>
+                <li><a class="dropdown-item" href="pdesign.html">Programming approaches</a></li>
+                <li><a class="dropdown-item" href="bsplay.html">Beigesoft™ multimedia player</a></li>
+                <li><a class="dropdown-item" href="gitpassgnupg.html">Using GnuPG as safe password manager for Git command-line over HTTPS in Linux</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Info</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                <li><a class="dropdown-item" href="privacypolicy-en.html">Beigesoft™ Enterprise Information System Privacy Policy</a></li>
+                <li><a class="dropdown-item" href="privacypolicy-ru.html">Беижсофт™ Информационная Система Предприятия Политика конфиденциальности</a></li>
+                <li><a class="dropdown-item" href="license-eis.html">Beigesoft™ Enterprise Information System License</a></li>
+                <li><a class="dropdown-item" href="beigekeys.html">Beigesoft™ digital signatures</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.facebook.com/Beigesoft-Accounting-All-In-One-401150900677249">Page on Facebook</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+
+    <h3>Using GnuPG as safe password manager for Git command-line over HTTPS in Linux.</h3>
+
+      <p><b>Keywords: GnuPG, password manager.</b></p>
+
+      <p>Github requires to use personal  access token in case of using Two-factor authentication (2FA).
+      Your generated token should be used as password. It's impossible to remember it by heart.
+      GnuPG seems to be the best alternative to store your passwords (tokens and over non-public information) in a safe way.
+      Password for encryption is actually a master password.</p>
+      
+      <p>First, make a gpg key-pair for signing and encryption purposes. It will show user ID.</p>
+      <p>
+        Second, encrypt password (token): copy it into STDIN (Ctrl+C), then run:
+<pre style="white-space: pre-wrap;">
+gpg -e -o [PATH_TO_ENCRYPTED_TOKEN] -r "[USER_ID]"
+</pre>
+paste the token with (Ctrl+Shift+V), then press Ctrl+D for ending input.
+      </p>
+      <p>
+        Third, add BASH file (flag executable=ON) with name git-credential-[HELPER_LAST_NAME] (without SH extension):
+<pre style="white-space: pre-wrap;">
+#!/bin/bash
+token=`gpg -d -r "[USER_ID]" [PATH_TO_ENCRYPTED_TOKEN] 2>/dev/null`
+echo protocol=https
+echo host=[YOUR_HOST]
+echo username=[YOUR_USER_NAME]
+echo password=$token
+</pre>
+Add the path to this file into variable PATH variable (in file ~/bashrc).
+Also add string "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password saver.
+      </p>
+      <p>
+        Forth, add this helper into git config:
+<pre style="white-space: pre-wrap;">
+git config credential.helper [HELPER_LAST_NAME]
+</pre>
+      </p>
+      <p>
+        References:
+        <ul>
+          <li>https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token</li>
+          <li>https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage</li>
+        </ul>
+      </p>
+
+      <footer class="blog-footer">
+        Copyright &#169; 2021 <a href="https://demidenko05.github.io/beige-acc/">Beigesoft™</a> All rights reserved.      
+      </footer>
+
+    </main>
+
+  </body>
+
+</html>
+
