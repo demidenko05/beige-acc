@@ -59,21 +59,21 @@
 
       <p><b>Keywords: GnuPG, password manager.</b></p>
 
-      <p>Github requires to use personal  access token in case of using Two-factor authentication (2FA).
-      Your generated token should be used as password. It's impossible to remember it by heart.
+      <p>Github requires to use a personal access token in case of using the Two-factor authentication (2FA).
+      Your generated token should be used as a password. It's impossible to remember it by heart.
       GnuPG seems to be the best alternative to store your passwords (tokens and over non-public information) in a safe way.
-      Password for encryption is actually a master password.</p>
+      GPG-key's password for encryption/decryption is actually a master password.</p>
       
-      <p>First, make a gpg key-pair for signing and encryption purposes. It will show user ID.</p>
+      <p>* First, make gpg key-pair for signing and encryption purposes. It will show its user ID.</p>
       <p>
-        Second, encrypt password (token): copy it into STDIN (Ctrl+C), then run:
+        * Second, encrypt a password (token): copy it into memory (Ctrl+C), then run:
 <pre style="white-space: pre-wrap;">
 gpg -e -o [PATH_TO_ENCRYPTED_TOKEN] -r "[USER_ID]"
 </pre>
 paste the token with (Ctrl+Shift+V), then press Ctrl+D for ending input.
       </p>
       <p>
-        Third, add BASH file (flag executable=ON) with name git-credential-[HELPER_LAST_NAME] (without SH extension):
+        * Third, add a BASH file (flag executable=ON) with name git-credential-[HELPER_LAST_NAME] (without SH extension):
 <pre style="white-space: pre-wrap;">
 #!/bin/bash
 token=`gpg -d -r "[USER_ID]" [PATH_TO_ENCRYPTED_TOKEN] 2>/dev/null`
@@ -82,13 +82,13 @@ echo host=[YOUR_HOST]
 echo username=[YOUR_USER_NAME]
 echo password=$token
 </pre>
-Add the path to this file into variable PATH variable (in file ~/bashrc).
-Also add string "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password saver.
+Add the path to this file into the environment variable PATH (in file ~/bashrc).
+Also add this string: "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password saver.
       </p>
       <p>
-        Forth, add this helper into git config:
+        * Forth, add this helper into git config:
 <pre style="white-space: pre-wrap;">
-git config credential.helper [HELPER_LAST_NAME]
+git config --global credential.helper [HELPER_LAST_NAME]
 </pre>
       </p>
       <p>
