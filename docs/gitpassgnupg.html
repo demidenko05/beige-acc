@@ -55,16 +55,16 @@
 
     <main class="container">
 
-    <h3>Using GnuPG as safe password manager for Git command-line over HTTPS in Linux.</h3>
+    <h3>Using GnuPG as a safe password manager for Git command-line over HTTPS in Linux.</h3>
 
-      <p><b>Keywords: GnuPG, password manager.</b></p>
+      <p><b>Keywords: GnuPG, password manager, Git Custom Credential Helper</b></p>
 
       <p>Github requires to use a personal access token in case of using the Two-factor authentication (2FA).
       Your generated token should be used as a password. It's impossible to remember it by heart.
       GnuPG seems to be the best alternative to store your passwords (tokens and over non-public information) in a safe way.
-      GPG-key's password for encryption/decryption is actually a master password.</p>
+      GPG-key's passphrase for encryption/decryption is actually a master password.</p>
       
-      <p>* First, make gpg key-pair for signing and encryption purposes. It will show its user ID.</p>
+      <p>* First, make new gpg key-pair for signing and encryption purposes. It will show its user ID.</p>
       <p>
         * Second, encrypt a password (token): copy it into memory (Ctrl+C), then run:
 <pre style="white-space: pre-wrap;">
@@ -83,7 +83,7 @@ echo username=[YOUR_USER_NAME]
 echo password=$token
 </pre>
 Add the path to this file into the environment variable PATH (in file ~/bashrc).
-Also add this string: "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password saver.
+Also add this string: "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password caching (see info/man gpg-agent).
       </p>
       <p>
         * Forth, add this helper into git config:
@@ -91,10 +91,12 @@ Also add this string: "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password s
 git config --global credential.helper [HELPER_LAST_NAME]
 </pre>
       </p>
+      <p>Disadvantage - gpg-agent serves a saved passphrase for any process under the current user, so if a swindler manage to run a process while your passphrase is cached, then it probably can decrypt and steal your information.
+        It's desirable that gpg-agent serves a passphrase depending on a process ID, i.e. if you run another shell (terminal), then gpg-agent will ask and save a passphrase only for this process. So set <b>default-cache-ttl</b> in <b>gpg-agent.conf</b> as minimum as possible.
+      </p>
       <p>
         References:
         <ul>
-          <li>https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token</li>
           <li>https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage</li>
         </ul>
       </p>
