@@ -92,7 +92,9 @@ git config --global credential.helper [HELPER_LAST_NAME]
 </pre>
       </p>
       <p>Disadvantage - gpg-agent serves a saved passphrase for any process under the current user, so if a swindler manage to run a process while your passphrase is cached, then it probably can decrypt and steal your information.
-        It's desirable that gpg-agent serves a passphrase depending on a process ID, i.e. if you run another shell (terminal), then gpg-agent will ask and save a passphrase only for this process. So set <b>default-cache-ttl</b> in <b>gpg-agent.conf</b> as minimum as possible.
+        It's desirable that gpg-agent serves a passphrase depending on a process ID, i.e. if you run another shell (terminal), then gpg-agent will ask and save a passphrase only for this process.
+        Or gpg-agent can use a simpler but still effective solution: gpg-agent always must highlight the use of cached passphrase, i.e. show a modal window about this.
+        So set <b>default-cache-ttl</b> in <b>gpg-agent.conf</b> as minimum as possible.
       </p>
       <p>
         References:
