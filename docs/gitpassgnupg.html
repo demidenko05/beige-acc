@@ -55,9 +55,11 @@
 
     <main class="container">
 
-    <h3>Using GnuPG as a safe password manager for Git command-line over HTTPS in Linux.</h3>
+    <h3>Using GnuPG as a safe password manager.</h3>
 
       <p><b>Keywords: GnuPG, password manager, Git Custom Credential Helper</b></p>
+
+      <h4>Using GnuPG-based password manager for Git command-line over HTTPS in Linux</h4>
 
       <p>Github requires to use a personal access token in case of using the Two-factor authentication (2FA).
       Your generated token should be used as a password. It's impossible to remember it by heart.
@@ -76,7 +78,7 @@ paste the token with (Ctrl+Shift+V), then press Ctrl+D for ending input.
         * Third, add a BASH file (flag executable=ON) with name git-credential-[HELPER_LAST_NAME] (without SH extension):
 <pre style="white-space: pre-wrap;">
 #!/bin/bash
-token=`gpg -d -r "[USER_ID]" [PATH_TO_ENCRYPTED_TOKEN] 2>/dev/null`
+token=`gpg -d -r "[USER_ID]" [PATH_TO_ENCRYPTED_TOKEN] 2&gt;/dev/null`
 echo protocol=https
 echo host=[YOUR_HOST]
 echo username=[YOUR_USER_NAME]
@@ -86,16 +88,67 @@ Add the path to this file into the environment variable PATH (in file ~/bashrc).
 Also add this string: "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password caching (see info/man gpg-agent).
       </p>
       <p>
-        * Forth, add this helper into git config:
+        * Fourth, add this helper into git config:
 <pre style="white-space: pre-wrap;">
 git config --global credential.helper [HELPER_LAST_NAME]
 </pre>
       </p>
       <p>Disadvantage - gpg-agent serves a saved passphrase for any process under the current user, so if a swindler manage to run a process while your passphrase is cached, then it probably can decrypt and steal your information.
         It's desirable that gpg-agent serves a passphrase depending on a process ID, i.e. if you run another shell (terminal), then gpg-agent will ask and save a passphrase only for this process.
-        Or gpg-agent can use a simpler but still effective solution: gpg-agent always must highlight the use of cached passphrase, i.e. show a modal window about this.
+        Or gpg-agent can use a simpler but still effective solution: gpg-agent always must highlight the use of a cached passphrase, i.e. show a modal window about this.
         So set <b>default-cache-ttl</b> in <b>gpg-agent.conf</b> as minimum as possible.
       </p>
+      <p>You can also us a symmetric keye for encryption.</p>
+
+      <h4>Using GnuPG-based password manager for Maven projects.</h4>
+
+      <p>Maven-based passwords encryption never ask you for a key to unlock passwords/keys. There is this project https://github.com/jelmerk/maven-settings-decoder
+        that can decrypt Maven passwords. GnuPG is a much more safe crypto system. Any way, using your only GPG key-payr's passphrase as a master-password seems to be very convenient.
+      </p>
+      <p>To make an encrypted password's file use this Bash script:
+<pre style="white-space: pre-wrap;">
+#!/bin/bash
+#set environment variable: GPG_USER_ID
+read -p "Enter encrypted password's file name: " epfile_name
+read -s -p "Enter password: " passw
+echo $passw | gpg -e -o $epfile_name -r "$GPG_USER_ID"
+</pre>
+        Make environment variable GPG_USER_ID for your GPG key-pair.
+      </p>
+      <p>
+        Use decrypted passwords(passphrases) via variables, e.g. for <b>maven-gpg-plugin</b> configuration in <b>pom.xml</b>:
+<pre style="white-space: pre-wrap;">
+...
+  &lt;configuration&gt;
+    &lt;keyname&gt;${gpgkeyname}&lt;/keyname&gt;
+    &lt;passphraseServerId&gt;GPGID1&lt;/passphraseServerId&gt;
+  &lt;/configuration&gt;
+...
+</pre>
+        and in <b>~/.m2/settings.xml</b>
+<pre style="white-space: pre-wrap;">
+&lt;settings&gt;
+  &lt;servers&gt;
+     &lt;server&gt;
+      &lt;id&gt;GPGID1&lt;/id&gt;
+      &lt;passphrase&gt;${gpgpass}&lt;/passphrase&gt;
+    &lt;/server&gt;
+    ...
+</pre>
+      </p>
+      <p>
+        Then make Bash script for building Maven project:
+<pre style="white-space: pre-wrap;">
+#!/bin/bash
+#set environment variables: GPG_USER_ID, GPG_KEY_NAME, JAR_KEY_ALIAS, JAR_PASS_PATH, GPG_PASS_PATH
+jarpassw=`gpg --no-verbose -d -r "$GPG_USER_ID" $JAR_PASS_PATH 2&gt;/dev/null`
+gpgpassw=`gpg --no-verbose -d -r "$GPG_USER_ID" $GPG_PASS_PATH 2&gt;/dev/null`
+mvn clean install -Prelease -Dsignpass=$jarpassw -Dsignalias=$JAR_KEY_ALIAS -Dgpgpass=$gpgpassw -Dgpgkeyname=$GPG_KEY_NAME
+</pre>
+        Make encrypted passwords files for JARSIGNER and GnuPG (in case if you are using another GPG-key-pair for signing this Maven project),
+        and add their path into environment variables.
+      </p>
+
       <p>
         References:
         <ul>
