@@ -31,7 +31,7 @@
                 <li><a class="dropdown-item" href="bs-ctsp-in-c.html">Type-safe programming complex high-level applications in C</a></li>
                 <li><a class="dropdown-item" href="pdesign.html">Programming approaches</a></li>
                 <li><a class="dropdown-item" href="bsplay.html">Beigesoft™ multimedia player</a></li>
-                <li><a class="dropdown-item" href="gitpassgnupg.html">Using GnuPG as safe password manager for Git command-line over HTTPS in Linux</a></li>
+                <li><a class="dropdown-item" href="gitpassgnupg.html">Using GnuPG as a safe password manager</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -59,7 +59,7 @@
 
       <p><b>Keywords: GnuPG, password manager, Git Custom Credential Helper</b></p>
 
-      <h4>Using GnuPG-based password manager for Git command-line over HTTPS in Linux</h4>
+      <h4>Using GnuPG-based password manager for Git command-line over HTTPS.</h4>
 
       <p>Github requires to use a personal access token in case of using the Two-factor authentication (2FA).
       Your generated token should be used as a password. It's impossible to remember it by heart.
@@ -91,6 +91,8 @@ Also add this string: "export GPG_TTY=$(tty)" into ~/bashrc for GnuPG password c
         * Fourth, add this helper into git config:
 <pre style="white-space: pre-wrap;">
 git config --global credential.helper [HELPER_LAST_NAME]
+#then check it (password will be printed as plain text!!!):
+git credential-[HELPER_LAST_NAME]
 </pre>
       </p>
       <p>Disadvantage - gpg-agent serves a saved passphrase for any process under the current user, so if a swindler manage to run a process while your passphrase is cached, then it probably can decrypt and steal your information.
@@ -98,7 +100,13 @@ git config --global credential.helper [HELPER_LAST_NAME]
         Or gpg-agent can use a simpler but still effective solution: gpg-agent always must highlight the use of a cached passphrase, i.e. show a modal window about this.
         So set <b>default-cache-ttl</b> in <b>gpg-agent.conf</b> as minimum as possible.
       </p>
-      <p>You can also us a symmetric keye for encryption.</p>
+      
+      <h5>MS Windows.</h5>
+      <p>Just checked it out on MS Windows 10. Git 2.30.1 was installed by default except "Choose credential helper" to "None" instead of "New Cross-platform version of Git Credential manager".
+        Git-bash works in the same way as on Linux. Create <b>.bashrc</b> file in your home - <b>C:\users\[user_name]</b>, but use UNIX file separator "/" instead of "\".
+        Run in git-bash "echo $PATH" to understand paths, it will show <b>C:/users/[user_name]/bin</b> among others. So, create <b>bin</b> folder in your home and put the credential helper there.
+        I put GnuPG's folder with key-stores from my Linux into <b>C:\users\[user_name]</b>, and it works fine.
+      </p>
 
       <h4>Using GnuPG-based password manager for Maven projects.</h4>
 
@@ -140,12 +148,13 @@ echo $passw | gpg -e -o $epfile_name -r "$GPG_USER_ID"
         Then make Bash script for building Maven project:
 <pre style="white-space: pre-wrap;">
 #!/bin/bash
-#set environment variables: GPG_USER_ID, GPG_KEY_NAME, JAR_KEY_ALIAS, JAR_PASS_PATH, GPG_PASS_PATH
+#set environment variables: GPG_USER_ID, GPG_KEY_NAME, JAR_KEY_ALIAS, JAR_PASS_PATH, GPG_PASS_PATH, OSSRH_PASS_PATH
 jarpassw=`gpg --no-verbose -d -r "$GPG_USER_ID" $JAR_PASS_PATH 2&gt;/dev/null`
+ossrhpassw=`gpg --no-verbose -d -r "$GPG_USER_ID" $OSSRH_PASS_PATH 2&gt;/dev/null`
 gpgpassw=`gpg --no-verbose -d -r "$GPG_USER_ID" $GPG_PASS_PATH 2&gt;/dev/null`
-mvn clean install -Prelease -Dsignpass=$jarpassw -Dsignalias=$JAR_KEY_ALIAS -Dgpgpass=$gpgpassw -Dgpgkeyname=$GPG_KEY_NAME
+mvn clean install -Prelease -Dossrhpass=$ossrhpassw -Dsignpass=$jarpassw -Dsignalias=$JAR_KEY_ALIAS -Dgpgpass=$gpgpassw -Dgpgkeyname=$GPG_KEY_NAME
 </pre>
-        Make encrypted passwords files for JARSIGNER and GnuPG (in case if you are using another GPG-key-pair for signing this Maven project),
+        Make encrypted passwords files for JARSIGNER, Sonatype and GnuPG (in case if you use another GPG-key-pair for signing this Maven project),
         and add their path into environment variables.
       </p>
 
