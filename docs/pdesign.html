@@ -72,6 +72,7 @@
       <li>POJO - as a pure atomic data model</li>
       <li>MVC pattern - of course you must divide program into 3 parts - Model (data model plus service model), View and Controller</li>
       <li>Flyweight Pattern - several objects share only basic logic(part), e.g. a "solder renderer" is shared between final solder objects that have non-shared data - current position, see https://www.oodesign.com/flyweight-pattern-wargame-example-java-sourcecode.html. Of course having in each solder object duplicate data about the rendering solder's shape is a regular error.</li>
+      <li>Facade - an assembly of low-level parts that provides a client's expected high-level interface</li>
       <li>...</li>
     </ul>
     OOP means "encapsulation", so in the old days programmers often filled "Objects" as much as possible, that is why those OOP design patterns came about. 
@@ -303,7 +304,10 @@ public class SrvDialog implements ISrvDialog&lt;Activity&gt; {
   ...
 }
 </pre>
-Waiting for something by stopping the program is the old method, it's still used in Linux Kernel (don't remember where it is)).
+Also the old JavaScript's modal conformation dialog was brutally disabled (maybe in 2016) in favor of delegates, e.g.:
+<pre>
+  document.getElementById("buttonYes").onclick = yesHandler;
+</pre>
   </p>
   
   <h4>7. Creation patterns.</h4>
